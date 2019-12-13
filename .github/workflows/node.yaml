@@ -1,0 +1,21 @@
+name: test node
+on: push
+jobs:
+  node:
+    runs-on: ubuntu-16.04
+
+    strategy:
+      matrix:
+        node: [8, 10, 12]
+
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: base
+        run: cd os/base; sh run.sh
