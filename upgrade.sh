@@ -2,12 +2,7 @@
 
 set -eu
 
-if [ -z "$(git status -s)" ]; then
-	echo "no changes"
-	exit 0
-fi
-
-echo "changes, upgrading..."
+echo "checking info..."
 
 channel="alpha"
 v=$(yarn info prisma2@$channel --json | jq '.data["dist-tags"].alpha' | tr -d '"')
@@ -19,6 +14,13 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	yarn add "prisma2@$v" --dev
 	yarn add "@prisma/photon@$v"
 done
+
+if [ -z "$(git status -s)" ]; then
+	echo "no changes"
+	exit 0
+fi
+
+echo "changes, upgrading..."
 
 git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 git pull github "${GITHUB_REF}" --ff-only
