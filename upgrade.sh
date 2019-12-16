@@ -2,7 +2,7 @@
 
 set -eu
 
-if [[ -z $(git status -s) ]]; then
+if [ -z "$(git status -s)" ]; then
 	echo "no changes"
 	exit 0
 fi
