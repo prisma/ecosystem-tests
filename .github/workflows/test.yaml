@@ -17,7 +17,7 @@ jobs:
         run: cd os; sh all.sh
 
   node:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -33,4 +33,20 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: base
-        run: cd os; sh all.sh
+        run: sh all.sh os
+
+      - name: frameworks
+        run: sh all.sh frameworks
+
+  frameworks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: frameworks
+        run: sh all.sh frameworks
