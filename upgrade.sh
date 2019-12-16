@@ -9,10 +9,14 @@ v=$(yarn info prisma2@$channel --json | jq '.data["dist-tags"].alpha' | tr -d '"
 
 packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
+dir=$(pwd)
+
 echo "$packages" | tr ' ' '\n' | while read -r item; do
+	echo "checking $item"
 	cd "$(dirname "$item")/"
 	yarn add "prisma2@$v" --dev
 	yarn add "@prisma/photon@$v"
+	cd "$dir"
 done
 
 if [ -z "$(git status -s)" ]; then
