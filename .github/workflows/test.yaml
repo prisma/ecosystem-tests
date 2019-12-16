@@ -14,7 +14,7 @@ jobs:
           version: 12
 
       - name: base
-        run: cd os/base; sh run.sh
+        run: cd os; sh all.sh
 
   node:
     runs-on: ubuntu-16.04
@@ -33,4 +33,4 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: base
-        run: cd os/base; sh run.sh
+        run: cd os; sh all.sh
