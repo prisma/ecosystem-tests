@@ -1,3 +1,4 @@
+name: upgrade
 on:
   schedule:
     - cron: '*/5 * * * *'
@@ -9,3 +10,5 @@ jobs:
 
       - name: upgrade
         run: sh upgrade.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
