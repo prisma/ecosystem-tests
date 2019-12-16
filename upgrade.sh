@@ -22,6 +22,9 @@ fi
 
 echo "changes, upgrading..."
 
+git config --global user.email "prisma@local"
+git config --global user.name "prisma e2e bot"
+
 git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 git pull github "${GITHUB_REF}" --ff-only
 
