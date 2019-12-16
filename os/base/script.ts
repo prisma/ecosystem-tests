@@ -90,10 +90,12 @@ async function main() {
 
   console.log('deleted', (await photon.users.deleteMany({})).count, 'users')
   console.log('deleted', (await photon.posts.deleteMany({})).count, 'posts')
+
+  await photon.disconnect()
 }
 
 main()
-  .catch(e => console.error(e))
-  .finally(async () => {
+  .catch(async e => {
+    console.error(e)
     await photon.disconnect()
   })
