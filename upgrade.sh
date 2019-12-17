@@ -26,13 +26,18 @@ fi
 
 echo "changes, upgrading..."
 
+mkdir -p ~/.ssh
+echo "$SSH_KEY" > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
-git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
 git pull github "${GITHUB_REF}" --ff-only
 
-git commit -am "chore(packages): bump to $v"
+git commit -am "chore(packages): bump prisma2 to $v"
 
 git push github HEAD:"${GITHUB_REF}"
 
