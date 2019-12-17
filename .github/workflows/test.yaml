@@ -50,3 +50,16 @@ jobs:
 
       - name: frameworks
         run: sh all.sh frameworks
+
+  platforms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: platforms
+        run: sh all.sh platforms
