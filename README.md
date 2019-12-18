@@ -18,3 +18,9 @@ The e2e tests are defined in `.github/workflows/test.yaml`. Currently, this acti
 - Platforms (see `platforms/`)
 
 To check the current status of this repository somewhere else, you can use [a simple shell script](https://gist.github.com/steebchen/80fb6e3a60aec0f095090618f90473ec).
+
+## How to add or adapt platforms
+
+Every folder with a run.sh script gets tested. run.sh is the entrypoint, and you can do whatever you want in that file. Exitting with zero means your tests passed, everything non-zero equals to failing tests. 
+
+You should use [yarn](https://yarnpkg.com) as it's used for bumping dependencies; i.e. run `yarn install` as a first step in your run.sh script.
