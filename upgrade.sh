@@ -2,12 +2,20 @@
 
 set -eu
 
-# since GH actions are limited to 5 minute cron jobs, just run this for 5 minutes
+no_negatives () {
+	echo "$(( $1 < 0 ? 0 : $1 ))"
+}
 
+# since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 # check each 30 seconds, so 10 times per 5 minutes
 j=0
 while [ $j -le 10 ]; do
+	# increment to prevent forgetting incrementing, and also prevent overlapping with the next 5-minute job
+	j=$(( j + 1 ))
+	echo "run $j"
 	echo "checking info..."
+
+	start=$(date "+%s")
 
 	channel="alpha"
 	v=$(yarn info prisma2@$channel --json | jq '.data["dist-tags"].alpha' | tr -d '"')
@@ -26,10 +34,12 @@ while [ $j -le 10 ]; do
 
 	if [ -z "$(echo)" ]; then
 		echo "no changes"
-		# checking takes around ~5s
-		sleep 25
+		end=$(date "+%s")
+		diff=$(echo "$end - $start" | bc)
+		remaining=$((30 - 1 - diff))
+		echo "took $diff seconds, sleeping for $remaining seconds"
+		sleep "$(no_negatives $remaining)"
 
-		j=$(( j + 1 ))
 		continue
 	fi
 
@@ -51,7 +61,11 @@ while [ $j -le 10 ]; do
 
 	echo "pushed commit"
 
-	j=$(( j + 1 ))
+	end=$(date "+%s")
+	diff=$(echo "$end - $start" | bc)
+	remaining=$((30 - 1 - diff))
+	echo "took $diff seconds, sleeping for $remaining seconds"
+	sleep "$(no_negatives $remaining)"
 done
 
 echo "done"
