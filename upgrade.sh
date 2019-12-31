@@ -7,12 +7,15 @@ no_negatives () {
 }
 
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
-# check each 30 seconds, so 10 times per 5 minutes
-j=0
-while [ $j -le 10 ]; do
+minutes=5 # cron job runs each x minutes
+interval=10 # run each x seconds
+i=0
+count=$(((minutes * 60) / interval))
+echo "running loop $count times"
+while [ $i -le $count ]; do
 	# increment to prevent forgetting incrementing, and also prevent overlapping with the next 5-minute job
-	j=$(( j + 1 ))
-	echo "run $j"
+	i=$(( i + 1 ))
+	echo "run $i"
 	echo "checking info..."
 
 	start=$(date "+%s")
@@ -27,8 +30,21 @@ while [ $j -le 10 ]; do
 	echo "$packages" | tr ' ' '\n' | while read -r item; do
 		echo "checking $item"
 		cd "$(dirname "$item")/"
-		yarn add "prisma2@$v" --dev
-		yarn add "@prisma/photon@$v"
+
+		vPrisma2="$(node -e "console.log(require('./package.json').devDependencies['prisma2'])")"
+
+		if [ "$v" != "$vPrisma2" ]; then
+			echo "$item: prisma2 expected $v, actual $vPrisma2"
+			yarn add "prisma2@$v" --dev
+		fi
+
+		vPhoton="$(node -e "console.log(require('./package.json').dependencies['@prisma/photon'])")"
+
+		if [ "$v" != "$vPhoton" ]; then
+			echo "$item: @prisma/photon expected $v, actual $vPhoton"
+			yarn add "@prisma/photon@$v"
+		fi
+
 		cd "$dir"
 	done
 
@@ -36,7 +52,7 @@ while [ $j -le 10 ]; do
 		echo "no changes"
 		end=$(date "+%s")
 		diff=$(echo "$end - $start" | bc)
-		remaining=$((30 - 1 - diff))
+		remaining=$((interval - 1 - diff))
 		echo "took $diff seconds, sleeping for $remaining seconds"
 		sleep "$(no_negatives $remaining)"
 
@@ -63,7 +79,7 @@ while [ $j -le 10 ]; do
 
 	end=$(date "+%s")
 	diff=$(echo "$end - $start" | bc)
-	remaining=$((30 - 1 - diff))
+	remaining=$((interval - 1 - diff))
 	echo "took $diff seconds, sleeping for $remaining seconds"
 	sleep "$(no_negatives $remaining)"
 done
