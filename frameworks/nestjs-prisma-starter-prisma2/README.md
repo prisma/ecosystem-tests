@@ -120,7 +120,7 @@ Run Nest Server in Production mode:
 npm run start:prod
 ```
 
-Playground for the NestJS Server is available here: http://localhost:3000/graphql
+Playground for the NestJS Server is available here: http://localhost:3600/graphql
 
 **[⬆ back to top](#overview)**
 
@@ -136,7 +136,7 @@ Some queries and mutations are secured by an auth guard. You have to accuire a J
 
 ## Rest Api
 
-[RESTful API](http://localhost:3000/api) documentation available with Swagger.
+[RESTful API](http://localhost:3600/api) documentation available with Swagger.
 
 ## Docker
 
@@ -163,10 +163,10 @@ docker build -t nest-prisma-server .
 After Docker build your docker image you are ready to start up a docker container running the nest server:
 
 ```bash
-docker run -d -t -p 3000:3000 nest-prisma-server
+docker run -d -t -p 3600:3600 nest-prisma-server
 ```
 
-Now open up [localhost:3000](http://localhost:3000) to verify that your nest server is running.
+Now open up [localhost:3600](http://localhost:3600) to verify that your nest server is running.
 
 If you see an error like `request to http://localhost:4466/ failed, reason: connect ECONNREFUSED 127.0.0.1:4466` this is because Nest tries to access the Prisma server on `http://localhost:4466/`. In the case of a docker container localhost is the container itself.
 Therefore, you have to open up [Prisma Service](./src/prisma/prisma.service.ts) `endpoint: 'http://localhost:4466',` and replace localhost with the IP address where the Prisma Server is executed.
@@ -236,7 +236,7 @@ You can also add the `GraphQLModule` in the `AppModule` to make `Apollo` availab
 You need to set the URL to the NestJS Graphql Api. Open the file `src/app/graphql.module.ts` and update `uri`:
 
 ```typescript
-const uri = 'http://localhost:3000/graphql';
+const uri = 'http://localhost:3600/graphql';
 ```
 
 To use Apollo-Angular you can inject `private apollo: Apollo` into the constructor of a page, component or service.
