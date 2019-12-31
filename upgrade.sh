@@ -32,7 +32,7 @@ while [ $j -le 10 ]; do
 		cd "$dir"
 	done
 
-	if [ -z "$(echo)" ]; then
+	if [ -z "$(git status -s)" ]; then
 		echo "no changes"
 		end=$(date "+%s")
 		diff=$(echo "$end - $start" | bc)
