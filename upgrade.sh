@@ -6,6 +6,8 @@ no_negatives () {
 	echo "$(( $1 < 0 ? 0 : $1 ))"
 }
 
+packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
+
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5 # cron job runs each x minutes
 interval=10 # run each x seconds
@@ -20,12 +22,10 @@ while [ $i -le $count ]; do
 
 	start=$(date "+%s")
 
+	dir=$(pwd)
+
 	channel="alpha"
 	v=$(yarn info prisma2@$channel --json | jq '.data["dist-tags"].alpha' | tr -d '"')
-
-	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
-
-	dir=$(pwd)
 
 	echo "$packages" | tr ' ' '\n' | while read -r item; do
 		echo "checking $item"
