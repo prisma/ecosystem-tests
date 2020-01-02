@@ -6,7 +6,17 @@ no_negatives () {
 	echo "$(( $1 < 0 ? 0 : $1 ))"
 }
 
-packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
+echo "setting up ssh repo"
+
+mkdir -p ~/.ssh
+echo "$SSH_KEY" > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+git config --global user.email "prismabots@gmail.com"
+git config --global user.name "Prismo"
+
+git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
 
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5 # cron job runs each x minutes
@@ -18,11 +28,15 @@ while [ $i -le $count ]; do
 	# increment to prevent forgetting incrementing, and also prevent overlapping with the next 5-minute job
 	i=$(( i + 1 ))
 	echo "run $i"
-	echo "checking info..."
 
 	start=$(date "+%s")
 
 	dir=$(pwd)
+
+	git pull github "${GITHUB_REF}" --ff-only
+	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
+
+	echo "checking info..."
 
 	channel="alpha"
 	v=$(yarn info prisma2@$channel --json | jq '.data["dist-tags"].alpha' | tr -d '"')
@@ -60,16 +74,6 @@ while [ $i -le $count ]; do
 	fi
 
 	echo "changes, upgrading..."
-
-	mkdir -p ~/.ssh
-	echo "$SSH_KEY" > ~/.ssh/id_rsa
-	chmod 600 ~/.ssh/id_rsa
-	ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-	git config --global user.email "prismabots@gmail.com"
-	git config --global user.name "Prismo"
-
-	git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
 
 	git commit -am "chore(packages): bump prisma2 to $v"
 
