@@ -2,7 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { Photon } = require('@prisma/photon')
+const { Photon } = require('./prisma/photonjs')
 
 const photon = new Photon()
 
