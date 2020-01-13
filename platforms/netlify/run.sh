@@ -6,4 +6,7 @@ rm -rf prisma/migrations/
 rm -rf prisma/dev.db
 
 yarn install
-# yarn deploy
+yarn prisma2 generate
+
+sh build.sh
+sh test.sh
