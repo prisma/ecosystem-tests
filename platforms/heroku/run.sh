@@ -13,3 +13,4 @@ git push heroku master --force
 rm -rf .git
 
 sh test.sh
+
