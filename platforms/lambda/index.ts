@@ -3,8 +3,11 @@ import { Photon } from '@prisma/photon'
 const photon = new Photon()
 
 export async function handler() {
+  const id = '12345'
+
   const createUser = await photon.users.create({
     data: {
+      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
