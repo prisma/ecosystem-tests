@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk'
 const Lambda = new AWS.Lambda({
-	region: 'eu-central-1',
+	region: process.env.AWS_DEFAULT_REGION,
 })
 
 export async function invokeLambdaSync(functionName: string, payload: any) {
