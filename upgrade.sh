@@ -77,7 +77,10 @@ while [ $i -le $count ]; do
 
 	git commit -am "chore(packages): bump prisma2 to $v"
 
-	git push github HEAD:"${GITHUB_REF}"
+	# fail silently, as there's a chance that this change already has been pushed either manually
+	# or by an overlapping upgrade action, as the yarn upgrade process can take multiple minutes
+	git pull --rebase || true
+	git push github HEAD:"${GITHUB_REF}" || true
 
 	echo "pushed commit"
 
