@@ -61,7 +61,9 @@ jobs:
       - name: platforms
         run: sh all.sh platforms
         env:
-          POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
+          NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
+          LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
+          HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           NPM_CONFIG_LOGLEVEL: error
