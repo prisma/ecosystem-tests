@@ -62,6 +62,12 @@ jobs:
         run: sh all.sh platforms
         env:
           POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          NPM_CONFIG_LOGLEVEL: error
+          NODE_ENV: development
+          NODE_MODULES_CACHE: false
+          NODE_VERBOSE: true
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
