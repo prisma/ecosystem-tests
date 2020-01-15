@@ -77,9 +77,9 @@ while [ $i -le $count ]; do
 
 	git commit -am "chore(packages): bump prisma2 to $v"
 
-	# fail silently, as there's a chance that this change already has been pushed either manually
-	# or by an overlapping upgrade action, as the yarn upgrade process can take multiple minutes
-	git pull --rebase || true
+	# fail silently if the unlikely event happens that this change already has been pushed either manually
+	# or by an overlapping upgrade action
+	git pull github "${GITHUB_REF}" --rebase || true
 	git push github HEAD:"${GITHUB_REF}" || true
 
 	echo "pushed commit"
@@ -87,8 +87,10 @@ while [ $i -le $count ]; do
 	end=$(date "+%s")
 	diff=$(echo "$end - $start" | bc)
 	remaining=$((interval - 1 - diff))
-	echo "took $diff seconds, sleeping for $remaining seconds"
-	sleep "$(no_negatives $remaining)"
+	# upgrading usually takes longer than a few individual loop runs, so skip test runs which would have passed by now
+	skip=$((remaining / interval))
+	i=$((i - skip))
+	echo "took $diff seconds, skipping $(skip)x $(interval)s runs"
 done
 
 echo "done"
