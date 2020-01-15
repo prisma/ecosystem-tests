@@ -13,8 +13,8 @@ jobs:
         with:
           version: 12
 
-      - name: base
-        run: sh all.sh os
+      - name: test on ${{ matrix.platform }}
+        run: sh run.sh os base
 
   node:
     runs-on: ubuntu-latest
@@ -32,11 +32,16 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: base
-        run: sh all.sh os
+      - name: test on node ${{ matrix.node }}
+        run: sh run.sh os base
 
   frameworks:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        framework: ["nestjs-prisma-starter-prisma2", "nextjs"]
+
     steps:
       - uses: actions/checkout@v1
 
@@ -46,20 +51,25 @@ jobs:
           node-version: 12
 
       - name: frameworks
-        run: sh all.sh frameworks
+        run: sh run.sh frameworks ${{ matrix.framework }}
 
   platforms:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        platform: ["lambda", "heroku", "netlify"]
+
     steps:
       - uses: actions/checkout@v1
 
-      - name: use node ${{ matrix.node }}
+      - name: use node 12
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
-      - name: platforms
-        run: sh all.sh platforms
+      - name: test ${{ matrix.platform }}
+        run: sh run.sh platforms ${{ matrix.platform }}
         env:
           POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
