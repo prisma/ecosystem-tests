@@ -2,8 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { PrismaClient } = require('./prisma/photonjs')
-
+const { PrismaClient } = require('./prisma/prisma-client-js')
 const photon = new PrismaClient()
 
 const app = express()
