@@ -3210,22 +3210,22 @@ You may have to run ${chalk_1.default.greenBright('prisma2 generate')} for your 
                 : '';
             const alternativePath = await this.resolveAlternativeBinaryPath(platform);
             if (!alternativePath) {
-                throw new Error(`Photon binary for current platform ${chalk_1.default.bold.greenBright(platform)} could not be found.${pinnedStr}
-Photon looked in ${chalk_1.default.underline(prismaPath)} but couldn't find it.
+                throw new Error(`PrismaClient binary for current platform ${chalk_1.default.bold.greenBright(platform)} could not be found.${pinnedStr}
+PrismaClient looked in ${chalk_1.default.underline(prismaPath)} but couldn't find it.
 Make sure to adjust the generator configuration in the ${chalk_1.default.bold('schema.prisma')} file${info}
 Please run ${chalk_1.default.greenBright('prisma2 generate')} for your changes to take effect.
-${chalk_1.default.gray(`Note, that by providing \`native\`, Photon automatically resolves \`${platform}\`.
-Read more about deploying Photon: ${chalk_1.default.underline('https://github.com/prisma/prisma2/blob/master/docs/core/generators/photonjs.md')}`)}`);
+${chalk_1.default.gray(`Note, that by providing \`native\`, PrismaClient automatically resolves \`${platform}\`.
+Read more about deploying PrismaClient: ${chalk_1.default.underline('https://github.com/prisma/prisma2/blob/master/docs/core/generators/photonjs.md')}`)}`);
             }
             else {
-                console.error(`${chalk_1.default.yellow('warning')} Photon could not resolve the needed binary for the current platform ${chalk_1.default.greenBright(platform)}.
-Instead we found ${chalk_1.default.bold(alternativePath)}, which we're trying for now. In case Photon runs, just ignore this message.`);
+                console.error(`${chalk_1.default.yellow('warning')} PrismaClient could not resolve the needed binary for the current platform ${chalk_1.default.greenBright(platform)}.
+Instead we found ${chalk_1.default.bold(alternativePath)}, which we're trying for now. In case PrismaClient runs, just ignore this message.`);
                 util_1.plusX(alternativePath);
                 return alternativePath;
             }
         }
         if (this.incorrectlyPinnedPlatform) {
-            console.log(`${chalk_1.default.yellow('Warning:')} You pinned the platform ${chalk_1.default.bold(this.incorrectlyPinnedPlatform)}, but Photon detects ${chalk_1.default.bold(await this.getPlatform())}.
+            console.log(`${chalk_1.default.yellow('Warning:')} You pinned the platform ${chalk_1.default.bold(this.incorrectlyPinnedPlatform)}, but PrismaClient detects ${chalk_1.default.bold(await this.getPlatform())}.
 This means you should very likely pin the platform ${chalk_1.default.greenBright(await this.getPlatform())} instead.
 ${chalk_1.default.dim("In case we're mistaken, please report this to us 🙏.")}`);
         }
@@ -4272,8 +4272,8 @@ Utf7Encoder.prototype.write = function(str) {
     // Naive implementation.
     // Non-direct chars are encoded as "+<base64>-"; single "+" char is encoded as "+-".
     return Buffer.from(str.replace(nonDirectChars, function(chunk) {
-        return "+" + (chunk === '+' ? '' : 
-            this.iconv.encode(chunk, 'utf16-be').toString('base64').replace(/=+$/, '')) 
+        return "+" + (chunk === '+' ? '' :
+            this.iconv.encode(chunk, 'utf16-be').toString('base64').replace(/=+$/, ''))
             + "-";
     }.bind(this)));
 }
@@ -4295,7 +4295,7 @@ var base64Chars = [];
 for (var i = 0; i < 256; i++)
     base64Chars[i] = base64Regex.test(String.fromCharCode(i));
 
-var plusChar = '+'.charCodeAt(0), 
+var plusChar = '+'.charCodeAt(0),
     minusChar = '-'.charCodeAt(0),
     andChar = '&'.charCodeAt(0);
 
@@ -4826,18 +4826,18 @@ function mkdirP (p, opts, f, made) {
     else if (!opts || typeof opts !== 'object') {
         opts = { mode: opts };
     }
-    
+
     var mode = opts.mode;
     var xfs = opts.fs || fs;
-    
+
     if (mode === undefined) {
         mode = _0777 & (~process.umask());
     }
     if (!made) made = null;
-    
+
     var cb = f || function () {};
     p = path.resolve(p);
-    
+
     xfs.mkdir(p, mode, function (er) {
         if (!er) {
             made = made || p;
@@ -4870,10 +4870,10 @@ mkdirP.sync = function sync (p, opts, made) {
     if (!opts || typeof opts !== 'object') {
         opts = { mode: opts };
     }
-    
+
     var mode = opts.mode;
     var xfs = opts.fs || fs;
-    
+
     if (mode === undefined) {
         mode = _0777 & (~process.umask());
     }
@@ -6322,7 +6322,7 @@ var modules = [
     __webpack_require__(955),
 ];
 
-// Put all encoding/alias/codec definitions to single object and export it. 
+// Put all encoding/alias/codec definitions to single object and export it.
 for (var i = 0; i < modules.length; i++) {
     var module = modules[i];
     for (var enc in module)
@@ -10711,7 +10711,7 @@ class PhotonError extends Error {
 }
 exports.PhotonError = PhotonError;
 /**
- * A PhotonQueryError is an error that is thrown in conjunction to a concrete query that has been performed with Photon.js.
+ * A PhotonQueryError is an error that is thrown in conjunction to a concrete query that has been performed with PrismaClient.js.
  */
 class PhotonQueryError extends Error {
     constructor(error) {
@@ -10747,7 +10747,7 @@ function serializePanic(log) {
     return `${chalk_1.default.red.bold('Reason: ')}${chalk_1.default.red(`${fields.reason} in ${chalk_1.default.underline(`${fields.file}:${fields.line}:${fields.column}`)}`)}
 
 Please create an issue in the ${chalk_1.default.bold('photonjs')} repo with
-your \`schema.prisma\` and the Photon method you tried to use 🙏:
+your \`schema.prisma\` and the PrismaClient method you tried to use 🙏:
 ${chalk_1.default.underline('https://github.com/prisma/photonjs/issues/new')}\n`;
 }
 function serializeObject(obj) {
@@ -12273,7 +12273,7 @@ module.exports = DatePrompt;
 /***/ (function(module) {
 
 "use strict";
-	
+
 
  const main = {
   arrowUp: '↑',
@@ -12282,28 +12282,28 @@ module.exports = DatePrompt;
   arrowRight: '→',
   radioOn: '◉',
   radioOff: '◯',
-  tick: '✔',	
-  cross: '✖',	
-  ellipsis: '…',	
-  pointerSmall: '›',	
-  line: '─',	
-  pointer: '❯'	
-};	
+  tick: '✔',
+  cross: '✖',
+  ellipsis: '…',
+  pointerSmall: '›',
+  line: '─',
+  pointer: '❯'
+};
 const win = {
   arrowUp: main.arrowUp,
   arrowDown: main.arrowDown,
   arrowLeft: main.arrowLeft,
   arrowRight: main.arrowRight,
   radioOn: '(*)',
-  radioOff: '( )',	
-  tick: '√',	
-  cross: '×',	
-  ellipsis: '...',	
-  pointerSmall: '»',	
-  line: '─',	
-  pointer: '>'	
-};	
-const figures = process.platform === 'win32' ? win : main;	
+  radioOff: '( )',
+  tick: '√',
+  cross: '×',
+  ellipsis: '...',
+  pointerSmall: '»',
+  line: '─',
+  pointer: '>'
+};
+const figures = process.platform === 'win32' ? win : main;
 
  module.exports = figures;
 
@@ -12701,7 +12701,7 @@ module.exports = function () {
 
 module.exports = (key, isSelect) => {
   if (key.meta) return;
-  
+
   if (key.ctrl) {
     if (key.name === 'a') return 'first';
     if (key.name === 'c') return 'abort';
@@ -12709,7 +12709,7 @@ module.exports = (key, isSelect) => {
     if (key.name === 'e') return 'last';
     if (key.name === 'g') return 'reset';
   }
-  
+
   if (isSelect) {
     if (key.name === 'j') return 'down';
     if (key.name === 'k') return 'up';
@@ -13526,7 +13526,7 @@ var Parser = /** @class */ (function (_super) {
         }
         this._tagname = name;
         if (!this._options.xmlMode && name in openImpliesClose) {
-            for (var el = void 0; 
+            for (var el = void 0;
             // @ts-ignore
             openImpliesClose[name].has((el = this._stack[this._stack.length - 1])); this.onclosetag(el))
                 ;
@@ -13900,7 +13900,7 @@ exports.parse = function (s) {
       if(/^:base64:/.test(value))
         return new Buffer(value.substring(8), 'base64')
       else
-        return /^:/.test(value) ? value.substring(1) : value 
+        return /^:/.test(value) ? value.substring(1) : value
     }
     return value
   })
@@ -14451,17 +14451,17 @@ exports.flatMap = flatMap;
 var Buffer = __webpack_require__(76).Buffer;
 
 // Single-byte codec. Needs a 'chars' string parameter that contains 256 or 128 chars that
-// correspond to encoded bytes (if 128 - then lower half is ASCII). 
+// correspond to encoded bytes (if 128 - then lower half is ASCII).
 
 exports._sbcs = SBCSCodec;
 function SBCSCodec(codecOptions, iconv) {
     if (!codecOptions)
         throw new Error("SBCS codec is called without the data.")
-    
+
     // Prepare char buffer for decoding.
     if (!codecOptions.chars || (codecOptions.chars.length !== 128 && codecOptions.chars.length !== 256))
         throw new Error("Encoding '"+codecOptions.type+"' has incorrect 'chars' (must be of len 128 or 256)");
-    
+
     if (codecOptions.chars.length === 128) {
         var asciiString = "";
         for (var i = 0; i < 128; i++)
@@ -14470,7 +14470,7 @@ function SBCSCodec(codecOptions, iconv) {
     }
 
     this.decodeBuf = Buffer.from(codecOptions.chars, 'ucs2');
-    
+
     // Encoding buffer.
     var encodeBuf = Buffer.alloc(65536, iconv.defaultCharSingleByte.charCodeAt(0));
 
@@ -14492,7 +14492,7 @@ SBCSEncoder.prototype.write = function(str) {
     var buf = Buffer.alloc(str.length);
     for (var i = 0; i < str.length; i++)
         buf[i] = this.encodeBuf[str.charCodeAt(i)];
-    
+
     return buf;
 }
 
@@ -22528,9 +22528,9 @@ var Promise$1 = function () {
   /**
     `finally` will be invoked regardless of the promise's fate just as native
     try/catch/finally behaves
-  
+
     Synchronous example:
-  
+
     ```js
     findAuthor() {
       if (Math.random() > 0.5) {
@@ -22538,7 +22538,7 @@ var Promise$1 = function () {
       }
       return new Author();
     }
-  
+
     try {
       return findAuthor(); // succeed or fail
     } catch(error) {
@@ -22548,9 +22548,9 @@ var Promise$1 = function () {
       // doesn't affect the return value
     }
     ```
-  
+
     Asynchronous example:
-  
+
     ```js
     findAuthor().catch(function(reason){
       return findOtherAuther();
@@ -22558,7 +22558,7 @@ var Promise$1 = function () {
       // author was either found, or not
     });
     ```
-  
+
     @method finally
     @param {Function} callback
     @return {Promise}
@@ -31874,7 +31874,7 @@ Utf16Decoder.prototype.write = function(buf) {
         // Codec is not chosen yet. Accumulate initial bytes.
         this.initialBytes.push(buf);
         this.initialBytesLen += buf.length;
-        
+
         if (this.initialBytesLen < 16) // We need more bytes to use space heuristic (see below)
             return '';
 
@@ -34677,7 +34677,7 @@ module.exports = function (iconv) {
         }
 
         var nodeNativeEncodings = {
-            'hex': true, 'utf8': true, 'utf-8': true, 'ascii': true, 'binary': true, 
+            'hex': true, 'utf8': true, 'utf-8': true, 'ascii': true, 'binary': true,
             'base64': true, 'ucs2': true, 'ucs-2': true, 'utf16le': true, 'utf-16le': true,
         };
 
@@ -35014,7 +35014,7 @@ function InternalDecoderCesu8(options, codec) {
 }
 
 InternalDecoderCesu8.prototype.write = function(buf) {
-    var acc = this.acc, contBytes = this.contBytes, accBytes = this.accBytes, 
+    var acc = this.acc, contBytes = this.contBytes, accBytes = this.accBytes,
         res = '';
     for (var i = 0; i < buf.length; i++) {
         var curByte = buf[i];
@@ -36716,7 +36716,7 @@ function DBCSCodec(codecOptions, iconv) {
     this.decodeTables = [];
     this.decodeTables[0] = UNASSIGNED_NODE.slice(0); // Create root node.
 
-    // Sometimes a MBCS char corresponds to a sequence of unicode chars. We store them as arrays of integers here. 
+    // Sometimes a MBCS char corresponds to a sequence of unicode chars. We store them as arrays of integers here.
     this.decodeTableSeq = [];
 
     // Actual mapping tables consist of chunks. Use them to fill up decode tables.
@@ -36725,7 +36725,7 @@ function DBCSCodec(codecOptions, iconv) {
 
     this.defaultCharUnicode = iconv.defaultCharUnicode;
 
-    
+
     // Encode tables: Unicode -> DBCS.
 
     // `encodeTable` is array mapping from unicode char to encoded char. All its values are integers for performance.
@@ -36734,7 +36734,7 @@ function DBCSCodec(codecOptions, iconv) {
     //         == UNASSIGNED -> no conversion found. Output a default char.
     //         <= SEQ_START  -> it's an index in encodeTableSeq, see below. The character starts a sequence.
     this.encodeTable = [];
-    
+
     // `encodeTableSeq` is used when a sequence of unicode characters is encoded as a single code. We use a tree of
     // objects where keys correspond to characters in sequence and leafs are the encoded dbcs values. A special DEF_CHAR key
     // means end of sequence (needed when one sequence is a strict subsequence of another).
@@ -36752,7 +36752,7 @@ function DBCSCodec(codecOptions, iconv) {
                 for (var j = val.from; j <= val.to; j++)
                     skipEncodeChars[j] = true;
         }
-        
+
     // Use decode trie to recursively fill out encode tables.
     this._fillEncodeTable(0, 0, skipEncodeChars);
 
@@ -36789,7 +36789,7 @@ function DBCSCodec(codecOptions, iconv) {
             thirdByteNode[i] = NODE_START - fourthByteNodeIdx;
         for (var i = 0x30; i <= 0x39; i++)
             fourthByteNode[i] = GB18030_CODE
-    }        
+    }
 }
 
 DBCSCodec.prototype.encoder = DBCSEncoder;
@@ -36854,7 +36854,7 @@ DBCSCodec.prototype._addDecodeChunk = function(chunk) {
                 else
                     writeTable[curAddr++] = code; // Basic char
             }
-        } 
+        }
         else if (typeof part === "number") { // Integer, meaning increasing sequence starting with prev character.
             var charCode = writeTable[curAddr - 1] + 1;
             for (var l = 0; l < part; l++)
@@ -36885,7 +36885,7 @@ DBCSCodec.prototype._setEncodeChar = function(uCode, dbcsCode) {
 }
 
 DBCSCodec.prototype._setEncodeSequence = function(seq, dbcsCode) {
-    
+
     // Get the root of character tree according to first character of the sequence.
     var uCode = seq[0];
     var bucket = this._getEncodeBucket(uCode);
@@ -36946,7 +36946,7 @@ function DBCSEncoder(options, codec) {
     // Encoder state
     this.leadSurrogate = -1;
     this.seqObj = undefined;
-    
+
     // Static data
     this.encodeTable = codec.encodeTable;
     this.encodeTableSeq = codec.encodeTableSeq;
@@ -36968,7 +36968,7 @@ DBCSEncoder.prototype.write = function(str) {
         }
         else {
             var uCode = nextChar;
-            nextChar = -1;    
+            nextChar = -1;
         }
 
         // 1. Handle surrogates.
@@ -36990,7 +36990,7 @@ DBCSEncoder.prototype.write = function(str) {
                     // Incomplete surrogate pair - only trail surrogate found.
                     uCode = UNASSIGNED;
                 }
-                
+
             }
         }
         else if (leadSurrogate !== -1) {
@@ -37031,7 +37031,7 @@ DBCSEncoder.prototype.write = function(str) {
             var subtable = this.encodeTable[uCode >> 8];
             if (subtable !== undefined)
                 dbcsCode = subtable[uCode & 0xFF];
-            
+
             if (dbcsCode <= SEQ_START) { // Sequence start
                 seqObj = this.encodeTableSeq[SEQ_START-dbcsCode];
                 continue;
@@ -37054,7 +37054,7 @@ DBCSEncoder.prototype.write = function(str) {
         // 3. Write dbcsCode character.
         if (dbcsCode === UNASSIGNED)
             dbcsCode = this.defaultCharSingleByte;
-        
+
         if (dbcsCode < 0x100) {
             newBuf[j++] = dbcsCode;
         }
@@ -37101,7 +37101,7 @@ DBCSEncoder.prototype.end = function() {
         newBuf[j++] = this.defaultCharSingleByte;
         this.leadSurrogate = -1;
     }
-    
+
     return newBuf.slice(0, j);
 }
 
@@ -37125,21 +37125,21 @@ function DBCSDecoder(options, codec) {
 
 DBCSDecoder.prototype.write = function(buf) {
     var newBuf = Buffer.alloc(buf.length*2),
-        nodeIdx = this.nodeIdx, 
+        nodeIdx = this.nodeIdx,
         prevBuf = this.prevBuf, prevBufOffset = this.prevBuf.length,
         seqStart = -this.prevBuf.length, // idx of the start of current parsed sequence.
         uCode;
 
     if (prevBufOffset > 0) // Make prev buf overlap a little to make it easier to slice later.
         prevBuf = Buffer.concat([prevBuf, buf.slice(0, 10)]);
-    
+
     for (var i = 0, j = 0; i < buf.length; i++) {
         var curByte = (i >= 0) ? buf[i] : prevBuf[i + prevBufOffset];
 
         // Lookup in current trie node.
         var uCode = this.decodeTables[nodeIdx][curByte];
 
-        if (uCode >= 0) { 
+        if (uCode >= 0) {
             // Normal character, just use it.
         }
         else if (uCode === UNASSIGNED) { // Unknown char.
@@ -37171,7 +37171,7 @@ DBCSDecoder.prototype.write = function(buf) {
             throw new Error("iconv-lite internal error: invalid decoding table value " + uCode + " at " + nodeIdx + "/" + curByte);
 
         // Write the character to buffer, handling higher planes using surrogate pair.
-        if (uCode > 0xFFFF) { 
+        if (uCode > 0xFFFF) {
             uCode -= 0x10000;
             var uCodeLead = 0xD800 + Math.floor(uCode / 0x400);
             newBuf[j++] = uCodeLead & 0xFF;
@@ -37315,7 +37315,7 @@ function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
   // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]], 
+  return ([bth[buf[i++]], bth[buf[i++]],
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
@@ -37419,12 +37419,12 @@ module.exports = function (basedir, relfiles) {
     else {
         var files = basedir;
     }
-    
+
     var res = files.slice(1).reduce(function (ps, file) {
         if (!file.match(/^([A-Za-z]:)?\/|\\/)) {
             throw new Error('relative path without a basedir');
         }
-        
+
         var xs = file.split(/\/+|\\+/);
         for (
             var i = 0;
@@ -37433,7 +37433,7 @@ module.exports = function (basedir, relfiles) {
         );
         return ps.slice(0, i);
     }, files[0].split(/\/+|\\+/));
-    
+
     // Windows correctly handles paths with forward-slashes
     return res.length > 1 ? res.join('/') : '/'
 };
@@ -39952,7 +39952,7 @@ iconv.encode = function encode(str, encoding, options) {
 
     var res = encoder.write(str);
     var trail = encoder.end();
-    
+
     return (trail && trail.length > 0) ? Buffer.concat([res, trail]) : res;
 }
 
@@ -39992,7 +39992,7 @@ iconv._codecDataCache = {};
 iconv.getCodec = function getCodec(encoding) {
     if (!iconv.encodings)
         iconv.encodings = __webpack_require__(142); // Lazy load all encoding definitions.
-    
+
     // Canonicalize encoding name: strip all non-alphanumeric chars and appended year.
     var enc = iconv._canonicalizeEncoding(encoding);
 
@@ -40016,7 +40016,7 @@ iconv.getCodec = function getCodec(encoding) {
 
                 if (!codecOptions.encodingName)
                     codecOptions.encodingName = enc;
-                
+
                 enc = codecDef.type;
                 break;
 
@@ -40528,7 +40528,7 @@ const debug_1 = __importDefault(__webpack_require__(426));
 const debugEnabled = debug_1.default.enabled('generator');
 exports.predefinedGeneratorResolvers = {
     photonjs: (baseDir, version) => __awaiter(void 0, void 0, void 0, function* () {
-        let photonDir = resolve_pkg_1.default('@prisma/photon', { cwd: baseDir });
+        let photonDir = resolve_pkg_1.default('@prisma/client', { cwd: baseDir });
         if (debugEnabled) {
             console.log({ photonDir });
         }
@@ -40537,7 +40537,7 @@ exports.predefinedGeneratorResolvers = {
                 throw new PhotonFacadeMissingError();
             }
             else {
-                console.log(`In order to use the ${chalk_1.default.underline('"photonjs"')} generator, you need to install ${chalk_1.default.bold('@prisma/photon')} to your project.`);
+                console.log(`In order to use the ${chalk_1.default.underline('"prisma-client-js"')} generator, you need to install ${chalk_1.default.bold('@prisma/client')} to your project.`);
                 const { value } = yield prompts_1.default({
                     type: 'confirm',
                     name: 'value',
@@ -40549,7 +40549,7 @@ exports.predefinedGeneratorResolvers = {
                 }
                 yield installPackage(baseDir, `@prisma/photon@${(version !== null && version !== void 0 ? version : 'latest')}`);
             }
-            photonDir = resolve_pkg_1.default('@prisma/photon', { cwd: baseDir });
+            photonDir = resolve_pkg_1.default('@prisma/client', { cwd: baseDir });
             if (!photonDir) {
                 throw new Error(`Could not resolve @prisma/photon despite the installation that just happened. We're sorry.
 Please try to install it by hand and rerun ${chalk_1.default.bold('prisma2 generate')} 🙏.`);
@@ -40563,7 +40563,7 @@ Please try to install it by hand and rerun ${chalk_1.default.bold('prisma2 gener
 };
 class PhotonFacadeMissingError extends Error {
     constructor() {
-        super(`In order to use the ${chalk_1.default.underline('"photonjs"')} generator, you need to install ${chalk_1.default.bold('@prisma/photon')} to your project:
+        super(`In order to use the ${chalk_1.default.underline('"prisma-client-js"')} generator, you need to install ${chalk_1.default.bold('@prisma/client')} to your project:
 ${chalk_1.default.bold.green('npm install @prisma/photon')}`);
     }
 }
@@ -50754,8 +50754,8 @@ Possible binaryTargets: ${chalk_1.default.greenBright(exports.knownBinaryTargets
                         console.log(`${chalk_1.default.yellow('Warning:')} Your current platform \`${chalk_1.default.bold(platform)}\` is not included in your generator's \`binaryTargets\` configuration ${JSON.stringify(generator.binaryTargets)}.
     To fix it, use this generator config in your ${chalk_1.default.bold('schema.prisma')}:
     ${chalk_1.default.greenBright(engine_core_1.printGeneratorConfig(Object.assign(Object.assign({}, generator), { binaryTargets: engine_core_1.fixPlatforms(generator.binaryTargets, platform) })))}
-    ${chalk_1.default.gray(`Note, that by providing \`native\`, Photon automatically resolves \`${platform}\`.
-    Read more about deploying Photon: ${chalk_1.default.underline('https://github.com/prisma/prisma2/blob/master/docs/core/generators/photonjs.md')}`)}\n`);
+    ${chalk_1.default.gray(`Note, that by providing \`native\`, PrismaClient automatically resolves \`${platform}\`.
+    Read more about deploying PrismaClient: ${chalk_1.default.underline('https://github.com/prisma/prisma2/blob/master/docs/core/generators/photonjs.md')}`)}\n`);
                     }
                     else {
                         console.log(`${chalk_1.default.yellow('Warning')} The binaryTargets ${JSON.stringify(binaryTargets)} don't include your local platform ${platform}, which you can also point to with \`native\`.
@@ -53750,7 +53750,7 @@ var Buffer = __webpack_require__(293).Buffer,
 
 // == Exports ==================================================================
 module.exports = function(iconv) {
-    
+
     // Additional Public API.
     iconv.encodeStream = function encodeStream(encoding, options) {
         return new IconvLiteEncoderStream(iconv.getEncoder(encoding, options), options);
@@ -53845,7 +53845,7 @@ IconvLiteDecoderStream.prototype._transform = function(chunk, encoding, done) {
 IconvLiteDecoderStream.prototype._flush = function(done) {
     try {
         var res = this.conv.end();
-        if (res && res.length) this.push(res, this.encoding);                
+        if (res && res.length) this.push(res, this.encoding);
         done();
     }
     catch (e) {
@@ -55920,11 +55920,11 @@ module.exports.default = module.exports; // For TypeScript
 // require()-s are direct to support Browserify.
 
 module.exports = {
-    
+
     // == Japanese/ShiftJIS ====================================================
     // All japanese encodings are based on JIS X set of standards:
     // JIS X 0201 - Single-byte encoding of ASCII + ¥ + Kana chars at 0xA1-0xDF.
-    // JIS X 0208 - Main set of 6879 characters, placed in 94x94 plane, to be encoded by 2 bytes. 
+    // JIS X 0208 - Main set of 6879 characters, placed in 94x94 plane, to be encoded by 2 bytes.
     //              Has several variations in 1978, 1983, 1990 and 1997.
     // JIS X 0212 - Supplementary plane of 6067 chars in 94x94 plane. 1990. Effectively dead.
     // JIS X 0213 - Extension and modern replacement of 0208 and 0212. Total chars: 11233.
@@ -55942,7 +55942,7 @@ module.exports = {
     //               0x8F, (0xA1-0xFE)x2 - 0212 plane (94x94).
     //  * JIS X 208: 7-bit, direct encoding of 0208. Byte ranges: 0x21-0x7E (94 values). Uncommon.
     //               Used as-is in ISO2022 family.
-    //  * ISO2022-JP: Stateful encoding, with escape sequences to switch between ASCII, 
+    //  * ISO2022-JP: Stateful encoding, with escape sequences to switch between ASCII,
     //                0201-1976 Roman, 0208-1978, 0208-1983.
     //  * ISO2022-JP-1: Adds esc seq for 0212-1990.
     //  * ISO2022-JP-2: Adds esc seq for GB2313-1980, KSX1001-1992, ISO8859-1, ISO8859-7.
@@ -56054,7 +56054,7 @@ module.exports = {
     //  * Windows CP 951: Microsoft variant of Big5-HKSCS-2001. Seems to be never public. http://me.abelcheung.org/articles/research/what-is-cp951/
     //  * Big5-2003 (Taiwan standard) almost superset of cp950.
     //  * Unicode-at-on (UAO) / Mozilla 1.8. Falling out of use on the Web. Not supported by other browsers.
-    //  * Big5-HKSCS (-2001, -2004, -2008). Hong Kong standard. 
+    //  * Big5-HKSCS (-2001, -2004, -2008). Hong Kong standard.
     //    many unicode code points moved from PUA to Supplementary plane (U+2XXXX) over the years.
     //    Plus, it has 4 combining sequences.
     //    Seems that Mozilla refused to support it for 10 yrs. https://bugzilla.mozilla.org/show_bug.cgi?id=162431 https://bugzilla.mozilla.org/show_bug.cgi?id=310299
@@ -56065,7 +56065,7 @@ module.exports = {
     //    In the encoder, it might make sense to support encoding old PUA mappings to Big5 bytes seq-s.
     //    Official spec: http://www.ogcio.gov.hk/en/business/tech_promotion/ccli/terms/doc/2003cmp_2008.txt
     //                   http://www.ogcio.gov.hk/tc/business/tech_promotion/ccli/terms/doc/hkscs-2008-big5-iso.txt
-    // 
+    //
     // Current understanding of how to deal with Big5(-HKSCS) is in the Encoding Standard, http://encoding.spec.whatwg.org/#big5-encoder
     // Unicode mapping (http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/OTHER/BIG5.TXT) is said to be wrong.
 
@@ -58636,7 +58636,7 @@ module.exports = AutocompleteMultiselectPrompt;
 /******/ ],
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ 	"use strict";
-/******/ 
+/******/
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	!function() {
 /******/ 		__webpack_require__.nmd = function(module) {
@@ -58653,6 +58653,6 @@ module.exports = AutocompleteMultiselectPrompt;
 /******/ 			return module;
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ }
 );

@@ -7,7 +7,7 @@ const runtime_1 = require("./runtime");
 const path = require("path");
 const debug = runtime_1.debugLib('photon');
 /**
- * A PhotonRequestError is an error that is thrown in conjunction to a concrete query that has been performed with Photon.js.
+ * A PhotonRequestError is an error that is thrown in conjunction to a concrete query that has been performed with PrismaClient.js.
  */
 class PhotonRequestError extends Error {
     constructor(message, code, meta) {
@@ -133,7 +133,7 @@ class CollectTimestamps {
 path.join(__dirname, 'runtime/query-engine-darwin');
 path.join(__dirname, 'runtime/query-engine-rhel-openssl-1.0.x');
 /* End Types for Logging */
-class Photon {
+class PrismaClient {
     constructor(optionsArg) {
         const options = optionsArg || {};
         const useDebug = options.debug === true ? true : typeof options.debug === 'object' ? Boolean(options.debug.library) : false;
@@ -166,7 +166,7 @@ class Photon {
             datamodelPath: path.resolve(__dirname, 'schema.prisma'),
             prismaPath: engineConfig.binaryPath || undefined,
             datasources,
-            generator: { "name": "photon", "provider": "photonjs", "output": "/Users/divyendusingh/Documents/prisma/prisma2-e2e-tests/platforms/heroku/prisma/photonjs", "binaryTargets": ["native", "rhel-openssl-1.0.x"], "config": {} },
+            generator: { "name": "photon", "provider": "prisma-client-js", "output": "/Users/divyendusingh/Documents/prisma/prisma2-e2e-tests/platforms/heroku/prisma/photonjs", "binaryTargets": ["native", "rhel-openssl-1.0.x"], "config": {} },
             showColors: this.errorFormat === 'pretty'
         };
         this.engine = new runtime_1.Engine(this.engineConfig);
@@ -212,7 +212,7 @@ class Photon {
         return PostDelegate(this.dmmf, this.fetcher, this.errorFormat, this.measurePerformance);
     }
 }
-exports.Photon = Photon;
+exports.PrismaClient = PrismaClient;
 /**
  * Enums
  */

@@ -17,7 +17,7 @@ export declare type Subset<T, U> = {
     [key in keyof T]: key extends keyof U ? T[key] : never;
 };
 /**
- * A PhotonRequestError is an error that is thrown in conjunction to a concrete query that has been performed with Photon.js.
+ * A PhotonRequestError is an error that is thrown in conjunction to a concrete query that has been performed with PrismaClient.js.
  */
 export declare class PhotonRequestError extends Error {
     message: string;
@@ -29,7 +29,7 @@ declare class PhotonFetcher {
     private readonly photon;
     private readonly debug;
     private readonly hooks?;
-    constructor(photon: Photon<any, any>, debug?: boolean, hooks?: Hooks | undefined);
+    constructor(photon: PrismaClient<any, any>, debug?: boolean, hooks?: Hooks | undefined);
     request<T>(document: any, dataPath?: string[], rootField?: string, typeName?: string, isList?: boolean, callsite?: string, collectTimestamps?: any): Promise<T>;
     sanitizeMessage(message: string): string;
     protected unpack(document: any, data: any, path: string[], rootField?: string, isList?: boolean): any;
@@ -87,7 +87,7 @@ declare type LogEvent = {
     timestamp: number;
     message: string;
 };
-export declare class Photon<T extends PhotonOptions, U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never> {
+export declare class PrismaClient<T extends PhotonOptions, U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never> {
     private fetcher;
     private readonly dmmf;
     private connectionPromise?;

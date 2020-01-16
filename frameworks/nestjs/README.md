@@ -24,7 +24,7 @@ Starter template for 😻 [nest](https://nestjs.com/) and [Prisma](https://www.p
   - [Prisma Setup](#prisma-setup)
     - [1. Install Dependencies](#1-install-dependencies)
     - [2. Prisma2: Lift](#2-prisma2-lift)
-    - [3. Prisma2: Photon](#3-prisma2-photon)
+    - [3. Prisma2: PrismaClient](#3-prisma2-photon)
     - [4. Seed the database data with this script](#4-seed-the-database-data-with-this-script)
     - [5. Install Nestjs](#5-install-nestjs)
   - [Start NestJS Server](#start-nestjs-server)
@@ -60,7 +60,7 @@ npm install
 Saving the migration of the database:
 
 ```bash
-npx prisma2 lift save
+npx prisma2 migrate save --experimental
 # or
 npm run lift:save
 ```
@@ -68,16 +68,16 @@ npm run lift:save
 Perform the database migration:
 
 ```bash
-npx prisma2 lift up
+npx prisma2 migrate up --experimental
 # or
 npm run lift:up
 ```
 
-### 3. Prisma2: Photon
+### 3. Prisma2: PrismaClient
 
-[Photon](https://github.com/prisma/prisma2/blob/master/docs/photon/api.md) is a type-safe database client auto-generated based on the data model.
+[PrismaClient](https://github.com/prisma/prisma2/blob/master/docs/photon/api.md) is a type-safe database client auto-generated based on the data model.
 
-To generate Photon execute, this will alwayse be executed after `npm install`:
+To generate PrismaClient execute, this will alwayse be executed after `npm install`:
 
 ```bash
 npx prisma2 generate

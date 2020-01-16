@@ -2,9 +2,9 @@ const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { Photon } = require('./prisma/photonjs')
+const { PrismaClient } = require('./prisma/photonjs')
 
-const photon = new Photon()
+const photon = new PrismaClient()
 
 const app = express()
 const port = process.env.PORT || 3000

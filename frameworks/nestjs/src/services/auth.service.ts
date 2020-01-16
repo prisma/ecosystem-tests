@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
 import { SignupInput } from '../resolvers/auth/dto/signup.input';
 import { PhotonService } from './photon.service';
-import { User } from '@prisma/photon';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {

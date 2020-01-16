@@ -1,11 +1,11 @@
-import { Photon } from '@prisma/photon'
+import { PrismaClient } from '@prisma/client'
 
-const photon = new Photon()
+const client = new PrismaClient()
 
 export async function handler() {
   const id = '12345'
 
-  const createUser = await photon.users.create({
+  const createUser = await client.users.create({
     data: {
       id,
       email: 'alice@prisma.io',
@@ -13,7 +13,7 @@ export async function handler() {
     },
   })
 
-  const updateUser = await photon.users.update({
+  const updateUser = await client.users.update({
     where: {
       id: createUser.id,
     },
@@ -23,13 +23,13 @@ export async function handler() {
     },
   })
 
-  const users = await photon.users.findOne({
+  const users = await client.users.findOne({
     where: {
       id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await photon.users.deleteMany({})
+  const deleteManyUsers = await client.users.deleteMany({})
 
   return {
     createUser,

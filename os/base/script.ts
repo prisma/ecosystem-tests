@@ -1,11 +1,11 @@
-import { Photon } from '@prisma/photon'
+import { PrismaClient } from '@prisma/client'
 
-const photon = new Photon()
+const client = new PrismaClient()
 
 // A `main` function so that we can use async/await
 async function main() {
   // Seed the database with users and posts
-  const user1 = await photon.users.create({
+  const user1 = await client.users.create({
     data: {
       email: 'alice@prisma.io',
       name: 'Alice',
@@ -21,7 +21,7 @@ async function main() {
       posts: true,
     },
   })
-  const user2 = await photon.users.create({
+  const user2 = await client.users.create({
     data: {
       email: 'bob@prisma.io',
       name: 'Bob',
@@ -47,13 +47,13 @@ async function main() {
   console.log(`Created users: ${user1.name} (${user1.posts.length} post) and (${user2.posts.length} posts) `)
 
   // Retrieve all published posts
-  const allPosts = await photon.posts.findMany({
+  const allPosts = await client.posts.findMany({
     where: { published: true },
   })
   console.log(`Retrieved all published posts: `, allPosts)
 
   // Create a new post (written by an already existing user with email alice@prisma.io)
-  const newPost = await photon.posts.create({
+  const newPost = await client.posts.create({
     data: {
       title: 'Join the Prisma Slack community',
       content: 'http://slack.prisma.io',
@@ -68,7 +68,7 @@ async function main() {
   console.log(`Created a new post: `, newPost)
 
   // Publish the new post
-  const updatedPost = await photon.posts.update({
+  const updatedPost = await client.posts.update({
     where: {
       id: newPost.id,
     },
@@ -79,7 +79,7 @@ async function main() {
   console.log(`Published the newly created post: `, updatedPost)
 
   // Retrieve all posts by user with email alice@prisma.io
-  const postsByUser = await photon.users
+  const postsByUser = await client.users
     .findOne({
       where: {
         email: 'alice@prisma.io',
@@ -88,14 +88,14 @@ async function main() {
     .posts()
   console.log(`Retrieved all posts from a specific user: `, postsByUser)
 
-  console.log('deleted', (await photon.users.deleteMany({})).count, 'users')
-  console.log('deleted', (await photon.posts.deleteMany({})).count, 'posts')
+  console.log('deleted', (await client.users.deleteMany({})).count, 'users')
+  console.log('deleted', (await client.posts.deleteMany({})).count, 'posts')
 
-  await photon.disconnect()
+  await client.disconnect()
 }
 
 main()
   .catch(async e => {
     console.error(e)
-    await photon.disconnect()
+    await client.disconnect()
   })
