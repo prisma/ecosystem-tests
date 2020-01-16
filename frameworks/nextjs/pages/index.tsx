@@ -2,10 +2,10 @@ import React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import { Photon } from '@prisma/photon'
+import { PrismaClient } from '@prisma/client'
 
 export async function unstable_getStaticProps() {
-  const photon = new Photon()
+  const photon = new PrismaClient()
 
   return {
     props: {

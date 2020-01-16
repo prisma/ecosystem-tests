@@ -1,6 +1,6 @@
-const { Photon } = require('./generated/photon')
+const { PrismaClient } = require('./generated/photon')
 
-const photon = new Photon()
+const photon = new PrismaClient()
 
 exports.handler = async function(event, context, callback) {
   const createUser = await photon.users.create({

@@ -11,7 +11,7 @@ When deploying on this platform, the build is created on the local development m
 
 ```
 generator photon {
-    provider       = "photonjs"
+    provider       = "prisma-client-js"
     platforms      = ["native", "linux-glibc-libssl1.0.1"]
 }
 ```
@@ -20,11 +20,11 @@ To know the platform identifiers, please refer to [this](https://github.com/pris
 
 Note that this setup will increase the bundle size as you would also bundle the local binary while creating the bundle for deployment platform. Please refer to the "Ignore Files from Bundle" section for more details of how that situation can be avoided. 
 
-This platform requires us to create the bundle of deployment manually as a `zip` file. To make deployment easy, we generate Photon outside of `node_modules` into a common folder (say `functions`) that can be zipped before deployment. With this requirement, the generate section of the Prisma schema file looks like 
+This platform requires us to create the bundle of deployment manually as a `zip` file. To make deployment easy, we generate PrismaClient outside of `node_modules` into a common folder (say `functions`) that can be zipped before deployment. With this requirement, the generate section of the Prisma schema file looks like 
 
 ```
 generator photon {
-    provider       = "photonjs"
+    provider       = "prisma-client-js"
     output         = "./functions/generated/photon"
 ```
 
