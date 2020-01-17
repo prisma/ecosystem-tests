@@ -21,7 +21,9 @@ jobs:
 
     strategy:
       matrix:
-        node: [8, 10, 12]
+        node:
+          - 10
+          - 12
 
     name: node ${{ matrix.node }}
     steps:
@@ -40,7 +42,9 @@ jobs:
 
     strategy:
       matrix:
-        framework: ["nestjs", "nextjs"]
+        framework:
+          - nestjs
+          - nextjs
 
     steps:
       - uses: actions/checkout@v1
@@ -58,7 +62,10 @@ jobs:
 
     strategy:
       matrix:
-        platform: ["lambda", "heroku", "netlify"]
+        platform:
+          - lambda
+          - heroku
+          - netlify
 
     steps:
       - uses: actions/checkout@v1
