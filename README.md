@@ -21,9 +21,19 @@ To check the current status of this repository somewhere else, you can use [a si
 
 ## How to add or adapt platforms
 
-Every folder with a run.sh script gets tested. run.sh is the entrypoint, and you can do whatever you want in that file. Exitting with zero means your tests passed, everything non-zero equals to failing tests. 
+Add a matrix run entry in `.github/workflows/test.yaml` under the category the project falls into. For example, if you're adding a new platform into the `platforms` folder, put a new line named after your project folder in `.github/workflows/test.yaml` under `jobs.platforms.strategy.matrix.platform`.
 
-You should use [yarn](https://yarnpkg.com) as it's used for bumping dependencies; i.e. run `yarn install` as a first step in your run.sh script.
+In your project, create a file `run.sh` and use it as your entrypoint to run your tests, including setting up dependencies, deploying, and running e2e tests. Please write POSIX-compliant scripts (not bash) and use the the following template for all of your sh files to make sure they exit on errors (`-e`) and undefined variables (`-u`):
+
+```shell script
+#!/bin/sh
+
+set -eu
+
+# ...
+```
+
+You need to use [yarn](https://yarnpkg.com) as it's used for bumping dependencies; i.e. run `yarn install` as a first step in your run.sh script.
 
 **NOTE:**
-It's important to add `prisma2` as a devDependency and `@prisma/photon` as a normal dependency in each project's package.json.
+It's important to add `prisma2` as a devDependency and `@prisma/client` as a normal dependency in each project's package.json.
