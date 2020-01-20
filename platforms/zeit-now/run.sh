@@ -2,6 +2,6 @@
 
 set -eu
 
-echo $ZEIT_TOKEN
+yarn
 yarn now --token=$ZEIT_TOKEN --prod
 sh test.sh
