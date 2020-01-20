@@ -2,6 +2,7 @@
 
 set -eu
 
-echo $ZEIT_TOKEN
+yarn
 yarn now --token=$ZEIT_TOKEN --prod
+sleep 5
 sh test.sh
