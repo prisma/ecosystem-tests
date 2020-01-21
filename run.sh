@@ -2,6 +2,8 @@
 
 set -eu
 
+export CI=true
+
 dir=$1
 project=$2
 
