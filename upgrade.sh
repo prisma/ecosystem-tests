@@ -90,7 +90,7 @@ while [ $i -le $count ]; do
 	# upgrading usually takes longer than a few individual loop runs, so skip test runs which would have passed by now
 	skip=$((remaining / interval))
 	i=$((i - skip))
-	echo "took $diff seconds, skipping $(skip)x $(interval)s runs"
+	echo "took $diff seconds, skipping $skip x $interval second runs"
 done
 
 echo "done"
