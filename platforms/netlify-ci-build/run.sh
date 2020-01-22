@@ -2,6 +2,11 @@
 
 set -eu
 
+mkdir -p ~/.ssh
+echo "$SSH_KEY" > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
