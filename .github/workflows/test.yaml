@@ -67,6 +67,7 @@ jobs:
           - heroku
           - netlify
           - zeit-now
+          - netlify-ci-build
 
     steps:
       - uses: actions/checkout@v1
@@ -79,6 +80,7 @@ jobs:
       - name: test ${{ matrix.platform }}
         run: sh run.sh platforms ${{ matrix.platform }}
         env:
+          SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
           NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
           LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
           HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
@@ -94,3 +96,5 @@ jobs:
           AWS_ROLE: ${{ secrets.AWS_ROLE }}
           ZEIT_NOW_PG_URL: ${{ secrets.ZEIT_NOW_PG_URL }}
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+          NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
+          NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
