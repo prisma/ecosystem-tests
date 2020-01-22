@@ -2,7 +2,7 @@
 
 set -eu
 
-CREATE_USER_NAME=`curl --silent https://e2e-platforms-netlify-beta.netlify.com/.netlify/functions/index | jq '.createUser.name'`
+CREATE_USER_NAME=`curl --silent https://prisma2-e2e-tests-netlify.netlify.com/.netlify/functions/index | jq '.createUser.name'`
 if [ "$CREATE_USER_NAME" = '"Alice"' ]; then
   echo "Create user name is ok"
 else
@@ -10,7 +10,7 @@ else
   exit 1
 fi
 
-UPDATE_USER_NAME=`curl --silent https://e2e-platforms-netlify-beta.netlify.com/.netlify/functions/index | jq '.updateUser.name'`
+UPDATE_USER_NAME=`curl --silent https://prisma2-e2e-tests-netlify.netlify.com/.netlify/functions/index | jq '.updateUser.name'`
 if [ "$UPDATE_USER_NAME" = '"Bob"' ]; then
   echo "Update user name is ok"
 else
@@ -18,7 +18,7 @@ else
   exit 1
 fi
 
-DELETE_COUNT=`curl --silent https://e2e-platforms-netlify-beta.netlify.com/.netlify/functions/index | jq '.deleteManyUsers.count'`
+DELETE_COUNT=`curl --silent https://prisma2-e2e-tests-netlify.netlify.com/.netlify/functions/index | jq '.deleteManyUsers.count'`
 if [ $DELETE_COUNT -eq 1 ]; then
   echo "Delete count is ok"
 else
