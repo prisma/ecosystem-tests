@@ -4,7 +4,7 @@ set -eu
 
 url="https://e2e-platforms-netlify.netlify.com/.netlify/functions/index"
 
-curl "curl: $url\n"
+echo "curl: $(curl $url)\n"
 
 CREATE_USER_NAME=$(curl --silent "$url" | jq '.createUser.name')
 if [ "$CREATE_USER_NAME" = '"Alice"' ]; then
