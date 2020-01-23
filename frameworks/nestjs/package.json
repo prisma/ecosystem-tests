@@ -35,8 +35,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "start:db": "prisma2 migrate up --experimental && prisma2 generate && npm run seed",
-    "seed": "ts-node prisma/seed.ts",
-    "postinstall": "prisma2 generate"
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "6.10.11",
@@ -46,7 +45,7 @@
     "@nestjs/passport": "6.1.1",
     "@nestjs/platform-express": "6.10.11",
     "@nestjs/swagger": "4.0.9",
-    "@prisma/client": "2.0.0-alpha.618",
+    "@prisma/client": "2.0.0-alpha.626",
     "apollo-server-express": "2.9.13",
     "bcrypt": "3.0.7",
     "class-transformer": "0.2.3",
@@ -72,7 +71,7 @@
     "chance": "1.1.4",
     "jest": "24.9.0",
     "prettier": "1.19.1",
-    "prisma2": "2.0.0-alpha.618",
+    "prisma2": "2.0.0-alpha.626",
     "rimraf": "3.0.0",
     "supertest": "4.0.2",
     "ts-jest": "24.2.0",

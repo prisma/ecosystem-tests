@@ -9,7 +9,7 @@ export async function unstable_getStaticProps() {
 
   return {
     props: {
-      users: await photon.users.findMany({ include: { posts: { first: 1 } } }),
+      users: await photon.user.findMany({ include: { posts: { first: 1 } } }),
     },
     revalidate: 5,
   }

@@ -105,8 +105,10 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
     connect(): Promise<void>;
     private runDisconnect;
     disconnect(): Promise<any>;
-    get users(): UserDelegate;
-    get posts(): PostDelegate;
+    get users(): '"prisma.users" has been renamed to "prisma.user"';
+    get user(): UserDelegate;
+    get posts(): '"prisma.posts" has been renamed to "prisma.post"';
+    get post(): PostDelegate;
 }
 export declare const OrderByArg: {
     asc: "asc";
@@ -143,7 +145,6 @@ export declare type UserGetIncludePayload<S extends boolean | UserInclude> = S e
     [P in CleanupNever<MergeTruthyValues<UserDefault, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<S[P]>>> : never;
 } : never;
 export interface UserDelegate {
-    <T extends FindManyUserArgs>(args?: Subset<T, FindManyUserArgs>): T extends FindManyUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyUserSelectArgs ? Promise<Array<UserGetSelectPayload<ExtractFindManyUserSelectArgs<T>>>> : T extends FindManyUserIncludeArgs ? Promise<Array<UserGetIncludePayload<ExtractFindManyUserIncludeArgs<T>>>> : Promise<Array<User>>;
     findOne<T extends FindOneUserArgs>(args: Subset<T, FindOneUserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOneUserSelectArgs ? Promise<UserGetSelectPayload<ExtractFindOneUserSelectArgs<T>> | null> : T extends FindOneUserIncludeArgs ? Promise<UserGetIncludePayload<ExtractFindOneUserIncludeArgs<T>> | null> : UserClient<User | null>;
     findMany<T extends FindManyUserArgs>(args?: Subset<T, FindManyUserArgs>): T extends FindManyUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyUserSelectArgs ? Promise<Array<UserGetSelectPayload<ExtractFindManyUserSelectArgs<T>>>> : T extends FindManyUserIncludeArgs ? Promise<Array<UserGetIncludePayload<ExtractFindManyUserIncludeArgs<T>>>> : Promise<Array<User>>;
     create<T extends UserCreateArgs>(args: Subset<T, UserCreateArgs>): T extends UserCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectCreateArgs ? Promise<UserGetSelectPayload<ExtractUserSelectCreateArgs<T>>> : T extends UserIncludeCreateArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeCreateArgs<T>>> : UserClient<User>;
@@ -510,7 +511,6 @@ export declare type PostGetIncludePayload<S extends boolean | PostInclude> = S e
     [P in CleanupNever<MergeTruthyValues<PostDefault, S>>]: P extends PostScalars ? Post[P] : P extends 'author' ? UserGetIncludePayload<ExtractUserIncludeArgs<S[P]>> | null : never;
 } : never;
 export interface PostDelegate {
-    <T extends FindManyPostArgs>(args?: Subset<T, FindManyPostArgs>): T extends FindManyPostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPostSelectArgs ? Promise<Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<T>>>> : T extends FindManyPostIncludeArgs ? Promise<Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<T>>>> : Promise<Array<Post>>;
     findOne<T extends FindOnePostArgs>(args: Subset<T, FindOnePostArgs>): T extends FindOnePostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOnePostSelectArgs ? Promise<PostGetSelectPayload<ExtractFindOnePostSelectArgs<T>> | null> : T extends FindOnePostIncludeArgs ? Promise<PostGetIncludePayload<ExtractFindOnePostIncludeArgs<T>> | null> : PostClient<Post | null>;
     findMany<T extends FindManyPostArgs>(args?: Subset<T, FindManyPostArgs>): T extends FindManyPostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPostSelectArgs ? Promise<Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<T>>>> : T extends FindManyPostIncludeArgs ? Promise<Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<T>>>> : Promise<Array<Post>>;
     create<T extends PostCreateArgs>(args: Subset<T, PostCreateArgs>): T extends PostCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectCreateArgs ? Promise<PostGetSelectPayload<ExtractPostSelectCreateArgs<T>>> : T extends PostIncludeCreateArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeCreateArgs<T>>> : PostClient<Post>;
@@ -877,7 +877,7 @@ export declare type PostCreateWithoutAuthorInput = {
     title: string;
     content?: string | null;
 };
-export declare type PostCreateManyWithoutPostsInput = {
+export declare type PostCreateManyWithoutAuthorInput = {
     create?: Enumerable<PostCreateWithoutAuthorInput> | null;
     connect?: Enumerable<PostWhereUniqueInput> | null;
 };
@@ -885,7 +885,7 @@ export declare type UserCreateInput = {
     id?: string | null;
     email: string;
     name?: string | null;
-    posts?: PostCreateManyWithoutPostsInput | null;
+    posts?: PostCreateManyWithoutAuthorInput | null;
 };
 export declare type PostUpdateWithoutAuthorDataInput = {
     id?: string | null;
@@ -954,7 +954,7 @@ export declare type UserCreateWithoutPostsInput = {
     email: string;
     name?: string | null;
 };
-export declare type UserCreateOneWithoutAuthorInput = {
+export declare type UserCreateOneWithoutPostsInput = {
     create?: UserCreateWithoutPostsInput | null;
     connect?: UserWhereUniqueInput | null;
 };
@@ -965,7 +965,7 @@ export declare type PostCreateInput = {
     published?: boolean | null;
     title: string;
     content?: string | null;
-    author?: UserCreateOneWithoutAuthorInput | null;
+    author?: UserCreateOneWithoutPostsInput | null;
 };
 export declare type UserUpdateWithoutPostsDataInput = {
     id?: string | null;

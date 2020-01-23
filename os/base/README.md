@@ -106,7 +106,7 @@ The first command, `lift save`, stores a number of migration files on the file s
 
 ### Generate PrismaClient.js with the CLI
 
-Sometimes, e.g. in CI/CD environments, it can be helpful to generate PrismaClient.js with a CLI command. This can be done with the `prisma2 generate command`. If you want to run it in this project, you need to prepend `npx` again:
+Sometimes, e.g. in CI/CD environments, it can be helpful to generate PrismaClient.js with a CLI command. This can be done with the `yarn prisma2 generate` command. If you want to run it in this project, you need to prepend `npx` again:
 
 ```
 npx prisma2 generate

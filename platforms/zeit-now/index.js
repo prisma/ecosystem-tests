@@ -9,14 +9,14 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
-  const createUser = await photon.users.create({
+  const createUser = await photon.user.create({
     data: {
       email: 'alice@prisma.io',
       name: 'Alice',
     },
   })
 
-  const updateUser = await photon.users.update({
+  const updateUser = await photon.user.update({
     where: {
       id: createUser.id,
     },
@@ -26,13 +26,13 @@ app.get('/', async (req, res) => {
     },
   })
 
-  const users = await photon.users.findOne({
+  const users = await photon.user.findOne({
     where: {
       id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await photon.users.deleteMany()
+  const deleteManyUsers = await photon.user.deleteMany()
 
   return res.send(
     JSON.stringify({

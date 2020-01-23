@@ -17,7 +17,7 @@ export class PostResolver {
 
   @Query(returns => [Post])
   publishedPosts(@Args() { skip, after, before, first, last }: PaginationArgs) {
-    return this.photon.posts.findMany({
+    return this.photon.post.findMany({
       where: { published: true },
       skip,
       after,
@@ -29,12 +29,12 @@ export class PostResolver {
 
   @Query(returns => [Post])
   userPosts(@Args() id: UserIdArgs) {
-    return this.photon.users
+    return this.photon.user
       .findOne({ where: { id: id.userId } })
       .posts({ where: { published: true } });
 
     // or
-    // return this.photon.posts.findMany({
+    // return this.photon.post.findMany({
     //   where: {
     //     published: true,
     //     author: { id: id.userId }
@@ -44,11 +44,11 @@ export class PostResolver {
 
   @Query(returns => Post)
   async post(@Args() id: PostIdArgs) {
-    return this.photon.posts.findOne({ where: { id: id.postId } });
+    return this.photon.post.findOne({ where: { id: id.postId } });
   }
 
   @ResolveProperty('author')
   async author(@Parent() post: Post) {
-    return this.photon.posts.findOne({ where: { id: post.id } }).author();
+    return this.photon.post.findOne({ where: { id: post.id } }).author();
   }
 }

@@ -10,7 +10,7 @@ export class AppService {
   }
 
   async getHelloName(name: string): Promise<string> {
-    const users = await this.photon.users.findMany({});
+    const users = await this.photon.user.findMany({});
     return `Hello ${name}, first name: ${users[0].firstname}!`;
   }
 }

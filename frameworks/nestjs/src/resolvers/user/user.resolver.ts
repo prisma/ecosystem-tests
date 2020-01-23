@@ -17,6 +17,6 @@ export class UserResolver {
 
   @ResolveProperty('posts')
   posts(@Parent() author: User) {
-    return this.photon.users.findOne({ where: { id: author.id } }).posts();
+    return this.photon.user.findOne({ where: { id: author.id } }).posts();
   }
 }
