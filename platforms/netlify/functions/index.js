@@ -3,6 +3,8 @@ const { PrismaClient } = require('./generated/photon')
 const photon = new PrismaClient()
 
 exports.handler = async function(event, context, callback) {
+  await client.user.deleteMany({})
+
   const createUser = await photon.user.create({
     data: {
       email: 'alice@prisma.io',

@@ -5,11 +5,31 @@ import Nav from '../components/nav'
 import { PrismaClient } from '@prisma/client'
 
 export async function unstable_getStaticProps() {
-  const photon = new PrismaClient()
+  const client = new PrismaClient()
+
+  await client.user.deleteMany({})
+  await client.post.deleteMany({})
+
+  await client.user.create({
+    data: {
+      email: 'alice@prisma.io',
+      name: 'Alice',
+      posts: {
+        create: {
+          title: 'Watch the talks from Prisma Day 2019',
+          content: 'https://www.prisma.io/blog/z11sg6ipb3i1/',
+          published: true,
+        },
+      },
+    },
+    include: {
+      posts: true,
+    },
+  })
 
   return {
     props: {
-      users: await photon.user.findMany({ include: { posts: { first: 1 } } }),
+      users: await client.user.findMany({ include: { posts: { first: 1 } } }),
     },
     revalidate: 5,
   }

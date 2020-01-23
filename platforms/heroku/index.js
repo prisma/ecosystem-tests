@@ -9,6 +9,8 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
+  await client.user.deleteMany({})
+
   const createUser = await photon.user.create({
     data: {
       email: 'alice@prisma.io',
