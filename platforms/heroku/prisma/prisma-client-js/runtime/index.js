@@ -43135,6 +43135,13 @@ function valueToArg(key, value, arg) {
                 }
                 else {
                     let val = cleanObject(value);
+                    if (t.type.isWhereType && val) {
+                        for (const field of t.type.fields) {
+                            if (field.nullEqualsUndefined && val[field.name] === null) {
+                                delete val[field.name]; // it's fine to touch val, as it's already a copy here
+                            }
+                        }
+                    }
                     if (t.type.isOrderType) {
                         val = filterObject_1.filterObject(val, (k, v) => v !== null);
                     }
@@ -49254,8 +49261,9 @@ function transformWhereInputTypes(document) {
                     type: getFieldType(f),
                 });
             }
+            const type = getFilterName(getFieldType(f), f.isRequired || f.kind === 'object');
             typeList.push({
-                type: getFilterName(getFieldType(f), f.isRequired || f.kind === 'object'),
+                type,
                 isList: false,
                 isRequired: false,
                 kind: 'object',
@@ -49269,10 +49277,12 @@ function transformWhereInputTypes(document) {
                     kind: 'scalar',
                 });
             }
+            const nullEqualsUndefined = f.isList && f.kind === 'object' ? true : undefined;
             return {
                 name: f.name,
                 inputType: typeList,
                 isRelationFilter: false,
+                nullEqualsUndefined,
             };
         });
         // NOTE: list scalar fields don't have where arguments!
@@ -49303,8 +49313,9 @@ function getWhereInputName(type) {
     return `${type}WhereInput`;
 }
 function makeFilterType(type, isRequired, isScalar, isEnum) {
+    const name = getFilterName(type, isRequired || !isScalar);
     return {
-        name: getFilterName(type, isRequired || !isScalar),
+        name,
         fields: isScalar
             ? getScalarFilterArgs(type, isRequired, isEnum)
             : getRelationFilterArgs(type),
