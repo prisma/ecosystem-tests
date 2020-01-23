@@ -4,5 +4,5 @@ set -eu
 
 yarn
 yarn now --token=$ZEIT_TOKEN --prod
-sleep 5
+sleep 300
 sh test.sh

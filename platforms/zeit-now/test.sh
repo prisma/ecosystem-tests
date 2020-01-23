@@ -2,7 +2,11 @@
 
 set -eu
 
-CREATE_USER_NAME=`curl --silent https://e2e-platforms-zeit-now.now.sh/ | jq '.createUser.name'`
+url="https://e2e-platforms-zeit-now.now.sh/"
+
+echo "curl: $(curl $url)\n"
+
+CREATE_USER_NAME=$(curl --silent "$url" | jq '.createUser.name')
 if [ "$CREATE_USER_NAME" = '"Alice"' ]; then
   echo "Create user name is ok"
 else
@@ -10,7 +14,7 @@ else
   exit 1
 fi
 
-UPDATE_USER_NAME=`curl --silent https://e2e-platforms-zeit-now.now.sh/ | jq '.updateUser.name'`
+UPDATE_USER_NAME=$(curl --silent "$url" | jq '.updateUser.name')
 if [ "$UPDATE_USER_NAME" = '"Bob"' ]; then
   echo "Update user name is ok"
 else
@@ -18,7 +22,7 @@ else
   exit 1
 fi
 
-DELETE_COUNT=`curl --silent https://e2e-platforms-zeit-now.now.sh/ | jq '.deleteManyUsers.count'`
+DELETE_COUNT=$(curl --silent "$url" | jq '.deleteManyUsers.count')
 if [ $DELETE_COUNT -eq 1 ]; then
   echo "Delete count is ok"
 else

@@ -32,13 +32,13 @@ export declare namespace DMMF {
         isUnique: boolean;
         isId: boolean;
         type: string;
-        dbName: string | null;
+        dbNames: string[] | null;
         isGenerated: boolean;
         relationToFields?: any[];
         relationOnDelete?: string;
         relationName?: string;
         documentation?: string;
-        default?: FieldDefault;
+        default?: FieldDefault | string | boolean;
         [key: string]: any;
     }
     interface FieldDefault {
@@ -74,6 +74,7 @@ export declare namespace DMMF {
         name: string;
         inputType: SchemaArgInputType[];
         isRelationFilter?: boolean;
+        nullEqualsUndefined?: boolean;
     }
     interface OutputType {
         name: string;

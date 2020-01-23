@@ -6,7 +6,7 @@ export declare class Document {
     readonly children: Field[];
     constructor(type: 'query' | 'mutation', children: Field[]);
     toString(): string;
-    validate(select: any, isTopLevelQuery?: boolean, originalMethod?: string, errorFormat?: 'pretty' | 'minimal' | 'colorless'): void;
+    validate(select?: any, isTopLevelQuery?: boolean, originalMethod?: string, errorFormat?: 'pretty' | 'minimal' | 'colorless'): void;
     protected printFieldError: ({ error, path }: FieldError, minimal: boolean) => string;
     protected printArgError: ({ error, path }: ArgError, hasMissingItems: boolean, minimal: boolean) => string;
     /**
@@ -72,7 +72,7 @@ export interface DocumentInput {
     dmmf: DMMFClass;
     rootTypeName: 'query' | 'mutation';
     rootField: string;
-    select: any;
+    select?: any;
 }
 export declare function makeDocument({ dmmf, rootTypeName, rootField, select, }: DocumentInput): Document;
 export declare function transformDocument(document: Document): Document;

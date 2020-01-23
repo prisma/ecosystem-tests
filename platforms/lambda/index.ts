@@ -5,7 +5,7 @@ const client = new PrismaClient()
 export async function handler() {
   const id = '12345'
 
-  const createUser = await client.users.create({
+  const createUser = await client.user.create({
     data: {
       id,
       email: 'alice@prisma.io',
@@ -13,7 +13,7 @@ export async function handler() {
     },
   })
 
-  const updateUser = await client.users.update({
+  const updateUser = await client.user.update({
     where: {
       id: createUser.id,
     },
@@ -23,13 +23,13 @@ export async function handler() {
     },
   })
 
-  const users = await client.users.findOne({
+  const users = await client.user.findOne({
     where: {
       id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await client.users.deleteMany({})
+  const deleteManyUsers = await client.user.deleteMany({})
 
   return {
     createUser,
