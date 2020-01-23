@@ -4,7 +4,7 @@ set -eu
 
 url="https://e2e-platforms-zeit-now.now.sh/"
 
-curl "$url"
+curl "curl: $url\n"
 
 CREATE_USER_NAME=$(curl --silent "$url" | jq '.createUser.name')
 if [ "$CREATE_USER_NAME" = '"Alice"' ]; then
