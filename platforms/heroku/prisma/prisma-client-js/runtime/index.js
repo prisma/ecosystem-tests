@@ -715,7 +715,7 @@ module.exports = require("tls");
 // TODO: This should probably be a class, not functionally
 // passing around state in a gazillion args.
 
-const mkdirp = __webpack_require__(108)
+const mkdirp = __webpack_require__(425)
 const fs = __webpack_require__(747)
 const path = __webpack_require__(622)
 const chownr = __webpack_require__(836)
@@ -1095,7 +1095,47 @@ module.exports = $;
 
 
 /***/ }),
-/* 25 */,
+/* 25 */
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});exports.getSignals=void 0;var _os=__webpack_require__(87);
+
+var _core=__webpack_require__(349);
+var _realtime=__webpack_require__(734);
+
+
+
+const getSignals=function(){
+const realtimeSignals=(0,_realtime.getRealtimeSignals)();
+const signals=[..._core.SIGNALS,...realtimeSignals].map(normalizeSignal);
+return signals;
+};exports.getSignals=getSignals;
+
+
+
+
+
+
+
+const normalizeSignal=function({
+name,
+number:defaultNumber,
+description,
+action,
+forced=false,
+standard})
+{
+const{
+signals:{[name]:constantSignal}}=
+_os.constants;
+const supported=constantSignal!==undefined;
+const number=supported?constantSignal:defaultNumber;
+return{name,number,description,supported,action,forced,standard};
+};
+//# sourceMappingURL=signals.js.map
+
+/***/ }),
 /* 26 */,
 /* 27 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
@@ -3824,103 +3864,34 @@ module.exports = str => {
 /* 96 */,
 /* 97 */,
 /* 98 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
-var once = __webpack_require__(154);
+"use strict";
 
-var noop = function() {};
-
-var isRequest = function(stream) {
-	return stream.setHeader && typeof stream.abort === 'function';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-var isChildProcess = function(stream) {
-	return stream.stdio && Array.isArray(stream.stdio) && stream.stdio.length === 3
+Object.defineProperty(exports, "__esModule", { value: true });
+const chalk_1 = __importDefault(__webpack_require__(179));
+// https://www.wnycstudios.org/story/211119-colors
+exports.gamboge = chalk_1.default.rgb(228, 155, 15);
+exports.darkBrightBlue = chalk_1.default.rgb(107, 139, 140);
+exports.blue = chalk_1.default.cyan;
+exports.brightBlue = chalk_1.default.rgb(127, 155, 175);
+exports.identity = (str) => str || '';
+exports.theme = {
+    keyword: exports.blue,
+    entity: exports.blue,
+    value: exports.brightBlue,
+    punctuation: exports.darkBrightBlue,
+    directive: exports.blue,
+    function: exports.blue,
+    variable: exports.brightBlue,
+    string: exports.brightBlue,
+    boolean: exports.gamboge,
+    comment: chalk_1.default.dim,
 };
-
-var eos = function(stream, opts, callback) {
-	if (typeof opts === 'function') return eos(stream, null, opts);
-	if (!opts) opts = {};
-
-	callback = once(callback || noop);
-
-	var ws = stream._writableState;
-	var rs = stream._readableState;
-	var readable = opts.readable || (opts.readable !== false && stream.readable);
-	var writable = opts.writable || (opts.writable !== false && stream.writable);
-	var cancelled = false;
-
-	var onlegacyfinish = function() {
-		if (!stream.writable) onfinish();
-	};
-
-	var onfinish = function() {
-		writable = false;
-		if (!readable) callback.call(stream);
-	};
-
-	var onend = function() {
-		readable = false;
-		if (!writable) callback.call(stream);
-	};
-
-	var onexit = function(exitCode) {
-		callback.call(stream, exitCode ? new Error('exited with error code: ' + exitCode) : null);
-	};
-
-	var onerror = function(err) {
-		callback.call(stream, err);
-	};
-
-	var onclose = function() {
-		process.nextTick(onclosenexttick);
-	};
-
-	var onclosenexttick = function() {
-		if (cancelled) return;
-		if (readable && !(rs && (rs.ended && !rs.destroyed))) return callback.call(stream, new Error('premature close'));
-		if (writable && !(ws && (ws.ended && !ws.destroyed))) return callback.call(stream, new Error('premature close'));
-	};
-
-	var onrequest = function() {
-		stream.req.on('finish', onfinish);
-	};
-
-	if (isRequest(stream)) {
-		stream.on('complete', onfinish);
-		stream.on('abort', onclose);
-		if (stream.req) onrequest();
-		else stream.on('request', onrequest);
-	} else if (writable && !ws) { // legacy streams
-		stream.on('end', onlegacyfinish);
-		stream.on('close', onlegacyfinish);
-	}
-
-	if (isChildProcess(stream)) stream.on('exit', onexit);
-
-	stream.on('end', onend);
-	stream.on('finish', onfinish);
-	if (opts.error !== false) stream.on('error', onerror);
-	stream.on('close', onclose);
-
-	return function() {
-		cancelled = true;
-		stream.removeListener('complete', onfinish);
-		stream.removeListener('abort', onclose);
-		stream.removeListener('request', onrequest);
-		if (stream.req) stream.req.removeListener('finish', onfinish);
-		stream.removeListener('end', onlegacyfinish);
-		stream.removeListener('close', onlegacyfinish);
-		stream.removeListener('finish', onfinish);
-		stream.removeListener('exit', onexit);
-		stream.removeListener('end', onend);
-		stream.removeListener('error', onerror);
-		stream.removeListener('close', onclose);
-	};
-};
-
-module.exports = eos;
-
+//# sourceMappingURL=theme.js.map
 
 /***/ }),
 /* 99 */
@@ -4137,7 +4108,39 @@ module.exports = bytesToUuid;
 
 
 /***/ }),
-/* 104 */,
+/* 104 */
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const chalk_1 = __importDefault(__webpack_require__(179));
+const highlight_1 = __webpack_require__(944);
+const link_1 = __webpack_require__(585);
+exports.missingGeneratorMessage = `\n${chalk_1.default.blue('info')} You don't have defined any generator in your ${chalk_1.default.bold('schema.prisma')}, so nothing will be generated.
+You can define them like this:
+
+${chalk_1.default.bold(highlight_1.highlightDatamodel(`generator client {
+  provider = "prisma-client-js"
+}`))}`;
+exports.missingModelMessage = `\nYou don't have defined any ${chalk_1.default.bold('model')} in your ${chalk_1.default.bold('schema.prisma')}, so nothing will be generated.
+You can define a model like this:
+
+${chalk_1.default.bold(highlight_1.highlightDatamodel(`model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}`))}
+
+More information in our documentation:
+${link_1.link('https://pris.ly/d/prisma-schema')}
+`;
+//# sourceMappingURL=missingGeneratorMessage.js.map
+
+/***/ }),
 /* 105 */
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -4711,104 +4714,100 @@ module.exports = setup;
 /* 108 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-var path = __webpack_require__(622);
-var fs = __webpack_require__(747);
-var _0777 = parseInt('0777', 8);
+var once = __webpack_require__(154);
 
-module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
+var noop = function() {};
 
-function mkdirP (p, opts, f, made) {
-    if (typeof opts === 'function') {
-        f = opts;
-        opts = {};
-    }
-    else if (!opts || typeof opts !== 'object') {
-        opts = { mode: opts };
-    }
-    
-    var mode = opts.mode;
-    var xfs = opts.fs || fs;
-    
-    if (mode === undefined) {
-        mode = _0777 & (~process.umask());
-    }
-    if (!made) made = null;
-    
-    var cb = f || function () {};
-    p = path.resolve(p);
-    
-    xfs.mkdir(p, mode, function (er) {
-        if (!er) {
-            made = made || p;
-            return cb(null, made);
-        }
-        switch (er.code) {
-            case 'ENOENT':
-                mkdirP(path.dirname(p), opts, function (er, made) {
-                    if (er) cb(er, made);
-                    else mkdirP(p, opts, cb, made);
-                });
-                break;
-
-            // In the case of any other error, just see if there's a dir
-            // there already.  If so, then hooray!  If not, then something
-            // is borked.
-            default:
-                xfs.stat(p, function (er2, stat) {
-                    // if the stat fails, then that's super weird.
-                    // let the original error be the failure reason.
-                    if (er2 || !stat.isDirectory()) cb(er, made)
-                    else cb(null, made);
-                });
-                break;
-        }
-    });
-}
-
-mkdirP.sync = function sync (p, opts, made) {
-    if (!opts || typeof opts !== 'object') {
-        opts = { mode: opts };
-    }
-    
-    var mode = opts.mode;
-    var xfs = opts.fs || fs;
-    
-    if (mode === undefined) {
-        mode = _0777 & (~process.umask());
-    }
-    if (!made) made = null;
-
-    p = path.resolve(p);
-
-    try {
-        xfs.mkdirSync(p, mode);
-        made = made || p;
-    }
-    catch (err0) {
-        switch (err0.code) {
-            case 'ENOENT' :
-                made = sync(path.dirname(p), opts, made);
-                sync(p, opts, made);
-                break;
-
-            // In the case of any other error, just see if there's a dir
-            // there already.  If so, then hooray!  If not, then something
-            // is borked.
-            default:
-                var stat;
-                try {
-                    stat = xfs.statSync(p);
-                }
-                catch (err1) {
-                    throw err0;
-                }
-                if (!stat.isDirectory()) throw err0;
-                break;
-        }
-    }
-
-    return made;
+var isRequest = function(stream) {
+	return stream.setHeader && typeof stream.abort === 'function';
 };
+
+var isChildProcess = function(stream) {
+	return stream.stdio && Array.isArray(stream.stdio) && stream.stdio.length === 3
+};
+
+var eos = function(stream, opts, callback) {
+	if (typeof opts === 'function') return eos(stream, null, opts);
+	if (!opts) opts = {};
+
+	callback = once(callback || noop);
+
+	var ws = stream._writableState;
+	var rs = stream._readableState;
+	var readable = opts.readable || (opts.readable !== false && stream.readable);
+	var writable = opts.writable || (opts.writable !== false && stream.writable);
+	var cancelled = false;
+
+	var onlegacyfinish = function() {
+		if (!stream.writable) onfinish();
+	};
+
+	var onfinish = function() {
+		writable = false;
+		if (!readable) callback.call(stream);
+	};
+
+	var onend = function() {
+		readable = false;
+		if (!writable) callback.call(stream);
+	};
+
+	var onexit = function(exitCode) {
+		callback.call(stream, exitCode ? new Error('exited with error code: ' + exitCode) : null);
+	};
+
+	var onerror = function(err) {
+		callback.call(stream, err);
+	};
+
+	var onclose = function() {
+		process.nextTick(onclosenexttick);
+	};
+
+	var onclosenexttick = function() {
+		if (cancelled) return;
+		if (readable && !(rs && (rs.ended && !rs.destroyed))) return callback.call(stream, new Error('premature close'));
+		if (writable && !(ws && (ws.ended && !ws.destroyed))) return callback.call(stream, new Error('premature close'));
+	};
+
+	var onrequest = function() {
+		stream.req.on('finish', onfinish);
+	};
+
+	if (isRequest(stream)) {
+		stream.on('complete', onfinish);
+		stream.on('abort', onclose);
+		if (stream.req) onrequest();
+		else stream.on('request', onrequest);
+	} else if (writable && !ws) { // legacy streams
+		stream.on('end', onlegacyfinish);
+		stream.on('close', onlegacyfinish);
+	}
+
+	if (isChildProcess(stream)) stream.on('exit', onexit);
+
+	stream.on('end', onend);
+	stream.on('finish', onfinish);
+	if (opts.error !== false) stream.on('error', onerror);
+	stream.on('close', onclose);
+
+	return function() {
+		cancelled = true;
+		stream.removeListener('complete', onfinish);
+		stream.removeListener('abort', onclose);
+		stream.removeListener('request', onrequest);
+		if (stream.req) stream.req.removeListener('finish', onfinish);
+		stream.removeListener('end', onlegacyfinish);
+		stream.removeListener('close', onlegacyfinish);
+		stream.removeListener('finish', onfinish);
+		stream.removeListener('exit', onexit);
+		stream.removeListener('end', onend);
+		stream.removeListener('error', onerror);
+		stream.removeListener('close', onclose);
+	};
+};
+
+module.exports = eos;
 
 
 /***/ }),
@@ -5927,174 +5926,49 @@ module.exports = require("child_process");
 
 /***/ }),
 /* 130 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
-/*
-  Copyright (C) 2013 Yusuke Suzuki <utatane.tea@gmail.com>
+"use strict";
 
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
-(function () {
-    'use strict';
-
-    var code = __webpack_require__(217);
-
-    function isStrictModeReservedWordES6(id) {
-        switch (id) {
-        case 'implements':
-        case 'interface':
-        case 'package':
-        case 'private':
-        case 'protected':
-        case 'public':
-        case 'static':
-        case 'let':
-            return true;
-        default:
-            return false;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = __webpack_require__(747);
+const path_1 = __importDefault(__webpack_require__(622));
+const util_1 = __webpack_require__(817);
+const rimraf_1 = __importDefault(__webpack_require__(550));
+const util_2 = __webpack_require__(669);
+const p_map_1 = __importDefault(__webpack_require__(478));
+const debug_1 = __importDefault(__webpack_require__(426));
+const debug = debug_1.default('cleanupCache');
+const del = util_2.promisify(rimraf_1.default);
+async function cleanupCache() {
+    try {
+        const rootCacheDir = await util_1.getRootCacheDir();
+        const channels = ['master', 'alpha'];
+        for (const channel of channels) {
+            const cacheDir = path_1.default.join(rootCacheDir, channel);
+            const dirs = await fs_1.promises.readdir(cacheDir);
+            const dirsWithMeta = await Promise.all(dirs.map(async (dirName) => {
+                const dir = path_1.default.join(cacheDir, dirName);
+                const stat = await fs_1.promises.stat(dir);
+                return {
+                    dir,
+                    created: stat.birthtime,
+                };
+            }));
+            dirsWithMeta.sort((a, b) => (a.created < b.created ? 1 : -1));
+            const dirsToRemove = dirsWithMeta.slice(5);
+            await p_map_1.default(dirsToRemove, dir => del(dir.dir), { concurrency: 20 });
         }
     }
-
-    function isKeywordES5(id, strict) {
-        // yield should not be treated as keyword under non-strict mode.
-        if (!strict && id === 'yield') {
-            return false;
-        }
-        return isKeywordES6(id, strict);
+    catch (e) {
+        debug(e);
     }
-
-    function isKeywordES6(id, strict) {
-        if (strict && isStrictModeReservedWordES6(id)) {
-            return true;
-        }
-
-        switch (id.length) {
-        case 2:
-            return (id === 'if') || (id === 'in') || (id === 'do');
-        case 3:
-            return (id === 'var') || (id === 'for') || (id === 'new') || (id === 'try');
-        case 4:
-            return (id === 'this') || (id === 'else') || (id === 'case') ||
-                (id === 'void') || (id === 'with') || (id === 'enum');
-        case 5:
-            return (id === 'while') || (id === 'break') || (id === 'catch') ||
-                (id === 'throw') || (id === 'const') || (id === 'yield') ||
-                (id === 'class') || (id === 'super');
-        case 6:
-            return (id === 'return') || (id === 'typeof') || (id === 'delete') ||
-                (id === 'switch') || (id === 'export') || (id === 'import');
-        case 7:
-            return (id === 'default') || (id === 'finally') || (id === 'extends');
-        case 8:
-            return (id === 'function') || (id === 'continue') || (id === 'debugger');
-        case 10:
-            return (id === 'instanceof');
-        default:
-            return false;
-        }
-    }
-
-    function isReservedWordES5(id, strict) {
-        return id === 'null' || id === 'true' || id === 'false' || isKeywordES5(id, strict);
-    }
-
-    function isReservedWordES6(id, strict) {
-        return id === 'null' || id === 'true' || id === 'false' || isKeywordES6(id, strict);
-    }
-
-    function isRestrictedWord(id) {
-        return id === 'eval' || id === 'arguments';
-    }
-
-    function isIdentifierNameES5(id) {
-        var i, iz, ch;
-
-        if (id.length === 0) { return false; }
-
-        ch = id.charCodeAt(0);
-        if (!code.isIdentifierStartES5(ch)) {
-            return false;
-        }
-
-        for (i = 1, iz = id.length; i < iz; ++i) {
-            ch = id.charCodeAt(i);
-            if (!code.isIdentifierPartES5(ch)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function decodeUtf16(lead, trail) {
-        return (lead - 0xD800) * 0x400 + (trail - 0xDC00) + 0x10000;
-    }
-
-    function isIdentifierNameES6(id) {
-        var i, iz, ch, lowCh, check;
-
-        if (id.length === 0) { return false; }
-
-        check = code.isIdentifierStartES6;
-        for (i = 0, iz = id.length; i < iz; ++i) {
-            ch = id.charCodeAt(i);
-            if (0xD800 <= ch && ch <= 0xDBFF) {
-                ++i;
-                if (i >= iz) { return false; }
-                lowCh = id.charCodeAt(i);
-                if (!(0xDC00 <= lowCh && lowCh <= 0xDFFF)) {
-                    return false;
-                }
-                ch = decodeUtf16(ch, lowCh);
-            }
-            if (!check(ch)) {
-                return false;
-            }
-            check = code.isIdentifierPartES6;
-        }
-        return true;
-    }
-
-    function isIdentifierES5(id, strict) {
-        return isIdentifierNameES5(id) && !isReservedWordES5(id, strict);
-    }
-
-    function isIdentifierES6(id, strict) {
-        return isIdentifierNameES6(id) && !isReservedWordES6(id, strict);
-    }
-
-    module.exports = {
-        isKeywordES5: isKeywordES5,
-        isKeywordES6: isKeywordES6,
-        isReservedWordES5: isReservedWordES5,
-        isReservedWordES6: isReservedWordES6,
-        isRestrictedWord: isRestrictedWord,
-        isIdentifierNameES5: isIdentifierNameES5,
-        isIdentifierNameES6: isIdentifierNameES6,
-        isIdentifierES5: isIdentifierES5,
-        isIdentifierES6: isIdentifierES6
-    };
-}());
-/* vim: set sw=4 ts=4 et tw=80 : */
-
+}
+exports.cleanupCache = cleanupCache;
+//# sourceMappingURL=cleanupCache.js.map
 
 /***/ }),
 /* 131 */,
@@ -6107,7 +5981,7 @@ const {promisify} = __webpack_require__(669)
 const readFile    = promisify(fs.readFile)
 const writeFile   = promisify(fs.writeFile)
 const mkdir       = promisify(fs.mkdir)
-const mkdirp      = promisify(__webpack_require__(108))
+const mkdirp      = promisify(__webpack_require__(425))
 const pretty      = __webpack_require__(758)
 const sleep       = __webpack_require__(962)
 const assert      = __webpack_require__(357)
@@ -13169,7 +13043,7 @@ const addFilesAsync = (p, files) => {
 
 const cp = __webpack_require__(129);
 const parse = __webpack_require__(173);
-const enoent = __webpack_require__(585);
+const enoent = __webpack_require__(457);
 
 function spawn(command, args, options) {
     // Parse the arguments
@@ -25380,7 +25254,110 @@ module.exports = {
 /***/ }),
 /* 423 */,
 /* 424 */,
-/* 425 */,
+/* 425 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+var path = __webpack_require__(622);
+var fs = __webpack_require__(747);
+var _0777 = parseInt('0777', 8);
+
+module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
+
+function mkdirP (p, opts, f, made) {
+    if (typeof opts === 'function') {
+        f = opts;
+        opts = {};
+    }
+    else if (!opts || typeof opts !== 'object') {
+        opts = { mode: opts };
+    }
+    
+    var mode = opts.mode;
+    var xfs = opts.fs || fs;
+    
+    if (mode === undefined) {
+        mode = _0777 & (~process.umask());
+    }
+    if (!made) made = null;
+    
+    var cb = f || function () {};
+    p = path.resolve(p);
+    
+    xfs.mkdir(p, mode, function (er) {
+        if (!er) {
+            made = made || p;
+            return cb(null, made);
+        }
+        switch (er.code) {
+            case 'ENOENT':
+                mkdirP(path.dirname(p), opts, function (er, made) {
+                    if (er) cb(er, made);
+                    else mkdirP(p, opts, cb, made);
+                });
+                break;
+
+            // In the case of any other error, just see if there's a dir
+            // there already.  If so, then hooray!  If not, then something
+            // is borked.
+            default:
+                xfs.stat(p, function (er2, stat) {
+                    // if the stat fails, then that's super weird.
+                    // let the original error be the failure reason.
+                    if (er2 || !stat.isDirectory()) cb(er, made)
+                    else cb(null, made);
+                });
+                break;
+        }
+    });
+}
+
+mkdirP.sync = function sync (p, opts, made) {
+    if (!opts || typeof opts !== 'object') {
+        opts = { mode: opts };
+    }
+    
+    var mode = opts.mode;
+    var xfs = opts.fs || fs;
+    
+    if (mode === undefined) {
+        mode = _0777 & (~process.umask());
+    }
+    if (!made) made = null;
+
+    p = path.resolve(p);
+
+    try {
+        xfs.mkdirSync(p, mode);
+        made = made || p;
+    }
+    catch (err0) {
+        switch (err0.code) {
+            case 'ENOENT' :
+                made = sync(path.dirname(p), opts, made);
+                sync(p, opts, made);
+                break;
+
+            // In the case of any other error, just see if there's a dir
+            // there already.  If so, then hooray!  If not, then something
+            // is borked.
+            default:
+                var stat;
+                try {
+                    stat = xfs.statSync(p);
+                }
+                catch (err1) {
+                    throw err0;
+                }
+                if (!stat.isDirectory()) throw err0;
+                break;
+        }
+    }
+
+    return made;
+};
+
+
+/***/ }),
 /* 426 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -27922,7 +27899,72 @@ if (typeof process === 'undefined' || process.type === 'renderer' || process.bro
 
 
 /***/ }),
-/* 457 */,
+/* 457 */
+/***/ (function(module) {
+
+"use strict";
+
+
+const isWin = process.platform === 'win32';
+
+function notFoundError(original, syscall) {
+    return Object.assign(new Error(`${syscall} ${original.command} ENOENT`), {
+        code: 'ENOENT',
+        errno: 'ENOENT',
+        syscall: `${syscall} ${original.command}`,
+        path: original.command,
+        spawnargs: original.args,
+    });
+}
+
+function hookChildProcess(cp, parsed) {
+    if (!isWin) {
+        return;
+    }
+
+    const originalEmit = cp.emit;
+
+    cp.emit = function (name, arg1) {
+        // If emitting "exit" event and exit code is 1, we need to check if
+        // the command exists and emit an "error" instead
+        // See https://github.com/IndigoUnited/node-cross-spawn/issues/16
+        if (name === 'exit') {
+            const err = verifyENOENT(arg1, parsed, 'spawn');
+
+            if (err) {
+                return originalEmit.call(cp, 'error', err);
+            }
+        }
+
+        return originalEmit.apply(cp, arguments); // eslint-disable-line prefer-rest-params
+    };
+}
+
+function verifyENOENT(status, parsed) {
+    if (isWin && status === 1 && !parsed.file) {
+        return notFoundError(parsed.original, 'spawn');
+    }
+
+    return null;
+}
+
+function verifyENOENTSync(status, parsed) {
+    if (isWin && status === 1 && !parsed.file) {
+        return notFoundError(parsed.original, 'spawnSync');
+    }
+
+    return null;
+}
+
+module.exports = {
+    hookChildProcess,
+    verifyENOENT,
+    verifyENOENTSync,
+    notFoundError,
+};
+
+
+/***/ }),
 /* 458 */,
 /* 459 */,
 /* 460 */,
@@ -35049,69 +35091,23 @@ module.exports = () => {
 /* 583 */,
 /* 584 */,
 /* 585 */
-/***/ (function(module) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
-
-const isWin = process.platform === 'win32';
-
-function notFoundError(original, syscall) {
-    return Object.assign(new Error(`${syscall} ${original.command} ENOENT`), {
-        code: 'ENOENT',
-        errno: 'ENOENT',
-        syscall: `${syscall} ${original.command}`,
-        path: original.command,
-        spawnargs: original.args,
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const terminal_link_1 = __importDefault(__webpack_require__(935));
+const chalk_1 = __importDefault(__webpack_require__(179));
+function link(url) {
+    return terminal_link_1.default(url, url, {
+        fallback: url => chalk_1.default.underline(url),
     });
 }
-
-function hookChildProcess(cp, parsed) {
-    if (!isWin) {
-        return;
-    }
-
-    const originalEmit = cp.emit;
-
-    cp.emit = function (name, arg1) {
-        // If emitting "exit" event and exit code is 1, we need to check if
-        // the command exists and emit an "error" instead
-        // See https://github.com/IndigoUnited/node-cross-spawn/issues/16
-        if (name === 'exit') {
-            const err = verifyENOENT(arg1, parsed, 'spawn');
-
-            if (err) {
-                return originalEmit.call(cp, 'error', err);
-            }
-        }
-
-        return originalEmit.apply(cp, arguments); // eslint-disable-line prefer-rest-params
-    };
-}
-
-function verifyENOENT(status, parsed) {
-    if (isWin && status === 1 && !parsed.file) {
-        return notFoundError(parsed.original, 'spawn');
-    }
-
-    return null;
-}
-
-function verifyENOENTSync(status, parsed) {
-    if (isWin && status === 1 && !parsed.file) {
-        return notFoundError(parsed.original, 'spawnSync');
-    }
-
-    return null;
-}
-
-module.exports = {
-    hookChildProcess,
-    verifyENOENT,
-    verifyENOENTSync,
-    notFoundError,
-};
-
+exports.link = link;
+//# sourceMappingURL=link.js.map
 
 /***/ }),
 /* 586 */
@@ -39673,7 +39669,7 @@ module.exports = Year;
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 var once = __webpack_require__(154)
-var eos = __webpack_require__(98)
+var eos = __webpack_require__(108)
 var fs = __webpack_require__(747) // we only need fs to get the ReadStream and WriteStream prototypes
 
 var noop = function () {}
@@ -41790,49 +41786,21 @@ const SIGRTMAX=64;exports.SIGRTMAX=SIGRTMAX;
 
 /***/ }),
 /* 735 */
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
+/***/ (function(__unusedmodule, exports) {
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __webpack_require__(747);
-const path_1 = __importDefault(__webpack_require__(622));
-const util_1 = __webpack_require__(817);
-const rimraf_1 = __importDefault(__webpack_require__(550));
-const util_2 = __webpack_require__(669);
-const p_map_1 = __importDefault(__webpack_require__(478));
-const debug_1 = __importDefault(__webpack_require__(426));
-const debug = debug_1.default('cleanupCache');
-const del = util_2.promisify(rimraf_1.default);
-async function cleanupCache() {
-    try {
-        const rootCacheDir = await util_1.getRootCacheDir();
-        const channels = ['master', 'alpha'];
-        for (const channel of channels) {
-            const cacheDir = path_1.default.join(rootCacheDir, channel);
-            const dirs = await fs_1.promises.readdir(cacheDir);
-            const dirsWithMeta = await Promise.all(dirs.map(async (dirName) => {
-                const dir = path_1.default.join(cacheDir, dirName);
-                const stat = await fs_1.promises.stat(dir);
-                return {
-                    dir,
-                    created: stat.birthtime,
-                };
-            }));
-            dirsWithMeta.sort((a, b) => (a.created < b.created ? 1 : -1));
-            const dirsToRemove = dirsWithMeta.slice(5);
-            await p_map_1.default(dirsToRemove, dir => del(dir.dir), { concurrency: 20 });
-        }
-    }
-    catch (e) {
-        debug(e);
-    }
-}
-exports.cleanupCache = cleanupCache;
-//# sourceMappingURL=cleanupCache.js.map
+exports.dml = {
+    string: [/\"(.*)\"/g, /\'(.*)\'/g],
+    directive: { pattern: /(@.*)/g },
+    entity: [/model\s+\w+/g, /enum\s+\w+/g, /datasource\s+\w+/g, /source\s+\w+/g, /generator\s+\w+/g],
+    comment: /#.*/g,
+    value: [/\b\s+(\w+)/g],
+    punctuation: /(\:|}|{|"|=)/g,
+    boolean: /(true|false)/g,
+};
+//# sourceMappingURL=dml.js.map
 
 /***/ }),
 /* 736 */
@@ -43384,7 +43352,7 @@ exports.getField = getField;
 "use strict";
 Object.defineProperty(exports,"__esModule",{value:true});exports.signalsByNumber=exports.signalsByName=void 0;var _os=__webpack_require__(87);
 
-var _signals=__webpack_require__(953);
+var _signals=__webpack_require__(25);
 var _realtime=__webpack_require__(734);
 
 
@@ -45386,7 +45354,7 @@ const copy_1 = __webpack_require__(930);
 const get_platform_1 = __webpack_require__(400);
 const downloadZip_1 = __webpack_require__(184);
 const util_2 = __webpack_require__(817);
-const cleanupCache_1 = __webpack_require__(735);
+const cleanupCache_1 = __webpack_require__(130);
 const debug = debug_1.default('download');
 const writeFile = util_1.promisify(fs_1.default.writeFile);
 const exists = util_1.promisify(fs_1.default.exists);
@@ -48464,7 +48432,39 @@ convert.rgb.gray = function (rgb) {
 /* 831 */,
 /* 832 */,
 /* 833 */,
-/* 834 */,
+/* 834 */
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sql = {
+    comment: {
+        pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*)/,
+        lookbehind: true,
+    },
+    variable: [
+        {
+            pattern: /@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
+            greedy: true,
+        },
+        /@[\w.$]+/,
+    ],
+    string: {
+        pattern: /(^|[^@\\])("|')(?:\\[\s\S]|(?!\2)[^\\]|\2\2)*\2/,
+        greedy: true,
+        lookbehind: true,
+    },
+    function: /\b(?:AVG|COUNT|FIRST|FORMAT|LAST|LCASE|LEN|MAX|MID|MIN|MOD|NOW|ROUND|SUM|UCASE)(?=\s*\()/i,
+    keyword: /\b(?:ACTION|ADD|AFTER|ALGORITHM|ALL|ALTER|ANALYZE|ANY|APPLY|AS|ASC|AUTHORIZATION|AUTO_INCREMENT|BACKUP|BDB|BEGIN|BERKELEYDB|BIGINT|BINARY|BIT|BLOB|BOOL|BOOLEAN|BREAK|BROWSE|BTREE|BULK|BY|CALL|CASCADED?|CASE|CHAIN|CHAR(?:ACTER|SET)?|CHECK(?:POINT)?|CLOSE|CLUSTERED|COALESCE|COLLATE|COLUMNS?|COMMENT|COMMIT(?:TED)?|COMPUTE|CONNECT|CONSISTENT|CONSTRAINT|CONTAINS(?:TABLE)?|CONTINUE|CONVERT|CREATE|CROSS|CURRENT(?:_DATE|_TIME|_TIMESTAMP|_USER)?|CURSOR|CYCLE|DATA(?:BASES?)?|DATE(?:TIME)?|DAY|DBCC|DEALLOCATE|DEC|DECIMAL|DECLARE|DEFAULT|DEFINER|DELAYED|DELETE|DELIMITERS?|DENY|DESC|DESCRIBE|DETERMINISTIC|DISABLE|DISCARD|DISK|DISTINCT|DISTINCTROW|DISTRIBUTED|DO|DOUBLE|DROP|DUMMY|DUMP(?:FILE)?|DUPLICATE|ELSE(?:IF)?|ENABLE|ENCLOSED|END|ENGINE|ENUM|ERRLVL|ERRORS|ESCAPED?|EXCEPT|EXEC(?:UTE)?|EXISTS|EXIT|EXPLAIN|EXTENDED|FETCH|FIELDS|FILE|FILLFACTOR|FIRST|FIXED|FLOAT|FOLLOWING|FOR(?: EACH ROW)?|FORCE|FOREIGN|FREETEXT(?:TABLE)?|FROM|FULL|FUNCTION|GEOMETRY(?:COLLECTION)?|GLOBAL|GOTO|GRANT|GROUP|HANDLER|HASH|HAVING|HOLDLOCK|HOUR|IDENTITY(?:_INSERT|COL)?|IF|IGNORE|IMPORT|INDEX|INFILE|INNER|INNODB|INOUT|INSERT|INT|INTEGER|INTERSECT|INTERVAL|INTO|INVOKER|ISOLATION|ITERATE|JOIN|KEYS?|KILL|LANGUAGE|LAST|LEAVE|LEFT|LEVEL|LIMIT|LINENO|LINES|LINESTRING|LOAD|LOCAL|LOCK|LONG(?:BLOB|TEXT)|LOOP|MATCH(?:ED)?|MEDIUM(?:BLOB|INT|TEXT)|MERGE|MIDDLEINT|MINUTE|MODE|MODIFIES|MODIFY|MONTH|MULTI(?:LINESTRING|POINT|POLYGON)|NATIONAL|NATURAL|NCHAR|NEXT|NO|NONCLUSTERED|NULLIF|NUMERIC|OFF?|OFFSETS?|ON|OPEN(?:DATASOURCE|QUERY|ROWSET)?|OPTIMIZE|OPTION(?:ALLY)?|ORDER|OUT(?:ER|FILE)?|OVER|PARTIAL|PARTITION|PERCENT|PIVOT|PLAN|POINT|POLYGON|PRECEDING|PRECISION|PREPARE|PREV|PRIMARY|PRINT|PRIVILEGES|PROC(?:EDURE)?|PUBLIC|PURGE|QUICK|RAISERROR|READS?|REAL|RECONFIGURE|REFERENCES|RELEASE|RENAME|REPEAT(?:ABLE)?|REPLACE|REPLICATION|REQUIRE|RESIGNAL|RESTORE|RESTRICT|RETURNS?|REVOKE|RIGHT|ROLLBACK|ROUTINE|ROW(?:COUNT|GUIDCOL|S)?|RTREE|RULE|SAVE(?:POINT)?|SCHEMA|SECOND|SELECT|SERIAL(?:IZABLE)?|SESSION(?:_USER)?|SET(?:USER)?|SHARE|SHOW|SHUTDOWN|SIMPLE|SMALLINT|SNAPSHOT|SOME|SONAME|SQL|START(?:ING)?|STATISTICS|STATUS|STRIPED|SYSTEM_USER|TABLES?|TABLESPACE|TEMP(?:ORARY|TABLE)?|TERMINATED|TEXT(?:SIZE)?|THEN|TIME(?:STAMP)?|TINY(?:BLOB|INT|TEXT)|TOP?|TRAN(?:SACTIONS?)?|TRIGGER|TRUNCATE|TSEQUAL|TYPES?|UNBOUNDED|UNCOMMITTED|UNDEFINED|UNION|UNIQUE|UNLOCK|UNPIVOT|UNSIGNED|UPDATE(?:TEXT)?|USAGE|USE|USER|USING|VALUES?|VAR(?:BINARY|CHAR|CHARACTER|YING)|VIEW|WAITFOR|WARNINGS|WHEN|WHERE|WHILE|WITH(?: ROLLUP|IN)?|WORK|WRITE(?:TEXT)?|YEAR)\b/i,
+    boolean: /\b(?:TRUE|FALSE|NULL)\b/i,
+    number: /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
+    operator: /[-+*\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|LIKE|NOT|OR|IS|DIV|REGEXP|RLIKE|SOUNDS LIKE|XOR)\b/i,
+    punctuation: /[;[\]()`,.]/,
+};
+//# sourceMappingURL=sql.js.map
+
+/***/ }),
 /* 835 */
 /***/ (function(module) {
 
@@ -50834,6 +50834,7 @@ const engine_core_1 = __webpack_require__(580);
 const predefinedGeneratorResolvers_1 = __webpack_require__(684);
 const flatMap_1 = __webpack_require__(430);
 const debug_1 = __importDefault(__webpack_require__(426));
+const missingGeneratorMessage_1 = __webpack_require__(104);
 const debug = debug_1.default('getGenerators');
 /**
  * Makes sure that all generators have the binaries they deserve and returns a
@@ -50873,6 +50874,9 @@ version, cliVersion, printDownloadProgress, baseDir = path_1.default.dirname(sch
             datamodelPath: schemaPath,
             prismaPath,
         });
+        if (dmmf.datamodel.models.length === 0) {
+            throw new Error(missingGeneratorMessage_1.missingModelMessage);
+        }
         const config = yield engineCommands_1.getConfig({
             datamodel,
             datamodelPath: schemaPath,
@@ -51657,7 +51661,170 @@ GlobSync.prototype._makeAbs = function (f) {
 
 
 /***/ }),
-/* 881 */,
+/* 881 */
+/***/ (function(module) {
+
+"use strict";
+
+const ansiEscapes = module.exports;
+// TODO: remove this in the next major version
+module.exports.default = ansiEscapes;
+
+const ESC = '\u001B[';
+const OSC = '\u001B]';
+const BEL = '\u0007';
+const SEP = ';';
+const isTerminalApp = process.env.TERM_PROGRAM === 'Apple_Terminal';
+
+ansiEscapes.cursorTo = (x, y) => {
+	if (typeof x !== 'number') {
+		throw new TypeError('The `x` argument is required');
+	}
+
+	if (typeof y !== 'number') {
+		return ESC + (x + 1) + 'G';
+	}
+
+	return ESC + (y + 1) + ';' + (x + 1) + 'H';
+};
+
+ansiEscapes.cursorMove = (x, y) => {
+	if (typeof x !== 'number') {
+		throw new TypeError('The `x` argument is required');
+	}
+
+	let ret = '';
+
+	if (x < 0) {
+		ret += ESC + (-x) + 'D';
+	} else if (x > 0) {
+		ret += ESC + x + 'C';
+	}
+
+	if (y < 0) {
+		ret += ESC + (-y) + 'A';
+	} else if (y > 0) {
+		ret += ESC + y + 'B';
+	}
+
+	return ret;
+};
+
+ansiEscapes.cursorUp = (count = 1) => ESC + count + 'A';
+ansiEscapes.cursorDown = (count = 1) => ESC + count + 'B';
+ansiEscapes.cursorForward = (count = 1) => ESC + count + 'C';
+ansiEscapes.cursorBackward = (count = 1) => ESC + count + 'D';
+
+ansiEscapes.cursorLeft = ESC + 'G';
+ansiEscapes.cursorSavePosition = isTerminalApp ? '\u001B7' : ESC + 's';
+ansiEscapes.cursorRestorePosition = isTerminalApp ? '\u001B8' : ESC + 'u';
+ansiEscapes.cursorGetPosition = ESC + '6n';
+ansiEscapes.cursorNextLine = ESC + 'E';
+ansiEscapes.cursorPrevLine = ESC + 'F';
+ansiEscapes.cursorHide = ESC + '?25l';
+ansiEscapes.cursorShow = ESC + '?25h';
+
+ansiEscapes.eraseLines = count => {
+	let clear = '';
+
+	for (let i = 0; i < count; i++) {
+		clear += ansiEscapes.eraseLine + (i < count - 1 ? ansiEscapes.cursorUp() : '');
+	}
+
+	if (count) {
+		clear += ansiEscapes.cursorLeft;
+	}
+
+	return clear;
+};
+
+ansiEscapes.eraseEndLine = ESC + 'K';
+ansiEscapes.eraseStartLine = ESC + '1K';
+ansiEscapes.eraseLine = ESC + '2K';
+ansiEscapes.eraseDown = ESC + 'J';
+ansiEscapes.eraseUp = ESC + '1J';
+ansiEscapes.eraseScreen = ESC + '2J';
+ansiEscapes.scrollUp = ESC + 'S';
+ansiEscapes.scrollDown = ESC + 'T';
+
+ansiEscapes.clearScreen = '\u001Bc';
+
+ansiEscapes.clearTerminal = process.platform === 'win32' ?
+	`${ansiEscapes.eraseScreen}${ESC}0f` :
+	// 1. Erases the screen (Only done in case `2` is not supported)
+	// 2. Erases the whole screen including scrollback buffer
+	// 3. Moves cursor to the top-left position
+	// More info: https://www.real-world-systems.com/docs/ANSIcode.html
+	`${ansiEscapes.eraseScreen}${ESC}3J${ESC}H`;
+
+ansiEscapes.beep = BEL;
+
+ansiEscapes.link = (text, url) => {
+	return [
+		OSC,
+		'8',
+		SEP,
+		SEP,
+		url,
+		BEL,
+		text,
+		OSC,
+		'8',
+		SEP,
+		SEP,
+		BEL
+	].join('');
+};
+
+ansiEscapes.image = (buffer, options = {}) => {
+	let ret = `${OSC}1337;File=inline=1`;
+
+	if (options.width) {
+		ret += `;width=${options.width}`;
+	}
+
+	if (options.height) {
+		ret += `;height=${options.height}`;
+	}
+
+	if (options.preserveAspectRatio === false) {
+		ret += ';preserveAspectRatio=0';
+	}
+
+	return ret + ':' + buffer.toString('base64') + BEL;
+};
+
+ansiEscapes.iTerm = {
+	setCwd: (cwd = process.cwd()) => `${OSC}50;CurrentDir=${cwd}${BEL}`,
+
+	annotation: (message, options = {}) => {
+		let ret = `${OSC}1337;`;
+
+		const hasX = typeof options.x !== 'undefined';
+		const hasY = typeof options.y !== 'undefined';
+		if ((hasX || hasY) && !(hasX && hasY && typeof options.length !== 'undefined')) {
+			throw new Error('`x`, `y` and `length` must be defined when `x` or `y` is defined');
+		}
+
+		message = message.replace(/\|/g, '');
+
+		ret += options.isHidden ? 'AddHiddenAnnotation=' : 'AddAnnotation=';
+
+		if (options.length > 0) {
+			ret +=
+					(hasX ?
+						[message, options.length, options.x, options.y] :
+						[options.length, message]).join('|');
+		} else {
+			ret += message;
+		}
+
+		return ret + BEL;
+	}
+};
+
+
+/***/ }),
 /* 882 */,
 /* 883 */,
 /* 884 */
@@ -51752,7 +51919,104 @@ module.exports = Day;
 
 /***/ }),
 /* 886 */,
-/* 887 */,
+/* 887 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+"use strict";
+
+const supportsColor = __webpack_require__(543);
+const hasFlag = __webpack_require__(696);
+
+function parseVersion(versionString) {
+	if (/^\d{3,4}$/.test(versionString)) {
+		// Env var doesn't always use dots. example: 4601 => 46.1.0
+		const m = /(\d{1,2})(\d{2})/.exec(versionString);
+		return {
+			major: 0,
+			minor: parseInt(m[1], 10),
+			patch: parseInt(m[2], 10)
+		};
+	}
+
+	const versions = (versionString || '').split('.').map(n => parseInt(n, 10));
+	return {
+		major: versions[0],
+		minor: versions[1],
+		patch: versions[2]
+	};
+}
+
+function supportsHyperlink(stream) {
+	const {env} = process;
+
+	if ('FORCE_HYPERLINK' in env) {
+		return !(env.FORCE_HYPERLINK.length > 0 && parseInt(env.FORCE_HYPERLINK, 10) === 0);
+	}
+
+	if (hasFlag('no-hyperlink') || hasFlag('no-hyperlinks') || hasFlag('hyperlink=false') || hasFlag('hyperlink=never')) {
+		return false;
+	}
+
+	if (hasFlag('hyperlink=true') || hasFlag('hyperlink=always')) {
+		return true;
+	}
+
+	// If they specify no colors, they probably don't want hyperlinks.
+	if (!supportsColor.supportsColor(stream)) {
+		return false;
+	}
+
+	if (stream && !stream.isTTY) {
+		return false;
+	}
+
+	if (process.platform === 'win32') {
+		return false;
+	}
+
+	if ('CI' in env) {
+		return false;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return false;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseVersion(env.TERM_PROGRAM_VERSION);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				if (version.major === 3) {
+					return version.minor >= 1;
+				}
+
+				return version.major > 3;
+			// No default
+		}
+	}
+
+	if ('VTE_VERSION' in env) {
+		// 0.50.0 was supposed to support hyperlinks, but throws a segfault
+		if (env.VTE_VERSION === '0.50.0') {
+			return false;
+		}
+
+		const version = parseVersion(env.VTE_VERSION);
+		return version.major > 0 || version.minor >= 50;
+	}
+
+	return false;
+}
+
+module.exports = {
+	supportsHyperlink,
+	stdout: supportsHyperlink(process.stdout),
+	stderr: supportsHyperlink(process.stderr)
+};
+
+
+/***/ }),
 /* 888 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -51856,7 +52120,177 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 889 */,
+/* 889 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+/*
+  Copyright (C) 2013 Yusuke Suzuki <utatane.tea@gmail.com>
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+(function () {
+    'use strict';
+
+    var code = __webpack_require__(217);
+
+    function isStrictModeReservedWordES6(id) {
+        switch (id) {
+        case 'implements':
+        case 'interface':
+        case 'package':
+        case 'private':
+        case 'protected':
+        case 'public':
+        case 'static':
+        case 'let':
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    function isKeywordES5(id, strict) {
+        // yield should not be treated as keyword under non-strict mode.
+        if (!strict && id === 'yield') {
+            return false;
+        }
+        return isKeywordES6(id, strict);
+    }
+
+    function isKeywordES6(id, strict) {
+        if (strict && isStrictModeReservedWordES6(id)) {
+            return true;
+        }
+
+        switch (id.length) {
+        case 2:
+            return (id === 'if') || (id === 'in') || (id === 'do');
+        case 3:
+            return (id === 'var') || (id === 'for') || (id === 'new') || (id === 'try');
+        case 4:
+            return (id === 'this') || (id === 'else') || (id === 'case') ||
+                (id === 'void') || (id === 'with') || (id === 'enum');
+        case 5:
+            return (id === 'while') || (id === 'break') || (id === 'catch') ||
+                (id === 'throw') || (id === 'const') || (id === 'yield') ||
+                (id === 'class') || (id === 'super');
+        case 6:
+            return (id === 'return') || (id === 'typeof') || (id === 'delete') ||
+                (id === 'switch') || (id === 'export') || (id === 'import');
+        case 7:
+            return (id === 'default') || (id === 'finally') || (id === 'extends');
+        case 8:
+            return (id === 'function') || (id === 'continue') || (id === 'debugger');
+        case 10:
+            return (id === 'instanceof');
+        default:
+            return false;
+        }
+    }
+
+    function isReservedWordES5(id, strict) {
+        return id === 'null' || id === 'true' || id === 'false' || isKeywordES5(id, strict);
+    }
+
+    function isReservedWordES6(id, strict) {
+        return id === 'null' || id === 'true' || id === 'false' || isKeywordES6(id, strict);
+    }
+
+    function isRestrictedWord(id) {
+        return id === 'eval' || id === 'arguments';
+    }
+
+    function isIdentifierNameES5(id) {
+        var i, iz, ch;
+
+        if (id.length === 0) { return false; }
+
+        ch = id.charCodeAt(0);
+        if (!code.isIdentifierStartES5(ch)) {
+            return false;
+        }
+
+        for (i = 1, iz = id.length; i < iz; ++i) {
+            ch = id.charCodeAt(i);
+            if (!code.isIdentifierPartES5(ch)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function decodeUtf16(lead, trail) {
+        return (lead - 0xD800) * 0x400 + (trail - 0xDC00) + 0x10000;
+    }
+
+    function isIdentifierNameES6(id) {
+        var i, iz, ch, lowCh, check;
+
+        if (id.length === 0) { return false; }
+
+        check = code.isIdentifierStartES6;
+        for (i = 0, iz = id.length; i < iz; ++i) {
+            ch = id.charCodeAt(i);
+            if (0xD800 <= ch && ch <= 0xDBFF) {
+                ++i;
+                if (i >= iz) { return false; }
+                lowCh = id.charCodeAt(i);
+                if (!(0xDC00 <= lowCh && lowCh <= 0xDFFF)) {
+                    return false;
+                }
+                ch = decodeUtf16(ch, lowCh);
+            }
+            if (!check(ch)) {
+                return false;
+            }
+            check = code.isIdentifierPartES6;
+        }
+        return true;
+    }
+
+    function isIdentifierES5(id, strict) {
+        return isIdentifierNameES5(id) && !isReservedWordES5(id, strict);
+    }
+
+    function isIdentifierES6(id, strict) {
+        return isIdentifierNameES6(id) && !isReservedWordES6(id, strict);
+    }
+
+    module.exports = {
+        isKeywordES5: isKeywordES5,
+        isKeywordES6: isKeywordES6,
+        isReservedWordES5: isReservedWordES5,
+        isReservedWordES6: isReservedWordES6,
+        isRestrictedWord: isRestrictedWord,
+        isIdentifierNameES5: isIdentifierNameES5,
+        isIdentifierNameES6: isIdentifierNameES6,
+        isIdentifierES5: isIdentifierES5,
+        isIdentifierES6: isIdentifierES6
+    };
+}());
+/* vim: set sw=4 ts=4 et tw=80 : */
+
+
+/***/ }),
 /* 890 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -52777,6 +53211,12 @@ module.exports = Unpack
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var missingGeneratorMessage_1 = __webpack_require__(104);
+exports.missingGeneratorMessage = missingGeneratorMessage_1.missingGeneratorMessage;
+var highlight_1 = __webpack_require__(944);
+exports.highlightDatamodel = highlight_1.highlightDatamodel;
+exports.highlightSql = highlight_1.highlightSql;
+exports.highlightTS = highlight_1.highlightTS;
 var IntrospectionEngine_1 = __webpack_require__(760);
 exports.IntrospectionEngine = IntrospectionEngine_1.IntrospectionEngine;
 var Generator_1 = __webpack_require__(192);
@@ -52796,6 +53236,8 @@ exports.uriToCredentials = convertCredentials_1.uriToCredentials;
 var panic_1 = __webpack_require__(598);
 exports.RustPanic = panic_1.RustPanic;
 exports.ErrorArea = panic_1.ErrorArea;
+var link_1 = __webpack_require__(585);
+exports.link = link_1.link;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -55267,7 +55709,7 @@ exports.copy = copy;
 
     exports.ast = __webpack_require__(359);
     exports.code = __webpack_require__(217);
-    exports.keyword = __webpack_require__(130);
+    exports.keyword = __webpack_require__(889);
 }());
 /* vim: set sw=4 ts=4 et tw=80 : */
 
@@ -55280,7 +55722,36 @@ exports.copy = copy;
 module.exports = {"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","QUOT":"\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"};
 
 /***/ }),
-/* 935 */,
+/* 935 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+"use strict";
+
+const ansiEscapes = __webpack_require__(881);
+const supportsHyperlinks = __webpack_require__(887);
+
+const terminalLink = (text, url, {target = 'stdout', ...options} = {}) => {
+	if (!supportsHyperlinks[target]) {
+		// If the fallback has been explicitly disabled, don't modify the text itself.
+		if (options.fallback === false) {
+			return text;
+		}
+
+		return typeof options.fallback === 'function' ? options.fallback(text, url) : `${text} (\u200B${url}\u200B)`;
+	}
+
+	return ansiEscapes.link(text, url);
+};
+
+module.exports = (text, url, options = {}) => terminalLink(text, url, options);
+
+module.exports.stderr = (text, url, options = {}) => terminalLink(text, url, {target: 'stderr', ...options});
+
+module.exports.isSupported = supportsHyperlinks.stdout;
+module.exports.stderr.isSupported = supportsHyperlinks.stderr;
+
+
+/***/ }),
 /* 936 */,
 /* 937 */,
 /* 938 */
@@ -55737,7 +56208,34 @@ module.exports = (cursor, total, maxVisible) => {
 };
 
 /***/ }),
-/* 944 */,
+/* 944 */
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const prism_1 = __webpack_require__(953);
+const dml_1 = __webpack_require__(735);
+const sql_1 = __webpack_require__(834);
+function highlightDatamodel(str) {
+    return highlight(str, dml_1.dml);
+}
+exports.highlightDatamodel = highlightDatamodel;
+function highlightSql(str) {
+    return highlight(str, sql_1.sql);
+}
+exports.highlightSql = highlightSql;
+function highlightTS(str) {
+    return highlight(str, prism_1.Prism.languages.javascript);
+}
+exports.highlightTS = highlightTS;
+function highlight(str, grammar) {
+    const tokens = prism_1.Prism.tokenize(str, grammar);
+    return tokens.map(t => prism_1.Token.stringify(t)).join('');
+}
+//# sourceMappingURL=highlight.js.map
+
+/***/ }),
 /* 945 */,
 /* 946 */,
 /* 947 */,
@@ -55935,41 +56433,420 @@ module.exports = function (str) {
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});exports.getSignals=void 0;var _os=__webpack_require__(87);
 
-var _core=__webpack_require__(349);
-var _realtime=__webpack_require__(734);
-
-
-
-const getSignals=function(){
-const realtimeSignals=(0,_realtime.getRealtimeSignals)();
-const signals=[..._core.SIGNALS,...realtimeSignals].map(normalizeSignal);
-return signals;
-};exports.getSignals=getSignals;
-
-
-
-
-
-
-
-const normalizeSignal=function({
-name,
-number:defaultNumber,
-description,
-action,
-forced=false,
-standard})
-{
-const{
-signals:{[name]:constantSignal}}=
-_os.constants;
-const supported=constantSignal!==undefined;
-const number=supported?constantSignal:defaultNumber;
-return{name,number,description,supported,action,forced,standard};
+Object.defineProperty(exports, "__esModule", { value: true });
+const theme_1 = __webpack_require__(98);
+/* **********************************************
+     Begin prism-core.js
+********************************************** */
+var _self = {};
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ * MIT license http://www.opensource.org/licenses/mit-license.php/
+ * @author Lea Verou http://lea.verou.me
+ */
+// Private helper vars
+var uniqueId = 0;
+exports.Prism = {
+    manual: _self.Prism && _self.Prism.manual,
+    disableWorkerMessageHandler: _self.Prism && _self.Prism.disableWorkerMessageHandler,
+    util: {
+        encode: function (tokens) {
+            if (tokens instanceof Token) {
+                const anyTokens = tokens;
+                return new Token(anyTokens.type, exports.Prism.util.encode(anyTokens.content), anyTokens.alias);
+            }
+            else if (Array.isArray(tokens)) {
+                return tokens.map(exports.Prism.util.encode);
+            }
+            else {
+                return tokens
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/\u00a0/g, ' ');
+            }
+        },
+        type: function (o) {
+            return Object.prototype.toString.call(o).slice(8, -1);
+        },
+        objId: function (obj) {
+            if (!obj['__id']) {
+                Object.defineProperty(obj, '__id', { value: ++uniqueId });
+            }
+            return obj['__id'];
+        },
+        // Deep clone a language definition (e.g. to extend it)
+        clone: function deepClone(o, visited) {
+            var clone, id, type = exports.Prism.util.type(o);
+            visited = visited || {};
+            switch (type) {
+                case 'Object':
+                    id = exports.Prism.util.objId(o);
+                    if (visited[id]) {
+                        return visited[id];
+                    }
+                    clone = {};
+                    visited[id] = clone;
+                    for (var key in o) {
+                        if (o.hasOwnProperty(key)) {
+                            clone[key] = deepClone(o[key], visited);
+                        }
+                    }
+                    return clone;
+                case 'Array':
+                    id = exports.Prism.util.objId(o);
+                    if (visited[id]) {
+                        return visited[id];
+                    }
+                    clone = [];
+                    visited[id] = clone;
+                    o.forEach(function (v, i) {
+                        clone[i] = deepClone(v, visited);
+                    });
+                    return clone;
+                default:
+                    return o;
+            }
+        },
+    },
+    languages: {
+        extend: function (id, redef) {
+            var lang = exports.Prism.util.clone(exports.Prism.languages[id]);
+            for (var key in redef) {
+                lang[key] = redef[key];
+            }
+            return lang;
+        },
+        /**
+         * Insert a token before another token in a language literal
+         * As this needs to recreate the object (we cannot actually insert before keys in object literals),
+         * we cannot just provide an object, we need an object and a key.
+         * @param inside The key (or language id) of the parent
+         * @param before The key to insert before.
+         * @param insert Object with the key/value pairs to insert
+         * @param root The object that contains `inside`. If equal to Prism.languages, it can be omitted.
+         */
+        insertBefore: function (inside, before, insert, root) {
+            root = root || exports.Prism.languages;
+            var grammar = root[inside];
+            var ret = {};
+            for (var token in grammar) {
+                if (grammar.hasOwnProperty(token)) {
+                    if (token == before) {
+                        for (var newToken in insert) {
+                            if (insert.hasOwnProperty(newToken)) {
+                                ret[newToken] = insert[newToken];
+                            }
+                        }
+                    }
+                    // Do not insert token which also occur in insert. See #1525
+                    if (!insert.hasOwnProperty(token)) {
+                        ret[token] = grammar[token];
+                    }
+                }
+            }
+            var old = root[inside];
+            root[inside] = ret;
+            // Update references in other language definitions
+            exports.Prism.languages.DFS(exports.Prism.languages, function (key, value) {
+                if (value === old && key != inside) {
+                    this[key] = ret;
+                }
+            });
+            return ret;
+        },
+        // Traverse a language definition with Depth First Search
+        DFS: function DFS(o, callback, type, visited) {
+            visited = visited || {};
+            var objId = exports.Prism.util.objId;
+            for (var i in o) {
+                if (o.hasOwnProperty(i)) {
+                    callback.call(o, i, o[i], type || i);
+                    var property = o[i], propertyType = exports.Prism.util.type(property);
+                    if (propertyType === 'Object' && !visited[objId(property)]) {
+                        visited[objId(property)] = true;
+                        DFS(property, callback, null, visited);
+                    }
+                    else if (propertyType === 'Array' && !visited[objId(property)]) {
+                        visited[objId(property)] = true;
+                        DFS(property, callback, i, visited);
+                    }
+                }
+            }
+        },
+    },
+    plugins: {},
+    highlight: function (text, grammar, language) {
+        var env = {
+            code: text,
+            grammar: grammar,
+            language: language,
+        };
+        exports.Prism.hooks.run('before-tokenize', env);
+        env.tokens = exports.Prism.tokenize(env.code, env.grammar);
+        exports.Prism.hooks.run('after-tokenize', env);
+        return Token.stringify(exports.Prism.util.encode(env.tokens), env.language);
+    },
+    matchGrammar: function (text, strarr, grammar, index, startPos, oneshot, target) {
+        for (var token in grammar) {
+            if (!grammar.hasOwnProperty(token) || !grammar[token]) {
+                continue;
+            }
+            if (token == target) {
+                return;
+            }
+            var patterns = grammar[token];
+            patterns = exports.Prism.util.type(patterns) === 'Array' ? patterns : [patterns];
+            for (var j = 0; j < patterns.length; ++j) {
+                var pattern = patterns[j], inside = pattern.inside, lookbehind = !!pattern.lookbehind, greedy = !!pattern.greedy, lookbehindLength = 0, alias = pattern.alias;
+                if (greedy && !pattern.pattern.global) {
+                    // Without the global flag, lastIndex won't work
+                    var flags = pattern.pattern.toString().match(/[imuy]*$/)[0];
+                    pattern.pattern = RegExp(pattern.pattern.source, flags + 'g');
+                }
+                pattern = pattern.pattern || pattern;
+                // Don’t cache length as it changes during the loop
+                for (var i = index, pos = startPos; i < strarr.length; pos += strarr[i].length, ++i) {
+                    var str = strarr[i];
+                    if (strarr.length > text.length) {
+                        // Something went terribly wrong, ABORT, ABORT!
+                        return;
+                    }
+                    if (str instanceof Token) {
+                        continue;
+                    }
+                    if (greedy && i != strarr.length - 1) {
+                        pattern.lastIndex = pos;
+                        var match = pattern.exec(text);
+                        if (!match) {
+                            break;
+                        }
+                        var from = match.index + (lookbehind ? match[1].length : 0), to = match.index + match[0].length, k = i, p = pos;
+                        for (var len = strarr.length; k < len && (p < to || (!strarr[k].type && !strarr[k - 1].greedy)); ++k) {
+                            p += strarr[k].length;
+                            // Move the index i to the element in strarr that is closest to from
+                            if (from >= p) {
+                                ++i;
+                                pos = p;
+                            }
+                        }
+                        // If strarr[i] is a Token, then the match starts inside another Token, which is invalid
+                        if (strarr[i] instanceof Token) {
+                            continue;
+                        }
+                        // Number of tokens to delete and replace with the new match
+                        delNum = k - i;
+                        str = text.slice(pos, p);
+                        match.index -= pos;
+                    }
+                    else {
+                        pattern.lastIndex = 0;
+                        var match = pattern.exec(str), delNum = 1;
+                    }
+                    if (!match) {
+                        if (oneshot) {
+                            break;
+                        }
+                        continue;
+                    }
+                    if (lookbehind) {
+                        lookbehindLength = match[1] ? match[1].length : 0;
+                    }
+                    var from = match.index + lookbehindLength, match = match[0].slice(lookbehindLength), to = from + match.length, before = str.slice(0, from), after = str.slice(to);
+                    var args = [i, delNum];
+                    if (before) {
+                        ++i;
+                        pos += before.length;
+                        args.push(before);
+                    }
+                    var wrapped = new Token(token, inside ? exports.Prism.tokenize(match, inside) : match, alias, match, greedy);
+                    args.push(wrapped);
+                    if (after) {
+                        args.push(after);
+                    }
+                    Array.prototype.splice.apply(strarr, args);
+                    if (delNum != 1)
+                        exports.Prism.matchGrammar(text, strarr, grammar, i, pos, true, token);
+                    if (oneshot)
+                        break;
+                }
+            }
+        }
+    },
+    tokenize: function (text, grammar) {
+        var strarr = [text];
+        var rest = grammar.rest;
+        if (rest) {
+            for (var token in rest) {
+                grammar[token] = rest[token];
+            }
+            delete grammar.rest;
+        }
+        exports.Prism.matchGrammar(text, strarr, grammar, 0, 0, false);
+        return strarr;
+    },
+    hooks: {
+        all: {},
+        add: function (name, callback) {
+            var hooks = exports.Prism.hooks.all;
+            hooks[name] = hooks[name] || [];
+            hooks[name].push(callback);
+        },
+        run: function (name, env) {
+            var callbacks = exports.Prism.hooks.all[name];
+            if (!callbacks || !callbacks.length) {
+                return;
+            }
+            for (var i = 0, callback; (callback = callbacks[i++]);) {
+                callback(env);
+            }
+        },
+    },
+    Token: Token,
 };
-//# sourceMappingURL=signals.js.map
+exports.Prism.languages.clike = {
+    comment: [
+        {
+            pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
+            lookbehind: true,
+        },
+        {
+            pattern: /(^|[^\\:])\/\/.*/,
+            lookbehind: true,
+            greedy: true,
+        },
+    ],
+    string: {
+        pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+        greedy: true,
+    },
+    'class-name': {
+        pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[\w.\\]+/i,
+        lookbehind: true,
+        inside: {
+            punctuation: /[.\\]/,
+        },
+    },
+    keyword: /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
+    boolean: /\b(?:true|false)\b/,
+    function: /\w+(?=\()/,
+    number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?/i,
+    operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,
+    punctuation: /[{}[\];(),.:]/,
+};
+exports.Prism.languages.javascript = exports.Prism.languages.extend('clike', {
+    'class-name': [
+        exports.Prism.languages.clike['class-name'],
+        {
+            pattern: /(^|[^$\w\xA0-\uFFFF])[_$A-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\.(?:prototype|constructor))/,
+            lookbehind: true,
+        },
+    ],
+    keyword: [
+        {
+            pattern: /((?:^|})\s*)(?:catch|finally)\b/,
+            lookbehind: true,
+        },
+        {
+            pattern: /(^|[^.])\b(?:as|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
+            lookbehind: true,
+        },
+    ],
+    number: /\b(?:(?:0[xX](?:[\dA-Fa-f](?:_[\dA-Fa-f])?)+|0[bB](?:[01](?:_[01])?)+|0[oO](?:[0-7](?:_[0-7])?)+)n?|(?:\d(?:_\d)?)+n|NaN|Infinity)\b|(?:\b(?:\d(?:_\d)?)+\.?(?:\d(?:_\d)?)*|\B\.(?:\d(?:_\d)?)+)(?:[Ee][+-]?(?:\d(?:_\d)?)+)?/,
+    // Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
+    function: /[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
+    operator: /-[-=]?|\+[+=]?|!=?=?|<<?=?|>>?>?=?|=(?:==?|>)?|&[&=]?|\|[|=]?|\*\*?=?|\/=?|~|\^=?|%=?|\?|\.{3}/,
+});
+exports.Prism.languages.javascript['class-name'][0].pattern = /(\b(?:class|interface|extends|implements|instanceof|new)\s+)[\w.\\]+/;
+exports.Prism.languages.insertBefore('javascript', 'keyword', {
+    regex: {
+        pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[(?:[^\]\\\r\n]|\\.)*]|\\.|[^/\\\[\r\n])+\/[gimyus]{0,6}(?=\s*($|[\r\n,.;})\]]))/,
+        lookbehind: true,
+        greedy: true,
+    },
+    // This must be declared before keyword because we use "function" inside the look-forward
+    'function-variable': {
+        pattern: /[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/,
+        alias: 'function',
+    },
+    parameter: [
+        {
+            pattern: /(function(?:\s+[_$A-Za-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)?\s*\(\s*)(?!\s)(?:[^()]|\([^()]*\))+?(?=\s*\))/,
+            lookbehind: true,
+            inside: exports.Prism.languages.javascript,
+        },
+        {
+            pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=>)/i,
+            inside: exports.Prism.languages.javascript,
+        },
+        {
+            pattern: /(\(\s*)(?!\s)(?:[^()]|\([^()]*\))+?(?=\s*\)\s*=>)/,
+            lookbehind: true,
+            inside: exports.Prism.languages.javascript,
+        },
+        {
+            pattern: /((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:[_$A-Za-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*\s*)\(\s*)(?!\s)(?:[^()]|\([^()]*\))+?(?=\s*\)\s*\{)/,
+            lookbehind: true,
+            inside: exports.Prism.languages.javascript,
+        },
+    ],
+    constant: /\b[A-Z](?:[A-Z_]|\dx?)*\b/,
+});
+exports.Prism.languages.insertBefore('javascript', 'string', {
+    'template-string': {
+        pattern: /`(?:\\[\s\S]|\${(?:[^{}]|{(?:[^{}]|{[^}]*})*})+}|[^\\`])*`/,
+        greedy: true,
+        inside: {
+            interpolation: {
+                pattern: /\${(?:[^{}]|{(?:[^{}]|{[^}]*})*})+}/,
+                inside: {
+                    'interpolation-punctuation': {
+                        pattern: /^\${|}$/,
+                        alias: 'punctuation',
+                    },
+                    rest: exports.Prism.languages.javascript,
+                },
+            },
+            string: /[\s\S]+/,
+        },
+    },
+});
+if (exports.Prism.languages.markup) {
+    exports.Prism.languages.markup.tag.addInlined('script', 'javascript');
+}
+exports.Prism.languages.js = exports.Prism.languages.javascript;
+exports.Prism.languages.typescript = exports.Prism.languages.extend('javascript', {
+    // From JavaScript Prism keyword list and TypeScript language spec: https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#221-reserved-words
+    keyword: /\b(?:abstract|as|async|await|break|case|catch|class|const|constructor|continue|debugger|declare|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|is|keyof|let|module|namespace|new|null|of|package|private|protected|public|readonly|return|require|set|static|super|switch|this|throw|try|type|typeof|var|void|while|with|yield)\b/,
+    builtin: /\b(?:string|Function|any|number|boolean|Array|symbol|console|Promise|unknown|never)\b/,
+});
+exports.Prism.languages.ts = exports.Prism.languages.typescript;
+function Token(type, content, alias, matchedStr, greedy) {
+    this.type = type;
+    this.content = content;
+    this.alias = alias;
+    // Copy of the full string this token was created from
+    this.length = (matchedStr || '').length | 0;
+    this.greedy = !!greedy;
+}
+exports.Token = Token;
+Token.stringify = function (o, language) {
+    if (typeof o == 'string') {
+        return o;
+    }
+    if (Array.isArray(o)) {
+        return o
+            .map(function (element) {
+            return Token.stringify(element, language);
+        })
+            .join('');
+    }
+    return getColorForSyntaxKind(o.type)(o.content);
+};
+function getColorForSyntaxKind(syntaxKind) {
+    return theme_1.theme[syntaxKind] || theme_1.identity;
+}
+//# sourceMappingURL=prism.js.map
 
 /***/ }),
 /* 954 */
