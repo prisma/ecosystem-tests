@@ -1,10 +1,12 @@
-generator photon {
-  provider = "prisma-client-js"
+datasource db {
+  provider = "postgresql"
+  // Like, postgresql://user:password@localhost:5432/database/schema
+  url      = env("NETLIFY_ZISHI_PG_URL")
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = "file:dev.db"
+generator photon {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 model User {
@@ -12,7 +14,6 @@ model User {
   email String  @unique
   name  String?
   posts Post[]
-  age   Int?
 }
 
 model Post {

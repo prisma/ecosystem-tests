@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const { PrismaClient } = require('./prisma/prisma-client-js')
-const photon = new PrismaClient()
+const client = new PrismaClient()
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -11,14 +11,14 @@ const port = process.env.PORT || 3000
 app.get('/', async (req, res) => {
   await client.user.deleteMany({})
 
-  const createUser = await photon.user.create({
+  const createUser = await client.user.create({
     data: {
       email: 'alice@prisma.io',
       name: 'Alice',
     },
   })
 
-  const updateUser = await photon.user.update({
+  const updateUser = await client.user.update({
     where: {
       id: createUser.id,
     },
@@ -28,13 +28,13 @@ app.get('/', async (req, res) => {
     },
   })
 
-  const users = await photon.user.findOne({
+  const users = await client.user.findOne({
     where: {
       id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await photon.user.deleteMany()
+  const deleteManyUsers = await client.user.deleteMany()
 
   return res.send(
     JSON.stringify({

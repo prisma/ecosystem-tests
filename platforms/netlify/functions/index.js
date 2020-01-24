@@ -1,18 +1,18 @@
 const { PrismaClient } = require('./generated/photon')
 
-const photon = new PrismaClient()
+const client = new PrismaClient()
 
 exports.handler = async function(event, context, callback) {
   await client.user.deleteMany({})
 
-  const createUser = await photon.user.create({
+  const createUser = await client.user.create({
     data: {
       email: 'alice@prisma.io',
       name: 'Alice',
     },
   })
 
-  const updateUser = await photon.user.update({
+  const updateUser = await client.user.update({
     where: {
       id: createUser.id,
     },
@@ -22,13 +22,13 @@ exports.handler = async function(event, context, callback) {
     },
   })
 
-  const users = await photon.user.findOne({
+  const users = await client.user.findOne({
     where: {
       id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await photon.user.deleteMany()
+  const deleteManyUsers = await client.user.deleteMany()
 
   return {
     statusCode: 200,
