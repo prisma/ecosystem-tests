@@ -47,11 +47,13 @@ const Home: NextPage<GetProps<typeof unstable_getStaticProps>> = props => (
     <div className="hero">
       <h1 className="title">Welcome to Next.js!</h1>
       <div className="description">
-      {props.users.map(u => (<div key={u.id}>
-        Name: {u.name}
-        Age: {u.age}
-        First Post: {u.posts[0].title}
-      </div>))}
+        {props.users.map(u => (
+          <div key={u.id}>
+            Name: {u.name}
+            Age: {u.age}
+            First Post: {u.posts[0].title}
+          </div>
+        ))}
         To get started, edit <code>pages/index.js</code> and save to reload.
       </div>
 
@@ -126,4 +128,8 @@ const Home: NextPage<GetProps<typeof unstable_getStaticProps>> = props => (
 export default Home
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
-type GetProps<T extends (...args: any) => any> = ThenArg<ReturnType<T>> extends { props: infer U } ? U : never
+type GetProps<T extends (...args: any) => any> = ThenArg<
+  ReturnType<T>
+> extends { props: infer U }
+  ? U
+  : never
