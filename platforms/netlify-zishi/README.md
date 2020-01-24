@@ -39,3 +39,4 @@ https://www.netlify.com/docs/continuous-deployment/#environment-variables
 The development/deployment configuration for this platform causes extra binary to be packaged that is not required, please refer to this section of the platform docs to ignore the binary used while developing locally. 
 
 Since for Netlify, we are bundling manually, we can remove the local binary before creating the zip bundle for deployment.
+
