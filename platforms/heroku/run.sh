@@ -12,5 +12,4 @@ git commit -m "push to heroku"
 git push heroku master --force
 rm -rf .git
 
-sh test.sh
-
+sh test.sh || heroku logs -a e2e-platforms-heroku
