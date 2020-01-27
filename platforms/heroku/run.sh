@@ -1,7 +1,3 @@
-#!/bin/sh
-
-set -eu
-
 snap install heroku --classic
 yarn install
 yarn prisma2 generate
