@@ -1,0 +1,17 @@
+service: slsLambda
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  timeout: 10
+  versionFunctions: false
+  tracing:
+    lambda: true
+
+functions:
+  hello:
+    handler: index.handler
+    name: slsLambda
+    environment:
+      SERVERLESS_LAMBDA_PG_URL: ${env:SERVERLESS_LAMBDA_PG_URL}
