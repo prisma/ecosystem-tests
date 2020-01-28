@@ -6,8 +6,6 @@ rm -rf prisma/migrations/
 rm -rf prisma/dev.db
 
 yarn install
-yarn prisma2 migrate save --experimental --create-db --name init
-yarn prisma2 migrate up --experimental
 yarn prisma2 generate
 
 yarn build
@@ -15,7 +13,7 @@ yarn seed
 yarn start &
 pid=$!
 
-sleep 20
+sleep 30
 
 expected="Hello stuff, first name: Lisa!"
 actual=$(curl -v localhost:3600/hello/stuff)
@@ -28,5 +26,3 @@ fi
 echo "result: $actual"
 
 kill $pid
-
-yarn prisma2 migrate down --experimental

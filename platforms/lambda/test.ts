@@ -3,6 +3,7 @@ import { invokeLambdaSync } from './utils'
 const name = 'prisma2-e2e-tests'
 
 async function main() {
+	console.log('testing function', name)
 	const data = await invokeLambdaSync(name, '')
 	console.log({ data: data.$response.data })
 
