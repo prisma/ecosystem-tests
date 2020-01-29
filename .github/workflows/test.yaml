@@ -76,6 +76,7 @@ jobs:
           - zeit-now
           - netlify-ci-build
           - netlify-zishi
+          - gcp-functions
 
     steps:
       - uses: actions/checkout@v1
@@ -90,6 +91,10 @@ jobs:
         env:
           SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
           SSH_KEY_NETLIFY_ZISHI: ${{ secrets.SSH_KEY_NETLIFY_ZISHI }}
+          GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
+          GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+          GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+          GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
           NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
           LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
           HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
