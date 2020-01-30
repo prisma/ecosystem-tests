@@ -4,11 +4,22 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "prestart": "CI=1 yarn prisma2 migrate up --auto-approve --experimental",
+    "start": "node src/index.js",
+    "deploy": "yarn ts-node deploy.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@prisma/client": "2.0.0-alpha.664",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
+  },
   "devDependencies": {
-    "nodemon": "1.18.4"
+    "@types/node": "^13.5.2",
+    "@types/node-fetch": "^2.5.4",
+    "prisma2": "^2.0.0-alpha.686",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   },
   "keywords": []
 }
