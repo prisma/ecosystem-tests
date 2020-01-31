@@ -73,8 +73,10 @@ async function main() {
   })
   const data = await r
   const json = await data.json()
-  console.log(json.sandbox_id)
   fs.writeFileSync('sandbox_id', json.sandbox_id)
+  const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
+  console.log(endpoint)
+  await fetch(endpoint)
 }
 
 main()
