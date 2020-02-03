@@ -1,12 +1,9 @@
 const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
-
 const { PrismaClient } = require('@prisma/client')
 const client = new PrismaClient()
-
 const app = express()
-const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
   await client.user.deleteMany({})
@@ -46,4 +43,6 @@ app.get('/', async (req, res) => {
   )
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const port = process.env.PORT || 3000
+
+app.listen(port, () => console.log(`Listening on port ${port}!`))

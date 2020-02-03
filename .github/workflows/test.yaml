@@ -87,9 +87,15 @@ jobs:
         with:
           node-version: 12
 
+      - name: Install Puppeteer
+        uses: ianwalter/puppeteer@v2.0.0
+        with:
+          args: yarn
+
       - name: test ${{ matrix.platform }}
         run: sh run.sh platforms ${{ matrix.platform }}
         env:
+          CI: 1
           SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
           SSH_KEY_NETLIFY_ZISHI: ${{ secrets.SSH_KEY_NETLIFY_ZISHI }}
           GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
