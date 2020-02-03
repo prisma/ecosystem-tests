@@ -32,11 +32,13 @@ function isBinary(file: string) {
 }
 
 async function fetchWithPuppeteer(endpoint) {
-  const browser = await puppeteer.launch({
+  const options = {
     ...(process.env.CI === '1' && {
       executablePath: 'google-chrome-unstable',
     }),
-  })
+  }
+  console.log(options)
+  const browser = await puppeteer.launch(options)
   const page = await browser.newPage()
   await page.goto(endpoint)
   await page.waitFor(6000)
