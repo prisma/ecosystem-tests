@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
+import puppeteer from 'puppeteer'
 
 interface CSBFile {
   content: object | string
@@ -28,6 +29,20 @@ function isBinary(file: string) {
   return false
   // const binaries = getBinaries()
   // return binaries.includes(file)
+}
+
+async function fetchWithPuppeteer(endpoint) {
+  const browser = await puppeteer.launch({
+    ...(process.env.CI === '1' && {
+      executablePath: 'google-chrome-unstable',
+    }),
+  })
+  const page = await browser.newPage()
+  await page.goto(endpoint)
+  await page.waitFor(6000)
+  const screenshot = await page.screenshot()
+  fs.writeFileSync('image.png', screenshot)
+  await browser.close()
 }
 
 async function sleep(seconds) {
@@ -106,6 +121,7 @@ async function main() {
   fs.writeFileSync('sandbox_id', json.sandbox_id)
   const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
   try {
+    await fetchWithPuppeteer(endpoint) // Invoke GUI once to kickstart the sandbox process.
     const r = await ensureSandbox(endpoint)
     if (!Boolean(r)) {
       // Log is fine, no need for an exit code as sh test.sh will fail anyways.
