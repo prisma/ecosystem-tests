@@ -91,7 +91,7 @@ jobs:
         uses: ianwalter/puppeteer@v2.0.0
         with:
           args: sh run.sh platforms ${{ matrix.platform }}
-        env:q
+        env:
           CI: 1
           SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
           SSH_KEY_NETLIFY_ZISHI: ${{ secrets.SSH_KEY_NETLIFY_ZISHI }}
