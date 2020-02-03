@@ -87,10 +87,13 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.platform }}
+      - name: Install Puppeteer
         uses: ianwalter/puppeteer@v2.0.0
         with:
-          args: sh run.sh platforms ${{ matrix.platform }}
+          args: yarn
+
+      - name: test ${{ matrix.platform }}
+        run: sh run.sh platforms ${{ matrix.platform }}
         env:
           CI: 1
           SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
