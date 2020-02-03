@@ -1,10 +1,8 @@
 const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
-
 const { PrismaClient } = require('@prisma/client')
 const client = new PrismaClient()
-
 const app = express()
 
 app.get('/', async (req, res) => {
@@ -46,4 +44,5 @@ app.get('/', async (req, res) => {
 })
 
 const port = process.env.PORT || 3000
+
 app.listen(port, () => console.log(`Listening on port ${port}!`))
