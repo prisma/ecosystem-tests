@@ -41,7 +41,7 @@ async function fetchWithPuppeteer(endpoint) {
   const browser = await puppeteer.launch(options)
   const page = await browser.newPage()
   await page.goto(endpoint)
-  await page.waitFor(6000)
+  await page.waitFor(10000)
   const screenshot = await page.screenshot()
   fs.writeFileSync('image.png', screenshot)
   await browser.close()
@@ -63,9 +63,7 @@ async function ensureSandbox(endpoint) {
     return false
   }
   try {
-    const r = await fetch(endpoint)
-    const data = await r.json()
-    console.log(data)
+    await fetchWithPuppeteer(endpoint)
     return true
   } catch (e) {
     console.log(e)
@@ -123,7 +121,6 @@ async function main() {
   fs.writeFileSync('sandbox_id', json.sandbox_id)
   const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
   try {
-    await fetchWithPuppeteer(endpoint) // Invoke GUI once to kickstart the sandbox process.
     const r = await ensureSandbox(endpoint)
     if (!Boolean(r)) {
       // Log is fine, no need for an exit code as sh test.sh will fail anyways.
