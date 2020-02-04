@@ -78,6 +78,7 @@ jobs:
           - netlify-zishi
           - gcp-functions
           - codesandbox
+          - azure-functions-linux
 
     steps:
       - uses: actions/checkout@v1
@@ -119,3 +120,6 @@ jobs:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
           NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
           NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
+          AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+          AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+          AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
