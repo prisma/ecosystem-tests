@@ -123,3 +123,27 @@ jobs:
           AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
           AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
           AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+
+  bundlers:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        bundler:
+          - webpack
+          - parcel
+
+    name: bundler ${{ matrix.bundler }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.bundler }}
+        run: sh run.sh bundlers ${{ matrix.bundler }}
+        env:
+          WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
+          PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
