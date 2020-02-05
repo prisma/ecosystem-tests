@@ -47,7 +47,6 @@ jobs:
           - 10
           - 12
 
-
     name: node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v1
@@ -183,8 +182,9 @@ jobs:
           # - netlify-zisi
           - gcp-functions
           - codesandbox
-          - azure-functions-linux
           - firebase-functions
+          - azure-functions-linux
+          - azure-functions-windows
 
     steps:
       - uses: actions/checkout@v1
