@@ -2,9 +2,9 @@
 
 set -eux
 
-app="prisma-e2e-linux-test"
+app="prisma-e2e-linux-test-azure-functions-is-so-amazing"
 group="prisma-e2e-linux"
-storage="prismae2estoragelinux"
+storage="e2estorageprismalinux"
 
 yarn install
 yarn prisma2 generate
