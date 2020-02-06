@@ -47,6 +47,7 @@ jobs:
     strategy:
       matrix:
         packager:
+          - yarn
           - npm
           - yarn-workspaces
 
@@ -62,6 +63,7 @@ jobs:
         run: sh run.sh packagers ${{ matrix.packager }}
         env:
           PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
+          PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
           PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
   frameworks:
