@@ -18,6 +18,9 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
 
+# prepare script: read package.json but ignore workspace package.json files
+pkg="var pkg=require('./package.json'); if (pkg.workspaces) { process.exit(0); }"
+
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5 # cron job runs each x minutes
 interval=10 # run each x seconds
@@ -45,18 +48,20 @@ while [ $i -le $count ]; do
 		echo "checking $item"
 		cd "$(dirname "$item")/"
 
-		vPrisma2="$(node -e "console.log(require('./package.json').devDependencies['prisma2'])")"
+		vPrisma2="$(node -e "$pkg;console.log(pkg.devDependencies['prisma2'])")"
 
-		if [ "$v" != "$vPrisma2" ]; then
-			echo "$item: prisma2 expected $v, actual $vPrisma2"
-			yarn add "prisma2@$v" --dev
-		fi
+		if [ "$vPrisma2" != "" ]; then
+			if [ "$v" != "$vPrisma2" ]; then
+				echo "$item: prisma2 expected $v, actual $vPrisma2"
+				yarn add "prisma2@$v" --dev
+			fi
 
-		vPhoton="$(node -e "console.log(require('./package.json').dependencies['@prisma/client'])")"
+			vPhoton="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
-		if [ "$v" != "$vPhoton" ]; then
-			echo "$item: @prisma/client expected $v, actual $vPhoton"
-			yarn add "@prisma/client@$v"
+			if [ "$v" != "$vPhoton" ]; then
+				echo "$item: @prisma/client expected $v, actual $vPhoton"
+				yarn add "@prisma/client@$v"
+			fi
 		fi
 
 		cd "$dir"
