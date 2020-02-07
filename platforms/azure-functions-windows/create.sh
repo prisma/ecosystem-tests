@@ -2,10 +2,10 @@
 
 set -eux
 
-app="prisma-e2e-windows-test"
-group="prisma-e2e-windows"
+app="prisma-e2e-windows-test-new"
+group="prisma-e2e-windows-new"
 # "windows" as storage name is illegal due to trademark x)
-storage="prismae2estoragewin"
+storage="prismae2estoragewinnew"
 
 yarn install
 yarn prisma2 generate
