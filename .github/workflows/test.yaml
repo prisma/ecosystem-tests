@@ -74,6 +74,7 @@ jobs:
         framework:
           - nestjs
           - nextjs
+          - nexus
 
     steps:
       - uses: actions/checkout@v1
@@ -88,6 +89,7 @@ jobs:
         env:
           FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
           FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
+          FRAMEWORK_NEXUS_PG_URL: ${{ secrets.FRAMEWORK_NEXUS_PG_URL }}
 
   platforms:
     runs-on: ubuntu-latest
