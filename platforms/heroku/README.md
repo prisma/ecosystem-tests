@@ -1,6 +1,6 @@
 # Introduction
 
-Prisma and Heroku integration
+Prisma and Heroku integration.
 
 # Friction Points
 

@@ -18,4 +18,4 @@ git push origin master --force
 rm -rf .git
 
 sleep 240 # Enough time for the netlify build to go through
-# sh test.sh
+sh test.sh
