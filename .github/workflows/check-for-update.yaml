@@ -1,14 +1,14 @@
-name: upgrade
+name: check-for-update
 on:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  upgrade:
+  check-for-update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
-      - name: upgrade
-        run: sh upgrade.sh
+      - name: check-for-update
+        run: sh check-for-update.sh
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
