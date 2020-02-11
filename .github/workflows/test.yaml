@@ -177,3 +177,25 @@ jobs:
           WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
           PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
           ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
+
+  libraries:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        library:
+          - express
+
+    name: library ${{ matrix.library }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.library }}
+        run: sh run.sh libraries ${{ matrix.library }}
+        env:
+          LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
