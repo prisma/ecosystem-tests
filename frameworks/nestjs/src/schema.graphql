@@ -32,10 +32,6 @@ type Post {
 }
 
 type Query {
-  me: User!
-  publishedPosts(skip: Int, after: String, before: String, first: Int, last: Int): [Post!]!
-  userPosts(userId: String!): [Post!]!
-  post(postId: String!): Post!
   helloWorld: String!
   hello(name: String!): String!
 }

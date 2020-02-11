@@ -9,14 +9,4 @@ import { User } from './../../models/user';
 @UseGuards(GqlAuthGuard)
 export class UserResolver {
   constructor(private photon: PhotonService) {}
-
-  @Query(returns => User)
-  async me(@UserEntity() user: User): Promise<User> {
-    return user;
-  }
-
-  @ResolveProperty('posts')
-  posts(@Parent() author: User) {
-    return this.photon.user.findOne({ where: { id: author.id } }).posts();
-  }
 }
