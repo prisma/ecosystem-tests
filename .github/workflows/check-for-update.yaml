@@ -8,6 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: use node 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
       - name: check-for-update
         run: sh check-for-update.sh
         env:
