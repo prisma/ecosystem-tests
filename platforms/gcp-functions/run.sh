@@ -21,7 +21,7 @@ func="e2e-test-$(date "+%s")"
 
 set +e
 echo "function deploy start"
-gcloud functions deploy "$func" --runtime nodejs10 --trigger-http --entry-point=handler --allow-unauthenticated --source . --verbosity debug --set-env-vars GCP_FUNCTIONS_PG_URL=$GCP_FUNCTIONS_PG_URL
+gcloud functions deploy "$func" --runtime nodejs10 --trigger-http --entry-point=handler --allow-unauthenticated --verbosity debug --set-env-vars GCP_FUNCTIONS_PG_URL=$GCP_FUNCTIONS_PG_URL
 code=$?
 echo "function deploy end"
 set -e
