@@ -6,6 +6,8 @@ You can check out the latest test runs by checking the ["test" workflow results]
 
 ## How it works
 
+Renovate is enabled for this repository for all dependencies except `prisma2` and `@prisma/client`. Our own script handles upgrading prisma-related dependencies since Renovate is too slow for our use case.
+
 A Github Action continuously checks if there is a new alpha release of prisma2. This action is defined in `.github/workflows/upgrade.yaml` and runs every 5 minutes (that's the shortest interval Github allows).
 
 If there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the e2e tests. This is implemented in `.github/workflows/upgrade.yaml` using a Github Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `master`.
