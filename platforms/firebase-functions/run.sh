@@ -4,8 +4,10 @@ set -eux
 
 npm install -g firebase-tools
 
-cd functions/ && sh prepare.sh && cd ..
+func="e2e_firebase_test_$(date "+%s")"
 
-firebase deploy --token "$FIREBASE_TOKEN" --only functions
+cd functions/ && sh prepare.sh "$func" && cd ..
 
-sh test.sh
+firebase deploy --token "$FIREBASE_TOKEN" --only "functions:$func"
+
+sh test.sh "$func"

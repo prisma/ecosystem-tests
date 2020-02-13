@@ -5,7 +5,7 @@ const client = new PrismaClient({
   log: ['info', 'query', 'warn'],
 })
 
-const func = functions.https.onRequest(async (req, res) => {
+const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest(async (req, res) => {
   await client.user.deleteMany({})
 
   const id = '12345'
@@ -44,4 +44,4 @@ const func = functions.https.onRequest(async (req, res) => {
   });
 })
 
-export { func }
+export { __FIREBASE_FUNCTION_NAME__ }
