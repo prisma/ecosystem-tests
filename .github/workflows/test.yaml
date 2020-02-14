@@ -189,6 +189,7 @@ jobs:
         library:
           - express
           - apollo-server
+          - type-graphql
 
     name: library ${{ matrix.library }}
     steps:
@@ -204,3 +205,4 @@ jobs:
         env:
           LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
           LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
+          LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
