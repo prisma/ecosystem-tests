@@ -188,6 +188,7 @@ jobs:
       matrix:
         library:
           - express
+          - apollo-server
 
     name: library ${{ matrix.library }}
     steps:
@@ -202,3 +203,4 @@ jobs:
         run: sh run.sh libraries ${{ matrix.library }}
         env:
           LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
+          LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
