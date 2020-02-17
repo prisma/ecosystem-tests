@@ -4,7 +4,7 @@ datasource db {
   url      = env("NETLIFY_BETA_PG_URL")
 }
 
-generator photon {
+generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }

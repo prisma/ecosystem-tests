@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PhotonService } from './../src/services/photon.service'
+import { PrismaService } from './../src/services/prisma.service'
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { Chance } from 'chance';
@@ -11,7 +11,7 @@ describe('AppController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, PhotonService]
+      imports: [AppModule, PrismaService]
     }).compile();
 
     app = moduleFixture.createNestApplication();

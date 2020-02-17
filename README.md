@@ -1,6 +1,6 @@
 # Prisma e2e tests [![Actions Status](https://github.com/prisma/prisma2-e2e-tests/workflows/test/badge.svg)](https://github.com/prisma/prisma2-e2e-tests/actions?query=workflow%3Atest)
 
-This repository continuously tests PhotonJS on various operating systems, frameworks and platforms.
+This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
 You can check out the latest test runs by checking the ["test" workflow results](https://github.com/prisma/prisma2-e2e-tests/actions?query=workflow%3Atest).
 

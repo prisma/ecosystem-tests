@@ -6,14 +6,14 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
 import { SignupInput } from '../resolvers/auth/dto/signup.input';
-import { PhotonService } from './photon.service';
+import { PrismaService } from './prisma.service';
 import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly photon: PhotonService,
+    private readonly client: PrismaService,
     private readonly passwordService: PasswordService
   ) {}
 
@@ -22,7 +22,7 @@ export class AuthService {
       payload.password
     );
 
-    const user = await this.photon.user.create({
+    const user = await this.client.user.create({
       data: {
         ...payload,
         password: hashedPassword,
@@ -36,7 +36,7 @@ export class AuthService {
   async login(email: string, password: string): Promise<string> {
     let user: User;
 
-    user = await this.photon.user.findOne({ where: { email } });
+    user = await this.client.user.findOne({ where: { email } });
 
     if (user === null) {
       throw new NotFoundException(`No user found for email: ${email}`);
@@ -55,11 +55,11 @@ export class AuthService {
   }
 
   validateUser(userId: string): Promise<User> {
-    return this.photon.user.findOne({ where: { id: userId } });
+    return this.client.user.findOne({ where: { id: userId } });
   }
 
   getUserFromToken(token: string): Promise<User> {
     const id = this.jwtService.decode(token)['userId'];
-    return this.photon.user.findOne({ where: { id } });
+    return this.client.user.findOne({ where: { id } });
   }
 }

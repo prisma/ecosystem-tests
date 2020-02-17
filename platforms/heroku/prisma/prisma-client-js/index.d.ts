@@ -17,7 +17,7 @@ export declare type Subset<T, U> = {
     [key in keyof T]: key extends keyof U ? T[key] : never;
 };
 /**
- * A PrismaClientRequestError is an error that is thrown in conjunction to a concrete query that has been performed with PrismaClient.js.
+ * A PrismaClientRequestError is an error that is thrown in conjunction to a concrete query that has been performed with Prisma Client.
  */
 export declare class PrismaClientRequestError extends Error {
     message: string;

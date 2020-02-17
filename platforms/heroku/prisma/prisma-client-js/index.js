@@ -7,7 +7,7 @@ const runtime_1 = require("./runtime");
 const path = require("path");
 const debug = runtime_1.debugLib('prisma-client');
 /**
- * A PrismaClientRequestError is an error that is thrown in conjunction to a concrete query that has been performed with PrismaClient.js.
+ * A PrismaClientRequestError is an error that is thrown in conjunction to a concrete query that has been performed with Prisma Client.
  */
 class PrismaClientRequestError extends Error {
     constructor(message, code, meta) {
@@ -184,7 +184,7 @@ class PrismaClient {
             datamodelPath: path.resolve(__dirname, 'schema.prisma'),
             prismaPath: engineConfig.binaryPath || undefined,
             datasources,
-            generator: { "name": "photon", "provider": "prisma-client-js", "output": "/Users/prisma/prisma/prisma2-e2e-tests/platforms/heroku/prisma/prisma-client-js", "binaryTargets": ["native", "rhel-openssl-1.0.x"], "config": {} },
+            generator: { "name": "client", "provider": "prisma-client-js", "output": "/Users/prisma/prisma/prisma2-e2e-tests/platforms/heroku/prisma/prisma-client-js", "binaryTargets": ["native", "rhel-openssl-1.0.x"], "config": {} },
             showColors: this.errorFormat === 'pretty',
             logLevel: options.log && getLogLevel(options.log),
             logQueries: options.log && Boolean(options.log.find(o => typeof o === 'string' ? o === 'query' : o.level === 'query'))

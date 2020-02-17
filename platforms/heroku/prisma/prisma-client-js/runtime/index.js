@@ -51503,7 +51503,7 @@ function validateGenerators(generators) {
         const platform = yield get_platform_1.getPlatform();
         for (const generator of generators) {
             if (generator.provider === 'photonjs') {
-                throw new Error(`The generator provider ${chalk_1.default.red('photonjs')} with the corresponding package ${chalk_1.default.red('@prisma/photon')} has been deprecated.
+                throw new Error(`The generator provider ${chalk_1.default.red('photonjs')} with the corresponding package ${chalk_1.default.red('@prisma/client')} has been deprecated.
 The provider has been renamed to ${chalk_1.default.green('prisma-client-js')} and the package to ${chalk_1.default.green('@prisma/client')}".
 ${chalk_1.default.green('@prisma/client')} now exposes "${chalk_1.default.green.bold('PrismaClient')} instead of ${chalk_1.default.red.bold('Photon')}. Please update your code accordingly 🙏`);
             }
@@ -58408,7 +58408,7 @@ const is_ci_1 = __importDefault(__webpack_require__(974));
 const debugEnabled = debug_1.default.enabled('generator');
 exports.predefinedGeneratorResolvers = {
     photonjs: () => {
-        throw new Error(`The generator provider "photonjs" with the corresponding package "@prisma/photon" has been deprecated.
+        throw new Error(`The generator provider "photonjs" with the corresponding package "@prisma/client" has been deprecated.
 The provider has been renamed to "prisma-client-js" and the package to "@prisma/client".
 "@prisma/client" now exposes "PrismaClient" instead of "Photon". Please update your code accordingly 🙏`);
     },
