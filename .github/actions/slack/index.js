@@ -1,14 +1,24 @@
-const core = require('@actions/core');
+const core = require('@actions/core')
 
 (async () => {
-	const { IncomingWebhook } = require('@slack/webhook');
-	const url = core.getInput('webhook');
+	const { IncomingWebhook } = require('@slack/webhook')
+	const url = core.getInput('webhook')
 	const message = core.getInput('message')
+	const status = core.getInput('status')
 
-	const webhook = new IncomingWebhook(url);
+	let emoji = ':heavy_multiplication_x:'
+
+	if (status === 'success') {
+		emoji = ':white_check_mark:'
+	} else if (status === 'failure') {
+		emoji = ':x:'
+	}
+
+	const webhook = new IncomingWebhook(url)
 	await webhook.send({
 		text: message,
-	});
+		icon_emoji: emoji,
+	})
 })().catch((err) => {
-	core.setFailed(err.message);
-});
+	core.setFailed(err.message)
+})

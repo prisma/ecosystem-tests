@@ -822,20 +822,30 @@ module.exports = require("os");
 /***/ 104:
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
-const core = __webpack_require__(470);
+const core = __webpack_require__(470)
 
 (async () => {
-	const { IncomingWebhook } = __webpack_require__(736);
-	const url = core.getInput('webhook');
+	const { IncomingWebhook } = __webpack_require__(736)
+	const url = core.getInput('webhook')
 	const message = core.getInput('message')
+	const status = core.getInput('status')
 
-	const webhook = new IncomingWebhook(url);
+	let emoji = ':heavy_multiplication_x:'
+
+	if (status === 'success') {
+		emoji = ':white_check_mark:'
+	} else if (status === 'failure') {
+		emoji = ':x:'
+	}
+
+	const webhook = new IncomingWebhook(url)
 	await webhook.send({
 		text: message,
-	});
+		icon_emoji: emoji,
+	})
 })().catch((err) => {
-	core.setFailed(err.message);
-});
+	core.setFailed(err.message)
+})
 
 
 /***/ }),
