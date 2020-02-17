@@ -6,6 +6,7 @@ const github = require('@actions/github');
 	const url = core.getInput('webhook')
 	const message = core.getInput('message')
 	const status = core.getInput('status')
+	const sha = process.env.GITHUB_SHA
 
 	let emoji = ':heavy_multiplication_x:'
 
@@ -17,7 +18,7 @@ const github = require('@actions/github');
 
 	const webhook = new IncomingWebhook(url)
 	await webhook.send({
-		text: emoji + ' ' + message,
+		text: `\`${sha}\`: ${emoji} ${message}`,
 	})
 })().catch((err) => {
 	core.setFailed(err.message)
