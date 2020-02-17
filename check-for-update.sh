@@ -56,10 +56,10 @@ while [ $i -le $count ]; do
 				yarn add "prisma2@$v" --dev
 			fi
 
-			vPhoton="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
+			vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
-			if [ "$v" != "$vPhoton" ]; then
-				echo "$item: @prisma/client expected $v, actual $vPhoton"
+			if [ "$v" != "$vPrismaClient" ]; then
+				echo "$item: @prisma/client expected $v, actual $vPrismaClient"
 				yarn add "@prisma/client@$v"
 			fi
 		fi

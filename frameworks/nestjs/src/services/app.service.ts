@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { PhotonService } from './photon.service';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class AppService {
-  constructor(private photon: PhotonService) {}
+  constructor(private client: PrismaService) {}
 
   getHello(): string {
     return 'Hello World!';
   }
 
   async getHelloName(name: string): Promise<string> {
-    const users = await this.photon.user.findMany({});
+    const users = await this.client.user.findMany({});
     return `Hello ${name}, first name: ${users[0].firstname}!`;
   }
 }

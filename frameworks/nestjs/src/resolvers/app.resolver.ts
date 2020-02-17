@@ -1,9 +1,9 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { PhotonService } from './../services/photon.service';
+import { PrismaService } from './../services/prisma.service';
 
 @Resolver()
 export class AppResolver {
-  constructor(private photon: PhotonService) {}
+  constructor(private client: PrismaService) {}
 
   @Query(returns => String)
   helloWorld(): string {
@@ -11,7 +11,7 @@ export class AppResolver {
   }
   @Query(returns => String)
   async hello(@Args('name') name: string): Promise<string> {
-    const users = await this.photon.user.findMany({});
+    const users = await this.client.user.findMany({});
     return `Hello ${name}, first name: ${users[0].firstname}!`;
   }
 }

@@ -40,7 +40,7 @@ migration ..20200130133512-init
 +  url      = "file:./dev.db"
 +}
 +
-+generator photon {
++generator client {
 +  provider = "prisma-client-js"
 +}
 +

@@ -4,10 +4,10 @@ datasource db {
   url      = env("NETLIFY_PG_URL")
 }
 
-generator photon {
+generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
-  output        = "../functions/generated/photon"
+  output        = "../functions/generated/client"
 }
 
 model User {

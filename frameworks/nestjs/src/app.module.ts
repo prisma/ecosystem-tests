@@ -7,7 +7,7 @@ import { UserModule } from './resolvers/user/user.module';
 import { PostModule } from './resolvers/post/post.module';
 import { AppResolver } from './resolvers/app.resolver';
 import { DateScalar } from './common/scalars/date.scalar';
-import { PhotonService } from './services/photon.service';
+import { PrismaService } from './services/prisma.service';
 
 @Module({
   imports: [
@@ -22,6 +22,6 @@ import { PhotonService } from './services/photon.service';
     PostModule
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver, DateScalar, PhotonService]
+  providers: [AppService, AppResolver, DateScalar, PrismaService]
 })
 export class AppModule {}

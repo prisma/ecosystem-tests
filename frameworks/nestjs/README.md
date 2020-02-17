@@ -23,8 +23,8 @@ Starter template for 😻 [nest](https://nestjs.com/) and [Prisma](https://www.p
   - [Overview](#overview)
   - [Prisma Setup](#prisma-setup)
     - [1. Install Dependencies](#1-install-dependencies)
-    - [2. Prisma2: Lift](#2-prisma2-lift)
-    - [3. Prisma2: PrismaClient](#3-prisma2-photon)
+    - [2. Prisma2: Prisma Migrate](#2-prisma2-lift)
+    - [3. Prisma2: PrismaClient](#3-prisma2-client)
     - [4. Seed the database data with this script](#4-seed-the-database-data-with-this-script)
     - [5. Install Nestjs](#5-install-nestjs)
   - [Start NestJS Server](#start-nestjs-server)
@@ -53,9 +53,9 @@ Install the dependencies for the nest server:
 npm install
 ```
 
-### 2. Prisma2: Lift
+### 2. Prisma2: Prisma Migrate
 
-[Lift](https://github.com/prisma/prisma2/blob/master/docs/tutorial.md#5-migrate-your-database-using-lift) is used to manage the schema and migration of the database.
+[Prisma Migrate](https://github.com/prisma/prisma2/blob/master/docs/tutorial.md#5-migrate-your-database-using-lift) is used to manage the schema and migration of the database.
 
 Saving the migration of the database:
 
@@ -75,7 +75,7 @@ npm run lift:up
 
 ### 3. Prisma2: PrismaClient
 
-[PrismaClient](https://github.com/prisma/prisma2/blob/master/docs/photon/api.md) is a type-safe database client auto-generated based on the data model.
+[PrismaClient](https://github.com/prisma/prisma2/blob/master/docs/client/api.md) is a type-safe database client auto-generated based on the data model.
 
 To generate PrismaClient execute, this will alwayse be executed after `npm install`:
 
