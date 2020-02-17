@@ -155,9 +155,8 @@ jobs:
 
       - name: Install Puppeteer
         uses: ianwalter/puppeteer@v2.0.0
-        win
-        status: h`:
-          message: ya`r
+        with:
+          args: yarn
 
       - name: test ${{ matrix.platform }}
         run: sh run.sh platforms ${{ matrix.platform }}
@@ -268,5 +267,5 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: 'library ${{ matri`x.library }} failed`'
+          message: 'library ${{ matrix.library }} failed`'
           status: ${{ job.status }}
