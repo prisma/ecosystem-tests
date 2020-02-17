@@ -1264,7 +1264,8 @@ const github = __webpack_require__(469);
 	const { IncomingWebhook } = __webpack_require__(736)
 	const url = core.getInput('webhook')
 	const message = core.getInput('message')
-	const status = core.getInput('status')
+	const status = core.getInput('status').toLowerCase()
+	const sha = process.env.GITHUB_SHA.substring(0, 7)
 
 	let emoji = ':heavy_multiplication_x:'
 
@@ -1276,7 +1277,7 @@ const github = __webpack_require__(469);
 
 	const webhook = new IncomingWebhook(url)
 	await webhook.send({
-		text: emoji + ' ' + message,
+		text: `\`${sha}\`: ${emoji} ${message}`,
 	})
 })().catch((err) => {
 	core.setFailed(err.message)

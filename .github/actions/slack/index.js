@@ -5,8 +5,8 @@ const github = require('@actions/github');
 	const { IncomingWebhook } = require('@slack/webhook')
 	const url = core.getInput('webhook')
 	const message = core.getInput('message')
-	const status = core.getInput('status')
-	const sha = process.env.GITHUB_SHA
+	const status = core.getInput('status').toLowerCase()
+	const sha = process.env.GITHUB_SHA.substring(0, 7)
 
 	let emoji = ':heavy_multiplication_x:'
 
