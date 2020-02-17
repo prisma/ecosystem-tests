@@ -1,4 +1,5 @@
 const core = require('@actions/core')
+const github = require('@actions/github');
 
 (async () => {
 	const { IncomingWebhook } = require('@slack/webhook')
