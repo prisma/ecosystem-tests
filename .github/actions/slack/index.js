@@ -17,8 +17,7 @@ const github = require('@actions/github');
 
 	const webhook = new IncomingWebhook(url)
 	await webhook.send({
-		text: message,
-		icon_emoji: emoji,
+		text: emoji + ' ' + message,
 	})
 })().catch((err) => {
 	core.setFailed(err.message)

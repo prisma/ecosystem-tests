@@ -267,5 +267,5 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: 'library ${{ matrix.library }} failed`'
+          message: 'library `${{ matrix.library }}` failed'
           status: ${{ job.status }}
