@@ -5,8 +5,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
 
@@ -14,10 +14,17 @@ jobs:
         with:
           version: 12
 
-      - name: test on ${{ matrix.platform }}
+      - name: test on ${{ matrix.os }}
         run: sh run.sh os base
         env:
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+      - name: post status to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'OS ${{ matrix.os }} ${{ job.status }}'
 
   node:
     runs-on: ubuntu-latest
@@ -42,6 +49,13 @@ jobs:
         run: sh run.sh os base
         env:
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+      - name: post status to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'Node ${{ matrix.node }} ${{ job.status }}'
 
   packagers:
     runs-on: ubuntu-latest
@@ -69,6 +83,13 @@ jobs:
           PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
           PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
+      - name: post status to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'Packager ${{ matrix.packager }} ${{ job.status }}'
+
   frameworks:
     runs-on: ubuntu-latest
 
@@ -94,6 +115,13 @@ jobs:
           FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
           FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
           FRAMEWORK_NEXUS_PG_URL: ${{ secrets.FRAMEWORK_NEXUS_PG_URL }}
+
+      - name: post status to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'Framework ${{ matrix.framework }} ${{ job.status }}'
 
   platforms:
     runs-on: ubuntu-latest
@@ -124,7 +152,7 @@ jobs:
       - name: Install Puppeteer
         uses: ianwalter/puppeteer@v2.0.0
         with:
-          args: yarn
+          message: yarn
 
       - name: test ${{ matrix.platform }}
         run: sh run.sh platforms ${{ matrix.platform }}
@@ -160,6 +188,13 @@ jobs:
           FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
+      - name: post status to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'Platform ${{ matrix.platform }} ${{ job.status }}'
+
   bundlers:
     runs-on: ubuntu-latest
 
@@ -187,6 +222,13 @@ jobs:
           PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
           ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
 
+      - name: post status to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'Bundler ${{ matrix.bundler }} ${{ job.status }}'
+
   libraries:
     runs-on: ubuntu-latest
 
@@ -213,3 +255,10 @@ jobs:
           LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
           LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
           LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
+
+      - name: post to slack
+        if: always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'Library {{ matrix.library }} failed ${{ job.status }}'
