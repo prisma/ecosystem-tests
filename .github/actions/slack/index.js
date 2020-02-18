@@ -1,8 +1,7 @@
 const core = require('@actions/core')
-const github = require('@actions/github');
+const post = require('./post')
 
-(async () => {
-	const { IncomingWebhook } = require('@slack/webhook')
+async function run() {
 	const url = core.getInput('webhook')
 	const message = core.getInput('message')
 	const status = core.getInput('status').toLowerCase()
@@ -16,11 +15,9 @@ const github = require('@actions/github');
 		emoji = ':x:'
 	}
 
-	const webhook = new IncomingWebhook(url)
-	await webhook.send({
-		text: `\`${sha}\`: ${emoji} ${message}`,
-		icon_emoji: ':microscope:',
-	})
-})().catch((err) => {
+	post(url, `\`${sha}\`: ${emoji} ${message}`)
+}
+
+run().catch((err) => {
 	core.setFailed(err.message)
 })
