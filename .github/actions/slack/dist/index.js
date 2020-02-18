@@ -845,6 +845,7 @@ const post = __webpack_require__(27)
 
 async function run() {
 	const url = core.getInput('webhook')
+	const id = core.getInput('run-id')
 	const message = core.getInput('message')
 	const status = core.getInput('status').toLowerCase()
 	const sha = process.env.GITHUB_SHA.substring(0, 7)
@@ -857,7 +858,7 @@ async function run() {
 		emoji = ':x:'
 	}
 
-	post(url, `\`${sha}\`: ${emoji} ${message}`)
+	post(url, `\`${sha}\`: ${emoji} <https://github.com/prisma/prisma2-e2e-tests/runs/${id}|${message}>`)
 }
 
 run().catch((err) => {
