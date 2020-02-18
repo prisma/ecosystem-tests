@@ -1278,6 +1278,7 @@ const github = __webpack_require__(469);
 	const webhook = new IncomingWebhook(url)
 	await webhook.send({
 		text: `\`${sha}\`: ${emoji} ${message}`,
+		icon_emoji: ':microscope:',
 	})
 })().catch((err) => {
 	core.setFailed(err.message)

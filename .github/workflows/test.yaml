@@ -27,6 +27,14 @@ jobs:
           message: 'os `${{ matrix.os }}`'
           status: ${{ job.status }}
 
+      - name: post failing status to slack
+        if: failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+          message: 'os `${{ matrix.os }}`'
+          status: ${{ job.status }}
+
   node:
     runs-on: ubuntu-latest
 
@@ -56,6 +64,14 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'node `${{ matrix.node }}`'
+          status: ${{ job.status }}
+
+      - name: post failing status to slack
+        if: failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           message: 'node `${{ matrix.node }}`'
           status: ${{ job.status }}
 
@@ -93,6 +109,14 @@ jobs:
           message: 'packager `${{ matrix.packager }}`'
           status: ${{ job.status }}
 
+      - name: post failing status to slack
+        if: failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+          message: 'packager `${{ matrix.packager }}`'
+          status: ${{ job.status }}
+
   frameworks:
     runs-on: ubuntu-latest
 
@@ -124,6 +148,14 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'framework `${{ matrix.framework }}`'
+          status: ${{ job.status }}
+
+      - name: post failing status to slack
+        if: failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           message: 'framework `${{ matrix.framework }}`'
           status: ${{ job.status }}
 
@@ -200,6 +232,14 @@ jobs:
           message: 'platform `${{ matrix.platform }}`'
           status: ${{ job.status }}
 
+      - name: post failing status to slack
+        if: failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+          message: 'platform `${{ matrix.platform }}`'
+          status: ${{ job.status }}
+
   bundlers:
     runs-on: ubuntu-latest
 
@@ -232,6 +272,14 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'bundler `${{ matrix.bundler }}`'
+          status: ${{ job.status }}
+
+      - name: post failing status to slack
+        if: failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           message: 'bundler `${{ matrix.bundler }}`'
           status: ${{ job.status }}
 
