@@ -20,7 +20,7 @@ jobs:
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
       - name: post status to slack
-        if: always()
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -28,7 +28,7 @@ jobs:
           status: ${{ job.status }}
 
       - name: post failing status to slack
-        if: failure()
+        if: github.ref == 'refs/heads/master' && failure()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -60,7 +60,7 @@ jobs:
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
       - name: post status to slack
-        if: always()
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -68,7 +68,7 @@ jobs:
           status: ${{ job.status }}
 
       - name: post failing status to slack
-        if: failure()
+        if: github.ref == 'refs/heads/master' && failure()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -102,7 +102,7 @@ jobs:
           PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
       - name: post status to slack
-        if: always()
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -110,7 +110,7 @@ jobs:
           status: ${{ job.status }}
 
       - name: post failing status to slack
-        if: failure()
+        if: github.ref == 'refs/heads/master' && failure()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -144,7 +144,7 @@ jobs:
           FRAMEWORK_NEXUS_PG_URL: ${{ secrets.FRAMEWORK_NEXUS_PG_URL }}
 
       - name: post status to slack
-        if: always()
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -152,7 +152,7 @@ jobs:
           status: ${{ job.status }}
 
       - name: post failing status to slack
-        if: failure()
+        if: github.ref == 'refs/heads/master' && failure()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -225,7 +225,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: post status to slack
-        if: always()
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -233,7 +233,7 @@ jobs:
           status: ${{ job.status }}
 
       - name: post failing status to slack
-        if: failure()
+        if: github.ref == 'refs/heads/master' && failure()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -268,7 +268,7 @@ jobs:
           ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
 
       - name: post status to slack
-        if: always()
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -276,7 +276,7 @@ jobs:
           status: ${{ job.status }}
 
       - name: post failing status to slack
-        if: failure()
+        if: github.ref == 'refs/heads/master' && failure()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -310,10 +310,18 @@ jobs:
           LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
           LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
 
-      - name: post to slack
-        if: always()
+      - name: post status to slack
+        if: github.ref == 'refs/heads/master' && always()
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: 'library `${{ matrix.library }}`'
+          message: 'library `${{ matrix.library }}'
+          status: ${{ job.status }}
+
+      - name: post failing status to slack
+        if: github.ref == 'refs/heads/master' && failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+          message: 'bundler `${{ matrix.bundler }}`'
           status: ${{ job.status }}
