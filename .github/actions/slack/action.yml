@@ -1,0 +1,15 @@
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs:
+  webhook:
+    description: 'The Slack Webhook URL'
+    required: true
+  status:
+    description: 'github action status'
+    required: true
+  message:
+    description: 'github action message'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
