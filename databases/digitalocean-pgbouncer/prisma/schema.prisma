@@ -1,0 +1,24 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_DO_PG_BOUNCER_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  data  String   @default("")
+  date  DateTime
+  id    String   @id
+  slug  String   @default("")
+  title String   @default("")
+  user  User
+}
+
+model User {
+  email String @default("")
+  id    String @id
+  name  String @default("")
+  post  Post[]
+}
