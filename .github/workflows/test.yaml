@@ -339,3 +339,26 @@ jobs:
           message: 'bundler `${{ matrix.bundler }}`'
           status: ${{ job.status }}
           run-id: ${{ github.run_id}}
+
+  databases:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - digitalocean-pgbouncer
+
+    name: databases ${{ matrix.database }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.database }}
+        run: sh run.sh databases ${{ matrix.database }}
+        env:
+          DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
