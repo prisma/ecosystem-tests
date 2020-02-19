@@ -858,7 +858,7 @@ async function run() {
 		emoji = ':x:'
 	}
 
-	post(url, `\`${sha}\`: ${emoji} <https://github.com/prisma/prisma2-e2e-tests/runs/${id}|${message}>`)
+	await post(url, `\`${sha}\`: ${emoji} <https://github.com/prisma/prisma2-e2e-tests/runs/${id}|${message}>`)
 }
 
 run().catch((err) => {
