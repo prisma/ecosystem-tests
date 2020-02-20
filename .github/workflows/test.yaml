@@ -15,7 +15,7 @@ jobs:
           version: 12
 
       - name: test on ${{ matrix.os }}
-        run: sh run.sh os base
+        run: sh run.sh generic basic
         env:
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
@@ -47,6 +47,7 @@ jobs:
           - 10
           - 12
 
+
     name: node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v1
@@ -57,7 +58,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: test on node ${{ matrix.node }}
-        run: sh run.sh os base
+        run: sh run.sh generic basic
         env:
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
