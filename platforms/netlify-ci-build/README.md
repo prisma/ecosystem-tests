@@ -1,8 +1,8 @@
-# Introduction
+# Netlify CI build
 
 Prisma and Netlify [beta build](https://build-beta.netlify.com/) integration.
 
-# Friction Points
+## Friction points
 
 - https://github.com/netlify/build/issues/730
 - Not zero-config, binary target configuration needed

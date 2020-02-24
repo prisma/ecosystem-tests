@@ -1,7 +1,5 @@
-# Introduction
+# Heroku
 
-Prisma and Heroku integration.
-
-# Friction Points
+## Friction points
 
 - https://github.com/prisma/prisma2/issues/1540
