@@ -364,3 +364,21 @@ jobs:
         run: sh run.sh databases ${{ matrix.database }}
         env:
           DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
+
+      - name: post status to slack
+        if: github.ref == 'refs/heads/master' && always()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: 'database `${{ matrix.bundler }}`'
+          status: ${{ job.status }}
+          run-id: ${{ github.run_id }}
+
+      - name: post failing status to slack
+        if: github.ref == 'refs/heads/master' && failure()
+        uses: ./.github/actions/slack/
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+          message: 'database `${{ matrix.bundler }}`'
+          status: ${{ job.status }}
+          run-id: ${{ github.run_id }}
