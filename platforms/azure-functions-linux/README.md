@@ -1,12 +1,7 @@
-# GCP functions
+# Azure Functions Linux
 
-Important note:
+Tests Azure Functions in a linux environment.
 
-GCP fetches the node modules for the user, so we need to define a specific hook to invoke `prisma2 generate`.
+## Notes
 
-```
-# package.json
-"scripts": {
-    "gcp-build": "prisma2 generate",
-}
-```
+Logs are currently not streamed into CI.

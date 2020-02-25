@@ -1,7 +1,5 @@
-# Introduction
+# CodeSandbox
 
-Prisma and CodeSandbox integration.
-
-# Friction Points
+## Friction points
 
 - https://github.com/prisma/prisma2/issues/805
