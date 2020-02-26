@@ -12,11 +12,13 @@ If there is a new version, [Prismo](https://github.com/prisma-bot) works tireles
 
 The e2e tests are defined in `.github/workflows/test.yaml`. Currently, this action tests:
 
-- Operating Systems: Linux, Mac, Windows
-- Node versions: 8, 10, 12
+- Operating Systems: Linux, Mac, Windows (see `generic/`)
+- Node versions: 10, 12 (see `generic/`)
 - Frameworks (see `frameworks/`)
-- Platforms (see `platforms/`)
-- TODO
+- Cloud platforms (see `platforms/`)
+- Bundlers (see `bundlers/`)
+- Miscellaneous database tools and platform combinations (see `databases/`)
+- Package managers or specific package manager setups or features (see `packagers/`)
 
 To check the current status of this repository somewhere else, you can use [a simple shell script](https://gist.github.com/steebchen/80fb6e3a60aec0f095090618f90473ec).
 
