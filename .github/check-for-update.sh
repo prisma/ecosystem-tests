@@ -89,6 +89,13 @@ while [ $i -le $count ]; do
 
 	echo "pushed commit"
 
+	export version="$v"
+
+	export webhook="$SLACK_WEBHOOK_URL"
+	node .github/actions/slack/notify-version.js
+	export webhook="$SLACK_WEBHOOK_URL_FAILING"
+	node .github/actions/slack/notify-version.js
+
 	end=$(date "+%s")
 	diff=$(echo "$end - $start" | bc)
 	remaining=$((interval - 1 - diff))
