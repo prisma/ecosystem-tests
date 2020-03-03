@@ -370,7 +370,7 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: 'database `${{ matrix.bundler }}`'
+          message: 'database `${{ matrix.database }}`'
           status: ${{ job.status }}
           run-id: ${{ github.run_id }}
 
@@ -379,6 +379,6 @@ jobs:
         uses: ./.github/actions/slack/
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          message: 'database `${{ matrix.bundler }}`'
+          message: 'database `${{ matrix.database }}`'
           status: ${{ job.status }}
           run-id: ${{ github.run_id }}
