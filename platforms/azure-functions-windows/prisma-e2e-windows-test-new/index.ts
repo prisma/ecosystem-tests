@@ -1,26 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { Context, HttpRequest } from "@azure/functions";
-import { spawnSync } from "child_process";
 
 const client = new PrismaClient();
-
-async function debug() {
-  const cmd = spawnSync(
-    "dir D:\\home\\site\\wwwroot\\node_modules\\@prisma\\client\\runtime\\query-engine-windows.exe"
-  );
-  console.log(
-    "dir D:\\home\\site\\wwwroot\\node_modules\\@prisma\\client\\runtime\\"
-  );
-  console.log("stderr", cmd.stderr);
-  console.log("stdout", cmd.stdout);
-}
 
 export default async function(
   context: Context,
   req: HttpRequest
 ): Promise<void> {
-  await debug();
-
   await client.user.deleteMany({});
 
   const id = "12345";
