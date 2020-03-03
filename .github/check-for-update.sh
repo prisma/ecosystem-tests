@@ -85,16 +85,21 @@ while [ $i -le $count ]; do
 	# fail silently if the unlikely event happens that this change already has been pushed either manually
 	# or by an overlapping upgrade action
 	git pull github "${GITHUB_REF}" --rebase || true
-	git push github HEAD:"${GITHUB_REF}" || true
 
+	set +e
+	git push github HEAD:"${GITHUB_REF}"
+	code=$?
+	set -e
 	echo "pushed commit"
 
-	export version="$v"
+	if [ $code -eq 0 ]; then
+		export version="$v"
 
-	export webhook="$SLACK_WEBHOOK_URL"
-	node .github/actions/slack/notify-version.js
-	export webhook="$SLACK_WEBHOOK_URL_FAILING"
-	node .github/actions/slack/notify-version.js
+		export webhook="$SLACK_WEBHOOK_URL"
+		node .github/actions/slack/notify-version.js
+		export webhook="$SLACK_WEBHOOK_URL_FAILING"
+		node .github/actions/slack/notify-version.js
+	fi
 
 	end=$(date "+%s")
 	diff=$(echo "$end - $start" | bc)
