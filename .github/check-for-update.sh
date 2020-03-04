@@ -2,6 +2,8 @@
 
 set -eu
 
+channel="alpha"
+
 no_negatives () {
 	echo "$(( $1 < 0 ? 0 : $1 ))"
 }
@@ -41,8 +43,7 @@ while [ $i -le $count ]; do
 
 	echo "checking info..."
 
-	channel="alpha"
-	v=$(yarn info prisma2@$channel --json | jq '.data["dist-tags"].alpha' | tr -d '"')
+	v=$(sh .github/scripts/prisma-version.sh "$channel")
 
 	echo "$packages" | tr ' ' '\n' | while read -r item; do
 		echo "checking $item"
