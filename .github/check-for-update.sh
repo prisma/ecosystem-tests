@@ -47,6 +47,14 @@ while [ $i -le $count ]; do
 
 	echo "$packages" | tr ' ' '\n' | while read -r item; do
 		echo "checking $item"
+
+		case "$item" in
+			*".github"*)
+				echo "ignoring $item"
+				continue
+				;;
+		esac
+
 		cd "$(dirname "$item")/"
 
 		vPrisma2="$(node -e "$pkg;console.log(pkg.devDependencies['prisma2'])")"
@@ -94,12 +102,10 @@ while [ $i -le $count ]; do
 	echo "pushed commit"
 
 	if [ $code -eq 0 ]; then
-		export version="$v"
-
 		export webhook="$SLACK_WEBHOOK_URL"
-		node .github/actions/slack/notify-version.js
+		node .github/actions/slack/notify.js "Prisma version $v released"
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
-		node .github/actions/slack/notify-version.js
+		node .github/actions/slack/notify.js "Prisma version $v released"
 	fi
 
 	end=$(date "+%s")

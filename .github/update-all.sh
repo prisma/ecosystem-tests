@@ -15,6 +15,14 @@ dir=$(pwd)
 
 echo "$packages" | tr ' ' '\n' | while read -r item; do
 	echo "running $item"
+
+	case "$item" in
+		*".github"*)
+			echo "ignoring $item"
+			continue
+			;;
+	esac
+
 	cd "$(dirname "$item")/"
 
 	## ACTION

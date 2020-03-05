@@ -2,9 +2,9 @@ const post = require('./post')
 
 async function run() {
 	const url = process.env.webhook
-	const version = process.env.version
+	const message = process.argv[2]
 
-	await post(url, `Prisma version ${version} released`)
+	await post(url, message)
 }
 
 run().catch((err) => {
