@@ -43,7 +43,7 @@ while [ $i -le $count ]; do
 
 	echo "checking info..."
 
-	v=$(sh .github/scripts/prisma-version.sh "$channel")
+	v=$(sh .github/prisma-version.sh "$channel")
 
 	echo "$packages" | tr ' ' '\n' | while read -r item; do
 		echo "checking $item"
@@ -88,6 +88,7 @@ while [ $i -le $count ]; do
 	fi
 
 	echo "changes, upgrading..."
+	echo "$v" > .github/prisma-version.txt
 
 	git commit -am "chore(packages): bump prisma2 to $v"
 

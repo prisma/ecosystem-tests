@@ -25,7 +25,7 @@ cd "$root"
 (cd .github/slack/ && yarn install --silent)
 
 export webhook="$SLACK_WEBHOOK_URL"
-version="$(cat prisma-version.txt)"
+version="$(cat .github/prisma-version.txt)"
 sha="$(git rev-parse HEAD | cut -c -7)"
 
 emoji=":x:"
