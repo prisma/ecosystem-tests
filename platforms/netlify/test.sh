@@ -6,7 +6,9 @@ url="https://e2e-platforms-netlify.netlify.com/.netlify/functions/index"
 
 printf "curl: %s\n" "$(curl "$url")"
 
-expected='{"createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}'
+prisma_version="$(cat ../../.github/prisma-version.txt)"
+
+expected='{"version":"'$prisma_version'","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}'
 actual=$(curl -v "$url")
 
 if [ "$expected" != "$actual" ]; then

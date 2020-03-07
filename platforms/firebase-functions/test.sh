@@ -5,8 +5,9 @@ set -eux
 func="$1"
 
 url="https://us-central1-prisma-e2e-tests-265911.cloudfunctions.net/func"
+prisma_version="$(cat ../../.github/prisma-version.txt)"
 
-expected='{"createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}'
+expected='{"version":"'$prisma_version'","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}'
 actual=$(curl -v "$url")
 
 firebase functions:log --only "$func"
