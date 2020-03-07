@@ -5,8 +5,11 @@ const client = new PrismaClient()
 exports.handler = async function(event, context, callback) {
   await client.user.deleteMany({})
 
+  const id = '12345'
+
   const createUser = await client.user.create({
     data: {
+      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -14,7 +17,7 @@ exports.handler = async function(event, context, callback) {
 
   const updateUser = await client.user.update({
     where: {
-      id: createUser.id,
+      id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -24,7 +27,7 @@ exports.handler = async function(event, context, callback) {
 
   const users = await client.user.findOne({
     where: {
-      id: createUser.id,
+      id,
     },
   })
 

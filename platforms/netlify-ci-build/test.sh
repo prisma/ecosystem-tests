@@ -4,28 +4,12 @@ set -eu
 
 url="https://prisma2-e2e-tests-netlify.netlify.com/.netlify/functions/index"
 
-echo "curl: $(curl $url)\n"
+printf "curl: %s\n" "$(curl "$url")"
 
-CREATE_USER_NAME=$(curl --silent $url | jq '.createUser.name')
-if [ "$CREATE_USER_NAME" = '"Alice"' ]; then
-  echo "Create user name is ok"
-else
-  echo "Create user name is incorrect $CREATE_USER_NAME"
-  exit 1
-fi
+expected='{"createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}'
+actual=$(curl -v "$url")
 
-UPDATE_USER_NAME=$(curl --silent $url | jq '.updateUser.name')
-if [ "$UPDATE_USER_NAME" = '"Bob"' ]; then
-  echo "Update user name is ok"
-else
-  echo "Update user name is incorrect $UPDATE_USER_NAME"
-  exit 1
-fi
-
-DELETE_COUNT=$(curl --silent $url | jq '.deleteManyUsers.count')
-if [ $DELETE_COUNT -eq 1 ]; then
-  echo "Delete count is ok"
-else
-  echo "Delete count is incorrect $DELETE_COUNT"
-  exit 1
+if [ "$expected" != "$actual" ]; then
+	echo "expected '$expected', got '$actual'"
+	exit 1
 fi
