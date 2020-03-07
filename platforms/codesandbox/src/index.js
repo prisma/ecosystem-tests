@@ -8,8 +8,11 @@ const app = express()
 app.get('/', async (req, res) => {
   await client.user.deleteMany({})
 
+  const id = '12345'
+
   const createUser = await client.user.create({
     data: {
+      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -17,7 +20,7 @@ app.get('/', async (req, res) => {
 
   const updateUser = await client.user.update({
     where: {
-      id: createUser.id,
+      id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -27,7 +30,7 @@ app.get('/', async (req, res) => {
 
   const users = await client.user.findOne({
     where: {
-      id: createUser.id,
+      id,
     },
   })
 

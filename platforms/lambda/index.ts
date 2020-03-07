@@ -17,7 +17,7 @@ export async function handler() {
 
   const updateUser = await client.user.update({
     where: {
-      id: createUser.id,
+      id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -27,7 +27,7 @@ export async function handler() {
 
   const users = await client.user.findOne({
     where: {
-      id: createUser.id,
+      id,
     },
   })
 
