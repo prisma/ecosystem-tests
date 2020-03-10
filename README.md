@@ -38,5 +38,7 @@ set -eu
 
 You need to use [yarn](https://yarnpkg.com) as it's used for bumping dependencies; i.e. run `yarn install` as a first step in your `run.sh` script.
 
+If you need additional dependencies such as CLIs, you can install them in the optional `prepare.sh` in a specific folder. It will automatically be picked up to run before the `run.sh` file does.
+
 **NOTE:**
 It's important to add `prisma2` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json´.
