@@ -13,6 +13,11 @@ echo "running $dir/$project"
 
 cd "$dir/$project"
 
+if [ -f "prepare.sh" ]; then
+	echo "prepare script found, executing $dir/$project/prepare.sh"
+	sh prepare.sh
+fi
+
 set +e
 sh run.sh
 code=$?
