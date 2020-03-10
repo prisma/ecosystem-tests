@@ -742,10 +742,10 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
-"@prisma/client@2.0.0-alpha.882":
-  version "2.0.0-alpha.882"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.882.tgz#898eb7c31080bc9929cc4203b21053f347477712"
-  integrity sha512-US5sHDbYi7nCJ3WHW8r7w3TzUKPxTtvBpS501mV3iDlj+Eqvz0x5tYfI0X7s9dXxUHEh4gHsK1kuPGxT0kBi0g==
+"@prisma/client@2.0.0-alpha.883":
+  version "2.0.0-alpha.883"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.883.tgz#7c1d702c45b1ed8a60a0d9423b100549b4a79c36"
+  integrity sha512-OrFuLvsZBCNpIwZQd03UJ9XHqQGS+R9MAjozKW9rL7urM9isXIHAqL0F2SwOq1Xmgz6cFx52GfPsWlKUwtTb8Q==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -5564,6 +5564,22 @@ node-pre-gyp@0.14.0:
     semver "^5.3.0"
     tar "^4.4.2"
 
+node-pre-gyp@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.11.0.tgz#db1f33215272f692cd38f03238e3e9b47c5dd054"
+  integrity sha512-TwWAOZb0j7e9eGaf9esRx3ZcLaE5tQ2lvYy1pb5IAaG1a2e2Kv5Lms1Y4hpj+ciXJRofIxxlt5haeQ/2ANeE0Q==
+  dependencies:
+    detect-libc "^1.0.2"
+    mkdirp "^0.5.1"
+    needle "^2.2.1"
+    nopt "^4.0.1"
+    npm-packlist "^1.1.6"
+    npmlog "^4.0.2"
+    rc "^1.2.7"
+    rimraf "^2.6.1"
+    semver "^5.3.0"
+    tar "^4"
+
 noms@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/noms/-/noms-0.0.0.tgz#da8ebd9f3af9d6760919b27d9cdc8092a7332859"
@@ -6069,10 +6085,12 @@ pretty-format@^25.1.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
-prisma2@2.0.0-alpha.882:
-  version "2.0.0-alpha.882"
-  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-alpha.882.tgz#dc80510f61bd8fb92e9bfad3cab38feb61e1d1a3"
-  integrity sha512-+jxr/8JFyjwA4AX1z/xt3E1+VaNbFY5ACzhfp+z70mrgLgGxQBkpMzNcvPSSPgthc5BmDEx1qF0V1eMj/6yblg==
+prisma2@2.0.0-alpha.883:
+  version "2.0.0-alpha.883"
+  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-alpha.883.tgz#a4c64606cf5c8ba54c306861d763052396ddefc6"
+  integrity sha512-LtovTqsRhBRcUKqQodcehpckjBExlk+2qc4sIzjDmPBl+ab3Ot+iAEPpb9dFtYABzrXUM7IJnJTpUC8mHbnWFg==
+  dependencies:
+    sqlite3 "^4.1.1"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -6342,7 +6360,7 @@ request-promise-native@^1.0.7:
     stealthy-require "^1.1.1"
     tough-cookie "^2.3.3"
 
-request@^2.88.0:
+request@^2.87.0, request@^2.88.0:
   version "2.88.2"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
   integrity sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==
@@ -6775,6 +6793,15 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
+sqlite3@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-4.1.1.tgz#539a42e476640796578e22d589b3283c28055242"
+  integrity sha512-CvT5XY+MWnn0HkbwVKJAyWEMfzpAPwnTiB3TobA5Mri44SrTovmmh499NPQP+gatkeOipqPlBLel7rn4E/PCQg==
+  dependencies:
+    nan "^2.12.1"
+    node-pre-gyp "^0.11.0"
+    request "^2.87.0"
+
 sshpk@^1.7.0:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.16.1.tgz#fb661c0bef29b39db40769ee39fa70093d6f6877"
@@ -7077,7 +7104,7 @@ tapable@^1.0.0, tapable@^1.1.3:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-1.1.3.tgz#a1fccc06b58db61fd7a45da2da44f5f3a3e67ba2"
   integrity sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA==
 
-tar@^4.4.2:
+tar@^4, tar@^4.4.2:
   version "4.4.13"
   resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525"
   integrity sha512-w2VwSrBoHa5BsSyH+KxEqeQBAllHhccyMFVHtGtdMpF4W7IRWfZjFiQceJPChOeTsSDVUpER2T8FA93pr0L+QA==
