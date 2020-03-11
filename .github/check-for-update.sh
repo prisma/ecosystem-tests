@@ -104,9 +104,9 @@ while [ $i -le $count ]; do
 
 	if [ $code -eq 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL"
-		node .github/actions/slack/notify.js "Prisma version $v released"
+		node .github/slack/notify.js "Prisma version $v released"
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
-		node .github/actions/slack/notify.js "Prisma version $v released"
+		node .github/slack/notify.js "Prisma version $v released"
 	fi
 
 	end=$(date "+%s")

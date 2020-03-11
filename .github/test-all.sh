@@ -34,10 +34,11 @@ version="$(cat .github/prisma-version.txt)"
 sha="$(git rev-parse HEAD | cut -c -7)"
 
 emoji=":x:"
-if [ $code -ne 0 ]; then
+if [ $code -eq 0 ]; then
 	emoji=":white_check_mark:"
 fi
 
+echo "notifying slack channel"
 node .github/slack/notify.js "\`$sha\`: ${emoji} $project ran using prisma@$version"
 
 if [ $code -ne 0 ]; then
@@ -45,8 +46,10 @@ if [ $code -ne 0 ]; then
 
 	if [ "$GITHUB_REF" = "refs/heads/master" ]; then
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
+		echo "notifying failing slack channel"
 		node .github/slack/notify.js "\`$sha\`: :x: $project failed using prisma@$version"
 	fi
 
+	echo "exitting with error code $code"
 	exit $code
 fi
