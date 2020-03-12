@@ -2,6 +2,10 @@
 
 set -eu
 
+cd .github/slack/
+yarn install
+cd ../..
+
 channel="alpha"
 
 no_negatives () {

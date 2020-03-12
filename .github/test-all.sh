@@ -4,6 +4,10 @@ set -eu
 
 export CI=true
 
+cd .github/slack/
+yarn install
+cd ../..
+
 root=$(pwd)
 
 dir=$1

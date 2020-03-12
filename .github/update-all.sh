@@ -2,13 +2,12 @@
 
 set -eu
 
-dir=$1
+echo "updating all"
 
-echo "running $dir tests"
+channel="$1"
 
 packages=$(find "$dir" -not -path "*/node_modules/*" -type f -name "package.json")
 
-channel="alpha"
 v=$(sh .github/prisma-version.sh "$channel")
 
 dir=$(pwd)
