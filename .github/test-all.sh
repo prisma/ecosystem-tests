@@ -42,8 +42,10 @@ if [ $code -eq 0 ]; then
 	emoji=":white_check_mark:"
 fi
 
-echo "notifying slack channel"
-node .github/slack/notify.js "\`$sha\`: ${emoji} $project ran using prisma@$version"
+if [ "$GITHUB_REF" = "refs/heads/master" ]; then
+	echo "notifying slack channel"
+	node .github/slack/notify.js "\`$sha\`: ${emoji} $project ran using prisma@$version"
+fi
 
 if [ $code -ne 0 ]; then
 	echo "$project failed"
