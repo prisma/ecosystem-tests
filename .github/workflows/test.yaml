@@ -1,6 +1,39 @@
 name: test
 on: push
 jobs:
+  report-to-slack-success:
+    runs-on: ubuntu-latest
+    needs: [os, node, packagers, frameworks, platforms, bundlers, libraries]
+    if: success() && github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+
+      - name: report success to slack
+        run: sh .github/slack-workflow-status.sh ":white_check_mark:"
+        env:
+          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+
+  report-to-slack-failure:
+    runs-on: ubuntu-latest
+    needs: [os, node, packagers, frameworks, platforms, bundlers, libraries]
+    if: failure()
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+
+      - name: report failure to slack
+        run: sh .github/slack-workflow-status.sh ":x:"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+
   os:
     strategy:
       fail-fast: false
