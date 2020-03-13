@@ -18,7 +18,7 @@ jobs:
         run: sh .github/test-all.sh generic basic
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
   node:
@@ -44,7 +44,7 @@ jobs:
         run: sh .github/test-all.sh generic basic
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
   packagers:
@@ -70,7 +70,7 @@ jobs:
         run: sh .github/test-all.sh packagers ${{ matrix.packager }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
           PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
           PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
@@ -139,7 +139,7 @@ jobs:
         run: sh .github/test-all.sh platforms ${{ matrix.platform }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           CI: 1
           SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
           SSH_KEY_NETLIFY_ZISHI: ${{ secrets.SSH_KEY_NETLIFY_ZISHI }}
@@ -196,7 +196,7 @@ jobs:
         run: sh .github/test-all.sh bundlers ${{ matrix.bundler }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
           PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
           ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
@@ -225,7 +225,7 @@ jobs:
         run: sh .github/test-all.sh libraries ${{ matrix.library }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
           LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
           LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
@@ -253,5 +253,5 @@ jobs:
         run: sh .github/test-all.sh databases ${{ matrix.database }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
