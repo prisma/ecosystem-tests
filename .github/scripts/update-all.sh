@@ -8,7 +8,7 @@ channel="$1"
 
 packages=$(find "$dir" -not -path "*/node_modules/*" -type f -name "package.json")
 
-v=$(sh .github/prisma-version.sh "$channel")
+v=$(sh .github/scripts/prisma-version.sh "$channel")
 
 dir=$(pwd)
 

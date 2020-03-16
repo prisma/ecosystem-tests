@@ -14,7 +14,7 @@ jobs:
           node-version: 10
 
       - name: check-for-update
-        run: sh .github/check-for-update.sh
+        run: sh .github/scripts/check-for-update.sh
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
