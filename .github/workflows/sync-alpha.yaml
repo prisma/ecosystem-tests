@@ -1,0 +1,20 @@
+name: sync-alpha
+on:
+  push:
+    branches:
+      - master
+jobs:
+  sync-alpha:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: sync alpha
+        run: sh .github/scripts/sync.sh alpha
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}

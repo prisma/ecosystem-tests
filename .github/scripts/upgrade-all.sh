@@ -2,26 +2,25 @@
 
 set -eu
 
-echo "updating all"
-
 channel="$1"
 
-packages=$(find "$dir" -not -path "*/node_modules/*" -type f -name "package.json")
+echo "upgrading all packages"
+
+packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
 
 v=$(sh .github/scripts/prisma-version.sh "$channel")
 
 dir=$(pwd)
 
 echo "$packages" | tr ' ' '\n' | while read -r item; do
-	echo "running $item"
-
 	case "$item" in
-		*".github"*)
+		*".github"*|*"yarn-workspaces/package.json"*)
 			echo "ignoring $item"
 			continue
 			;;
 	esac
 
+	echo "running $item"
 	cd "$(dirname "$item")/"
 
 	## ACTION

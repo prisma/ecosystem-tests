@@ -6,7 +6,8 @@ cd .github/slack/
 yarn install
 cd ../..
 
-channel="alpha"
+channel="$1"
+branch="$2"
 
 no_negatives () {
 	echo "$(( $1 < 0 ? 0 : $1 ))"
@@ -23,6 +24,8 @@ git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
+git fetch github "$branch"
+git reset --hard "github/$branch"
 
 # prepare script: read package.json but ignore workspace package.json files
 pkg="var pkg=require('./package.json'); if (pkg.workspaces) { process.exit(0); }"

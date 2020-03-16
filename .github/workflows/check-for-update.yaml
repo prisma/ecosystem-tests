@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  check-for-update:
+  check-for-preview-update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -13,8 +13,25 @@ jobs:
         with:
           node-version: 10
 
-      - name: check-for-update
-        run: sh .github/scripts/check-for-update.sh
+      - name: check preview update
+        run: sh .github/scripts/check-for-update.sh latest master
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+
+  check-for-alpha-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: use node 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: check alpha update
+        run: sh .github/scripts/check-for-update.sh alpha alpha
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
