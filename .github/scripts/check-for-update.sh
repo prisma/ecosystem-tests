@@ -45,7 +45,7 @@ while [ $i -le $count ]; do
 
 	dir=$(pwd)
 
-	git pull github "${GITHUB_REF}" --ff-only
+	git pull github "$branch" --ff-only
 	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
 	echo "checking info..."
@@ -101,10 +101,10 @@ while [ $i -le $count ]; do
 
 	# fail silently if the unlikely event happens that this change already has been pushed either manually
 	# or by an overlapping upgrade action
-	git pull github "${GITHUB_REF}" --rebase || true
+	git pull github "$branch" --rebase || true
 
 	set +e
-	git push github HEAD:"${GITHUB_REF}"
+	git push github "HEAD:refs/heads/$branch"
 	code=$?
 	set -e
 	echo "pushed commit"
