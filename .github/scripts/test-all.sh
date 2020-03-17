@@ -31,10 +31,10 @@ echo "$dir/$project done"
 
 cd "$root"
 
-if [ "$GITHUB_REF" = "refs/heads/master" ]; then
+if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/alpha" ]; then
 	(cd .github/slack/ && yarn install --silent)
 
-	branch="$(git rev-parse --abbrev-ref HEAD)"
+	branch="${GITHUB_REF##*/}"
 	sha="$(git rev-parse HEAD | cut -c -7)"
 	short_sha="$(echo "$sha" | cut -c -7)"
 	link="\`<https://github.com/prisma/prisma2-e2e-tests/commit/$sha|$branch@$short_sha>\`"
