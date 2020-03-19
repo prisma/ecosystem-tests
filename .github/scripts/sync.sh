@@ -14,7 +14,10 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
 
-sh .github/scripts/upgrade-all.sh "$channel"
+version=$(sh .github/scripts/prisma-version.sh "$channel")
+sh .github/scripts/upgrade-all.sh "$version"
+
+echo "$version" > .github/prisma-version.txt
 
 git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$channel")"
 
