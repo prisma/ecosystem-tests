@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import * as functions from 'firebase-functions';
 
+process.env.FIREBASE_FUNCTIONS_PG_URL = functions.config().prisma.db
+
 const client = new PrismaClient({
   log: ['info', 'query', 'warn'],
 })
