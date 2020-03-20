@@ -11,6 +11,6 @@ pid=$!
 
 sleep 5
 
-curl -v localhost:3000
+curl localhost:3000
 
 kill $pid
