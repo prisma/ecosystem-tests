@@ -22,7 +22,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	echo "running $item"
 	cd "$(dirname "$item")/"
 
-	echo "$version" > .github/prisma-version.txt
+	echo "$version" > ../prisma-version.txt
 
 	## ACTION
 	yarn add "prisma2@$channel" --dev
