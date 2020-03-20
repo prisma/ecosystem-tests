@@ -5,6 +5,8 @@ set -eu
 channel="$1"
 version=$(sh .github/scripts/prisma-version.sh "$channel")
 
+echo "$version" > .github/prisma-version.txt
+
 echo "upgrading all packages"
 
 packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
@@ -18,8 +20,6 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 			continue
 			;;
 	esac
-
-	echo "$version" > .github/prisma-version.txt
 
 	echo "running $item"
 	cd "$(dirname "$item")/"
