@@ -47,7 +47,7 @@ jobs:
           version: 12
 
       - name: test on ${{ matrix.os }}
-        run: sh .github/scripts/test-all.sh generic basic
+        run: sh .github/scripts/test-all.sh generic basic ${{ matrix.os }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -73,7 +73,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: test on node ${{ matrix.node }}
-        run: sh .github/scripts/test-all.sh generic basic
+        run: sh .github/scripts/test-all.sh generic basic "node ${{ matrix.node }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}

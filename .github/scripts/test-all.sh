@@ -12,6 +12,9 @@ root=$(pwd)
 
 dir=$1
 project=$2
+set +u
+matrix=$3
+set -u
 
 echo "running $dir/$project"
 
@@ -49,12 +52,12 @@ if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/alph
 	fi
 
 	echo "notifying slack channel"
-	node .github/slack/notify.js "$link: ${emoji} $project ran using prisma@$version"
+	node .github/slack/notify.js "$link: ${emoji} $project $matrix ran using prisma@$version"
 
 	if [ $code -ne 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
 		echo "notifying failing slack channel"
-		node .github/slack/notify.js "$link: :x: $project failed using prisma@$version"
+		node .github/slack/notify.js "$link: :x: $project $matrix failed using prisma@$version"
 	fi
 fi
 
