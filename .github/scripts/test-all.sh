@@ -37,6 +37,7 @@ cd "$root"
 if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/alpha" ]; then
 	(cd .github/slack/ && yarn install --silent)
 
+	run_url="$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/prisma/prisma2-e2e-tests/actions/runs/$GITHUB_RUN_ID/jobs | jq -j ".jobs[$((GITHUB_RUN_NUMBER - 1))].html_url")"
 	branch="${GITHUB_REF##*/}"
 	sha="$(git rev-parse HEAD | cut -c -7)"
 	short_sha="$(echo "$sha" | cut -c -7)"
@@ -52,12 +53,12 @@ if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/alph
 	fi
 
 	echo "notifying slack channel"
-	node .github/slack/notify.js "$link: ${emoji} $project $matrix ran using prisma@$version"
+	node .github/slack/notify.js "$link: ${emoji} <$run_url|$project $matrix ran using prisma@$version>"
 
 	if [ $code -ne 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
 		echo "notifying failing slack channel"
-		node .github/slack/notify.js "$link: :x: $project $matrix failed using prisma@$version"
+		node .github/slack/notify.js "$link: :x: <$run_url|$project $matrix failed using prisma@$version>"
 	fi
 fi
 
