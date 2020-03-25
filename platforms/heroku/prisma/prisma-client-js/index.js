@@ -17,11 +17,11 @@ const debug = debugLib('prisma-client')
 
 /**
  * Query Engine version: 026d065fe0e9b3d69ae785068e40e02368c09d28
- * Prisma Client JS version: 2.0.0-alpha.962
+ * Prisma Client JS version: 2.0.0-alpha.963
  */
 exports.prismaVersion = {
   engine: "026d065fe0e9b3d69ae785068e40e02368c09d28",
-  client: "2.0.0-alpha.962"
+  client: "2.0.0-alpha.963"
 }
 
 exports.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -83,7 +83,18 @@ const config = {
     "config": {}
   },
   "sqliteDatasourceOverrides": [],
-  "relativePath": ".."
+  "relativePath": "..",
+  "internalDatasources": [
+    {
+      "name": "db",
+      "connectorType": "postgresql",
+      "url": {
+        "fromEnvVar": null,
+        "value": "dummy://url"
+      },
+      "documentation": "Like, postgresql://user:password@localhost:5432/database/schema"
+    }
+  ]
 }
 config.document = dmmf
 config.dirname = __dirname
