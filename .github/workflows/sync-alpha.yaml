@@ -15,6 +15,6 @@ jobs:
           node-version: 10
 
       - name: sync alpha
-        run: sh .github/scripts/sync.sh alpha
+        run: sh .github/scripts/sync.sh preview
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}

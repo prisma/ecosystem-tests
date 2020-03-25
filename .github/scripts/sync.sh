@@ -25,5 +25,5 @@ git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$channe
 # or by an overlapping upgrade action
 git pull github "${GITHUB_REF}" --rebase || true
 
-# force-push to alpha
-git push github HEAD:refs/heads/alpha --force
+# force-push to $channel
+git push github "HEAD:refs/heads/$channel" --force
