@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, prismaVersion } from "@prisma/client";
 import { Context, HttpRequest } from "@azure/functions";
 
 const client = new PrismaClient();
@@ -40,6 +40,7 @@ export default async function(
   context.res = {
     status: 200,
     body: JSON.stringify({
+      version: prismaVersion.client,
       createUser,
       updateUser,
       users,

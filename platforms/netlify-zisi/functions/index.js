@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient, prismaVersion } = require('@prisma/client')
 
 const client = new PrismaClient()
 
@@ -37,6 +37,7 @@ exports.handler = async function(event, context, callback) {
   return {
     statusCode: 200,
     body: JSON.stringify({
+      version: prismaVersion.client,
       createUser,
       updateUser,
       users,

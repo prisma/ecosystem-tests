@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, prismaVersion } from '@prisma/client'
 
 const client = new PrismaClient()
 
@@ -34,6 +34,7 @@ export async function handler() {
   const deleteManyUsers = await client.user.deleteMany({})
 
   return {
+    version: prismaVersion.client,
     createUser,
     updateUser,
     users,

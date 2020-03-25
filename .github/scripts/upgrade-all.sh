@@ -2,7 +2,10 @@
 
 set -eu
 
-version="$1"
+channel="$1"
+version=$(sh .github/scripts/prisma-version.sh "$channel")
+
+echo "$version" > .github/prisma-version.txt
 
 echo "upgrading all packages"
 
@@ -22,8 +25,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	cd "$(dirname "$item")/"
 
 	## ACTION
-	yarn add "prisma2@$version" --dev
-	yarn add "@prisma/client@$version"
+	yarn add "prisma2@$channel" --dev
+	yarn add "@prisma/client@$channel"
 	## END
 
 	echo "$item done"

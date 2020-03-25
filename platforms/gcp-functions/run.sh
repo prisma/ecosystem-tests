@@ -2,6 +2,9 @@
 
 set -eux
 
+# just make sure this variable is set because gcloud expects it to be set
+echo "$GCP_FUNCTIONS_ACCOUNT"
+
 yarn install
 
 yarn prisma2 generate
