@@ -1,4 +1,4 @@
-import { PrismaClient, version } from '@prisma/client'
+import { PrismaClient, prismaVersion } from '@prisma/client'
 import * as functions from 'firebase-functions';
 
 process.env.FIREBASE_FUNCTIONS_PG_URL = functions.config().prisma.db
@@ -39,7 +39,7 @@ const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest(async (req, res) =>
   const deleteManyUsers = await client.user.deleteMany({})
 
   res.status(200).send({
-    version: version.client,
+    version: prismaVersion.client,
     createUser,
     updateUser,
     users,
