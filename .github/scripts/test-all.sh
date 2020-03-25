@@ -34,7 +34,7 @@ echo "$dir/$project done"
 
 cd "$root"
 
-if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/alpha" ]; then
+if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/preview" ]; then
 	(cd .github/slack/ && yarn install --silent)
 
 	branch="${GITHUB_REF##*/}"
