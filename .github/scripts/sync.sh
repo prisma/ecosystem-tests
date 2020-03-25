@@ -3,6 +3,7 @@
 set -eu
 
 channel="$1"
+branch="$2"
 
 mkdir -p ~/.ssh
 echo "$SSH_KEY" > ~/.ssh/id_rsa
@@ -25,5 +26,5 @@ git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$channe
 # or by an overlapping upgrade action
 git pull github "${GITHUB_REF}" --rebase || true
 
-# force-push to $channel
-git push github "HEAD:refs/heads/$channel" --force
+# force-push to $branch
+git push github "HEAD:refs/heads/$branch" --force
