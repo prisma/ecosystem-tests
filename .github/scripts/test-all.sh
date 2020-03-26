@@ -53,12 +53,12 @@ if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/prev
 	fi
 
 	echo "notifying slack channel"
-	node .github/slack/notify.js "$commit_link: ${emoji} $workflow_link ran using prisma@$version"
+	node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
 
 	if [ $code -ne 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
 		echo "notifying failing slack channel"
-		node .github/slack/notify.js "$commit_link: :x: $workflow_link failed using prisma@$version"
+		node .github/slack/notify.js "prisma@$version: :x: $workflow_link failed (via $commit_link)"
 	fi
 fi
 
