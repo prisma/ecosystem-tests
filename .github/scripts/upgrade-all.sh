@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 channel="$1"
 version=$(sh .github/scripts/prisma-version.sh "$channel")
@@ -25,7 +25,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	cd "$(dirname "$item")/"
 
 	## ACTION
-	yarn add "prisma2@$channel" --dev
+	yarn remove prisma2 || true
+	yarn add "@prisma/cli@$channel" --dev
 	yarn add "@prisma/client@$channel"
 	## END
 
