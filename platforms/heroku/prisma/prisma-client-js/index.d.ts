@@ -17,7 +17,7 @@ export { PrismaClientValidationError }
 
 /**
  * Query Engine version: 755045d34bde223f97732587ea92a33421740bc1
- * Prisma Client JS version: 2.0.0-alpha.976
+ * Prisma Client JS version: 2.0.0-alpha.977
  */
 export declare type PrismaVersion = {
   client: string
