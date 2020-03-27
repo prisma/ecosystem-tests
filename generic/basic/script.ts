@@ -47,7 +47,9 @@ async function main() {
       posts: true,
     },
   })
-  console.log(`Created users: ${user1.name} (${user1.posts.length} post) and (${user2.posts.length} posts) `)
+  console.log(
+    `Created users: ${user1.name} (${user1.posts.length} post) and (${user2.posts.length} posts) `,
+  )
 
   // Retrieve all published posts
   const allPosts = await client.post.findMany({
@@ -97,8 +99,8 @@ async function main() {
   await client.disconnect()
 }
 
-main()
-  .catch(async e => {
-    console.error(e)
-    await client.disconnect()
-  })
+main().catch(async e => {
+  console.error(e)
+  await client.disconnect()
+  process.exit(1)
+})
