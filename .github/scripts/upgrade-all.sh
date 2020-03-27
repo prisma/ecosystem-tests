@@ -25,8 +25,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	cd "$(dirname "$item")/"
 
 	## ACTION
-	yarn add "@prisma/cli@$channel" --dev
-	yarn add "@prisma/client@$channel"
+	yarn remove prisma2 || true
 	## END
 
 	echo "$item done"
