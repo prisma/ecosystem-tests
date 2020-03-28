@@ -16,12 +16,12 @@ const fs = require('fs')
 const debug = debugLib('prisma-client')
 
 /**
- * Query Engine version: a5496bff511ac9d1efe467700d3b8955e6030765
- * Prisma Client JS version: 2.0.0-alpha.980
+ * Query Engine version: 0693bd6540f9de39f72476d9b6605761d8645ad0
+ * Prisma Client JS version: 2.0.0-alpha.981
  */
 exports.prismaVersion = {
-  engine: "a5496bff511ac9d1efe467700d3b8955e6030765",
-  client: "2.0.0-alpha.980"
+  engine: "0693bd6540f9de39f72476d9b6605761d8645ad0",
+  client: "2.0.0-alpha.981"
 }
 
 exports.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
