@@ -1,18 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("FRAMEWORK_NESTJS_PG_URL")
-}
-
-generator prisma_client {
-  provider = "prisma-client-js"
 }
 
 model User {
   id        String   @default(cuid()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
+  email     String   @default("") @unique
+  password  String   @default("")
   firstname String?
   lastname  String?
   posts     Post[]
@@ -23,10 +23,12 @@ model Post {
   id        String   @default(cuid()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  published Boolean
-  title     String
+  published Boolean  @default(false)
+  title     String   @default("")
   content   String?
-  author    User?
+
+  authorId  String?  @map("author")
+  author    User?    @relation(fields: [authorId], references: [id])
 }
 
 enum Role {
