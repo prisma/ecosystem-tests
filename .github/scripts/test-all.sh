@@ -16,15 +16,23 @@ set +u
 matrix=$3
 set -u
 
+echo ""
+echo ""
+echo "-----------------------------"
 echo "running $dir/$project"
 
 cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
+	echo "-----------------------------"
 	echo "prepare script found, executing $dir/$project/prepare.sh"
 	sh prepare.sh
 fi
 
+echo ""
+echo ""
+echo "-----------------------------"
+echo "executing executing $dir/$project/run.sh"
 set +e
 sh run.sh
 code=$?
