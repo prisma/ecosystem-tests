@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: c2004088ade61a10d04ee730e7e4cb0eb4b428cb
- * Prisma Client JS version: 2.0.0-alpha.986
+ * Query Engine version: 2accb9c7eacdc984874eaeb63377fe705dfd3203
+ * Prisma Client JS version: 2.0.0-alpha.987
  */
 export declare type PrismaVersion = {
   client: string
@@ -1125,10 +1125,6 @@ export type PostArgs = {
  * Deep Input Types
  */
 
-
-export type authorCompoundInlineFilterInput = {
-
-}
 
 export type PostWhereInput = {
   id?: string | StringFilter | null
