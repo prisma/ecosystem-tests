@@ -27,8 +27,16 @@ cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
 	echo "-----------------------------"
+	echo ""
 	echo "prepare script found, executing $dir/$project/prepare.sh"
+	echo ""
+
 	sh prepare.sh
+
+	echo ""
+	echo "finished prepare.sh"
+	echo ""
+	echo "-----------------------------"
 fi
 
 echo ""
@@ -39,6 +47,42 @@ set +e
 sh run.sh
 code=$?
 set -e
+
+if [ $code -eq 0 ]; then
+	echo "-----------------------------"
+	echo ""
+	echo "run.sh was successful, running $dir/$project/test.sh..."
+	echo ""
+
+	if [ ! -f "test.sh" ]; then
+		echo "$dir/$project/test.sh does not exist, please create it"
+		exit 1
+	fi
+
+	set +e
+	sh test.sh
+	code=$?
+	set -e
+
+	echo ""
+	echo "finished test.sh"
+	echo ""
+	echo "-----------------------------"
+fi
+
+if [ -f "finally.sh" ]; then
+	echo "-----------------------------"
+	echo ""
+	echo "finally script found, executing $dir/$project/finally.sh"
+	echo ""
+
+	sh finally.sh
+
+	echo ""
+	echo "finished finally.sh"
+	echo ""
+	echo "-----------------------------"
+fi
 
 echo "$dir/$project done"
 
