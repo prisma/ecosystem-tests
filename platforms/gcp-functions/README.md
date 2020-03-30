@@ -14,7 +14,7 @@ The AWS v1 CLI is already pre-installed in GitHub Actions.
 
 The environment variable `GCP_FUNCTIONS_PG_URL` should point to a postgres database.
 In CI, it uses our internal e2e test database using `platform-gcp-functions` as database URL.
-Please check our internal 1Password for a ready-to-use environment variable or 
+Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
 
 Additional required environment variables:

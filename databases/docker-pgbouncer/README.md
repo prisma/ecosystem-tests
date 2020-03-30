@@ -7,3 +7,13 @@ We aim to have two test case, one that doesn't use the `forceTransactions` flag 
 ## Friction points
 
 Using two clients together, with and without a flag makes both tests flaky. To get around this, commented out the failing test for now.
+
+## How to run this locally
+
+### Run tests
+
+Runs locally with docker-compose. No environment variables needed.
+
+```shell script
+sh run.sh
+```
