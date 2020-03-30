@@ -19,7 +19,9 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   published Boolean  @default(true)
-  title     String
+  title     String   @default("")
   content   String?
-  author    User?
+
+  authorId  String?  @map("author")
+  author    User?    @relation(fields: [authorId], references: [id])
 }
