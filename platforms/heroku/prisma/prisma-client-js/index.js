@@ -16,12 +16,12 @@ const fs = require('fs')
 const debug = debugLib('prisma-client')
 
 /**
- * Query Engine version: eb9af2f025dbb07bf886bf8ecb92346bd116abf4
- * Prisma Client JS version: 2.0.0-alpha.985
+ * Query Engine version: c2004088ade61a10d04ee730e7e4cb0eb4b428cb
+ * Prisma Client JS version: 2.0.0-alpha.986
  */
 exports.prismaVersion = {
-  engine: "eb9af2f025dbb07bf886bf8ecb92346bd116abf4",
-  client: "2.0.0-alpha.985"
+  engine: "c2004088ade61a10d04ee730e7e4cb0eb4b428cb",
+  client: "2.0.0-alpha.986"
 }
 
 exports.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -36,7 +36,7 @@ exports.PrismaClientValidationError = PrismaClientValidationError;
  * In order to make `ncc` and `node-file-trace` happy.
 **/
 
-path.join(__dirname, 'runtime/query-engine-darwin');
+path.join(__dirname, 'runtime/query-engine-debian-openssl-1.1.x');
 path.join(__dirname, 'runtime/query-engine-rhel-openssl-1.0.x');
 
 /**
@@ -75,7 +75,7 @@ const config = {
   "generator": {
     "name": "client",
     "provider": "prisma-client-js",
-    "output": "/Users/prisma/prisma/prisma2-e2e-tests/platforms/heroku/prisma/prisma-client-js",
+    "output": "/home/runner/work/prisma2-e2e-tests/prisma2-e2e-tests/platforms/heroku/prisma/prisma-client-js",
     "binaryTargets": [
       "native",
       "rhel-openssl-1.0.x"
