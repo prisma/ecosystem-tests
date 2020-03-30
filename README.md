@@ -6,7 +6,7 @@ You can check out the latest test runs by checking the ["test" workflow results]
 
 ## How it works
 
-Renovate is enabled for this repository for all dependencies except `prisma2` and `@prisma/client`. Our own script handles upgrading prisma-related dependencies since Renovate is too slow for our use case.
+Renovate is enabled for this repository for all dependencies except `@prisma/cli` and `@prisma/client`. Our own script handles upgrading prisma-related dependencies since Renovate is too slow for our use case.
 
 If there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the e2e tests. This is implemented in `.github/workflows/check-for-update.yaml` using a Github Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `master`.
 
@@ -41,4 +41,4 @@ You need to use [yarn](https://yarnpkg.com) as it's used for bumping dependencie
 If you need additional dependencies such as CLIs, you can install them in the optional `prepare.sh` in a specific folder. It will automatically be picked up to run before the `run.sh` file does.
 
 **NOTE:**
-It's important to add `prisma2` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json´.
+It's important to add `@prisma/cli` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.

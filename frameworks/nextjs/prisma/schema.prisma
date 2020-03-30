@@ -22,5 +22,7 @@ model Post {
   published Boolean  @default(true)
   title     String
   content   String?
-  author    User?
+
+  authorId  String?  @map("author")
+  author    User?    @relation(fields: [authorId], references: [id])
 }
