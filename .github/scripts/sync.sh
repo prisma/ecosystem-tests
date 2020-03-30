@@ -13,7 +13,7 @@ ssh-keyscan github.com >> ~/.ssh/known_hosts
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
-git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
+git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
 version=$(sh .github/scripts/prisma-version.sh "$channel")
 sh .github/scripts/upgrade-all.sh "$version"

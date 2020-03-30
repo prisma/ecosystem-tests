@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: 8814060fa684793b73d07dbfccd4b7777b3361ae
- * Prisma Client JS version: 2.0.0-alpha.973
+ * Query Engine version: eb9af2f025dbb07bf886bf8ecb92346bd116abf4
+ * Prisma Client JS version: 2.0.0-alpha.984
  */
 export declare type PrismaVersion = {
   client: string
@@ -1126,6 +1126,10 @@ export type PostArgs = {
  */
 
 
+export type authorCompoundInlineFilterInput = {
+
+}
+
 export type PostWhereInput = {
   id?: string | StringFilter | null
   createdAt?: Date | string | DateTimeFilter | null
@@ -1373,7 +1377,6 @@ export type PostOrderByInput = {
   published?: OrderByArg | null
   title?: OrderByArg | null
   content?: OrderByArg | null
-  author?: OrderByArg | null
 }
 
 /**

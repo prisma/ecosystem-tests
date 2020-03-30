@@ -45,12 +45,6 @@ while [ $i -le $count ]; do
 
 	dir=$(pwd)
 
-	# if preview had an update
-	if [ "$branch" = "preview" ]; then
-		sh .github/scripts/sync.sh latest preview
-		continue
-	fi
-
 	git pull github "$branch" --ff-only
 	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
@@ -74,6 +68,12 @@ while [ $i -le $count ]; do
 
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
+				# if preview had an update
+				if [ "$branch" = "preview" ]; then
+					sh .github/scripts/sync.sh latest preview
+					continue
+				fi
+
 				echo "$item: @prisma/cli expected $v, actual $vCLI"
 				yarn add "@prisma/cli@$v" --dev
 			fi
@@ -81,6 +81,12 @@ while [ $i -le $count ]; do
 			vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
 			if [ "$v" != "$vPrismaClient" ]; then
+				# if preview had an update
+				if [ "$branch" = "preview" ]; then
+					sh .github/scripts/sync.sh latest preview
+					continue
+				fi
+
 				echo "$item: @prisma/client expected $v, actual $vPrismaClient"
 				yarn add "@prisma/client@$v"
 			fi

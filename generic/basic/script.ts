@@ -7,10 +7,12 @@ async function main() {
   await client.user.deleteMany({})
   await client.post.deleteMany({})
 
-  // Seed the database with users and posts
-  const user1 = await client.user.create({
+  const rand = Math.random().toString()
+
+  await client.user.create({
     data: {
-      email: 'alice@prisma.io',
+      id: rand,
+      email: 'alice@prisma.io' + rand,
       name: 'Alice',
       posts: {
         create: {
@@ -24,77 +26,25 @@ async function main() {
       posts: true,
     },
   })
-  const user2 = await client.user.create({
-    data: {
-      email: 'bob@prisma.io',
-      name: 'Bob',
-      posts: {
-        create: [
-          {
-            title: 'Subscribe to GraphQL Weekly for community news',
-            content: 'https://graphqlweekly.com/',
-            published: true,
-          },
-          {
-            title: 'Follow Prisma on Twitter',
-            content: 'https://twitter.com/prisma/',
-            published: false,
-          },
-        ],
-      },
-    },
-    include: {
-      posts: true,
-    },
-  })
-  console.log(
-    `Created users: ${user1.name} (${user1.posts.length} post) and (${user2.posts.length} posts) `,
-  )
 
-  // Retrieve all published posts
-  const allPosts = await client.post.findMany({
-    where: { published: true },
-  })
-  console.log(`Retrieved all published posts: `, allPosts)
-
-  // Create a new post (written by an already existing user with email alice@prisma.io)
-  const newPost = await client.post.create({
-    data: {
-      title: 'Join the Prisma Slack community',
-      content: 'http://slack.prisma.io',
-      published: false,
-      author: {
-        connect: {
-          email: 'alice@prisma.io',
-        },
-      },
-    },
-  })
-  console.log(`Created a new post: `, newPost)
-
-  // Publish the new post
-  const updatedPost = await client.post.update({
+  const user = await client.user.findOne({
     where: {
-      id: newPost.id,
-    },
-    data: {
-      published: true,
+      id: rand,
     },
   })
-  console.log(`Published the newly created post: `, updatedPost)
 
-  // Retrieve all posts by user with email alice@prisma.io
-  const postsByUser = await client.user
-    .findOne({
-      where: {
-        email: 'alice@prisma.io',
-      },
-    })
-    .posts()
-  console.log(`Retrieved all posts from a specific user: `, postsByUser)
+  const expect = JSON.stringify({
+    id: rand,
+    email: 'alice@prisma.io' + rand,
+    name: 'Alice'
+  })
 
-  console.log('deleted', (await client.user.deleteMany({})).count, 'users')
-  console.log('deleted', (await client.post.deleteMany({})).count, 'posts')
+  if (JSON.stringify(user) !== expect) {
+    console.error('expected', expect, 'got', user)
+    process.exit(1)
+  }
+
+  console.log('success')
 
   await client.disconnect()
 }
