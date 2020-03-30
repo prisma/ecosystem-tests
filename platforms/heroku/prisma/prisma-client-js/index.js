@@ -36,7 +36,7 @@ exports.PrismaClientValidationError = PrismaClientValidationError;
  * In order to make `ncc` and `node-file-trace` happy.
 **/
 
-path.join(__dirname, 'runtime/query-engine-debian-openssl-1.1.x');
+path.join(__dirname, 'runtime/query-engine-darwin');
 path.join(__dirname, 'runtime/query-engine-rhel-openssl-1.0.x');
 
 /**
@@ -75,7 +75,7 @@ const config = {
   "generator": {
     "name": "client",
     "provider": "prisma-client-js",
-    "output": "/home/runner/work/prisma2-e2e-tests/prisma2-e2e-tests/platforms/heroku/prisma/prisma-client-js",
+    "output": "/Users/prisma/prisma/prisma2-e2e-tests/platforms/heroku/prisma/prisma-client-js",
     "binaryTargets": [
       "native",
       "rhel-openssl-1.0.x"
