@@ -47,7 +47,7 @@ jobs:
           version: 12
 
       - name: test on ${{ matrix.os }}
-        run: sh .github/scripts/test-all.sh generic basic ${{ matrix.os }}
+        run: sh .github/scripts/test-project.sh generic basic ${{ matrix.os }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -73,7 +73,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: test on node ${{ matrix.node }}
-        run: sh .github/scripts/test-all.sh generic basic "node ${{ matrix.node }}"
+        run: sh .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -99,7 +99,7 @@ jobs:
           node-version: 10
 
       - name: packager ${{ matrix.packager }}
-        run: sh .github/scripts/test-all.sh packagers ${{ matrix.packager }}
+        run: sh .github/scripts/test-project.sh packagers ${{ matrix.packager }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -127,7 +127,7 @@ jobs:
           node-version: 10
 
       - name: framework ${{ matrix.framework }}
-        run: sh .github/scripts/test-all.sh frameworks ${{ matrix.framework }}
+        run: sh .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -169,7 +169,7 @@ jobs:
           args: yarn
 
       - name: test ${{ matrix.platform }}
-        run: sh .github/scripts/test-all.sh platforms ${{ matrix.platform }}
+        run: sh .github/scripts/test-project.sh platforms ${{ matrix.platform }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -226,7 +226,7 @@ jobs:
           node-version: 10
 
       - name: test ${{ matrix.bundler }}
-        run: sh .github/scripts/test-all.sh bundlers ${{ matrix.bundler }}
+        run: sh .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -255,7 +255,7 @@ jobs:
           node-version: 10
 
       - name: test ${{ matrix.library }}
-        run: sh .github/scripts/test-all.sh libraries ${{ matrix.library }}
+        run: sh .github/scripts/test-project.sh libraries ${{ matrix.library }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -283,7 +283,7 @@ jobs:
           node-version: 12
 
       - name: test ${{ matrix.database }}
-        run: sh .github/scripts/test-all.sh databases ${{ matrix.database }}
+        run: sh .github/scripts/test-project.sh databases ${{ matrix.database }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
