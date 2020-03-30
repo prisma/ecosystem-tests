@@ -4,17 +4,20 @@ set -eu
 
 export CI=true
 
+dir=$1
+project=$2
+set +u
+matrix=$3
+set -u
+
+sh .github/scripts/print-version.sh "$dir/$project/package.json"
+
 cd .github/slack/
 yarn install
 cd ../..
 
 root=$(pwd)
 
-dir=$1
-project=$2
-set +u
-matrix=$3
-set -u
 
 echo ""
 echo ""
