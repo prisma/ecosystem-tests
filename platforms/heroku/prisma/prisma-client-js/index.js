@@ -17,11 +17,11 @@ const debug = debugLib('prisma-client')
 
 /**
  * Query Engine version: 1743b1e3c8fbe24cb345528ab0cf3013cdc36fa3
- * Prisma Client JS version: 2.0.0-alpha.1014
+ * Prisma Client JS version: 2.0.0-alpha.1015
  */
 exports.prismaVersion = {
   engine: "1743b1e3c8fbe24cb345528ab0cf3013cdc36fa3",
-  client: "2.0.0-alpha.1014"
+  client: "2.0.0-alpha.1015"
 }
 
 exports.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
