@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: 619e5a8a16bf277a03168440babf7d650fa6d615
- * Prisma Client JS version: 2.0.0-alpha.1006
+ * Query Engine version: 9c422224a331eb105f74858115c949442074b039
+ * Prisma Client JS version: 2.0.0-alpha.1008
  */
 export declare type PrismaVersion = {
   client: string
@@ -170,7 +170,7 @@ export declare function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLe
  * ```
  *
  * 
- * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md).
+ * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
  */
 export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never> {
   /**
@@ -218,7 +218,7 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * ```
    *
    * 
-   * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md).
+   * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
    */
   constructor(optionsArg?: T);
   on<V extends U>(eventType: V, callback: V extends never ? never : (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
@@ -248,7 +248,7 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * const result = await prisma.raw`SELECT * FROM User WHERE id = ${userId};`
   * ```
   * 
-  * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md#raw-database-access).
+  * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
   */
   raw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
 
