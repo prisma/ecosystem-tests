@@ -42,7 +42,7 @@ fi
 echo ""
 echo ""
 echo "-----------------------------"
-echo "executing executing $dir/$project/run.sh"
+echo "executing $dir/$project/run.sh"
 set +e
 sh run.sh
 code=$?

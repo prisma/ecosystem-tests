@@ -51,6 +51,7 @@ async function main() {
 
 main().catch(async e => {
   console.error(e)
-  await client.disconnect()
   process.exit(1)
+}).finally(async () => {
+  await client.disconnect()
 })

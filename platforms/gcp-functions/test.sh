@@ -2,7 +2,7 @@
 
 set -eux
 
-func="$1"
+func="$(cat func-tmp.txt)"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
 
 url="https://us-central1-prisma-e2e-tests-265911.cloudfunctions.net/$func"

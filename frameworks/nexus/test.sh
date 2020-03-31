@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eux
+
+id="$RANDOM"
 
 yarn start &
 pid=$!
 
 sleep 10
-
-id="$GITHUB_RUN_ID"
 
 # create user, but ignore if already exists
 curl -s 'http://localhost:4000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:4000' --data-binary '{"query":"mutation {\n  signupUser(data: {\n    email: \"'$id'\",\n    name: \"'$id'\",\n  }) {\n    id\n    email\n    name\n  }\n}"}' --compressed

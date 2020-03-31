@@ -4,5 +4,3 @@ set -eu
 
 yarn install
 yarn prisma2 generate
-
-sh test.sh

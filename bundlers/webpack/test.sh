@@ -2,4 +2,4 @@
 
 set -eu
 
-yarn install
+yarn test
