@@ -44,7 +44,7 @@ echo ""
 echo "-----------------------------"
 echo "executing $dir/$project/run.sh"
 set +e
-sh run.sh
+bash run.sh
 code=$?
 set -e
 
@@ -60,7 +60,7 @@ if [ $code -eq 0 ]; then
 	fi
 
 	set +e
-	sh test.sh
+	bash test.sh
 	code=$?
 	set -e
 
@@ -76,7 +76,7 @@ if [ -f "finally.sh" ]; then
 	echo "finally script found, executing $dir/$project/finally.sh"
 	echo ""
 
-	sh finally.sh
+	bash finally.sh
 
 	echo ""
 	echo "finished finally.sh"
