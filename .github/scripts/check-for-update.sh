@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 cd .github/slack/
 yarn install
