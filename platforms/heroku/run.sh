@@ -1,4 +1,8 @@
-snap install heroku --classic
+#!/bin/sh
+
+set -eux
+
+sudo snap install heroku --classic
 yarn install
 yarn prisma2 generate
 
@@ -11,10 +15,3 @@ git add .
 git commit -m "push to heroku"
 git push heroku master --force
 rm -rf .git
-
-set +e
-sh test.sh
-code=$?
-set -e
-heroku logs -a e2e-platforms-heroku
-exit $code

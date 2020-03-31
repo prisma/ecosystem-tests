@@ -2,6 +2,6 @@
 
 set -eux
 
-func="$1"
+func="$(cat func-tmp.txt)"
 
 firebase functions:delete --force "$func"

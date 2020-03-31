@@ -6,4 +6,3 @@ set -eu
 # from the lockfile which will already ensure the correct prisma version gets fetched
 npm install
 npx prisma2 generate
-npm run cmd

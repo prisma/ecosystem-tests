@@ -16,5 +16,3 @@ yarn prisma2 generate
 yarn tsc
 
 sh update-code.sh
-
-sh test.sh
