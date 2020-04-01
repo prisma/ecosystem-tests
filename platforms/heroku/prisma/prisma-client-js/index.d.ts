@@ -17,7 +17,7 @@ export { PrismaClientValidationError }
 
 /**
  * Query Engine version: 15b42f2c499c65576f47fa77108e39d86645242b
- * Prisma Client JS version: 2.0.0-alpha.1018
+ * Prisma Client JS version: 2.0.0-alpha.1019
  */
 export declare type PrismaVersion = {
   client: string
@@ -473,7 +473,7 @@ export interface UserDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyUserArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class UserClient<T> implements Promise<T> {
@@ -891,7 +891,7 @@ export interface PostDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyPostArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class PostClient<T> implements Promise<T> {
