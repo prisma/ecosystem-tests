@@ -7,7 +7,7 @@ This build tries to use that env var and deploy Prisma client with minimal confi
 ## Friction points
 
 - The Netlify's current build CI did not pick up the correct `ZISI_VERSION`.
-- This test is merged (to avoid a long-running branch) but the workflow doesn't run yet
+- To be certain, we have set `ZISI_VERSION` both in netlify UI and `netlify.toml` file. 
 
 ## How to run this locally
 
