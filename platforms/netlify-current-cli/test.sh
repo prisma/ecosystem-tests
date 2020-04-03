@@ -2,7 +2,7 @@
 
 set -eu
 
-url="https://e2e-platforms-netlify.netlify.com/.netlify/functions/index"
+url="https://prisma2-e2e-tests-netlify-current-cli.netlify.com/.netlify/functions/index"
 
 printf "curl: %s\n" "$(curl "$url")"
 
