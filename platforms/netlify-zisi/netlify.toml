@@ -1,0 +1,7 @@
+[build]
+functions = "functions/"
+command = "npm run build"
+
+[build.environment]
+# Fix to ensure the Prisma binary is packaged with the lambda function
+ZISI_VERSION = "0.4.0-9"
