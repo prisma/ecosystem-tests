@@ -1,4 +1,4 @@
-# Netlify
+# Netlify Current CLI
 
 Prisma and Netlify (current build CI) integration.
 

@@ -1,4 +1,4 @@
-# Netlify CI build
+# Netlify Beta CI
 
 Prisma and Netlify [beta build](https://build-beta.netlify.com/) integration.
 
