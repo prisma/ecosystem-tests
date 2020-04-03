@@ -145,9 +145,9 @@ jobs:
         platform:
           - lambda
           - heroku
-          - netlify
           - zeit-now
-          - netlify-ci-build
+          - netlify-current-cli
+          - netlify-beta-ci
           - netlify-zisi
           - gcp-functions
           - codesandbox
@@ -184,6 +184,7 @@ jobs:
           LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
           HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           NPM_CONFIG_LOGLEVEL: error
           NODE_ENV: development

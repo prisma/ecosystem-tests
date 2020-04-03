@@ -1,11 +1,20 @@
-# Netlify
+# Netlify Beta CI
 
-Prisma and Netlify (current build CI) integration.
+Prisma and Netlify [beta build](https://build-beta.netlify.com/) integration.
 
 ## Friction points
 
-- Since Netlify's current build CI doesn't use the newer version of `zip-it-and-ship-it`, we need to bundle the binaries ourselves. See `build.sh`.
-- It might be possible to override the ZISI package via an env var called `ZISI_VERSION`. That is being attempted on [here](../netlify-zisi)
+- https://github.com/netlify/build/issues/730
+- Not zero-config, binary target configuration needed
+
+  ```
+  generator prisma_client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+  }
+  ```
+
+- Sometimes, the Netlify build fails to work with a "missing binary". While I don't know the cause of this yet, clearing the build cache usually fixes it.
 
 ## How to run this locally
 
