@@ -1,6 +1,6 @@
 # Netlify Beta CI
 
-Prisma and Netlify [beta build](https://build-beta.netlify.com/) integration.
+Prisma and Netlify [beta build](https://build-beta.netlify.app/) integration.
 
 ## Friction points
 
