@@ -11,7 +11,7 @@ version="$(cat .github/prisma-version.txt)"
 branch="$(git rev-parse --abbrev-ref HEAD)"
 sha="$(git rev-parse HEAD)"
 short_sha="$(echo "$sha" | cut -c -7)"
-message="$(git log -1 --pretty=%B)"
+message="$(git log -1 --pretty=%B | head -n 1)"
 
 commit_link="\`<https://github.com/prisma/prisma2-e2e-tests/commit/$sha|$branch@$short_sha>\`"
 workflow_link="<https://github.com/prisma/prisma2-e2e-tests/actions/runs/$GITHUB_RUN_ID|$message>"
