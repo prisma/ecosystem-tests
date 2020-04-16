@@ -16,7 +16,7 @@ const fetch = require('fetch-retry')(originalFetch, {
 
 async function main() {
   const r = await fetch(
-    'https://prisma2-e2e-tests-netlify-zisi.netlify.com/.netlify/functions/index',
+    'https://prisma2-e2e-tests-netlify-zisi.netlify.app/.netlify/functions/index',
   )
   const data = await r.text()
   const packageJSON = require('./package.json')
