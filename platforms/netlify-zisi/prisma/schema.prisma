@@ -1,6 +1,6 @@
+// Like, postgresql://user:password@localhost:5432/database/schema
 datasource db {
   provider = "postgresql"
-  // Like, postgresql://user:password@localhost:5432/database/schema
   url      = env("NETLIFY_ZISI_PG_URL")
 }
 
@@ -23,5 +23,6 @@ model Post {
   published Boolean  @default(true)
   title     String
   content   String?
-  author    User?
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String?
 }
