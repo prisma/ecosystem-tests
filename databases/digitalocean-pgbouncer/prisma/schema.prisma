@@ -8,12 +8,13 @@ generator client {
 }
 
 model Post {
-  data  String   @default("")
-  date  DateTime
-  id    String   @id
-  slug  String   @default("")
-  title String   @default("")
-  user  User
+  data     String   @default("")
+  date     DateTime
+  id       String   @id
+  slug     String   @default("")
+  title    String   @default("")
+  user     User     @relation(fields: [authorId], references: [id])
+  authorId String
 }
 
 model User {
