@@ -56,7 +56,7 @@ async function fetchWithPuppeteer(endpoint) {
 }
 
 async function sleep(seconds) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(false)
     }, seconds * 1000)
@@ -88,15 +88,15 @@ async function main() {
     'src/index.js',
     'prisma/schema.prisma',
     'prisma/dev.db',
-    'prisma/migrations/lift.lock',
-    'prisma/migrations/20200130133512-init/schema.prisma',
-    'prisma/migrations/20200130133512-init/steps.json',
+    'prisma/migrations/migrate.lock',
+    'prisma/migrations/20200420215811-init/schema.prisma',
+    'prisma/migrations/20200420215811-init/steps.json',
     'package.json',
     'yarn.lock',
   ]
 
   const files: CSBFiles = relevantFilePaths
-    .map(filePath => {
+    .map((filePath) => {
       return {
         filePath,
         content: fs.readFileSync(filePath, {
