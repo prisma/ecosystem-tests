@@ -18,7 +18,6 @@ async function main() {
       email: 'bart@simpson.com',
       firstname: 'Bart',
       lastname: 'Simpson',
-      role: 'ADMIN',
       password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm',
     }
   });
