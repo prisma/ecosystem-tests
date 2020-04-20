@@ -7,19 +7,8 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  data     String   @default("")
-  date     DateTime
-  id       String   @id
-  slug     String   @default("")
-  title    String   @default("")
-  user     User     @relation(fields: [authorId], references: [id])
-  authorId String
-}
-
 model User {
   email String @default("")
   id    String @id
   name  String @default("")
-  post  Post[]
 }
