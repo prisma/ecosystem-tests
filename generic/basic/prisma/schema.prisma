@@ -11,17 +11,4 @@ model User {
   id    String  @default(cuid()) @id
   email String  @unique
   name  String?
-  posts Post[]
-}
-
-model Post {
-  id        String   @default(cuid()) @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(true)
-  title     String   @default("")
-  content   String?
-
-  authorId  String?  @map("author")
-  author    User?    @relation(fields: [authorId], references: [id])
 }

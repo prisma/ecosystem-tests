@@ -15,23 +15,4 @@ model User {
   password  String   @default("")
   firstname String?
   lastname  String?
-  posts     Post[]
-  role      Role
-}
-
-model Post {
-  id        String   @default(cuid()) @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(false)
-  title     String   @default("")
-  content   String?
-
-  authorId  String?  @map("author")
-  author    User?    @relation(fields: [authorId], references: [id])
-}
-
-enum Role {
-  ADMIN
-  USER
 }

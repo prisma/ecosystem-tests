@@ -12,7 +12,6 @@ model User {
   id    String  @default(cuid()) @id
   email String  @unique
   name  String?
-  posts Post[]
 }
 
 model Post {
