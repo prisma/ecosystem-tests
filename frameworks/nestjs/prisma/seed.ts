@@ -10,15 +10,7 @@ async function main() {
       email: 'lisa@simpson.com',
       firstname: 'Lisa',
       lastname: 'Simpson',
-      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
-      role: 'USER',
-      posts: {
-        create: {
-          title: 'Join us for Prisma Day 2019 in Berlin',
-          content: 'https://www.prisma.io/day/',
-          published: true
-        }
-      }
+      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm',
     }
   });
   const user2 = await client.user.create({
@@ -27,21 +19,7 @@ async function main() {
       firstname: 'Bart',
       lastname: 'Simpson',
       role: 'ADMIN',
-      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
-      posts: {
-        create: [
-          {
-            title: 'Subscribe to GraphQL Weekly for community news',
-            content: 'https://graphqlweekly.com/',
-            published: true
-          },
-          {
-            title: 'Follow Prisma on Twitter',
-            content: 'https://twitter.com/prisma',
-            published: false
-          }
-        ]
-      }
+      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm',
     }
   });
 
