@@ -5,7 +5,6 @@ const client = new PrismaClient()
 // A `main` function so that we can use async/await
 async function main() {
   await client.user.deleteMany({})
-  await client.post.deleteMany({})
 
   const rand = Math.random().toString()
 

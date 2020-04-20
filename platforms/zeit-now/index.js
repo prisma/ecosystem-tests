@@ -10,7 +10,6 @@ const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
   await client.user.deleteMany({})
-  await client.post.deleteMany({})
 
   const id = '12345'
 

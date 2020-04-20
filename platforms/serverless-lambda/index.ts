@@ -4,7 +4,6 @@ const client = new PrismaClient()
 
 export async function handler() {
   await client.user.deleteMany({})
-  await client.post.deleteMany({})
 
   const id = '12345'
 

@@ -8,7 +8,6 @@ export async function unstable_getStaticProps() {
   const client = new PrismaClient()
 
   await client.user.deleteMany({})
-  await client.post.deleteMany({})
 
   await client.user.create({
     data: {
