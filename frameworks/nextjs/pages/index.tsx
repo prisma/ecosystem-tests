@@ -40,7 +40,6 @@ const Home: NextPage<GetProps<typeof unstable_getStaticProps>> = props => (
           <div key={u.id}>
             Name: {u.name}
             Age: {u.age}
-            First Post: {u.posts[0].title}
           </div>
         ))}
         To get started, edit <code>pages/index.js</code> and save to reload.
