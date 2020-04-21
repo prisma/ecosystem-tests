@@ -18,7 +18,3 @@ git add .
 git commit -m "push to netlify"
 git push origin master --force
 rm -rf .git
-
-# sleep 240 # Enough time for the netlify build to go through
-# sh test.sh
-node test.js
