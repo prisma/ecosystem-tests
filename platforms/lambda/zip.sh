@@ -7,9 +7,9 @@ yarn install --production
 
 rm -rf lambda.zip
 
-rm -rf node_modules/prisma2
+rm -rf node_modules/@prisma/cli node_modules/@types
 rm -rf node_modules/typescript
 
-zip -r lambda.zip index.js prisma/schema.prisma node_modules/**
+zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
 
 du -h ./lambda.zip
