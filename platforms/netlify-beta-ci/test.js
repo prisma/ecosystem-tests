@@ -12,6 +12,9 @@ const fetch = require('fetch-retry')(originalFetch, {
   retries: 15,
   retryDelay: 15 * 1000,
   retryOn: (attempt, error, response) => {
+    if (attempt >= 15) {
+      return false
+    }
     const r = response.clone()
 
     // Because https://github.com/jonbern/fetch-retry/issues/29

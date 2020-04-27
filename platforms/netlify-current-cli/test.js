@@ -15,7 +15,6 @@ const fetch = require('fetch-retry')(originalFetch, {
     if (attempt >= 15) {
       return false
     }
-
     const r = response.clone()
 
     // Because https://github.com/jonbern/fetch-retry/issues/29
@@ -39,7 +38,7 @@ const fetch = require('fetch-retry')(originalFetch, {
 
 async function main() {
   const r = await fetch(
-    'https://prisma2-e2e-tests-netlify-zisi.netlify.app/.netlify/functions/index',
+    'https://prisma2-e2e-tests-netlify-current-cli.netlify.app/.netlify/functions/index',
   )
   const data = await r.text()
   if (JSON.stringify(data) !== JSON.stringify(expectedData)) {
