@@ -1,9 +1,5 @@
 # Heroku
 
-## Friction points
-
-- https://github.com/prisma/prisma2/issues/1540
-
 ## How to run this locally
 
 ### Heroku authentication
@@ -23,4 +19,3 @@ set up your own database and set the environment variable accordingly.
 ```shell script
 sh run.sh
 ```
-
