@@ -2,7 +2,7 @@
 
 set -eu
 
-url="https://e2e-platforms-zeit-now.now.sh/"
+url="https://e2e-platforms-vercel.now.sh/"
 
 printf "curl: %s\n" "$(curl "$url")"
 
