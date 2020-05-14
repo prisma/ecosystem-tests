@@ -2,6 +2,7 @@
 
 set -eu
 
+rm -rf node_modules/
 yarn install
 
 mkdir -p ~/.ssh
