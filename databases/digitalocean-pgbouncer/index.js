@@ -4,9 +4,17 @@ dotenv.config({
   path: 'prisma/.env',
 })
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  datasources: {
+    db: process.env.DATABASE_DO_PG_BOUNCER_URL,
+  }
+})
 
-const clientWithQueryStringParam = new PrismaClient()
+const clientWithQueryStringParam = new PrismaClient({
+  datasources: {
+    db: process.env.DATABASE_DO_PG_BOUNCER_URL + "&pgbouncer=true",
+  }
+})
 
 async function clientWithoutQueryStringParamCall() {
   const data = await client.user.findMany()
