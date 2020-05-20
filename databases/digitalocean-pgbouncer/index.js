@@ -6,24 +6,22 @@ dotenv.config({
 
 const client = new PrismaClient()
 
-const clientWithFlag = new PrismaClient({
-  forceTransactions: true,
-})
+const clientWithQueryStringParam = new PrismaClient()
 
-async function clientWithoutFlagCall() {
+async function clientWithoutQueryStringParamCall() {
   const data = await client.user.findMany()
   return data
 }
 
-async function clientWithFlagCall() {
-  const data = await clientWithFlag.user.findMany()
+async function clientWithQueryStringParamCall() {
+  const data = await clientWithQueryStringParam.user.findMany()
   return data
 }
 
 async function main() {
   const data1 = await client.user.findMany()
   console.log(data1)
-  const data2 = await clientWithFlag.user.findMany()
+  const data2 = await clientWithQueryStringParam.user.findMany()
   console.log(data2)
 }
 
@@ -31,17 +29,17 @@ if (require.main === module) {
   main()
     .then(_ => {
       client.disconnect()
-      clientWithFlag.disconnect()
+      clientWithQueryStringParam.disconnect()
     })
     .catch(_ => {
       client.disconnect()
-      clientWithFlag.disconnect()
+      clientWithQueryStringParam.disconnect()
     })
 }
 
 module.exports = {
-  clientWithoutFlagCall,
-  clientWithFlagCall,
+  clientWithoutQueryStringParamCall,
+  clientWithQueryStringParamCall,
   client,
   clientWithFlag,
 }
