@@ -5,7 +5,7 @@ const {
   clientWithQueryStringParam,
 } = require('.')
 
-describe('should test Prisma client and pgBouncer', () => {
+describe('should test Prisma client and PgBouncer', () => {
   afterAll(async () => {
     await client.disconnect()
     await clientWithQueryStringParam.disconnect()
