@@ -13,7 +13,7 @@ describe('should test Prisma client and PgBouncer', () => {
   })
 
   // TODO: Uncommenting this makes the other test fail
-  // it('should fail with docker pgbouncer with the pgbouncer query string param', async () => {
+  // it('should fail with docker pgbouncer without the pgbouncer query string param', async () => {
   //   expect(clientWithoutQueryStringParamCall).toThrow()
   // })
 
