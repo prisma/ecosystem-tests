@@ -41,5 +41,5 @@ module.exports = {
   clientWithoutQueryStringParamCall,
   clientWithQueryStringParamCall,
   client,
-  clientWithFlag,
+  clientWithQueryStringParam,
 }
