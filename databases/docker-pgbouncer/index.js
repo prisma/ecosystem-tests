@@ -4,9 +4,17 @@ dotenv.config({
   path: 'prisma/.env',
 })
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  datasources: {
+    db: "postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public",
+  }
+)
 
-const clientWithQueryStringParam = new PrismaClient()
+const clientWithQueryStringParam = new PrismaClient({
+  datasources: {
+    db: "postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true",
+  }
+)
 
 async function clientWithoutQueryStringParamCall() {
   const data = await client.user.findMany()
