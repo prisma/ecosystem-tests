@@ -12,7 +12,7 @@ const client = new PrismaClient({
 
 const clientWithQueryStringParam = new PrismaClient({
   datasources: {
-    db: process.env.DATABASE_DO_PG_BOUNCER_URL + "&pgbouncer=true",
+    db: process.env.DATABASE_DO_PG_BOUNCER_URL + "?pgbouncer=true",
   }
 })
 
