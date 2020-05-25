@@ -1,8 +1,8 @@
-# PGBouncer on DigitalOcean
+# PgBouncer on DigitalOcean
 
-We want to test DigitalOcean and pgBouncer setup with Prisma client. Prisma client constructor has a `forceTransactions` flag to enable support for pgBouncer.
+We want to test DigitalOcean and PgBouncer setup with Prisma Client. Prisma Query Engine has a `pgbouncer=true` query param to enable support for pgBouncer.
 
-We aim to have two test case, one that doesn't use the `forceTransactions` flag and fails and another which uses the `forceTransactions` flag and succeeds.
+We aim to have two test case, one that doesn't use the `pgbouncer=true` query param and fails and another which uses the `pgbouncer=true` query param and succeeds.
 
 ## Friction points
 
