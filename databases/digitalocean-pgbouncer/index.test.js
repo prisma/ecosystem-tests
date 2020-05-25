@@ -1,24 +1,24 @@
 const {
-  clientWithoutFlagCall,
-  clientWithFlagCall,
+  clientWithoutQueryStringParamCall,
+  clientWithQueryStringParamCall,
   client,
-  clientWithFlag,
+  clientWithQueryStringParam,
 } = require('.')
 
-describe('should test Prisma client and pgBouncer', () => {
+describe('should test Prisma client and PgBouncer', () => {
   afterAll(async () => {
     await client.disconnect()
-    await clientWithFlag.disconnect()
+    await clientWithQueryStringParam.disconnect()
     return
   })
 
-  it('should work with default do pgBouncer without the forcedTransactions flag', async () => {
-    const data = await clientWithoutFlagCall()
+  it('should work with default do pgbouncer without the pgbouncer query string param', async () => {
+    const data = await clientWithoutQueryStringParamCall()
     expect(data).toMatchSnapshot()
   })
 
-  it('should work with default do pgBouncer with the forcedTransactions flag', async () => {
-    const data = await clientWithFlagCall()
+  it('should work with default do pgbouncer with the pgbouncer query string param', async () => {
+    const data = await clientWithQueryStringParamCall()
     expect(data).toMatchSnapshot()
   })
 })
