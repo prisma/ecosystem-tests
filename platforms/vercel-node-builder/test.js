@@ -37,7 +37,7 @@ const fetch = require('fetch-retry')(originalFetch, {
 })
 
 async function main() {
-  const r = await fetch('https://e2e-platforms-vercel.now.sh/')
+  const r = await fetch('https://vercel-node-builder.now.sh/')
   const data = await r.text()
   if (JSON.stringify(data) !== JSON.stringify(expectedData)) {
     console.log(
