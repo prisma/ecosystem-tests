@@ -381,15 +381,17 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@prisma/cli@2.0.0-alpha.1294":
-  version "2.0.0-alpha.1294"
-  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.0.0-alpha.1294.tgz#0a6716c06ae9a2dddf9c7b73c05d1e2f7eb30f6c"
-  integrity sha512-ZtHifpOBoaoJUDKDK6wfN/jrUNjeiDDpu5eykrvBtupclRKLNdQfGIBbaiE3qt7HAyk9e9hW6LCqwrBzlerocg==
+"@prisma/cli@2.0.0-alpha.1295":
+  version "2.0.0-alpha.1295"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.0.0-alpha.1295.tgz#d8b178f05ea29a3f93177bf204e4419c0971f8ee"
+  integrity sha512-4m8u/rStF1Uwm+D6wyY/126HQMyh5exKCyMrg/+0fY4YhCt/QTwZ/ntr2/uomO8PJQ58+/NeCn35WoEK6hxJuA==
 
-"@prisma/client@2.0.0-alpha.1294":
-  version "2.0.0-alpha.1294"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.1294.tgz#425f6450018cc0665b10ab0f769e62fd0abaa8d5"
-  integrity sha512-o9MQpC8fVYVppPs0NkP/sbOtThj+/eDvSAfXTE2aG8H9DyU11OpfgNB744afUvsH55uiuoMtadH13TjaVX/soQ==
+"@prisma/client@2.0.0-alpha.1295":
+  version "2.0.0-alpha.1295"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.1295.tgz#58c7f59483bdf26ffbad44a3dea536f844828f7b"
+  integrity sha512-QAZeLWqbwTVOWZO1vb+Lzs96C5r+ILVQ8RBNPJVx/O8Wu+tQKZldMAGkhzYtT4mjAEfK3O5DLsF/Rr8oz1zzcg==
+  dependencies:
+    pkg-up "^3.1.0"
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.1"
@@ -1253,6 +1255,13 @@ fill-range@^7.0.1:
   integrity sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==
   dependencies:
     to-regex-range "^5.0.1"
+
+find-up@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/find-up/-/find-up-3.0.0.tgz#49169f1d7993430646da61ecc5ae355c21c97b73"
+  integrity sha512-1yD6RmLI1XBfxugvORwlck6f75tYL+iR0jqwsOrOxMZyGYqUuDhJ0l4AXdO1iX/FTs9cBAMEk1gWSEx1kSbylg==
+  dependencies:
+    locate-path "^3.0.0"
 
 find-up@^4.0.0, find-up@^4.1.0:
   version "4.1.0"
@@ -2156,6 +2165,14 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+locate-path@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-3.0.0.tgz#dbec3b3ab759758071b58fe59fc41871af21400e"
+  integrity sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==
+  dependencies:
+    p-locate "^3.0.0"
+    path-exists "^3.0.0"
+
 locate-path@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-5.0.0.tgz#1afba396afd676a6d42504d0a67a3a7eb9f62aa0"
@@ -2433,12 +2450,26 @@ p-finally@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-2.0.1.tgz#bd6fcaa9c559a096b680806f4d657b3f0f240561"
   integrity sha512-vpm09aKwq6H9phqRQzecoDpD8TmVyGw70qmWlyq5onxY7tqyTTFVvxMykxQSQKILBSFlbXpypIw2T1Ml7+DDtw==
 
+p-limit@^2.0.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
+  integrity sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==
+  dependencies:
+    p-try "^2.0.0"
+
 p-limit@^2.2.0:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.2.2.tgz#61279b67721f5287aa1c13a9a7fbbc48c9291b1e"
   integrity sha512-WGR+xHecKTr7EbUEhyLSh5Dube9JtdiG78ufaeLxTgpudf/20KqyMioIUZJAezlTIi6evxuoUs9YXc11cU+yzQ==
   dependencies:
     p-try "^2.0.0"
+
+p-locate@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/p-locate/-/p-locate-3.0.0.tgz#322d69a05c0264b25997d9f40cd8a891ab0064a4"
+  integrity sha512-x+12w/To+4GFfgJhBEpiDcLozRJGegY+Ei7/z0tSLkMmxGZNybVMSfWj9aJn8Z5Fc7dBUNJOOVgPv2H7IwulSQ==
+  dependencies:
+    p-limit "^2.0.0"
 
 p-locate@^4.1.0:
   version "4.1.0"
@@ -2461,6 +2492,11 @@ pascalcase@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
+
+path-exists@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-3.0.0.tgz#ce0ebeaa5f78cb18925ea7d810d7b59b010fd515"
+  integrity sha1-zg6+ql94yxiSXqfYENe1mwEP1RU=
 
 path-exists@^4.0.0:
   version "4.0.0"
@@ -2510,6 +2546,13 @@ pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
+
+pkg-up@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
+  integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
+  dependencies:
+    find-up "^3.0.0"
 
 pn@^1.1.0:
   version "1.1.0"
