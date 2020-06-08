@@ -24,9 +24,8 @@ git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
-git fetch github "$branch"
-git reset --hard "github/$branch"
-git checkout "github/$branch"
+git fetch github "master"
+git reset --hard "github/master"
 
 # prepare script: read package.json but ignore workspace package.json files
 pkg="var pkg=require('./package.json'); if (pkg.workspaces) { process.exit(0); }"
@@ -46,8 +45,8 @@ while [ $i -le $count ]; do
 
 	dir=$(pwd)
 
-	git fetch github "$branch"
-	git reset --hard "github/$branch"
+	git fetch github "master"
+	git reset --hard "github/master"
 	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
 	echo "checking info..."
