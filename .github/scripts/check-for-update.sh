@@ -70,6 +70,7 @@ while [ $i -le $count ]; do
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
 				if [ "$branch" = "latest" ]; then
+					cd "$dir"
 					sh .github/scripts/sync.sh latest latest
 					continue
 				fi
@@ -82,6 +83,7 @@ while [ $i -le $count ]; do
 
 			if [ "$v" != "$vPrismaClient" ]; then
 				if [ "$branch" = "latest" ]; then
+					cd "$dir"
 					sh .github/scripts/sync.sh latest latest
 					continue
 				fi
