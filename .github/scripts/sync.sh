@@ -15,6 +15,9 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
+# checkout the actual branch to perform the sync
+git checkout "github/$branch"
+
 version=$(sh .github/scripts/prisma-version.sh "$channel")
 sh .github/scripts/upgrade-all.sh "$version"
 

@@ -24,11 +24,12 @@ git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
-git fetch github "master"
-git reset --hard "github/master"
+git fetch github "$branch"
+git reset --hard "github/$branch"
+git checkout "github/$branch"
 
 # prepare script: read package.json but ignore workspace package.json files
-pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
+pkg="var pkg=require('./package.json'); if (pkg.workspaces) { process.exit(0); }"
 
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5 # cron job runs each x minutes
@@ -45,8 +46,8 @@ while [ $i -le $count ]; do
 
 	dir=$(pwd)
 
-	git fetch github "master"
-	git reset --hard "github/master"
+	git fetch github "$branch"
+	git reset --hard "github/$branch"
 	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
 	echo "checking info..."
@@ -70,8 +71,7 @@ while [ $i -le $count ]; do
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
 				if [ "$branch" = "latest" ]; then
-					cd "$dir"
-					sh .github/scripts/sync.sh latest latest
+					sync
 					continue
 				fi
 
@@ -83,8 +83,7 @@ while [ $i -le $count ]; do
 
 			if [ "$v" != "$vPrismaClient" ]; then
 				if [ "$branch" = "latest" ]; then
-					cd "$dir"
-					sh .github/scripts/sync.sh latest latest
+					sync
 					continue
 				fi
 
@@ -139,3 +138,8 @@ while [ $i -le $count ]; do
 done
 
 echo "done"
+
+sync() {
+	cd "$dir"
+	sh .github/scripts/sync.sh latest latest
+}
