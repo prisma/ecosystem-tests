@@ -26,6 +26,7 @@ git config --global user.name "Prismo"
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
 git fetch github "$branch"
 git reset --hard "github/$branch"
+git checkout "github/$branch"
 
 # prepare script: read package.json but ignore workspace package.json files
 pkg="var pkg=require('./package.json'); if (pkg.workspaces) { process.exit(0); }"
@@ -45,7 +46,8 @@ while [ $i -le $count ]; do
 
 	dir=$(pwd)
 
-	git pull github "$branch" --ff-only
+	git fetch github "$branch"
+	git reset --hard "github/$branch"
 	packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
 	echo "checking info..."
@@ -68,9 +70,8 @@ while [ $i -le $count ]; do
 
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
-				# if preview had an update
-				if [ "$branch" = "preview" ]; then
-					sh .github/scripts/sync.sh latest preview
+				if [ "$branch" = "latest" ]; then
+					sync
 					continue
 				fi
 
@@ -81,9 +82,8 @@ while [ $i -le $count ]; do
 			vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
 			if [ "$v" != "$vPrismaClient" ]; then
-				# if preview had an update
-				if [ "$branch" = "preview" ]; then
-					sh .github/scripts/sync.sh latest preview
+				if [ "$branch" = "latest" ]; then
+					sync
 					continue
 				fi
 
@@ -138,3 +138,8 @@ while [ $i -le $count ]; do
 done
 
 echo "done"
+
+sync() {
+	cd "$dir"
+	sh .github/scripts/sync.sh latest latest
+}
