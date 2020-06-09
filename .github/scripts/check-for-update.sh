@@ -29,7 +29,7 @@ git reset --hard "github/$branch"
 git checkout "github/$branch"
 
 # prepare script: read package.json but ignore workspace package.json files
-pkg="var pkg=require('./package.json'); if (pkg.workspaces) { process.exit(0); }"
+pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
 
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5 # cron job runs each x minutes
