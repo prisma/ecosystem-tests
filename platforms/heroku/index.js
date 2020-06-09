@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const fs = require('fs')
 dotenv.config()
 
 const { PrismaClient, prismaVersion } = require('@prisma/client')
@@ -11,7 +12,8 @@ const port = process.env.PORT || 3000
 app.get('/', async (req, res) => {
   await client.user.deleteMany({})
 
-  const id = '12345'
+  const id = Math.random().toString()
+  fs.writeFileSync('./id.tmp', id)
 
   const createUser = await client.user.create({
     data: {
