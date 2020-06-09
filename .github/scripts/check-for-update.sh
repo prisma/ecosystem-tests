@@ -64,16 +64,16 @@ while [ $i -le $count ]; do
 				;;
 		esac
 
-		cd "$(dirname "$item")/"
-
 		vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['@prisma/cli'])")"
 
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
 				if [ "$branch" = "latest" ]; then
-					sync
+					sh .github/scripts/sync.sh latest latest
 					continue
 				fi
+
+				cd "$(dirname "$item")/"
 
 				echo "$item: @prisma/cli expected $v, actual $vCLI"
 				yarn add "@prisma/cli@$v" --dev
@@ -83,9 +83,11 @@ while [ $i -le $count ]; do
 
 			if [ "$v" != "$vPrismaClient" ]; then
 				if [ "$branch" = "latest" ]; then
-					sync
+					sh .github/scripts/sync.sh latest latest
 					continue
 				fi
+
+				cd "$(dirname "$item")/"
 
 				echo "$item: @prisma/client expected $v, actual $vPrismaClient"
 				yarn add "@prisma/client@$v"
@@ -138,8 +140,3 @@ while [ $i -le $count ]; do
 done
 
 echo "done"
-
-sync() {
-	cd "$dir"
-	sh .github/scripts/sync.sh latest latest
-}
