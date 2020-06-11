@@ -80,6 +80,26 @@ jobs:
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
           OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
+  binaries:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+
+      - name: test on ${{ matrix.os }}
+        run: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+          OS: ${{ matrix.os }}
+
   packagers:
     runs-on: ubuntu-latest
 
