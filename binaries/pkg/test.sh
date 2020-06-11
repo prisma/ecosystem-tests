@@ -22,4 +22,4 @@ esac
 
 yarn pkg node_modules/@prisma/cli -t node12-$os
 
-./cli --help
+./cli --version
