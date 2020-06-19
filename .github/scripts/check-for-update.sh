@@ -70,9 +70,9 @@ while [ $i -le $count ]; do
 
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
-				if [ "$branch" = "latest" ]; then
+				if [ "$branch" != "master" ]; then
 					cd "$dir"
-					sh .github/scripts/sync.sh latest latest
+					sh .github/scripts/sync.sh "$branch" "$branch"
 					continue
 				fi
 
@@ -83,9 +83,9 @@ while [ $i -le $count ]; do
 			vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
 			if [ "$v" != "$vPrismaClient" ]; then
-				if [ "$branch" = "latest" ]; then
+				if [ "$branch" != "master" ]; then
 					cd "$dir"
-					sh .github/scripts/sync.sh latest latest
+					sh .github/scripts/sync.sh "$branch" "$branch"
 					continue
 				fi
 
