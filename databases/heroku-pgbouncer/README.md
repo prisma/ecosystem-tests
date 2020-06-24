@@ -2,12 +2,6 @@
 
 ## How to run this locally
 
-### Heroku authentication
-
-A heroku token needs to be set with the environment variable `HEROKU_API_KEY`. You can find it in our internal 1Password E2E vault.
-
-Alternatively, you can login using `heroku login`.
-
 ### Environment variables
 
 The environment variable `DATABASE_CONNECTION_POOL_URL` should point to a Heroku postgres database that uses PgBouncer.
