@@ -2,4 +2,4 @@
 
 set -eu
 
-node test.js
+npx ts-node ../../utils/fetch-retry.ts --url https://prisma2-e2e-tests-netlify-current-cli.netlify.app/.netlify/functions/index --prisma-version $(sh ../../utils/prisma_version.sh)
