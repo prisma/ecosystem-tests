@@ -71,7 +71,7 @@ while [ $i -le $count ]; do
 			if [ "$v" != "$vCLI" ]; then
 				if [ "$branch" != "dev" ]; then
 					cd "$dir"
-					sh .github/scripts/sync.sh "$branch" "$branch"
+					sh .github/scripts/sync.sh "$branch"
 					continue
 				fi
 
@@ -84,7 +84,7 @@ while [ $i -le $count ]; do
 			if [ "$v" != "$vPrismaClient" ]; then
 				if [ "$branch" != "dev" ]; then
 					cd "$dir"
-					sh .github/scripts/sync.sh "$branch" "$branch"
+					sh .github/scripts/sync.sh "$branch"
 					continue
 				fi
 

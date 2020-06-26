@@ -2,8 +2,7 @@
 
 set -eu
 
-channel="$1"
-branch="$2"
+branch="$1"
 
 mkdir -p ~/.ssh
 echo "$SSH_KEY" > ~/.ssh/id_rsa
@@ -18,12 +17,12 @@ git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 # checkout the actual branch to perform the sync
 git checkout "github/$branch"
 
-version=$(sh .github/scripts/prisma-version.sh "$channel")
+version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
 
 echo "$version" > .github/prisma-version.txt
 
-git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$channel")"
+git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
 
 # fail silently if the unlikely event happens that this change already has been pushed either manually
 # or by an overlapping upgrade action
