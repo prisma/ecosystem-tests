@@ -14,7 +14,7 @@ jobs:
           node-version: 10
 
       - name: check latest update
-        run: sh .github/scripts/check-for-update.sh latest latest
+        run: sh .github/scripts/check-for-update.sh latest
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -31,7 +31,7 @@ jobs:
           node-version: 10
 
       - name: check dev update
-        run: sh .github/scripts/check-for-update.sh dev master
+        run: sh .github/scripts/check-for-update.sh dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -48,7 +48,7 @@ jobs:
           node-version: 10
 
       - name: check patch-dev update
-        run: sh .github/scripts/check-for-update.sh patch-dev patch-dev
+        run: sh .github/scripts/check-for-update.sh patch-dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

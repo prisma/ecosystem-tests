@@ -6,8 +6,7 @@ cd .github/slack/
 yarn install
 cd ../..
 
-channel="$1"
-branch="$2"
+branch="$1"
 
 no_negatives () {
 	echo "$(( $1 < 0 ? 0 : $1 ))"
@@ -52,7 +51,7 @@ while [ $i -le $count ]; do
 
 	echo "checking info..."
 
-	v=$(sh .github/scripts/prisma-version.sh "$channel")
+	v=$(sh .github/scripts/prisma-version.sh "$branch")
 
 	echo "$packages" | tr ' ' '\n' | while read -r item; do
 		echo "checking $item"
@@ -70,7 +69,7 @@ while [ $i -le $count ]; do
 
 		if [ "$vCLI" != "" ]; then
 			if [ "$v" != "$vCLI" ]; then
-				if [ "$branch" != "master" ]; then
+				if [ "$branch" != "dev" ]; then
 					cd "$dir"
 					sh .github/scripts/sync.sh "$branch" "$branch"
 					continue
@@ -83,7 +82,7 @@ while [ $i -le $count ]; do
 			vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
 			if [ "$v" != "$vPrismaClient" ]; then
-				if [ "$branch" != "master" ]; then
+				if [ "$branch" != "dev" ]; then
 					cd "$dir"
 					sh .github/scripts/sync.sh "$branch" "$branch"
 					continue
@@ -125,9 +124,9 @@ while [ $i -le $count ]; do
 
 	if [ $code -eq 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL"
-		node .github/slack/notify.js "Prisma version $v released"
+		node .github/slack/notify.js "Prisma version $v released (via $branch)"
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
-		node .github/slack/notify.js "Prisma version $v released"
+		node .github/slack/notify.js "Prisma version $v released (via $branch)"
 	fi
 
 	end=$(date "+%s")
