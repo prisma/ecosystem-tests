@@ -14,6 +14,12 @@ Renovate is enabled for this repository for all dependencies except `@prisma/cli
 
 If there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the e2e tests. This is implemented in `.github/workflows/check-for-update.yaml` using a Github Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `master`.
 
+### Branches and npm channels
+
+The default `dev` branch of this repository contains the examples with the development version of Prisma CLI and Prisma Client (`@dev` on npm). These dependencies are kept up to date with a GitHub Action workflow, which updates them every time a new version of Prisma is released.
+
+There are also the branches `latest` and `patch-dev`, which mirror the code from `dev` (synced via a GitHub Action workflow), but they use the respective development channels of Prisma CLI and Prisma Client from npm instead (`@latest` and `@patch-dev`, also updated via a GitHub Action workflow). Thanks to the test coverage of all projects, this can point us to incompatibilities early.
+
 ### e2e Tests
 
 The e2e tests are defined in `.github/workflows/test.yaml`. Currently, this action tests:
