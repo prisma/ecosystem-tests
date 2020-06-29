@@ -1,0 +1,15 @@
+// Like, postgresql://user:password@localhost:5432/database/schema
+datasource db {
+    provider = "postgresql"
+    url      = "postgresql://this-will-not-be-used-but-overwritten-in-the-prisma-client-constructor"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id    String  @default(cuid()) @id
+    email String  @unique
+    name  String?
+}
