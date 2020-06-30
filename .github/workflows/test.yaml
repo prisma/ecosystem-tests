@@ -166,7 +166,6 @@ jobs:
         platform:
           - lambda
           - heroku
-          - heroku-pgbouncer-buildpack
           - vercel-node-builder
           - vercel-api
           - netlify-current-cli
@@ -301,6 +300,7 @@ jobs:
           - digitalocean-pgbouncer
           - docker-pgbouncer
           - heroku-pgbouncer
+          - heroku-pgbouncer-buildpack
 
     name: databases ${{ matrix.database }}
     steps:
