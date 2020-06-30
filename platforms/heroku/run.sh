@@ -2,6 +2,8 @@
 
 set -eux
 
+exit 1
+
 sudo snap install heroku --classic
 yarn install
 yarn prisma2 generate
