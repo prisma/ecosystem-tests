@@ -306,6 +306,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Install Dependencies
+        run: yarn install
+
       - name: use node 12
         uses: actions/setup-node@v1
         with:
