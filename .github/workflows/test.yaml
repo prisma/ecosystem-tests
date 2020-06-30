@@ -191,7 +191,11 @@ jobs:
           args: yarn
 
       - name: test ${{ matrix.platform }}
-        run: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
