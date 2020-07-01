@@ -8,4 +8,5 @@ export RUST_BACKTRACE=full
 yarn install
 yarn prisma generate
 
-TODO Migrate DB and seed with data
+yarn prisma migrate save --create-db --experimental
+yarn prisma migrate up --create-db --experimental
