@@ -2,7 +2,9 @@
 
 set -eux
 
-url="https://prisma-e2e-windows-test-new.azurewebsites.net/api/prisma-e2e-windows-test-new"
+app="$(cat func-tmp.txt)"
+
+url="https://$app.azurewebsites.net/api/$app"
 
 prisma_version="$(cat ../../.github/prisma-version.txt)"
 
