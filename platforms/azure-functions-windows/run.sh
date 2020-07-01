@@ -19,3 +19,5 @@ sleep 30
 func azure functionapp publish "$app" --force
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=*"
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "AZURE_FUNCTIONS_WINDOWS_PG_URL=$AZURE_FUNCTIONS_WINDOWS_PG_URL"
+
+sleep 30
