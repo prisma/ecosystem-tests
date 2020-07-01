@@ -6,4 +6,16 @@ yarn install
 yarn prisma2 generate
 yarn tsc
 
-func azure functionapp publish "prisma-e2e-linux-test-azure-functions-is-so-amazing"
+app="azure-function-linux-e2e-test-$(date "+%s")"
+echo "$app" > func-tmp.txt
+
+cp -r "func-placeholder" "$app"
+
+group="prisma-e2e-linux"
+storage="e2estorageprismalinux"
+
+az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Linux
+sleep 30
+func azure functionapp publish "$app" --force
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=*"
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "AZURE_FUNCTIONS_LINUX_PG_URL=$AZURE_FUNCTIONS_LINUX_PG_URL"
