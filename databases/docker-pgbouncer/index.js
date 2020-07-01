@@ -15,8 +15,7 @@ const client = new PrismaClient({
 const clientWithQueryStringParam = new PrismaClient({
   datasources: {
     db: {
-      url:
-        'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true',
+      url: 'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public',
     },
   },
 })
