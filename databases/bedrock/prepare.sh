@@ -16,4 +16,4 @@ sudo apt-get install bedrock
 touch bedrock.db
 
 # Run it (press Ctrl^C to quit, or use -fork to make it run in the backgroud)
-./bedrock -fork
+bedrock -fork
