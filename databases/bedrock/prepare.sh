@@ -2,16 +2,15 @@
 
 set -eux
 
-git clone https://github.com/Expensify/Bedrock.git
+# Add the Bedrock repo to apt sources for your distro:
+sudo wget -O /etc/apt/sources.list.d/bedrock.list https://apt.bedrockdb.com/ubuntu/dists/$(lsb_release -cs)/bedrock.list
 
-# Install some dependencies
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+# Add the Bedrock repo key:
+wget -O - https://apt.bedrockdb.com/bedrock.gpg | sudo apt-key add -
+
+# Update the apt-get and install Bedrock
 sudo apt-get update
-sudo apt-get install gcc-9 g++-9 libpcre++-dev zlib1g-dev
-
-# Build it
-cd Bedrock
-make
+sudo apt-get install bedrock
 
 # Create an empty database (See: https://github.com/Expensify/Bedrock/issues/489)
 touch bedrock.db
