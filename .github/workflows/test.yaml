@@ -445,7 +445,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
 
   databases:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
 
     strategy:
       fail-fast: false
