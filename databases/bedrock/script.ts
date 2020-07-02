@@ -21,6 +21,7 @@ async function main() {
       id: rand,
     },
   })
+  console.log('user', user)
 
   const expect = JSON.stringify({
     id: rand,
