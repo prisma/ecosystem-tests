@@ -15,7 +15,7 @@ group="prisma-e2e-windows-new"
 storage="prismae2estoragewinnew"
 
 az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Windows
-sleep 30
+sleep 60
 func azure functionapp publish "$app" --force
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=*"
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "AZURE_FUNCTIONS_WINDOWS_PG_URL=$AZURE_FUNCTIONS_WINDOWS_PG_URL"
