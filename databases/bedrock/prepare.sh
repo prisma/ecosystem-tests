@@ -12,8 +12,5 @@ wget -O - https://apt.bedrockdb.com/bedrock.gpg | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install bedrock
 
-# Create an empty database (See: https://github.com/Expensify/Bedrock/issues/489)
-touch bedrock.db
-
 # Run it (press Ctrl^C to quit, or use -fork to make it run in the backgroud)
-bedrock -fork
+bedrock -fork -db prisma/bedrock.db
