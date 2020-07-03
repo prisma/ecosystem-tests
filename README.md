@@ -36,7 +36,11 @@ The e2e tests are defined in `.github/workflows/test.yaml`. Currently, this acti
 
 To check the current status of this repository somewhere else, you can use [a simple shell script](https://gist.github.com/steebchen/80fb6e3a60aec0f095090618f90473ec).
 
-## How to add or adapt platforms
+## Contributing
+
+We use [conventional commits](https://www.conventionalcommits.org) (also known as semantic commits) to ensure consistent and descriptive commit messages.
+
+### How to add or adapt platforms
 
 First add a matrix run entry in `.github/workflows/test.yaml` under the category the project falls into. For example, if you're adding a new platform into the `platforms` folder, put a new line named after your project folder in `.github/workflows/test.yaml` under `jobs.platforms.strategy.matrix.platform`.
 
