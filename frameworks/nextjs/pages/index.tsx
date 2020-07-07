@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import { PrismaClient } from '@prisma/client'
 
-export async function unstable_getStaticProps() {
+export async function getStaticProps() {
   const client = new PrismaClient()
 
   await client.user.deleteMany({})
@@ -20,11 +20,11 @@ export async function unstable_getStaticProps() {
     props: {
       users: await client.user.findMany(),
     },
-    revalidate: 5,
+    unstable_revalidate: 5,
   }
 }
 
-const Home: NextPage<GetProps<typeof unstable_getStaticProps>> = props => (
+const Home: NextPage<GetProps<typeof getStaticProps>> = props => (
   <div>
     <Head>
       <title>Home</title>
