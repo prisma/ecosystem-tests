@@ -6,6 +6,8 @@ cd .github/slack/
 yarn install
 cd ../..
 
+npm i -g json
+
 branch="$1"
 
 no_negatives () {
@@ -65,33 +67,65 @@ while [ $i -le $count ]; do
 
 		cd "$(dirname "$item")/"
 
-		vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['@prisma/cli'])")"
+    hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
-		if [ "$vCLI" != "" ]; then
-			if [ "$v" != "$vCLI" ]; then
-				if [ "$branch" != "dev" ]; then
-					cd "$dir"
-					sh .github/scripts/sync.sh "$branch"
-					continue
-				fi
+    if [ "$hasResolutions" = "true" ]; then
+      vCLI="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/cli'])")"
 
-				echo "$item: @prisma/cli expected $v, actual $vCLI"
-				yarn add "@prisma/cli@$v" --dev
-			fi
+      if [ "$vCLI" != "" ]; then
+        if [ "$v" != "$vCLI" ]; then
+          if [ "$branch" != "dev" ]; then
+            cd "$dir"
+            sh .github/scripts/sync.sh "$branch"
+            continue
+          fi
 
-			vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
+          echo "$item: @prisma/cli expected $v, actual $vCLI"
+          json -I -f package.json -e "this.resolutions['@prisma/cli']='$v'"
+        fi
 
-			if [ "$v" != "$vPrismaClient" ]; then
-				if [ "$branch" != "dev" ]; then
-					cd "$dir"
-					sh .github/scripts/sync.sh "$branch"
-					continue
-				fi
+        vPrismaClient="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/client'])")"
 
-				echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-				yarn add "@prisma/client@$v"
-			fi
-		fi
+        if [ "$v" != "$vPrismaClient" ]; then
+          if [ "$branch" != "dev" ]; then
+            cd "$dir"
+            sh .github/scripts/sync.sh "$branch"
+            continue
+          fi
+
+          echo "$item: @prisma/client expected $v, actual $vPrismaClient"
+          json -I -f package.json -e "this.resolutions['@prisma/client']='$v'"
+        fi
+      fi
+    else
+      vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['@prisma/cli'])")"
+
+      if [ "$vCLI" != "" ]; then
+        if [ "$v" != "$vCLI" ]; then
+          if [ "$branch" != "dev" ]; then
+            cd "$dir"
+            sh .github/scripts/sync.sh "$branch"
+            continue
+          fi
+
+          echo "$item: @prisma/cli expected $v, actual $vCLI"
+          yarn add "@prisma/cli@$v" --dev
+        fi
+
+        vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
+
+        if [ "$v" != "$vPrismaClient" ]; then
+          if [ "$branch" != "dev" ]; then
+            cd "$dir"
+            sh .github/scripts/sync.sh "$branch"
+            continue
+          fi
+
+          echo "$item: @prisma/client expected $v, actual $vPrismaClient"
+          yarn add "@prisma/client@$v"
+        fi
+      fi
+    fi
 
 		cd "$dir"
 	done
