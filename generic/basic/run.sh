@@ -6,4 +6,4 @@ export DEBUG="*"
 export RUST_BACKTRACE=full
 
 yarn install
-yarn prisma2 generate
+yarn prisma generate

@@ -34,6 +34,6 @@ check() {
 
 # Syntax:
 # check <repo slug> <workflow name>
-check "prisma/prisma2-e2e-tests" "test"
+check "prisma/prisma-e2e-tests" "test"
 
 ```

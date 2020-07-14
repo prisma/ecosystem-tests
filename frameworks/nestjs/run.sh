@@ -3,7 +3,7 @@
 set -eu
 
 yarn install
-yarn prisma2 generate
+yarn prisma generate
 
 yarn build
 yarn seed
