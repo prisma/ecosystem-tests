@@ -4,7 +4,7 @@ set -eux
 
 sudo snap install heroku --classic
 yarn install
-yarn prisma2 generate
+yarn prisma generate
 
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"

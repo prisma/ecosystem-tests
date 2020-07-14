@@ -8,7 +8,7 @@ group="prisma-e2e-windows-new"
 storage="prismae2estoragewinnew"
 
 yarn install
-yarn prisma2 generate
+yarn prisma generate
 yarn tsc
 
 az group create --name "$group" --location westeurope

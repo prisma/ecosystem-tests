@@ -4,4 +4,4 @@ set -eu
 
 yarn install
 yarn tsc
-yarn prisma2 generate
+yarn prisma generate
