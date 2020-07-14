@@ -56,7 +56,11 @@ jobs:
           version: 12
 
       - name: test on ${{ matrix.os }}
-        run: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -83,7 +87,11 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: test on node ${{ matrix.node }}
-        run: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -103,7 +111,11 @@ jobs:
           version: 12
 
       - name: test on ${{ matrix.os }}
-        run: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -129,7 +141,11 @@ jobs:
           node-version: 10
 
       - name: packager ${{ matrix.packager }}
-        run: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -157,7 +173,11 @@ jobs:
           node-version: 10
 
       - name: framework ${{ matrix.framework }}
-        run: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -262,7 +282,11 @@ jobs:
           node-version: 10
 
       - name: test ${{ matrix.bundler }}
-        run: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
+        uses: nick-invision/retry@v1
+          with:
+            timeout_minutes: 10
+            max_attempts: 3
+            command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -291,7 +315,11 @@ jobs:
           node-version: 10
 
       - name: test ${{ matrix.library }}
-        run: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
+        uses: nick-invision/retry@v1
+          with:
+            timeout_minutes: 10
+            max_attempts: 3
+            command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -324,7 +352,11 @@ jobs:
           node-version: 12
 
       - name: test ${{ matrix.database }}
-        run: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
