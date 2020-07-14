@@ -1,5 +1,5 @@
 import { makeSchema, objectType } from '@nexus/schema'
-import { nexusPrismaPlugin } from 'nexus-prisma'
+import { nexusSchemaPrisma } from 'nexus-plugin-prisma/schema'
 
 const User = objectType({
   name: 'User',
@@ -35,7 +35,7 @@ const Mutation = objectType({
 
 export const schema = makeSchema({
   types: [Query, Mutation, User],
-  plugins: [nexusPrismaPlugin()],
+  plugins: [nexusSchemaPrisma({ experimentalCRUD: true })],
   outputs: {
     schema: __dirname + '/generated/schema.graphql',
     typegen: __dirname + '/generated/nexus.ts',
