@@ -283,10 +283,10 @@ jobs:
 
       - name: test ${{ matrix.bundler }}
         uses: nick-invision/retry@v1
-          with:
-            timeout_minutes: 10
-            max_attempts: 3
-            command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -316,10 +316,10 @@ jobs:
 
       - name: test ${{ matrix.library }}
         uses: nick-invision/retry@v1
-          with:
-            timeout_minutes: 10
-            max_attempts: 3
-            command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
