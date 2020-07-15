@@ -10,6 +10,16 @@ set +u
 matrix=$3
 set -u
 
+if [ -z "$matrix" ]; then
+	FILENAME_LAST_ATTEMPT="$dir-$project"
+else
+	FILENAME_LAST_ATTEMPT="$dir-$project-$matrix"
+fi
+echo "FILENAME_LAST_ATTEMPT $FILENAME_LAST_ATTEMPT"
+
+LAST_ATTEMPT=$(touch "$FILENAME_LAST_ATTEMPT" && cat "$FILENAME_LAST_ATTEMPT")
+echo "LAST_ATTEMPT $LAST_ATTEMPT"
+
 sh .github/scripts/print-version.sh "$dir/$project/package.json"
 
 cd .github/slack/
@@ -88,7 +98,7 @@ echo "$dir/$project done"
 
 cd "$root"
 
-if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
+if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ] || [ "$GITHUB_REF" = "refs/heads/feat_last_attempt" ]; then
 	(cd .github/slack/ && yarn install --silent)
 
 	branch="${GITHUB_REF##*/}"
@@ -107,12 +117,18 @@ if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-d
 	fi
 
 	echo "notifying slack channel"
-	node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
+	node .github/slack/notify.js "TEST: prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
 
 	if [ $code -ne 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
 		echo "notifying failing slack channel"
-		node .github/slack/notify.js "prisma@$version: :x: $workflow_link failed (via $commit_link)"
+
+		emoji=":question:"
+		if [ $LAST_ATTEMPT = 'true' ]; then
+			emoji=":x:"
+		fi
+
+		node .github/slack/notify.js "TEST: prisma@$version: ${emoji} $workflow_link failed (via $commit_link)"
 	fi
 fi
 

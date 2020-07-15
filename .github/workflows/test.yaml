@@ -7,6 +7,8 @@ jobs:
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: Install Dependencies
         run: yarn install
@@ -26,6 +28,8 @@ jobs:
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: Install Dependencies
         run: yarn install
@@ -47,6 +51,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: Install Dependencies
         run: yarn install
@@ -55,9 +61,16 @@ jobs:
         with:
           version: 12
 
-      - name: test on ${{ matrix.os }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test on ${{ matrix.os }}
+        uses: ./retry
+        with:
+          filename_last_attempt: generic-basic-${{ matrix.os }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
@@ -80,15 +93,24 @@ jobs:
     name: node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
 
-      - name: test on node ${{ matrix.node }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test on node ${{ matrix.node }}
+        uses: ./retry
+        with:
+          filename_last_attempt: 'generic-basic-node ${{ matrix.node }}'
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
@@ -105,14 +127,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - uses: actions/setup-node@v1
         with:
           version: 12
 
-      - name: test on ${{ matrix.os }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test on ${{ matrix.os }}
+        uses: ./retry
+        with:
+          filename_last_attempt: binaries-pkg-${{ matrix.os }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
@@ -134,15 +165,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
           node-version: 10
 
-      - name: packager ${{ matrix.packager }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: packager ${{ matrix.packager }}
+        uses: ./retry
+        with:
+          filename_last_attempt: packagers-${{ matrix.packager }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
@@ -166,15 +206,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
           node-version: 10
 
-      - name: framework ${{ matrix.framework }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: framework ${{ matrix.framework }}
+        uses: ./retry
+        with:
+          filename_last_attempt: frameworks-${{ matrix.framework }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
@@ -207,6 +256,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: use node 10
         uses: actions/setup-node@v1
@@ -218,9 +269,16 @@ jobs:
         with:
           args: yarn
 
-      - name: test ${{ matrix.platform }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test ${{ matrix.platform }}
+        uses: ./retry
+        with:
+          filename_last_attempt: platforms-${{ matrix.platform }}
           timeout_minutes: 60
           max_attempts: 3
           command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
@@ -275,15 +333,24 @@ jobs:
     name: bundler ${{ matrix.bundler }}
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: use node 10
         uses: actions/setup-node@v1
         with:
           node-version: 10
 
-      - name: test ${{ matrix.bundler }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test ${{ matrix.bundler }}
+        uses: ./retry
+        with:
+          filename_last_attempt: buldlers-${{ matrix.bundler }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
@@ -308,15 +375,24 @@ jobs:
     name: library ${{ matrix.library }}
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: use node 10
         uses: actions/setup-node@v1
         with:
           node-version: 10
 
-      - name: test ${{ matrix.library }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test ${{ matrix.library }}
+        uses: ./retry
+        with:
+          filename_last_attempt: libraries-${{ matrix.library }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
@@ -342,6 +418,8 @@ jobs:
     name: databases ${{ matrix.database }}
     steps:
       - uses: actions/checkout@v1
+        with:
+          ref: feat_last_attempt
 
       - name: Install Dependencies
         run: yarn install
@@ -351,9 +429,16 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }}
-        uses: nick-invision/retry@v1
+      - uses: actions/checkout@v2
         with:
+          repository: divyenduz/retry
+          path: ./retry
+          ref: feat_last_try
+
+      - name: test ${{ matrix.database }}
+        uses: ./retry
+        with:
+          filename_last_attempt: databases-${{ matrix.database }}
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
