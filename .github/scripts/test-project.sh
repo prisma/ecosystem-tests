@@ -101,7 +101,7 @@ if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-d
 	version="$(cat .github/prisma-version.txt)"
 	sha="$(git rev-parse HEAD | cut -c -7)"
 
-	emoji=":x:"
+	emoji=":warning:"
 	if [ $code -eq 0 ]; then
 		emoji=":white_check_mark:"
 	fi
@@ -112,7 +112,7 @@ if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-d
 	if [ $code -ne 0 ]; then
 		export webhook="$SLACK_WEBHOOK_URL_FAILING"
 		echo "notifying failing slack channel"
-		node .github/slack/notify.js "prisma@$version: :x: $workflow_link failed (via $commit_link)"
+		node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link failed (via $commit_link)"
 	fi
 fi
 
