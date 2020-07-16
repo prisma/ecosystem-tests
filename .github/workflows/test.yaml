@@ -45,6 +45,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
       - uses: actions/checkout@v1
 
@@ -63,10 +67,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -84,6 +84,10 @@ jobs:
           - 14
 
     name: node ${{ matrix.node }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
       - uses: actions/checkout@v1
 
@@ -100,10 +104,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -115,6 +115,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
 
@@ -130,10 +134,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          OS: ${{ matrix.os }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -149,6 +149,13 @@ jobs:
           - yarn
           - npm
           - yarn-workspaces
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
+      PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
+      PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
     steps:
       - uses: actions/checkout@v1
@@ -166,12 +173,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
-          PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
-          PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -187,6 +188,13 @@ jobs:
           - nestjs
           - nextjs
           - nexus
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
+      FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
+      FRAMEWORK_NEXUS_PG_URL: ${{ secrets.FRAMEWORK_NEXUS_PG_URL }}
 
     steps:
       - uses: actions/checkout@v1
@@ -204,12 +212,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
-          FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
-          FRAMEWORK_NEXUS_PG_URL: ${{ secrets.FRAMEWORK_NEXUS_PG_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -235,6 +237,42 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
 
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      CI: 1
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
+      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
+      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
+      HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      NPM_CONFIG_LOGLEVEL: error
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ secrets.AWS_ROLE }}
+      VERCEL_NODE_BUILDER_NOW_PG_URL: ${{ secrets.VERCEL_NODE_BUILDER_NOW_PG_URL }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
+      NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
+      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
+      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
+      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     steps:
       - uses: actions/checkout@v1
 
@@ -256,42 +294,6 @@ jobs:
           timeout_minutes: 60
           max_attempts: 3
           command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          CI: 1
-          SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-          SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
-          GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
-          GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-          GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-          GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-          NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
-          NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
-          LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
-          HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          NPM_CONFIG_LOGLEVEL: error
-          NODE_ENV: development
-          NODE_MODULES_CACHE: false
-          NODE_VERBOSE: true
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_ROLE: ${{ secrets.AWS_ROLE }}
-          VERCEL_NODE_BUILDER_NOW_PG_URL: ${{ secrets.VERCEL_NODE_BUILDER_NOW_PG_URL }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
-          NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
-          AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
-          AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
-          AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
-          AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
-          AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-          FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -309,6 +311,12 @@ jobs:
           - rollup
 
     name: bundler ${{ matrix.bundler }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
+      PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
+      ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
     steps:
       - uses: actions/checkout@v1
 
@@ -325,12 +333,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
-          PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
-          ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -348,6 +350,12 @@ jobs:
           - type-graphql
 
     name: library ${{ matrix.library }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
+      LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
+      LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
     steps:
       - uses: actions/checkout@v1
 
@@ -364,12 +372,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
-          LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
-          LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
@@ -388,6 +390,12 @@ jobs:
           - heroku-pgbouncer-buildpack
 
     name: databases ${{ matrix.database }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
     steps:
       - uses: actions/checkout@v1
 
@@ -407,12 +415,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-          DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
 
       - name: notify-slack
         if: ${{ steps.run-test.outcome != 'success' }}
