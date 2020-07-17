@@ -62,14 +62,13 @@ jobs:
       - name: test on ${{ matrix.os }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
   node:
@@ -99,14 +98,13 @@ jobs:
       - name: test on node ${{ matrix.node }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
@@ -129,14 +127,13 @@ jobs:
       - name: test on ${{ matrix.os }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh binaries pkg ${{ matrix.os }}
 
   packagers:
@@ -168,14 +165,13 @@ jobs:
       - name: packager ${{ matrix.packager }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
 
   frameworks:
@@ -207,14 +203,13 @@ jobs:
       - name: framework ${{ matrix.framework }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
@@ -289,14 +284,13 @@ jobs:
       - name: test ${{ matrix.platform }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 60
           max_attempts: 3
           command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   bundlers:
@@ -328,14 +322,13 @@ jobs:
       - name: test ${{ matrix.bundler }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
 
   libraries:
@@ -367,14 +360,13 @@ jobs:
       - name: test ${{ matrix.library }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh libraries ${{ matrix.library }}
 
   databases:
@@ -410,12 +402,11 @@ jobs:
       - name: test ${{ matrix.database }}
         id: run-test
         uses: nick-invision/retry@v1
-        continue-on-error: true
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
 
       - name: notify-slack
-        if: ${{ steps.run-test.outcome != 'success' }}
+        if: failure()
         run: sh .github/slack/notify-failure.sh databases ${{ matrix.database }}
