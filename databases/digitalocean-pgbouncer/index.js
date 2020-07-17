@@ -33,17 +33,22 @@ async function clientWithQueryStringParamCall() {
 async function main() {
   const data1 = await client.user.findMany()
   console.log(data1)
-  const data2 = await clientWithQueryStringParam.user.findMany()
+  const data2 = await client.user.findMany()
   console.log(data2)
+
+  const data3 = await clientWithQueryStringParam.user.findMany()
+  console.log(data3)
+  const data4 = await clientWithQueryStringParam.user.findMany()
+  console.log(data4)
 }
 
 if (require.main === module) {
   main()
-    .then((_) => {
-      client.disconnect()
-      clientWithQueryStringParam.disconnect()
+    .then((_) => {})
+    .catch((e) => {
+      console.log(e)
     })
-    .catch((_) => {
+    .finally(() => {
       client.disconnect()
       clientWithQueryStringParam.disconnect()
     })
