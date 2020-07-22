@@ -1,4 +1,4 @@
-# Prisma e2e Tests [![Actions Status](https://github.com/prisma/prisma-e2e-tests/workflows/test/badge.svg)](https://github.com/prisma/prisma-e2e-tests/actions?query=workflow%3Atest)
+# Prisma e2e Tests [![Actions Status](https://github.com/prisma/e2e-tests/workflows/test/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest)
 
 This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
