@@ -9,16 +9,13 @@ echo "$version" > .github/prisma-version.txt
 
 echo "upgrading all packages"
 
-git fetch github "$branch"
-git reset --hard "github/$branch"
-git checkout "github/$branch"
 packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
 
 dir=$(pwd)
 
 echo "$packages" | tr ' ' '\n' | while read -r item; do
 	case "$item" in
-		*".github"*|*"yarn-workspaces/package.json"*)
+		*".github"*|*"yarn-workspaces/package.json"*|*"functions/generated/client"*)
 			echo "ignoring $item"
 			continue
 			;;
