@@ -14,11 +14,6 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
-# checkout the default branch 'dev' and then run upgrade-all.sh
-git fetch "github" "dev"
-git checkout "github/dev"
-git reset --hard "github/dev"
-
 version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
 
