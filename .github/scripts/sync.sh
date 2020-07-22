@@ -21,6 +21,11 @@ echo "$version" > .github/prisma-version.txt
 
 git status
 
+if [ -z "$(git status -s)" ]; then
+  echo "no changes"
+  exit 0
+fi
+
 git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
 
 # fail silently if the unlikely event happens that this change already has been pushed either manually
