@@ -2,7 +2,7 @@
 
 This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
-You can check out the latest test runs by checking the ["test" workflow results](https://github.com/prisma/prisma-e2e-tests/actions?query=workflow%3Atest).
+You can check out the latest test runs by checking the ["test" workflow results](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest).
 
 ## How it works
 
