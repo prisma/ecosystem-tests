@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 branch="$1"
 
@@ -23,6 +23,8 @@ version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
 
 echo "$version" > .github/prisma-version.txt
+
+git status
 
 git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
 
