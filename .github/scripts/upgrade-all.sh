@@ -7,7 +7,7 @@ version=$(sh .github/scripts/prisma-version.sh "$branch")
 
 echo "$version" > .github/prisma-version.txt
 
-echo "upgrading all packages"
+echo "upgrading all packages (upgrade-all.sh)"
 
 packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
 
@@ -26,7 +26,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	echo "running $item"
 	cd "$(dirname "$item")/"
 
-  pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
+	pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
 	hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
 	## ACTION
@@ -42,3 +42,5 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	echo "$item done"
 	cd "$dir"
 done
+
+echo "done upgrading all packages (upgrade-all.sh)"
