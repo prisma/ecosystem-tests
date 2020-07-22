@@ -2,15 +2,16 @@
 
 set -eux
 
-channel="$1"
-version=$(sh .github/scripts/prisma-version.sh "$channel")
+branch="$1"
+version=$(sh .github/scripts/prisma-version.sh "$branch")
 
 echo "$version" > .github/prisma-version.txt
 
 echo "upgrading all packages"
 
-git fetch github "$channel"
-git reset --hard "github/$channel"
+git fetch github "$branch"
+git reset --hard "github/$branch"
+git checkout "github/$branch"
 packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
 
 dir=$(pwd)
@@ -23,7 +24,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 			;;
 	esac
 
-	v=$(sh .github/scripts/prisma-version.sh "$channel")
+	v=$(sh .github/scripts/prisma-version.sh "$branch")
 
 	echo "running $item"
 	cd "$(dirname "$item")/"
@@ -36,8 +37,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 		json -I -f package.json -e "this.resolutions['@prisma/cli']='$v'"
 		json -I -f package.json -e "this.resolutions['@prisma/client']='$v'"
 	else
-		yarn add "@prisma/cli@$channel" --dev
-		yarn add "@prisma/client@$channel"
+		yarn add "@prisma/cli@$branch" --dev
+		yarn add "@prisma/client@$branch"
 	fi
 	## END
 
