@@ -9,6 +9,8 @@ echo "$version" > .github/prisma-version.txt
 
 echo "upgrading all packages"
 
+git fetch github "$channel"
+git reset --hard "github/$channel"
 packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
 
 dir=$(pwd)
