@@ -130,6 +130,9 @@ while [ $i -le $count ]; do
 		cd "$dir"
 	done
 
+	echo "after upgrade:"
+	git status
+
 	if [ -z "$(git status -s)" ]; then
 		echo "no changes"
 		end=$(date "+%s")
