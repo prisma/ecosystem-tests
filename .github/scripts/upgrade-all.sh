@@ -21,8 +21,6 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 			;;
 	esac
 
-	v=$(sh .github/scripts/prisma-version.sh "$branch")
-
 	echo "running $item"
 	cd "$(dirname "$item")/"
 
@@ -31,8 +29,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 
 	## ACTION
 	if [ "$hasResolutions" = "true" ]; then
-		json -I -f package.json -e "this.resolutions['@prisma/cli']='$v'"
-		json -I -f package.json -e "this.resolutions['@prisma/client']='$v'"
+		json -I -f package.json -e "this.resolutions['@prisma/cli']='$version'"
+		json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
 	else
 		yarn add "@prisma/cli@$branch" --dev
 		yarn add "@prisma/client@$branch"
