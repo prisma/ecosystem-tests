@@ -75,7 +75,7 @@ while [ $i -le $count ]; do
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
           if [ "$branch" != "dev" ]; then
-            sync "$dir" "$branch"
+            run_sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/cli expected $v, actual $vCLI"
@@ -86,7 +86,7 @@ while [ $i -le $count ]; do
 
         if [ "$v" != "$vPrismaClient" ]; then
           if [ "$branch" != "dev" ]; then
-            sync "$dir" "$branch"
+            run_sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
@@ -99,7 +99,7 @@ while [ $i -le $count ]; do
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
           if [ "$branch" != "dev" ]; then
-            sync "$dir" "$branch"
+            run_sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/cli expected $v, actual $vCLI"
@@ -110,7 +110,7 @@ while [ $i -le $count ]; do
 
         if [ "$v" != "$vPrismaClient" ]; then
           if [ "$branch" != "dev" ]; then
-            sync "$dir" "$branch"
+            run_sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
@@ -167,7 +167,7 @@ while [ $i -le $count ]; do
 	echo "took $diff seconds, skipping $skip x $interval second runs"
 done
 
-sync() {
+run_sync() {
   dir="$1"
   branch="$2"
   cd "$dir"
