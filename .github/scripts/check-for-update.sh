@@ -75,9 +75,7 @@ while [ $i -le $count ]; do
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
           if [ "$branch" != "dev" ]; then
-            cd "$dir"
-            sh .github/scripts/sync.sh "$branch"
-            continue
+            sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/cli expected $v, actual $vCLI"
@@ -88,9 +86,7 @@ while [ $i -le $count ]; do
 
         if [ "$v" != "$vPrismaClient" ]; then
           if [ "$branch" != "dev" ]; then
-            cd "$dir"
-            sh .github/scripts/sync.sh "$branch"
-            continue
+            sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
@@ -103,9 +99,7 @@ while [ $i -le $count ]; do
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
           if [ "$branch" != "dev" ]; then
-            cd "$dir"
-            sh .github/scripts/sync.sh "$branch"
-            continue
+            sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/cli expected $v, actual $vCLI"
@@ -116,9 +110,7 @@ while [ $i -le $count ]; do
 
         if [ "$v" != "$vPrismaClient" ]; then
           if [ "$branch" != "dev" ]; then
-            cd "$dir"
-            sh .github/scripts/sync.sh "$branch"
-            continue
+            sync "$dir" "$branch"
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
@@ -174,5 +166,14 @@ while [ $i -le $count ]; do
 	i=$((i - skip))
 	echo "took $diff seconds, skipping $skip x $interval second runs"
 done
+
+sync() {
+  dir="$1"
+  branch="$2"
+  cd "$dir"
+  sh .github/scripts/sync.sh "$branch"
+  echo "synced, exit."
+  exit 0
+}
 
 echo "done"
