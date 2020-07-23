@@ -2,8 +2,7 @@
 
 set -eux
 
-branch="$1"
-version=$(sh .github/scripts/prisma-version.sh "$branch")
+version="$1"
 
 echo "$version" > .github/prisma-version.txt
 
@@ -25,8 +24,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 	cd "$(dirname "$item")/"
 
 	## ACTION
-	yarn add "@prisma/cli@$branch" --dev
-	yarn add "@prisma/client@$branch"
+	yarn add "@prisma/cli@$version" --dev
+	yarn add "@prisma/client@$version"
 	## END
 
 	echo "$item done"
