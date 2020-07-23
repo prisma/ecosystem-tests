@@ -14,6 +14,15 @@ no_negatives() {
   echo "$(($1 < 0 ? 0 : $1))"
 }
 
+run_sync() {
+  dir="$1"
+  branch="$2"
+  cd "$dir"
+  sh .github/scripts/sync.sh "$branch"
+  echo "synced, exit."
+  exit 0
+}
+
 echo "setting up ssh repo"
 
 mkdir -p ~/.ssh
@@ -166,14 +175,5 @@ while [ $i -le $count ]; do
   i=$((i - skip))
   echo "took $diff seconds, skipping $skip x $interval second runs"
 done
-
-run_sync() {
-  dir="$1"
-  branch="$2"
-  cd "$dir"
-  sh .github/scripts/sync.sh "$branch"
-  echo "synced, exit."
-  exit 0
-}
 
 echo "done"
