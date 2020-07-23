@@ -15,7 +15,7 @@ case $OS in
   os="win"
   ;;
 *)
-	echo "no such os $OS"
+  echo "no such os $OS"
   exit 1
   ;;
 esac

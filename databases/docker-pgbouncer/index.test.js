@@ -9,7 +9,7 @@ describe('should test Prisma client and PgBouncer', () => {
   afterAll(async () => {
     await client.disconnect()
     await clientWithQueryStringParam.disconnect()
-    return
+
   })
 
   // TODO: Uncommenting this makes the other test fail
