@@ -183,14 +183,12 @@ jobs:
         framework:
           - nestjs
           - nextjs
-          - nexus
 
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
       FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
-      FRAMEWORK_NEXUS_PG_URL: ${{ secrets.FRAMEWORK_NEXUS_PG_URL }}
 
     steps:
       - uses: actions/checkout@v1
@@ -341,6 +339,7 @@ jobs:
           - express
           - apollo-server
           - type-graphql
+          - nexus-schema
 
     name: library ${{ matrix.library }}
     env:
@@ -349,6 +348,8 @@ jobs:
       LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
       LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
       LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
+      LIBRARY_NEXUS_SCHEMA_PG_URL: ${{ secrets.LIBRARY_NEXUS_SCHEMA_PG_URL }}
+
     steps:
       - uses: actions/checkout@v1
 
