@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./bedrock.db"
+  provider = "mysql"
+  url      = "mysql://root:root@127.0.0.1:3306/bedrock"
 }
 
 model User {
