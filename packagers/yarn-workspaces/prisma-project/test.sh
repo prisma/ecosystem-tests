@@ -2,5 +2,5 @@
 
 set -eu
 
-yarn prisma2 generate
+yarn prisma generate
 yarn ts-node ./script.ts

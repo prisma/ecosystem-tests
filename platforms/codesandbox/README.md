@@ -2,7 +2,7 @@
 
 ## Friction points
 
-- https://github.com/prisma/prisma2/issues/805
+- https://github.com/prisma/prisma/issues/805
 
 ## How to run this locally
 

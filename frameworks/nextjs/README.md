@@ -1,6 +1,6 @@
 # NextJS
 
-NextJS with SSR and `unstable_getStaticProps`.
+NextJS with SSR and `getStaticProps`.
 
 ## How to run this locally
 

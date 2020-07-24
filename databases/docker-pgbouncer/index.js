@@ -6,14 +6,19 @@ dotenv.config({
 
 const client = new PrismaClient({
   datasources: {
-    db: "postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public",
-  }
+    db: {
+      url: 'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public',
+    },
+  },
 })
 
 const clientWithQueryStringParam = new PrismaClient({
   datasources: {
-    db: "postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true",
-  }
+    db: {
+      url:
+        'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true',
+    },
+  },
 })
 
 async function clientWithoutQueryStringParamCall() {
@@ -35,11 +40,11 @@ async function main() {
 
 if (require.main === module) {
   main()
-    .then(_ => {
+    .then((_) => {
       client.disconnect()
       clientWithQueryStringParam.disconnect()
     })
-    .catch(_ => {
+    .catch((_) => {
       client.disconnect()
       clientWithQueryStringParam.disconnect()
     })

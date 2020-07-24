@@ -6,14 +6,18 @@ dotenv.config({
 
 const client = new PrismaClient({
   datasources: {
-    db: process.env.DATABASE_DO_PG_BOUNCER_URL,
-  }
+    db: {
+      url: process.env.DATABASE_DO_PG_BOUNCER_URL,
+    },
+  },
 })
 
 const clientWithQueryStringParam = new PrismaClient({
   datasources: {
-    db: process.env.DATABASE_DO_PG_BOUNCER_URL + "?pgbouncer=true",
-  }
+    db: {
+      url: process.env.DATABASE_DO_PG_BOUNCER_URL + '?pgbouncer=true',
+    },
+  },
 })
 
 async function clientWithoutQueryStringParamCall() {
@@ -35,11 +39,11 @@ async function main() {
 
 if (require.main === module) {
   main()
-    .then(_ => {
+    .then((_) => {
       client.disconnect()
       clientWithQueryStringParam.disconnect()
     })
-    .catch(_ => {
+    .catch((_) => {
       client.disconnect()
       clientWithQueryStringParam.disconnect()
     })

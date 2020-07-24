@@ -15,9 +15,9 @@ firebase functions:log --only "$func"
 firebase functions:log --only "$func"
 
 if [ "$expected" != "$actual" ]; then
-	echo "expected '$expected', got '$actual'"
-	sh cleanup.sh "$func"
-	exit 1
+  echo "expected '$expected', got '$actual'"
+  sh cleanup.sh "$func"
+  exit 1
 fi
 
 echo "result: $actual"
