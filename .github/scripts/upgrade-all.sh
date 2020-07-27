@@ -8,7 +8,7 @@ echo "$version" > .github/prisma-version.txt
 
 echo "upgrading all packages (upgrade-all.sh)"
 
-packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
+packages=$(find "." -not -path "*/node_modules/*" -not -path "*/utils/*" -type f -name "package.json")
 
 dir=$(pwd)
 

@@ -16,6 +16,10 @@ cd .github/slack/
 yarn install
 cd ../..
 
+cd ./utils
+yarn install
+cd ../
+
 root=$(pwd)
 
 echo ""
