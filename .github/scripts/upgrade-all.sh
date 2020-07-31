@@ -2,42 +2,42 @@
 
 set -eux
 
-channel="$1"
-version=$(sh .github/scripts/prisma-version.sh "$channel")
+version="$1"
 
 echo "$version" > .github/prisma-version.txt
 
-echo "upgrading all packages"
+echo "upgrading all packages (upgrade-all.sh)"
 
 packages=$(find "." -not -path "*/node_modules/*" -type f -name "package.json")
 
 dir=$(pwd)
 
 echo "$packages" | tr ' ' '\n' | while read -r item; do
-	case "$item" in
-		*".github"*|*"yarn-workspaces/package.json"*)
-			echo "ignoring $item"
-			continue
-			;;
-	esac
+  case "$item" in
+  *".github"* | *"yarn-workspaces/package.json"* | *"functions/generated/client"*)
+    echo "ignoring $item"
+    continue
+    ;;
+  esac
 
-	echo "running $item"
-	cd "$(dirname "$item")/"
+  echo "running $item"
+  cd "$(dirname "$item")/"
 
   pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
-	hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
+  hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
-	## ACTION
-	if [ "$hasResolutions" = "true" ]; then
-	  v=$(sh .github/scripts/prisma-version.sh "$channel")
-	  json -I -f package.json -e "this.resolutions['@prisma/cli']='$v'"
-	  json -I -f package.json -e "this.resolutions['@prisma/client']='$v'"
-	else
-		yarn add "@prisma/cli@$channel" --dev
-		yarn add "@prisma/client@$channel"
-	fi
-	## END
+  ## ACTION
+  if [ "$hasResolutions" = "true" ]; then
+    json -I -f package.json -e "this.resolutions['@prisma/cli']='$version'"
+    json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
+  else
+    yarn add "@prisma/cli@$version" --dev
+    yarn add "@prisma/client@$version"
+  fi
+  ## END
 
-	echo "$item done"
-	cd "$dir"
+  echo "$item done"
+  cd "$dir"
 done
+
+echo "done upgrading all packages (upgrade-all.sh)"

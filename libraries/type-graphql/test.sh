@@ -12,9 +12,9 @@ actual="$(curl 'http://localhost:4000/' -H 'Accept-Encoding: gzip, deflate, br' 
 expected='{"data":{"test":"[{\"id\":1,\"email\":\"john@example.com\",\"name\":\"John Doe\"}]"}}'
 
 if [ "$expected" != "$actual" ]; then
-	echo "expected '$expected', got '$actual'"
-	kill $pid
-	exit 1
+  echo "expected '$expected', got '$actual'"
+  kill $pid
+  exit 1
 fi
 
 echo "result: $actual"

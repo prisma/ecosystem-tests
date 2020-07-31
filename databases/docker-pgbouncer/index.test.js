@@ -9,7 +9,7 @@ describe('should test Prisma client and PgBouncer', () => {
   afterAll(async () => {
     await client.disconnect()
     await clientWithQueryStringParam.disconnect()
-    return
+
   })
 
   it('should fail with docker pgbouncer without the pgbouncer query string param', async () => {

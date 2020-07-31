@@ -17,8 +17,8 @@ actual=$(curl 'http://localhost:4000/' -H 'Accept-Encoding: gzip, deflate, br' -
 expected='{"data":{"user":{"name":"'$id'","email":"'$id'"}}}'
 
 if [ "$expected" != "$actual" ]; then
-	echo "expected '$expected', got '$actual'"
-	exit 1
+  echo "expected '$expected', got '$actual'"
+  exit 1
 fi
 
 echo "result: $actual"

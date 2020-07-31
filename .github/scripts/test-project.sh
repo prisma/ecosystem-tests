@@ -26,17 +26,17 @@ echo "running $dir/$project"
 cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
-	echo "-----------------------------"
-	echo ""
-	echo "prepare script found, executing $dir/$project/prepare.sh"
-	echo ""
+  echo "-----------------------------"
+  echo ""
+  echo "prepare script found, executing $dir/$project/prepare.sh"
+  echo ""
 
-	sh prepare.sh
+  sh prepare.sh
 
-	echo ""
-	echo "finished prepare.sh"
-	echo ""
-	echo "-----------------------------"
+  echo ""
+  echo "finished prepare.sh"
+  echo ""
+  echo "-----------------------------"
 fi
 
 echo ""
@@ -49,39 +49,39 @@ code=$?
 set -e
 
 if [ $code -eq 0 ]; then
-	echo "-----------------------------"
-	echo ""
-	echo "run.sh was successful, running $dir/$project/test.sh..."
-	echo ""
+  echo "-----------------------------"
+  echo ""
+  echo "run.sh was successful, running $dir/$project/test.sh..."
+  echo ""
 
-	if [ ! -f "test.sh" ]; then
-		echo "$dir/$project/test.sh does not exist, please create it"
-		exit 1
-	fi
+  if [ ! -f "test.sh" ]; then
+    echo "$dir/$project/test.sh does not exist, please create it"
+    exit 1
+  fi
 
-	set +e
-	bash test.sh
-	code=$?
-	set -e
+  set +e
+  bash test.sh
+  code=$?
+  set -e
 
-	echo ""
-	echo "finished test.sh"
-	echo ""
-	echo "-----------------------------"
+  echo ""
+  echo "finished test.sh"
+  echo ""
+  echo "-----------------------------"
 fi
 
 if [ -f "finally.sh" ]; then
-	echo "-----------------------------"
-	echo ""
-	echo "finally script found, executing $dir/$project/finally.sh"
-	echo ""
+  echo "-----------------------------"
+  echo ""
+  echo "finally script found, executing $dir/$project/finally.sh"
+  echo ""
 
-	bash finally.sh
+  bash finally.sh
 
-	echo ""
-	echo "finished finally.sh"
-	echo ""
-	echo "-----------------------------"
+  echo ""
+  echo "finished finally.sh"
+  echo ""
+  echo "-----------------------------"
 fi
 
 echo "$dir/$project done"
@@ -89,31 +89,31 @@ echo "$dir/$project done"
 cd "$root"
 
 if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
-	(cd .github/slack/ && yarn install --silent)
+  (cd .github/slack/ && yarn install --silent)
 
-	branch="${GITHUB_REF##*/}"
-	sha="$(git rev-parse HEAD | cut -c -7)"
-	short_sha="$(echo "$sha" | cut -c -7)"
-	commit_link="\`<https://github.com/prisma/e2e-tests/commit/$sha|$branch@$short_sha>\`"
-	workflow_link="<https://github.com/prisma/e2e-tests/actions/runs/$GITHUB_RUN_ID|$project $matrix>"
+  branch="${GITHUB_REF##*/}"
+  sha="$(git rev-parse HEAD | cut -c -7)"
+  short_sha="$(echo "$sha" | cut -c -7)"
+  commit_link="\`<https://github.com/prisma/e2e-tests/commit/$sha|$branch@$short_sha>\`"
+  workflow_link="<https://github.com/prisma/e2e-tests/actions/runs/$GITHUB_RUN_ID|$project $matrix>"
 
-	export webhook="$SLACK_WEBHOOK_URL"
-	version="$(cat .github/prisma-version.txt)"
-	sha="$(git rev-parse HEAD | cut -c -7)"
+  export webhook="$SLACK_WEBHOOK_URL"
+  version="$(cat .github/prisma-version.txt)"
+  sha="$(git rev-parse HEAD | cut -c -7)"
 
-	emoji=":warning:"
-	if [ $code -eq 0 ]; then
-		emoji=":white_check_mark:"
-	fi
+  emoji=":warning:"
+  if [ $code -eq 0 ]; then
+    emoji=":white_check_mark:"
+  fi
 
-	echo "notifying slack channel"
-	node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
+  echo "notifying slack channel"
+  node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
 
-	if [ $code -ne 0 ]; then
-		export webhook="$SLACK_WEBHOOK_URL_FAILING"
-		echo "notifying failing slack channel"
-		node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link failed (via $commit_link)"
-	fi
+  if [ $code -ne 0 ]; then
+    export webhook="$SLACK_WEBHOOK_URL_FAILING"
+    echo "notifying failing slack channel"
+    node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link failed (via $commit_link)"
+  fi
 fi
 
 echo "exitting with code $code"

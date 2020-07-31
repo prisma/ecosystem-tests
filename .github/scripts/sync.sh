@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 branch="$1"
 
@@ -14,13 +14,17 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
-# checkout the actual branch to perform the sync
-git checkout "github/$branch"
-
 version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
 
 echo "$version" > .github/prisma-version.txt
+
+git status
+
+if [ -z "$(git status -s)" ]; then
+  echo "no changes"
+  exit 0
+fi
 
 git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
 
