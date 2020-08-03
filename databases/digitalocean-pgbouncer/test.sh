@@ -3,3 +3,4 @@
 set -eu
 
 yarn test
+yarn test
