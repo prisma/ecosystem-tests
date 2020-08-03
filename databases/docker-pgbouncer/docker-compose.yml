@@ -1,4 +1,4 @@
-version: '3.1'
+version: "3.1"
 
 services:
   # pgadmin4 for pgbouncer.
@@ -28,10 +28,8 @@ services:
       DB_USER: postgres # define credentials
       DB_PASSWORD: postgres # define credentials
       DB_port: 5433 # define database
-      POOL_MODE: 'transaction'
-      MAX_CLIENT_CONN: '1000'
-      SERVER_RESET_QUERY_ALWAYS: '1'
-      SERVER_RESET_QUERY: 'DEALLOCATE ALL'
+      POOL_MODE: "transaction"
+      MAX_CLIENT_CONN: "1000"
     links:
       - postgres:postgres
     ports:
