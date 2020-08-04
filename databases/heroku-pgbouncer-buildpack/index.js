@@ -6,7 +6,7 @@ const { PrismaClient, prismaVersion } = require('@prisma/client')
 const client = new PrismaClient({
   datasources: {
     db: {
-      url: process.env.DATABASE_URL_PGBOUNCER,
+      url: process.env.DATABASE_URL_PGBOUNCER + '?pgbouncer=true',
     },
   },
 })
