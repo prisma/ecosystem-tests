@@ -36,10 +36,10 @@ async function main() {
     console.log({ data1 })
 
     /*
-    * Query engine instance names prepared statements serially s0, s1 and so on. Without the pgbouncer=true flag, 
+    * Query engine instance names prepared statements serially s0, s1 and so on. Without the `pgbouncer=true` flag, 
     * prepared statements are not cleaned up in PgBouncer. By doing disconnect/reconnect, we get a 
-    * new insatnce of query engine that starts again at s0. And we expect the next client call to throw
-    * prepared statement s0 already exists
+    * new instance of query engine that starts again at s0. And we expect the next client call to throw
+    * "prepared statement s0 already exists"
     */
     await client.disconnect()
     await client.connect()
