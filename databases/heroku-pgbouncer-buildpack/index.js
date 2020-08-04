@@ -39,7 +39,9 @@ app.get('/', async (req, res) => {
     await client.user.findMany()
     process.exit(1) // The code should never reach here
   } catch (e) {
+    console.log("===START: ERROR EXPECTED===============")
     console.log(e)
+    console.log("===END: ERROR EXPECTED===============")
   }
 
   await clientWithQueryStringParam.user.deleteMany({})
@@ -66,11 +68,6 @@ app.get('/', async (req, res) => {
     },
   })
 
-  await clientWithQueryStringParam.user.findOne({
-    where: {
-      id,
-    },
-  })
   const deleteManyUsers = await clientWithQueryStringParam.user.deleteMany()
   return res.send(
     JSON.stringify({
