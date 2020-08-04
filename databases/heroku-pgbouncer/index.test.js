@@ -13,12 +13,12 @@ describe('should test Prisma client and PgBouncer', () => {
   })
 
   it('should fail with default heroku pgbouncer without the pgbouncer query string param', async () => {
-    // TODO: This is expected to throw but it doesn't
-    const data = await clientWithoutQueryStringParamCall()
-    expect(data).toMatchSnapshot()
-
-    const data1 = await clientWithoutQueryStringParamCall()
-    expect(data1).toMatchSnapshot()
+    try {
+      await clientWithoutQueryStringParamCall()
+      await clientWithoutQueryStringParamCall()
+    } catch (e) {
+      expect(e).toMatchSnapshot()
+    }
   })
 
   it('should work with default heroku pgbouncer with the pgbouncer query string param', async () => {

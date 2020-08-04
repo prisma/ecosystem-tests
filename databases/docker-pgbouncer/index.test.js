@@ -14,7 +14,8 @@ describe('should test Prisma client and PgBouncer', () => {
 
   it('should fail with docker pgbouncer without the pgbouncer query string param', async () => {
     try {
-      const _ = await clientWithoutQueryStringParamCall()
+      await clientWithoutQueryStringParamCall()
+      await clientWithoutQueryStringParamCall()
     } catch (e) {
       expect(e.toString()).toMatchSnapshot()
     }
