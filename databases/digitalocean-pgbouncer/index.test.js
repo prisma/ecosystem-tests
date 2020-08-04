@@ -16,9 +16,15 @@ describe('should test Prisma client and PgBouncer', () => {
     try {
       await clientWithoutQueryStringParamCall()
 
+      /*
+      * Query engine instance names prepared statements serially s0, s1 and so on. Without the pgbouncer=true flag, 
+      * prepared statements are not cleaned up in PgBouncer. By doing disconnect/reconnect, we get a 
+      * new insatnce of query engine that starts again at s0. And we expect the next client call to throw
+      * prepared statement s0 already exists
+      */
       await client.disconnect()
       await client.connect()
-      
+
       await clientWithoutQueryStringParamCall()
       expect(1).toEqual(0) // The code should never reach here
     } catch (e) {
