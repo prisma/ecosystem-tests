@@ -40,15 +40,21 @@ async function main() {
     // try-catch because this is expected to fail
     const data1 = await client.user.findMany()
     console.log({ data1 })
+
+    await client.disconnect()
+    await client.connect()
+
+    const data2 = await client.user.findMany()
+    console.log({ data2 })
   } catch (e) {
     console.log(e)
   }
 
-  const data2 = await clientWithQueryStringParam.user.findMany()
-  console.log({ data2 })
-
   const data3 = await clientWithQueryStringParam.user.findMany()
   console.log({ data3 })
+
+  const data4 = await clientWithQueryStringParam.user.findMany()
+  console.log({ data4 })
 }
 
 if (require.main === module) {

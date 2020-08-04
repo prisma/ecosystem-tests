@@ -21,24 +21,26 @@ const clientWithQueryStringParam = new PrismaClient({
 })
 
 async function clientWithoutQueryStringParamCall() {
-  await client.disconnect()
-  await client.connect()
   const data = await client.user.findMany()
   return data
 }
 
 async function clientWithQueryStringParamCall() {
-  await clientWithQueryStringParam.disconnect()
-  await clientWithQueryStringParam.connect()
   const data = await clientWithQueryStringParam.user.findMany()
   return data
 }
 
 async function main() {
-  const data1 = await client.user.findMany()
-  console.log(data1)
-  const data2 = await client.user.findMany()
-  console.log(data2)
+  try {
+    const data1 = await client.user.findMany()
+    console.log(data1)
+    await client.disconnect()
+    await client.connect()
+    const data2 = await client.user.findMany()
+    console.log(data2)
+  } catch (e) {
+    console.log(e)
+  }
 
   const data3 = await clientWithQueryStringParam.user.findMany()
   console.log(data3)
