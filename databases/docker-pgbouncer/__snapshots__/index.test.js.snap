@@ -5,7 +5,8 @@ exports[`should test Prisma client and PgBouncer should fail with docker pgbounc
 Invalid \`prisma.user.findMany()\` invocation:
 
 
-  Error in connector: Error querying the database: db error: ERROR: database \\"blog\\" does not exist"
+  Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(Error { kind: Db, cause: Some(DbError { severity: \\"ERROR\\", parsed_severity: Some(Error), code: SqlState(\\"42P05\\"), message: \\"prepared statement \\\\\\"s0\\\\\\" already exists\\", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some(\\"prepare.c\\"), line: Some(466), routine: Some(\\"StorePreparedStatement\\") }) }) })"
 `;
 
 exports[`should test Prisma client and PgBouncer should work with docker pgbouncer with the pgbouncer query string param 1`] = `
