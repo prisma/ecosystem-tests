@@ -34,8 +34,10 @@ async function main() {
   try {
     const data1 = await client.user.findMany()
     console.log(data1)
+
     await client.disconnect()
     await client.connect()
+    
     const data2 = await client.user.findMany()
     console.log(data2)
   } catch (e) {
