@@ -3,10 +3,19 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const { PrismaClient, prismaVersion } = require('@prisma/client')
+
 const client = new PrismaClient({
   datasources: {
     db: {
-      url: process.env.DATABASE_URL_PGBOUNCER + '?pgbouncer=true',
+      url: process.env.DATABASE_URL_PGBOUNCER,
+    },
+  },
+})
+
+const clientWithQueryStringParam = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_HEROKU_PGBOUNCER_URL + '?pgbouncer=true',
     },
   },
 })
@@ -15,16 +24,26 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
-  await client.user.deleteMany({})
+  try {
+    await client.user.findMany()
+    await client.disconnect()
+    await client.connect()
+    await client.user.findMany()
+    process.exit(1) // The code should never reach here
+  } catch (e) {
+    console.log(e)
+  }
+
+  await clientWithQueryStringParam.user.deleteMany({})
   const id = '12345'
-  const createUser = await client.user.create({
+  const createUser = await clientWithQueryStringParam.user.create({
     data: {
       id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
   })
-  const updateUser = await client.user.update({
+  const updateUser = await clientWithQueryStringParam.user.update({
     where: {
       id,
     },
@@ -33,7 +52,7 @@ app.get('/', async (req, res) => {
       name: 'Bob',
     },
   })
-  const users = await client.user.findOne({
+  const users = await clientWithQueryStringParam.user.findOne({
     where: {
       id,
     },
@@ -48,12 +67,12 @@ app.get('/', async (req, res) => {
   await client.disconnect()
   await client.connect()
 
-  await client.user.findOne({
+  await clientWithQueryStringParam.user.findOne({
     where: {
       id,
     },
   })
-  const deleteManyUsers = await client.user.deleteMany()
+  const deleteManyUsers = await clientWithQueryStringParam.user.deleteMany()
   return res.send(
     JSON.stringify({
       version: prismaVersion.client,
