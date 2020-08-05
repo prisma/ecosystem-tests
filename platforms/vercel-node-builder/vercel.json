@@ -8,5 +8,5 @@
       "VERCEL_NODE_BUILDER_PG_URL": "@vercel_node_builder_pg_url"
     }
   },
-  "builds": [{ "src": "*.js", "use": "@now/node" }]
+  "rewrites": [{ "source": "(.*)", "destination": "/api/app" }]
 }
