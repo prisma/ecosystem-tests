@@ -7,18 +7,18 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "postinstall": "yarn prisma generate"
+    "postinstall": "CI=1 yarn prisma generate"
   },
   "engines": {
     "node": "10"
   },
   "dependencies": {
-    "@prisma/client": "2.5.0-dev.5",
+    "@prisma/client": "2.5.0-dev.7",
     "firebase-admin": "9.0.0",
     "firebase-functions": "3.9.0"
   },
   "devDependencies": {
-    "@prisma/cli": "2.5.0-dev.5",
+    "@prisma/cli": "2.5.0-dev.7",
     "firebase-functions-test": "0.2.1",
     "ts-node": "8.10.2",
     "typescript": "3.9.7"
