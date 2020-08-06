@@ -1,13 +1,5 @@
 name: test
-on:
-  push:
-    branches:
-      - dev
-      - patch-dev
-      - latest
-  pull_request:
-    branches:
-      - dev
+on: push
 jobs:
   report-to-slack-success:
     runs-on: ubuntu-latest
