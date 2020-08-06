@@ -2,4 +2,4 @@
 
 set -eu
 
-npx ts-node ../../utils/fetch-retry.ts --url https://vercel-node-builder.now.sh/ --prisma-version $(sh ../../utils/prisma_version.sh)
+npx ts-node ../../utils/fetch-retry.ts --url https://e2e-vercel-node-builder.vercel.app/ --prisma-version $(sh ../../utils/prisma_version.sh)
