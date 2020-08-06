@@ -29,6 +29,7 @@ jobs:
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
         env:
+          CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   report-to-slack-failure:
@@ -59,6 +60,7 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
         env:
+          CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   os:
@@ -68,6 +70,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
@@ -106,6 +109,7 @@ jobs:
 
     name: node ${{ matrix.node }}
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
@@ -136,6 +140,7 @@ jobs:
         os: [ubuntu-latest, macos-latest] # windows-latest was commented out because of pkg failures
     runs-on: ${{ matrix.os }}
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
@@ -170,6 +175,7 @@ jobs:
           - yarn-workspaces
 
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
@@ -207,8 +213,9 @@ jobs:
           - nextjs
 
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      CI: 1
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
       FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
 
@@ -253,9 +260,9 @@ jobs:
           - azure-functions-windows
 
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      CI: 1
       SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
       SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
       GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
@@ -277,7 +284,10 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ROLE: ${{ secrets.AWS_ROLE }}
-      VERCEL_NODE_BUILDER_NOW_PG_URL: ${{ secrets.VERCEL_NODE_BUILDER_NOW_PG_URL }}
+      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
+      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+      VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
       NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
@@ -326,6 +336,7 @@ jobs:
 
     name: bundler ${{ matrix.bundler }}
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
@@ -365,6 +376,7 @@ jobs:
 
     name: library ${{ matrix.library }}
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
@@ -406,6 +418,7 @@ jobs:
 
     name: databases ${{ matrix.database }}
     env:
+      CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}

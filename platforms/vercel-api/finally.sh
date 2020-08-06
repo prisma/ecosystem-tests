@@ -2,4 +2,4 @@
 
 set -eu
 
-yarn vercel logs vercel-api-mu.now.sh --token=$VERCEL_TOKEN --scope=prisma
+yarn vercel logs e2e-vercel-api.vercel.app --token=$VERCEL_TOKEN --scope=prisma

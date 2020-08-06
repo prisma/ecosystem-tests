@@ -1,4 +1,4 @@
-# Vercel now
+# Vercel Node Builder
 
 Prisma and Vercel's integration using the node builder. This works without any configuration.
 
