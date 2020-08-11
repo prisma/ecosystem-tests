@@ -35,12 +35,12 @@ async function main() {
 
   console.log('success')
 
-  await client.disconnect()
+  await client.$disconnect()
 }
 
 main().catch(async e => {
   console.error(e)
   process.exit(1)
 }).finally(async () => {
-  await client.disconnect()
+  await client.$disconnect()
 })

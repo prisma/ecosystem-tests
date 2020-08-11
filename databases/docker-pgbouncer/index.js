@@ -22,15 +22,15 @@ const clientWithQueryStringParam = new PrismaClient({
 })
 
 async function clientWithoutQueryStringParamCall() {
-  await client.disconnect()
-  await client.connect()
+  await client.$disconnect()
+  await client.$connect()
   const data = await client.user.findMany()
   return data
 }
 
 async function clientWithQueryStringParamCall() {
-  await clientWithQueryStringParam.disconnect()
-  await clientWithQueryStringParam.connect()
+  await clientWithQueryStringParam.$disconnect()
+  await clientWithQueryStringParam.$connect()
   const data = await clientWithQueryStringParam.user.findMany()
   return data
 }
@@ -47,8 +47,8 @@ async function main() {
     * new instance of query engine that starts again at s0. And we expect the next client call to throw
     * "prepared statement s0 already exists"
     */
-    await client.disconnect()
-    await client.connect()
+    await client.$disconnect()
+    await client.$connect()
 
     const data2 = await client.user.findMany()
     console.log({ data2 })
@@ -70,8 +70,8 @@ if (require.main === module) {
       console.log(e)
     })
     .finally(() => {
-      client.disconnect()
-      clientWithQueryStringParam.disconnect()
+      client.$disconnect()
+      clientWithQueryStringParam.$disconnect()
     })
 }
 

@@ -7,8 +7,8 @@ const {
 
 describe('should test Prisma client and PgBouncer', () => {
   afterAll(async () => {
-    await client.disconnect()
-    await clientWithQueryStringParam.disconnect()
+    await client.$disconnect()
+    await clientWithQueryStringParam.$disconnect()
 
   })
 
@@ -22,8 +22,8 @@ describe('should test Prisma client and PgBouncer', () => {
       * new instance of query engine that starts again at s0. And we expect the next client call to throw
       * "prepared statement s0 already exists"
       */
-      await client.disconnect()
-      await client.connect()
+      await client.$disconnect()
+      await client.$connect()
 
       await clientWithoutQueryStringParamCall()
       expect(1).toEqual(0) // The code should never reach here

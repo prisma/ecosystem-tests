@@ -15,7 +15,7 @@ async function main() {
     },
   })
 
-  await client.disconnect()
+  await client.$disconnect()
 }
 
 main()
@@ -24,5 +24,5 @@ main()
     process.exit(1)
   })
   .finally(async () => {
-    await client.disconnect()
+    await client.$disconnect()
   })
