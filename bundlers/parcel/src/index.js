@@ -44,4 +44,4 @@ main()
   .then(data => {
     console.log(JSON.stringify(data))
   })
-  .finally(() => client.disconnect())
+  .finally(() => client.$disconnect())
