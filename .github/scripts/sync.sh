@@ -28,9 +28,7 @@ fi
 
 git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
 
-# fail silently if the unlikely event happens that this change already has been pushed either manually
-# or by an overlapping upgrade action
-git pull github "${GITHUB_REF}" --rebase || true
+git pull github "${GITHUB_REF}" --rebase
 
 # force-push to $branch
 git push github "HEAD:refs/heads/$branch" --force

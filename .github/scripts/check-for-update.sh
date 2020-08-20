@@ -150,9 +150,7 @@ while [ $i -le $count ]; do
 
   git commit -am "chore(packages): bump @prisma/cli to $v"
 
-  # fail silently if the unlikely event happens that this change already has been pushed either manually
-  # or by an overlapping upgrade action
-  git pull github "$branch" --rebase || true
+  git pull github "$branch" --rebase
 
   set +e
   git push github "HEAD:refs/heads/$branch"
