@@ -14,7 +14,8 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
-git pull github "${GITHUB_REF}" --rebase
+git fetch github "${GITHUB_REF}"
+git reset --hard "github/${GITHUB_REF}"
 
 version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
