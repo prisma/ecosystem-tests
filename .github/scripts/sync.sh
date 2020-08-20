@@ -3,6 +3,7 @@
 set -eux
 
 branch="$1"
+default="dev"
 
 mkdir -p ~/.ssh
 echo "$SSH_KEY" > ~/.ssh/id_rsa
@@ -14,8 +15,8 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
-git fetch github "${GITHUB_REF}"
-git reset --hard "github/${GITHUB_REF}"
+git fetch github "$default"
+git reset --hard "github/$default"
 
 version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
