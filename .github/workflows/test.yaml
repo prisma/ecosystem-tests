@@ -1,5 +1,7 @@
 name: test
 on: push
+env:
+  PRISMA_TELEMETRY_INFORMATION: "e2e-tests test.yaml"
 jobs:
   report-to-slack-success:
     runs-on: ubuntu-latest
