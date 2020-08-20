@@ -14,6 +14,8 @@ git config --global user.name "Prismo"
 
 git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
+git pull github "${GITHUB_REF}" --rebase
+
 version=$(sh .github/scripts/prisma-version.sh "$branch")
 sh .github/scripts/upgrade-all.sh "$version"
 
@@ -27,8 +29,6 @@ if [ -z "$(git status -s)" ]; then
 fi
 
 git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
-
-git pull github "${GITHUB_REF}" --rebase
 
 # force-push to $branch
 git push github "HEAD:refs/heads/$branch" --force
