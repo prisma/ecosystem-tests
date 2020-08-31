@@ -1,7 +1,7 @@
 name: test
 on: push
 env:
-  PRISMA_TELEMETRY_INFORMATION: "e2e-tests test.yaml"
+  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
 jobs:
   report-to-slack-success:
     runs-on: ubuntu-latest
@@ -60,6 +60,39 @@ jobs:
         env:
           CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+
+  core-features:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [auto-reconnect]
+    env:
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+
+      - name: test feature - ${{ matrix.feature }}
+        id: run-test
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: sh .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
   os:
     strategy:
