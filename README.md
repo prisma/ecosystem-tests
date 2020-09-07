@@ -1,4 +1,16 @@
-# Prisma e2e Tests [![Actions Status](https://github.com/prisma/e2e-tests/workflows/test/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest)
+# Prisma e2e Tests
+
+
+<div align="center">
+
+[![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+banch%3Alatest)
+[![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev)
+[![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)
+<br>
+[![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)
+
+</div>
+
 
 This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
