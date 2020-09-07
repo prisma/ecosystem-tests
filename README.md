@@ -3,7 +3,7 @@
 
 <div align="center">
 
-[![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+banch%3Alatest)
+[![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)
 [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev)
 [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)
 <br>
