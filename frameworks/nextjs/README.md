@@ -13,11 +13,11 @@ This project uses Prisma Client in [Next.js](https://nextjs.org/) site with [SSR
 ### Run project
 
 ```shell script
-sh test.sh
+sh run.sh
 ```
 
 ### Run tests
 
 ```shell script
-sh run.sh
+sh test.sh
 ```
