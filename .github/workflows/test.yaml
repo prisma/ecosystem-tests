@@ -168,6 +168,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        binary: [pkg]
         os: [ubuntu-latest, macos-latest] # windows-latest was commented out because of pkg failures
     runs-on: ${{ matrix.os }}
     env:
@@ -182,17 +183,17 @@ jobs:
         with:
           node-version: 12
 
-      - name: test on ${{ matrix.os }}
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }}
         id: run-test
         uses: nick-invision/retry@v1
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
+          command: bash .github/scripts/test-project.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh binaries pkg ${{ matrix.os }}
+        run: sh .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
     runs-on: ubuntu-latest
