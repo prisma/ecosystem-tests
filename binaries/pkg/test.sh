@@ -3,6 +3,7 @@
 set -eux
 
 os=""
+filename="./cli"
 
 case $OS in
 "ubuntu-latest")
@@ -13,6 +14,7 @@ case $OS in
   ;;
 "windows-latest")
   os="win"
+  filename="./cli.exe"
   ;;
 *)
   echo "no such os $OS"
@@ -22,4 +24,4 @@ esac
 
 yarn pkg node_modules/@prisma/cli -t node12-$os
 
-./cli --version
+./$filename --version
