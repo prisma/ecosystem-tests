@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: kvrhdn/gha-buildevents@main
         with:
-          apikey: ${{ secrets.BUILDEVENTS_APIKEY }}
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
           dataset: ci-buildevents_e2e-tests
           job-status: ${{ job.status }}
 
@@ -52,6 +52,12 @@ jobs:
       - databases
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: Install Dependencies
@@ -81,6 +87,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - name: Install Dependencies
         run: yarn install
 
@@ -112,6 +124,12 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: Install Dependencies
@@ -151,6 +169,12 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: use node ${{ matrix.node }}
@@ -182,6 +206,12 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - uses: actions/setup-node@v1
@@ -220,6 +250,12 @@ jobs:
       PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: use node ${{ matrix.node }}
@@ -257,6 +293,12 @@ jobs:
       FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
 
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: use node ${{ matrix.node }}
@@ -336,6 +378,12 @@ jobs:
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: use node 10
@@ -380,6 +428,12 @@ jobs:
       PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
       ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: use node 10
@@ -422,6 +476,12 @@ jobs:
       LIBRARY_NEXUS_SCHEMA_PG_URL: ${{ secrets.LIBRARY_NEXUS_SCHEMA_PG_URL }}
 
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: use node 10
@@ -462,6 +522,12 @@ jobs:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.HONEYCOMB_BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+      
       - uses: actions/checkout@v1
 
       - name: Install Dependencies
