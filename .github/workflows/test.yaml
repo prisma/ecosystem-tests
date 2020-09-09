@@ -2,8 +2,9 @@ name: test
 on: push
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
+
 jobs:
-  report-to-slack-success:
+  report-to-slack:
     runs-on: ubuntu-latest
     needs:
       - os
@@ -15,7 +16,7 @@ jobs:
       - libraries
       - binaries
       - databases
-    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
+    if: (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v1
 
@@ -27,36 +28,7 @@ jobs:
           node-version: 12
 
       - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
-        env:
-          CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
-
-  report-to-slack-failure:
-    runs-on: ubuntu-latest
-    needs:
-      - os
-      - node
-      - packagers
-      - frameworks
-      - platforms
-      - bundlers
-      - libraries
-      - binaries
-      - databases
-    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v1
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
-      - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":x:"
+        run: bash .github/scripts/slack-workflow-status.sh "{{ success() }}"
         env:
           CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
