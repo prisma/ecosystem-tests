@@ -28,7 +28,7 @@ services:
       DB_USER: postgres # define credentials
       DB_PASSWORD: postgres # define credentials
       DB_port: 5433 # define database
-      POOL_MODE: "transaction"
+      POOL_MODE: "session"
       MAX_CLIENT_CONN: "1000"
     links:
       - postgres:postgres
