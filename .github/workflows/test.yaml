@@ -17,6 +17,12 @@ jobs:
       - databases
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
+      - uses: kvrhdn/gha-buildevents@main
+        with:
+          apikey: ${{ secrets.BUILDEVENTS_APIKEY }}
+          dataset: ci-buildevents_e2e-tests
+          job-status: ${{ job.status }}
+
       - uses: actions/checkout@v1
 
       - name: Install Dependencies
