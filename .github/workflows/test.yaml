@@ -342,6 +342,7 @@ jobs:
         with:
           node-version: 12
 
+      # Context https://github.com/prisma/e2e-tests/issues/810
       - name: use node 10
         if: ${{ matrix.platform == 'firebase-functions' }}
         uses: actions/setup-node@v1
