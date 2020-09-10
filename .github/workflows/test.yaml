@@ -283,6 +283,7 @@ jobs:
           - heroku
           - vercel-node-builder
           - vercel-api
+          - vercel-with-redwood
           - netlify-current-cli
           - netlify-beta-ci
           - gcp-functions
@@ -318,6 +319,8 @@ jobs:
       AWS_ROLE: ${{ secrets.AWS_ROLE }}
       VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
       VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
+      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
       VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
       VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -333,7 +336,14 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: use node 12
+        if: ${{ matrix.platform != 'firebase-functions' }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
       - name: use node 10
+        if: ${{ matrix.platform == 'firebase-functions' }}
         uses: actions/setup-node@v1
         with:
           node-version: 10
