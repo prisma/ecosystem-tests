@@ -11,7 +11,7 @@ test('should test prisma version', async () => {
     }
   `
   const data = await request(endpoint, query)
-  expect(data.prismaVersion).toEqual(pjson.dependencies['@prisma/client'])
+  expect(data.prismaVersion).toEqual(pjson.resolutions['@prisma/client'])
 })
 
 test('should query graphql users', async () => {
