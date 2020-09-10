@@ -1,8 +1,8 @@
 const { request, gql } = require('graphql-request')
 const pjson = require('./api/package.json')
 
-const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
-// const endpoint = 'http://localhost:8911/graphql'
+// const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
+const endpoint = 'http://localhost:8911/graphql'
 
 test('should test prisma version', async () => {
   const query = gql`
