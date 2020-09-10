@@ -8,6 +8,10 @@
   },
   "devDependencies": {
     "@redwoodjs/core": "^0.17.2",
+    "@prisma/client": "2.7.0-dev.43",
+    "graphql": "15.3.0",
+    "graphql-request": "3.1.0",
+    "jest": "26.4.2",
     "vercel": "20.1.0"
   },
   "eslintConfig": {
@@ -16,5 +20,11 @@
   "engines": {
     "node": ">=12",
     "yarn": ">=1.15"
+  },
+  "scripts": {
+    "test": "yarn jest ./index.test.js"
+  },
+  "resolutions": {
+    "@prisma/client": "2.7.0-dev.43"
   }
 }
