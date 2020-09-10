@@ -13,8 +13,8 @@ const query = gql`
 
 test('should query graphql users', async () => {
   const data = await request(
-    // 'https://e2e-vercel-with-redwood.vercel.app/api/graphql',
-    'http://localhost:8911/graphql',
+    'https://e2e-vercel-with-redwood.vercel.app/api/graphql',
+    // 'http://localhost:8911/graphql',
     query
   )
   expect(data).toMatchSnapshot()
