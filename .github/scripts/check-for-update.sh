@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-set -eux
+set -eu
+shopt -s inherit_errexit || echo "shopt unsuccessful"
 
 cd .github/slack/
 yarn install
@@ -18,7 +19,7 @@ run_sync() {
   dir="$1"
   branch="$2"
   cd "$dir"
-  sh .github/scripts/sync.sh "$branch"
+  bash .github/scripts/sync.sh "$branch"
   echo "synced, exit."
   exit 0
 }
@@ -62,7 +63,7 @@ while [ $i -le $count ]; do
 
   echo "checking info..."
 
-  v=$(sh .github/scripts/prisma-version.sh "$branch")
+  v=$(bash .github/scripts/prisma-version.sh "$branch")
 
   echo "$packages" | tr ' ' '\n' | while read -r item; do
     echo "checking $item"

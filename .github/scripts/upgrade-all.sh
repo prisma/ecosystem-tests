@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-set -eux
+set -eu
+shopt -s inherit_errexit || echo "shopt unsuccessful"
 
 version="$1"
 
