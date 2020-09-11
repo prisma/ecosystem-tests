@@ -337,17 +337,9 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: use node 12
-        if: ${{ matrix.platform != 'firebase-functions' }}
         uses: actions/setup-node@v1
         with:
           node-version: 12
-
-      # Context https://github.com/prisma/e2e-tests/issues/810
-      - name: use node 10
-        if: ${{ matrix.platform == 'firebase-functions' }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10
 
       - name: Install Puppeteer
         uses: ianwalter/puppeteer@v2.0.0
