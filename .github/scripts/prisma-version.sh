@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eu
+shopt -s inherit_errexit || echo "shopt unsuccessful"
 
 channel="$1"
 

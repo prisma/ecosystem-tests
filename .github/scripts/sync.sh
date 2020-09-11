@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-set -eux
+set -eu
+shopt -s inherit_errexit || echo "shopt unsuccessful"
 
 branch="$1"
 default="dev"
@@ -18,8 +19,8 @@ git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 git fetch github "$default"
 git reset --hard "github/$default"
 
-version=$(sh .github/scripts/prisma-version.sh "$branch")
-sh .github/scripts/upgrade-all.sh "$version"
+version=$(bash .github/scripts/prisma-version.sh "$branch")
+bash .github/scripts/upgrade-all.sh "$version"
 
 echo "$version" > .github/prisma-version.txt
 
@@ -30,7 +31,7 @@ if [ -z "$(git status -s)" ]; then
   exit 0
 fi
 
-git commit -am "chore: sync, use $(sh .github/scripts/prisma-version.sh "$branch")"
+git commit -am "chore: sync, use $(bash .github/scripts/prisma-version.sh "$branch")"
 
 # force-push to $branch
 git push github "HEAD:refs/heads/$branch" --force
