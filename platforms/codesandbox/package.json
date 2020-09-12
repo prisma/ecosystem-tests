@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "prestart": "CI=1 yarn prisma migrate up --auto-approve --experimental",
+    "preinstall": "CI=1 && PRISMA_TELEMETRY_INFORMATION='e2e-tests platform codesandbox preinstall'"
+    "prestart": "CI=1 && PRISMA_TELEMETRY_INFORMATION='e2e-tests platform codesandbox prestart' && yarn prisma migrate up --auto-approve --experimental",
     "start": "node src/index.js",
     "deploy": "yarn ts-node deploy.ts"
   },
