@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -eu
-shopt -s inherit_errexit || echo "shopt unsuccessful"
+shopt -s inherit_errexit || true
 
 branch="$1"
 default="dev"
