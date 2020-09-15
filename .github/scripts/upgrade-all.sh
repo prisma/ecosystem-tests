@@ -25,13 +25,14 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   cd "$(dirname "$item")/"
 
   pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
+  valid="$(node -e "$pkg;console.log('true')")"
   hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
   ## ACTION
   if [ "$hasResolutions" = "true" ]; then
     json -I -f package.json -e "this.resolutions['@prisma/cli']='$version'"
     json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
-  else
+  elif [ "$valid" = "true" ]; then
     yarn add "@prisma/cli@$version" --dev
     yarn add "@prisma/client@$version"
   fi
