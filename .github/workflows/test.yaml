@@ -92,7 +92,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
   os:
     strategy:
@@ -125,7 +125,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
+        run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
   node:
     runs-on: ubuntu-latest
@@ -162,7 +162,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
     strategy:
@@ -193,7 +193,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
+        run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
     runs-on: ubuntu-latest
@@ -232,7 +232,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
+        run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
 
   frameworks:
     runs-on: ubuntu-latest
@@ -269,7 +269,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
+        run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
     runs-on: ubuntu-latest
@@ -359,7 +359,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   bundlers:
     runs-on: ubuntu-latest
@@ -398,7 +398,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
+        run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
 
   libraries:
     runs-on: ubuntu-latest
@@ -440,7 +440,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh libraries ${{ matrix.library }}
+        run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
 
   databases:
     runs-on: ubuntu-latest
@@ -483,4 +483,4 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh databases ${{ matrix.database }}
+        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
