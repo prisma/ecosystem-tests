@@ -4,7 +4,7 @@ set -eu
 shopt -s inherit_errexit || echo "shopt unsuccessful"
 
 cd .github/slack/
-yarn install
+yarn install -W
 cd ../..
 
 npm i -g json
@@ -113,7 +113,7 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: @prisma/cli expected $v, actual $vCLI"
-          yarn add "@prisma/cli@$v" --dev
+          yarn add "@prisma/cli@$v" --dev -W
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -124,7 +124,7 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-          yarn add "@prisma/client@$v"
+          yarn add "@prisma/client@$v" -W
         fi
       fi
     fi
