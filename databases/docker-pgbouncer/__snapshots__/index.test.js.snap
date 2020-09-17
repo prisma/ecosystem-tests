@@ -1,10 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should test Prisma client and PgBouncer should fail with docker pgbouncer without the pgbouncer query string param 1`] = `
-"Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+"Error: 
+[31mInvalid [1m\`prisma.user.findMany()\`[22m invocation:[39m
 
-Expected: [32m0[39m
-Received: [31m1[39m"
+
+  Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(Error { kind: Db, cause: Some(DbError { severity: \\"ERROR\\", parsed_severity: Some(Error), code: SqlState(\\"42P05\\"), message: \\"prepared statement \\\\\\"s0\\\\\\" already exists\\", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some(\\"prepare.c\\"), line: Some(466), routine: Some(\\"StorePreparedStatement\\") }) }) })"
 `;
 
 exports[`should test Prisma client and PgBouncer should work with docker pgbouncer with the pgbouncer query string param 1`] = `
