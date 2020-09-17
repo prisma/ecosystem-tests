@@ -7,8 +7,8 @@
 - firebase-functions
 - gcp-functions
 - lambda
-- netlify-beta-ci
-- netlify-current-cli
+- netlify-ci
+- netlify-cli
 - serverless-lambda
 - vercel-api
 - vercel-node-builder
