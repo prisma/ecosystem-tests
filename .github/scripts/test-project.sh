@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eu
+shopt -s inherit_errexit || true
 
 export CI=true
 
@@ -10,7 +11,7 @@ set +u
 matrix=$3
 set -u
 
-sh .github/scripts/print-version.sh "$dir/$project/package.json"
+bash .github/scripts/print-version.sh "$dir/$project/package.json"
 
 cd .github/slack/
 yarn install
@@ -31,7 +32,7 @@ if [ -f "prepare.sh" ]; then
   echo "prepare script found, executing $dir/$project/prepare.sh"
   echo ""
 
-  sh prepare.sh
+  bash prepare.sh
 
   echo ""
   echo "finished prepare.sh"

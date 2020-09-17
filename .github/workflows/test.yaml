@@ -1,7 +1,7 @@
 name: test
 on: push
 env:
-  PRISMA_TELEMETRY_INFORMATION: "e2e-tests test.yaml"
+  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
 jobs:
   report-to-slack-success:
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
 
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
@@ -53,13 +53,46 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
 
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
         env:
           CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+
+  core-features:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [auto-reconnect]
+    env:
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: test feature - ${{ matrix.feature }}
+        id: run-test
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
   os:
     strategy:
@@ -80,7 +113,7 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
 
       - name: test on ${{ matrix.os }}
         id: run-test
@@ -92,7 +125,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
+        run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
   node:
     runs-on: ubuntu-latest
@@ -129,12 +162,13 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
     strategy:
       fail-fast: false
       matrix:
+        binary: [pkg]
         os: [ubuntu-latest, macos-latest] # windows-latest was commented out because of pkg failures
     runs-on: ${{ matrix.os }}
     env:
@@ -147,19 +181,19 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
 
-      - name: test on ${{ matrix.os }}
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }}
         id: run-test
         uses: nick-invision/retry@v1
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh binaries pkg ${{ matrix.os }}
+          command: bash .github/scripts/test-project.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh binaries pkg ${{ matrix.os }}
+        run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
     runs-on: ubuntu-latest
@@ -198,7 +232,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
+        run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
 
   frameworks:
     runs-on: ubuntu-latest
@@ -235,7 +269,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
+        run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
     runs-on: ubuntu-latest
@@ -249,6 +283,8 @@ jobs:
           - heroku
           - vercel-node-builder
           - vercel-api
+          - vercel-with-redwood
+          - vercel-with-nextjs
           - netlify-current-cli
           - netlify-beta-ci
           - gcp-functions
@@ -284,6 +320,10 @@ jobs:
       AWS_ROLE: ${{ secrets.AWS_ROLE }}
       VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
       VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
+      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
+      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_ORG_ID: ${{ secrets.VERCEL_WITH_NEXTJS_ORG_ID }}
       VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
       VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -299,10 +339,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
 
       - name: Install Puppeteer
         uses: ianwalter/puppeteer@v2.0.0
@@ -319,7 +359,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   bundlers:
     runs-on: ubuntu-latest
@@ -358,7 +398,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
+        run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
 
   libraries:
     runs-on: ubuntu-latest
@@ -400,7 +440,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh libraries ${{ matrix.library }}
+        run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
 
   databases:
     runs-on: ubuntu-latest
@@ -443,4 +483,4 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: sh .github/slack/notify-failure.sh databases ${{ matrix.database }}
+        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}

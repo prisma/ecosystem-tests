@@ -2,6 +2,7 @@
 
 set -eu
 
+export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-node-builder build'
 yarn
 export VERCEL_PROJECT_ID=$VERCEL_NODE_BUILDER_PROJECT_ID
 export VERCEL_ORG_ID=$VERCEL_NODE_BUILDER_ORG_ID

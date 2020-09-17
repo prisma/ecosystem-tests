@@ -3,20 +3,20 @@ on:
   schedule:
     - cron: '*/5 * * * *'
 env:
-  PRISMA_TELEMETRY_INFORMATION: "e2e-tests check-for-update.yaml"
+  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests check-for-update.yaml'
 jobs:
   check-for-latest-update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
 
       - name: check latest update
-        run: sh .github/scripts/check-for-update.sh latest
+        run: bash .github/scripts/check-for-update.sh latest
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -27,13 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
 
       - name: check dev update
-        run: sh .github/scripts/check-for-update.sh dev
+        run: bash .github/scripts/check-for-update.sh dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -44,13 +44,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
 
       - name: check patch-dev update
-        run: sh .github/scripts/check-for-update.sh patch-dev
+        run: bash .github/scripts/check-for-update.sh patch-dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -58,14 +58,17 @@ jobs:
 
   report-to-slack-failure:
     runs-on: ubuntu-latest
-    needs: [check-for-latest-update, check-for-dev-update, check-for-patch-dev-update]
+    needs:
+      - check-for-latest-update
+      - check-for-dev-update
+      - check-for-patch-dev-update
     if: failure()
     steps:
       - uses: actions/checkout@v1
 
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
 
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "check-for-update :x:"
