@@ -88,6 +88,7 @@ async function main() {
     'src/index.js',
     'prisma/schema.prisma',
     'prisma/dev.db',
+    'prisma/.env',
     'prisma/migrations/migrate.lock',
     'prisma/migrations/20200420215811-init/schema.prisma',
     'prisma/migrations/20200420215811-init/steps.json',
