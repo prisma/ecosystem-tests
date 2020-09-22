@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-set -eux
+set -eu
+shopt -s inherit_errexit || true
 
 cd .github/slack/
 yarn install
@@ -18,7 +19,7 @@ run_sync() {
   dir="$1"
   branch="$2"
   cd "$dir"
-  sh .github/scripts/sync.sh "$branch"
+  bash .github/scripts/sync.sh "$branch"
   echo "synced, exit."
   exit 0
 }
@@ -38,8 +39,8 @@ git fetch github "$branch"
 git reset --hard "github/$branch"
 git checkout "github/$branch"
 
-# prepare script: read package.json but ignore workspace package.json files
-pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
+# prepare script: read package.json but ignore workspace package.json files, redwood "web" package.json file
+pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client' || pkg.name == 'web') { process.exit(0); }"
 
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5   # cron job runs each x minutes
@@ -62,7 +63,7 @@ while [ $i -le $count ]; do
 
   echo "checking info..."
 
-  v=$(sh .github/scripts/prisma-version.sh "$branch")
+  v=$(bash .github/scripts/prisma-version.sh "$branch")
 
   echo "$packages" | tr ' ' '\n' | while read -r item; do
     echo "checking $item"
