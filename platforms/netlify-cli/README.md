@@ -1,10 +1,6 @@
-# Netlify Beta CI
+# Netlify CLI
 
-Prisma and Netlify [beta build](https://build-beta.netlify.app/) integration.
-
-## Friction points
-
-- Sometimes, the Netlify build fails to work with a "missing binary". While I don't know the cause of this yet, clearing the build cache usually fixes it.
+Prisma and Netlify (deploy via netlify CLI) integration.
 
 ## How to run this locally
 
