@@ -2,6 +2,9 @@
 
 set -eux
 
+# TODO: Remove this
+exit 0
+
 id="$RANDOM"
 
 yarn start &
