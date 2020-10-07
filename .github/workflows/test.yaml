@@ -476,13 +476,13 @@ jobs:
         run: yarn install
 
       - name: use node 12
-        if: ${{ matrix.platform != 'heroku-pgbouncer-buildpack' }}
+        if: ${{ matrix.database != 'heroku-pgbouncer-buildpack' }}
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
       - name: use node 14
-        if: ${{ matrix.platform == 'heroku-pgbouncer-buildpack' }}
+        if: ${{ matrix.database == 'heroku-pgbouncer-buildpack' }}
         uses: actions/setup-node@v1
         with:
           node-version: 14
