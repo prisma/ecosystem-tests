@@ -3,7 +3,7 @@
 
 <div align="center">
 
-[![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest) `latest` | [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev) `dev` | [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev) `patch-dev` | [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)
+[![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest) `latest` • [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev) `dev` • [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev) `patch-dev` • [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)
 
 </div>
 
