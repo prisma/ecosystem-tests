@@ -345,11 +345,11 @@ jobs:
         with:
           node-version: 12
 
-      - name: use node 14
+      - name: use node 12.18.4
         if: ${{ matrix.platform == 'heroku' }}
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 12.18.4
 
       - name: Install Puppeteer
         uses: ianwalter/puppeteer@v2.0.0
@@ -481,11 +481,11 @@ jobs:
         with:
           node-version: 12
 
-      - name: use node 14
+      - name: use node 12.18.4
         if: ${{ matrix.database == 'heroku-pgbouncer-buildpack' }}
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 12.18.4
 
       - name: test ${{ matrix.database }}
         id: run-test
