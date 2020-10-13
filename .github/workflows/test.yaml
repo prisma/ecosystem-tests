@@ -66,12 +66,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [auto-reconnect]
+        feature: [auto-reconnect, blog-env-postgresql]
+    services:
+      postgres_isolated:
+      image: postgres:10
+      env:
+        POSTGRES_DB: tests
+        POSTGRES_USER: prisma
+        POSTGRES_PASSWORD: prisma
+      ports:
+        - 5432/tcp
+      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+      OS_BASE_PG_URL_ISOLATED: postgres://prisma:prisma@localhost:${{ job.services.postgres_isolated.ports[5432] }}/tests
+
     steps:
       - uses: actions/checkout@v1
 
