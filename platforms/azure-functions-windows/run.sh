@@ -3,7 +3,6 @@
 set -eux
 
 yarn install
-yarn prisma generate
 yarn tsc
 
 app="azure-function-win-e2e-test-$(date "+%s")"

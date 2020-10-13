@@ -5,7 +5,7 @@
     "clean": "rm -rf dist",
     "build": "npm -s run clean && npm -s run generate && tsc",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus-schema",
-    "generate:prisma": "prisma generate",
+    "generate:prisma": "",
     "generate:nexus-schema": "ts-node --transpile-only src/schema",
     "dev": "ts-node-dev --no-notify --respawn --transpileOnly src/server"
   },

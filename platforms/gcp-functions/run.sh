@@ -7,7 +7,6 @@ echo "$GCP_FUNCTIONS_ACCOUNT"
 
 yarn install
 
-yarn prisma generate
 
 yarn tsc
 

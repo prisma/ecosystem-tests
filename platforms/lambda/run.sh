@@ -11,7 +11,6 @@ x="$AWS_ROLE"
 
 yarn install
 
-yarn prisma generate
 
 yarn tsc
 

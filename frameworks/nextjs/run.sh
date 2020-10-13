@@ -3,6 +3,5 @@
 set -eux
 
 yarn install
-yarn prisma generate
 
 yarn build

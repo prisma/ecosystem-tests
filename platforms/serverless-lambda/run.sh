@@ -4,7 +4,6 @@ set -eux
 
 yarn install
 
-yarn prisma generate
 
 yarn tsc
 

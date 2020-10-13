@@ -7,7 +7,6 @@ group="prisma-e2e-linux"
 storage="e2estorageprismalinux"
 
 yarn install
-yarn prisma generate
 yarn tsc
 
 az group create --name "$group" --location westeurope
