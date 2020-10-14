@@ -84,7 +84,6 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
-      OS_BASE_PG_URL_ISOLATED: postgres://prisma:prisma@localhost:${{ job.services.postgres_isolated.ports[5432] }}/tests
 
     steps:
       - uses: actions/checkout@v1
@@ -103,6 +102,8 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+        env:
+          OS_BASE_PG_URL_ISOLATED: postgres://prisma:prisma@localhost:${{ job.services.postgres_isolated.ports[5432] }}/tests
 
       - name: notify-slack
         if: failure()
