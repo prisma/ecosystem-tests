@@ -5,8 +5,8 @@ const { Client } = require('pg')
 const { PrismaClient, PrismaClientValidationError } = require('@prisma/client')
 
 describe('Prisma client and postgres works with a proxy and flakyness', () => {
-  let requests = []
-  let errorLogs = []
+  const requests = []
+  const errorLogs = []
   let client
   let prismaClient
   let hostname
