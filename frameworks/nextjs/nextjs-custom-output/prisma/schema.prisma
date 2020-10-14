@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "../db"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("FRAMEWORK_NEXTJS_PG_URL")
+}
+
+model User {
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
+}
