@@ -71,14 +71,14 @@ jobs:
         feature: [auto-reconnect, blog-env-postgresql]
     services:
       postgres_isolated:
-      image: postgres:10
-      env:
-        POSTGRES_DB: tests
-        POSTGRES_USER: prisma
-        POSTGRES_PASSWORD: prisma
-      ports:
-        - 5432/tcp
-      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        image: postgres:10
+        env:
+          POSTGRES_DB: tests
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+        ports:
+          - 5432/tcp
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
