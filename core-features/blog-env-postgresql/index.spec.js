@@ -15,7 +15,7 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
 
   beforeAll(async () => {
     const originalConnectionString =
-      process.env.PG_CORE_FEATURES_BLOG_ENV_docker ||
+      process.env.PG_CORE_FEATURES_BLOG_ENV_DOCKER ||
       'postgres://prisma:prisma@localhost/tests'
 
     let proxyConnectionString = new URL(originalConnectionString)

@@ -102,7 +102,7 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
         env:
-          PG_CORE_FEATURES_BLOG_ENV_docker: postgres://prisma:prisma@localhost:${{ job.services.postgres_isolated.ports[5432] }}/tests
+          PG_CORE_FEATURES_BLOG_ENV_DOCKER: postgres://prisma:prisma@localhost:${{ job.services.postgres_isolated.ports[5432] }}/tests
 
       - name: notify-slack
         if: failure()
