@@ -1,5 +1,5 @@
 const assert = require('assert')
-const getPort =  require('get-port')
+const getPort = require('get-port')
 const tcpProxy = require('node-tcp-proxy')
 const { Client } = require('pg')
 const { PrismaClient, PrismaClientValidationError } = require('@prisma/client')
@@ -14,18 +14,20 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
   let newPort
 
   beforeAll(async () => {
-    const originalConnectionString = process.env.OS_BASE_PG_URL_ISOLATED || "postgres://prisma:prisma@localhost/tests"
-    
+    const originalConnectionString =
+      process.env.PG_CORE_FEATURES_BLOG_ENV_docker ||
+      'postgres://prisma:prisma@localhost/tests'
+
     let proxyConnectionString = new URL(originalConnectionString)
-    hostname = proxyConnectionString.hostname 
+    hostname = proxyConnectionString.hostname
     port = proxyConnectionString.port
     newPort = await getPort({
-        port: getPort.makeRange(3100,3200),
+      port: getPort.makeRange(3100, 3200),
     })
     proxyConnectionString.port = newPort
 
     client = new Client({
-      connectionString: originalConnectionString
+      connectionString: originalConnectionString,
     })
     try {
       await client.connect()
@@ -57,27 +59,27 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
       INSERT INTO "public"."User" (email, id, name) VALUES ('a@a.de',	'576eddf9-2434-421f-9a86-58bede16fd95',	'Alice');
     `)
 
-     prismaClient = new PrismaClient({
-      errorFormat: 'colorless',
-      __internal: {
-        measurePerformance: true,
-        hooks: {
-          beforeRequest: (request) => requests.push(request),
+      prismaClient = new PrismaClient({
+        errorFormat: 'colorless',
+        __internal: {
+          measurePerformance: true,
+          hooks: {
+            beforeRequest: (request) => requests.push(request),
+          },
         },
-      },
-      datasources: {
-        db: {
-          url: proxyConnectionString.href,
+        datasources: {
+          db: {
+            url: proxyConnectionString.href,
+          },
         },
-      },
-      log: [
-        {
-          emit: 'event',
-          level: 'error',
-        },
-      ],
-    })
-    } catch(e) {
+        log: [
+          {
+            emit: 'event',
+            level: 'error',
+          },
+        ],
+      })
+    } catch (e) {
       console.log(e)
     }
   })
@@ -120,11 +122,11 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
     await prismaClient.$connect()
 
     proxy.end()
-}, 50000);
+  }, 50000)
 
-it('should verify that prisma client can make various queries with a proxy', async () => {
-  try {
-    const users = await prismaClient.user.findMany()
+  it('should verify that prisma client can make various queries with a proxy', async () => {
+    try {
+      const users = await prismaClient.user.findMany()
     } catch (e) {}
     const proxy2 = tcpProxy.createProxy(newPort, hostname, port, {})
 
@@ -156,4 +158,3 @@ it('should verify that prisma client can make various queries with a proxy', asy
     proxy2.end()
   }, 50000)
 })
-
