@@ -100,6 +100,8 @@ describe('should test prisma client and postgres', () => {
       errorLogs.push(e)
     }
     expect(errorLogs.length).toBe(0)
+
+    // reset engine and connection
     await prismaClient.$disconnect()
     await prismaClient.$connect()
     proxy.end()
