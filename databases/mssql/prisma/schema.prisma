@@ -1,0 +1,16 @@
+// Like, postgresql://user:password@localhost:5432/database/schema
+datasource db {
+    provider = "sqlserver"
+    url      = env("DATABASE_URL_DB_MSSQL")
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["microsoftSqlServer"]
+}
+
+model User {
+    id    String  @id @default(cuid())
+    email String  @unique
+    name  String?
+}
