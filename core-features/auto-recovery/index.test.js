@@ -88,6 +88,8 @@ describe('should test prisma client and postgres', () => {
 
   it('should verify that the prisma client automatically recovers after an interrupted db server connection', async () => {
     const proxy = tcpProxy.createProxy(newPort, hostname, port, {})
+
+    // confirm connection is working generally
     await prismaClient.$connect() 
     try {
       await prismaClient.user.findMany()
