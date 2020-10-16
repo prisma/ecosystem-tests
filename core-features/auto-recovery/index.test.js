@@ -1,11 +1,10 @@
-const assert = require('assert')
 const getPort = require('get-port')
 const tcpProxy = require('node-tcp-proxy')
 const { Client } = require('pg')
-const { PrismaClient, PrismaClientValidationError } = require('@prisma/client')
+const { PrismaClient, PrismaClientValidationError, PrismaClientKnownRequestError } = require('@prisma/client')
+const url = require('url');
 
-describe('Prisma client and postgres works with a proxy and flakyness', () => {
-  const requests = []
+describe('should test prisma client and postgres', () => {
   const errorLogs = []
   let client
   let prismaClient
@@ -14,18 +13,17 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
   let newPort
 
   beforeAll(async () => {
+    const { URL } = url
     const originalConnectionString =
-      process.env.PG_CORE_FEATURES_BLOG_ENV_DOCKER ||
+      process.env.PG_CORE_FEATURES_AUTO_RECOVERY_DOCKER ||
       'postgres://prisma:prisma@localhost/tests'
-
-    let proxyConnectionString = new URL(originalConnectionString)
+    const proxyConnectionString = new URL(originalConnectionString)
     hostname = proxyConnectionString.hostname
-    port = proxyConnectionString.port
     newPort = await getPort({
       port: getPort.makeRange(3100, 3200),
     })
     proxyConnectionString.port = newPort
-
+    port = 5432
     client = new Client({
       connectionString: originalConnectionString,
     })
@@ -58,14 +56,10 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
       ON DELETE SET NULL ON UPDATE CASCADE;
       INSERT INTO "public"."User" (email, id, name) VALUES ('a@a.de',	'576eddf9-2434-421f-9a86-58bede16fd95',	'Alice');
     `)
-
       prismaClient = new PrismaClient({
         errorFormat: 'colorless',
         __internal: {
           measurePerformance: true,
-          hooks: {
-            beforeRequest: (request) => requests.push(request),
-          },
         },
         datasources: {
           db: {
@@ -92,69 +86,43 @@ describe('Prisma client and postgres works with a proxy and flakyness', () => {
     await client.end()
   })
 
-  it('should verify that requests are not made after prisma client has disconnected', async () => {
+  it('should verify that the prisma client automatically recovers after an interrupted db server connection', async () => {
     const proxy = tcpProxy.createProxy(newPort, hostname, port, {})
-
-    expect(prismaClient.internalDatasources).toBe(undefined)
-    await prismaClient.user.findMany()
-
-    prismaClient.$disconnect()
-    expect(requests.length).toBe(1)
-    await prismaClient.user.findMany()
-    prismaClient.$disconnect()
-
-    await new Promise((r) => setTimeout(r, 200))
-    assert.strictEqual(requests.length, 2)
-
-    const count = await prismaClient.user.count()
-    assert.ok(typeof count === 'number')
-
-    prismaClient.$connect()
-    await prismaClient.$disconnect()
-
-    await new Promise((r) => setTimeout(r, 200))
-    prismaClient.$connect()
-
-    const userPromise = prismaClient.user.findMany()
-    await userPromise
-
-    await prismaClient.$disconnect()
-    await prismaClient.$connect()
-
-    proxy.end()
-  }, 50000)
-
-  it('should verify that prisma client can make various queries with a proxy', async () => {
+    await prismaClient.$connect() 
     try {
-      const users = await prismaClient.user.findMany()
-    } catch (e) {}
-    const proxy2 = tcpProxy.createProxy(newPort, hostname, port, {})
-
-    let validationError
-    try {
-      await prismaClient.post.create({
-        data: {},
-      })
+      await prismaClient.user.findMany()
     } catch (e) {
-      validationError = e
-    } finally {
-      if (
-        !validationError ||
-        !(validationError instanceof PrismaClientValidationError)
-      ) {
+      if (!(e instanceof PrismaClientValidationError)) { 
         throw new Error(`Validation error is incorrect`)
       }
-      errorLogs.push(validationError)
+      errorLogs.push(e)
     }
-
-    await new Promise((r) => setTimeout(r, 16000))
-    assert.strictEqual(errorLogs.length, 1)
+    expect(errorLogs.length).toBe(0)
+    await prismaClient.$disconnect()
+    await prismaClient.$connect()
+    proxy.end()
     try {
-      const users = await prismaClient.user.findMany()
-    } catch (e) {}
-    const users = await prismaClient.user.findMany()
-    assert.strictEqual(users.length, 1)
-
+      await prismaClient.user.findMany()
+    } catch (e) {
+      if (!(e instanceof PrismaClientKnownRequestError)) { // should throw P1001 - Can't reach database server 
+        throw new Error(`Error code is incorrect`)
+      }
+      errorLogs.push(e)
+    }
+    expect(errorLogs.length).toBe(1)
+    const proxy2 = tcpProxy.createProxy(newPort, hostname, port, {})
+    await new Promise((r) => setTimeout(r, 16000)) 
+    let users
+    try {
+      users = await prismaClient.user.findMany()
+    } catch (e) {
+      if (!(e instanceof PrismaClientValidationError)) {
+        throw new Error(`Validation error is incorrect`)
+      }
+      errorLogs.push(e)
+    }
+    expect(errorLogs.length).toBe(1) 
+    expect(users.length).toBe(1) 
     proxy2.end()
   }, 50000)
 })
