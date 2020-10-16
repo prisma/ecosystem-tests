@@ -104,6 +104,8 @@ describe('should test prisma client and postgres', () => {
     // reset engine and connection
     await prismaClient.$disconnect()
     await prismaClient.$connect()
+
+    // confirm query fails when connection is taken away
     proxy.end()
     try {
       await prismaClient.user.findMany()
