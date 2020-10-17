@@ -13,6 +13,7 @@ describe('should test prisma client and postgres', () => {
   let newPort
 
   beforeAll(async () => {
+    console.log('process.env.PG_CORE_FEATURES_AUTO_RECOVERY_DOCKER', process.env.PG_CORE_FEATURES_AUTO_RECOVERY_DOCKER)
     const { URL } = url
     const originalConnectionString =
       process.env.PG_CORE_FEATURES_AUTO_RECOVERY_DOCKER ||
