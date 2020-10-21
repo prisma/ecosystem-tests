@@ -17,6 +17,7 @@ jobs:
     needs: start-time
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - id: use-start-time
         run: echo "Date ${{ needs.start-time.outputs.start-time }}"
       - id: use-start-time-env
