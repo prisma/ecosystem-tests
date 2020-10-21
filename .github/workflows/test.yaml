@@ -3,20 +3,24 @@ on: push
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
 jobs:
-  log-time:
+  start-time:
     runs-on: ubuntu-latest
     outputs:
-      date: ${{ steps.date.outputs.date }}
+      start-time: ${{ steps.start-time.outputs.start-time }}
     steps:
-      - id: date
-        run: echo "::set-output name=date::$(date)"
+      - id: start-time
+        run: |
+          echo "::set-output name=start-time::$(date)"
+          echo "::set-env name=START_TIME::$(date)"
 
-  use-log-time:
-    needs: log-time
+  use-start-time:
+    needs: start-time
     runs-on: ubuntu-latest
     steps:
-      - id: use-date
-        run: echo "Date ${{ needs.log-time.outputs.date }}"
+      - id: use-start-time
+        run: echo "Date ${{ needs.start-time.outputs.start-time }}"
+      - id: use-start-time-env
+        run: node .github/scripts/date.js
 
   report-to-slack-success:
     runs-on: ubuntu-latest
@@ -81,6 +85,7 @@ jobs:
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   process-managers:
+    needs: start-time
     strategy:
       fail-fast: false
       matrix:
@@ -115,6 +120,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
 
   core-features:
+    needs: start-time
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -148,6 +154,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
   os:
+    needs: start-time
     strategy:
       fail-fast: false
       matrix:
@@ -181,6 +188,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
   node:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -218,6 +226,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
+    needs: start-time
     strategy:
       fail-fast: false
       matrix:
@@ -249,6 +258,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -288,6 +298,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
 
   frameworks:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -325,6 +336,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
+    needs: start-time
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -415,6 +427,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   bundlers:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -454,6 +467,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
 
   libraries:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -496,6 +510,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
 
   databases:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
