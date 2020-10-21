@@ -89,7 +89,7 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -122,7 +122,7 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -155,7 +155,7 @@ jobs:
 
       - name: test on ${{ matrix.os }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -192,7 +192,7 @@ jobs:
 
       - name: test on node ${{ matrix.node }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -223,7 +223,7 @@ jobs:
 
       - name: test ${{ matrix.binary }} binary on ${{ matrix.os }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -262,7 +262,7 @@ jobs:
 
       - name: packager ${{ matrix.packager }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -299,7 +299,7 @@ jobs:
 
       - name: framework ${{ matrix.framework }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -389,7 +389,7 @@ jobs:
 
       - name: test ${{ matrix.platform }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
           max_attempts: 3
@@ -428,7 +428,7 @@ jobs:
 
       - name: test ${{ matrix.bundler }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -470,7 +470,7 @@ jobs:
 
       - name: test ${{ matrix.library }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -515,7 +515,7 @@ jobs:
 
       - name: test ${{ matrix.database }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
