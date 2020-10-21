@@ -19,7 +19,7 @@ jobs:
       - process-managers
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -50,7 +50,7 @@ jobs:
       - process-managers
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -78,7 +78,7 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -111,7 +111,7 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -144,7 +144,7 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -183,7 +183,7 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v1
@@ -215,7 +215,7 @@ jobs:
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
         with:
@@ -253,7 +253,7 @@ jobs:
       PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v1
@@ -290,7 +290,7 @@ jobs:
       FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v1
@@ -375,7 +375,7 @@ jobs:
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
         uses: actions/setup-node@v1
@@ -419,7 +419,7 @@ jobs:
       PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
       ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 10
         uses: actions/setup-node@v1
@@ -461,7 +461,7 @@ jobs:
       LIBRARY_NEXUS_SCHEMA_PG_URL: ${{ secrets.LIBRARY_NEXUS_SCHEMA_PG_URL }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 10
         uses: actions/setup-node@v1
@@ -503,7 +503,7 @@ jobs:
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
       DATABASE_URL_DB_MSSQL: ${{ secrets.DATABASE_URL_DB_MSSQL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
