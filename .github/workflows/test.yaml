@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: use date
-        run: echo "Date: ${{ needs.log-time.outputs.date }}"
+        run: echo "Date ${{ needs.log-time.outputs.date }}"
 
   report-to-slack-success:
     runs-on: ubuntu-latest
