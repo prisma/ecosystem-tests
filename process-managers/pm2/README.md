@@ -1,21 +1,17 @@
-# Generic test
+# PM2
 
-This example runs a simple test script which locally runs CRUD actions against a remote postgres database.
+This example runs a simple express server via PM2.
 
 ## How to run this locally
 
-This project is a special case, since it's run with different configurations in
-CI, for example on different operating systems and using different node versions.
+1. Setup the environment variable `PROCESS_MANAGER_PM2_PG_URL`
+2. `yarn install`
+3. `sh run.sh`
+4. `sh test.sh`
 
 ### Environment variables
 
-The environment variable `OS_BASE_PG_URL` should point to a postgres database.
-In CI, it uses our internal e2e test database using `os-base` as database URL.
+The environment variable `PROCESS_MANAGER_PM2_PG_URL` should point to a postgres database.
+In CI, it uses our internal e2e test database using `process-managers-pm2` as database URL.
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
-
-### Run tests
-
-```shell script
-sh run.sh
-```
