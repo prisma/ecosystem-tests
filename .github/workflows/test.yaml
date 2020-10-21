@@ -3,6 +3,21 @@ on: push
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
 jobs:
+  log-time:
+    runs-on: ubuntu-latest
+    outputs:
+      date: ${{ steps.date.outputs.date }}
+    steps:
+      - id: date
+        run: echo "::set-output name=date::$(date)"
+
+  use-log-time:
+    needs: log-time
+    runs-on: ubuntu-latest
+    steps:
+      - id: use date
+        run: echo "Date: ${{ needs.log-time.outputs.date }}"
+
   report-to-slack-success:
     runs-on: ubuntu-latest
     needs:
