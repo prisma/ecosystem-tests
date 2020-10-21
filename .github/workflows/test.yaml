@@ -6,7 +6,7 @@ jobs:
   start-time:
     runs-on: ubuntu-latest
     outputs:
-      start-time: ${{ steps.start-time.outputs.start-time }}
+      start-time: ${{ steps.start-time-output.outputs.start-time }}
     steps:
       - id: start-time-output
         run: echo "::set-output name=start-time::$(date)"
