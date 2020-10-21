@@ -10,12 +10,12 @@ jobs:
     steps:
       - id: start-time-output
         run: echo "::set-output name=start-time::$(date)"
-      - id: start-time-env
-        run: echo "::set-env name=START_TIME::$(date)"
 
   use-start-time:
     needs: start-time
     runs-on: ubuntu-latest
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
     steps:
       - uses: actions/checkout@v1
       - id: use-start-time
