@@ -71,6 +71,11 @@ while [ $i -le $count ]; do
   echo "=========================="
   echo "getting package version:"
   v=$(bash .github/scripts/prisma-version.sh "$branch")
+  if [ -z "$v" ]
+  then
+        echo "Prisma version is empty: $v"
+        exit 0
+  fi
   echo "$v (via Npm)"
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
