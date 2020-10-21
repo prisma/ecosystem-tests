@@ -66,7 +66,7 @@ jobs:
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   process-managers:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, windows-latest]
     strategy:
       fail-fast: false
       matrix:
