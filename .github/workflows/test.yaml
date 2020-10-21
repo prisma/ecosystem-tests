@@ -16,6 +16,7 @@ jobs:
       - bundlers
       - libraries
       - databases
+      - process-managers
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v1
@@ -46,6 +47,7 @@ jobs:
       - bundlers
       - libraries
       - databases
+      - process-managers
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v1
@@ -62,6 +64,40 @@ jobs:
         env:
           CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+
+  process-managers:
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [pm2]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: test feature - ${{ matrix.feature }}
+        id: run-test
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh process-managers ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
 
   core-features:
     runs-on: ubuntu-latest
