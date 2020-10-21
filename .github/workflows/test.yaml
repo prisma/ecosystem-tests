@@ -11,18 +11,6 @@ jobs:
       - id: start-time-output
         run: echo "::set-output name=start-time::$(date)"
 
-  use-start-time:
-    needs: start-time
-    runs-on: ubuntu-latest
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-    steps:
-      - uses: actions/checkout@v1
-      - id: use-start-time
-        run: echo "Date ${{ needs.start-time.outputs.start-time }}"
-      - id: use-start-time-env
-        run: node .github/scripts/date.js
-
   report-to-slack-success:
     runs-on: ubuntu-latest
     needs:
@@ -94,6 +82,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -128,6 +117,7 @@ jobs:
       matrix:
         feature: [auto-reconnect]
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -162,6 +152,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -202,6 +193,7 @@ jobs:
 
     name: node ${{ matrix.node }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -235,6 +227,7 @@ jobs:
         os: [ubuntu-latest, macos-latest] # windows-latest was commented out because of pkg failures
     runs-on: ${{ matrix.os }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -271,6 +264,7 @@ jobs:
           - yarn-workspaces
 
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -310,6 +304,7 @@ jobs:
           - nextjs
 
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -360,6 +355,7 @@ jobs:
           - azure-functions-windows
 
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -441,6 +437,7 @@ jobs:
 
     name: bundler ${{ matrix.bundler }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -482,6 +479,7 @@ jobs:
 
     name: library ${{ matrix.library }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -526,6 +524,7 @@ jobs:
 
     name: databases ${{ matrix.database }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
