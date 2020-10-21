@@ -8,10 +8,10 @@ jobs:
     outputs:
       start-time: ${{ steps.start-time.outputs.start-time }}
     steps:
-      - id: start-time
-        run: |
-          echo "::set-output name=start-time::$(date)"
-          echo "::set-env name=START_TIME::$(date)"
+      - id: start-time-output
+        run: echo "::set-output name=start-time::$(date)"
+      - id: start-time-env
+        run: echo "::set-env name=START_TIME::$(date)"
 
   use-start-time:
     needs: start-time
