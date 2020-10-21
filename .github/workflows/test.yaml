@@ -15,7 +15,7 @@ jobs:
     needs: log-time
     runs-on: ubuntu-latest
     steps:
-      - id: use date
+      - id: use-date
         run: echo "Date ${{ needs.log-time.outputs.date }}"
 
   report-to-slack-success:
