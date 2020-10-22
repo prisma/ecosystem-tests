@@ -69,16 +69,6 @@ jobs:
       fail-fast: false
       matrix:
         feature: [auto-reconnect, auto-recovery]
-    services:
-      postgres:
-        image: postgres:10
-        env:
-          POSTGRES_DB: tests
-          POSTGRES_USER: prisma
-          POSTGRES_PASSWORD: prisma
-        ports:
-          - 5432/tcp
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -101,9 +91,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
-        env:
-          PG_CORE_FEATURES_AUTO_RECOVERY_DOCKER: postgres://prisma:prisma@localhost:${{ job.services.postgres.ports[5432] }}/tests
-
+  
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}

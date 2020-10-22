@@ -1,7 +1,7 @@
 const getPort = require('get-port')
 const tcpProxy = require('node-tcp-proxy')
 const { Client } = require('pg')
-const { PrismaClient, PrismaClientValidationError, PrismaClientKnownRequestError } = require('@prisma/client')
+const { PrismaClient, PrismaClientValidationError } = require('@prisma/client')
 const url = require('url');
 
 describe('should test prisma client and postgres', () => {
@@ -15,15 +15,14 @@ describe('should test prisma client and postgres', () => {
   beforeAll(async () => {
     const { URL } = url
     const originalConnectionString =
-      process.env.PG_CORE_FEATURES_AUTO_RECOVERY_DOCKER ||
-      'postgres://prisma:prisma@localhost/tests'
+      'postgres://postgres:postgres@localhost:6543/postgres'
     const proxyConnectionString = new URL(originalConnectionString)
     hostname = proxyConnectionString.hostname
     newPort = await getPort({
       port: getPort.makeRange(3100, 3200),
     })
     proxyConnectionString.port = newPort
-    port = 5432
+    port = 6543
     client = new Client({
       connectionString: originalConnectionString,
     })
@@ -73,6 +72,7 @@ describe('should test prisma client and postgres', () => {
           },
         ],
       })
+      await client.end() // can confirm only one client allowed to connect because without this a too many clients error is thrown
     } catch (e) {
       console.log(e)
     }
@@ -94,6 +94,7 @@ describe('should test prisma client and postgres', () => {
     try {
       await prismaClient.user.findMany()
     } catch (e) {
+      console.log({e})
       if (!(e instanceof PrismaClientValidationError)) { 
         throw new Error(`Validation error is incorrect`)
       }
@@ -110,14 +111,13 @@ describe('should test prisma client and postgres', () => {
     try {
       await prismaClient.user.findMany()
     } catch (e) {
-      if (!(e instanceof PrismaClientKnownRequestError)) { // should throw P1001 - Can't reach database server 
-        throw new Error(`Error code is incorrect`)
-      }
       errorLogs.push(e)
     }
     expect(errorLogs.length).toBe(1)
+    expect(errorLogs[0]).toMatchSnapshot() // expect P1001 - Can't reach database server 
+    
     const proxy2 = tcpProxy.createProxy(newPort, hostname, port, {})
-    await new Promise((r) => setTimeout(r, 16000)) 
+    // await new Promise((r) => setTimeout(r, 16000)) // this line should be necessary for the test to pass
     let users
     try {
       users = await prismaClient.user.findMany()
