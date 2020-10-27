@@ -84,7 +84,7 @@ while [ $i -le $count ]; do
     echo "checking $item"
 
     case "$item" in
-    *".github"* | *"functions/generated/client"*)
+    *".github"* | *"functions/generated/client"* | *"vercel-with-redwood"*)
       echo "ignoring $item"
       continue
       ;;
