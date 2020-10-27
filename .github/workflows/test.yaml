@@ -72,8 +72,6 @@ jobs:
     services:
       postgres:
         image: postgres:9.6.1
-        command: postgres -c 'max_connections=1' -c 'superuser_reserved_connections=0'
-        restart: always
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
