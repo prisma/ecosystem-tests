@@ -69,6 +69,19 @@ jobs:
       fail-fast: false
       matrix:
         feature: [auto-reconnect, auto-recovery]
+    services:
+      postgres:
+        image: postgres:9.6.1
+        command: postgres -c 'max_connections=1' -c 'superuser_reserved_connections=0'
+        restart: always
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - "6543:5432"
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     env:
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -91,7 +104,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
-  
+
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
