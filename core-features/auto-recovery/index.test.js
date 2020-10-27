@@ -24,7 +24,7 @@ describe('should test prisma client and postgres', () => {
     proxyConnectionString.port = newPort
     port = 6543
     client = new Client({
-      connectionString: originalConnectionString,
+      connectionString: originalConnectionString+`?&connection_limit=1`,
     })
     try {
       await client.connect()
@@ -127,7 +127,7 @@ describe('should test prisma client and postgres', () => {
       }
       errorLogs.push(e)
     }
-    expect(errorLogs.length).toBe(1) 
+    expect(errorLogs.length).toBe(1) // should actually be 2 since the timeout has been commented out
     expect(users.length).toBe(1) 
     proxy2.end()
   }, 50000)
