@@ -114,20 +114,19 @@ describe('should test prisma client and postgres', () => {
       errorLogs.push(e)
     }
     expect(errorLogs.length).toBe(1)
-    expect(errorLogs[0]).toMatchSnapshot() // expect P1001 - Can't reach database server 
+    expect(errorLogs[0]).toMatchSnapshot() // expect P1001 - Can't reach database server. Not getting that error anymore. 
     
     const proxy2 = tcpProxy.createProxy(newPort, hostname, port, {})
-    // await new Promise((r) => setTimeout(r, 16000)) // this line should be necessary for the test to pass
+    await new Promise((r) => setTimeout(r, 16000)) 
+    // await prismaClient.$disconnect() // currently required regardless of timeout implying new connection not given
+    // await prismaClient.$connect()
     let users
     try {
       users = await prismaClient.user.findMany()
     } catch (e) {
-      if (!(e instanceof PrismaClientValidationError)) {
-        throw new Error(`Validation error is incorrect`)
-      }
       errorLogs.push(e)
     }
-    expect(errorLogs.length).toBe(1) // should actually be 2 since the timeout has been commented out
+    expect(errorLogs.length).toBe(1) 
     expect(users.length).toBe(1) 
     proxy2.end()
   }, 50000)
