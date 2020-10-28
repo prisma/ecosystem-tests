@@ -1,5 +1,6 @@
 #!/bin/sh
 
-set -eu 
+set -eux 
 
+export DEBUG="*"
 yarn test
