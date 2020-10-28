@@ -118,8 +118,8 @@ describe('should test prisma client and postgres', () => {
     
     const proxy2 = tcpProxy.createProxy(newPort, hostname, port, {})
     await new Promise((r) => setTimeout(r, 16000)) 
-    // await prismaClient.$disconnect() // currently required regardless of timeout implying new connection not given
-    // await prismaClient.$connect()
+    await prismaClient.$disconnect() // currently required regardless of timeout implying new connection not given
+    await prismaClient.$connect()
     let users
     try {
       users = await prismaClient.user.findMany()
