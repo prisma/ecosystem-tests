@@ -5,13 +5,16 @@ set -eu
 yarn start &
 pid=$!
 
-sleep 30
+sleep 10
 
-expected="Hello stuff, first name: Lisa!"
-actual=$(curl localhost:3600/hello/stuff)
+prismaVersion=$(sh ../../utils/prisma_version.sh)
+
+expected="{\"prismaVersion\":\"$prismaVersion\",\"createUser\":{\"name\":\"Alice\"},\"updateUser\":{\"name\":\"Bob\"},\"deleteUser\":{\"name\":\"Bob\"}}"
+actual=$(curl localhost:3000)
 
 if [ "$expected" != "$actual" ]; then
   echo "expected '$expected', got '$actual'"
+  kill $pid
   exit 1
 fi
 
