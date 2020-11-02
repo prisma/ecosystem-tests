@@ -1,16 +1,11 @@
 # Prisma e2e Tests
 
-
-<div align="center">
-
-[![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)
-[![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev)
-[![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)
-<br>
-[![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)
-
-</div>
-
+| CI Status | Branch |
+|-|-|
+| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev) | `dev` |
+| [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest) | `latest` |
+| [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev) | `patch-dev` |
+| [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update) | - |
 
 This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
@@ -71,4 +66,3 @@ set -eu
 If you need additional dependencies such as CLIs, you can install them in the optional `prepare.sh` in a specific folder. It will automatically be picked up to run before the `run.sh` file does.
 
 **Note:** It's important to add `@prisma/cli` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
-

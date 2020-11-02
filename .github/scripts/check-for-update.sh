@@ -24,6 +24,8 @@ run_sync() {
   exit 0
 }
 
+echo ""
+echo "=========================="
 echo "setting up ssh repo"
 
 mkdir -p ~/.ssh
@@ -47,25 +49,38 @@ minutes=5   # cron job runs each x minutes
 interval=10 # run each x seconds
 i=0
 count=$(((minutes * 60) / interval))
+echo ""
+echo "=========================="
 echo "running loop $count times"
 while [ $i -le $count ]; do
   # increment to prevent forgetting incrementing, and also prevent overlapping with the next 5-minute job
   i=$((i + 1))
+  echo ""
+  echo "=========================="
   echo "run $i"
 
   start=$(date "+%s")
 
   dir=$(pwd)
 
+  echo "=========================="
+  echo "updating git checkout"
   git fetch github "$branch"
   git reset --hard "github/$branch"
-  packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
 
-  echo "checking info..."
-
+  echo "=========================="
+  echo "getting package version:"
   v=$(bash .github/scripts/prisma-version.sh "$branch")
-
+  if [ -z "$v" ]
+  then
+        echo "Prisma version is empty: $v"
+        exit 0
+  fi
+  echo "$v (via Npm)"
+  
+  packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
   echo "$packages" | tr ' ' '\n' | while read -r item; do
+    echo "=========================="
     echo "checking $item"
 
     case "$item" in
@@ -80,6 +95,7 @@ while [ $i -le $count ]; do
     hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
     if [ "$hasResolutions" = "true" ]; then
+      echo "note: project uses `resolutions`"
       vCLI="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/cli'])")"
 
       if [ "$vCLI" != "" ]; then
@@ -126,12 +142,16 @@ while [ $i -le $count ]; do
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
           yarn add "@prisma/client@$v"
         fi
+      else
+        echo "Dependency not found"
       fi
     fi
 
     cd "$dir"
   done
 
+  echo ""
+  echo "=========================="
   echo "after upgrade:"
   git status
 
@@ -146,6 +166,8 @@ while [ $i -le $count ]; do
     continue
   fi
 
+  echo ""
+  echo "=========================="
   echo "changes, upgrading..."
   echo "$v" > .github/prisma-version.txt
 

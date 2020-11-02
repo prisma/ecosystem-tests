@@ -20,7 +20,7 @@ export async function getStaticProps() {
     props: {
       users: await client.user.findMany(),
     },
-    unstable_revalidate: 5,
+    revalidate: 5,
   }
 }
 

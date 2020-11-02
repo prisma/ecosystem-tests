@@ -3,5 +3,5 @@
 set -eux
 
 yarn install
-yarn generate
-yarn build
+# yarn generate
+# yarn build
