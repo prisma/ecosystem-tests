@@ -223,8 +223,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
-        os: [ubuntu-latest, macos-latest] # windows-latest was commented out because of pkg failures
     runs-on: ${{ matrix.os }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
