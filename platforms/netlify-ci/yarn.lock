@@ -1154,6 +1154,30 @@
   dependencies:
     execa "^3.4.0"
 
+"@netlify/traffic-mesh-agent-darwin-x64@^0.24.0-pre.23":
+  version "0.24.0-pre.23"
+  resolved "https://registry.yarnpkg.com/@netlify/traffic-mesh-agent-darwin-x64/-/traffic-mesh-agent-darwin-x64-0.24.0-pre.23.tgz#714da2e819799cae1364fde710494ebc3f550cc5"
+  integrity sha512-XDn77F+tx+qQZ9sMwqmwRAOEm56syA7xO1rScDY4JV8oSyvwa6sfUWnFXefyxUt1uLNfIQhiKDnA4sOyCRJxDw==
+
+"@netlify/traffic-mesh-agent-linux-x64@^0.24.0-pre.23":
+  version "0.24.0-pre.23"
+  resolved "https://registry.yarnpkg.com/@netlify/traffic-mesh-agent-linux-x64/-/traffic-mesh-agent-linux-x64-0.24.0-pre.23.tgz#01c9b2bcc09a39906ab9a8048710cae401962de3"
+  integrity sha512-9D2sFOcO72IBsqiHgU1Z5tQ6+lvjRBUeOc0iFKgcUPG5eJ46pgrOAD8B8tNd2FscNz2lyrJxZc1kGAOjYikzUQ==
+
+"@netlify/traffic-mesh-agent-win32-x64@^0.24.0-pre.23":
+  version "0.24.0-pre.23"
+  resolved "https://registry.yarnpkg.com/@netlify/traffic-mesh-agent-win32-x64/-/traffic-mesh-agent-win32-x64-0.24.0-pre.23.tgz#d63684392fa9b29c429601e40a0892327c41f522"
+  integrity sha512-kFImydqG6Er+kgG5UFjIWBp7TxFcf/eOoXSOWr6a+3kJu2iwZP2IdflyNK9EsKdW/KA+W43PXleF4VQwLm830w==
+
+"@netlify/traffic-mesh-agent@^0.24.0-pre.23":
+  version "0.24.0-pre.23"
+  resolved "https://registry.yarnpkg.com/@netlify/traffic-mesh-agent/-/traffic-mesh-agent-0.24.0-pre.23.tgz#563c1647a8cceed6fdf8e0bf8a5375872655bf75"
+  integrity sha512-uv5F3grah5C0CPGm8raASIyVDi+lYBR4os+wG0GXkUVCU2r2Pcl8MStLeN3phe1G3AjVkco5WcAKC8XfBvvqEw==
+  optionalDependencies:
+    "@netlify/traffic-mesh-agent-darwin-x64" "^0.24.0-pre.23"
+    "@netlify/traffic-mesh-agent-linux-x64" "^0.24.0-pre.23"
+    "@netlify/traffic-mesh-agent-win32-x64" "^0.24.0-pre.23"
+
 "@netlify/zip-it-and-ship-it@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@netlify/zip-it-and-ship-it/-/zip-it-and-ship-it-1.1.0.tgz#9b0e950ba6e551ce76428400f7aee6eb1917208a"
@@ -5781,14 +5805,15 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@2.67.0:
-  version "2.67.0"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-2.67.0.tgz#759e21f32994cc32f0d5690de58528fbd1bb649b"
-  integrity sha512-kc83pJNUArMYMSMqbJYDU9PTKlEhdpJQ/Mik0suDL/aWkPdN3o+cQ94eaxKPgdDEcJfhN1UmMsBLxBQ1f9r4Lw==
+netlify-cli@2.67.2:
+  version "2.67.2"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-2.67.2.tgz#01bd610ba78cbf4a96cc07b7239921d9a6419cfd"
+  integrity sha512-tCb/TqAtxrtRTzBayfRmg7Gd809ymXfg6vVrBAAXqi93ijobB6qjopIQYlq5Tgq50m5rI/EgxvLU3BCUSEq/eQ==
   dependencies:
     "@netlify/build" "^5.0.0"
     "@netlify/config" "^2.0.9"
     "@netlify/plugin-edge-handlers" "^1.9.0"
+    "@netlify/traffic-mesh-agent" "^0.24.0-pre.23"
     "@netlify/zip-it-and-ship-it" "^1.3.9"
     "@oclif/command" "^1.5.18"
     "@oclif/config" "^1.13.2"
