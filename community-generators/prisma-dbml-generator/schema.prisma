@@ -1,0 +1,9 @@
+generator client {
+    provider = "prisma-dbml-generator"
+}
+
+model User {
+    id    String  @id @default(cuid())
+    email String  @unique
+    name  String?
+}
