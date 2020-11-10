@@ -31,7 +31,7 @@ jobs:
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
         env:
           CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+          SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
 
   report-to-slack-failure:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
         env:
           CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+          SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
 
   community-generators:
     needs: start-time
@@ -64,8 +64,8 @@ jobs:
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
+      SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
     steps:
       - uses: actions/checkout@v1
 
