@@ -8,7 +8,7 @@ jobs:
   check-for-latest-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
         uses: actions/setup-node@v1
@@ -25,7 +25,7 @@ jobs:
   check-for-dev-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
         uses: actions/setup-node@v1
@@ -42,7 +42,7 @@ jobs:
   check-for-patch-dev-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
         uses: actions/setup-node@v1
@@ -64,7 +64,7 @@ jobs:
       - check-for-patch-dev-update
     if: failure()
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
         with:
