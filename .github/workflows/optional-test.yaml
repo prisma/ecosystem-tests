@@ -34,6 +34,7 @@ jobs:
           # TODO: Consolidate these env vars. They shouldn't be required for slack notification
           # They are only required because `slack-workflow-status.sh` hardcodes the names
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
+          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
           ##
           SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
 
@@ -59,6 +60,7 @@ jobs:
           # TODO: Consolidate these env vars. They shouldn't be required for slack notification
           # They are only required because `slack-workflow-status.sh` hardcodes the names
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
+          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
           ##
           SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
 
