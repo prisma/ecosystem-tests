@@ -71,6 +71,11 @@ while [ $i -le $count ]; do
   echo "=========================="
   echo "getting package version:"
   v=$(bash .github/scripts/prisma-version.sh "$branch")
+  if [ -z "$v" ]
+  then
+        echo "Prisma version is empty: $v"
+        exit 0
+  fi
   echo "$v (via Npm)"
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
@@ -168,7 +173,15 @@ while [ $i -le $count ]; do
 
   git commit -am "chore(packages): bump @prisma/cli to $v"
 
+  set +e
   git pull github "$branch" --rebase
+  code=$?
+  if [ $code -ne 0 ]; then
+    export webhook="$SLACK_WEBHOOK_URL_FAILING"
+    node .github/slack/notify.js "Prisma version $v :warning: Merge conflict at the end of check-for-update.sh script (via $branch)"
+    exit 0
+  fi
+  set -e
 
   set +e
   git push github "HEAD:refs/heads/$branch"
