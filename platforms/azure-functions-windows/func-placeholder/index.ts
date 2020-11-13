@@ -1,52 +1,52 @@
-import { PrismaClient, prismaVersion } from "@prisma/client";
-import { Context, HttpRequest } from "@azure/functions";
+import { PrismaClient, Prisma } from '@prisma/client'
+import { Context, HttpRequest } from '@azure/functions'
 
-const client = new PrismaClient();
+const client = new PrismaClient()
 
-export default async function(
+export default async function (
   context: Context,
-  req: HttpRequest
+  req: HttpRequest,
 ): Promise<void> {
-  await client.user.deleteMany({});
+  await client.user.deleteMany({})
 
-  const id = "12345";
+  const id = '12345'
 
   const createUser = await client.user.create({
     data: {
       id,
-      email: "alice@prisma.io",
-      name: "Alice"
-    }
-  });
+      email: 'alice@prisma.io',
+      name: 'Alice',
+    },
+  })
 
   const updateUser = await client.user.update({
     where: {
-      id: createUser.id
+      id: createUser.id,
     },
     data: {
-      email: "bob@prisma.io",
-      name: "Bob"
-    }
-  });
+      email: 'bob@prisma.io',
+      name: 'Bob',
+    },
+  })
 
   const users = await client.user.findOne({
     where: {
-      id: createUser.id
-    }
-  });
+      id: createUser.id,
+    },
+  })
 
-  const deleteManyUsers = await client.user.deleteMany({});
+  const deleteManyUsers = await client.user.deleteMany({})
 
   context.res = {
     status: 200,
     body: JSON.stringify({
-      version: prismaVersion.client,
+      version: Prisma.prismaVersion.client,
       createUser,
       updateUser,
       users,
-      deleteManyUsers
-    })
-  };
+      deleteManyUsers,
+    }),
+  }
 
-  context.done();
+  context.done()
 }

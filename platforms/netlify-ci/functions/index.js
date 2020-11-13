@@ -1,8 +1,8 @@
-const { PrismaClient, prismaVersion } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('@prisma/client')
 
 const client = new PrismaClient()
 
-exports.handler = async function(event, context, callback) {
+exports.handler = async function (event, context, callback) {
   await client.user.deleteMany({})
 
   const id = '12345'
@@ -36,7 +36,7 @@ exports.handler = async function(event, context, callback) {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      version: prismaVersion.client,
+      version: Prisma.prismaVersion.client,
       createUser,
       updateUser,
       users,

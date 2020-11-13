@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { prismaVersion } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AppService {
@@ -41,7 +41,7 @@ export class AppService {
     });
 
     return JSON.stringify({
-      prismaVersion: prismaVersion.client,
+      prismaVersion: Prisma.prismaVersion.client,
       createUser: {
         name: createUser.name,
       },
