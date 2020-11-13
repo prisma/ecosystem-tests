@@ -1,4 +1,4 @@
-import { PrismaClient, prismaVersion } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 
 const client = new PrismaClient()

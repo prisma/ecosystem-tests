@@ -1,4 +1,4 @@
-import { PrismaClient, prismaVersion } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import * as functions from 'firebase-functions'
 
 process.env.FIREBASE_FUNCTIONS_PG_URL = functions.config().prisma.db
