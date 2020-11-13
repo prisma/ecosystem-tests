@@ -2,7 +2,7 @@ import arg from 'arg'
 import originalFetch from 'node-fetch'
 
 function getExpectedData(prismaVersion: string) {
-  return `{"version":"${Prisma}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}`
+  return `{"version":"${prismaVersion}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}`
 }
 
 let rdata = null
@@ -69,7 +69,7 @@ if (require.main === module) {
   })
 
   const url = args['--url']
-  constPrisma = args['--prisma-version']
+  const prismaVersion = args['--prisma-version']
   console.log({
     url,
     prismaVersion,

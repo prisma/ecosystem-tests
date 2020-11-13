@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client'
 
-export constPrisma= () => {
+export const Prisma = () => {
   return Prisma.prismaVersion.client
 }
