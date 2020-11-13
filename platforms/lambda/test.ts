@@ -1,4 +1,4 @@
-import { prismaVersion } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 
 const name = 'prisma2-e2e-tests'
