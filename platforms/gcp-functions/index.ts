@@ -34,10 +34,10 @@ export async function handler(req: any, res: any) {
   const deleteManyUsers = await client.user.deleteMany({})
 
   res.status(200).send({
-    version: prismaVersion.client,
+    version: Prisma.prismaVersion.client,
     createUser,
     updateUser,
     users,
     deleteManyUsers,
-  });
+  })
 }

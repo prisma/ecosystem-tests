@@ -41,7 +41,7 @@ export class AppService {
     });
 
     return JSON.stringify({
-      prismaVersion: prismaVersion.client,
+      prismaVersion: Prisma.prismaVersion.client,
       createUser: {
         name: createUser.name,
       },

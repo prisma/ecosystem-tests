@@ -34,7 +34,7 @@ export async function handler() {
   const deleteManyUsers = await client.user.deleteMany({})
 
   return {
-    version: prismaVersion.client,
+    version: Prisma.prismaVersion.client,
     createUser,
     updateUser,
     users,
