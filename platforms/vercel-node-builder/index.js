@@ -2,7 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { PrismaClient, prismaVersion } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('@prisma/client')
 const client = new PrismaClient()
 
 const app = express()
@@ -41,7 +41,7 @@ app.get('/', async (req, res) => {
 
   return res.send(
     JSON.stringify({
-      version: prismaVersion.client,
+      version: Prisma.prismaVersion.client,
       createUser,
       updateUser,
       users,

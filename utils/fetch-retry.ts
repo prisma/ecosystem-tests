@@ -2,7 +2,7 @@ import arg from 'arg'
 import originalFetch from 'node-fetch'
 
 function getExpectedData(prismaVersion: string) {
-  return `{"version":"${ prismaVersion }","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}`
+  return `{"version":"${prismaVersion}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}`
 }
 
 let rdata = null
@@ -29,7 +29,7 @@ function getFetch(expectedData: string) {
         r.status != 200 ||
         JSON.stringify(rdata) !== JSON.stringify(expectedData)
       ) {
-        console.log(`retrying, attempt number ${ attempt + 1 }`)
+        console.log(`retrying, attempt number ${attempt + 1}`)
         return true
       } else {
         return false
@@ -51,9 +51,9 @@ async function fetchRetry(args: FetchRetryArgs) {
 
   if (JSON.stringify(data) !== JSON.stringify(expectedData)) {
     console.log(
-      `expected '${ JSON.stringify(expectedData) }', got '${ JSON.stringify(
+      `expected '${JSON.stringify(expectedData)}', got '${JSON.stringify(
         data,
-      ) }'`,
+      )}'`,
     )
     process.exit(1)
   } else {
