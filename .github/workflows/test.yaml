@@ -566,10 +566,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tool:
+        test-runner:
           - jest-with-multiple-generators
 
-    name: tool ${{ matrix.tool }}
+    name: test-runner ${{ matrix.test-runner }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -583,14 +583,14 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.tool }}
+      - name: test ${{ matrix.test-runner }}
         id: run-test
         uses: nick-invision/retry@v1
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh test-runners ${{ matrix.tool }}
+          command: bash .github/scripts/test-project.sh test-runners ${{ matrix.test-runner }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh test-runners ${{ matrix.tool }}
+        run: bash .github/slack/notify-failure.sh test-runners ${{ matrix.test-runner }}
