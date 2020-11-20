@@ -1878,19 +1878,19 @@
     "@prisma/bar" "^0.0.1"
     "@prisma/engines" "2.12.0-11.27db1c55cd118b091170f883f58cc7cd1754c97b"
 
+"@prisma/client@2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.11.0.tgz#574c1aa3b571ea01c0fa8dca348c6ba5db41dcc9"
+  integrity sha512-BF7K/yi5fAnrt7MelQqUueJyl06IGmIxf+7f5RxFSvyO6xZMbOYxhW21kV2wt10mOIS0khQbo0xY6w/8jViJuQ==
+  dependencies:
+    "@prisma/engines-version" "2.11.0-10.58369335532e47bdcec77a2f1e7c1fb83a463918"
+
 "@prisma/client@2.12.0-dev.43":
   version "2.12.0-dev.43"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.12.0-dev.43.tgz#e273683eb6bd9d929635418e2abf7f6b4c58fe29"
   integrity sha512-jbAWcVY7W3Mur0rfk9DTj/JLMjjFTCONjK5RI94sTlpij6YDh8sWFHv2poSKvoP6oPDn9WB1G9K4HvzeMhOj5Q==
   dependencies:
     "@prisma/engines-version" "2.12.0-11.27db1c55cd118b091170f883f58cc7cd1754c97b"
-
-"@prisma/client@2.9.0":
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.9.0.tgz#acfaca0c5695d7f439e5af54b7cd0f7fb5926340"
-  integrity sha512-VLXw6s13xakIrV9Z8Ftw0j+mbXuvbRkxYv3X5hRZdPN1NAwgeXJmrrTK9MS2HDvW8eGZL7P8OaUSNQ3Sfgvr/Q==
-  dependencies:
-    pkg-up "^3.1.0"
 
 "@prisma/debug@2.11.0":
   version "2.11.0"
@@ -1917,6 +1917,11 @@
     p-retry "^4.2.0"
     terminal-link "^2.1.1"
     undici "2.1.1"
+
+"@prisma/engines-version@2.11.0-10.58369335532e47bdcec77a2f1e7c1fb83a463918":
+  version "2.11.0-10.58369335532e47bdcec77a2f1e7c1fb83a463918"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.11.0-10.58369335532e47bdcec77a2f1e7c1fb83a463918.tgz#840bb5ca8707ed3b852d250c1bac9c75098682ee"
+  integrity sha512-qlkW4dKoW1dUnperWPuhFriZ/NTHlsKLhBbebxRa8qMuD3o37SvWIDGLjFOQx1N0Eb4H04rI3XxgjkWLFVlZCw==
 
 "@prisma/engines-version@2.12.0-11.27db1c55cd118b091170f883f58cc7cd1754c97b":
   version "2.12.0-11.27db1c55cd118b091170f883f58cc7cd1754c97b"
@@ -2078,17 +2083,17 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
-"@redwoodjs/api@0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/api/-/api-0.20.0.tgz#1737a21c2cd3219760d29d3516bb479fd610d0c4"
-  integrity sha512-wRMPWV8OiB0P8lqoum4zTsh7+KCUHVB6Vyxoij0Wgovu26mUP97TpvIf6+WlOkYi0oZbHTfVlaORBxN/Ohg2dg==
+"@redwoodjs/api@0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@redwoodjs/api/-/api-0.21.0.tgz#1413cc9bdea6826a8a6ae299dc7b8b79008c6d88"
+  integrity sha512-jTtyXpU4/mCHsOESSyqUjNnZXsVPsCCzkTZ1e9vfCSZVTYgtw7Og663f3reQ9scjdUtVZMLsiWz7OmprLMafuQ==
   dependencies:
-    "@prisma/client" "2.9.0"
-    "@redwoodjs/internal" "^0.20.0"
+    "@prisma/client" "2.11.0"
+    "@redwoodjs/internal" "^0.21.0"
     apollo-server-lambda "2.18.2"
     core-js "3.6.5"
     graphql "^15.3.0"
-    graphql-scalars "^1.2.7"
+    graphql-scalars "^1.4.1"
     graphql-tools "6.2.4"
     jsonwebtoken "^8.5.1"
     jwks-rsa "^1.8.1"
@@ -2237,16 +2242,6 @@
     core-js "3.6.5"
     pascalcase "1.0.0"
     react-hook-form "^6.5.3"
-
-"@redwoodjs/internal@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/internal/-/internal-0.20.0.tgz#237123301cb83d41d964ab875f89f6766e195127"
-  integrity sha512-bix0BLKE/JtWyY+aUd9MPm+YNWLVCrzjqzd9wfnL9gW9+GPpbGXcvYHuATKgiJnSnN2GRhpwq2WqquXwfJoN/A==
-  dependencies:
-    deepmerge "^4.2.2"
-    findup-sync "^4.0.0"
-    kill-port "^1.6.1"
-    toml "^3.0.0"
 
 "@redwoodjs/internal@^0.21.0":
   version "0.21.0"
@@ -8269,10 +8264,10 @@ graphql-request@3.3.0:
     extract-files "^9.0.0"
     form-data "^3.0.0"
 
-graphql-scalars@^1.2.7:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.4.1.tgz#d4179af696c8d1420da5e7a14c5e033f434a71a4"
-  integrity sha512-QCT9sHYkEns9jp3fYqzmoUtS7GiWn+IKrWvSKYDrGOEqlUVP66DDtR0HQmebIbnaSuww239drYnq6JNP0VIDTg==
+graphql-scalars@^1.4.1:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.5.0.tgz#8c2237f71052ea46df5d13bb405e205672933a62"
+  integrity sha512-gMs+1+NBptdLxrpR/ME/vj6t8M25jqL22aNbu+OYF+Hkm+5+KFk9I/opddVi3troK3r9PHJS9ouahJExJJrbzw==
 
 graphql-tag@^2.10.3, graphql-tag@^2.11.0, graphql-tag@^2.9.2:
   version "2.11.0"
