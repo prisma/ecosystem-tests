@@ -40,6 +40,7 @@ async function fetchWithPuppeteer(endpoint) {
   console.log(options)
   const browser = await puppeteer.launch(options)
   const page = await browser.newPage()
+  await page.setDefaultNavigationTimeout(0)
   await page.goto(endpoint)
   await page.waitFor(10000)
   const screenshot = await page.screenshot()
