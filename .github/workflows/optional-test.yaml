@@ -18,7 +18,7 @@ jobs:
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -44,7 +44,7 @@ jobs:
       - community-generators
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
@@ -82,7 +82,7 @@ jobs:
       SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
       SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
