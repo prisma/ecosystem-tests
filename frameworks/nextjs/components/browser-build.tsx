@@ -19,6 +19,8 @@ export const BrowserBuild = () => {
       <br/>
       <br/>
       <strong>Decimal Test:</strong> {JSON.stringify(decimal.squareRoot())}
+      <br/>
+      <br/>
       <strong>Browser Test:</strong>
       {<div><pre>{JSON.stringify(Prisma, null, 2) }</pre></div>}
     </div>
