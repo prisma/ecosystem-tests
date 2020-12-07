@@ -2,6 +2,8 @@ import React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import { BrowserBuild } from '../components/browser-build'
+
 import { PrismaClient, Prisma } from '@prisma/client'
 
 export async function getStaticProps() {
@@ -36,8 +38,9 @@ const Home: NextPage<GetProps<typeof getStaticProps>> = props => (
     <div className="hero">
       <h1 className="title">Welcome to Next.js!</h1>
       <div className="description">
-        {JSON.stringify(Prisma.UserDistinctFieldEnum)}
+        <BrowserBuild/>
       </div>
+      <br/>
       <div className="description">
         {props.users.map(u => (
           <div key={u.id}>
