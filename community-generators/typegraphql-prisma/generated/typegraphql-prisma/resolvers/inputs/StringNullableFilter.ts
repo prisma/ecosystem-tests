@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
 import { NestedStringNullableFilter } from "../inputs/NestedStringNullableFilter";
+import { QueryMode } from "../../enums/QueryMode";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -67,6 +68,12 @@ export class StringNullableFilter {
     description: undefined
   })
   endsWith?: string | undefined;
+
+  @TypeGraphQL.Field(_type => QueryMode, {
+    nullable: true,
+    description: undefined
+  })
+  mode?: "default" | "insensitive" | undefined;
 
   @TypeGraphQL.Field(_type => NestedStringNullableFilter, {
     nullable: true,
