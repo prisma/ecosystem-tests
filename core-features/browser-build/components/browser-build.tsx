@@ -1,14 +1,14 @@
-import * as Prisma from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import React from 'react'
 const test = {...Prisma}
 delete test['dmmf'];
 
 export const BrowserBuild = () => {
   const [err, setErr] = React.useState()
-  const decimal = new Prisma.Prisma.Decimal(0.213213);
+  const decimal = new Prisma.Decimal(0.213213);
   React.useEffect(() => {
     try {
-      const client = new Prisma.PrismaClient()
+      const client = new PrismaClient()
     } catch (err) {
       console.log(err);
       setErr(err.message)
