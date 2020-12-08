@@ -18,7 +18,7 @@ async function main() {
         'platforms/firebase-functions/functions', // Firebase root doesn't have package.json but is included
         'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
         'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
-        // 'platforms/serverless-lambda', // TODO: This should be included, we actually found a missing folder
+        'platforms/serverless-lambda', // TODO: This should be included, we actually found a missing folder
       ]
       return !ignoreFiles.includes(file)
     })
