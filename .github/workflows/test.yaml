@@ -304,6 +304,7 @@ jobs:
         framework:
           - nestjs
           - nextjs
+          - nextjs-browser-build
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -325,7 +326,7 @@ jobs:
         id: run-test
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 10
+          timeout_minutes: 15
           max_attempts: 3
           command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
 
