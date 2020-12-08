@@ -1,0 +1,18 @@
+name: lint test suite
+on: push
+  
+jobs:
+  check-test-suite-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: lint test suite coverage
+        run: node .github/scripts/check-folders.js 
