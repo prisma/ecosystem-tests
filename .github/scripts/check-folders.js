@@ -39,10 +39,9 @@ async function main() {
     .concat(Object.keys(testYaml['jobs']))
     .filter((key) => {
       const jobsToIgnore = [
-        'start-time',
-        'report-to-slack-success',
-        'report-to-slack-failure',
-        'os',
+        'start-time', // Not a test but a job that fills an env var with the job start time
+        'report-to-slack-success', // Not a test but a job that posts to slack
+        'report-to-slack-failure', // Not a test but a job that posts to slack
       ]
       return !jobsToIgnore.includes(key)
     })
@@ -53,7 +52,10 @@ async function main() {
         Boolean(job) && Boolean(job.strategy) ? job.strategy.matrix : {}
       const folders = Object.keys(matrix)
         .filter((key) => {
-          const keysToIgnore = ['os', 'node']
+          const keysToIgnore = [
+            'os', // We want to count folders vs references in the yaml file not when something is run across differnt OSes
+            'node', // We want to count folders vs references in the yaml file not when something is run across differnt node versions
+          ]
           return !keysToIgnore.includes(key)
         })
         .reduce((acc, key) => acc.concat(...matrix[key]), [])
