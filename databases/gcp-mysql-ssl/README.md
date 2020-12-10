@@ -20,6 +20,6 @@ set up your own database and set the environment variable accordingly.
 ### Run tests
 
 ```shell script
-yarn && yarn prisma generate
+sh run.sh
 sh test.sh
 ```
