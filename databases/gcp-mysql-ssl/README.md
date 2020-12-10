@@ -9,18 +9,11 @@ GCP docs: https://cloud.google.com/sql/docs/mysql/configure-ssl-instance
 
 ### Environment variables
 
-The environment variable `GCP_MYSQL_SSL_DB_URL` should point to a GCP MySQL database. Download the certificates based on GCP docs and put them in the root directory next to this `README.md` file.
-
-The connection string `GCP_MYSQL_SSL_DB_URL` would look like:
+The environment variable `GCP_MYSQL_SSL_DB_URL` should point to a GCP MySQL database. It should follow the following pattern:
 
 `mysql://<user>:<password>@<host>:<port>/<database>?sslmode=require&sslcert=../server-ca.pem&sslidentity=../client-identity.p12&sslpassword=<client-identity-password>&sslaccept=accept_invalid_certs`
 
-The following files are expected:
-
-- server-ca.pem
-- client-cert.pem
-- client-key.pem
-
+The 3 mentioned files `server-ca.pem`, `client-cert.pem`, `client-key.pem` are to be downloaded from GCP and put into the root directory next to this `README.md` file. (In the tests of this project, these files are created on demand from environment variables that contain their content)
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
 
