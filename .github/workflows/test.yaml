@@ -404,7 +404,8 @@ jobs:
       SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
     steps:
       - uses: actions/checkout@v2
-
+      - name: Install Dependencies
+        run: yarn install
       - name: use node 12
         uses: actions/setup-node@v2-beta
         with:
