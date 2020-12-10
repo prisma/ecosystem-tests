@@ -1,6 +1,6 @@
 # GCP MySQL with SSL
 
-Google Cloud MySQL with SSL only connection. Requires
+Google Cloud MySQL with SSL
 
 Prisma docs: https://www.prisma.io/docs/concepts/database-connectors/mysql#configuring-an-ssl-connection
 GCP docs: https://cloud.google.com/sql/docs/mysql/configure-ssl-instance
