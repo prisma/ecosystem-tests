@@ -325,7 +325,7 @@ jobs:
         id: run-test
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 15
+          timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
 
