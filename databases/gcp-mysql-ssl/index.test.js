@@ -10,7 +10,7 @@ describe('tests for GCP MySQL SSL database', () => {
   })
 
   it('should test the Prisma version', async () => {
-    expect(Prisma.prismaVersion.client).toMatchSnapshot(
+    expect(Prisma.prismaVersion.client).toEqual(
       pjson['dependencies']['@prisma/client'],
     )
   })
