@@ -1,4 +1,4 @@
-# Heroku PgBouncer Buildpack
+# GCP MySQL with SSL
 
 Google Cloud MySQL with SSL only connection. Requires
 
