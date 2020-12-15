@@ -12,23 +12,17 @@ interface CSBFiles {
 }
 
 function getBinaries() {
-  return ['prisma/dev.db']
+  return []
 }
 
 function getEncoding(file: string) {
-  // Because we used touch prisma/dev.db to get around
-  // TODO: Add issue link
-  return 'utf-8'
-  // const binaries = getBinaries()
-  // return binaries.includes(file) ? 'binary' : 'utf-8'
+  const binaries = getBinaries()
+  return binaries.includes(file) ? 'binary' : 'utf-8'
 }
 
 function isBinary(file: string) {
-  // Because we used touch prisma/dev.db to get around
-  // TODO: Add issue link
-  return false
-  // const binaries = getBinaries()
-  // return binaries.includes(file)
+  const binaries = getBinaries()
+  return binaries.includes(file)
 }
 
 async function fetchWithPuppeteer(endpoint) {
@@ -40,6 +34,7 @@ async function fetchWithPuppeteer(endpoint) {
   console.log(options)
   const browser = await puppeteer.launch(options)
   const page = await browser.newPage()
+  await page.setDefaultNavigationTimeout(0)
   await page.goto(endpoint)
   await page.waitFor(10000)
   const screenshot = await page.screenshot()
@@ -87,11 +82,7 @@ async function main() {
   const relevantFilePaths = [
     'src/index.js',
     'prisma/schema.prisma',
-    'prisma/dev.db',
     'prisma/.env',
-    'prisma/migrations/migrate.lock',
-    'prisma/migrations/20200420215811-init/schema.prisma',
-    'prisma/migrations/20200420215811-init/steps.json',
     'package.json',
     'yarn.lock',
   ]

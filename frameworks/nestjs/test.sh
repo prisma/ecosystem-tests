@@ -5,7 +5,7 @@ set -eu
 yarn start &
 pid=$!
 
-sleep 10
+sleep 30
 
 prismaVersion=$(sh ../../utils/prisma_version.sh)
 
