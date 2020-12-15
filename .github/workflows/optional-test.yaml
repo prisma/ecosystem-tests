@@ -69,7 +69,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [prisma-dbml-generator, typegraphql-prisma]
+        feature: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator]
     runs-on: ubuntu-latest
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
