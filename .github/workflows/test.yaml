@@ -355,6 +355,7 @@ jobs:
           - firebase-functions
           - azure-functions-linux
           - azure-functions-windows
+          - aws-graviton
           - serverless-lambda
 
     env:
@@ -401,6 +402,7 @@ jobs:
       AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
       SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
     steps:
       - uses: actions/checkout@v2
