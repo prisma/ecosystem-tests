@@ -12,7 +12,7 @@ describe('should test Prisma client and PgBouncer', () => {
     return
   })
 
-  it('should fail with default heroku pgbouncer without the pgbouncer query string param', async () => {
+  it.skip('should fail with default heroku pgbouncer without the pgbouncer query string param', async () => {
     try {
       await clientWithoutQueryStringParamCall()
 
