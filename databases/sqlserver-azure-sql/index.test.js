@@ -8,7 +8,7 @@ describe('tests for mssql database', () => {
   })
 
   it('should query the database', async () => {
-    const data = await prisma.user.findOne({
+    const data = await prisma.user.findUnique({
       where: { email: 'alice@prisma.io' },
       select: { email: true, name: true },
     })

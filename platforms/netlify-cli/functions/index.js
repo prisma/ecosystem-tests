@@ -25,7 +25,7 @@ exports.handler = async function (event, context, callback) {
     },
   })
 
-  const users = await client.user.findOne({
+  const users = await client.user.findUnique({
     where: {
       id,
     },

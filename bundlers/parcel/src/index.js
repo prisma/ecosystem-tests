@@ -25,7 +25,7 @@ export async function main() {
     },
   })
 
-  const users = await client.user.findOne({
+  const users = await client.user.findUnique({
     where: {
       id: createUser.id,
     },
@@ -37,11 +37,11 @@ export async function main() {
 }
 
 main()
-  .catch(err => {
+  .catch((err) => {
     console.error(err)
     process.exit(1)
   })
-  .then(data => {
+  .then((data) => {
     console.log(JSON.stringify(data))
   })
   .finally(() => client.$disconnect())

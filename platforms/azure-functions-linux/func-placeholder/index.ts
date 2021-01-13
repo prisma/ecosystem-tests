@@ -26,7 +26,7 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
     },
   })
 
-  const users = await client.user.findOne({
+  const users = await client.user.findUnique({
     where: {
       id: createUser.id,
     },

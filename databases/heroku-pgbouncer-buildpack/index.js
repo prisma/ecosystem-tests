@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
       name: 'Bob',
     },
   })
-  const users = await clientWithQueryStringParam.user.findOne({
+  const users = await clientWithQueryStringParam.user.findUnique({
     where: {
       id,
     },

@@ -31,7 +31,7 @@ const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest(
       },
     })
 
-    const users = await client.user.findOne({
+    const users = await client.user.findUnique({
       where: {
         id: createUser.id,
       },

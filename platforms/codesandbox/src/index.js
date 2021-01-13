@@ -28,7 +28,7 @@ app.get('/', async (req, res) => {
     },
   })
 
-  const users = await client.user.findOne({
+  const users = await client.user.findUnique({
     where: {
       id,
     },

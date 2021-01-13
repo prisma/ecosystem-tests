@@ -20,7 +20,7 @@ const Query = objectType({
     //     email: stringArg(),
     //   },
     //   resolve: (_r, { email }, ctx) => {
-    //     return ctx.prisma.user.findOne({ where: { email } })
+    //     return ctx.prisma.user.findUnique({ where: { email } })
     //   },
     // })
   },

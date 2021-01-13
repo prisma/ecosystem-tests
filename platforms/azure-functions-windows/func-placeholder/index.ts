@@ -29,7 +29,7 @@ export default async function (
     },
   })
 
-  const users = await client.user.findOne({
+  const users = await client.user.findUnique({
     where: {
       id: createUser.id,
     },
