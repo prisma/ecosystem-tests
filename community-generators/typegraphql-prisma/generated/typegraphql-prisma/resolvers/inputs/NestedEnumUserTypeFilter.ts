@@ -3,33 +3,32 @@ import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
 import { UserType } from "../../enums/UserType";
 
-@TypeGraphQL.ObjectType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
-  simpleResolvers: undefined,
 })
-export class UserMaxAggregate {
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true,
-    description: undefined
-  })
-  id!: string | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true,
-    description: undefined
-  })
-  email!: string | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true,
-    description: undefined
-  })
-  name!: string | null;
-
+export class NestedEnumUserTypeFilter {
   @TypeGraphQL.Field(_type => UserType, {
     nullable: true,
     description: undefined
   })
-  type!: "ADMIN" | "NORMAL" | null;
+  equals?: "ADMIN" | "NORMAL" | undefined;
+
+  @TypeGraphQL.Field(_type => [UserType], {
+    nullable: true,
+    description: undefined
+  })
+  in?: Array<"ADMIN" | "NORMAL"> | undefined;
+
+  @TypeGraphQL.Field(_type => [UserType], {
+    nullable: true,
+    description: undefined
+  })
+  notIn?: Array<"ADMIN" | "NORMAL"> | undefined;
+
+  @TypeGraphQL.Field(_type => NestedEnumUserTypeFilter, {
+    nullable: true,
+    description: undefined
+  })
+  not?: NestedEnumUserTypeFilter | undefined;
 }

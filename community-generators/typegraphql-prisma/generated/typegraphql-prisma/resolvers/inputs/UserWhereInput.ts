@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
+import { EnumUserTypeFilter } from "../inputs/EnumUserTypeFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -44,4 +45,10 @@ export class UserWhereInput {
     description: undefined
   })
   name?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumUserTypeFilter, {
+    nullable: true,
+    description: undefined
+  })
+  type?: EnumUserTypeFilter | undefined;
 }
