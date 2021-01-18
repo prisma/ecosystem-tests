@@ -1,5 +1,8 @@
+import { ClassType } from "type-graphql";
 import * as crudResolvers from "./resolvers/crud/resolvers-crud.index";
 import * as actionResolvers from "./resolvers/crud/resolvers-actions.index";
+import * as models from "./models";
+import * as outputTypes from "./resolvers/outputs";
 
 const crudResolversMap = {
   User: crudResolvers.UserCrudResolver
@@ -19,18 +22,18 @@ const actionResolversMap = {
   }
 };
 
-type ModelNames = keyof typeof crudResolversMap;
+type ResolverModelNames = keyof typeof crudResolversMap;
 
 type ModelResolverActionNames<
-  TModel extends ModelNames
+  TModel extends ResolverModelNames
   > = keyof typeof crudResolversMap[TModel]["prototype"];
 
-export type ResolverActionsConfig<TModel extends ModelNames> = {
+export type ResolverActionsConfig<TModel extends ResolverModelNames> = {
   [TActionName in ModelResolverActionNames<TModel>]?: MethodDecorator[];
 };
 
 export type ResolversEnhanceMap = {
-  [TModel in ModelNames]?: ResolverActionsConfig<TModel>;
+  [TModel in ResolverModelNames]?: ResolverActionsConfig<TModel>;
 };
 
 export function applyResolversEnhanceMap(
@@ -63,4 +66,104 @@ export function applyResolversEnhanceMap(
     }
   }
 }
+
+type TypeConfig = {
+  class?: ClassDecorator[];
+  fields?: FieldsConfig;
+};
+
+type FieldsConfig<TTypeKeys extends string = string> = Partial<
+  Record<TTypeKeys, PropertyDecorator[]>
+>;
+
+export function applyTypeClassEnhanceConfig<
+  TEnhanceConfig extends TypeConfig,
+  TType extends object
+>(
+  enhanceConfig: TEnhanceConfig,
+  typeClass: ClassType<TType>,
+  typePrototype: TType,
+) {
+  if (enhanceConfig.class) {
+    for (const decorator of enhanceConfig.class) {
+      decorator(typeClass);
+    }
+  }
+  if (enhanceConfig.fields) {
+    for (const modelFieldName of Object.keys(enhanceConfig.fields)) {
+      const decorators = enhanceConfig.fields[
+        modelFieldName as keyof typeof enhanceConfig.fields
+      ]!;
+
+      for (const decorator of decorators) {
+        decorator(typePrototype, modelFieldName);
+      }
+    }
+  }
+}
+
+type ModelNames = keyof typeof models;
+
+type ModelFieldNames<TModel extends ModelNames> = Exclude<
+  keyof typeof models[TModel]["prototype"],
+  number | symbol
+>;
+
+export type ModelFieldsConfig<TModel extends ModelNames> = FieldsConfig<
+  ModelFieldNames<TModel>
+>;
+
+export type ModelConfig<TModel extends ModelNames> = {
+  class?: ClassDecorator[];
+  fields?: ModelFieldsConfig<TModel>;
+};
+
+export type ModelsEnhanceMap = {
+  [TModel in ModelNames]?: ModelConfig<TModel>;
+};
+
+export function applyModelsEnhanceMap(modelsEnhanceMap: ModelsEnhanceMap) {
+  for (const modelsEnhanceMapKey of Object.keys(modelsEnhanceMap)) {
+    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap;
+    const modelConfig = modelsEnhanceMap[modelName]!;
+    const modelClass = models[modelName];
+    const modelTarget = modelClass.prototype;
+    applyTypeClassEnhanceConfig(modelConfig, modelClass, modelTarget);
+  }
+}
+
+type OutputTypesNames = keyof typeof outputTypes;
+
+type OutputTypeFieldNames<TModel extends OutputTypesNames> = Exclude<
+  keyof typeof outputTypes[TModel]["prototype"],
+  number | symbol
+>;
+
+export type OutputTypeFieldsConfig<
+  TModel extends OutputTypesNames
+  > = FieldsConfig<OutputTypeFieldNames<TModel>>;
+
+export type OutputTypeConfig<TModel extends OutputTypesNames> = {
+  class?: ClassDecorator[];
+  fields?: OutputTypeFieldsConfig<TModel>;
+};
+
+export type OutputTypesEnhanceMap = {
+  [TModel in OutputTypesNames]?: OutputTypeConfig<TModel>;
+};
+
+export function applyOutputTypesEnhanceMap(
+  outputTypesEnhanceMap: OutputTypesEnhanceMap,
+) {
+  for (const outputTypeEnhanceMapKey of Object.keys(outputTypesEnhanceMap)) {
+    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap;
+    const typeConfig = outputTypesEnhanceMap[outputTypeName]!;
+    const typeClass = outputTypes[outputTypeName];
+    const typeTarget = typeClass.prototype;
+    applyTypeClassEnhanceConfig(typeConfig, typeClass, typeTarget);
+  }
+}
+
+
+
 

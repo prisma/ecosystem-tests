@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
+import { UserType } from "../../enums/UserType";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -24,4 +25,10 @@ export class UserCreateInput {
     description: undefined
   })
   name?: string | undefined;
+
+  @TypeGraphQL.Field(_type => UserType, {
+    nullable: false,
+    description: undefined
+  })
+  type!: "ADMIN" | "NORMAL";
 }

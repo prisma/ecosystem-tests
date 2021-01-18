@@ -1,3 +1,6 @@
+export { EnumUserTypeFieldUpdateOperationsInput } from "./EnumUserTypeFieldUpdateOperationsInput";
+export { EnumUserTypeFilter } from "./EnumUserTypeFilter";
+export { NestedEnumUserTypeFilter } from "./NestedEnumUserTypeFilter";
 export { NestedStringFilter } from "./NestedStringFilter";
 export { NestedStringNullableFilter } from "./NestedStringNullableFilter";
 export { NullableStringFieldUpdateOperationsInput } from "./NullableStringFieldUpdateOperationsInput";

@@ -25,4 +25,10 @@ export class UserOrderByInput {
     description: undefined
   })
   name?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true,
+    description: undefined
+  })
+  type?: "asc" | "desc" | undefined;
 }

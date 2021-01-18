@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
+import { UserType } from "../../enums/UserType";
 
 @TypeGraphQL.ObjectType({
   isAbstract: true,
@@ -25,4 +26,10 @@ export class UserMinAggregate {
     description: undefined
   })
   name!: string | null;
+
+  @TypeGraphQL.Field(_type => UserType, {
+    nullable: true,
+    description: undefined
+  })
+  type!: "ADMIN" | "NORMAL" | null;
 }

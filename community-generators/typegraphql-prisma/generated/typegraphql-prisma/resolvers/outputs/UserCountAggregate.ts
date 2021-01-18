@@ -7,7 +7,7 @@ import { JsonValue, InputJsonValue } from "@prisma/client";
   description: undefined,
   simpleResolvers: undefined,
 })
-export class UserCountAggregateOutputType {
+export class UserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
@@ -25,6 +25,12 @@ export class UserCountAggregateOutputType {
     description: undefined
   })
   name!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  type!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
