@@ -574,6 +574,47 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
 
+  databases-macos:
+
+    needs: start-time
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - sqlserver-azure-sql
+
+    name: databases-macos ${{ matrix.database }}
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.database }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh databases-macos ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+
   test-runners:
     needs: start-time
     runs-on: ubuntu-latest
