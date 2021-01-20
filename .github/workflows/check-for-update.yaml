@@ -1,7 +1,11 @@
 name: check-for-update
 on:
+  # Manual UI in GitHub https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
+  workflow_dispatch:
   schedule:
+    # Run every five minutes
     - cron: '*/5 * * * *'
+
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests check-for-update.yaml'
 jobs:
@@ -11,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
@@ -28,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
@@ -45,7 +49,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
@@ -66,7 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v2
         with:
           node-version: 12
 
