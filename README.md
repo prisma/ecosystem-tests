@@ -1,11 +1,11 @@
 # Prisma e2e Tests
 
-| CI Status | Branch |
-|-|-|
-| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev) | `dev` |
-| [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest) | `latest` |
-| [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev) | `patch-dev` |
-| [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update) | - |
+| CI Status                                                                                                                                                                                  | Branch      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev) | `dev`       |
+| [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)            | `latest`    |
+| [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)   | `patch-dev` |
+| [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)             | -           |
 
 This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
@@ -15,7 +15,7 @@ You can check out the latest test runs by checking the ["test" workflow results]
 
 ### Dependency Updates
 
-Renovate is enabled for this repository for all dependencies except `@prisma/cli` and `@prisma/client`. Our own script handles upgrading prisma-related dependencies since Renovate is too slow for our use case.
+Renovate is enabled for this repository for all dependencies except `prisma` and `@prisma/client`. Our own script handles upgrading prisma-related dependencies since Renovate is too slow for our use case.
 
 ### Prisma Updates
 
@@ -65,4 +65,4 @@ set -eu
 
 If you need additional dependencies such as CLIs, you can install them in the optional `prepare.sh` in a specific folder. It will automatically be picked up to run before the `run.sh` file does.
 
-**Note:** It's important to add `@prisma/cli` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
+**Note:** It's important to add `prisma` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
