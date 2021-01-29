@@ -3,7 +3,7 @@
 set -eux
 
 os=""
-filename="./cli"
+filename="./prisma"
 
 case $OS in
 "ubuntu-latest")
