@@ -14,7 +14,7 @@ case $OS in
   ;;
 "windows-latest")
   os="win"
-  filename="./cli.exe"
+  filename="./prisma.exe"
   ;;
 *)
   echo "no such os $OS"
