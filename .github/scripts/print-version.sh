@@ -12,7 +12,7 @@ echo "node: $(node -v)"
 echo "npm: $(npm -v)"
 
 echo "prisma-version.txt: $(cat .github/prisma-version.txt)"
-echo "@prisma/cli: $(jq .devDependencies[\"@prisma/cli\"] < $packageJSONDir)"
+echo "prisma: $(jq .devDependencies[\"prisma\"] < $packageJSONDir)"
 echo "@prisma/client: $(jq .dependencies[\"@prisma/client\"] < $packageJSONDir)"
 
 echo ""

@@ -96,7 +96,7 @@ while [ $i -le $count ]; do
 
     if [ "$hasResolutions" = "true" ]; then
       echo "note: project uses `resolutions`"
-      vCLI="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/cli'])")"
+      vCLI="$(node -e "$pkg;console.log(pkg.resolutions['prisma'])")"
 
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
@@ -104,8 +104,8 @@ while [ $i -le $count ]; do
             run_sync "$dir" "$branch"
           fi
 
-          echo "$item: @prisma/cli expected $v, actual $vCLI"
-          json -I -f package.json -e "this.resolutions['@prisma/cli']='$v'"
+          echo "$item: prisma expected $v, actual $vCLI"
+          json -I -f package.json -e "this.resolutions['prisma']='$v'"
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/client'])")"
@@ -120,7 +120,7 @@ while [ $i -le $count ]; do
         fi
       fi
     else
-      vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['@prisma/cli'])")"
+      vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'])")"
 
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
@@ -128,8 +128,8 @@ while [ $i -le $count ]; do
             run_sync "$dir" "$branch"
           fi
 
-          echo "$item: @prisma/cli expected $v, actual $vCLI"
-          yarn add "@prisma/cli@$v" --dev
+          echo "$item: prisma expected $v, actual $vCLI"
+          yarn add "prisma@$v" --dev
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -171,7 +171,7 @@ while [ $i -le $count ]; do
   echo "changes, upgrading..."
   echo "$v" > .github/prisma-version.txt
 
-  git commit -am "chore(packages): bump @prisma/cli to $v"
+  git commit -am "chore(packages): bump prisma to $v"
 
   set +e
   git pull github "$branch" --rebase

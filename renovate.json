@@ -1,9 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "github>whitesource/merge-confidence:beta"
-  ],
+  "extends": ["config:base", "github>whitesource/merge-confidence:beta"],
   "automerge": true,
   "automergeType": "branch",
   "major": {
@@ -12,8 +9,5 @@
   "masterIssue": true,
   "prConcurrentLimit": 25,
   "rebaseWhen": "conflicted",
-  "ignoreDeps": [
-    "@prisma/cli",
-    "@prisma/client"
-  ]
+  "ignoreDeps": ["prisma", "@prisma/client"]
 }
