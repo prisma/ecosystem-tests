@@ -5,6 +5,18 @@ __metadata:
   version: 4
   cacheKey: 7
 
+"@prisma/cli@npm:dev":
+  version: 2.16.0-dev.67
+  resolution: "@prisma/cli@npm:2.16.0-dev.67"
+  dependencies:
+    "@prisma/engines": 2.16.0-39.814043c397de250569743363ffe6b901ef371c38
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: 730f48f263c2d65de6be8a8012aeb371b4b83d130a576aef529a66a45b593e6d0f8ac0f1e11fcc2cf4600b79adb6289a9b07ddcc3ee54046b331ac850575a7d2
+  languageName: node
+  linkType: hard
+
 "@prisma/client@npm:2.16.0-dev.68":
   version: 2.16.0-dev.68
   resolution: "@prisma/client@npm:2.16.0-dev.68"
@@ -75,25 +87,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:2.16.0-dev.68":
-  version: 2.16.0-dev.68
-  resolution: "prisma@npm:2.16.0-dev.68"
-  dependencies:
-    "@prisma/engines": 2.16.0-39.814043c397de250569743363ffe6b901ef371c38
-  bin:
-    prisma: build/index.js
-    prisma2: build/index.js
-  checksum: 961e9052421d123f4de29858def5c0c4ea669338af9cad3adce19bb8562ee2eb619120e9df9de35739f8f7abc2741ac2b246e06eed59366ea3208d4699c8c2a9
-  languageName: node
-  linkType: hard
-
 "script@workspace:.":
   version: 0.0.0-use.local
   resolution: "script@workspace:."
   dependencies:
+    "@prisma/cli": dev
     "@prisma/client": 2.16.0-dev.68
     "@types/node": 12.19.13
-    prisma: 2.16.0-dev.68
     ts-node: 9.1.1
     typescript: 4.1.3
   languageName: unknown
