@@ -9,5 +9,11 @@
   "dependencyDashboard": true,
   "prConcurrentLimit": 25,
   "rebaseWhen": "conflicted",
-  "ignoreDeps": ["prisma", "@prisma/client"]
+  "ignoreDeps": ["prisma", "@prisma/client"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": "^@redwoodjs",
+      "groupName": ["@redwoodjs packages"]
+    }
+  ]
 }
