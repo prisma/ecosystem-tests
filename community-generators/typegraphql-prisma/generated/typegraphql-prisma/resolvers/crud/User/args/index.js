@@ -1,0 +1,30 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+exports.__esModule = true;
+exports.UpsertUserArgs = exports.UpdateUserArgs = exports.UpdateManyUserArgs = exports.FindUniqueUserArgs = exports.FindManyUserArgs = exports.FindFirstUserArgs = exports.DeleteUserArgs = exports.DeleteManyUserArgs = exports.CreateUserArgs = exports.AggregateUserArgs = void 0;
+var AggregateUserArgs_1 = require("./AggregateUserArgs");
+__createBinding(exports, AggregateUserArgs_1, "AggregateUserArgs");
+var CreateUserArgs_1 = require("./CreateUserArgs");
+__createBinding(exports, CreateUserArgs_1, "CreateUserArgs");
+var DeleteManyUserArgs_1 = require("./DeleteManyUserArgs");
+__createBinding(exports, DeleteManyUserArgs_1, "DeleteManyUserArgs");
+var DeleteUserArgs_1 = require("./DeleteUserArgs");
+__createBinding(exports, DeleteUserArgs_1, "DeleteUserArgs");
+var FindFirstUserArgs_1 = require("./FindFirstUserArgs");
+__createBinding(exports, FindFirstUserArgs_1, "FindFirstUserArgs");
+var FindManyUserArgs_1 = require("./FindManyUserArgs");
+__createBinding(exports, FindManyUserArgs_1, "FindManyUserArgs");
+var FindUniqueUserArgs_1 = require("./FindUniqueUserArgs");
+__createBinding(exports, FindUniqueUserArgs_1, "FindUniqueUserArgs");
+var UpdateManyUserArgs_1 = require("./UpdateManyUserArgs");
+__createBinding(exports, UpdateManyUserArgs_1, "UpdateManyUserArgs");
+var UpdateUserArgs_1 = require("./UpdateUserArgs");
+__createBinding(exports, UpdateUserArgs_1, "UpdateUserArgs");
+var UpsertUserArgs_1 = require("./UpsertUserArgs");
+__createBinding(exports, UpsertUserArgs_1, "UpsertUserArgs");
