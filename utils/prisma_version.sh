@@ -1,1 +1,1 @@
-echo $(jq ".devDependencies[\"prisma\"]" ./package.json | tr -d '"')
+echo $(jq ".devDependencies[\"@prisma/cli\"]" ./package.json | tr -d '"')
