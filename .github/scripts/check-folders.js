@@ -19,7 +19,6 @@ async function main() {
         'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
         'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
         'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
-        'platforms/vercel-with-redwood', // TODO: this is disabled temporarily because vercel + redwood is not working for this release https://prisma-company.slack.com/archives/CTR6A7U5Q/p1612249516022200
       ]
       return !ignoreFiles.includes(file)
     })
