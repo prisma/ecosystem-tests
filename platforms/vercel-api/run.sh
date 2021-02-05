@@ -9,7 +9,7 @@ export VERCEL_ORG_ID=$VERCEL_API_ORG_ID
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 yarn vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force > deployment-url.txt
-cat "deployment-url.txt"
+DEPLOYED_URL=`cat deployment-url.txt`
 echo "Delopyed Url"
 echo "${DEPLOYED_URL}"
 echo "Delopyed Url"
