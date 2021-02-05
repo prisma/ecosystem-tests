@@ -14,4 +14,21 @@ echo "Deployed to ${DEPLOYED_URL}"
 sleep 15
 OUTPUT=$(yarn vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=prisma)
 echo "${OUTPUT}"
-echo "${OUTPUT}" | grep -q 'Generated Prisma Client' && echo 'Prisma Client Was Successfully Generated'
+
+# Check the Vercel Build Logs for the postinstal hook"
+if echo "${OUTPUT}" | grep -q 'prisma generate || true'; then
+  echo 'Postinstall hook was added'
+else
+  echo "Postinstall hook was NOT ADDED"
+  exit 1
+fi
+
+# Check the Vercel Build Logs for "Generated Prisma Client"
+if echo "${OUTPUT}" | grep -q 'Generated Prisma Client'; then
+  echo 'Prisma Client Was Successfully Generated'
+else
+  echo "Prisma Client Was NOT GENERATED"
+  exit 1
+fi
+
+
