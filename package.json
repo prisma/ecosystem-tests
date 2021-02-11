@@ -15,6 +15,8 @@
     "typescript": "4.1.3"
   },
   "scripts": {
-    "fetch-retry": "yarn ts-node utils/fetch-retry.ts"
+    "fetch-retry": "yarn ts-node utils/fetch-retry.ts",
+    "renovate:run": "renovate --automerge true --automerge-type pr --dependency-dashboard",
+    "renovate:debug": "yarn renovate:run --log-level debug"
   }
 }
