@@ -7,5 +7,7 @@ module.exports = {
   repositories: ['prisma/e2e-tests'],
   requireConfig: true,
   forceCli: true,
-  force: true,
+  force: {
+    ignoreDeps: [],
+  },
 }
