@@ -10,10 +10,17 @@
   "prConcurrentLimit": 25,
   "rebaseWhen": "conflicted",
   "ignoreDeps": ["prisma", "@prisma/client"],
+  "baseBranches": ["dev", "dev2"],
   "packageRules": [
     {
       "matchPackagePatterns": "^@redwoodjs",
       "groupName": ["@redwoodjs packages"]
+    },
+    {
+      "matchBaseBranches": "dev2",
+      "packageNames": ["prisma", "@prisma/client"],
+      "enabled": true,
+      "followTag": "dev"
     }
   ]
 }
