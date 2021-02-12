@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "prestart": "yarn prisma db push --preview-feature --force; yarn prisma generate;",
+    "prestart": "yarn prisma db push --preview-feature --accept-data-loss; yarn prisma generate;",
     "start": "node src/index.js",
     "deploy": "yarn ts-node deploy.ts"
   },
