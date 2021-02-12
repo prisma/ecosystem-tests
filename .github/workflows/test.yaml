@@ -460,6 +460,9 @@ jobs:
         with:
           node-version: 12
 
+      - name: Install Dependencies
+        run: yarn
+
       - name: test ${{ matrix.platform }}
         id: run-test
         uses: nick-invision/retry@v2
