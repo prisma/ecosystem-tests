@@ -111,8 +111,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
         fi
 
         echo "$item: prisma expected $v, actual $vCLI"
-        echo "> yarn add \"prisma@$v\" --dev --ignore-scripts"
-        yarn add "prisma@$v" --dev --ignore-scripts
+        echo "> yarn add \"prisma@$v\" --dev"
+        yarn add "prisma@$v" --dev
       fi
 
       vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -123,8 +123,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
         fi
 
         echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-        echo "> yarn add \"@prisma/client@$v\" --ignore-scripts"
-        yarn add "@prisma/client@$v" --ignore-scripts
+        echo "> yarn add \"@prisma/client@$v\""
+        yarn add "@prisma/client@$v"
       fi
     else
       echo "Dependency not found"
