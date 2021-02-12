@@ -1,11 +1,12 @@
 # Prisma e2e Tests
 
-| CI Status                                                                                                                                                                                  | Branch      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev) | `dev`       |
-| [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)            | `latest`    |
-| [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)   | `patch-dev` |
-| [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)             | -           |
+| CI Status                                                                                                                                                                                      | Branch        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev+-branch%3Apatch-dev)     | `dev`         |
+| [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)                | `latest`      |
+| [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)       | `patch-dev`   |
+| [![test integration](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=integration)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Aintegration) | `integration` |
+| [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)                 | -             |
 
 This repository continuously tests Prisma Client on various operating systems, frameworks and platforms.
 
