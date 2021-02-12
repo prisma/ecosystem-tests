@@ -368,7 +368,7 @@ jobs:
       - name: Install Puppeteer
         uses: ianwalter/puppeteer-container@v4.0.0
         with:
-          args: yarn
+          args: yarn --ignore-engines
 
       - name: test ${{ matrix.platform }}
         id: run-test
