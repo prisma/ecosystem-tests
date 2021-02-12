@@ -15,6 +15,7 @@ on:
         
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests upgrade-branch-to-version.yaml'
+
 jobs:
   upgrade-branch-to-version:
     runs-on: ubuntu-latest
@@ -46,6 +47,7 @@ jobs:
           node-version: 12
 
       - name: report failure to slack
+        run: echo "disabled"
         # TODO run: bash .github/scripts/slack-workflow-status.sh "check-for-update :x:"
         env:
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
