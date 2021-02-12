@@ -12,6 +12,12 @@ npm i -g json
 branch="$1"
 version="$2" # TODO this is not actually used yet in this script
 
+echo ""
+echo "=========================="
+echo "upgrade-branch-to-version.sh"
+echo "branch: $branch"
+echo "version: $version"
+
 run_sync() {
   dir="$1"
   branch="$2"
