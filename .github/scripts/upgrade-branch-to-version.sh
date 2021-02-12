@@ -137,6 +137,13 @@ echo "=========================="
 echo "after upgrade:"
 git status
 
+if [ -z "$(git status -s)" ]; then
+  echo ""
+  echo "=========================="
+  echo "no changes, bye!"
+  exit 0
+fi
+  
 echo ""
 echo "=========================="
 echo "changes, upgrading..."
