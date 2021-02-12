@@ -4,15 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: Which branch to upgrade?
+        description: Which branch to upgrade? (Attention, has to reflect Npm dist tag as well!) TODO
         default: 'dev'
         required: true
       prismaVersion:
-        description: What version of Prisma to upgrade to?
+        description: What version of Prisma to upgrade to? (Not used yet!) TODO
         default: 
         required: true
 
-        
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests upgrade-branch-to-version.yaml'
 
