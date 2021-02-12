@@ -19,6 +19,7 @@ async function main() {
         'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
         'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
         'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
+        'platforms/codesandbox',
       ]
       return !ignoreFiles.includes(file)
     })
@@ -65,7 +66,7 @@ async function main() {
       return acc.concat([...folders])
     }, [])
 
-  let foldersObj = folders.reduce((acc, folder) => {
+  const foldersObj = folders.reduce((acc, folder) => {
     return {
       ...acc,
       [folder]: 1,
@@ -75,6 +76,7 @@ async function main() {
   jobs.forEach((job) => {
     delete foldersObj[job]
   })
+
   const remainingFolders = Object.keys(foldersObj)
 
   if (remainingFolders.length === 0) {
