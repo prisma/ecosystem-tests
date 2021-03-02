@@ -127,6 +127,8 @@ async function main() {
       console.log('Failed to ensure sandbox')
     }
   } catch (e) {
+    console.error(`Something went wrong`)
+    console.error(`You can debug this here: https://codesandbox.io/s/${json.sandbox_id}`);
     throw new Error(e)
   }
 }
