@@ -18,6 +18,7 @@ cd ../..
 root=$(pwd)
 
 cd "migrations"
+yarn install
 echo "> yarn prisma -v"
 yarn prisma -v
 echo "> yarn prisma db push"
