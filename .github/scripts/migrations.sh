@@ -21,8 +21,8 @@ cd "migrations"
 yarn install
 echo "> yarn prisma -v"
 yarn prisma -v
-echo "> yarn prisma db push"
-yarn prisma db push
+echo "> yarn prisma db push --preview-feature"
+yarn prisma db push --preview-feature
 code=$?
 
 echo "done"
