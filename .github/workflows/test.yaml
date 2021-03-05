@@ -29,7 +29,7 @@ jobs:
       - databases-macos
       - process-managers
       - test-runners
-    if: success() #&& (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
+    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
