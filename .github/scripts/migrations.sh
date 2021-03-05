@@ -8,7 +8,7 @@ export CI=true
 database=$1
 
 # In platforms/firebase-functions, the file exists in /functions sub-directory, so we can't hardcode the package.json path
-pjson_path=$(find $dir/$project -name "package.json" ! -path "*/node_modules/*" | head -n 1)
+pjson_path=$(find migrations -name "package.json" ! -path "*/node_modules/*" | head -n 1)
 bash .github/scripts/print-version.sh $pjson_path
 
 cd .github/slack/
