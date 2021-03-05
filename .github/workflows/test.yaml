@@ -39,7 +39,7 @@ jobs:
           node-version: 12
 
       - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
+        run: bash .github/slack/notify-workflow-result.sh ":white_check_mark:"
         env:
           CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
@@ -72,7 +72,7 @@ jobs:
           node-version: 12
 
       - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":x:"
+        run: bash .github/slack/notify-workflow-result.sh ":x:"
         env:
           CI: 1
           SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
@@ -111,7 +111,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
+        run: bash .github/slack/notify-job-failure.sh process-managers ${{ matrix.feature }}
 
   core-features:
     needs: start-time
@@ -146,7 +146,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+        run: bash .github/slack/notify-job-failure.sh core-features ${{ matrix.feature }}
 
   os:
     needs: start-time
@@ -181,7 +181,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
+        run: bash .github/slack/notify-job-failure.sh generic basic ${{ matrix.os }}
 
   node:
     needs: start-time
@@ -220,7 +220,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+        run: bash .github/slack/notify-job-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
     needs: start-time
@@ -253,7 +253,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
+        run: bash .github/slack/notify-job-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
     needs: start-time
@@ -295,7 +295,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
+        run: bash .github/slack/notify-job-failure.sh packagers ${{ matrix.packager }}
 
   frameworks:
     needs: start-time
@@ -334,7 +334,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
+        run: bash .github/slack/notify-job-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
     needs: start-time
@@ -435,7 +435,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+        run: bash .github/slack/notify-job-failure.sh platforms ${{ matrix.platform }}
 
   bundlers:
     needs: start-time
@@ -476,7 +476,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
+        run: bash .github/slack/notify-job-failure.sh bundlers ${{ matrix.bundler }}
 
   libraries:
     needs: start-time
@@ -520,7 +520,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
+        run: bash .github/slack/notify-job-failure.sh libraries ${{ matrix.library }}
 
   databases:
     needs: start-time
@@ -579,7 +579,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+        run: bash .github/slack/notify-job-failure.sh databases ${{ matrix.database }}
 
   databases-macos:
     needs: start-time
@@ -619,7 +619,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+        run: bash .github/slack/notify-job-failure.sh databases ${{ matrix.database }}
 
   test-runners:
     needs: start-time
@@ -655,4 +655,4 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh test-runners ${{ matrix.test-runner }}
+        run: bash .github/slack/notify-job-failure.sh test-runners ${{ matrix.test-runner }}

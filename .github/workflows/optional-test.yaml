@@ -28,7 +28,7 @@ jobs:
           node-version: 12
 
       - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
+        run: bash .github/notify-workflow-result.sh "(Optional tests) :white_check_mark:"
         env:
           CI: 1
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
@@ -51,7 +51,7 @@ jobs:
           node-version: 12
 
       - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
+        run: bash .github/slack/notify-workflow-result.sh "(Optional tests) :x:"
         env:
           CI: 1
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
@@ -102,4 +102,4 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.feature }}
+        run: bash .github/slack/notify-job-failure.sh community-generators ${{ matrix.feature }}
