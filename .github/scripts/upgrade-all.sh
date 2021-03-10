@@ -20,7 +20,14 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     continue
     ;;
   esac
+  
+  echo ""
+  echo "=========================="
+  echo "> df -h"
+  df -h
 
+
+  echo "=========================="
   echo "running $item"
   cd "$(dirname "$item")/"
 
