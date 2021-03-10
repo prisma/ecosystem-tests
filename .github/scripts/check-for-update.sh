@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo ""
+echo "=========================="
+echo "> df -h"
+df -h
+
 set -eu
 shopt -s inherit_errexit || true
 
