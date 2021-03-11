@@ -139,7 +139,7 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: prisma expected $v, actual $vCLI"
-          echo "yarn add prisma@$v --dev"
+          echo "> yarn add prisma@$v --dev"
           yarn add "prisma@$v" --dev
           
           echo ""
