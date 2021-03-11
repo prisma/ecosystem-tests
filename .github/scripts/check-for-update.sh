@@ -85,9 +85,14 @@ while [ $i -le $count ]; do
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
   echo "$packages" | tr ' ' '\n' | while read -r item; do
+    echo ""
+    echo "=========================="
+    echo "> df -h"
+    df -h
+
     echo "=========================="
     echo "checking $item"
-
+ 
     case "$item" in
     *".github"* | *"functions/generated/client"*)
       echo "ignoring $item"
