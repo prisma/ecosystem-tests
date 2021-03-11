@@ -139,8 +139,17 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: prisma expected $v, actual $vCLI"
-          echo "> yarn add prisma@$v --dev --ignore-scripts"
-          yarn add "prisma@$v" --dev --ignore-scripts
+          
+          case "$item" in
+          *"yarn2"*)
+            echo "> yarn add prisma@$v --dev"
+            yarn add "prisma@$v" --dev
+            ;;
+          *)
+            echo "> yarn add prisma@$v --dev --ignore-scripts"
+            yarn add "prisma@$v" --dev --ignore-scripts 
+            ;;
+          esac
           
           echo ""
           echo "=========================="
@@ -156,8 +165,17 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-          echo "> yarn add @prisma/client@$v --ignore-scripts" 
-          yarn add "@prisma/client@$v" --ignore-scripts
+          
+          case "$item" in
+          *"yarn2"*)
+            echo "> yarn add @prisma/client@$v" 
+            yarn add "@prisma/client@$v"
+            ;;
+          *)
+            echo "> yarn add @prisma/client@$v --ignore-scripts" 
+            yarn add "@prisma/client@$v" --ignore-scripts
+            ;;
+          esac
           
           echo ""
           echo "=========================="
