@@ -2,8 +2,8 @@
 
 echo ""
 echo "=========================="
-echo "> df -h"
-df -h
+echo "> df -h -B M"
+df -h -B M
 
 set -eu
 shopt -s inherit_errexit || true
@@ -87,8 +87,8 @@ while [ $i -le $count ]; do
   echo "$packages" | tr ' ' '\n' | while read -r item; do
     echo ""
     echo "=========================="
-    echo "> df -h"
-    df -h
+    echo "> df -h -B M"
+    df -h -B M
 
     echo "=========================="
     echo "checking $item"
@@ -139,7 +139,13 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: prisma expected $v, actual $vCLI"
+          echo "yarn add prisma@$v --dev"
           yarn add "prisma@$v" --dev
+          
+          echo ""
+          echo "=========================="
+          echo "> df -h -B M"
+          df -h -B M
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -150,7 +156,13 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
+          echo "> yarn add @prisma/client@$v"
           yarn add "@prisma/client@$v"
+          
+          echo ""
+          echo "=========================="
+          echo "> df -h -B M"
+          df -h -B M
         fi
       else
         echo "Dependency not found"
