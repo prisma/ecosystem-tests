@@ -2,6 +2,8 @@ name: test
 on: push
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
+  SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+  
 jobs:
   start-time:
     runs-on: ubuntu-latest
@@ -30,19 +32,9 @@ jobs:
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-
       - name: report success to slack
         run: bash .github/slack/notify-workflow-result.sh ":white_check_mark:"
-        env:
-          CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   report-to-slack-failure:
     runs-on: ubuntu-latest
@@ -63,19 +55,9 @@ jobs:
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-
       - name: report failure to slack
         run: bash .github/slack/notify-workflow-result.sh ":x:"
-        env:
-          CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   process-managers:
     needs: start-time

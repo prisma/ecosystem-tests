@@ -20,7 +20,14 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     continue
     ;;
   esac
+  
+  echo ""
+  echo "=========================="
+  echo "> df -h"
+  df -h
 
+
+  echo "=========================="
   echo "running $item"
   cd "$(dirname "$item")/"
 
@@ -33,8 +40,17 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     json -I -f package.json -e "this.resolutions['prisma']='$version'"
     json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
   elif [ "$valid" = "true" ]; then
-    yarn add "prisma@$version" --dev
-    yarn add "@prisma/client@$version"
+    case "$item" in
+    *"yarn2"*)
+      yarn add "prisma@$version" --dev
+      yarn add "@prisma/client@$version"
+      ;;
+    *)
+      yarn add "prisma@$version" --dev --ignore-scripts
+      yarn add "@prisma/client@$version" --ignore-scripts
+      ;;
+    esac
+          
   fi
   ## END
 

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo ""
+echo "=========================="
+echo "> df -h -B M"
+df -h -B M
+
 set -eu
 shopt -s inherit_errexit || true
 
@@ -80,9 +85,14 @@ while [ $i -le $count ]; do
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
   echo "$packages" | tr ' ' '\n' | while read -r item; do
+    echo ""
+    echo "=========================="
+    echo "> df -h -B M"
+    df -h -B M
+
     echo "=========================="
     echo "checking $item"
-
+ 
     case "$item" in
     *".github"* | *"functions/generated/client"*)
       echo "ignoring $item"
@@ -129,7 +139,22 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: prisma expected $v, actual $vCLI"
-          yarn add "prisma@$v" --dev
+          
+          case "$item" in
+          *"yarn2"*)
+            echo "> yarn add prisma@$v --dev"
+            yarn add "prisma@$v" --dev
+            ;;
+          *)
+            echo "> yarn add prisma@$v --dev --ignore-scripts"
+            yarn add "prisma@$v" --dev --ignore-scripts 
+            ;;
+          esac
+          
+          echo ""
+          echo "=========================="
+          echo "> df -h -B M"
+          df -h -B M
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -140,7 +165,22 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-          yarn add "@prisma/client@$v"
+          
+          case "$item" in
+          *"yarn2"*)
+            echo "> yarn add @prisma/client@$v" 
+            yarn add "@prisma/client@$v"
+            ;;
+          *)
+            echo "> yarn add @prisma/client@$v --ignore-scripts" 
+            yarn add "@prisma/client@$v" --ignore-scripts
+            ;;
+          esac
+          
+          echo ""
+          echo "=========================="
+          echo "> df -h -B M"
+          df -h -B M
         fi
       else
         echo "Dependency not found"
