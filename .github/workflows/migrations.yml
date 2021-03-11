@@ -32,4 +32,4 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh migrations.yml/databases ${{ matrix.feature }}
+        run: bash .github/slack/notify-job-failure.sh migrations.yml/databases ${{ matrix.feature }}
