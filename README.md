@@ -48,6 +48,15 @@ To check the current status of this repository somewhere else, you can use [a si
 
 We use [conventional commits](https://www.conventionalcommits.org) (also known as semantic commits) to ensure consistent and descriptive commit messages.
 
+## Development Workflow
+
+We develop directly against Github Actions. The workflow looks like this:
+
+1. Checkout a branch
+2. Make your changes
+3. Push your changes to a PR on GitHub
+4. Inspect the running Checks
+
 ### How to add or adapt platforms
 
 First add a matrix run entry in `.github/workflows/test.yaml` under the category the project falls into. For example, if you're adding a new platform into the `platforms` folder, put a new line named after your project folder in `.github/workflows/test.yaml` under `jobs.platforms.strategy.matrix.platform`.
