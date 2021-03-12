@@ -12,4 +12,4 @@ rm -rf node_modules/typescript
 
 zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
 
-du -h ./lambda.zip
+du -b ./lambda.zip
