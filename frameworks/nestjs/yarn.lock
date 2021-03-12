@@ -13,6 +13,17 @@
     rxjs "6.6.3"
     source-map "0.7.3"
 
+"@angular-devkit/core@11.2.3":
+  version "11.2.3"
+  resolved "https://registry.npmjs.org/@angular-devkit/core/-/core-11.2.3.tgz"
+  integrity sha512-2JEGXzFqjTqVls2uIZEE0sk4VY9a/alxBAq8BFYIVbvzKsL9gAY71Ztf21zrhQrZop9qeuLJtOAbp00QyYUaQA==
+  dependencies:
+    ajv "6.12.6"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.6.3"
+    source-map "0.7.3"
+
 "@angular-devkit/schematics-cli@0.1102.0":
   version "0.1102.0"
   resolved "https://registry.npmjs.org/@angular-devkit/schematics-cli/-/schematics-cli-0.1102.0.tgz"
@@ -32,6 +43,15 @@
   integrity sha512-sMDacACJbA4pykiqgJf/RdW0damcf4mDqErGgEqs/bGG+SBUb8+wgt4cQnUwwVX5V2nMdvv7f0A84rgR6I3G2w==
   dependencies:
     "@angular-devkit/core" "11.2.0"
+    ora "5.3.0"
+    rxjs "6.6.3"
+
+"@angular-devkit/schematics@11.2.3":
+  version "11.2.3"
+  resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-11.2.3.tgz"
+  integrity sha512-x/IKgZDn6z/MzQ28WF2GTP2N+n78iySQhLu6n6bpmdrFp9noi9QASzN+mAFiqSNO8XpO9oyIB5y2ERl8KBrU1g==
+  dependencies:
+    "@angular-devkit/core" "11.2.3"
     ora "5.3.0"
     rxjs "6.6.3"
 
@@ -576,14 +596,15 @@
     multer "1.4.2"
     tslib "2.1.0"
 
-"@nestjs/schematics@7.2.8", "@nestjs/schematics@^7.1.0":
-  version "7.2.8"
-  resolved "https://registry.npmjs.org/@nestjs/schematics/-/schematics-7.2.8.tgz"
-  integrity sha512-cxs76Ia1SHTp18jXTusZtUucNjAmorlTzSaeKUH+71fri2pA0JOS4RJlfta5znDuA26gboolanPE6U0ZzaLM3A==
+"@nestjs/schematics@7.3.0", "@nestjs/schematics@^7.1.0":
+  version "7.3.0"
+  resolved "https://registry.npmjs.org/@nestjs/schematics/-/schematics-7.3.0.tgz"
+  integrity sha512-yBlg3HV944CbbrXKFMZWs9KkMjIeBLcbgetZOjaiY2AUljwF4PyNoTbV6ulHLyt6ws9mMTPBYiEoF+7V05Lmcg==
   dependencies:
-    "@angular-devkit/core" "11.2.0"
-    "@angular-devkit/schematics" "11.2.0"
+    "@angular-devkit/core" "11.2.3"
+    "@angular-devkit/schematics" "11.2.3"
     fs-extra "9.1.0"
+    jsonc-parser "3.0.0"
     pluralize "8.0.0"
 
 "@nestjs/testing@7.6.13":
@@ -624,22 +645,22 @@
     consola "^2.15.0"
     node-fetch "^2.6.1"
 
-"@prisma/client@2.19.0-dev.26":
-  version "2.19.0-dev.26"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.19.0-dev.26.tgz#6367c171e94ec7a5ca2e8dee06c9f1962d6477c6"
-  integrity sha512-spInX7ZV/f9SwyUHR1rdIzDGduKGYpvs5tD1Rj2ghpWbItGAXwSrQ5hC3rEl1K1GKaoI4O/Df5KKMzV+5LwDag==
+"@prisma/client@2.19.0-dev.29":
+  version "2.19.0-dev.29"
+  resolved "https://registry.npmjs.org/@prisma/client/-/client-2.19.0-dev.29.tgz"
+  integrity sha512-U3sMckftLAKs0Lrcqgega/7RhzPSeN1PftfpVnpBpJ0GiliCPeuQcwnr8rM/LeuvrgUuNekgYwxGb6EZWkKn3g==
   dependencies:
-    "@prisma/engines-version" "2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a"
+    "@prisma/engines-version" "2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394"
 
-"@prisma/engines-version@2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a":
-  version "2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a"
-  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a.tgz#864571bdfabf73a60d3371c4a7f95e15d611becb"
-  integrity sha512-WRMHoUkGOk9MU5Fzpa1XRma3BCE+SvIgkwlzgD2tw4T+PuY76lyk6Y1O0vGIWoibyLQVIQqpAub6BoaAzTUcgA==
+"@prisma/engines-version@2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394":
+  version "2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394"
+  resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394.tgz"
+  integrity sha512-Um/kjAXiFtTddjj38gD3Iqb46Wo0rZsuUeOX+DyLWpViFng3ILzPjyk7niP/ITs2L3dN+s1ivN6lTf6AybaDDw==
 
-"@prisma/engines@2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a":
-  version "2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a.tgz#a07bc6e9fec6daa40b74d7aab1c2ff259f292a73"
-  integrity sha512-bXTtoGCK3F22AbTIxQoyaCk6tl6cslKkFubSqfWikvE4r8MPias4mJyCW4EDfQRtqC/ImJ8i6ONlXwWi11YBiA==
+"@prisma/engines@2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394":
+  version "2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394"
+  resolved "https://registry.npmjs.org/@prisma/engines/-/engines-2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394.tgz"
+  integrity sha512-MGFIwVWePWPZ8n+nNEoz02ec/VMhT3+Sk5XXfJcgmp5eTPTcbOzjEPW4PZjTCnEqbYyUNi6Ag+PeRFfgRacoWg==
 
 "@schematics/schematics@0.1102.0":
   version "0.1102.0"
@@ -3895,6 +3916,11 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
+jsonc-parser@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/jsonc-parser/-/jsonc-parser-3.0.0.tgz"
+  integrity sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==
+
 jsonfile@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/jsonfile/-/jsonfile-6.0.1.tgz"
@@ -4740,12 +4766,12 @@ pretty-format@^26.0.0, pretty-format@^26.6.2:
     ansi-styles "^4.0.0"
     react-is "^17.0.1"
 
-prisma@2.19.0-dev.26:
-  version "2.19.0-dev.26"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.19.0-dev.26.tgz#a1e3c9a3b55a11a7b9cb1eaef8ba68f22ac63a16"
-  integrity sha512-60OgpEYIuVn/hKVKYTLy3RKVnlsZcCYn3LN9EZc9agRfaLS3sBLA3/cYfPOx8xUeWpTXk3bDFpeYEUxNu+87sg==
+prisma@2.19.0-dev.29:
+  version "2.19.0-dev.29"
+  resolved "https://registry.npmjs.org/prisma/-/prisma-2.19.0-dev.29.tgz"
+  integrity sha512-3ww9i5g8IE7bIQ8nDWxq+RqqBqRxJ/8I5R47U0Qx8mTRv8chh9kRelDFIXA6pXTar9bYmPSs1/h9W/pIfhxVhw==
   dependencies:
-    "@prisma/engines" "2.19.0-24.29d43b4529393b2e0564943bc7f0220cfd89f94a"
+    "@prisma/engines" "2.19.0-25.4c5c15d858e5a7739351d302d4e0d88d69149394"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
