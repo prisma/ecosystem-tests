@@ -2,7 +2,6 @@
 
 set -eux
 
-sudo snap install heroku --classic
 export PRISMA_TELEMETRY_INFORMATION='e2e-tests databases heroku-pgbouncer-buildpack build'
 yarn install
 yarn prisma generate
