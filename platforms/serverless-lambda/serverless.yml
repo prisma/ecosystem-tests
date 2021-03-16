@@ -1,4 +1,4 @@
-service: slsLambda
+service: prisma2-e2e-tests-serverless
 
 provider:
   name: aws
@@ -12,6 +12,6 @@ provider:
 functions:
   hello:
     handler: index.handler
-    name: slsLambda
+    name: prisma2-e2e-tests-serverless
     environment:
       SERVERLESS_LAMBDA_PG_URL: ${env:SERVERLESS_LAMBDA_PG_URL}
