@@ -1,4 +1,4 @@
-service: slsLambda
+service: e2e-tests-serverless-lambda
 
 provider:
   name: aws
@@ -12,6 +12,6 @@ provider:
 functions:
   hello:
     handler: index.handler
-    name: slsLambda
+    name: e2e-tests-serverless-lambda
     environment:
       SERVERLESS_LAMBDA_PG_URL: ${env:SERVERLESS_LAMBDA_PG_URL}
