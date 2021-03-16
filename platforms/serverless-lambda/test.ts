@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 
-const name = 'slsLambda'
+const name = 'prisma2-e2e-tests-serverless'
 
 async function main() {
   console.log('testing function', name)
