@@ -176,9 +176,8 @@ jobs:
           - 10
           - 12
           - 14
-          - 10.4.0
-          - 12.0.0
-          - 14.0.0
+          - 10.4.0 # minimal node version from https://github.com/prisma/prisma/blob/master/src/packages/client/package.json
+          - 15 # latest available
 
     name: node ${{ matrix.node }}
     env:
