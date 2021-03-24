@@ -13,52 +13,6 @@ jobs:
       - id: start-time-output
         run: echo "::set-output name=start-time::$(date)"
 
-  report-to-slack-success:
-    runs-on: ubuntu-latest
-    needs:
-      - core-features
-      - os
-      - node
-      - binaries
-      - packagers
-      - frameworks
-      - platforms
-      - bundlers
-      - libraries
-      - databases
-      - databases-macos
-      - process-managers
-      - test-runners
-    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-      - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
-
-  report-to-slack-failure:
-    runs-on: ubuntu-latest
-    needs:
-      - core-features
-      - os
-      - node
-      - binaries
-      - packagers
-      - frameworks
-      - platforms
-      - bundlers
-      - libraries
-      - databases
-      - databases-macos
-      - process-managers
-      - test-runners
-    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-      - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":x:"
-
 
   platforms:
     needs: start-time
@@ -67,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         platform:
           - lambda
           - heroku
