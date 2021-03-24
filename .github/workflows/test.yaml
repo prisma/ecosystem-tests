@@ -329,6 +329,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         platform:
           - lambda
           - heroku
@@ -345,7 +346,6 @@ jobs:
           - aws-graviton
           - serverless-lambda
           - codesandbox
-        os: [ubuntu-latest, windows-latest, macos-latest]
         
     runs-on: ${{ matrix.os }}
    
