@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -eux
-
+unset PRISMA_FORCE_NAPI
 os=""
 filename="./prisma"
 

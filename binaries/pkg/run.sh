@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -eu
-
+unset PRISMA_FORCE_NAPI
 yarn install
 
 # This is a hack to work around a problem that pkg would otherwise have with the Engines binaries missing in the package
