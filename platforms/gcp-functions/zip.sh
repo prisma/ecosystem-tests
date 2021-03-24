@@ -10,6 +10,9 @@ rm -rf gcp.zip
 rm -rf node_modules/prisma
 rm -rf node_modules/typescript
 
-zip -r gcp.zip index.js prisma/schema.prisma node_modules/**
+# zip -r gcp.zip index.js prisma/schema.prisma node_modules/**
+
+yarn copyfiles index.js prisma/schema.prisma node_modules/** temp
+yarn cross-zip temp gcp.zip
 
 du -h ./gcp.zip
