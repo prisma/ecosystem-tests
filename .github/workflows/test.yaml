@@ -3,7 +3,7 @@ on: push
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
-  
+
 jobs:
   start-time:
     runs-on: ubuntu-latest
@@ -403,7 +403,7 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
-        
+
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
         if: ${{ matrix.platform == 'codesandbox' }}
@@ -546,6 +546,9 @@ jobs:
       GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
     steps:
       - uses: actions/checkout@v2
+
+      - name: report env
+        run: bash .github/scripts/env.sh
 
       - name: Install Dependencies
         run: yarn install
