@@ -15,6 +15,6 @@ rm -rf node_modules/typescript
 
 npx copyfiles index.js prisma/schema.prisma temp
 npx cpr node_modules temp/node_modules 
-npx --package=cross-zip-cli cross-zip temp lambda.zip
+npx --package=@janpio/cross-zip-cli cross-zip temp lambda.zip
 
 du -b ./lambda.zip
