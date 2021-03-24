@@ -9,6 +9,4 @@ x="$AWS_ACCESS_KEY_ID"
 x="$AWS_SECRET_ACCESS_KEY"
 x="$AWS_ROLE"
 
-curl -o- -L https://slss.io/install | bash
-
-~/.serverless/bin/serverless config credentials --provider aws --key "$AWS_ACCESS_KEY_ID" --secret "$AWS_SECRET_ACCESS_KEY"
+yarn serverless config credentials --provider aws --key "$AWS_ACCESS_KEY_ID" --secret "$AWS_SECRET_ACCESS_KEY"
