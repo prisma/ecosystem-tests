@@ -8,7 +8,10 @@ async function main() {
   const data = await invokeLambdaSync(name, '')
   console.log({ data: data.$response.data })
 
-  const actual = (data.$response.data as any).Payload
+  let actual = (data.$response.data as any).Payload  
+  console.log("original", actual)
+  delete actual.measurements
+  
   const expect =
     '{"version":"' +
     Prisma.prismaVersion.client +
