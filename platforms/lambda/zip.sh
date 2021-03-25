@@ -14,11 +14,11 @@ rm -rf node_modules/typescript
 
 UNAME=$(uname)
 
-case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
-  linux*)
+case "${UNAME}" in
+  Linux*)
     zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
     ;;
-  darwin*)
+  Darwin*)
     printf 'darwin\n'
     ;;
   msys*|cygwin*|mingw*|nt|win*)
