@@ -11,14 +11,20 @@ rm -rf node_modules/prisma
 rm -rf node_modules/@prisma/engines
 rm -rf node_modules/typescript
 
-#zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  # Mac OSX
+elif [[ "$OSTYPE" == "win32" ]]; then
+  rm -rf temp
+  npx copyfiles index.js prisma/schema.prisma temp
+  npx cpr node_modules/.prisma temp/node_modules/.prisma
+  npx cpr node_modules/@prisma temp/node_modules/@prisma
+  npx cpr node_modules/@types temp/node_modules/@types
 
-rm -rf temp
-npx copyfiles index.js prisma/schema.prisma temp
-npx cpr node_modules/.prisma temp/node_modules/.prisma --overwrite
-npx cpr node_modules/@prisma temp/node_modules/@prisma --overwrite
-npx cpr node_modules/@types temp/node_modules/@types --overwrite
-npx --package=@janpio/cross-zip-cli@0.0.4 cross-zip temp lambda.zip
-npx copyfiles temp/lambda.zip ./
+  powershell.exe -nologo -noprofile -command "& { param([String]$sourceDirectoryName, [String]$destinationArchiveFileName, [Boolean]$includeBaseDirectory); Add-Type -A 'System.IO.Compression.FileSystem'; Add-Type -A 'System.Text.Encoding'; [IO.Compression.ZipFile]::CreateFromDirectory($sourceDirectoryName, $destinationArchiveFileName, [IO.Compression.CompressionLevel]::Fastest, $includeBaseDirectory, [System.Text.Encoding]::UTF8); exit !$?;}" -sourceDirectoryName temp -destinationArchiveFileName lambda.zip -includeBaseDirectory $false
+else
+  # Unknown.
+fi
 
 du -b ./lambda.zip
