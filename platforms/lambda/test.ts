@@ -9,7 +9,7 @@ async function main() {
   console.log({ data: data.$response.data })
 
   let original = JSON.parse((data.$response.data as any).Payload)  
-  console.log("original", actual)
+  console.log("original", original)
   delete original.measurements
   const actual = JSON.stringify(original)
   console.log("actual", actual)
