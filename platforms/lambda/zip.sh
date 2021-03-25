@@ -18,7 +18,7 @@ npx copyfiles index.js prisma/schema.prisma temp
 npx cpr node_modules/.prisma temp/node_modules/.prisma --overwrite
 npx cpr node_modules/@prisma temp/node_modules/@prisma --overwrite
 npx cpr node_modules/@types temp/node_modules/@types --overwrite
-npx --package=@janpio/cross-zip-cli@0.0.4 cross-zip temp ../lambda.zip
+npx --package=@janpio/cross-zip-cli@0.0.4 cross-zip temp lambda.zip
 
 
 du -b ./lambda.zip
