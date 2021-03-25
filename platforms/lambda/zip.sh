@@ -19,9 +19,9 @@ case "${UNAME}" in
     zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
     ;;
   Darwin*)
-    printf 'darwin\n'
+    zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
     ;;
-  msys*|cygwin*|mingw*|nt|win*)
+  MINGW*)
     rm -rf temp
     npx copyfiles index.js prisma/schema.prisma temp
     npx cpr node_modules/.prisma temp/node_modules/.prisma
