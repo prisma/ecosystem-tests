@@ -15,7 +15,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   zip -r lambda.zip index.js prisma/schema.prisma node_modules/.prisma node_modules/**
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX
-elif [[ "$OSTYPE" == "win32" ]]; then
+elif [[ "$OSTYPE" == "win"* ]]; then
   rm -rf temp
   npx copyfiles index.js prisma/schema.prisma temp
   npx cpr node_modules/.prisma temp/node_modules/.prisma
