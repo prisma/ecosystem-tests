@@ -11,6 +11,7 @@ async function main() {
   let actual = (data.$response.data as any).Payload  
   console.log("original", actual)
   delete actual.measurements
+  console.log("actual", actual)
   
   const expect =
     '{"version":"' +
