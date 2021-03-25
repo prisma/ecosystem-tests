@@ -53,7 +53,7 @@ export async function handler() {
     measurements: {
       outside_handler: Number(measure_client-measure_start) / 1000000000,
       inside_handler: Number(measure_end-measure_handler) / 1000000000,
-      total: Number(measure_end-measure_start) / 1000000000,
+      since_environment_start: Number(measure_end-measure_start) / 1000000000,
     }
   }
 }
