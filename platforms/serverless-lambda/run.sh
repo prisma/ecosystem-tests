@@ -8,4 +8,4 @@ yarn prisma generate
 
 yarn tsc
 
-~/.serverless/bin/serverless deploy --region "$AWS_DEFAULT_REGION"
+yarn serverless deploy --region "$AWS_DEFAULT_REGION"
