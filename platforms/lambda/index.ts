@@ -1,3 +1,4 @@
+const process = require('process');
 const measure_start = process.hrtime.bigint()
 
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -57,15 +58,15 @@ export async function handler() {
     users,
     deleteManyUsers,
     measurements: {
-      client: measure_client-measure_start,
-      handler: measure_handler-measure_client,
-      delete_1: measure_delete_1-measure_handler,
-      create: measure_create-measure_delete_1,
-      update: measure_update-measure_create,
-      find: measure_find-measure_update,
-      delete_2: measure_delete_2-measure_find,
-      total_1: measure_delete_2-measure_start,
-      total_2: measure_delete_2-measure_handler
+      client: Number(measure_client-measure_start) / 1000000000,
+      handler: Number(measure_handler-measure_client) / 1000000000,
+      delete_1: Number(measure_delete_1-measure_handler) / 1000000000,
+      create: Number(measure_create-measure_delete_1) / 1000000000,
+      update:Number( measure_update-measure_create) / 1000000000,
+      find: Number(measure_find-measure_update) / 1000000000,
+      delete_2: Number(measure_delete_2-measure_find) / 1000000000,
+      total_1: Number(measure_delete_2-measure_start) / 1000000000,
+      total_2: Number(measure_delete_2-measure_handler) / 1000000000
     }
   }
 }
