@@ -17,5 +17,7 @@ jobs:
       AWS_ROLE: ${{ secrets.AWS_ROLE }}
       
     steps:
-    - run: yarn
-    - run: yarn ts-node test.ts
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - run: yarn
+      - run: yarn ts-node test.ts
