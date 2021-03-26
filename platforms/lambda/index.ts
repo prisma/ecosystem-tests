@@ -58,6 +58,7 @@ export async function handler() {
       outside_handler: Number(measure_client-measure_start) / 1000000000,
       inside_handler: Number(measure_end-measure_handler) / 1000000000,
       inside_handler_connect: Number(measure_connect-measure_handler) / 1000000000,
+      inside_handler_queries: Number(measure_end-measure_connect) / 1000000000,
       since_environment_start: Number(measure_end-measure_start) / 1000000000,
     }
   }
