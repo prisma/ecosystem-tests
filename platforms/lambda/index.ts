@@ -12,6 +12,10 @@ export async function handler() {
   
   const measure_handler = process.hrtime.bigint()
   
+  await client.$connect()
+
+  const measure_connect = process.hrtime.bigint()
+
   await client.user.deleteMany({})
   
   const id = '12345'
@@ -53,6 +57,7 @@ export async function handler() {
     measurements: {
       outside_handler: Number(measure_client-measure_start) / 1000000000,
       inside_handler: Number(measure_end-measure_handler) / 1000000000,
+      inside_handler_connect: Number(measure_connect-measure_handler) / 1000000000,
       since_environment_start: Number(measure_end-measure_start) / 1000000000,
     }
   }
