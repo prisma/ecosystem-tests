@@ -24,7 +24,7 @@ case "${UNAME}" in
     ;;
   MINGW*)
     powershell.exe -nologo -noprofile -command "& { param([String]\$sourceDirectoryName, [String]\$destinationArchiveFileName, [Boolean]\$includeBaseDirectory); Add-Type -A 'System.IO.Compression.FileSystem'; Add-Type -A 'System.Text.Encoding'; [IO.Compression.ZipFile]::CreateFromDirectory(\$sourceDirectoryName, \$destinationArchiveFileName, [IO.Compression.CompressionLevel]::Fastest, \$includeBaseDirectory, [System.Text.Encoding]::UTF8); exit !\$?;}" -sourceDirectoryName "functions" -destinationArchiveFileName "index.zip" -includeBaseDirectory \$false
-    du -b ./lambda.zip
+    du -b ./index.zip
     mv index.zip functions-build/index.zip
     ;;
   *)
