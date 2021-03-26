@@ -4,14 +4,6 @@ AWS Lambda using the serverless framework.
 
 ## How to run this locally
 
-### Install the serverless CLI
-
-```shell script
-curl -o- -L https://slss.io/install | bash
-```
-
-Fore more information, check [the official docs](https://serverless.com/framework/docs/getting-started/).
-
 ### Authenticate
 
 - `AWS_DEFAULT_REGION`: The AWS region name. In Prisma's case, this is `eu-central-1`.
