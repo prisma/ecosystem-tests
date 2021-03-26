@@ -324,7 +324,7 @@ jobs:
 
   platforms:
     needs: start-time
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 60
 
     strategy:
@@ -347,8 +347,6 @@ jobs:
           - aws-graviton
           - serverless-lambda
           - codesandbox
-
-    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
