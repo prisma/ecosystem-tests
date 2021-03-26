@@ -2,7 +2,8 @@
 
 set -eux
 
-# gcloud CLI is not installed on macOS image of GH Actions
+# gcloud CLI is not installed on macOS image of GH Actions, so install manually
+UNAME=$(uname)
 case "${UNAME}" in
   Darwin*)
     brew install --cask google-cloud-sdk
