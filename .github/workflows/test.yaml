@@ -330,6 +330,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         platform:
           - lambda
           - heroku
@@ -346,6 +347,8 @@ jobs:
           - aws-graviton
           - serverless-lambda
           - codesandbox
+
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -411,7 +414,7 @@ jobs:
         with:
           args: yarn --ignore-engines
 
-      - name: test ${{ matrix.platform }}
+      - name: test ${{ matrix.platform }} on ${{ matrix.os }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
