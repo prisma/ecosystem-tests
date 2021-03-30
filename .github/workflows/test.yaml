@@ -10,6 +10,8 @@ jobs:
     outputs:
       start-time: ${{ steps.start-time-output.outputs.start-time }}
     steps:
+      - uses: actions/setup-node@v2
+      - run: npm install -g prisma
       - id: start-time-output
         run: echo "::set-output name=start-time::$(date)"
 
