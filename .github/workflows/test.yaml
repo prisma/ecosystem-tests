@@ -11,6 +11,7 @@ jobs:
       start-time: ${{ steps.start-time-output.outputs.start-time }}
     steps:
       - uses: actions/setup-node@v2
+      - run: sudo chown -R $USER /usr/local/lib/node_modules
       - run: npm install -g prisma
       - id: start-time-output
         run: echo "::set-output name=start-time::$(date)"
