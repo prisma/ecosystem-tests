@@ -1,6 +1,6 @@
-# Prisma DBML Generator
+# Prisma JSON Schema Generator
 
-Test for Prisma DBML Generator(https://notiz.dev/blog/prisma-dbml-generator#dbml-generator)
+Test for Prisma JSON Schema Generator (https://github.com/valentinpalkovic/prisma-json-schema-generator)
 
 ## How to run this locally
 
