@@ -524,6 +524,7 @@ jobs:
           - sqlserver-azure-sql
           - gcp-postgresql-ssl
           - gcp-mysql-ssl
+          - mongodb-atlas
 
     name: databases ${{ matrix.database }}
     env:
@@ -544,6 +545,7 @@ jobs:
       GCP_MYSQL_SSL_CLIENT_KEY: ${{ secrets.GCP_MYSQL_SSL_CLIENT_KEY }}
       GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
       GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
+      DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
     steps:
       - uses: actions/checkout@v2
 
