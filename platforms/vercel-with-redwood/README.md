@@ -1,6 +1,6 @@
 # Vercel with Redwood
 
-Redwood deploed on Vercel.
+[RedwoodJS](https://redwoodjs.com/) deployed on Vercel.
 
 ## How to run this locally
 
