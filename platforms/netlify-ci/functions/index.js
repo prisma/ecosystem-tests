@@ -33,7 +33,7 @@ exports.handler = async function (event, context, callback) {
 
   const deleteManyUsers = await client.user.deleteMany()
 
-
+  const fs = require('fs')
   // node_modules\.prisma\client
   console.log("process.env.LAMBDA_TASK_ROOT", process.env.LAMBDA_TASK_ROOT)
   fs.readdir(process.env.LAMBDA_TASK_ROOT + "", function(err, items) {
