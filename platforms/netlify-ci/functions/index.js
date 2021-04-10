@@ -37,16 +37,13 @@ exports.handler = async function (event, context, callback) {
   // node_modules\.prisma\client
   console.log("process.env.LAMBDA_TASK_ROOT", process.env.LAMBDA_TASK_ROOT)
   fs.readdir(process.env.LAMBDA_TASK_ROOT + "", function(err, items) {
-    console.log("# content of process.env.LAMBDA_TASK_ROOT")
-    console.log(items);
+    console.log("# content of process.env.LAMBDA_TASK_ROOT", items)
   })
   fs.readdir(process.env.LAMBDA_TASK_ROOT + "/src", function(err, items) {
-    console.log("# content of process.env.LAMBDA_TASK_ROOT/src")
-    console.log(items);
+    console.log("# content of process.env.LAMBDA_TASK_ROOT/src", items)
   })
   fs.readdir(process.env.LAMBDA_TASK_ROOT + "/src/functions", function(err, items) {
-    console.log("# content of process.env.LAMBDA_TASK_ROOT/src/functions")
-    console.log(items);
+    console.log("# content of process.env.LAMBDA_TASK_ROOT/src/functions", items)
   })
 
   const files = []
