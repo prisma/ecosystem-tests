@@ -45,7 +45,7 @@ exports.handler = async function (event, context, callback) {
       updateUser,
       users,
       deleteManyUsers,
-      files
+      files,
     }),
     headers: {
       'Access-Control-Allow-Origin': '*',
