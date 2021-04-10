@@ -33,20 +33,8 @@ exports.handler = async function (event, context, callback) {
 
   const deleteManyUsers = await client.user.deleteMany()
 
-  const fs = require('fs')
-  // node_modules\.prisma\client
-  console.log("process.env.LAMBDA_TASK_ROOT", process.env.LAMBDA_TASK_ROOT)
-  fs.readdir(process.env.LAMBDA_TASK_ROOT + "", function(err, items) {
-    console.log("# content of process.env.LAMBDA_TASK_ROOT", items)
-  })
-  fs.readdir(process.env.LAMBDA_TASK_ROOT + "/src", function(err, items) {
-    console.log("# content of process.env.LAMBDA_TASK_ROOT/src", items)
-  })
-  fs.readdir(process.env.LAMBDA_TASK_ROOT + "/src/functions", function(err, items) {
-    console.log("# content of process.env.LAMBDA_TASK_ROOT/src/functions", items)
-  })
-
-  const files = []
+  // list all files in node_modules/.prisma/client
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/src/node_modules/.prisma/client")
 
   return {
     statusCode: 200,
