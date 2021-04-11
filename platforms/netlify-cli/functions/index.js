@@ -35,7 +35,7 @@ exports.handler = async function (event, context, callback) {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/src/node_modules/.prisma/client")
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/src/functions/generated/client")
 
   return {
     statusCode: 200,
