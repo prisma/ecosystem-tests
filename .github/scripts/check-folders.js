@@ -13,13 +13,12 @@ async function main() {
     .filter((file) => {
       const ignoreFiles = [
         'package.json', // package.json at root
-        'platforms/vercel-with-redwood/api', // Redwood uses workspaces but is included
-        'platforms/vercel-with-redwood/web', // Redwood uses workspaces but is included
-        'platforms/firebase-functions/functions', // Firebase root doesn't have package.json but is included
+        'platforms-serverless/vercel-with-redwood/api', // Redwood uses workspaces but is included
+        'platforms-serverless/vercel-with-redwood/web', // Redwood uses workspaces but is included
+        'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
         'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
         'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
         'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
-        'platforms/codesandbox',
       ]
       return !ignoreFiles.includes(file)
     })
