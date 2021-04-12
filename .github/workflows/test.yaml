@@ -374,7 +374,7 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
-platforms-serverless:
+  platforms-serverless:
     needs: start-time
     runs-on: ubuntu-latest
     timeout-minutes: 60
