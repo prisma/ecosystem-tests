@@ -249,10 +249,11 @@ jobs:
       fail-fast: false
       matrix:
         packager:
-          - yarn
-          - yarn2-without-pnp
           - npm
+          - npm-global
+          - yarn
           - yarn-workspaces
+          - yarn2-without-pnp
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
