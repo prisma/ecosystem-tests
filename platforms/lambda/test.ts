@@ -1,14 +1,24 @@
 import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
+const process = require('process');
 
 const name = 'prisma2-e2e-tests'
 
 async function main() {
   console.log('testing function', name)
+  const measure_start = process.hrtime.bigint()
   const data = await invokeLambdaSync(name, '')
+  const measure_end = process.hrtime.bigint()
+  console.log('function invocation duration:', Number(measure_end-measure_start) / 1000000000)
+
   console.log({ data: data.$response.data })
 
-  const actual = (data.$response.data as any).Payload
+  let original = JSON.parse((data.$response.data as any).Payload)  
+  console.log("original", original)
+  delete original.measurements
+  const actual = JSON.stringify(original)
+  console.log("actual", actual)
+
   const expect =
     '{"version":"' +
     Prisma.prismaVersion.client +
