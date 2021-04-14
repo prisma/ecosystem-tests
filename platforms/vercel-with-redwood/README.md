@@ -1,6 +1,6 @@
 # Vercel with Redwood
 
-Redwood deploed on Vercel. We use yarn resolutions to use the latest Prisma dev version instead of the Prisma version bundled with Redwood.
+[RedwoodJS](https://redwoodjs.com/) deployed on Vercel.
 
 ## How to run this locally
 
