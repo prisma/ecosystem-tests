@@ -61,7 +61,9 @@ We develop directly against Github Actions. The workflow looks like this:
 
 First add a matrix run entry in `.github/workflows/test.yaml` under the category the project falls into. For example, if you're adding a new platform into the `platforms` folder, put a new line named after your project folder in `.github/workflows/test.yaml` under `jobs.platforms.strategy.matrix.platform`.
 
-Then in your project, create a file `run.sh` and use it as your entrypoint to run your tests, including setting up dependencies, deploying, and running e2e tests. Please write POSIX-compliant scripts (not bash) and use the the following template for all of your sh files to make sure they exit on errors (`-e`) and undefined variables (`-u`):
+Then in your project, create a file `run.sh` and use it as an entrypoint to set up your projects. This includes installing dependencies, deploying etc.
+
+Then in your project, create a file `test.sh` and use it as and entrypoint to run your tests. Please write POSIX-compliant scripts (not bash) and use the the following template for all of your sh files to make sure they exit on errors (`-e`) and undefined variables (`-u`):
 
 ```shell script
 #!/bin/sh
