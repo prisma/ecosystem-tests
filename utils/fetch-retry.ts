@@ -1,8 +1,8 @@
 import arg from 'arg'
 import originalFetch from 'node-fetch'
 
-function getExpectedData(prismaVersion: string) {
-  return `{"version":"${prismaVersion}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}}`
+function getExpectedData(prismaVersion: string, binaryString = "") {
+  return `{"version":"${prismaVersion}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`
 }
 
 let rdata = null
@@ -42,10 +42,11 @@ function getFetch(expectedData: string) {
 interface FetchRetryArgs {
   url: string
   prismaVersion: string
+  binaryString: string
 }
 
 async function fetchRetry(args: FetchRetryArgs) {
-  const expectedData = getExpectedData(args.prismaVersion)
+  const expectedData = getExpectedData(args.prismaVersion, args.binaryString)
   const r = await getFetch(expectedData)(args.url)
   const data = await r.text()
 
@@ -66,16 +67,20 @@ if (require.main === module) {
   const args = arg({
     '--url': String,
     '--prisma-version': String,
+    '--binary-string': String,
   })
 
   const url = args['--url']
   const prismaVersion = args['--prisma-version']
+  const binaryString = args['--binary-string']
   console.log({
     url,
     prismaVersion,
+    binaryString,
   })
   fetchRetry({
     url,
     prismaVersion,
+    binaryString,
   })
 }
