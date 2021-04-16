@@ -1,6 +1,6 @@
 # Vercel Node Builder
 
-Prisma and Vercel's integration using the node builder. This works without any configuration.
+Prisma and Vercel's integration using the node builder (see `vercel.json` for details). This works without any configuration.
 
 ## How to run this locally
 
