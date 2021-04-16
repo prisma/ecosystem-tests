@@ -47,6 +47,7 @@ export default async (req, res) => {
     users,
     deleteManyUsers,
     files,
+    tree
   }
   console.log({ payload })
 
