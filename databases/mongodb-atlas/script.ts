@@ -6,7 +6,7 @@ const client = new PrismaClient()
 async function main() {
   await client.user.deleteMany({})
 
-  const objectId = 'randommongoid1234'
+  const objectId = '6d795f757365725f69643030'
 
   await client.user.create({
     data: {
