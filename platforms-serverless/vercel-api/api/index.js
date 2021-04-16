@@ -48,9 +48,9 @@ export default async (req, res) => {
     deleteManyUsers,
     files,
   }
-  console.log({ paylog })
+  console.log({ payload })
 
   return res.send(
-    JSON.stringify(paylog),
+    JSON.stringify(payload),
   )
 }
