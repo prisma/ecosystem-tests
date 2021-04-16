@@ -6,8 +6,7 @@ const client = new PrismaClient()
 async function main() {
   await client.user.deleteMany({})
 
-  const ObjectID = require('mongodb').ObjectID;
-  const objectId = new ObjectID().toString();
+  const objectId = '6d795f757365725f69643030'
 
   await client.user.create({
     data: {
@@ -19,7 +18,7 @@ async function main() {
 
   const user = await client.user.findUnique({
     where: {
-      id: objectId
+      id: objectId,
     },
   })
 
