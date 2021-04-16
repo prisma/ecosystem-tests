@@ -1,6 +1,6 @@
 # npm package manager
 
-Tests `npm`.
+Tests global install of `prisma` package with `npm`.
 
 ## How to run this locally
 
