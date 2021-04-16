@@ -14,6 +14,7 @@ yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> 
 echo ''
 cat deployment-url.txt
 DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
+echo ''
 echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15

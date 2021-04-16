@@ -41,10 +41,12 @@ app.get('/', async (req, res) => {
   const fs = require('fs')
   const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/node_modules/.prisma/client")
 
+  /*
   const dirTree = require("directory-tree");
   const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
   console.dir(tree, { depth: null });
-  
+  */
+
   const payload = {
     version: Prisma.prismaVersion.client,
     createUser,
@@ -52,7 +54,7 @@ app.get('/', async (req, res) => {
     users,
     deleteManyUsers,
     files,
-    tree,
+    //tree,
   }
   console.log({ payload })
 

@@ -2,7 +2,7 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-api build'
+export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-cli build'
 yarn
 
 export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
@@ -14,11 +14,12 @@ yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> 
 echo ''
 cat deployment-url.txt
 DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
+echo ''
 echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-OUTPUT=$(yarn vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=prisma)
+OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=prisma)
 echo "${OUTPUT}"
 
 # Check the Vercel Build Logs for the postinstal hook"
