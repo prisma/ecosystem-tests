@@ -51,14 +51,14 @@ async function fetchRetry(args: FetchRetryArgs) {
   const data = await r.text()
 
   if (JSON.stringify(data) !== JSON.stringify(expectedData)) {
-    console.log(
-      `expected '${JSON.stringify(expectedData)}', got '${JSON.stringify(
-        data,
-      )}'`,
-    )
+    console.log('expected:')
+    console.log(JSON.stringify(expectedData))
+    console.log('but got:')
+    console.log(JSON.stringify(data))
     process.exit(1)
   } else {
-    console.log('Success')
+    console.log('Success:')
+    console.log(JSON.stringify(data))
     process.exit(0)
   }
 }
