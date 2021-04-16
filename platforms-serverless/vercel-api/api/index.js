@@ -34,7 +34,7 @@ export default async (req, res) => {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT) // + "/src/node_modules/.prisma/client")
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/node_modules/.prisma/client")
   
   return res.send(
     JSON.stringify({
