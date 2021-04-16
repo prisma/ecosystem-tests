@@ -101,7 +101,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [auto-reconnect, browser-build]
+        feature: [auto-reconnect, browser-build, studio]
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -249,10 +249,11 @@ jobs:
       fail-fast: false
       matrix:
         packager:
-          - yarn
-          - yarn2-without-pnp
           - npm
+          - npm-global
+          - yarn
           - yarn-workspaces
+          - yarn2-without-pnp
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -331,20 +332,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - lambda
           - heroku
-          - vercel-node-builder
-          - vercel-api
-          - vercel-with-redwood
-          - vercel-with-nextjs
-          - netlify-cli
-          - netlify-ci
-          - gcp-functions
-          - firebase-functions
-          - azure-functions-linux
-          - azure-functions-windows
           - aws-graviton
-          - serverless-lambda
           - codesandbox
 
     env:
@@ -352,47 +341,9 @@ jobs:
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
-      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
-      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
-      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
-      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      NPM_CONFIG_LOGLEVEL: error
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ROLE: ${{ secrets.AWS_ROLE }}
-      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
-      VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
-      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
-      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
-      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_ORG_ID: ${{ secrets.VERCEL_WITH_NEXTJS_ORG_ID }}
-      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
-      VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
-      NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
-      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
-      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
-      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
-      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
-      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
     steps:
       - uses: actions/checkout@v2
 
@@ -422,6 +373,94 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+
+  platforms-serverless:
+    needs: start-time
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - lambda
+          - vercel-node-builder
+          - vercel-api
+          - vercel-with-redwood
+          - vercel-with-nextjs
+          - netlify-cli
+          - netlify-ci
+          - gcp-functions
+          - firebase-functions
+          - azure-functions-linux
+          - azure-functions-windows
+          - serverless-lambda
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
+      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
+      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NPM_CONFIG_LOGLEVEL: error
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ secrets.AWS_ROLE }}
+      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
+      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
+      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_ORG_ID: ${{ secrets.VERCEL_WITH_NEXTJS_ORG_ID }}
+      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+      VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
+      NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
+      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
+      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
+      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: test ${{ matrix.platform }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
 
   bundlers:
     needs: start-time
@@ -524,6 +563,9 @@ jobs:
           - sqlserver-azure-sql
           - gcp-postgresql-ssl
           - gcp-mysql-ssl
+          - mongodb-atlas
+          - supabase
+          - supabase-pool
 
     name: databases ${{ matrix.database }}
     env:
@@ -544,6 +586,10 @@ jobs:
       GCP_MYSQL_SSL_CLIENT_KEY: ${{ secrets.GCP_MYSQL_SSL_CLIENT_KEY }}
       GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
       GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
+      DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
+      DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
+      DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+
     steps:
       - uses: actions/checkout@v2
 
