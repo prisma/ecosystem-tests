@@ -42,6 +42,7 @@ app.get('/', async (req, res) => {
   const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/node_modules/.prisma/client")
 
   /*
+  // list all files deployed in Lambda to debug when tests are failing
   const dirTree = require("directory-tree");
   const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
   console.dir(tree, { depth: null });
