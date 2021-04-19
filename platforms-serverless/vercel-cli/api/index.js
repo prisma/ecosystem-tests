@@ -33,6 +33,7 @@ export default async (req, res) => {
   const deleteManyUsers = await client.user.deleteMany()
 
   /*
+  // list all files deployed in Lambda to debug when tests are failing
   const dirTree = require("directory-tree");
   const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
   console.dir(tree, { depth: null });
