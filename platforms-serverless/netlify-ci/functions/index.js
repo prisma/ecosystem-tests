@@ -33,6 +33,17 @@ exports.handler = async function (event, context, callback) {
 
   const deleteManyUsers = await client.user.deleteMany()
 
+  /*
+  // list all files deployed in Lambda to debug when tests are failing
+  const dirTree = require("directory-tree");
+  const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
+  console.dir(tree, { depth: null });
+  */
+ 
+  // list all files in node_modules/.prisma/client
+  const fs = require('fs')
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/src/node_modules/.prisma/client")
+
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -41,6 +52,7 @@ exports.handler = async function (event, context, callback) {
       updateUser,
       users,
       deleteManyUsers,
+      files,
     }),
     headers: {
       'Access-Control-Allow-Origin': '*',

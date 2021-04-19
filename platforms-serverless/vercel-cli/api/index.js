@@ -1,6 +1,3 @@
-const dotenv = require('dotenv')
-dotenv.config()
-
 const { PrismaClient, Prisma } = require('@prisma/client')
 const client = new PrismaClient()
 
@@ -35,13 +32,29 @@ export default async (req, res) => {
 
   const deleteManyUsers = await client.user.deleteMany()
 
+  /*
+  // list all files deployed in Lambda to debug when tests are failing
+  const dirTree = require("directory-tree");
+  const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
+  console.dir(tree, { depth: null });
+  */
+
+  // list all files in node_modules/.prisma/client
+  const fs = require('fs')
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/node_modules/.prisma/client")
+  
+  const payload = {
+    version: Prisma.prismaVersion.client,
+    createUser,
+    updateUser,
+    users,
+    deleteManyUsers,
+    files,
+    //tree,
+  }
+  console.log({ payload })
+
   return res.send(
-    JSON.stringify({
-      version: Prisma.prismaVersion.client,
-      createUser,
-      updateUser,
-      users,
-      deleteManyUsers,
-    }),
+    JSON.stringify(payload),
   )
 }
