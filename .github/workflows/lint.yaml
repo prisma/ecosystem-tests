@@ -1,5 +1,10 @@
 name: lint test suite
-on: push
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'renovate.json'
   
 jobs:
   check-test-suite-coverage:
