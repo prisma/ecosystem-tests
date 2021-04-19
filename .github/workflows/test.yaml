@@ -1,5 +1,11 @@
 name: test
-on: push
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'renovate.json'
+  
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
