@@ -1,14 +1,9 @@
 # Netlify CI
 
-Prisma and Netlify integration.
+Prisma and Netlify integration via Git (via another separate Git repository that is pushed to during deployment)
 
 ## How to run this locally
 
-### Netlify authentication
-
-A netlify token needs to be set with the environment variable `NETLIFY_AUTH_TOKEN`.
-
-Alternatively, you can login using `netlify login`.
 
 ### Environment variables
 
@@ -20,10 +15,4 @@ set up your own database and set the environment variable accordingly.
 
 ```shell script
 sh run.sh
-```
-
-Alternatively, you can also try deploying locally, but note that you might that the CI behaviour is not tested which might be relevant:
-
-```shell script
-netlify dev
 ```
