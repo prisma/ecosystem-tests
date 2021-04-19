@@ -33,6 +33,12 @@ exports.handler = async function (event, context, callback) {
 
   const deleteManyUsers = await client.user.deleteMany()
 
+  /*
+  const dirTree = require("directory-tree");
+  const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
+  console.dir(tree, { depth: null });
+  */
+ 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
   const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/src/node_modules/.prisma/client")
