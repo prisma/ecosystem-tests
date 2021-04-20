@@ -10,6 +10,6 @@ yarn tsc
 
 yarn serverless package
 ls -l .serverless
-less .serverless/e2e-tests-serverless-lambda.zip
+less -f .serverless/e2e-tests-serverless-lambda.zip
 
 yarn serverless deploy --region "$AWS_DEFAULT_REGION"
