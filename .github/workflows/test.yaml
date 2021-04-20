@@ -87,7 +87,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: dot-serverless
-          path: .serverless/
+          path: platforms-serverless/serverless-lambda/.serverless/
 
       - name: notify-slack
         if: failure()
