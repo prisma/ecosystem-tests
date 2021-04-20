@@ -86,7 +86,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: dot-serverless
+          name: dot-serverless-${{ matrix.os }}
           path: platforms-serverless/serverless-lambda/.serverless/
 
       - name: notify-slack
