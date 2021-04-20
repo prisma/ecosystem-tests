@@ -84,6 +84,12 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dot-serverless
+          path: .serverless/
+
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
+
