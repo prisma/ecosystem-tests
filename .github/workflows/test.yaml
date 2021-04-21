@@ -29,6 +29,7 @@ jobs:
       - packagers
       - frameworks
       - platforms
+      - platforms-serverless
       - bundlers
       - libraries
       - databases
@@ -52,6 +53,7 @@ jobs:
       - packagers
       - frameworks
       - platforms
+      - platforms-serverless
       - bundlers
       - libraries
       - databases
@@ -185,7 +187,8 @@ jobs:
           - 10.16.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and https://www.prisma.io/docs/reference/system-requirements
           - 12.2.0 # minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
-          - 15 # latest available
+          - 15
+          - 16
 
     name: node ${{ matrix.node }}
     env:
