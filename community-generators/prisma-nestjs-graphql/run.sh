@@ -3,5 +3,5 @@
 set -eux
 
 yarn install
-rm ./json-schema/json-schema.json
+rm -r ./prisma-nestjs-graphql
 yarn prisma generate
