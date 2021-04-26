@@ -35,6 +35,10 @@ In CI, it uses our internal e2e test database using `platform-azure-functions-li
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
 
+### Prepare
+
+To create a function on your own account, run `sh create.sh` first.
+
 ### Run tests
 
 ```shell script
