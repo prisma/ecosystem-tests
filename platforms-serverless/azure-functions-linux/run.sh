@@ -12,7 +12,7 @@ echo "$app" > func-tmp.txt
 cp -r "func-placeholder" "$app"
 
 group="prisma-e2e-linux"
-storage="prisma-e2e-linux-storage"
+storage="prismae2elinuxstorage"
 
 az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Linux
 sleep 60
