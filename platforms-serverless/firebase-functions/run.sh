@@ -2,7 +2,7 @@
 
 set -eux
 
-func="e2e_firebase_test_$(date "+%s")"
+func="e2e_firebase_test_$(date "+%Y-%m-%d-%H%M%S")"
 echo "$func" > func-tmp.txt
 
 cd functions/ && sh prepare.sh "$func" && cd ..

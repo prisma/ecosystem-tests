@@ -6,7 +6,7 @@ yarn install
 yarn prisma generate
 yarn tsc
 
-app="azure-function-linux-e2e-test-$(date "+%s")"
+app="azure-function-linux-e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$app" > func-tmp.txt
 
 cp -r "func-placeholder" "$app"
