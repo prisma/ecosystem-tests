@@ -9,8 +9,8 @@ yarn tsc
 app="azure-function-linux-e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$app" > func-tmp.txt
 
-# TODO Do not copy, move it (otherwise we deploy both each time)
-cp -r "func-placeholder" "$app"
+# give function folder our new app name
+mv "func-placeholder" "$app"
 
 group="prisma-e2e-linux"
 storage="prismae2elinuxstorage"
