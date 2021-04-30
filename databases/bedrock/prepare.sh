@@ -19,6 +19,6 @@ sudo apt-get install bedrock
 #bedrock -fork -db prisma/bedrock.db
 
 cd prisma 
-bedrock -fork -serverHost localhost:3000 -nodeHost localhost:3001 -controlPort localhost:3333 -mysql.host localhost:3307
+bedrock -serverHost localhost:3000 -nodeHost localhost:3001 -controlPort localhost:3333 -mysql.host localhost:3307 -fork -clean
 
 cat /var/log/syslog
