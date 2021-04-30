@@ -13,6 +13,9 @@ sudo apt-get update
 sudo apt-get install bedrock
 
 # Run it (press Ctrl^C to quit, or use -fork to make it run in the backgroud)
-bedrock -fork -db prisma/bedrock.db
+#bedrock -fork -db prisma/bedrock.db
+
+cd prisma 
+bedrock &
 
 cat /var/log/syslog
