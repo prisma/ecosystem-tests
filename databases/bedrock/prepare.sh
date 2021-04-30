@@ -16,6 +16,6 @@ sudo apt-get install bedrock
 #bedrock -fork -db prisma/bedrock.db
 
 cd prisma 
-bedrock &
+bedrock -controlPort localhost:8889 &
 
 cat /var/log/syslog
