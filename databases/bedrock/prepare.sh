@@ -24,7 +24,7 @@ sleep 3
 
 # start our own, nice one
 cd prisma
-ls -j
-bedrock -fork -db bedrock.db
+ls -l
+bedrock -fork -db bedrock.db -v
 
 cat /var/log/syslog
