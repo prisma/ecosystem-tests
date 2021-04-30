@@ -2,4 +2,4 @@
 
 set -eu
 
-heroku logs -a e2e-buildpack-pgbouncer
+yarn heroku logs -a e2e-buildpack-pgbouncer

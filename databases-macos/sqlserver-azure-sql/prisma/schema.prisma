@@ -1,0 +1,15 @@
+datasource db {
+    provider = "sqlserver"
+    url      = env("DATABASE_URL_DB_SQL_SERVER_AZURE_SQL")
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["microsoftSqlServer"]
+}
+
+model User {
+    id    String  @id @default(cuid())
+    email String  @unique
+    name  String?
+}

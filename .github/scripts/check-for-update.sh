@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo ""
+echo "=========================="
+echo "> df -h -B M"
+df -h -B M
+
 set -eu
 shopt -s inherit_errexit || true
 
@@ -71,13 +76,23 @@ while [ $i -le $count ]; do
   echo "=========================="
   echo "getting package version:"
   v=$(bash .github/scripts/prisma-version.sh "$branch")
+  if [ -z "$v" ]
+  then
+        echo "Prisma version is empty: $v"
+        exit 0
+  fi
   echo "$v (via Npm)"
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
   echo "$packages" | tr ' ' '\n' | while read -r item; do
+    echo ""
+    echo "=========================="
+    echo "> df -h -B M"
+    df -h -B M
+
     echo "=========================="
     echo "checking $item"
-
+ 
     case "$item" in
     *".github"* | *"functions/generated/client"*)
       echo "ignoring $item"
@@ -91,7 +106,7 @@ while [ $i -le $count ]; do
 
     if [ "$hasResolutions" = "true" ]; then
       echo "note: project uses `resolutions`"
-      vCLI="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/cli'])")"
+      vCLI="$(node -e "$pkg;console.log(pkg.resolutions['prisma'])")"
 
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
@@ -99,8 +114,8 @@ while [ $i -le $count ]; do
             run_sync "$dir" "$branch"
           fi
 
-          echo "$item: @prisma/cli expected $v, actual $vCLI"
-          json -I -f package.json -e "this.resolutions['@prisma/cli']='$v'"
+          echo "$item: prisma expected $v, actual $vCLI"
+          json -I -f package.json -e "this.resolutions['prisma']='$v'"
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/client'])")"
@@ -115,7 +130,7 @@ while [ $i -le $count ]; do
         fi
       fi
     else
-      vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['@prisma/cli'])")"
+      vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'])")"
 
       if [ "$vCLI" != "" ]; then
         if [ "$v" != "$vCLI" ]; then
@@ -123,8 +138,23 @@ while [ $i -le $count ]; do
             run_sync "$dir" "$branch"
           fi
 
-          echo "$item: @prisma/cli expected $v, actual $vCLI"
-          yarn add "@prisma/cli@$v" --dev
+          echo "$item: prisma expected $v, actual $vCLI"
+          
+          case "$item" in
+          *"yarn2"*)
+            echo "> yarn add prisma@$v --dev"
+            yarn add "prisma@$v" --dev
+            ;;
+          *)
+            echo "> yarn add prisma@$v --dev --ignore-scripts"
+            yarn add "prisma@$v" --dev --ignore-scripts 
+            ;;
+          esac
+          
+          echo ""
+          echo "=========================="
+          echo "> df -h -B M"
+          df -h -B M
         fi
 
         vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -135,7 +165,22 @@ while [ $i -le $count ]; do
           fi
 
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-          yarn add "@prisma/client@$v"
+          
+          case "$item" in
+          *"yarn2"*)
+            echo "> yarn add @prisma/client@$v" 
+            yarn add "@prisma/client@$v"
+            ;;
+          *)
+            echo "> yarn add @prisma/client@$v --ignore-scripts" 
+            yarn add "@prisma/client@$v" --ignore-scripts
+            ;;
+          esac
+          
+          echo ""
+          echo "=========================="
+          echo "> df -h -B M"
+          df -h -B M
         fi
       else
         echo "Dependency not found"
@@ -166,9 +211,17 @@ while [ $i -le $count ]; do
   echo "changes, upgrading..."
   echo "$v" > .github/prisma-version.txt
 
-  git commit -am "chore(packages): bump @prisma/cli to $v"
+  git commit -am "chore(packages): bump prisma to $v"
 
+  set +e
   git pull github "$branch" --rebase
+  code=$?
+  if [ $code -ne 0 ]; then
+    export webhook="$SLACK_WEBHOOK_URL_FAILING"
+    node .github/slack/notify.js "Prisma version $v :warning: Merge conflict at the end of check-for-update.sh script (via $branch)"
+    exit 0
+  fi
+  set -e
 
   set +e
   git push github "HEAD:refs/heads/$branch"

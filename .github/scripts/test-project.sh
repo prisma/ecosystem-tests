@@ -11,7 +11,9 @@ set +u
 matrix=$3
 set -u
 
-bash .github/scripts/print-version.sh "$dir/$project/package.json"
+# In platforms/firebase-functions, the file exists in /functions sub-directory, so we can't hardcode the package.json path
+pjson_path=$(find $dir/$project -name "package.json" ! -path "*/node_modules/*" | head -n 1)
+bash .github/scripts/print-version.sh $pjson_path
 
 cd .github/slack/
 yarn install
@@ -89,7 +91,7 @@ echo "$dir/$project done"
 
 cd "$root"
 
-if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
+if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integration" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
   (cd .github/slack/ && yarn install --silent)
 
   branch="${GITHUB_REF##*/}"

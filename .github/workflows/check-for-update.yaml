@@ -1,17 +1,21 @@
 name: check-for-update
 on:
+  # Manual UI in GitHub https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
+  workflow_dispatch:
   schedule:
+    # Run every five minutes
     - cron: '*/5 * * * *'
+
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests check-for-update.yaml'
 jobs:
   check-for-latest-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
@@ -25,10 +29,10 @@ jobs:
   check-for-dev-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
@@ -42,15 +46,32 @@ jobs:
   check-for-patch-dev-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
       - name: check patch-dev update
         run: bash .github/scripts/check-for-update.sh patch-dev
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+
+  check-for-integration-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: check integration update
+        run: bash .github/scripts/check-for-update.sh integration
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -62,11 +83,12 @@ jobs:
       - check-for-latest-update
       - check-for-dev-update
       - check-for-patch-dev-update
+      - check-for-integration-update
     if: failure()
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 12
 

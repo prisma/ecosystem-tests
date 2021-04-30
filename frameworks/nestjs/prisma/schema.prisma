@@ -1,18 +1,14 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("FRAMEWORK_NESTJS_PG_URL")
+    provider = "postgresql"
+    url      = env("FRAMEWORK_NESTJS_PG_URL")
 }
 
 model User {
-  id        String   @default(cuid()) @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @default("") @unique
-  password  String   @default("")
-  firstname String?
-  lastname  String?
+    id    String  @id @default(cuid())
+    email String  @unique
+    name  String?
 }

@@ -1,0 +1,25 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+generator typegraphql {
+    provider = "typegraphql-prisma"
+    output   = "./generated/typegraphql-prisma"
+}
+
+datasource postgresql {
+    provider = "postgresql"
+    url      = env("DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA")
+}
+
+model User {
+    id    String   @id @default(cuid())
+    email String   @unique
+    name  String?
+    type  UserType
+}
+
+enum UserType {
+    ADMIN
+    NORMAL
+}

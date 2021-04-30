@@ -1,0 +1,20 @@
+{
+  "name": "netlify-ci",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "12.20.11",
+    "netlify-cli": "3.23.1",
+    "prisma": "2.22.0-dev.42"
+  },
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "PRISMA_TELEMETRY_INFORMATION='e2e-tests platform netlify-ci build' && yarn prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "2.22.0-dev.42",
+    "fetch-retry": "^4.0.0",
+    "node-fetch": "^2.6.0"
+  }
+}

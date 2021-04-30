@@ -2,7 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { PrismaClient, prismaVersion } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('@prisma/client')
 
 const clientWithQueryStringParam = new PrismaClient({
   datasources: {
@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
       name: 'Bob',
     },
   })
-  const users = await clientWithQueryStringParam.user.findOne({
+  const users = await clientWithQueryStringParam.user.findUnique({
     where: {
       id,
     },
@@ -43,7 +43,7 @@ app.get('/', async (req, res) => {
   const deleteManyUsers = await clientWithQueryStringParam.user.deleteMany()
   return res.send(
     JSON.stringify({
-      version: prismaVersion.client,
+      version: Prisma.prismaVersion.client,
       createUser,
       updateUser,
       users,

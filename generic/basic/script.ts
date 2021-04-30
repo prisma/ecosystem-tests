@@ -16,7 +16,7 @@ async function main() {
     },
   })
 
-  const user = await client.user.findOne({
+  const user = await client.user.findUnique({
     where: {
       id: rand,
     },
@@ -25,7 +25,7 @@ async function main() {
   const expect = JSON.stringify({
     id: rand,
     email: 'alice@prisma.io' + rand,
-    name: 'Alice'
+    name: 'Alice',
   })
 
   if (JSON.stringify(user) !== expect) {
@@ -38,9 +38,11 @@ async function main() {
   await client.$disconnect()
 }
 
-main().catch(async e => {
-  console.error(e)
-  process.exit(1)
-}).finally(async () => {
-  await client.$disconnect()
-})
+main()
+  .catch(async (e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await client.$disconnect()
+  })

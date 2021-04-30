@@ -1,8 +1,24 @@
 name: test
-on: push
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'renovate.json'
+  
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
+  SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+  
 jobs:
+  start-time:
+    runs-on: ubuntu-latest
+    outputs:
+      start-time: ${{ steps.start-time-output.outputs.start-time }}
+    steps:
+      - id: start-time-output
+        run: echo "::set-output name=start-time::$(date)"
+
   report-to-slack-success:
     runs-on: ubuntu-latest
     needs:
@@ -13,25 +29,19 @@ jobs:
       - packagers
       - frameworks
       - platforms
+      - platforms-serverless
       - bundlers
       - libraries
       - databases
-    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
+      - databases-macos
+      - process-managers
+      - test-runners
+    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
-        env:
-          CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
   report-to-slack-failure:
     runs-on: ubuntu-latest
@@ -43,50 +53,82 @@ jobs:
       - packagers
       - frameworks
       - platforms
+      - platforms-serverless
       - bundlers
       - libraries
       - databases
-    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
+      - databases-macos
+      - process-managers
+      - test-runners
+    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
-        env:
-          CI: 1
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
 
-  core-features:
-    runs-on: ubuntu-latest
+  process-managers:
+    needs: start-time
     strategy:
       fail-fast: false
       matrix:
-        feature: [auto-reconnect]
+        feature: [pm2]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+      PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 12
 
       - name: test feature - ${{ matrix.feature }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh process-managers ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
+
+  core-features:
+    needs: start-time
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [auto-reconnect, browser-build, studio]
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test feature - ${{ matrix.feature }}
+        id: run-test
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -97,29 +139,31 @@ jobs:
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
   os:
+    needs: start-time
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 12
 
       - name: test on ${{ matrix.os }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -130,6 +174,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
   node:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -139,24 +184,30 @@ jobs:
           - 10
           - 12
           - 14
+          - 10.16.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and https://www.prisma.io/docs/reference/system-requirements
+          - 12.2.0 # minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
+          - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+          - 15
+          - 16
 
     name: node ${{ matrix.node }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
       - name: test on node ${{ matrix.node }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -167,27 +218,29 @@ jobs:
         run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
+    needs: start-time
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
-        os: [ubuntu-latest, macos-latest] # windows-latest was commented out because of pkg failures
     runs-on: ${{ matrix.os }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 12
 
       - name: test ${{ matrix.binary }} binary on ${{ matrix.os }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -198,17 +251,21 @@ jobs:
         run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         packager:
-          - yarn
           - npm
+          - npm-global
+          - yarn
           - yarn-workspaces
+          - yarn2-without-pnp
 
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -217,16 +274,16 @@ jobs:
       PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 10
 
       - name: packager ${{ matrix.packager }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -237,6 +294,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
 
   frameworks:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -247,6 +305,7 @@ jobs:
           - nextjs
 
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -254,16 +313,16 @@ jobs:
       FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 10
 
       - name: framework ${{ matrix.framework }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -274,6 +333,58 @@ jobs:
         run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
+    needs: start-time
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - heroku
+          - aws-graviton
+          - codesandbox
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install Dependencies
+        run: yarn
+        
+      # Install Puppeteer for Codesandbox test only
+      - name: Install Puppeteer
+        if: ${{ matrix.platform == 'codesandbox' }}
+        uses: ianwalter/puppeteer-container@v4.0.0
+        with:
+          args: yarn --ignore-engines
+
+      - name: test ${{ matrix.platform }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+
+  platforms-serverless:
+    needs: start-time
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -282,20 +393,20 @@ jobs:
       matrix:
         platform:
           - lambda
-          - heroku
           - vercel-node-builder
-          - vercel-api
+          - vercel-cli
           - vercel-with-redwood
           - vercel-with-nextjs
           - netlify-cli
           - netlify-ci
           - gcp-functions
-          - codesandbox
           - firebase-functions
           - azure-functions-linux
           - azure-functions-windows
+          - serverless-framework-lambda
 
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -308,10 +419,8 @@ jobs:
       NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
       NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
       LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
-      HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -338,32 +447,32 @@ jobs:
       AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 12
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
-      - name: Install Puppeteer
-        uses: ianwalter/puppeteer@v2.0.0
-        with:
-          args: yarn
+      - name: Install Dependencies
+        run: yarn
 
       - name: test ${{ matrix.platform }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
 
   bundlers:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -376,6 +485,7 @@ jobs:
 
     name: bundler ${{ matrix.bundler }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -383,16 +493,16 @@ jobs:
       PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
       ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 10
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 10
 
       - name: test ${{ matrix.bundler }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -403,6 +513,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
 
   libraries:
+    needs: start-time
     runs-on: ubuntu-latest
 
     strategy:
@@ -416,6 +527,7 @@ jobs:
 
     name: library ${{ matrix.library }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -425,16 +537,16 @@ jobs:
       LIBRARY_NEXUS_SCHEMA_PG_URL: ${{ secrets.LIBRARY_NEXUS_SCHEMA_PG_URL }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: use node 10
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 10
 
       - name: test ${{ matrix.library }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -445,7 +557,8 @@ jobs:
         run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
 
   databases:
-    runs-on: ubuntu-16.04
+    needs: start-time
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -455,30 +568,51 @@ jobs:
           - docker-pgbouncer
           - heroku-pgbouncer
           - heroku-pgbouncer-buildpack
-          - bedrock
+          - sqlserver-aws-rds
+          - sqlserver-azure-sql
+          - gcp-postgresql-ssl
+          - gcp-mysql-ssl
+          - mongodb-atlas
+          - supabase
+          - supabase-pool
 
     name: databases ${{ matrix.database }}
     env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
+      DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
+      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
+      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
+      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
+      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
+      GCP_MYSQL_SSL_CLIENT_CERT: ${{ secrets.GCP_MYSQL_SSL_CLIENT_CERT }}
+      GCP_MYSQL_SSL_CLIENT_KEY: ${{ secrets.GCP_MYSQL_SSL_CLIENT_KEY }}
+      GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
+      GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
+      DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
+      DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
+      DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: yarn install
 
       - name: use node 12
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12
 
       - name: test ${{ matrix.database }}
         id: run-test
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -487,3 +621,79 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+
+  databases-macos:
+    needs: start-time
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - sqlserver-azure-sql
+
+    name: databases-macos ${{ matrix.database }}
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.database }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh databases-macos ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+
+  test-runners:
+    needs: start-time
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        test-runner:
+          - jest-with-multiple-generators
+
+    name: test-runner ${{ matrix.test-runner }}
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.test-runner }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh test-runners ${{ matrix.test-runner }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh test-runners ${{ matrix.test-runner }}
