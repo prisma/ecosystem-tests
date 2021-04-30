@@ -16,7 +16,7 @@ async function main() {
     },
   })
 
-  const user = await client.user.findOne({
+  const user = await client.user.findUnique({
     where: {
       id: rand,
     },
