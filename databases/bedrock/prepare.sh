@@ -5,8 +5,6 @@ set -eux
 # stop running GH Actions MySQL
 sudo service mysql stop
 
-cd prisma 
-
 # Add the Bedrock repo to apt sources for your distro:
 sudo wget -O /etc/apt/sources.list.d/bedrock.list https://apt.bedrockdb.com/ubuntu/dists/$(lsb_release -cs)/bedrock.list
 
