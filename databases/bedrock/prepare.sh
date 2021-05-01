@@ -25,6 +25,6 @@ sleep 3
 # start our own, nice one
 cd prisma
 ls -l
-bedrock -fork -db ./bedrock.db -v
+bedrock -fork -db /home/runner/work/e2e-tests/e2e-tests/databases/bedrock/prisma/bedrock.db -v
 
 cat /var/log/syslog
