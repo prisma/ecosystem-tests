@@ -44,3 +44,12 @@ To create a function on your own account, run `sh create.sh` first.
 ```shell script
 sh run.sh
 ```
+
+## How to develop locally
+
+```
+yarn install
+yarn prisma generate
+yarn tsc
+yarn func start
+```
