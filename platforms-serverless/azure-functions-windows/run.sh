@@ -10,7 +10,7 @@ app="azure-function-win-e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$app" > func-tmp.txt
 
 # give function folder our new app name
-cp "func-placeholder" "$app"
+mv "func-placeholder" "$app"
 
 group="prisma-e2e-windows"
 storage="prismae2ewin6owsstorage"
