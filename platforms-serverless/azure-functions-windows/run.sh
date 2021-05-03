@@ -15,8 +15,10 @@ mv "func-placeholder" "$app"
 group="prisma-e2e-windows"
 storage="prismae2ewin6owsstorage"
 
-az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Windows
-az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=* FUNCTIONS_EXTENSION_VERSION=~3 AZURE_FUNCTIONS_WINDOWS_PG_URL=$AZURE_FUNCTIONS_WINDOWS_PG_URL"
+az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Windows --functions-version 3
+
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=*"
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "AZURE_FUNCTIONS_WINDOWS_PG_URL=$AZURE_FUNCTIONS_WINDOWS_PG_URL"
 
 sleep 30
 yarn func azure functionapp publish "$app" --force
