@@ -4,6 +4,10 @@ import { Prisma, PrismaClient } from '@prisma/client'
 const client = new PrismaClient()
 
 export = async function (context: Context, req: HttpRequest): Promise<void> {
+  console.log('This is azure-functions-linux')
+  console.log('debug env var = ', process.env.DEBUG)
+  console.log('conn string env var = ', process.env.AZURE_FUNCTIONS_LINUX_PG_URL)
+  
   await client.user.deleteMany({})
 
   const id = '12345'
