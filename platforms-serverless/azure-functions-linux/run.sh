@@ -10,7 +10,7 @@ app="azure-function-linux-e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$app" > func-tmp.txt
 
 # give function folder our new app name
-mv "func-placeholder" "$app"
+cp "func-placeholder" "$app"
 
 group="prisma-e2e-linux"
 storage="prismae2elinuxstorage"
