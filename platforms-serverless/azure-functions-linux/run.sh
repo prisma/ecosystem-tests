@@ -21,3 +21,5 @@ az functionapp config appsettings set --name "$app" --resource-group "$group" --
 
 sleep 30
 yarn func azure functionapp publish "$app" --force
+
+
