@@ -109,7 +109,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [auto-reconnect, browser-build, studio]
+        feature: [auto-reconnect, browser-build, studio, socket_timeout_postgresql, socket_timeout_mysql]
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
