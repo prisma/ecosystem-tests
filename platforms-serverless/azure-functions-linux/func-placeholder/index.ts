@@ -15,6 +15,8 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
   global.console.info = context.log.info
 
   context.log('This is azure-functions-linux')
+  context.log(`Node Arch: ${process.arch}`)
+
   context.log('debug env var = ', process.env.DEBUG)
   context.log(
     'conn string env var = ',
