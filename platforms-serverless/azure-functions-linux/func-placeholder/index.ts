@@ -1,5 +1,5 @@
-import { PrismaClient, Prisma } from '@prisma/client'
-import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { Context, HttpRequest } from '@azure/functions'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 const client = new PrismaClient()
 
@@ -33,7 +33,7 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
   })
 
   const deleteManyUsers = await client.user.deleteMany({})
-
+  await client.$disconnect()
   context.res = {
     status: 200,
     body: JSON.stringify({

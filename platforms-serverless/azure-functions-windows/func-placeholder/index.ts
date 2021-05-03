@@ -1,3 +1,4 @@
+const napiLibary = require(".prisma/client/query_engine_napi-windows.dll.node")
 import { PrismaClient, Prisma } from '@prisma/client'
 import { Context, HttpRequest } from '@azure/functions'
 
