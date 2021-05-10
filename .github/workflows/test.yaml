@@ -205,7 +205,6 @@ jobs:
           - 15
           - 16
 
-    name: node ${{ matrix.node }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -332,6 +331,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         framework:
           - nestjs
           - nextjs
@@ -533,7 +533,6 @@ jobs:
           - parcel
           - rollup
 
-    name: bundler ${{ matrix.bundler }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -581,7 +580,6 @@ jobs:
           - type-graphql
           - nexus-schema
 
-    name: library ${{ matrix.library }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -638,7 +636,6 @@ jobs:
           - supabase
           - supabase-pool
 
-    name: databases ${{ matrix.database }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -700,7 +697,6 @@ jobs:
         database:
           - sqlserver-azure-sql
 
-    name: databases-macos ${{ matrix.database }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -746,7 +742,6 @@ jobs:
         test-runner:
           - jest-with-multiple-generators
 
-    name: test-runner ${{ matrix.test-runner }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
