@@ -9,15 +9,6 @@ const client = new PrismaClient({
 })
 
 export = async function (context: Context, req: HttpRequest): Promise<void> {
-  global.console.log = context.log
-  global.console.warn = context.log.warn
-  global.console.error = context.log.error
-  global.console.info = context.log.info
-
-  context.log('This is azure-functions-linux')
-  context.log(`Node Arch: ${process.arch}`)
-
-  context.log('debug env var = ', process.env.DEBUG)
   context.log(
     'conn string env var = ',
     process.env.AZURE_FUNCTIONS_LINUX_PG_URL,
