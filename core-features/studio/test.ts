@@ -12,7 +12,7 @@ describe('Studio', () => {
     let res = await fetch(`http://localhost:${STUDIO_PORT}`)
     expect(res.status).toBe(200)
 
-    res = await fetch(`http://localhost:${STUDIO_PORT}/index.js`)
+    res = await fetch(`http://localhost:${STUDIO_PORT}/databrowser.js`)
     expect(res.status).toBe(200)
 
     res = await fetch(`http://localhost:${STUDIO_PORT}/index.css`)
