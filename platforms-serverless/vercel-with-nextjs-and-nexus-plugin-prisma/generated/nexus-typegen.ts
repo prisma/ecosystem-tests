@@ -20,7 +20,8 @@ declare global {
 
 export interface NexusGenInputs {
   UserWhereUniqueInput: { // input type
-    id?: number | null; // Int
+    email?: string | null; // String
+    id?: string | null; // String
   }
 }
 
@@ -38,8 +39,8 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Query: {};
   User: { // root type
-    id: number; // Int!
-    name: string; // String!
+    id: string; // String!
+    name?: string | null; // String
   }
 }
 
@@ -58,8 +59,8 @@ export interface NexusGenFieldTypes {
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   User: { // field return type
-    id: number; // Int!
-    name: string; // String!
+    id: string; // String!
+    name: string | null; // String
   }
 }
 
@@ -68,7 +69,7 @@ export interface NexusGenFieldTypeNames {
     users: 'User'
   }
   User: { // field return type name
-    id: 'Int'
+    id: 'String'
     name: 'String'
   }
 }

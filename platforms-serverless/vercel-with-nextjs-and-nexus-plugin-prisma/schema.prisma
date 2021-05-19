@@ -4,10 +4,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL")
+  url      = env("NEXTJS_WITH_VERCEL_PG_URL")
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
 }

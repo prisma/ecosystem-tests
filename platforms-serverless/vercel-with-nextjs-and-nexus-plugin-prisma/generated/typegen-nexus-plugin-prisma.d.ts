@@ -21,8 +21,8 @@ interface PrismaModels {
 interface NexusPrismaInputs {
   Query: {
     users: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'name'
-      ordering: 'id' | 'name'
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'email' | 'name' | 'age'
+      ordering: 'id' | 'email' | 'name' | 'age'
     }
   },
   User: {
@@ -45,8 +45,10 @@ interface NexusPrismaOutputs {
     upsertOneUser: 'User'
   },
   User: {
-    id: 'Int'
+    id: 'String'
+    email: 'String'
     name: 'String'
+    age: 'Int'
   }
 }
 
