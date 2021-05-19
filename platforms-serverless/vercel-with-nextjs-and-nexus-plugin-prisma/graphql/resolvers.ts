@@ -1,4 +1,10 @@
-import { objectType } from 'nexus'
+import { objectType, queryType } from 'nexus'
+
+export const Query = queryType({
+  definition(t) {
+    t.crud.users()
+  }
+})
 
 export const User = objectType({
   name: 'User',

@@ -1,10 +1,10 @@
 import { makeSchema } from 'nexus'
 import { nexusPrisma } from 'nexus-plugin-prisma'
 import path from 'path'
-import { User } from './resolvers'
+import { Query, User } from './resolvers'
 
 export const schema = makeSchema({
-  types: [User],
+  types: [User, Query],
   contextType: {
     module: path.join(process.cwd(), 'graphql', 'context.ts'),
     export: 'Context'
@@ -13,6 +13,7 @@ export const schema = makeSchema({
   /**/
   plugins: [
     nexusPrisma({
+      experimentalCRUD: true,
       outputs: { typegen: path.join(process.cwd(), 'generated', 'typegen-nexus-plugin-prisma.d.ts') }
     }),
   ],
