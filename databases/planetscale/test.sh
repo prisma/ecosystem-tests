@@ -4,7 +4,7 @@ set -eu
 
 # pscale connect test main --execute 'yarn test' <-- Does not work because of "Query engine exited with code 1"
 
-pscale connect test main &
+pscale connect e2e-tests main &
 pid=$!
 
 sleep 5

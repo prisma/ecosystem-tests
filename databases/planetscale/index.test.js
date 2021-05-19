@@ -16,7 +16,7 @@ describe('tests for database', () => {
   })
 
   it('should query the database', async () => {
-    const data = await prisma.reminders.findMany()
+    const data = await prisma.user.findMany()
     expect(data).toMatchSnapshot()
   })
 })
