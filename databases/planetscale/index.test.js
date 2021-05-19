@@ -16,13 +16,6 @@ describe('tests for database', () => {
   })
 
   it('should query the database', async () => {
-
-    // TODO remove when not needed any more
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    await sleep(2000);
-
     const data = await prisma.reminders.findMany()
     expect(data).toMatchSnapshot()
   })
