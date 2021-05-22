@@ -4,5 +4,5 @@ set -eux
 
 yarn test
 
-# no kill the parent process as well
+# now kill the parent process when tests are done
 kill $PPID
