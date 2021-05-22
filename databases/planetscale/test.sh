@@ -2,7 +2,7 @@
 
 set -eu
 
-pscale connect e2e-tests main --execute-protocol 'mysql' --debug --execute 'test-wrapper.sh' 
+pscale connect e2e-tests main --execute-protocol 'mysql' --debug --execute './test-wrapper.sh' 
 
 #<-- Does not work because of "Query engine exited with code 1"
 
