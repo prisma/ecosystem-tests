@@ -1248,6 +1248,30 @@
     rollup-plugin-terser "^7.0.2"
     typescript "^4.1.5"
 
+"@netlify/plugin-edge-handlers@^1.11.11":
+  version "1.11.11"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-edge-handlers/-/plugin-edge-handlers-1.11.11.tgz#f6c3104a6dd1ac86107ae391113f79fba0ca5f88"
+  integrity sha512-0pLeU3XWtUBZfX4GdgJqBAGJA2gVFzjAnlSCLV6QNobNXU2rE8n7AHtydQ7Mx4GVBbA9ETowsYXtoxhmX2j//g==
+  dependencies:
+    "@babel/core" "^7.11.4"
+    "@babel/preset-env" "^7.11.5"
+    "@rollup/plugin-babel" "^5.2.0"
+    "@rollup/plugin-commonjs" "^18.0.0"
+    "@rollup/plugin-inject" "^4.0.2"
+    "@rollup/plugin-json" "^4.1.0"
+    "@rollup/plugin-node-resolve" "^11.0.0"
+    "@types/node" "^14.0.27"
+    buffer-es6 "^4.9.3"
+    del "^6.0.0"
+    make-dir "^3.1.0"
+    node-fetch "^2.6.1"
+    path-type "^4.0.0"
+    process-es6 "^0.11.6"
+    rollup "^2.23.1"
+    rollup-plugin-node-polyfills "^0.2.1"
+    rollup-plugin-terser "^7.0.2"
+    typescript "^4.1.5"
+
 "@netlify/plugins-list@^2.14.1":
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/@netlify/plugins-list/-/plugins-list-2.14.1.tgz#b2cea112f506898d61d3aae05bd26a7fa6e001c2"
@@ -3731,15 +3755,15 @@ dot-prop@^5.1.0, dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
+
 dotenv@^8.0.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
-
-dotenv@^9.0.0:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-9.0.1.tgz#a889a28a3a515812dde1e7f8183ef5cdf3186b97"
-  integrity sha512-W8FNeNnnvJoYfgkFRKzp8kTgz0T2YY4TJ9xy1Ma0hSebPTK8iquRtpG12TUrSTX5zIN9D/wSLEEuI+Ad35tlyw==
 
 download@^7.1.0:
   version "7.1.0"
@@ -6255,15 +6279,15 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@3.30.4:
-  version "3.30.4"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-3.30.4.tgz#796e78b56a8aedd40853b22668969937b8323fdb"
-  integrity sha512-aVCHPXQZgjEYV6Hk00WgCNIvFXWnF622Ci9CWbig1QT8WQA8EQeYm7uaIaTLVjdJfMBEh2DC8bFbr+Cp4A1XDg==
+netlify-cli@3.30.6:
+  version "3.30.6"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-3.30.6.tgz#b52770e176a4deac67a217ca0331201382615788"
+  integrity sha512-OmYVTC/8kg0uYBRwPXm87KgkIjosQF79TJa/ZuCYQz8YX6+dOmIpuXlhdDLlBWF9A2HoAutr/NIBjSbV8faluw==
   dependencies:
     "@netlify/build" "^11.18.0"
     "@netlify/config" "^6.6.0"
     "@netlify/framework-info" "^4.1.0"
-    "@netlify/plugin-edge-handlers" "^1.11.10"
+    "@netlify/plugin-edge-handlers" "^1.11.11"
     "@netlify/plugins-list" "^2.14.2"
     "@netlify/traffic-mesh-agent" "^0.27.10"
     "@netlify/zip-it-and-ship-it" "^4.0.1"
@@ -6297,7 +6321,7 @@ netlify-cli@3.30.4:
     debug "^4.1.1"
     del "^5.1.0"
     dot-prop "^5.1.0"
-    dotenv "^9.0.0"
+    dotenv "^10.0.0"
     env-paths "^2.2.0"
     envinfo "^7.3.1"
     execa "^5.0.0"
