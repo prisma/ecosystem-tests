@@ -1,4 +1,5 @@
 const process = require('process');
+const execa = require('execa');
 
 const measure_start = process.hrtime.bigint()
 
@@ -7,7 +8,15 @@ import { PrismaClient, Prisma } from '@prisma/client'
 const client = new PrismaClient()
 
 const measure_client = process.hrtime.bigint()
-    
+
+try {
+	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { detached: true });
+} catch (error) {
+	console.log(error);
+}
+
+const measure_planetscale = process.hrtime.bigint()
+
 export async function handler() {
   
   const measure_handler = process.hrtime.bigint()
@@ -55,7 +64,8 @@ export async function handler() {
     users,
     deleteManyUsers,
     measurements: {
-      outside_handler: Number(measure_client-measure_start) / 1000000000,
+      outside_handler: Number(measure_planetscale-measure_start) / 1000000000,
+      planetsacle:  Number(measure_planetscale-measure_client) / 1000000000,
       inside_handler: Number(measure_end-measure_handler) / 1000000000,
       inside_handler_connect: Number(measure_connect-measure_handler) / 1000000000,
       inside_handler_queries: Number(measure_end-measure_connect) / 1000000000,
