@@ -2,4 +2,5 @@
 
 set -eu
 
-pscale connect e2e-tests main --execute-protocol 'mysql' --debug --execute './test-wrapper.sh'
+pscale version
+pscale connect e2e-tests main --execute-protocol 'mysql' --debug --execute 'yarn test'
