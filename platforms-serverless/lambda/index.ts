@@ -12,6 +12,9 @@ function wait(ms: number) {
 }
 
 try {
+  execa.sync('wget', ['https://github.com/planetscale/cli/releases/download/v0.40.0/pscale_0.40.0_linux_amd64.deb'])
+  execa.sync('sudo', ['dpkg -i pscale_0.40.0_linux_amd64.deb'])
+
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { detached: true })
   console.log("spawned `pscale connect` successfully")
   wait(3000)
