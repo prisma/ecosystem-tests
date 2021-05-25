@@ -12,7 +12,7 @@ function wait(ms: number) {
 }
 
 try {
-  execa.sync('sudo', ['dpkg -i pscale_0.40.0_linux_amd64.deb'])
+  execa.sync('rpm', ['-i pscale_0.40.0_linux_amd64.deb'])
 
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { detached: true })
   console.log("spawned `pscale connect` successfully")
