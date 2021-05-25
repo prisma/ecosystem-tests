@@ -3,7 +3,7 @@ const execa = require('execa');
 
 const measure_start = process.hrtime.bigint()
 
-function wait(ms) {
+function wait(ms: number) {
   var start = Date.now(),
       now = start;
   while (now - start < ms) {
