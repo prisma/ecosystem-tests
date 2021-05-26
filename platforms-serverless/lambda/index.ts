@@ -16,7 +16,9 @@ try {
   console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
   execa.sync('echo', ['$PLANETSCALE_SERVICE_TOKEN'])
 
-  execa.sync('pscale', ['version'])
+  const { stdout } = execa.sync('pscale', ['version'])
+  console.log('version', stdout)
+  
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main']) //, { detached: true })
   console.log("spawned `pscale connect` successfully")
   wait(3000)
