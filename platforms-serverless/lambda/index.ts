@@ -14,6 +14,8 @@ function wait(ms: number) {
 try {
   process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
   console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
+  execa.sync('echo', ['$PLANETSCALE_SERVICE_TOKEN'])
+
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { detached: true })
   console.log("spawned `pscale connect` successfully")
   wait(3000)
