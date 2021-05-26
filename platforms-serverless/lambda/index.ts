@@ -35,7 +35,7 @@ export async function handler() {
   
   let pscale: any
   try {
-    pscale = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 9000 }).stdout.pipe(process.stdout).catch((err: any) => {
+    pscale = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 9000 }).catch((err: any) => {
       console.log('pscale connect promise was rejected', err)
     })
     console.log("spawned `pscale connect` successfully", pscale)
