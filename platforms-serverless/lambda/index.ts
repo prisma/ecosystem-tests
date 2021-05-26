@@ -20,10 +20,14 @@ function wait(ms: number) {
 // TODO check if necessary
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
 
-let pscalePromise: any
+let pscale: any
 try {
-  pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env })
-  pscalePromise.catch((err: any) => {
+  pscale = execa(
+    'pscale', ['connect', 'e2e-tests', 'main', '--debug'],
+    { env: process.env } // test if required
+  )
+  pscale.stdout.pipe(process.stdout);
+  pscale.catch((err: any) => {
     console.log('pscale connect promise was rejected', err)
   })
 
@@ -103,7 +107,7 @@ export async function handler() {
 
   console.log('all done')
 
-  await pscalePromise.catch((err: any) => {
+  await pscale.catch((err: any) => {
     console.log('(2) pscale connect promise was rejected', err)
   })
   
