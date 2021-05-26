@@ -14,8 +14,12 @@ function wait(ms: number) {
 try {
   process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
   console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
-  let result = execa.sync('echo', ['$PLANETSCALE_SERVICE_TOKEN'])
+
+  let result = execa.sync('echo $PLANETSCALE_SERVICE_TOKEN')
   console.log('$PLANETSCALE_SERVICE_TOKEN', result.stdout)
+
+  let result3 = execa.sync('env')
+  console.log('env', result3.stdout)
 
   let result2 = execa.sync('pscale', ['version'])
   console.log('version', result2.stdout)
