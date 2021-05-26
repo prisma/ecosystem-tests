@@ -34,7 +34,7 @@ export async function handler() {
   */
   
   try {
-    const { stdout, stderr } = execa('pscale', ['connect', 'fk-test', 'main', '--debug'], { env: process.env, timeout: 5000, detached: true })
+    const { stdout, stderr } = execa('pscale', ['connect', 'fk-test', 'main', '--debug'], { env: process.env, timeout: 9000 })
     console.log("spawned `pscale connect` successfully", stdout, stderr)
     wait(3000)
     console.log("and waited 3 seconds")
