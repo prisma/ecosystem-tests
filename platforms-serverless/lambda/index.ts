@@ -14,11 +14,11 @@ function wait(ms: number) {
 try {
   process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
   console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
-  const { stdout } = execa.sync('echo', ['$PLANETSCALE_SERVICE_TOKEN'])
-  console.log('version', stdout)
+  let result = execa.sync('echo', ['$PLANETSCALE_SERVICE_TOKEN'])
+  console.log('$PLANETSCALE_SERVICE_TOKEN', result.stdout)
 
-  const { stdout2 } = execa.sync('pscale', ['version'])
-  console.log('version', stdout2)
+  let result2 = execa.sync('pscale', ['version'])
+  console.log('version', result2.stdout)
 
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env }) //, { detached: true })
   console.log("spawned `pscale connect` successfully")
