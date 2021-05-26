@@ -22,7 +22,7 @@ const measure_client = process.hrtime.bigint()
 export async function handler() {
   
   console.log('handler!')
-  
+
   try {
     const { stdout } = execa.sync('pscale', ['version'])
     console.log('version', stdout)
@@ -31,8 +31,8 @@ export async function handler() {
   }
   
   try {
-    const { stdout } = execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env, detached: true })
-    console.log("spawned `pscale connect` successfully", stdout)
+    const { stdout, stderr } = execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env, timeout: 5000 }) //, detached: true })
+    console.log("spawned `pscale connect` successfully", stdout, stderr)
     //wait(3000)
     //console.log("and waited 3 seconds")
   } catch (error) {
