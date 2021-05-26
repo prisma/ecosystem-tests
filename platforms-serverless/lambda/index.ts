@@ -17,40 +17,41 @@ function wait(ms: number) {
   }
 }
 
+// TODO check if necessary
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
+
+/*
+// this works, no need to spend time on it
+try {
+  const { stdout } = execa.sync('pscale', ['version'])
+  console.log('version', stdout)
+} catch (error) {
+  console.log(error)
+}
+*/
+
+let pscalePromise: any
+try {
+  pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 7000 })
+  //pscalePromise.stdout.pipe(process.stdout)
+  pscalePromise.catch((err: any) => {
+    console.log('pscale connect promise was rejected', err)
+  })
+
+  console.log("spawned `pscale connect` successfully", pscalePromise)
+  wait(3000)
+  console.log("and waited 3 seconds for CLI hopefully to open the connection successfully", pscalePromise)
+} catch (error) {
+  console.log('pscale connect error', error)
+}
+
+console.log('after pscale stuff')
+
+const measure_planetscale = process.hrtime.bigint()
 
 export async function handler() {
   
   console.log('handler!')
-
-  /*
-  // this works, no need to spend time on it
-  try {
-    const { stdout } = execa.sync('pscale', ['version'])
-    console.log('version', stdout)
-  } catch (error) {
-    console.log(error)
-  }
-  */
-  
-  let pscalePromise: any
-  try {
-    pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 7000 })
-    pscalePromise.stdout.pipe(process.stdout)
-    pscalePromise.catch((err: any) => {
-      console.log('pscale connect promise was rejected', err)
-    })
-
-    console.log("spawned `pscale connect` successfully", pscalePromise)
-    wait(3000)
-    console.log("and waited 3 seconds", pscalePromise)
-  } catch (error) {
-    console.log('pscale connect error', error)
-  }
-
-  console.log('after pscale stuff')
-  
-  const measure_planetscale = process.hrtime.bigint()
 
   const measure_handler = process.hrtime.bigint()
   
@@ -99,7 +100,7 @@ export async function handler() {
       deleteManyUsers,
       measurements: {
         outside_handler: Number(measure_client-measure_start) / 1000000000,
-        planetsacle:  Number(measure_planetscale-measure_start) / 1000000000,
+        planetscale:  Number(measure_planetscale-measure_client) / 1000000000,
         inside_handler: Number(measure_end-measure_handler) / 1000000000,
         inside_handler_connect: Number(measure_connect-measure_handler) / 1000000000,
         inside_handler_queries: Number(measure_end-measure_connect) / 1000000000,
