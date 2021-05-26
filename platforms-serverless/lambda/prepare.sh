@@ -2,4 +2,3 @@
 
 set -eux
 
-brew install planetscale/tap/pscale
