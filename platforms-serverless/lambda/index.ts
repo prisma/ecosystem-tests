@@ -13,10 +13,6 @@ function wait(ms: number) {
 
 try {
   process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
-
-
-  execa.sync('rpm', ['-i pscale_0.40.0_linux_amd64.deb'])
-
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { detached: true })
   console.log("spawned `pscale connect` successfully")
   wait(3000)
