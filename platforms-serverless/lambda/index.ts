@@ -22,15 +22,14 @@ process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT'
 
 let pscalePromise: any
 try {
-  pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 9000 })
-  //pscalePromise.stdout.pipe(process.stdout)
+  pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env })
   pscalePromise.catch((err: any) => {
     console.log('pscale connect promise was rejected', err)
   })
 
-  console.log("spawned `pscale connect` successfully", pscalePromise.stdout)
+  console.log("spawned `pscale connect` successfully")
   wait(3000)
-  console.log("and waited 3 seconds for CLI hopefully to open the connection successfully", pscalePromise.stdout)
+  console.log("and waited 3 seconds for CLI hopefully to open the connection successfully")
 } catch (error) {
   console.log('pscale connect error', error)
 }
@@ -50,12 +49,44 @@ export async function handler() {
 
     const measure_connect = process.hrtime.bigint()
 
-    await client.user.findMany({})
+    await client.user.deleteMany({})
 
+    const id = '12345'
+  
+    const createUser = await client.user.create({
+      data: {
+        id,
+        email: 'alice@prisma.io',
+        name: 'Alice',
+      },
+    })
+  
+    const updateUser = await client.user.update({
+      where: {
+        id,
+      },
+      data: {
+        email: 'bob@prisma.io',
+        name: 'Bob',
+      },
+    })
+  
+    const users = await client.user.findUnique({
+      where: {
+        id,
+      },
+    })
+  
+    const deleteManyUsers = await client.user.deleteMany({})
+  
     const measure_end = process.hrtime.bigint()
     
     return {
       version: Prisma.prismaVersion.client,
+      createUser,
+      updateUser,
+      users,
+      deleteManyUsers,
       measurements: {
         outside_handler: Number(measure_client-measure_start) / 1000000000,
         planetscale:  Number(measure_planetscale-measure_client) / 1000000000,
