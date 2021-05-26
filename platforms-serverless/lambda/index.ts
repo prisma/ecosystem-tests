@@ -20,27 +20,17 @@ function wait(ms: number) {
 // TODO check if necessary
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
 
-/*
-// this works, no need to spend time on it
-try {
-  const { stdout } = execa.sync('pscale', ['version'])
-  console.log('version', stdout)
-} catch (error) {
-  console.log(error)
-}
-*/
-
 let pscalePromise: any
 try {
-  pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 7000 })
+  pscalePromise = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 9000 })
   //pscalePromise.stdout.pipe(process.stdout)
   pscalePromise.catch((err: any) => {
     console.log('pscale connect promise was rejected', err)
   })
 
-  console.log("spawned `pscale connect` successfully", pscalePromise)
+  console.log("spawned `pscale connect` successfully", pscalePromise.stdout)
   wait(3000)
-  console.log("and waited 3 seconds for CLI hopefully to open the connection successfully", pscalePromise)
+  console.log("and waited 3 seconds for CLI hopefully to open the connection successfully", pscalePromise.stdout)
 } catch (error) {
   console.log('pscale connect error', error)
 }
@@ -60,44 +50,12 @@ export async function handler() {
 
     const measure_connect = process.hrtime.bigint()
 
-    await client.user.deleteMany({})
-    
-    const id = '12345'
-
-    const createUser = await client.user.create({
-      data: {
-        id,
-        email: 'alice@prisma.io',
-        name: 'Alice',
-      },
-    })
-    
-    const updateUser = await client.user.update({
-      where: {
-        id,
-      },
-      data: {
-        email: 'bob@prisma.io',
-        name: 'Bob',
-      },
-    })
-    
-    const users = await client.user.findUnique({
-      where: {
-        id,
-      },
-    })
-    
-    const deleteManyUsers = await client.user.deleteMany({})
+    await client.user.findMany({})
 
     const measure_end = process.hrtime.bigint()
     
     return {
       version: Prisma.prismaVersion.client,
-      createUser,
-      updateUser,
-      users,
-      deleteManyUsers,
       measurements: {
         outside_handler: Number(measure_client-measure_start) / 1000000000,
         planetscale:  Number(measure_planetscale-measure_client) / 1000000000,
@@ -114,10 +72,9 @@ export async function handler() {
 
   console.log('all done')
 
-  const {stdout, stderr} = await pscalePromise.catch((err: any) => {
+  await pscalePromise.catch((err: any) => {
     console.log('(2) pscale connect promise was rejected', err)
   })
-	console.log('pscalePromise output:', stdout, stderr);
   
   console.log('end of the line - lets return this thing')
 
