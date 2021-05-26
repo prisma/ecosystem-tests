@@ -33,13 +33,14 @@ export async function handler() {
   }
   */
   
+  let pscale: any
   try {
-    const { stdout, stderr } = execa('pscale', ['connect', 'fk-test', 'main', '--debug'], { env: process.env, timeout: 9000 }).catch((err: any) => {
+    pscale = execa('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 9000 }).stdout.pipe(process.stdout).catch((err: any) => {
       console.log('pscale connect promise was rejected', err)
     })
-    console.log("spawned `pscale connect` successfully", stdout, stderr)
+    console.log("spawned `pscale connect` successfully", pscale)
     wait(3000)
-    console.log("and waited 3 seconds")
+    console.log("and waited 3 seconds", pscale.stdout)
   } catch (error) {
     console.log('pscale connect error', error)
   }
@@ -107,7 +108,7 @@ export async function handler() {
     console.log('prisma stuff error', error)
   }
 
-  console.log('wait for 2 more seconds...')
+  console.log('wait for 2 more seconds...', pscale.stdout)
   wait(2000)
 
   console.log('end of the line - lets return this thing')
