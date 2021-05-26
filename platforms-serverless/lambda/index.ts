@@ -3,6 +3,12 @@ const execa = require('execa');
 
 const measure_start = process.hrtime.bigint()
 
+import { PrismaClient, Prisma } from '@prisma/client'
+
+const client = new PrismaClient()
+
+const measure_client = process.hrtime.bigint()
+
 function wait(ms: number) {
   var start = Date.now(),
       now = start;
@@ -13,22 +19,19 @@ function wait(ms: number) {
 
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
 
-import { PrismaClient, Prisma } from '@prisma/client'
-
-const client = new PrismaClient()
-
-const measure_client = process.hrtime.bigint()
-
 export async function handler() {
   
   console.log('handler!')
 
+  /*
+  // this works, no need to spend time on it
   try {
     const { stdout } = execa.sync('pscale', ['version'])
     console.log('version', stdout)
   } catch (error) {
     console.log(error)
   }
+  */
   
   try {
     const { stdout, stderr } = execa('pscale', ['connect', 'fk-test', 'main', '--debug'], { env: process.env, timeout: 5000, detached: true })
@@ -36,7 +39,7 @@ export async function handler() {
     wait(3000)
     console.log("and waited 3 seconds")
   } catch (error) {
-    console.log(error)
+    console.log('pscale connect error', error)
   }
 
   console.log('after pscale stuff')
@@ -102,9 +105,8 @@ export async function handler() {
     console.log('prisma stuff error', error)
   }
 
-  console.log('wait for 1 more seconds...')
-  wait(1000)
-
+  console.log('wait for 2 more seconds...')
+  wait(2000)
 
   console.log('end of the line - lets return this thing')
 
