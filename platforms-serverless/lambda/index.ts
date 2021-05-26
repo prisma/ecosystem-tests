@@ -11,19 +11,31 @@ function wait(ms: number) {
   }
 }
 
+process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
+console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
+
 try {
-  process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
-  console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
+  const { stdout } = execa.sync('echo $PLANETSCALE_SERVICE_TOKEN')
+  console.log('$PLANETSCALE_SERVICE_TOKEN', stdout)
+} catch (error) {
+	console.log(error)
+}
 
-  let result = execa.sync('echo $PLANETSCALE_SERVICE_TOKEN')
-  console.log('$PLANETSCALE_SERVICE_TOKEN', result.stdout)
+try {
+  const { stdout } = execa.sync('env')
+  console.log('env', stdout)
+} catch (error) {
+	console.log(error)
+}
 
-  let result3 = execa.sync('env')
-  console.log('env', result3.stdout)
+try {
+  const { stdout } = execa.sync('pscale', ['version'])
+  console.log('version', stdout)
+} catch (error) {
+	console.log(error)
+}
 
-  let result2 = execa.sync('pscale', ['version'])
-  console.log('version', result2.stdout)
-
+try {
 	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env }) //, { detached: true })
   console.log("spawned `pscale connect` successfully")
   wait(3000)
