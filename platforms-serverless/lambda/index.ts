@@ -21,10 +21,10 @@ try {
 }
 
 try {
-	execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env, detached: true })
-  console.log("spawned `pscale connect` successfully")
-  wait(3000)
-  console.log("and waited 3 seconds")
+	const { stdout } = execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env, detached: true })
+  console.log("spawned `pscale connect` successfully", stdout)
+  //wait(3000)
+  //console.log("and waited 3 seconds")
 } catch (error) {
 	console.log(error)
 }
