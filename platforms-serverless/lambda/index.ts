@@ -13,24 +13,6 @@ function wait(ms: number) {
 
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
 
-try {
-  const { stdout } = execa.sync('pscale', ['version'])
-  console.log('version', stdout)
-} catch (error) {
-	console.log(error)
-}
-
-try {
-	const { stdout } = execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env, detached: true })
-  console.log("spawned `pscale connect` successfully", stdout)
-  //wait(3000)
-  //console.log("and waited 3 seconds")
-} catch (error) {
-	console.log(error)
-}
-
-const measure_planetscale = process.hrtime.bigint()
-
 import { PrismaClient, Prisma } from '@prisma/client'
 
 const client = new PrismaClient()
@@ -39,6 +21,26 @@ const measure_client = process.hrtime.bigint()
 
 export async function handler() {
   
+  console.log('handler!')
+  
+  try {
+    const { stdout } = execa.sync('pscale', ['version'])
+    console.log('version', stdout)
+  } catch (error) {
+    console.log(error)
+  }
+  
+  try {
+    const { stdout } = execa.sync('pscale', ['connect', 'e2e-tests', 'main'], { env: process.env, detached: true })
+    console.log("spawned `pscale connect` successfully", stdout)
+    //wait(3000)
+    //console.log("and waited 3 seconds")
+  } catch (error) {
+    console.log(error)
+  }
+  
+  const measure_planetscale = process.hrtime.bigint()
+
   const measure_handler = process.hrtime.bigint()
   
   await client.$connect()
