@@ -31,13 +31,15 @@ export async function handler() {
   }
   
   try {
-    const { stdout, stderr } = execa.sync('pscale', ['connect', 'e2e-tests', 'main', '--debug'], { env: process.env, timeout: 5000 }) //, detached: true })
+    const { stdout, stderr } = execa('pscale', ['connect', 'fk-test', 'main', '--debug'], { env: process.env, timeout: 5000, detached: true })
     console.log("spawned `pscale connect` successfully", stdout, stderr)
     //wait(3000)
     //console.log("and waited 3 seconds")
   } catch (error) {
     console.log(error)
   }
+
+  console.log('after pscale stuff')
   
   const measure_planetscale = process.hrtime.bigint()
 
