@@ -3,7 +3,7 @@ const execa = require('execa');
 
 const measure_start = process.hrtime.bigint()
 
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const client = new PrismaClient()
 
