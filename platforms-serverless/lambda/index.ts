@@ -99,8 +99,14 @@ export async function handler() {
     }
 
   } catch (error) {
-    console.log(error)
+    console.log('prisma stuff error', error)
   }
+
+  console.log('wait for 1 more seconds...')
+  wait(1000)
+
+
+  console.log('end of the line - lets return this thing')
 
   return {
     version: Prisma.prismaVersion.client
