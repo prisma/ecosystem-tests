@@ -3,7 +3,7 @@ const execa = require('execa');
 
 const measure_start = process.hrtime.bigint()
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 const client = new PrismaClient()
 
@@ -19,6 +19,10 @@ function wait(ms: number) {
 
 // TODO check if necessary
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT']
+
+console.log('PLANETSCALE_ORG', process.env['PLANETSCALE_ORG'])
+console.log('PLANETSCALE_SERVICE_TOKEN', process.env['PLANETSCALE_SERVICE_TOKEN'])
+console.log('PLANETSCALE_SERVICE_TOKEN_NAME', process.env['PLANETSCALE_SERVICE_TOKEN_NAME'])
 
 let pscale: any
 try {
