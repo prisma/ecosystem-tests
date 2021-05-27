@@ -37,3 +37,7 @@ export default async (req, res) => {
     prismaVersion: Prisma.prismaVersion.client,
     users,
   })
+}
+
+
+
