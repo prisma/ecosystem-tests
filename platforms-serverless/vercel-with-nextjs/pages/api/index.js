@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 const execa = require('execa');
+require('@janpio/pscale') // for @vercel/nft
 
 function wait(ms) {
   var start = Date.now(),
@@ -11,14 +12,12 @@ function wait(ms) {
 
 const prisma = new PrismaClient()
 
-
-
 export default async (req, res) => {
 
   let pscale
   try {
     pscale = execa(
-      'pscale', ['connect', 'e2e-tests', 'main', '--debug'],
+      'node_modules/@janpio/pscale/pscale', ['connect', 'e2e-tests', 'main', '--debug'],
       { env: process.env } // test if required
     )
     pscale.stdout.pipe(process.stdout);
@@ -41,6 +40,8 @@ export default async (req, res) => {
     users,
   })
 }
+
+
 
 
 
