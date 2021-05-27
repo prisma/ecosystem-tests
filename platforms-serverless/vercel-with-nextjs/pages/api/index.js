@@ -1,6 +1,14 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 const execa = require('execa');
 
+function wait(ms) {
+  var start = Date.now(),
+      now = start;
+  while (now - start < ms) {
+    now = Date.now();
+  }
+}
+
 const prisma = new PrismaClient()
 
 let pscale
