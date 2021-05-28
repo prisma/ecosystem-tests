@@ -72,6 +72,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         feature: [pm2]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -83,7 +84,10 @@ jobs:
       PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
     steps:
       - uses: actions/checkout@v2
-
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
       - name: Install Dependencies
         run: yarn install
 
@@ -91,7 +95,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -109,6 +113,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -118,7 +123,10 @@ jobs:
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
       - uses: actions/checkout@v2
-
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
       - name: Install Dependencies
         run: yarn install
 
@@ -126,7 +134,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -143,6 +151,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     env:
@@ -154,6 +163,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn install
 
@@ -161,7 +175,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test on ${{ matrix.os }}
+      - name: test on ${{ matrix.os }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -180,6 +194,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         node:
           - 10
           - 12
@@ -190,7 +205,6 @@ jobs:
           - 15
           - 16
 
-    name: node ${{ matrix.node }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -200,12 +214,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
-      - name: test on node ${{ matrix.node }}
+      - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -222,6 +241,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
     runs-on: ${{ matrix.os }}
@@ -234,11 +254,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - uses: actions/setup-node@v2
         with:
           node-version: 12
 
-      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }}
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -257,6 +282,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         packager:
           - npm
           - npm-global
@@ -276,12 +302,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: packager ${{ matrix.packager }}
+      - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -300,6 +331,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         framework:
           - nestjs
           - nextjs
@@ -315,12 +347,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: framework ${{ matrix.framework }}
+      - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -340,6 +377,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         platform:
           - heroku
           - aws-graviton
@@ -356,6 +394,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node 12
         uses: actions/setup-node@v2
         with:
@@ -371,7 +414,7 @@ jobs:
         with:
           args: yarn --ignore-engines
 
-      - name: test ${{ matrix.platform }}
+      - name: test ${{ matrix.platform }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -391,6 +434,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         platform:
           - lambda
           - vercel-node-builder
@@ -451,6 +495,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node 12
         uses: actions/setup-node@v2
         with:
@@ -459,12 +508,12 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: test ${{ matrix.platform }}
+      - name: test ${{ matrix.platform }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
-          max_attempts: 3
+          max_attempts: 1
           command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
 
       - name: notify-slack
@@ -478,12 +527,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         bundler:
           - webpack
           - parcel
           - rollup
 
-    name: bundler ${{ matrix.bundler }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -495,12 +544,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node 10
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: test ${{ matrix.bundler }}
+      - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -519,13 +573,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         library:
           - express
           - apollo-server
           - type-graphql
           - nexus-schema
 
-    name: library ${{ matrix.library }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -539,12 +593,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node 10
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: test ${{ matrix.library }}
+      - name: test ${{ matrix.library }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -563,6 +622,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         database:
           - digitalocean-pgbouncer
           - docker-pgbouncer
@@ -576,7 +636,6 @@ jobs:
           - supabase
           - supabase-pool
 
-    name: databases ${{ matrix.database }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -602,6 +661,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn install
 
@@ -610,7 +674,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }}
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -629,10 +693,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         database:
           - sqlserver-azure-sql
 
-    name: databases-macos ${{ matrix.database }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -642,6 +706,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn install
 
@@ -650,7 +719,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }}
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -669,10 +738,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         test-runner:
           - jest-with-multiple-generators
 
-    name: test-runner ${{ matrix.test-runner }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -681,12 +750,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Engine Type
+        if: ${{ matrix.engine == 'napi' }}
+        run: |
+          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node 12
         uses: actions/setup-node@v2
         with:
           node-version: 12
 
-      - name: test ${{ matrix.test-runner }}
+      - name: test ${{ matrix.test-runner }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
