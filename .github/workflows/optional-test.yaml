@@ -90,15 +90,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh community-generators ${{ matrix.generator }}
-  
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
