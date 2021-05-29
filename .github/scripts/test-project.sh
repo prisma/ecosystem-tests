@@ -73,6 +73,30 @@ if [ $code -eq 0 ]; then
   echo "-----------------------------"
 fi
 
+# confirm existence of correct binaries
+if [ $code -eq 0 ]; then
+  if [[ ! -z "${PRISMA_FORCE_NAPI}" ]]
+    echo "we seem to be napi"
+    # library
+    FILE_LINUX=node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node
+    FILE_MAC=node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node
+    FILE_WINDOWS=what-is-the-name-of-the-windows-library-question-mark
+    if [[ ! test -f "$FILE_LINUX" && ! test -f "$FILE_MAC" && ! test -f "$FILE_WINDOWS" ]]; then
+      echo "none of the node api library files exist :("
+      exit 1
+    fi
+  else
+  echo "we are old school library"
+    # binary
+    FILE_LINUX=node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x
+    FILE_MAC=node_modules/@prisma/engines/query-engine-darwin
+    FILE_WINDOWS=node_modules\@prisma\engines\query-engine-windows.exe
+    if [[ ! test -f "$FILE_LINUX" && ! test -f "$FILE_MAC" && ! test -f "$FILE_WINDOWS" ]]; then
+      echo "none of the binary files exist :("
+      exit 1
+    fi
+fi
+
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
   echo ""
