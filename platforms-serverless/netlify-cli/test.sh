@@ -3,7 +3,7 @@
 set -eu
 
 # checks whether PRISMA_FORCE_NAPI has length equal to zero
-if [[ -z "${PRISMA_FORCE_NAPI}" ]]; then
+if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   BINARY_STRING=',"files":["index-browser.js","index.d.ts","index.js","query-engine-rhel-openssl-1.0.x","runtime","schema.prisma"]'
 else
   BINARY_STRING=',"files":["index-browser.js","index.d.ts","index.js","libquery_engine_napi-rhel-openssl-1.0.x.so.node","runtime","schema.prisma"]'
