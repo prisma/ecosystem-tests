@@ -73,7 +73,7 @@ if [ $code -eq 0 ]; then
   echo "-----------------------------"
 fi
 
-# confirm existence of correct binary
+# confirm existence of correct engine
 if [ $code -eq 0 ]; then
   if [[ -n "${PRISMA_FORCE_NAPI}" ]]; then
     echo "we seem to be napi"
@@ -84,6 +84,10 @@ if [ $code -eq 0 ]; then
     if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
       echo "none of the node api library files exist :("
       exit 1
+    else
+      echo "and query engine _library_ exists:"
+      ls $dir/$project/node_modules/@prisma/engines/
+      yarn prisma -v
     fi
   else
     echo "we are old school library"
@@ -94,6 +98,10 @@ if [ $code -eq 0 ]; then
     if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
       echo "none of the binary files exist :("
       exit 1
+    else
+      echo "and query engine _binary_ exists:"
+      ls $dir/$project/node_modules/@prisma/engines/
+      yarn prisma -v
     fi
   fi
 fi
