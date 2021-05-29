@@ -104,7 +104,9 @@ jobs:
           command: bash .github/scripts/test-project.sh process-managers ${{ matrix.feature }}
 
       - name: confirm correct engine type - ${{matrix.engine}}
-        run: ls node_modules/@prisma/engines
+        run: |
+          yarn prisma -v
+          ls node_modules/@prisma/engines
 
       - name: notify-slack
         if: failure()
@@ -148,6 +150,11 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
 
+      - name: confirm correct engine type - ${{matrix.engine}}
+        run: |
+          yarn prisma -v
+          ls node_modules/@prisma/engines
+          
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
