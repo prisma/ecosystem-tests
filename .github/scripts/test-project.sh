@@ -15,8 +15,10 @@ set -u
 pjson_path=$(find $dir/$project -name "package.json" ! -path "*/node_modules/*" | head -n 1)
 bash .github/scripts/print-version.sh $pjson_path
 
+echo "cd .github/slack/"
 cd .github/slack/
 yarn install
+echo "cd ../.."
 cd ../..
 
 root=$(pwd)
@@ -26,6 +28,7 @@ echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
 
+echo "cd $dir/$project"
 cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
@@ -83,13 +86,25 @@ if [ $code -eq 0 ]; then
     FILE_WINDOWS="node_modules\@prisma\engines\query-engine-windows.exe"
     if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
       echo "none of the binary files exist :("
-      ls node_modules/@prisma/engines/
       yarn prisma -v
+      echo "--- ls node_modules/@prisma/engines/ ---"
+      ls node_modules/@prisma/engines/
+      echo "--- ls node_modules/.prisma/client/ ---"
+      ls node_modules/.prisma/engines/
+      echo "--- ls node_modules/prisma/ ---"
+      ls node_modules/prisma/
+      echo "---"
       exit 1
     else
-      echo "and query engine _binary_ exists:"
-      ls node_modules/@prisma/engines/
+      echo "and query engine _binary_ exists: :)"
       yarn prisma -v
+      echo "--- ls node_modules/@prisma/engines/ ---"
+      ls node_modules/@prisma/engines/
+      echo "--- ls node_modules/.prisma/client/ ---"
+      ls node_modules/.prisma/engines/
+      echo "--- ls node_modules/prisma/ ---"
+      ls node_modules/prisma/
+      echo "---"
     fi
   else
     echo "we seem to be napi"
