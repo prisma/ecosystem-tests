@@ -70,10 +70,12 @@ jobs:
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
     steps:
       - uses: actions/checkout@v2
+
       - name: Set Engine Type
         if: ${{ matrix.engine == 'napi' }}
         run: |
           echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      
       - name: Install Dependencies
         run: yarn install
 

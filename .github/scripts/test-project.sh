@@ -75,7 +75,7 @@ fi
 
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
-  if [[ -n "${PRISMA_FORCE_NAPI}" ]]; then
+  if [ "${PRISMA_FORCE_NAPI}" = "true" ]; then
     echo "we seem to be napi"
     # library
     FILE_LINUX=node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node
