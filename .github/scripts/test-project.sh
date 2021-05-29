@@ -114,13 +114,25 @@ if [ $code -eq 0 ]; then
     FILE_WINDOWS="what-is-the-name-of-the-windows-library-question-mark"
     if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
       echo "none of the node api library files exist :("
-      ls node_modules/@prisma/engines/
       yarn prisma -v
+      echo "--- ls node_modules/@prisma/engines/ ---"
+      ls node_modules/@prisma/engines/
+      echo "--- ls node_modules/.prisma/client/ ---"
+      ls node_modules/.prisma/engines/
+      echo "--- ls node_modules/prisma/ ---"
+      ls node_modules/prisma/
+      echo "---"
       exit 1
     else
       echo "and query engine _library_ exists:"
-      ls node_modules/@prisma/engines/
       yarn prisma -v
+      echo "--- ls node_modules/@prisma/engines/ ---"
+      ls node_modules/@prisma/engines/
+      echo "--- ls node_modules/.prisma/client/ ---"
+      ls node_modules/.prisma/engines/
+      echo "--- ls node_modules/prisma/ ---"
+      ls node_modules/prisma/
+      echo "---"
     fi
   fi
 fi
