@@ -209,9 +209,9 @@ jobs:
           - 16
         exclude:
         - engine: napi
-          feature: 10.16.0
+          node: 10.16.0
         - engine: napi
-          feature: 12.2.0
+          node: 12.2.0
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -391,7 +391,7 @@ jobs:
           - codesandbox
         exclude:
         - engine: napi
-          feature: aws-graviton
+          platform: aws-graviton
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -460,11 +460,11 @@ jobs:
           - serverless-framework-lambda
         exclude:
         - engine: napi
-          feature: azure-functions-linux
+          platform: azure-functions-linux
         - engine: napi
-          feature: azure-functions-windows
+          platform: azure-functions-windows
         - engine: napi
-          feature: serverless-framework-lambda
+          platform: serverless-framework-lambda
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
