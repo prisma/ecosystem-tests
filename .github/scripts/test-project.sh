@@ -90,7 +90,7 @@ if [ $code -eq 0 ]; then
       echo "--- ls node_modules/@prisma/engines/ ---"
       ls node_modules/@prisma/engines/
       echo "--- ls node_modules/.prisma/client/ ---"
-      ls node_modules/.prisma/engines/
+      ls node_modules/.prisma/client/
       echo "--- ls node_modules/prisma/ ---"
       ls node_modules/prisma/
       echo "---"
@@ -101,7 +101,7 @@ if [ $code -eq 0 ]; then
       echo "--- ls node_modules/@prisma/engines/ ---"
       ls node_modules/@prisma/engines/
       echo "--- ls node_modules/.prisma/client/ ---"
-      ls node_modules/.prisma/engines/
+      ls node_modules/.prisma/client/
       echo "--- ls node_modules/prisma/ ---"
       ls node_modules/prisma/
       echo "---"
@@ -116,7 +116,7 @@ if [ $code -eq 0 ]; then
       echo "none of the node api library files exist :("
       yarn prisma -v
       echo "--- ls node_modules/@prisma/engines/ ---"
-      ls node_modules/@prisma/engines/
+      ls node_modules/@prisma/client/
       echo "--- ls node_modules/.prisma/client/ ---"
       ls node_modules/.prisma/engines/
       echo "--- ls node_modules/prisma/ ---"
@@ -129,7 +129,7 @@ if [ $code -eq 0 ]; then
       echo "--- ls node_modules/@prisma/engines/ ---"
       ls node_modules/@prisma/engines/
       echo "--- ls node_modules/.prisma/client/ ---"
-      ls node_modules/.prisma/engines/
+      ls node_modules/.prisma/client/
       echo "--- ls node_modules/prisma/ ---"
       ls node_modules/prisma/
       echo "---"
