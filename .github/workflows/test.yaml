@@ -103,15 +103,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh process-managers ${{ matrix.feature }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
@@ -154,15 +145,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
@@ -204,15 +186,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-          
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
@@ -266,15 +239,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
@@ -313,15 +277,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
-
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
@@ -372,15 +327,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
@@ -425,15 +371,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
-
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
@@ -494,15 +431,6 @@ jobs:
           timeout_minutes: 60
           max_attempts: 3
           command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
-
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
@@ -604,15 +532,6 @@ jobs:
           max_attempts: 1
           command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
@@ -658,15 +577,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
-
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
@@ -716,15 +626,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
-
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
@@ -797,15 +698,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
@@ -851,15 +743,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh databases-macos ${{ matrix.database }}
 
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
-
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
@@ -900,15 +783,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh test-runners ${{ matrix.test-runner }}
-
-      - name: confirm correct engine type - ${{matrix.engine}}
-        if: ${{ always() }}
-        run: |
-          yarn prisma -v
-          echo "------"
-          ls node_modules/@prisma/engines
-          echo "------"
-          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
