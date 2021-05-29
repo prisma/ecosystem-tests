@@ -115,6 +115,9 @@ jobs:
       matrix:
         engine: ['napi', 'binary']
         feature: [auto-reconnect, browser-build, studio]
+        exclude:
+        - engine: napi
+          feature: studio
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -204,7 +207,11 @@ jobs:
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 15
           - 16
-
+        exclude:
+        - engine: napi
+          feature: 10.16.0
+        - engine: napi
+          feature: 12.2.0
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -382,6 +389,9 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
+        exclude:
+        - engine: napi
+          feature: aws-graviton
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -448,7 +458,13 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
-
+        exclude:
+        - engine: napi
+          feature: azure-functions-linux
+        - engine: napi
+          feature: azure-functions-windows
+        - engine: napi
+          feature: serverless-framework-lambda
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
