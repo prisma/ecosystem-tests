@@ -75,23 +75,7 @@ fi
 
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
-  if [ "${PRISMA_FORCE_NAPI}" = "true" ]; then
-    echo "we seem to be napi"
-    # library
-    FILE_LINUX=node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node
-    FILE_MAC=node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node
-    FILE_WINDOWS="what-is-the-name-of-the-windows-library-question-mark"
-    if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
-      echo "none of the node api library files exist :("
-      ls node_modules/@prisma/engines/
-      yarn prisma -v
-      exit 1
-    else
-      echo "and query engine _library_ exists:"
-      ls node_modules/@prisma/engines/
-      yarn prisma -v
-    fi
-  else
+  if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
     echo "we are old school library"
     # binary
     FILE_LINUX=node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x
@@ -104,6 +88,22 @@ if [ $code -eq 0 ]; then
       exit 1
     else
       echo "and query engine _binary_ exists:"
+      ls node_modules/@prisma/engines/
+      yarn prisma -v
+    fi
+  else
+    echo "we seem to be napi"
+    # library
+    FILE_LINUX=node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node
+    FILE_MAC=node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node
+    FILE_WINDOWS="what-is-the-name-of-the-windows-library-question-mark"
+    if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
+      echo "none of the node api library files exist :("
+      ls node_modules/@prisma/engines/
+      yarn prisma -v
+      exit 1
+    else
+      echo "and query engine _library_ exists:"
       ls node_modules/@prisma/engines/
       yarn prisma -v
     fi
