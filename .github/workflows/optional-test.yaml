@@ -48,7 +48,7 @@ jobs:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
-        feature:
+        generator:
           [
             prisma-dbml-generator,
             typegraphql-prisma,
@@ -83,14 +83,23 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test ${{ matrix.generator }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.generator }}
+  
+      - name: confirm correct engine type - ${{matrix.engine}}
+        if: ${{ always() }}
+        run: |
+          yarn prisma -v
+          echo "------"
+          ls node_modules/@prisma/engines
+          echo "------"
+          ls node_modules/.prisma/client
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.generator }}
