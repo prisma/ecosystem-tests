@@ -89,10 +89,11 @@ jobs:
       PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
     steps:
       - uses: actions/checkout@v2
-      - name: Set Engine Type
+
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+    
       - name: Install Dependencies
         run: yarn install
 
@@ -131,10 +132,11 @@ jobs:
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
     steps:
       - uses: actions/checkout@v2
-      - name: Set Engine Type
+
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn install
 
@@ -171,10 +173,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -226,10 +227,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
@@ -266,10 +266,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - uses: actions/setup-node@v2
         with:
@@ -314,10 +313,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
@@ -359,10 +357,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
@@ -409,10 +406,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -516,10 +512,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -565,10 +560,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 10
         uses: actions/setup-node@v2
@@ -614,10 +608,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 10
         uses: actions/setup-node@v2
@@ -682,10 +675,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -727,10 +719,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -771,10 +762,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2

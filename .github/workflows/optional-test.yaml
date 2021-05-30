@@ -76,10 +76,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Engine Type
+      - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
-        run: |
-          echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
       
       - name: Install Dependencies
         run: yarn install
