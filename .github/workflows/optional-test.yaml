@@ -10,6 +10,11 @@ env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
 
+defaults:
+  run:
+    # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
+    shell: bash
+
 jobs:
   start-time:
     runs-on: ubuntu-latest
