@@ -111,14 +111,14 @@ if [ $code -eq 0 ]; then
     # library
     FILE_LINUX=node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node
     FILE_MAC=node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node
-    FILE_WINDOWS="what-is-the-name-of-the-windows-library-question-mark"
+    FILE_WINDOWS="node_modules\@prisma\engines\query_engine_napi-windows.dll.node"
     if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
       echo "none of the node api library files exist :("
       yarn prisma -v
       echo "--- ls node_modules/@prisma/engines/ ---"
-      ls node_modules/@prisma/client/
+      ls node_modules/@prisma/engines/
       echo "--- ls node_modules/.prisma/client/ ---"
-      ls node_modules/.prisma/engines/
+      ls node_modules/.prisma/client/
       echo "--- ls node_modules/prisma/ ---"
       ls node_modules/prisma/
       echo "---"
