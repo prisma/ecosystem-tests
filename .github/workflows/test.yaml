@@ -72,8 +72,12 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
+####################################################
+### real jobs after this
+
   process-managers:
     needs: start-time
+    
     strategy:
       fail-fast: false
       matrix:
@@ -81,12 +85,14 @@ jobs:
         feature: [pm2]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -115,21 +121,25 @@ jobs:
 
   core-features:
     needs: start-time
-    runs-on: ubuntu-latest
+    
     strategy:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
         feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
         - engine: napi
           feature: studio
+    runs-on: ${{ matrix.os }}
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -158,18 +168,21 @@ jobs:
 
   os:
     needs: start-time
+    
     strategy:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -198,7 +211,6 @@ jobs:
 
   node:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -213,17 +225,21 @@ jobs:
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 15
           - 16
+        os: [ubuntu-latest] #, windows-latest, macos-latest]    
         exclude:
         - engine: napi
           node: 10.16.0
         - engine: napi
           node: 12.2.0
+    runs-on: ${{ matrix.os }}
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -250,6 +266,7 @@ jobs:
 
   binaries:
     needs: start-time
+    
     strategy:
       fail-fast: false
       matrix:
@@ -257,12 +274,14 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
     runs-on: ${{ matrix.os }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -288,7 +307,6 @@ jobs:
 
   packagers:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -300,6 +318,8 @@ jobs:
           - yarn
           - yarn-workspaces
           - yarn2-without-pnp
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -336,7 +356,6 @@ jobs:
 
   frameworks:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -345,6 +364,8 @@ jobs:
         framework:
           - nestjs
           - nextjs
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -380,7 +401,6 @@ jobs:
 
   platforms:
     needs: start-time
-    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     strategy:
@@ -391,9 +411,11 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
         exclude:
         - engine: napi
           platform: aws-graviton
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -403,6 +425,7 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -439,8 +462,7 @@ jobs:
 
   platforms-serverless:
     needs: start-time
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
 
     strategy:
       fail-fast: false
@@ -459,6 +481,7 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
         - engine: napi
           platform: azure-functions-linux
@@ -466,6 +489,8 @@ jobs:
           platform: azure-functions-windows
         - engine: napi
           platform: serverless-framework-lambda
+    runs-on: ${{ matrix.os }}
+        
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -509,6 +534,7 @@ jobs:
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -538,7 +564,6 @@ jobs:
 
   bundlers:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -548,6 +573,8 @@ jobs:
           - webpack
           - parcel
           - rollup
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -557,6 +584,7 @@ jobs:
       WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
       PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
       ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -583,7 +611,6 @@ jobs:
 
   libraries:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -594,6 +621,8 @@ jobs:
           - apollo-server
           - type-graphql
           - nexus-schema
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -631,7 +660,6 @@ jobs:
 
   databases:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -649,6 +677,8 @@ jobs:
           - mongodb-atlas
           - supabase
           - supabase-pool
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -701,7 +731,6 @@ jobs:
 
   databases-macos:
     needs: start-time
-    runs-on: macos-latest
 
     strategy:
       fail-fast: false
@@ -709,6 +738,8 @@ jobs:
         engine: ['napi', 'binary']
         database:
           - sqlserver-azure-sql
+        os: [macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -716,6 +747,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -745,7 +777,6 @@ jobs:
 
   test-runners:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -753,12 +784,15 @@ jobs:
         engine: ['napi', 'binary']
         test-runner:
           - jest-with-multiple-generators
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+
     steps:
       - uses: actions/checkout@v2
 
