@@ -33,7 +33,6 @@ model Post {
 }`
   const schema = `${datasource}${generator}${models}`
   const files = fs.readdirSync('./')
-  console.log(files);
   fs.writeFileSync('./prisma/schema.prisma', schema, {
     encoding: 'utf-8',
   })
@@ -46,7 +45,13 @@ async function generate(env?: Record<string, string>) {
     stdio: 'inherit',
   })
 }
-
+async function push(env?: Record<string, string>) {
+  await execa('prisma', ['db', 'push', '--accept-data-loss'], {
+    env,
+    preferLocal: true,
+    stdio: 'inherit',
+  })
+}
 async function clean() {
   fs.rmdirSync('./node_modules/prisma', { recursive: true })
   fs.rmdirSync('./node_modules/@prisma', { recursive: true })
@@ -85,10 +90,16 @@ export async function runTest(options: {
 }) {
   await clean()
   buildSchema(options.previewFeatures)
+
+  // yarn install
   await install(options.env)
   snapshotDirectory('./node_modules/@prisma/engines')
   snapshotDirectory('./node_modules/prisma')
 
+  // prisma db push
+  await push(options.env)
+
+  // prisma generate
   await generate(options.env)
 
   snapshotDirectory('./node_modules/.prisma/client')
