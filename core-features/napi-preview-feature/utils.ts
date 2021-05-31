@@ -45,7 +45,7 @@ model Post {
 }
 
 async function generate(env?: Record<string, string>) {
-  await execa('prisma', ['generate'], {
+  await execa('yarn', ['prisma', 'generate'], {
     ...defaultExecaOptions,
     env,
   })
@@ -69,6 +69,14 @@ async function install(env?: Record<string, string>) {
     env,
   })
 }
+async function version(env?: Record<string, string>) {
+  const result = await execa('prisma', ['-v'], {
+    ...defaultExecaOptions,
+    stdio: 'pipe',
+    env,
+  })
+  return result.stdout
+}
 function snapshotDirectory(pth: string) {
   const files = fs.readdirSync(pth)
   expect(files).toMatchSnapshot(pth)
@@ -80,6 +88,10 @@ async function testGeneratedClient(env?: Record<string, string>) {
   })
   const data = require('./data.json')
   expect(data).toMatchSnapshot()
+}
+
+function cleanVersionSnapshot(str: string): string {
+  return str.replace(/:(.*)/g, ': placeholder')
 }
 export async function runTest(options: {
   previewFeatures?: string[]
@@ -98,4 +110,6 @@ export async function runTest(options: {
 
   snapshotDirectory('./node_modules/.prisma/client')
   await testGeneratedClient(options.env)
+  const versionOutput = await version(options.env)
+  expect(cleanVersionSnapshot(versionOutput)).toMatchSnapshot()
 }
