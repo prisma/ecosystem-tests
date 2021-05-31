@@ -1,5 +1,11 @@
 import execa from 'execa'
 import fs from 'fs'
+
+const defaultExecaOptions = {
+  preferLocal: true,
+  stdio: 'inherit',
+  cwd: __dirname,
+} as const
 function buildSchema(previewFeatures?: string[]) {
   const datasource = `
 datasource db {
@@ -40,18 +46,11 @@ model Post {
 
 async function generate(env?: Record<string, string>) {
   await execa('prisma', ['generate'], {
+    ...defaultExecaOptions,
     env,
-    preferLocal: true,
-    stdio: 'inherit',
   })
 }
-async function push(env?: Record<string, string>) {
-  await execa('prisma', ['db', 'push', '--accept-data-loss'], {
-    env,
-    preferLocal: true,
-    stdio: 'inherit',
-  })
-}
+
 async function clean() {
   fs.rmdirSync('./node_modules/prisma', { recursive: true })
   fs.rmdirSync('./node_modules/@prisma', { recursive: true })
@@ -66,9 +65,8 @@ async function clean() {
 
 async function install(env?: Record<string, string>) {
   await execa('yarn', ['install', '--force'], {
+    ...defaultExecaOptions,
     env,
-    preferLocal: true,
-    stdio: 'inherit',
   })
 }
 function snapshotDirectory(pth: string) {
@@ -77,9 +75,8 @@ function snapshotDirectory(pth: string) {
 }
 async function testGeneratedClient(env?: Record<string, string>) {
   await execa.node('./test-generated-client.js', [], {
+    ...defaultExecaOptions,
     env,
-    preferLocal: true,
-    stdio: 'inherit',
   })
   const data = require('./data.json')
   expect(data).toMatchSnapshot()
@@ -95,9 +92,6 @@ export async function runTest(options: {
   await install(options.env)
   snapshotDirectory('./node_modules/@prisma/engines')
   snapshotDirectory('./node_modules/prisma')
-
-  // prisma db push
-  await push(options.env)
 
   // prisma generate
   await generate(options.env)
