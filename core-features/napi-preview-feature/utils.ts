@@ -32,6 +32,8 @@ model Post {
   userId Int
 }`
   const schema = `${datasource}${generator}${models}`
+  const files = fs.readdirSync('./')
+  console.log(files);
   fs.writeFileSync('./prisma/schema.prisma', schema, {
     encoding: 'utf-8',
   })
