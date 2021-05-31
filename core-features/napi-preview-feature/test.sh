@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
-
-yarn jest --verbose --runInBand
-
+yarn test
