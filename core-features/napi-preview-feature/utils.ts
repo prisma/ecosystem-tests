@@ -52,6 +52,9 @@ async function clean() {
   if (fs.existsSync('./prisma/schema.prisma')) {
     fs.unlinkSync('./prisma/schema.prisma')
   }
+  if (fs.existsSync('./data.json')) {
+    fs.unlinkSync('./data.json')
+  }
 }
 
 async function install(env?: Record<string, string>) {
@@ -65,7 +68,15 @@ function snapshotDirectory(pth: string) {
   const files = fs.readdirSync(pth)
   expect(files).toMatchSnapshot(pth)
 }
-async function testGeneratedClient() {}
+async function testGeneratedClient(env?: Record<string, string>) {
+  await execa.node('./test-generated-client.js', [], {
+    env,
+    preferLocal: true,
+    stdio: 'inherit',
+  })
+  const data = require('./data.json')
+  expect(data).toMatchSnapshot()
+}
 export async function runTest(options: {
   previewFeatures?: string[]
   env?: Record<string, string>
@@ -77,8 +88,7 @@ export async function runTest(options: {
   snapshotDirectory('./node_modules/prisma')
 
   await generate(options.env)
-  // await new Promise((r) => setTimeout(r, 100))
 
   snapshotDirectory('./node_modules/.prisma/client')
-  await testGeneratedClient()
+  await testGeneratedClient(options.env)
 }
