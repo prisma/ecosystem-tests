@@ -5,11 +5,11 @@ on:
     paths-ignore:
       - '*.md'
       - 'renovate.json'
-  
+
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
-  
+
 jobs:
   start-time:
     runs-on: ubuntu-latest
@@ -109,7 +109,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [auto-reconnect, browser-build, studio]
+        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -363,7 +363,7 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
-        
+
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
         if: ${{ matrix.platform == 'codesandbox' }}
