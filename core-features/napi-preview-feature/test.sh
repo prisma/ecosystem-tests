@@ -3,5 +3,5 @@
 set -eu
 
 
-yarn jest
+yarn jest --verbose --runInBand
 
