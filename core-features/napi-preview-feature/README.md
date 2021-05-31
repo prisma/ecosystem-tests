@@ -1,6 +1,6 @@
-# Studio
+# N-API Preview Feature Test
 
-This test launches Studio using the Prisma CLI. It does so by individually testing Studio's frontend and backend in two separate tests.
+This tests that the n-api library is used in the generated client and that it works
 
 ### Run tests
 
