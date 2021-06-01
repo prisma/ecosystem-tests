@@ -54,7 +54,7 @@ set -e
 if [ $code -eq 0 ]; then
   echo "-----------------------------"
   echo ""
-  echo "run.sh was successful, running $dir/$project/test.sh..."
+  echo "run.sh was successful (code $code), running $dir/$project/test.sh..."
   echo ""
 
   if [ ! -f "test.sh" ]; then
@@ -68,7 +68,7 @@ if [ $code -eq 0 ]; then
   set -e
 
   echo ""
-  echo "finished test.sh"
+  echo "finished test.sh (code $code)"
   echo ""
   echo "-----------------------------"
 fi
