@@ -110,7 +110,7 @@ if [ $code -eq 0 ]; then
   fi
 fi
 
-// TODO parse output of npx prisma -v --json for correct file/path
+# TODO parse output of npx prisma -v --json for correct file/path
 
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
