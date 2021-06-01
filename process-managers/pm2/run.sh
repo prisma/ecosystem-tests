@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -eux
-
+export DEBUG="*"
 yarn install
 yarn prisma generate
 
