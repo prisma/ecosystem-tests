@@ -70,7 +70,7 @@ async function install(env?: Record<string, string>) {
   })
 }
 async function version(env?: Record<string, string>) {
-  const result = await execa('prisma', ['-v'], {
+  const result = await execa('yarn', ['-s', 'prisma', '-v'], {
     ...defaultExecaOptions,
     stdio: 'pipe',
     env,
@@ -91,7 +91,14 @@ async function testGeneratedClient(env?: Record<string, string>) {
 }
 
 function cleanVersionSnapshot(str: string): string {
-  return str.replace(/:(.*)/g, ': placeholder')
+  let lines = str.split('\n')
+  return lines
+    .map((line) => {
+      const test = line.split(':')
+      const location = test[1].match(/\(([^)]+)\)/)
+      return `${test[0]} : placeholder ${location ? location[0] : ''}`
+    })
+    .join('\n')
 }
 export async function runTest(options: {
   previewFeatures?: string[]
