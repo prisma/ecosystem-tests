@@ -1,0 +1,14 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:.does-not-exist.db"
+}
+
+model User {
+    id    String  @default(cuid()) @id
+    email String  @unique
+    name  String?
+}
