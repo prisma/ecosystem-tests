@@ -79,7 +79,6 @@ fi
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
   bash ../../.github/scripts/check-cli-binaries.sh
-  bash ../../.github/scripts/check-client-binary.sh
 fi
 
 # TODO parse output of npx prisma -v --json for correct file/path
