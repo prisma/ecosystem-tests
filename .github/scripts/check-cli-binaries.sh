@@ -9,7 +9,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
     OS_NAME=windows
     ;;
   *)
-    OS_NAME=notset
+    OS_NAME=windows
     ;;
 esac
 echo "Using $OS_NAME"
