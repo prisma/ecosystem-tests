@@ -5,6 +5,7 @@ const defaultExecaOptions = {
   preferLocal: true,
   stdio: 'inherit',
   cwd: __dirname,
+  extendEnv: false,
 } as const
 function buildSchema(options?: {
   previewFeatures?: string[]
