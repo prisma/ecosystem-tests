@@ -78,36 +78,7 @@ fi
 
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
-  if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
-    echo "we are old school binary"
-    # binary
-    FILE_LINUX=node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x
-    FILE_MAC=node_modules/@prisma/engines/query-engine-darwin
-    FILE_WINDOWS="node_modules\@prisma\engines\query-engine-windows.exe"
-  else
-    echo "we seem to be napi, so library"
-    # library
-    FILE_LINUX=node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node
-    FILE_MAC=node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node
-    FILE_WINDOWS="node_modules\@prisma\engines\query_engine_napi-windows.dll.node"
-  fi
-
-  echo "---"
-  yarn prisma -v
-  echo "--- ls node_modules/@prisma/engines/ ---"
-  ls node_modules/@prisma/engines/
-  echo "--- ls node_modules/.prisma/client/ ---"
-  ls node_modules/.prisma/client/
-  echo "--- ls node_modules/prisma/ ---"
-  ls node_modules/prisma/
-  echo "---"
-
-  if [ ! -f "$FILE_LINUX" ] && [ ! -f "$FILE_MAC" ] && [ ! -f "$FILE_WINDOWS" ]; then
-    echo "none of the expected files exist in `node_modules/@prisma/engines/` :("
-    exit 1
-  else
-    echo "and expected file exists in `node_modules/@prisma/engines/` :)"
-  fi
+  bash ../../.github/scripts/check-cli-binaries.sh
 fi
 
 # TODO parse output of npx prisma -v --json for correct file/path
