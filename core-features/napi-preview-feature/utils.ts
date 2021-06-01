@@ -6,21 +6,26 @@ const defaultExecaOptions = {
   stdio: 'inherit',
   cwd: __dirname,
 } as const
-function buildSchema(previewFeatures?: string[]) {
+function buildSchema(options?: {
+  previewFeatures?: string[]
+  binaryTargets?: string[]
+}) {
   const datasource = `
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }`
-  const previewFeaturesStr = previewFeatures
-    ? `previewFeatures = ${previewFeatures.map((p) => `["${p}"]`)}`
+  const previewFeaturesStr = options?.previewFeatures
+    ? `previewFeatures = ${options.previewFeatures.map((p) => `["${p}"]`)}`
     : ''
-
+  const binaryTargetsStr = options?.binaryTargets
+    ? `binaryTargets = ${options.binaryTargets.map((p) => `["${p}"]`)}`
+    : ''
   const generator = `
 generator client {
   provider        = "prisma-client-js"
-  binaryTargets = ["native"]
   ${previewFeaturesStr}
+  ${binaryTargetsStr}
 }`
 
   const models = `
@@ -102,10 +107,14 @@ function cleanVersionSnapshot(str: string): string {
 }
 export async function runTest(options: {
   previewFeatures?: string[]
+  binaryTargets?: string[]
   env?: Record<string, string>
 }) {
   await clean()
-  buildSchema(options.previewFeatures)
+  buildSchema({
+    previewFeatures: options.previewFeatures,
+    binaryTargets: options.binaryTargets,
+  })
 
   // yarn install
   await install(options.env)
