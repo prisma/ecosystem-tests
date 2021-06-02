@@ -78,7 +78,7 @@ fi
 
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
-  ts-node ../../.github/scripts/check-binaries.ts
+  node ../../.github/scripts/check-binaries.js
 fi
 
 # TODO parse output of npx prisma -v --json for correct file/path
