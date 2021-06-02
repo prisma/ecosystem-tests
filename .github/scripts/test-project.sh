@@ -79,8 +79,8 @@ fi
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
   echo "-------------- Checking Binaries ---------------"
-  bash ../../.github/scripts/check-cli-binaries.sh
-  bash ../../.github/scripts/check-client-binaries.sh
+  bash ../../.github/scripts/check-cli-binaries.sh $dir $project
+  bash ../../.github/scripts/check-client-binaries.sh $dir $project
   echo "------------------------------------------------"
 fi
 

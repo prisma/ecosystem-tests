@@ -1,55 +1,59 @@
+echo "Checking Generated Client QE Binary "
+
+dir=$1
+project=$2
+skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions)
+
+case "${skipped_projects[@]}" in  *$2*) 
+  echo "Skipping" 
+  exit 0
+  ;; 
+esac
+
 case $(uname | tr '[:upper:]' '[:lower:]') in
   linux*)
-    OS_NAME=linux
+    os_name=linux
     ;;
   darwin*)
-    OS_NAME=osx
+    os_name=osx
     ;;
   msys*)
-    OS_NAME=windows
+    os_name=windows
     ;;
   *)
-    OS_NAME=windows
+    os_name=windows 
     ;;
 esac
-echo "Using $OS_NAME"
+
+echo "Assumed OS: $os_name"
 
 if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
-  # binary
-  echo "N-API Disabled"
-  case $OS_NAME in
+  echo "N-API: Disabled"
+  case $os_name in
     linux)
-      QE_LOCATION="node_modules/.prisma/client/query-engine-debian-openssl-1.1.x"
+      qe_location="node_modules/.prisma/client/query-engine-debian-openssl-1.1.x"
       ;;
     osx)
-      QE_LOCATION="node_modules/.prisma/client/query-engine-darwin"
+      qe_location="node_modules/.prisma/client/query-engine-darwin"
       ;;
     windows)
-      QE_LOCATION="node_modules\.prisma\client\query-engine-windows.exe"
-      ;;
-    *)
-      OS_NAME=notset
+      qe_location="node_modules\.prisma\client\query-engine-windows.exe"
       ;;
   esac
 else
-  # library
-
-  echo "N-API Enabled"
-  case $OS_NAME in
+  echo "N-API: Enabled"
+  case $os_name in
     linux)
-      echo "Linux"
-      QE_LOCATION="node_modules/.prisma/client/libquery_engine_napi-debian-openssl-1.1.x.so.node"
+      qe_location="node_modules/.prisma/client/libquery_engine_napi-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      echo "Osx"
-      QE_LOCATION="node_modules/.prisma/client/libquery_engine_napi-darwin.dylib.node"
+      qe_location="node_modules/.prisma/client/libquery_engine_napi-darwin.dylib.node"
       ;;
     windows*)
-      echo "Windows"
-      QE_LOCATION="node_modules\.prisma\client\query_engine_napi-windows.dll.node"
+      qe_location="node_modules\.prisma\client\query_engine_napi-windows.dll.node"
       ;;
     *)
-      OS_NAME=notset
+      os_name=notset
       ;;
   esac
 fi
@@ -57,10 +61,10 @@ fi
 echo "--- ls node_modules/.prisma/client/ ---"
 ls node_modules/.prisma/client/
 echo "---"
-if [ -f "$QE_LOCATION" ] ; then
+if [ -f "$qe_location" ] ; then
   echo "Correct Query Engine exists"
 else
-  echo "Could not find Query Engine in ${QE_LOCATION} when using ${OS_NAME}"
+  echo "Could not find Query Engine in ${qe_location} when using ${os_name}"
   exit 1
 fi
 

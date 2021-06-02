@@ -1,61 +1,54 @@
+echo "Checking CLI/Engines QE Binary "
+DIR=$1
+PROJECT=$2
+
+
 case $(uname | tr '[:upper:]' '[:lower:]') in
   linux*)
-    OS_NAME=linux
+    os_name=linux
     ;;
   darwin*)
-    OS_NAME=osx
+    os_name=osx
     ;;
   msys*)
-    OS_NAME=windows
+    os_name=windows
     ;;
   *)
-    OS_NAME=windows
+    os_name=windows
     ;;
 esac
-echo "Using $OS_NAME"
+echo "Assumed OS: $os_name"
 
 if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
-  # binary
-  echo "N-API Disabled"
-  case $OS_NAME in
+  echo "N-API:  Disabled"
+  case $os_name in
     linux)
-      QE_LOCATION="node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x"
-      QE_LOCATION2="node_modules/prisma/node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x"
+      qe_location="node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x"
+      qe_location2="node_modules/prisma/node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x"
       ;;
     osx)
-      QE_LOCATION="node_modules/@prisma/engines/query-engine-darwin"
-      QE_LOCATION2="node_modules/prisma/node_modules/@prisma/engines/query-engine-darwin"
+      qe_location="node_modules/@prisma/engines/query-engine-darwin"
+      qe_location2="node_modules/prisma/node_modules/@prisma/engines/query-engine-darwin"
       ;;
     windows)
-      QE_LOCATION="node_modules\@prisma\engines\query-engine-windows.exe"
-      QE_LOCATION2="node_modules\prisma\node_modules\engines\query-engine-windows.exe"
-      ;;
-    *)
-      OS_NAME=notset
+      qe_location="node_modules\@prisma\engines\query-engine-windows.exe"
+      qe_location2="node_modules\prisma\node_modules\engines\query-engine-windows.exe"
       ;;
   esac
 else
-  # library
-
-  echo "N-API Enabled"
-  case $OS_NAME in
+  echo "N-API: Enabled"
+  case $os_name in
     linux)
-      echo "Linux"
-      QE_LOCATION="node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node"
-      QE_LOCATION2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node"
+      qe_location="node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node"
+      qe_location2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      echo "Osx"
-      QE_LOCATION="node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node"
-      QE_LOCATION2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node"
+      qe_location="node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node"
+      qe_location2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node"
       ;;
     windows*)
-      echo "Windows"
-      QE_LOCATION="node_modules\@prisma\engines\query_engine_napi-windows.dll.node"
-      QE_LOCATION2="node_modules\prisma\node_modules\engines\query_engine_napi-windows.dll.node"
-      ;;
-    *)
-      OS_NAME=notset
+      qe_location="node_modules\@prisma\engines\query_engine_napi-windows.dll.node"
+      qe_location2="node_modules\prisma\node_modules\engines\query_engine_napi-windows.dll.node"
       ;;
   esac
 fi
@@ -64,15 +57,13 @@ echo "---"
 yarn prisma -v
 echo "--- ls node_modules/@prisma/engines/ ---"
 ls node_modules/@prisma/engines/
-echo "--- ls node_modules/.prisma/client/ ---"
-ls node_modules/.prisma/client/
 echo "--- ls node_modules/prisma/ ---"
 ls node_modules/prisma/
 echo "---"
-if [ -f "$QE_LOCATION" ]  || [ -f "$QE_LOCATION2" ] ; then
+if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
   echo "Correct Query Engine exists"
 else
-  echo "Could not find Query Engine in ${QE_LOCATION} or ${QE_LOCATION2} when using ${OS_NAME}"
+  echo "Could not find Query Engine in ${qe_location} or ${qe_location2} when using ${os_name}"
   exit 1
 fi
 
