@@ -4,10 +4,10 @@ PROJECT=$2
 
 skipped_projects=(aws-graviton firebase-functions)
 
-case "${skipped_projects[@]}" in  *$2*) 
-  echo "Skipping as Project is present in skipped_projects" 
+case "${skipped_projects[@]}" in  *$2*)
+  echo "Skipping as $2 is present in skipped_projects"
   exit 0
-  ;; 
+  ;;
 esac
 
 case $(uname | tr '[:upper:]' '[:lower:]') in

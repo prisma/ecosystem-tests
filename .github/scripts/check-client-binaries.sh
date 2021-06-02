@@ -5,7 +5,7 @@ project=$2
 skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions studio netlify-cli jest-with-multiple-generators)
 
 case "${skipped_projects[@]}" in  *$2*)
-  echo "Skipping as Project is present in skipped_projects"
+  echo "Skipping as $2 is present in skipped_projects"
   exit 0
   ;;
 esac
