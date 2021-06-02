@@ -1,7 +1,14 @@
-echo "Checking CLI/Engines QE Binary "
+echo "-------------- Checking CLI/Engines QE Binary --------------"
 DIR=$1
 PROJECT=$2
 
+skipped_projects=(aws-graviton firebase-functions)
+
+case "${skipped_projects[@]}" in  *$2*) 
+  echo "Skipping as Project is present in skipped_projects" 
+  exit 0
+  ;; 
+esac
 
 case $(uname | tr '[:upper:]' '[:lower:]') in
   linux*)
@@ -53,17 +60,17 @@ else
   esac
 fi
 
-echo "---"
-yarn prisma -v
+echo "--- yarn prisma -v ---"
+yarn -s prisma -v
 echo "--- ls node_modules/@prisma/engines/ ---"
 ls node_modules/@prisma/engines/
 echo "--- ls node_modules/prisma/ ---"
 ls node_modules/prisma/
 echo "---"
 if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
-  echo "Correct Query Engine exists"
+  echo "✔ Correct Query Engine exists"
 else
-  echo "Could not find Query Engine in ${qe_location} or ${qe_location2} when using ${os_name}"
+  echo "❌ Could not find Query Engine in ${qe_location} or ${qe_location2} when using ${os_name}"
   exit 1
 fi
 

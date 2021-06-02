@@ -1,13 +1,13 @@
-echo "Checking Generated Client QE Binary "
+echo "-------------- Checking Generated Client QE Binary --------------"
 
 dir=$1
 project=$2
-skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions)
+skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions studio netlify-cli jest-with-multiple-generators)
 
-case "${skipped_projects[@]}" in  *$2*) 
-  echo "Skipping" 
+case "${skipped_projects[@]}" in  *$2*)
+  echo "Skipping as Project is present in skipped_projects"
   exit 0
-  ;; 
+  ;;
 esac
 
 case $(uname | tr '[:upper:]' '[:lower:]') in
@@ -21,7 +21,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
     os_name=windows
     ;;
   *)
-    os_name=windows 
+    os_name=windows
     ;;
 esac
 
@@ -62,9 +62,9 @@ echo "--- ls node_modules/.prisma/client/ ---"
 ls node_modules/.prisma/client/
 echo "---"
 if [ -f "$qe_location" ] ; then
-  echo "Correct Query Engine exists"
+  echo "✔ Correct Query Engine exists"
 else
-  echo "Could not find Query Engine in ${qe_location} when using ${os_name}"
+  echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
   exit 1
 fi
 
