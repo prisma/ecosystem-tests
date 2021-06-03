@@ -13,7 +13,7 @@ async function main() {
   let engineString = ''
   if(process.env.PRISMA_FORCE_NAPI) {
     engineString = `,"files":["index-browser.js","index.d.ts","index.js","package.json","libquery_engine_napi-rhel-openssl-1.0.x.so.node","schema.prisma"]`
-  } else {} 
+  } else {
     engineString = `,"files":["index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]`
   }
 
