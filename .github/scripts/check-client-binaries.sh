@@ -2,6 +2,11 @@ echo "-------------- Checking Generated Client QE Binary --------------"
 
 dir=$1
 project=$2
+
+# These are skipping for a variaty of reasons like:
+# - Custom project structure
+# - Custom output location
+# - They do not generate a client
 skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions studio netlify-cli jest-with-multiple-generators)
 
 case "${skipped_projects[@]}" in  *$2*)

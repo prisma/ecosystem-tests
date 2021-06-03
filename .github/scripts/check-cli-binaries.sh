@@ -2,6 +2,7 @@ echo "-------------- Checking CLI/Engines QE Binary --------------"
 DIR=$1
 PROJECT=$2
 
+# These are skipping because they have different project structures
 skipped_projects=(aws-graviton firebase-functions)
 
 case "${skipped_projects[@]}" in  *$2*)
