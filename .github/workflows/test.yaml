@@ -677,6 +677,7 @@ jobs:
           - mongodb-atlas
           - supabase
           - supabase-pool
+          - planetscale
         os: [ubuntu-latest] #, windows-latest, macos-latest] 
     runs-on: ${{ matrix.os }}
 
@@ -701,6 +702,10 @@ jobs:
       DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+      PLANETSCALE_ORG: ${{ secrets.PLANETSCALE_ORG }}
+      PLANETSCALE_SERVICE_TOKEN_NAME: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_NAME }}
+      PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
+      PSCALE_NO_UPDATE_NOTIFIER: true
 
     steps:
       - uses: actions/checkout@v2
