@@ -9,8 +9,15 @@ async function main() {
   console.log({ data: data.$response.data })
 
   const actual = (data.$response.data as any).Payload
-  const binaryString = `,"files":["index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]`
-  const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`
+
+  let engineString = ''
+  if(process.env.PRISMA_FORCE_NAPI) {
+    engineString = `,"files":["index-browser.js","index.d.ts","index.js","package.json","libquery_engine_napi-rhel-openssl-1.0.x.so.node","schema.prisma"]`
+  } else {} 
+    engineString = `,"files":["index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]`
+  }
+
+  const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${engineString}}`
 
   if (actual !== expect) {
     console.log('expected', expect, 'but got', actual)
