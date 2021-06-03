@@ -128,9 +128,6 @@ jobs:
         engine: ['napi', 'binary']
         feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-        - engine: napi
-          feature: studio
     runs-on: ${{ matrix.os }}
 
     env:
@@ -225,12 +222,7 @@ jobs:
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 15
           - 16
-        os: [ubuntu-latest] #, windows-latest, macos-latest]    
-        exclude:
-        - engine: napi
-          node: 10.16.0
-        - engine: napi
-          node: 12.2.0
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -412,9 +404,6 @@ jobs:
           - aws-graviton
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest] 
-        exclude:
-        - engine: napi
-          platform: aws-graviton
     runs-on: ${{ matrix.os }}
 
     env:
@@ -482,13 +471,6 @@ jobs:
           - azure-functions-windows
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-        - engine: napi
-          platform: azure-functions-linux
-        - engine: napi
-          platform: azure-functions-windows
-        - engine: napi
-          platform: serverless-framework-lambda
     runs-on: ${{ matrix.os }}
         
     env:
