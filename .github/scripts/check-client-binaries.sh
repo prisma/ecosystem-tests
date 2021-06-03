@@ -7,6 +7,7 @@ project=$2
 # - Custom project structure
 # - Custom output location
 # - They do not generate a client
+# TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions studio netlify-cli jest-with-multiple-generators)
 
 case "${skipped_projects[@]}" in  *$2*)
@@ -72,4 +73,3 @@ else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
   exit 1
 fi
-
