@@ -5,11 +5,16 @@ on:
     paths-ignore:
       - '*.md'
       - 'renovate.json'
-  
+
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
-  
+
+defaults:
+  run:
+    # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
+    shell: bash
+
 jobs:
   start-time:
     runs-on: ubuntu-latest
@@ -67,23 +72,34 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
+####################################################
+### real jobs after this
+
   process-managers:
     needs: start-time
+    
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         feature: [pm2]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
 
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+    
       - name: Install Dependencies
         run: yarn install
 
@@ -91,7 +107,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -105,19 +121,31 @@ jobs:
 
   core-features:
     needs: start-time
-    runs-on: ubuntu-latest
+    
     strategy:
       fail-fast: false
       matrix:
-        feature: [auto-reconnect, browser-build, studio]
+        engine: ['napi', 'binary']
+        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+        - engine: napi
+          feature: studio
+    runs-on: ${{ matrix.os }}
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -126,7 +154,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -140,19 +168,27 @@ jobs:
 
   os:
     needs: start-time
+    
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -161,7 +197,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test on ${{ matrix.os }}
+      - name: test on ${{ matrix.os }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -175,11 +211,11 @@ jobs:
 
   node:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         node:
           - 10
           - 12
@@ -189,23 +225,34 @@ jobs:
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 15
           - 16
+        os: [ubuntu-latest] #, windows-latest, macos-latest]    
+        exclude:
+        - engine: napi
+          node: 10.16.0
+        - engine: napi
+          node: 12.2.0
+    runs-on: ${{ matrix.os }}
 
-    name: node ${{ matrix.node }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
-      - name: test on node ${{ matrix.node }}
+      - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -219,26 +266,34 @@ jobs:
 
   binaries:
     needs: start-time
+    
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
     runs-on: ${{ matrix.os }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - uses: actions/setup-node@v2
         with:
           node-version: 12
 
-      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }}
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -252,17 +307,19 @@ jobs:
 
   packagers:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         packager:
           - npm
           - npm-global
           - yarn
           - yarn-workspaces
           - yarn2-without-pnp
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -276,12 +333,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: packager ${{ matrix.packager }}
+      - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -295,14 +356,16 @@ jobs:
 
   frameworks:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         framework:
           - nestjs
           - nextjs
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -315,12 +378,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: framework ${{ matrix.framework }}
+      - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -334,16 +401,21 @@ jobs:
 
   platforms:
     needs: start-time
-    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         platform:
           - heroku
           - aws-graviton
           - codesandbox
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        exclude:
+        - engine: napi
+          platform: aws-graviton
+    runs-on: ${{ matrix.os }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -353,8 +425,13 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -363,7 +440,7 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
-        
+
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
         if: ${{ matrix.platform == 'codesandbox' }}
@@ -371,7 +448,7 @@ jobs:
         with:
           args: yarn --ignore-engines
 
-      - name: test ${{ matrix.platform }}
+      - name: test ${{ matrix.platform }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -385,12 +462,12 @@ jobs:
 
   platforms-serverless:
     needs: start-time
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         platform:
           - lambda
           - vercel-node-builder
@@ -404,7 +481,16 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
-
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+        - engine: napi
+          platform: azure-functions-linux
+        - engine: napi
+          platform: azure-functions-windows
+        - engine: napi
+          platform: serverless-framework-lambda
+    runs-on: ${{ matrix.os }}
+        
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -448,8 +534,13 @@ jobs:
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -459,7 +550,7 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: test ${{ matrix.platform }}
+      - name: test ${{ matrix.platform }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -473,17 +564,18 @@ jobs:
 
   bundlers:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         bundler:
           - webpack
           - parcel
           - rollup
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
-    name: bundler ${{ matrix.bundler }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -492,15 +584,20 @@ jobs:
       WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
       PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
       ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 10
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: test ${{ matrix.bundler }}
+      - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -514,18 +611,19 @@ jobs:
 
   libraries:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         library:
           - express
           - apollo-server
           - type-graphql
           - nexus-schema
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
-    name: library ${{ matrix.library }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -539,12 +637,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: use node 10
         uses: actions/setup-node@v2
         with:
           node-version: 10
 
-      - name: test ${{ matrix.library }}
+      - name: test ${{ matrix.library }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -558,11 +660,11 @@ jobs:
 
   databases:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         database:
           - digitalocean-pgbouncer
           - docker-pgbouncer
@@ -576,8 +678,9 @@ jobs:
           - supabase
           - supabase-pool
           - planetscale
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
-    name: databases ${{ matrix.database }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -607,6 +710,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn install
 
@@ -615,7 +722,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }}
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -629,23 +736,29 @@ jobs:
 
   databases-macos:
     needs: start-time
-    runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         database:
           - sqlserver-azure-sql
+        os: [macos-latest] 
+    runs-on: ${{ matrix.os }}
 
-    name: databases-macos ${{ matrix.database }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+    
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -655,7 +768,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }}
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -669,29 +782,35 @@ jobs:
 
   test-runners:
     needs: start-time
-    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        engine: ['napi', 'binary']
         test-runner:
           - jest-with-multiple-generators
+        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+    runs-on: ${{ matrix.os }}
 
-    name: test-runner ${{ matrix.test-runner }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
         with:
           node-version: 12
 
-      - name: test ${{ matrix.test-runner }}
+      - name: test ${{ matrix.test-runner }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:

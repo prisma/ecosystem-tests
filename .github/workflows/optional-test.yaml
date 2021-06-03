@@ -4,11 +4,16 @@ on:
   push:
     paths-ignore:
       - '*.md'
-      - 'renovate.json'  
+      - 'renovate.json'
 
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
+
+defaults:
+  run:
+    # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
+    shell: bash
 
 jobs:
   start-time:
@@ -29,7 +34,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
       - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"         
+        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
   report-to-slack-failure:
     runs-on: ubuntu-latest
@@ -47,7 +52,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature:
+        engine: ['napi', 'binary']
+        generator:
           [
             prisma-dbml-generator,
             typegraphql-prisma,
@@ -70,6 +76,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      
       - name: Install Dependencies
         run: yarn install
 
@@ -77,14 +87,14 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test ${{ matrix.generator }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.generator }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.generator }}
