@@ -110,6 +110,10 @@ export async function runTest(options: {
   binaryTargets?: string[]
   env?: Record<string, string>
 }) {
+  // This ensures that if PRISMA_FORCE_NAPI is set for the workflow it is removed before running these tests
+  if (process.env.PRISMA_FORCE_NAPI === 'true') {
+    delete process.env.PRISMA_FORCE_NAPI
+  }
   await clean()
   buildSchema({
     previewFeatures: options.previewFeatures,

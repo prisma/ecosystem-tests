@@ -15,8 +15,10 @@ set -u
 pjson_path=$(find $dir/$project -name "package.json" ! -path "*/node_modules/*" | head -n 1)
 bash .github/scripts/print-version.sh $pjson_path
 
+echo "cd .github/slack/"
 cd .github/slack/
 yarn install
+echo "cd ../.."
 cd ../..
 
 root=$(pwd)
@@ -26,6 +28,7 @@ echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
 
+echo "cd $dir/$project"
 cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
@@ -72,6 +75,16 @@ if [ $code -eq 0 ]; then
   echo ""
   echo "-----------------------------"
 fi
+
+# confirm existence of correct engine
+if [ $code -eq 0 ]; then
+  echo "-------------- Checking Binaries ---------------"
+  bash ../../.github/scripts/check-cli-binaries.sh $dir $project
+  bash ../../.github/scripts/check-client-binaries.sh $dir $project
+  echo "------------------------------------------------"
+fi
+
+# TODO parse output of npx prisma -v --json for correct file/path
 
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
