@@ -20,7 +20,8 @@ async function main() {
   const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${engineString}}`
 
   if (actual !== expect) {
-    console.log('expected', expect, 'but got', actual)
+    console.log('expected', expect)
+    console.log(' but got', actual)
     process.exit(1)
   }
 
