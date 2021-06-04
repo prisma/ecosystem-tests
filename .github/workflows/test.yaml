@@ -77,7 +77,7 @@ jobs:
 
   process-managers:
     needs: start-time
-    
+
     strategy:
       fail-fast: false
       matrix:
@@ -85,21 +85,21 @@ jobs:
         feature: [pm2]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Define Engine Type to test
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
-    
+
       - name: Install Dependencies
         run: yarn install
 
@@ -121,16 +121,13 @@ jobs:
 
   core-features:
     needs: start-time
-    
+
     strategy:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
         feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-        - engine: napi
-          feature: studio
     runs-on: ${{ matrix.os }}
 
     env:
@@ -139,7 +136,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -168,21 +165,21 @@ jobs:
 
   os:
     needs: start-time
-    
+
     strategy:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -225,7 +222,7 @@ jobs:
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 15
           - 16
-        os: [ubuntu-latest] #, windows-latest, macos-latest]    
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
         - engine: napi
           node: 10.16.0
@@ -239,7 +236,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -266,7 +263,7 @@ jobs:
 
   binaries:
     needs: start-time
-    
+
     strategy:
       fail-fast: false
       matrix:
@@ -274,14 +271,14 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
     runs-on: ${{ matrix.os }}
-    
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -318,7 +315,7 @@ jobs:
           - yarn
           - yarn-workspaces
           - yarn2-without-pnp
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -364,7 +361,7 @@ jobs:
         framework:
           - nestjs
           - nextjs
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -411,10 +408,7 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
-        exclude:
-        - engine: napi
-          platform: aws-graviton
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -425,7 +419,7 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -484,13 +478,9 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
         - engine: napi
-          platform: azure-functions-linux
-        - engine: napi
           platform: azure-functions-windows
-        - engine: napi
-          platform: serverless-framework-lambda
     runs-on: ${{ matrix.os }}
-        
+
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -534,7 +524,7 @@ jobs:
       FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -573,7 +563,7 @@ jobs:
           - webpack
           - parcel
           - rollup
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -584,7 +574,7 @@ jobs:
       WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
       PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
       ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -621,7 +611,7 @@ jobs:
           - apollo-server
           - type-graphql
           - nexus-schema
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -678,7 +668,7 @@ jobs:
           - supabase
           - supabase-pool
           - planetscale
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -743,7 +733,7 @@ jobs:
         engine: ['napi', 'binary']
         database:
           - sqlserver-azure-sql
-        os: [macos-latest] 
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -752,7 +742,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -789,7 +779,7 @@ jobs:
         engine: ['napi', 'binary']
         test-runner:
           - jest-with-multiple-generators
-        os: [ubuntu-latest] #, windows-latest, macos-latest] 
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
