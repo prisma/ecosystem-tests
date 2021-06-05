@@ -34,8 +34,6 @@ async function main() {
   }
 
   console.log('success')
-
-  await client.$disconnect()
 }
 
 main()
