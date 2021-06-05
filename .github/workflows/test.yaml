@@ -226,9 +226,6 @@ jobs:
           - 15
           - 16
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-        - engine: napi
-          node: 10.16.0 # not supported by napi-rs
     runs-on: ${{ matrix.os }}
 
     env:
