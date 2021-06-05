@@ -404,7 +404,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
         platform:
           - heroku
           - aws-graviton
@@ -424,9 +423,59 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install Dependencies
+        run: yarn
+
+      # Install Puppeteer for Codesandbox test only
+      - name: Install Puppeteer
+        if: ${{ matrix.platform == 'codesandbox' }}
+        uses: ianwalter/puppeteer-container@v4.0.0
+        with:
+          args: yarn --ignore-engines
+
+      - name: test ${{ matrix.platform }} - binary
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+
+  platforms-napi:
+    needs: start-time
+    timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - heroku
+          - aws-graviton
+          - codesandbox
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+      PRISMA_FORCE_NAPI: true
+
+    steps:
+      - uses: actions/checkout@v2
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -443,7 +492,7 @@ jobs:
         with:
           args: yarn --ignore-engines
 
-      - name: test ${{ matrix.platform }} - ${{matrix.engine}}
+      - name: test ${{ matrix.platform }} - napi
         id: run-test
         uses: nick-invision/retry@v2
         with:
