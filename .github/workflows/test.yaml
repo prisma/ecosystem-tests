@@ -451,7 +451,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   platforms-napi:
-    needs: [start-time, platforms-napi]
+    needs: [start-time, platforms] # Makes these tests run after their binary counterparts
     timeout-minutes: 60
 
     strategy:
@@ -594,7 +594,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
 
   platforms-serverless-napi:
-    needs: [start-time, platforms-serverless]
+    needs: [start-time, platforms-serverless] # Makes these tests run after their binary counterparts
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
 
     strategy:
