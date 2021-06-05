@@ -404,6 +404,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['binary'] # see extracted napi below
         platform:
           - heroku
           - aws-graviton
@@ -511,6 +512,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        engine: ['binary'] # see extracted napi below
         platform:
           - lambda
           - vercel-node-builder
