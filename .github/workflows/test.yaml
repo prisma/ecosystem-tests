@@ -228,7 +228,7 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
         - engine: napi
-          node: 10.16.0
+          node: 10.16.0 # not supported by napi-rs
     runs-on: ${{ matrix.os }}
 
     env:
@@ -566,8 +566,8 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
-        - platform: azure-functions-windows
-        - platform: azure-functions-linux
+        - platform: azure-functions-windows  # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
+        - platform: azure-functions-linux  # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
 
     env:
