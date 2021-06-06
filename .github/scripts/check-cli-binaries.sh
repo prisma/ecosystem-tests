@@ -7,8 +7,8 @@ PROJECT=$2
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
-#  aws-graviton 
-#  firebase-functions
+  aws-graviton # no local project at all (everything happens on server), so no `prisma` or `node_modules
+  firebase-functions # no local project at expected location (but in `functions` subfolder) # TODO Why does `yarn prisma -v` return something in that directory though!?
 )
 
 case "${skipped_projects[@]}" in  *$2*)
@@ -74,6 +74,7 @@ ls node_modules/@prisma/engines/
 echo "--- ls node_modules/prisma/ ---"
 ls node_modules/prisma/
 echo "---"
+
 if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
   echo "✔ Correct Query Engine exists"
 else
