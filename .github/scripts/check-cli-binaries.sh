@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 
 echo "-------------- Checking CLI/Engines QE Binary --------------"
 DIR=$1
