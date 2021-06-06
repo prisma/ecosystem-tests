@@ -9,6 +9,7 @@ async function main() {
   console.log({ data: data.$response.data })
 
   const actual = (data.$response.data as any).Payload
+  // Note: THIS ALREADY USES THE binary string, so we can copy this for other tests of the same pattern!
   const binaryString = process.env.PRISMA_FORCE_NAPI === 'true'
     ? `,"files":["index-browser.js","index.d.ts","index.js","libquery_engine_napi-rhel-openssl-1.0.x.so.node","package.json","schema.prisma"]`
     : `,"files":["index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]`
