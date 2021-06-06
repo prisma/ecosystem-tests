@@ -7,8 +7,8 @@ PROJECT=$2
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
-  aws-graviton 
-  firebase-functions
+#  aws-graviton 
+#  firebase-functions
 )
 
 case "${skipped_projects[@]}" in  *$2*)
