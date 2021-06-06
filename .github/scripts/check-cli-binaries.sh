@@ -75,6 +75,8 @@ echo "--- ls node_modules/prisma/ ---"
 ls node_modules/prisma/
 echo "---"
 
+# TODO Add test that makes sure not _wrong_ files are present as well
+# Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine_napi-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
 if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
   echo "✔ Correct Query Engine exists"
 else
