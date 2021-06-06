@@ -18,7 +18,4 @@ describe('Prisma version', () => {
     const data = await prisma.user.findMany()
     expect(data).toMatchObject([])
   })
-
-  // TODO Check for engine files depending on env var
-  
 })
