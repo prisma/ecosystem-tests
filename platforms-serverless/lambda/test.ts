@@ -19,6 +19,7 @@ async function main() {
   const actual = JSON.stringify(original)
   console.log("actual", actual)
 
+  // TODO Add engine string for testing here
   const expect =
     '{"version":"' +
     Prisma.prismaVersion.client +

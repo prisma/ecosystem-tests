@@ -27,3 +27,6 @@ test('should query graphql users', async () => {
   const data = await request(endpoint, query)
   expect(data).toMatchSnapshot()
 })
+
+  // TODO More testing here that the script actually works (see all the other tests)
+  // TODO Also read files and check for engine file
