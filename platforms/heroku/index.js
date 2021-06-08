@@ -49,7 +49,7 @@ app.get('/', async (req, res) => {
       updateUser,
       users,
       deleteManyUsers,
-      files,
+      files: files,
     }),
   )
 })
