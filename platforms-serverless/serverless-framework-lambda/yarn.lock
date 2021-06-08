@@ -754,25 +754,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-aws-sdk@2.923.0:
+aws-sdk@2.923.0, aws-sdk@^2.923.0:
   version "2.923.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.923.0.tgz#97a95686e9dba10f628092bfd90f84397c8ad55f"
   integrity sha512-93YK9Mx32qvH5eLrDRVkvwpEc7GJ6mces1qQugmNZCuQT68baILyDs0IMRtHS6NYxxiM6XNRFc7ubgMlnafYjg==
-  dependencies:
-    buffer "4.9.2"
-    events "1.1.1"
-    ieee754 "1.1.13"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
-
-aws-sdk@^2.919.0:
-  version "2.920.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.920.0.tgz#27559885ca882de1f87dd21ae4d2d004690867a7"
-  integrity sha512-tbMZ/Y2rRo6R6TTBODJXTiil+MXaoT6Qzotws3yvI1IWGpYxKo7N/3L06XB8ul8tCG0TigxIOY70SMICM70Ppg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1552,15 +1537,15 @@ dot-qs@0.2.0:
   resolved "https://registry.yarnpkg.com/dot-qs/-/dot-qs-0.2.0.tgz#d36517fe24b7cda61fce7a5026a0024afaf5a439"
   integrity sha1-02UX/iS3zaYfznpQJqACSvr1pDk=
 
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
+
 dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
-
-dotenv@^9.0.2:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-9.0.2.tgz#dacc20160935a37dea6364aa1bef819fb9b6ab05"
-  integrity sha512-I9OvvrHp4pIARv4+x9iuewrWycX6CcZtoAu1XrzPxc5UygMJXJZYmBsynku8IkrJwgypE5DGNjDPmPRhDCptUg==
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -3670,10 +3655,10 @@ semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-serverless@2.44.0:
-  version "2.44.0"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-2.44.0.tgz#9481fd434531b55f563ee7815c2f6cde772cb67d"
-  integrity sha512-hNyjF1i41U0KouPG7JRWXw4oT2+ARjEBIOXPcmkoyg5yr2FEDce0gZGpD9BQqFHyihDZMGti/+KrZrWPiv27MQ==
+serverless@2.45.0:
+  version "2.45.0"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-2.45.0.tgz#dbb38aedfd778897139aa50f8c8e1114bc3f61ad"
+  integrity sha512-GMgOuG+IhUYwRwVmZq5Ar3gxn+PK8xT6U0a/mmFder18U0VP3Wqp0gVN8BcBarCcHX/+bdKklAP49xcbBSRU5Q==
   dependencies:
     "@serverless/cli" "^1.5.2"
     "@serverless/components" "^3.11.0"
@@ -3682,7 +3667,7 @@ serverless@2.44.0:
     ajv "^6.12.6"
     ajv-keywords "^3.5.2"
     archiver "^5.3.0"
-    aws-sdk "^2.919.0"
+    aws-sdk "^2.923.0"
     bluebird "^3.7.2"
     boxen "^5.0.1"
     cachedir "^2.3.0"
@@ -3692,7 +3677,7 @@ serverless@2.44.0:
     d "^1.0.1"
     dayjs "^1.10.5"
     decompress "^4.2.1"
-    dotenv "^9.0.2"
+    dotenv "^10.0.0"
     essentials "^1.1.1"
     fastest-levenshtein "^1.0.12"
     filesize "^6.3.0"
