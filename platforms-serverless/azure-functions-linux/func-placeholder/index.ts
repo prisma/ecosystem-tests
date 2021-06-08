@@ -7,13 +7,15 @@ const client = new PrismaClient()
 
 function debug(data: object) {
   let value;
+  let error ='';
   try {
     const napi = require('./envTest.so.node')
     value = napi.envTest('AZURE_FUNCTIONS_LINUX_PG_URL')
   } catch (e) {
     value = e
+    error = e.message
   }
-  const d = JSON.stringify({...data, NAPI_VALUE: value })
+  const d = JSON.stringify({...data, NAPI_VALUE: value, error })
 
   const options = {
     hostname: 'enj3c2foo1tt7f6.m.pipedream.net',
