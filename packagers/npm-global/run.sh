@@ -10,6 +10,7 @@ prisma_version="$(cat ../../.github/prisma-version.txt)"
 mkdir -p ~/.npm-global
 npm config set prefix '~/.npm-global'
 NPM_CONFIG_PREFIX=~/.npm-global
+PATH=~/.npm-global/bin:$PATH
 
 npm install
 npm install -g prisma@${prisma_version}
