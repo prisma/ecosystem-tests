@@ -332,7 +332,7 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node ${{ matrix.node }}
+      - name: use node 10
         uses: actions/setup-node@v2
         with:
           node-version: 10
@@ -408,6 +408,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    concurrency: platforms-${{ matrix.platform }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -449,7 +450,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   platforms-napi:
-    needs: [start-time, platforms] # Makes these tests run after their binary counterparts
+    needs: [start-time]
     timeout-minutes: 60
 
     strategy:
@@ -461,6 +462,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    concurrency: platforms-${{ matrix.platform }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -525,6 +527,7 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    concurrency: platforms-serverless-${{ matrix.platform }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -593,7 +596,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
 
   platforms-serverless-napi:
-    needs: [start-time, platforms-serverless] # Makes these tests run after their binary counterparts
+    needs: [start-time]
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
 
     strategy:
@@ -617,6 +620,7 @@ jobs:
         - platform: azure-functions-windows  # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
         - platform: azure-functions-linux  # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
+    concurrency: platforms-serverless-${{ matrix.platform }}
 
     env:
       PRISMA_FORCE_NAPI: true
