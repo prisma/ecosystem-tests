@@ -15,10 +15,10 @@ skipped_projects=(
   prisma-json-schema-generator  # No generated Client, so no engine included
   napi-preview-feature          # TODO: Client has binary instead of library, CLI already has both - INVESTIGATE!
   pkg                           # No generated Client, so no engine included
-  aws-graviton                  # binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as everything happens on server
-  firebase-functions            # TODO: binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as local installation happens in sub folder - Fix script if possible!
+  #aws-graviton                  # binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as everything happens on server
+  #firebase-functions            # TODO: binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as local installation happens in sub folder - Fix script if possible!
   studio                        # TODO: No generated Client in `node_modules/.prisma/client/`
-  netlify-cli                   # TODO: binary only: No generated Client locally - Investigate why!?
+  #netlify-cli                   # TODO: binary only: No generated Client locally - Investigate why!?
   jest-with-multiple-generators # TODO: No generated Client locally - Investigate why!?
 )
 
