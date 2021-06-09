@@ -98,6 +98,10 @@ async function main() {
       }
     })
     .reduce((files, file) => {
+      // Enables Node-API in Codesandbox 
+      if(file.filePath === 'prisma/.env' && process.env.PRISMA_FORCE_NAPI === 'true'){
+        file.content = file.content + `\nPRISMA_FORCE_NAPI=true`
+      }
       return {
         ...files,
         [`${file.filePath}`]: {
