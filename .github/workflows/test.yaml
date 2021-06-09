@@ -330,10 +330,10 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node ${{ matrix.node }}
+      - name: use node 12
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 12
 
       - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
         id: run-test
@@ -375,10 +375,10 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node ${{ matrix.node }}
+      - name: use node 12
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 12
 
       - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
         id: run-test
