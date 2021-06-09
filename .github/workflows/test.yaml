@@ -458,6 +458,8 @@ jobs:
           - aws-graviton
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          - platform: heroku # https://github.com/prisma/e2e-tests/issues/1773
     runs-on: ${{ matrix.os }}
     concurrency: platforms-${{ matrix.platform }}
     env:
@@ -612,6 +614,7 @@ jobs:
         exclude:
           - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
           - platform: azure-functions-linux # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: firebase-functions # https://github.com/prisma/e2e-tests/issues/1773
     runs-on: ${{ matrix.os }}
     concurrency: platforms-serverless-${{ matrix.platform }}
 
