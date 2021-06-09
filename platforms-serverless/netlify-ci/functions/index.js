@@ -39,12 +39,12 @@ exports.handler = async function (event, context, callback) {
   const tree = dirTree(process.env.LAMBDA_TASK_ROOT);
   console.dir(tree, { depth: null });
   */
- 
+
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
   const path = require('path')
   const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
-  
+
   return {
     statusCode: 200,
     body: JSON.stringify({
