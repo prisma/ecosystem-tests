@@ -14,4 +14,10 @@ yarn tsc
 func="e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$func" > func-tmp.txt
 
-gcloud functions deploy "$func" --runtime nodejs10 --trigger-http --entry-point=handler --allow-unauthenticated --verbosity debug --set-env-vars GCP_FUNCTIONS_PG_URL=$GCP_FUNCTIONS_PG_URL,PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms azure functions linux gcp functions env'
+# checks whether PRISMA_FORCE_NAPI has length equal to zero
+if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+  gcloud functions deploy "$func" --runtime nodejs10 --trigger-http --entry-point=handler --allow-unauthenticated --verbosity debug --set-env-vars GCP_FUNCTIONS_PG_URL=$GCP_FUNCTIONS_PG_URL,PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms azure functions linux gcp functions env'
+else
+  gcloud functions deploy "$func" --runtime nodejs10 --trigger-http --entry-point=handler --allow-unauthenticated --verbosity debug --set-env-vars GCP_FUNCTIONS_PG_URL=$GCP_FUNCTIONS_PG_URL,PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms azure functions linux gcp functions env',PRISMA_FORCE_NAPI='true'
+fi
+
