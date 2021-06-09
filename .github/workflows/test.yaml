@@ -72,8 +72,8 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
-####################################################
-### real jobs after this
+  ####################################################
+  ### real jobs after this
 
   process-managers:
     needs: start-time
@@ -397,7 +397,7 @@ jobs:
   platforms:
     needs: start-time
     timeout-minutes: 60
-
+    concurrency: platforms
     strategy:
       fail-fast: false
       matrix:
@@ -449,9 +449,9 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   platforms-napi:
-    needs: [start-time, platforms] # Makes these tests run after their binary counterparts
+    needs: [start-time] # Makes these tests run after their binary counterparts
     timeout-minutes: 60
-
+    concurrency: platforms
     strategy:
       fail-fast: false
       matrix:
@@ -505,7 +505,7 @@ jobs:
   platforms-serverless:
     needs: start-time
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
-
+    concurrency: platforms-serverless
     strategy:
       fail-fast: false
       matrix:
@@ -593,9 +593,9 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
 
   platforms-serverless-napi:
-    needs: [start-time, platforms-serverless] # Makes these tests run after their binary counterparts
+    needs: [start-time] # Makes these tests run after their binary counterparts
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
-
+    concurrency: platforms-serverless
     strategy:
       fail-fast: false
       matrix:
@@ -614,8 +614,8 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
-        - platform: azure-functions-windows  # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
-        - platform: azure-functions-linux  # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: azure-functions-linux # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
 
     env:
