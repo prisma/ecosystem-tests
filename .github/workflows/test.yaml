@@ -395,7 +395,6 @@ jobs:
   platforms:
     needs: start-time
     timeout-minutes: 60
-    concurrency: platforms
     strategy:
       fail-fast: false
       matrix:
@@ -406,6 +405,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    concurrency: platforms-${{ matrix.platform }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -449,7 +449,7 @@ jobs:
   platforms-napi:
     needs: [start-time] # Makes these tests run after their binary counterparts
     timeout-minutes: 60
-    concurrency: platforms
+
     strategy:
       fail-fast: false
       matrix:
@@ -459,7 +459,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
+    concurrency: platforms-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -503,7 +503,6 @@ jobs:
   platforms-serverless:
     needs: start-time
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    concurrency: platforms-serverless
     strategy:
       fail-fast: false
       matrix:
@@ -523,7 +522,7 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
+    concurrency: platforms-serverless-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -593,7 +592,6 @@ jobs:
   platforms-serverless-napi:
     needs: [start-time] # Makes these tests run after their binary counterparts
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    concurrency: platforms-serverless
     strategy:
       fail-fast: false
       matrix:
@@ -615,6 +613,7 @@ jobs:
           - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
           - platform: azure-functions-linux # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
+    concurrency: platforms-serverless-${{ matrix.platform }}
 
     env:
       PRISMA_FORCE_NAPI: true
