@@ -1,15 +1,17 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import execa from 'execa'
 
 const prisma = new PrismaClient()
 
 export default async (req, res) => {
   const fs = require('fs')
   const path = require('path')
-  let files;
+  let files
+  const { stdout } = await execa('tree')
   try {
     files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
   } catch (e) {
-    files = e.message
+    files = e.message + '\n' + stdout
   }
   res.statusCode = 200
   res.setHeader('Content-Type', 'application/json')
