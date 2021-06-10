@@ -39,14 +39,14 @@ test('should test .prisma/client files', async () => {
     process.env.PRISMA_FORCE_NAPI === 'true'
       ? [
           'index.js',
+          'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
           'package.json',
-          'query-engine-rhel-openssl-1.0.x',
           'schema.prisma',
         ]
       : [
           'index.js',
-          'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
           'package.json',
+          'query-engine-rhel-openssl-1.0.x',
           'schema.prisma',
         ]
   expect(JSON.parse(data.files)).toMatchObject(files)
