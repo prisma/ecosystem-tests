@@ -128,9 +128,6 @@ jobs:
         engine: ['napi', 'binary']
         feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          - engine: napi
-            feature: studio
     runs-on: ${{ matrix.os }}
 
     env:
