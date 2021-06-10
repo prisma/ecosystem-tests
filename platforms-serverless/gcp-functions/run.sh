@@ -7,6 +7,9 @@ echo "$GCP_FUNCTIONS_ACCOUNT"
 
 # When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+  # use the default schema at prisma/schema.prisma file
+  true
+else
   mv prisma/schema-with-napi.prisma prisma/schema.prisma
 fi
 
