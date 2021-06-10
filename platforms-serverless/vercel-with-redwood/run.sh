@@ -13,9 +13,9 @@ echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
 
 
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
-  yarn vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> deployment-url.txt
 else
-  yarn vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm --force 1> deployment-url.txt
 fi
 
 echo ''
