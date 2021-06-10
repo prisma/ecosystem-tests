@@ -12,5 +12,7 @@ export default async (req, res) => {
   }
   res.status(200).json({
     files,
+    napi: process.env.PRISMA_FORCE_NAPI,
+    connection: process.env.NEXTJS_WITH_VERCEL_PG_URL,
   })
 }

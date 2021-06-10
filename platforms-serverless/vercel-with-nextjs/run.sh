@@ -9,12 +9,16 @@ export VERCEL_ORG_ID=$VERCEL_WITH_NEXTJS_ORG_ID
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 
-# checks whether PRISMA_FORCE_NAPI has length equal to zero
+# When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
-  yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm 1> deployment-url.txt
+  # use the default schema at prisma/schema.prisma file
+  true
 else
-  yarn -s vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm 1> deployment-url.txt
+  mv ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
+
+yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm 1> deployment-url.txt
+
 
 echo ''
 cat deployment-url.txt
