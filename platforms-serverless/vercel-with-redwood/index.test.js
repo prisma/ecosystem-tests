@@ -27,3 +27,13 @@ test('should query graphql users', async () => {
   const data = await request(endpoint, query)
   expect(data).toMatchSnapshot()
 })
+
+test('should test .prisma/client files', async () => {
+  const query = gql`
+    query {
+      files
+    }
+  `
+  const data = await request(endpoint, query)
+  expect(data.files).toMatchInlineSnapshot(``)
+})
