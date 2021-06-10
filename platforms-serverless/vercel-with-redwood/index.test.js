@@ -5,8 +5,8 @@ const fs = require('fs')
 // const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
 // const endpoint = 'http://localhost:8911/graphql'
 
-function getDeploymentURL(){
-  const data = fs.readFileSync('./deployment-url.txt', {encoding: 'utf8'})
+function getDeploymentURL() {
+  const data = fs.readFileSync('./deployment-url.txt', { encoding: 'utf8' })
   console.log(data)
   return data.trim()
 }
@@ -47,12 +47,16 @@ test('should test .prisma/client files', async () => {
   const files =
     process.env.PRISMA_FORCE_NAPI === 'true'
       ? [
+          'index-browser.js',
+          'index.d.ts',
           'index.js',
           'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
           'package.json',
           'schema.prisma',
         ]
       : [
+          'index-browser.js',
+          'index.d.ts',
           'index.js',
           'package.json',
           'query-engine-rhel-openssl-1.0.x',
