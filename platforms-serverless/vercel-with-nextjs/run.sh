@@ -11,8 +11,15 @@ echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 
 # checks whether PRISMA_FORCE_NAPI has length equal to zero
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
-  yarn vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm
+  yarn vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm 1> deployment-url.txt
 else
-  yarn vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm
+  yarn vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm 1> deployment-url.txt
 fi
+
+echo ''
+cat deployment-url.txt
+DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
+echo ''
+echo "Deployed to ${DEPLOYED_URL}"
+
 sleep 15
