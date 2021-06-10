@@ -1,6 +1,6 @@
-//import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
-//const client = new PrismaClient()
+const client = new PrismaClient()
 
 export async function handler(req: any, res: any) {
   const fs = require('fs')
@@ -8,7 +8,6 @@ export async function handler(req: any, res: any) {
   const prismaPath = path.dirname(require.resolve('.prisma/client'))
   const files = fs.readdirSync(prismaPath)
 
-  /*
   await client.user.deleteMany({})
 
   const id = '12345'
@@ -38,16 +37,13 @@ export async function handler(req: any, res: any) {
   })
 
   const deleteManyUsers = await client.user.deleteMany({})
-  */
+
   res.status(200).send({
-    /*
     version: Prisma.prismaVersion.client,
     createUser,
     updateUser,
     users,
     deleteManyUsers,
-    */
-    prismaPath,
     files
   })
 }
