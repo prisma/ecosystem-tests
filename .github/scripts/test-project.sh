@@ -89,10 +89,10 @@ fi
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
   echo ""
-  echo "finally script found, executing $dir/$project/finally.sh"
+  echo "finally script found, executing $dir/$project/finally.sh (with test exit code $code as param)"
   echo ""
 
-  bash finally.sh
+  bash finally.sh $code
 
   echo ""
   echo "finished finally.sh"

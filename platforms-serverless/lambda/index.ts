@@ -7,17 +7,20 @@ import { PrismaClient, Prisma } from '@prisma/client'
 const client = new PrismaClient()
 
 const measure_client = process.hrtime.bigint()
-    
+
 export async function handler() {
-  
+  const fs = require('fs')
+  const path = require('path')
+  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+
   const measure_handler = process.hrtime.bigint()
-  
+
   await client.$connect()
 
   const measure_connect = process.hrtime.bigint()
 
   await client.user.deleteMany({})
-  
+
   const id = '12345'
 
   const createUser = await client.user.create({
@@ -27,7 +30,7 @@ export async function handler() {
       name: 'Alice',
     },
   })
-  
+
   const updateUser = await client.user.update({
     where: {
       id,
@@ -37,23 +40,24 @@ export async function handler() {
       name: 'Bob',
     },
   })
-  
+
   const users = await client.user.findUnique({
     where: {
       id,
     },
   })
-  
+
   const deleteManyUsers = await client.user.deleteMany({})
 
   const measure_end = process.hrtime.bigint()
-  
+
   return {
     version: Prisma.prismaVersion.client,
     createUser,
     updateUser,
     users,
     deleteManyUsers,
+    files,
     measurements: {
       outside_handler: Number(measure_client-measure_start) / 1000000000,
       inside_handler: Number(measure_end-measure_handler) / 1000000000,

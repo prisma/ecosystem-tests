@@ -1,11 +1,6 @@
-import { Prisma, PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
 export default async (req, res) => {
   res.statusCode = 200
   res.setHeader('Content-Type', 'application/json')
-  const users = await prisma.user.findMany()
   const fs = require('fs')
   let files
   try {
@@ -16,8 +11,8 @@ export default async (req, res) => {
     files = e.message
   }
   res.status(200).json({
-    prismaVersion: Prisma.prismaVersion.client,
-    users,
-    files
+    files,
+    napi: process.env.PRISMA_FORCE_NAPI,
+    connection: process.env.NEXTJS_WITH_VERCEL_PG_URL,
   })
 }

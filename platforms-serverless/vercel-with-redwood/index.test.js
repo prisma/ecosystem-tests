@@ -1,8 +1,14 @@
 const { request, gql } = require('graphql-request')
 const pjson = require('./api/package.json')
+const fs = require('fs')
 
-const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
+function getDeploymentURL() {
+  const data = fs.readFileSync('./deployment-url.txt', { encoding: 'utf8' })
+  return data
+}
+// const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
 // const endpoint = 'http://localhost:8911/graphql'
+const endpoint = getDeploymentURL() + '/api/graphql'
 
 test('should test prisma version', async () => {
   const query = gql`
@@ -28,5 +34,32 @@ test('should query graphql users', async () => {
   expect(data).toMatchSnapshot()
 })
 
-  // TODO More testing here that the script actually works (see all the other tests)
-  // TODO Also read files and check for engine file
+test('should test .prisma/client files', async () => {
+  const query = gql`
+    query {
+      files
+    }
+  `
+  const data = await request(endpoint, query)
+  const files =
+    process.env.PRISMA_FORCE_NAPI === 'true'
+      ? [
+          'index-browser.js',
+          'index.d.ts',
+          'index.js',
+          'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
+          'package.json',
+          'schema.prisma',
+        ]
+      : [
+          'index-browser.js',
+          'index.d.ts',
+          'index.js',
+          'package.json',
+          'query-engine-rhel-openssl-1.0.x',
+          'schema.prisma',
+        ]
+  expect(data.files).toMatchObject(files)
+})
+
+// TODO More testing here that the script actually works (see all the other tests)
