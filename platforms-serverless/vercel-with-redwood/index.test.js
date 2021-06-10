@@ -7,8 +7,10 @@ const fs = require('fs')
 
 function getDeploymentURL(){
   const data = fs.readFileSync('./deployment-url.txt', {encoding: 'utf8'})
-  let lines = data.trim().split("\n")
-  return lines[lines.length - 1].trim()
+  console.log(data)
+
+  let lines = data.split("\n")
+  return lines[lines.length - 1]
 }
 const endpoint = getDeploymentURL() + '/api/graphql'
 console.log(`Testing: ${endpoint}`)
