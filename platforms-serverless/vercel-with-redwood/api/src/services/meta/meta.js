@@ -11,7 +11,7 @@ export const files = () => {
   try {
     files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
   } catch (e) {
-    files = e.message
+    files = [e.message]
   }
-  return JSON.stringify(files)
+  return files
 }
