@@ -5,7 +5,8 @@ const client = new PrismaClient()
 export async function handler(req: any, res: any) {
   const fs = require('fs')
   const path = require('path')
-  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+  const prismaPath = path.dirname(require.resolve('.prisma/client'))
+  const files = fs.readdirSync(prismaPath)
 
   await client.user.deleteMany({})
 

@@ -616,7 +616,6 @@ jobs:
           - platform: azure-functions-linux # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
           - platform: firebase-functions # see https://github.com/prisma/e2e-tests/issues/1748
           - platform: netlify-ci # see https://github.com/prisma/e2e-tests/issues/1748
-          - platform: gcp-functions # see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
 
