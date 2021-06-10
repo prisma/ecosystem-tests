@@ -49,5 +49,5 @@ test('should test .prisma/client files', async () => {
           'query-engine-rhel-openssl-1.0.x',
           'schema.prisma',
         ]
-  expect(JSON.parse(data.files)).toMatchObject(files)
+  expect(data.files).toMatchObject(files)
 })
