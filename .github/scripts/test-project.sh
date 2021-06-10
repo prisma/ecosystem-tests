@@ -37,7 +37,8 @@ if [ -f "prepare.sh" ]; then
   echo "prepare script found, executing $dir/$project/prepare.sh"
   echo ""
 
-  bash prepare.sh
+  # execute & allow export of env vars
+  . prepare.sh
 
   echo ""
   echo "finished prepare.sh"
