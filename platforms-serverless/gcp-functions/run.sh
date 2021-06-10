@@ -10,7 +10,9 @@ if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   # use the default schema at prisma/schema.prisma file
   true
 else
-  mv prisma/schema-with-napi.prisma prisma/schema.prisma
+  ls -l
+  ls -l prisma
+  mv ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
 yarn install
