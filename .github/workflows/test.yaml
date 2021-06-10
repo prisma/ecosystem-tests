@@ -407,7 +407,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -463,7 +463,7 @@ jobs:
         exclude:
           - platform: heroku # https://github.com/prisma/e2e-tests/issues/1773
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -526,7 +526,7 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -620,7 +620,7 @@ jobs:
           - platform: netlify-ci # see https://github.com/prisma/e2e-tests/issues/1748
           - platform: gcp-functions # see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
 
     env:
       PRISMA_FORCE_NAPI: true
