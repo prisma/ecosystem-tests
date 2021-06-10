@@ -1,7 +1,15 @@
 const fetch = require('node-fetch')
 
-const endpoint = 'https://e2e-vercel-with-nextjs.vercel.app/api'
+// const endpoint = 'https://e2e-vercel-with-nextjs.vercel.app/api'
 // const endpoint = 'http://localhost:3001/api'
+
+function getDeploymentURL(){
+  const data = fs.readFileSync('./deployment-url.txt', {encoding: 'utf8'})
+  let lines = data.trim().split("\n")
+  return lines[lines.length - 1].trim()
+}
+const endpoint = getDeploymentURL() + '/api/graphql'
+console.log(`Testing: ${endpoint}`)
 
 const pjson = require('./package.json')
 

@@ -1,8 +1,17 @@
 const { request, gql } = require('graphql-request')
 const pjson = require('./api/package.json')
+const fs = require('fs')
 
-const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
+// const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
 // const endpoint = 'http://localhost:8911/graphql'
+
+function getDeploymentURL(){
+  const data = fs.readFileSync('./deployment-url.txt', {encoding: 'utf8'})
+  let lines = data.trim().split("\n")
+  return lines[lines.length - 1].trim()
+}
+const endpoint = getDeploymentURL() + '/api/graphql'
+console.log(`Testing: ${endpoint}`)
 
 test('should test prisma version', async () => {
   const query = gql`
