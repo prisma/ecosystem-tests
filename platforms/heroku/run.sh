@@ -2,10 +2,6 @@
 
 set -eux
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms heroku build'
-yarn install
-yarn prisma generate
-
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
