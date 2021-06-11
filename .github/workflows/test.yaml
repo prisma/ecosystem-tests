@@ -459,7 +459,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
-          - platform: heroku # https://github.com/prisma/e2e-tests/issues/1773
+          - platform: heroku # https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
     env:

@@ -5,7 +5,6 @@ set -eu
 sandbox_id=$(cat sandbox_id)
 url="https://$sandbox_id.sse.codesandbox.io"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
-# }'
 
 # checks whether PRISMA_FORCE_NAPI has length equal to zero
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
