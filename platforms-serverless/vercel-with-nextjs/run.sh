@@ -17,7 +17,7 @@ else
   cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
-yarn -s vercel --token=$VERCEL_TOKEN --scope=prisma --confirm 1> deployment-url.txt
+yarn -s vercel --token=$VERCEL_TOKEN --scope=prisma --confirm --force 1> deployment-url.txt
 
 
 echo ''
