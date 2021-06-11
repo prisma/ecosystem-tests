@@ -19,7 +19,7 @@ skipped_projects=(
   #firebase-functions            # TODO: binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as local installation happens in sub folder - Fix script if possible!
   studio                        # TODO: No generated Client in `node_modules/.prisma/client/`
   #netlify-cli                   # TODO: binary only: No generated Client locally - Investigate why!?
-  jest-with-multiple-generators # TODO: No generated Client locally - Investigate why!?
+  jest-with-multiple-generators # No generated Client locally in default path, both Clients have custom `output`
 )
 
 case "${skipped_projects[@]}" in  *$2*)
