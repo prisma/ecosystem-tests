@@ -10,6 +10,10 @@ const client = new PrismaClient({
 })
 
 export = async function (context: Context, req: HttpRequest): Promise<void> {
+  const fs = require('fs')
+  const path = require('path')
+  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+
   await client.user.deleteMany({})
 
   const id = '12345'
@@ -48,6 +52,7 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
       updateUser,
       users,
       deleteManyUsers,
+      files
     }),
   }
 
