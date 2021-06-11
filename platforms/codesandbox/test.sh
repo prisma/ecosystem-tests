@@ -3,9 +3,7 @@
 set -eu
 
 sandbox_id=$(cat sandbox_id)
-
 url="https://$sandbox_id.sse.codesandbox.io"
-
 prisma_version="$(cat ../../.github/prisma-version.txt)"
 # }'
 
@@ -20,6 +18,9 @@ expected='{"version":"'$prisma_version'","createUser":{"id":"12345","email":"ali
 actual=$(curl "$url")
 
 if [ "$expected" != "$actual" ]; then
-  echo "expected '$expected', got '$actual'"
+  echo "expected '$expected'"
+  echo " but got '$actual'"
   exit 1
 fi
+
+echo "result: $actual"

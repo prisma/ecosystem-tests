@@ -61,3 +61,5 @@ test('should test .prisma/client files', async () => {
         ]
   expect(data.files).toMatchObject(files)
 })
+
+// TODO More testing here that the script actually works (see all the other tests)

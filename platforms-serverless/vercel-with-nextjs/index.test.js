@@ -34,3 +34,6 @@ test('prisma version and output', async () => {
     files: files,
   })
 })
+
+// TODO More testing here that the script actually works (see all the other tests)
+// TODO Also read files and check for engine file
