@@ -14,7 +14,7 @@ if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   # use the default schema at prisma/schema.prisma file
   true
 else
-  mv ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
+  cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
 yarn -s vercel --token=$VERCEL_TOKEN --scope=prisma --confirm 1> deployment-url.txt
