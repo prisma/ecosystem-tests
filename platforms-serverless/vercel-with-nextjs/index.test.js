@@ -7,12 +7,20 @@ function getDeploymentURL() {
 }
 // const endpoint = 'https://e2e-vercel-with-nextjs.vercel.app/api'
 // const endpoint = 'http://localhost:3001/api'
-const endpoint = getDeploymentURL() + '/api'
+const endpoint = getDeploymentURL()
 
 const pjson = require('./package.json')
 
 test('prisma version and output', async () => {
-  const r = await fetch(endpoint)
+  const r = await fetch(endpoint + '/api')
+  const data = await r.json()
+  expect(data).toMatchObject({
+    prismaVersion: pjson.dependencies['@prisma/client'],
+    users: [],
+  })
+})
+test('generated client files', async () => {
+  const r = await fetch(endpoint + '/api/files')
   const data = await r.json()
   const files =
     process.env.PRISMA_FORCE_NAPI === 'true'
@@ -29,8 +37,6 @@ test('prisma version and output', async () => {
           'schema.prisma',
         ]
   expect(data).toMatchObject({
-    prismaVersion: pjson.dependencies['@prisma/client'],
-    users: [],
     files: files,
   })
 })
