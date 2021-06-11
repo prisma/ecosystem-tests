@@ -8,7 +8,17 @@ project=$2
 # - Custom output location
 # - They do not generate a client
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
-skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions studio netlify-cli jest-with-multiple-generators)
+skipped_projects=(
+  prisma-dbml-generator 
+  prisma-json-schema-generator 
+  napi-preview-feature 
+  pkg aws-graviton 
+  firebase-functions 
+  studio 
+  netlify-cli 
+  jest-with-multiple-generators
+  heroku # no local project installation, so nothing to test locally
+)
 
 case "${skipped_projects[@]}" in  *$2*)
   echo "Skipping as $2 is present in skipped_projects"
