@@ -2,4 +2,4 @@
 
 set -eu
 
-yarn heroku logs -a e2e-platforms-heroku
+npx heroku logs -a e2e-platforms-heroku
