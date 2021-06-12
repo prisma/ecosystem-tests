@@ -2,9 +2,9 @@
 
 const { execSync } = require('child_process');
 
-const uname = execSync(`uname -m`)
+const uname = execSync(`uname -m`).toString().trim()
 console.log("uname", uname)
-const isArm = uname.toString().trim() === "arm64";
+const isArm = uname === "arm64";
 
 let isM1 = false;
 try {
