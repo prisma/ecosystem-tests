@@ -199,11 +199,11 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: test on ${{ matrix.os }} - ${{matrix.engine}}
-        run: .github/scripts/test-project.sh generic basic ${{ matrix.os }}
+        run: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
         if: ${{ matrix.os != 'm1' }}
 
-      - name: test on ${{ matrix.os }} - ${{matrix.engine}}
-        run: arch -arm64 .github/scripts/test-project.sh generic basic ${{ matrix.os }}
+      - name: test on ${{ matrix.os }} - ${{matrix.engine}} (force run as arm64)
+        run: arch -arm64 bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
         if: ${{ matrix.os == 'm1' }}
 
       - name: notify-slack
