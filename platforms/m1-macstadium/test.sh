@@ -9,4 +9,5 @@ ssh -i ./server-key.pem administrator@207.254.29.83 -tt "
     export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/administrator/.cargo/bin 
 
     yarn m1;
+    yarn test;
 "
