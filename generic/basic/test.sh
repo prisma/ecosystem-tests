@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
-yarn m1
-yarn cmd
+yarn -s m1
+yarn -s cmd

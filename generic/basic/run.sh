@@ -5,5 +5,5 @@ set -eux
 export DEBUG="*"
 export RUST_BACKTRACE=full
 
-yarn install
-yarn prisma generate
+yarn -s install
+yarn -s prisma generate
