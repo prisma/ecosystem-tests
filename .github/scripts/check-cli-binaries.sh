@@ -4,7 +4,7 @@ PROJECT=$2
 
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
-skipped_projects=(aws-graviton firebase-functions)
+skipped_projects=(aws-graviton firebase-functions m1-macstadium)
 
 case "${skipped_projects[@]}" in  *$2*)
   echo "Skipping as $2 is present in skipped_projects"
