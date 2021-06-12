@@ -10,7 +10,6 @@ echo ""
 
 echo "node: $(node -v)"
 echo "npm: $(npm -v)"
-echo "uname -m: $(uname -m)"
 
 echo "prisma-version.txt: $(cat .github/prisma-version.txt)"
 echo "prisma (package.json): $(jq .devDependencies[\"prisma\"] < $packageJSONDir)"
