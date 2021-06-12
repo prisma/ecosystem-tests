@@ -200,7 +200,7 @@ jobs:
 
       - name: test on ${{ matrix.os }} - ${{matrix.engine}}
         run: .github/scripts/test-project.sh generic basic ${{ matrix.os }}
-        if: ${{ matrix.os !== 'm1' }}
+        if: ${{ matrix.os != 'm1' }}
 
       - name: test on ${{ matrix.os }} - ${{matrix.engine}}
         run: arch -arm64 .github/scripts/test-project.sh generic basic ${{ matrix.os }}
