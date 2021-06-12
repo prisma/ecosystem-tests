@@ -395,6 +395,7 @@ jobs:
   platforms:
     needs: start-time
     timeout-minutes: 60
+
     strategy:
       fail-fast: false
       matrix:
@@ -403,6 +404,7 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
+          - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -415,6 +417,7 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
 
     steps:
       - uses: actions/checkout@v2
@@ -447,7 +450,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   platforms-napi:
-    needs: [start-time]
+    needs: start-time
     timeout-minutes: 60
 
     strategy:
@@ -457,11 +460,13 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
+          - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
           - platform: heroku # https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -470,6 +475,7 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
       PRISMA_FORCE_NAPI: true
 
     steps:
