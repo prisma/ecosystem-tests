@@ -6,9 +6,394 @@ on:
       - '*.md'
       - 'renovate.json'
 
+env:
+  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
+  SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+
+defaults:
+  run:
+    # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
+    shell: bash
+
 jobs:
+  start-time:
+    runs-on: ubuntu-latest
+    outputs:
+      start-time: ${{ steps.start-time-output.outputs.start-time }}
+    steps:
+      - id: start-time-output
+        run: echo "::set-output name=start-time::$(date)"
+
+  report-to-slack-success:
+    runs-on: ubuntu-latest
+    needs:
+      - core-features
+      - os
+      - node
+      - binaries
+      - packagers
+      - frameworks
+      - platforms
+      - platforms-serverless
+      - bundlers
+      - libraries
+      - databases
+      - databases-macos
+      - process-managers
+      - test-runners
+    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: report success to slack
+        run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
+
+  report-to-slack-failure:
+    runs-on: ubuntu-latest
+    needs:
+      - core-features
+      - os
+      - node
+      - binaries
+      - packagers
+      - frameworks
+      - platforms
+      - platforms-serverless
+      - bundlers
+      - libraries
+      - databases
+      - databases-macos
+      - process-managers
+      - test-runners
+    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: report failure to slack
+        run: bash .github/scripts/slack-workflow-status.sh ":x:"
+
+  ####################################################
+  ### real jobs after this
+
+  process-managers:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        feature: [pm2]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh process-managers ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
+
+  core-features:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          - engine: napi
+            feature: studio
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+
+  os:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test on ${{ matrix.os }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
+
+  node:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        node:
+          - 12
+          - 14
+          - 15
+          - 16
+          - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
+          - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+
+  binaries:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        binary: [pkg]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
+
+  packagers:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        packager:
+          - npm
+          - npm-global
+          - yarn
+          - yarn-workspaces
+          - yarn2-without-pnp
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
+      PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
+      PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
+
+  frameworks:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        framework:
+          - nestjs
+          - nextjs
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
+      FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
 
   platforms:
+    needs: start-time
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -18,7 +403,6 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
-          - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -31,7 +415,6 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
 
     steps:
       - uses: actions/checkout@v2
@@ -64,6 +447,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   platforms-napi:
+    needs: [start-time]
     timeout-minutes: 60
 
     strategy:
@@ -73,7 +457,6 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
-          - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
           - platform: heroku # https://github.com/prisma/e2e-tests/issues/1748
@@ -87,7 +470,6 @@ jobs:
       HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
       PRISMA_FORCE_NAPI: true
 
     steps:
@@ -119,3 +501,448 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+
+  platforms-serverless:
+    needs: start-time
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['binary'] # see extracted napi below
+        platform:
+          - lambda
+          - vercel-node-builder
+          - vercel-cli
+          - vercel-with-redwood
+          - vercel-with-nextjs
+          - netlify-cli
+          - netlify-ci
+          - gcp-functions
+          - firebase-functions
+          - azure-functions-linux
+          - azure-functions-windows
+          - serverless-framework-lambda
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
+      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
+      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NPM_CONFIG_LOGLEVEL: error
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ secrets.AWS_ROLE }}
+      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
+      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
+      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_ORG_ID: ${{ secrets.VERCEL_WITH_NEXTJS_ORG_ID }}
+      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+      VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
+      NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
+      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
+      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
+      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: test ${{ matrix.platform }} - binary
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
+
+  platforms-serverless-napi:
+    needs: [start-time]
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - lambda
+          - vercel-node-builder
+          - vercel-cli
+          - vercel-with-redwood
+          - vercel-with-nextjs
+          - netlify-cli
+          - netlify-ci
+          - gcp-functions
+          - firebase-functions
+          - azure-functions-linux
+          - azure-functions-windows
+          - serverless-framework-lambda
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: azure-functions-linux # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: firebase-functions # see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: netlify-ci # see https://github.com/prisma/e2e-tests/issues/1748
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
+
+    env:
+      PRISMA_FORCE_NAPI: true
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
+      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
+      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NPM_CONFIG_LOGLEVEL: error
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ secrets.AWS_ROLE }}
+      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
+      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
+      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_ORG_ID: ${{ secrets.VERCEL_WITH_NEXTJS_ORG_ID }}
+      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+      VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
+      NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
+      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
+      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
+      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: test ${{ matrix.platform }} - napi
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
+
+  bundlers:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        bundler:
+          - webpack
+          - parcel
+          - rollup
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
+      PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
+      ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
+
+  libraries:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        library:
+          - express
+          - apollo-server
+          - type-graphql
+          - nexus-schema
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
+      LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
+      LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
+      LIBRARY_NEXUS_SCHEMA_PG_URL: ${{ secrets.LIBRARY_NEXUS_SCHEMA_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.library }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
+
+  databases:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        database:
+          - digitalocean-pgbouncer
+          - docker-pgbouncer
+          - heroku-pgbouncer
+          - heroku-pgbouncer-buildpack
+          - sqlserver-aws-rds
+          - sqlserver-azure-sql
+          - gcp-postgresql-ssl
+          - gcp-mysql-ssl
+          - mongodb-atlas
+          - supabase
+          - supabase-pool
+          - planetscale
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
+      DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
+      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
+      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
+      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
+      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
+      GCP_MYSQL_SSL_CLIENT_CERT: ${{ secrets.GCP_MYSQL_SSL_CLIENT_CERT }}
+      GCP_MYSQL_SSL_CLIENT_KEY: ${{ secrets.GCP_MYSQL_SSL_CLIENT_KEY }}
+      GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
+      GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
+      DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
+      DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
+      DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+      PLANETSCALE_ORG: ${{ secrets.PLANETSCALE_ORG }}
+      PLANETSCALE_SERVICE_TOKEN_NAME: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_NAME }}
+      PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
+      PSCALE_NO_UPDATE_NOTIFIER: true
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+
+  databases-macos:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        database:
+          - sqlserver-azure-sql
+        os: [macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh databases-macos ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+
+  test-runners:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        test-runner:
+          - jest-with-multiple-generators
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test ${{ matrix.test-runner }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh test-runners ${{ matrix.test-runner }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh test-runners ${{ matrix.test-runner }}
