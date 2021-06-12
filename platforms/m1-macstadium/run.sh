@@ -14,6 +14,7 @@ if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
       
       yarn;
       yarn prisma generate;
+      yarn prisma -v;
   "
 else
   echo "N-API: Enabled"
@@ -26,5 +27,6 @@ else
 
       yarn;
       yarn prisma generate;
+      yarn prisma -v;
   "
 fi
