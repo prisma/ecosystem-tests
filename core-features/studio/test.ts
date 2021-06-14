@@ -1,13 +1,18 @@
 import fs from 'fs'
 import { createHash } from 'crypto'
 import fetch from 'node-fetch'
+import { PrismaClient } from '@prisma/client'
 
 const STUDIO_PORT = 5555
 const SCHEMA_HASH = createHash('md5')
   .update(fs.readFileSync('./prisma/schema.prisma'))
   .digest('hex')
 
+const prisma = new PrismaClient()
+
 describe('Studio', () => {
+  afterAll(async () => await prisma.$disconnect())
+
   test('can load up the frontend correctly', async () => {
     let res = await fetch(`http://localhost:${STUDIO_PORT}`)
     expect(res.status).toBe(200)
@@ -19,7 +24,7 @@ describe('Studio', () => {
     expect(res.status).toBe(200)
   })
 
-  test.only('can make queries', async () => {
+  test('can make queries', async () => {
     const res = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
       method: 'POST',
       headers: {
@@ -59,7 +64,6 @@ describe('Studio', () => {
                 id: 3,
                 name: 'Name 3',
                 email: 'email3@test.com',
-                parentId: 3,
               },
             })`,
           },
@@ -68,6 +72,7 @@ describe('Studio', () => {
     }).then((r) => r.json())
 
     expect(res).toMatchSnapshot()
+    expect(await prisma.user.findUnique({ where: { id: 3 } })).toMatchSnapshot()
   })
 
   test('can update records', async () => {
@@ -95,6 +100,7 @@ describe('Studio', () => {
     }).then((r) => r.json())
 
     expect(res).toMatchSnapshot()
+    expect(await prisma.user.findUnique({ where: { id: 1 } })).toMatchSnapshot()
   })
 
   test('can delete records', async () => {
@@ -119,5 +125,6 @@ describe('Studio', () => {
     }).then((r) => r.json())
 
     expect(res).toMatchSnapshot()
+    expect(await prisma.user.findUnique({ where: { id: 2 } })).toMatchSnapshot()
   })
 })

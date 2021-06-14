@@ -13,7 +13,6 @@ Object {
             "email": "email3@test.com",
             "id": 3,
             "name": "Name 3",
-            "parentId": 3,
           },
         },
         "dataPath": Array [],
@@ -24,12 +23,19 @@ Object {
         "email": "email3@test.com",
         "id": 3,
         "name": "Name 3",
-        "parentId": 3,
       },
     },
     "error": null,
   },
   "requestId": 2,
+}
+`;
+
+exports[`Studio can create records 2`] = `
+Object {
+  "email": "email3@test.com",
+  "id": 3,
+  "name": "Name 3",
 }
 `;
 
@@ -54,14 +60,15 @@ Object {
         "email": "email2@test.com",
         "id": 2,
         "name": "Name 2",
-        "parentId": 1,
       },
     },
     "error": null,
   },
-  "requestId": 2,
+  "requestId": 4,
 }
 `;
+
+exports[`Studio can delete records 2`] = `null`;
 
 exports[`Studio can make queries 1`] = `
 Object {
@@ -79,14 +86,12 @@ Object {
         Object {
           "email": "email1@test.com",
           "id": 1,
-          "name": "Updated Name 1",
-          "parentId": 1,
+          "name": "Name 1",
         },
         Object {
-          "email": "email3@test.com",
-          "id": 3,
-          "name": "Name 3",
-          "parentId": 3,
+          "email": "email2@test.com",
+          "id": 2,
+          "name": "Name 2",
         },
       ],
     },
@@ -120,11 +125,18 @@ Object {
         "email": "email1@test.com",
         "id": 1,
         "name": "Updated Name 1",
-        "parentId": 1,
       },
     },
     "error": null,
   },
-  "requestId": 2,
+  "requestId": 3,
+}
+`;
+
+exports[`Studio can update records 2`] = `
+Object {
+  "email": "email1@test.com",
+  "id": 1,
+  "name": "Updated Name 1",
 }
 `;
