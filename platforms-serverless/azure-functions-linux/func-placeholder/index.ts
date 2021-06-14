@@ -1,13 +1,7 @@
 import { Context, HttpRequest } from '@azure/functions'
 import { Prisma, PrismaClient } from '@prisma/client'
 
-const client = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.AZURE_FUNCTIONS_LINUX_PG_URL,
-    },
-  },
-})
+const client = new PrismaClient()
 
 export = async function (context: Context, req: HttpRequest): Promise<void> {
   const fs = require('fs')
