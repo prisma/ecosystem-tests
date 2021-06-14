@@ -15,7 +15,7 @@ yarn prisma studio -p 5555 -b none &
 PRISMA_PID=$!
 
 sleep 3 # Studio takes some time to start up
-yarn jest -u
+yarn jest
 
 kill -9 $PRISMA_PID
 kill -9 $(lsof -t -i:5555)
@@ -31,5 +31,3 @@ if [[ -z "$PRISMA_FORCE_NAPI" ]] ; then
 		exit 1
 	fi
 fi
-
-exit 0
