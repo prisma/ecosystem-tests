@@ -19,7 +19,7 @@ describe('Studio', () => {
     expect(res.status).toBe(200)
   })
 
-  test('can make queries', async () => {
+  test.only('can make queries', async () => {
     const res = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
       method: 'POST',
       headers: {
@@ -41,14 +41,14 @@ describe('Studio', () => {
     expect(res).toMatchSnapshot()
   })
 
-  test('can make changes', async () => {
+  test('can create records', async () => {
     const res = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        requestId: 1,
+        requestId: 2,
         channel: 'prisma',
         action: 'clientRequest',
         payload: {
@@ -56,18 +56,62 @@ describe('Studio', () => {
             schemaHash: SCHEMA_HASH,
             query: `prisma.user.create({
               data: {
-                id: 1,
-                name: 'TestName',
-                email: 'test@example.com',
-                parent: {
-                  create: {
-                    id: 2,
-                    name: 'ParentName',
-                    email: 'parent@example.com',
-                    parent: { connect: { id: 1 } },
-                  },
-                },
+                id: 3,
+                name: 'Name 3',
+                email: 'email3@test.com',
+                parentId: 3,
               },
+            })`,
+          },
+        },
+      }),
+    }).then((r) => r.json())
+
+    expect(res).toMatchSnapshot()
+  })
+
+  test('can update records', async () => {
+    const res = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        requestId: 3,
+        channel: 'prisma',
+        action: 'clientRequest',
+        payload: {
+          data: {
+            schemaHash: SCHEMA_HASH,
+            query: `prisma.user.update({
+              where: { id: 1 },
+              data: {
+                name: 'Updated Name 1'
+              },
+            })`,
+          },
+        },
+      }),
+    }).then((r) => r.json())
+
+    expect(res).toMatchSnapshot()
+  })
+
+  test('can delete records', async () => {
+    const res = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        requestId: 4,
+        channel: 'prisma',
+        action: 'clientRequest',
+        payload: {
+          data: {
+            schemaHash: SCHEMA_HASH,
+            query: `prisma.user.delete({
+              where: { id: 2 }
             })`,
           },
         },
