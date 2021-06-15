@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 yarn install
 yarn remove @prisma/client
