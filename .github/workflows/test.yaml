@@ -132,9 +132,8 @@ jobs:
           studio, 
           napi-preview-feature,
           client-install-on-generate,
-          db-seed
         ]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
           # TODO these have different files, so test currently fail
           - feature: napi-preview-feature
@@ -149,7 +148,6 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
-      CORE_FEATURES_DB_SEED_URL: ${{ secrets.CORE_FEATURES_DB_SEED_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -177,6 +175,53 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
+migrate:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: ['napi', 'binary']
+        feature: [
+          db-seed
+        ]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.run_id }}-migrate
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      CORE_FEATURES_DB_SEED_URL: ${{ secrets.CORE_FEATURES_DB_SEED_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Engine Type to test
+        if: ${{ matrix.engine == 'napi' }}
+        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+        
   os:
     needs: start-time
 
