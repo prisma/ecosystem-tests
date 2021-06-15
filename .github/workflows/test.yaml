@@ -126,7 +126,13 @@ jobs:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
-        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        feature: [
+          auto-reconnect, 
+          browser-build, 
+          studio, 
+          napi-preview-feature,
+          client-install-on-generate
+        ]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
