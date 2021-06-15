@@ -2,7 +2,7 @@
 
 set -eu
 
+yarn install
 yarn remove @prisma/client
 
-yarn install
 yarn prisma generate
