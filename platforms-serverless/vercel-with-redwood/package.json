@@ -3,7 +3,8 @@
   "workspaces": {
     "packages": [
       "api",
-      "web"
+      "web",
+      "packages/*"
     ]
   },
   "devDependencies": {
@@ -13,9 +14,14 @@
     "vercel": "23.0.0"
   },
   "eslintConfig": {
-    "extends": "@redwoodjs/eslint-config"
+    "extends": "@redwoodjs/eslint-config",
+    "root": true
   },
   "scripts": {
     "test": "yarn jest ./index.test.js"
+  },
+  "engines": {
+    "node": "14.x",
+    "yarn": "1.x"
   }
 }
