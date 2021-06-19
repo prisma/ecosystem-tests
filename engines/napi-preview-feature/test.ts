@@ -1,6 +1,7 @@
 import { runTest } from './utils'
+const os = require('os');
 
-describe('N-API', () => {
+describe('Node-API on ' + os.type(), () => {
   test('PRISMA_FORCE_NAPI=true and Preview Feature', async () => {
     const options = {
       env: {
