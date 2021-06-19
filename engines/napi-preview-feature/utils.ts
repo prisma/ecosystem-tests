@@ -137,13 +137,13 @@ export async function runTest(options: {
   const versionOutput = await version(options.env)
   expect(cleanVersionSnapshot(versionOutput)).toMatchSnapshot()
   
-  env = env | env_after_install
+  options.env = options.env | options.env_after_install
   
   // prisma generate
   await generate(options.env)
   snapshotDirectory('./node_modules/.prisma/client')
 
-  env = env | env_after_generate
+  options.env = options.env | options.env_after_generate
 
   await testGeneratedClient(options.env)
   
