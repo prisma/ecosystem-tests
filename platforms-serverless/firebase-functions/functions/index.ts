@@ -13,6 +13,10 @@ const client = new PrismaClient({
 
 const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest(
   async (req, res) => {
+
+    console.log('process.env.FIREBASE_FUNCTIONS_PG_URL', process.env.FIREBASE_FUNCTIONS_PG_URL)
+    console.log('process.env.PRISMA_FORCE_NAPI', process.env.PRISMA_FORCE_NAPI)
+
     const fs = require('fs')
     const path = require('path')
     const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))

@@ -16,5 +16,6 @@ if [ "$TEST_EXIT_CODE" -eq "0" ]; then
 
 else
 
-    echo "look at logs here"
+    echo "full logs: https://console.firebase.google.com/project/prisma-e2e-tests-265911/functions/logs?functionFilter=$func(us-central1)&search=&severity=DEBUG"
+    echo "project name: prisma-e2e-tests-265 911"
 fi
