@@ -10,7 +10,7 @@ describe('Node-API on ' + os.type(), () => {
       previewFeatures: ['nApi'],
     }
     await runTest(options)
-  }, 20000)
+  }, 50000)
 
   test('PRISMA_FORCE_NAPI=true', async () => {
     const options = {
@@ -19,17 +19,17 @@ describe('Node-API on ' + os.type(), () => {
       },
     }
     await runTest(options)
-  }, 20000)
+  }, 50000)
 
   test('Preview Feature', async () => {
     const options = {
       previewFeatures: ['nApi'],
     }
     await runTest(options)
-  }, 20000)
+  }, 100000)
 
   test('Off', async () => {
     const options = {}
     await runTest(options)
-  }, 20000)
+  }, 50000)
 })
