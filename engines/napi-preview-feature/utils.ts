@@ -114,6 +114,7 @@ export async function runTest(options: {
   binaryTargets?: string[]
   env?: Record<string, string>
   env_after_install?: Record<string, string>
+  env_after_generate?: Record<string, string>
 }) {
   // This ensures that if PRISMA_FORCE_NAPI is set for the workflow it is removed before running these tests
   if (process.env.PRISMA_FORCE_NAPI === 'true') {
@@ -141,6 +142,8 @@ export async function runTest(options: {
   // prisma generate
   await generate(options.env)
   snapshotDirectory('./node_modules/.prisma/client')
+
+  env = env | env_after_generate
 
   await testGeneratedClient(options.env)
   
