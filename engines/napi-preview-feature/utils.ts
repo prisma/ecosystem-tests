@@ -118,7 +118,10 @@ export async function runTest(options: {
   if (process.env.PRISMA_FORCE_NAPI === 'true') {
     delete process.env.PRISMA_FORCE_NAPI
   }
+
+  // TODO Instead of cleaning, use a unique folder for each test
   await clean()
+
   buildSchema({
     previewFeatures: options.previewFeatures,
     binaryTargets: options.binaryTargets,
@@ -131,9 +134,10 @@ export async function runTest(options: {
 
   // prisma generate
   await generate(options.env)
-
   snapshotDirectory('./node_modules/.prisma/client')
+
   await testGeneratedClient(options.env)
+  
   const versionOutput = await version(options.env)
   expect(cleanVersionSnapshot(versionOutput)).toMatchSnapshot()
 }
