@@ -94,7 +94,7 @@ while [ $i -le $count ]; do
     echo "checking $item"
  
     case "$item" in
-    *".github"* | *"functions/generated/client"*)
+    *"./package.json"* | *".github"* | *"functions/generated/client"*)
       echo "ignoring $item"
       continue
       ;;
