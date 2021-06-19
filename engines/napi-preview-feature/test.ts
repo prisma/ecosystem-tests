@@ -32,4 +32,24 @@ describe('Node-API on ' + os.type(), () => {
     const options = {}
     await runTest(options)
   }, 50000)
+  
+  test('Off, after generate PRISMA_FORCE_NAPI=true', async () => {
+    const options = {
+      env_after_generate: {
+        PRISMA_FORCE_NAPI: 'true',
+      },
+    }
+    await runTest(options)
+  }, 50000)
+  
+  
+  test('Off, after generate PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY', async () => {
+    const options = {
+      env_after_generate: {
+        PRISMA_FORCE_NAPI: 'true',
+        PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+      },
+    }
+    await runTest(options)
+  }, 50000)
 })
