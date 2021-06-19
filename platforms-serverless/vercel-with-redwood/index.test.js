@@ -60,6 +60,7 @@ test('should test .prisma/client files', async () => {
           'schema.prisma',
         ]
   expect(data.files).toMatchObject(files)
+  console.log(data.files)
 })
 
 // TODO More testing here that the script actually works (see all the other tests)
