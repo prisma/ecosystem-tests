@@ -12,7 +12,7 @@ PROJECT=$2
 skipped_projects=(
   prisma-dbml-generator         # No generated Client, so no engine included
   prisma-json-schema-generator  # No generated Client, so no engine included
-  napi-preview-feature          # TODO: Client has binary instead of library, CLI already has both - INVESTIGATE!
+  napi-preview-feature          # Tests both Node-API library and Engine in same project, generates new client each time in test script
   pkg                           # No generated Client, so no engine included
   #aws-graviton                  # binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as everything happens on server
   #firebase-functions            # TODO: binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as local installation happens in sub folder - Fix script if possible!
