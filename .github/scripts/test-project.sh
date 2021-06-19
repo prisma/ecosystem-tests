@@ -37,7 +37,8 @@ if [ -f "prepare.sh" ]; then
   echo "prepare script found, executing $dir/$project/prepare.sh"
   echo ""
 
-  bash prepare.sh
+  # execute & allow export of env vars
+  . prepare.sh
 
   echo ""
   echo "finished prepare.sh"
@@ -89,10 +90,10 @@ fi
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
   echo ""
-  echo "finally script found, executing $dir/$project/finally.sh"
+  echo "finally script found, executing $dir/$project/finally.sh (with test exit code $code as param)"
   echo ""
 
-  bash finally.sh
+  bash finally.sh $code
 
   echo ""
   echo "finished finally.sh"

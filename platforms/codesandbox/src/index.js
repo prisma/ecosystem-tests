@@ -6,6 +6,10 @@ const client = new PrismaClient()
 const app = express()
 
 app.get('/', async (req, res) => {
+  const fs = require('fs')
+  const path = require('path')
+  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+
   await client.user.deleteMany({})
 
   const id = '12345'
@@ -43,6 +47,7 @@ app.get('/', async (req, res) => {
       updateUser,
       users,
       deleteManyUsers,
+      files,
     }),
   )
 })

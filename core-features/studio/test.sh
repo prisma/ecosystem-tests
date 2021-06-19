@@ -2,6 +2,8 @@
 
 set -eu
 
+export DEBUG="*"
+
 yarn prisma studio -p 5555 -b none &
 PRISMA_PID=$!
 

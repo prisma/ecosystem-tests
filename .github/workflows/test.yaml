@@ -72,8 +72,8 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
-####################################################
-### real jobs after this
+  ####################################################
+  ### real jobs after this
 
   process-managers:
     needs: start-time
@@ -126,11 +126,14 @@ jobs:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
-        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        feature: [
+          auto-reconnect, 
+          browser-build, 
+          studio, 
+          napi-preview-feature,
+          client-install-on-generate
+        ]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          - engine: napi
-            feature: studio
     runs-on: ${{ matrix.os }}
 
     env:
@@ -217,14 +220,12 @@ jobs:
       matrix:
         engine: ['napi', 'binary']
         node:
-          - 10
           - 12
           - 14
-          - 10.16.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and https://www.prisma.io/docs/reference/system-requirements
-          - 12.2.0 # minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
-          - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 15
           - 16
+          - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
+          - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -332,10 +333,10 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 12
 
       - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
         id: run-test
@@ -377,10 +378,10 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node ${{ matrix.node }}
+      - name: use node 12
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 12
 
       - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
         id: run-test
@@ -397,7 +398,6 @@ jobs:
   platforms:
     needs: start-time
     timeout-minutes: 60
-
     strategy:
       fail-fast: false
       matrix:
@@ -408,7 +408,7 @@ jobs:
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -461,9 +461,10 @@ jobs:
           - aws-graviton
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          - platform: heroku # https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-${{ matrix.platform }}
-
+    concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -507,7 +508,6 @@ jobs:
   platforms-serverless:
     needs: start-time
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
-
     strategy:
       fail-fast: false
       matrix:
@@ -527,8 +527,7 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-${{ matrix.platform }}
-
+    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
@@ -598,7 +597,6 @@ jobs:
   platforms-serverless-napi:
     needs: [start-time]
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
-
     strategy:
       fail-fast: false
       matrix:
@@ -617,10 +615,11 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
-        - platform: azure-functions-windows  # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
-        - platform: azure-functions-linux  # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: firebase-functions # see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: netlify-ci # see https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
 
     env:
       PRISMA_FORCE_NAPI: true
@@ -720,10 +719,10 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 12
 
       - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
         id: run-test
@@ -769,10 +768,10 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node 10
+      - name: use node 12
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 12
 
       - name: test ${{ matrix.library }} - ${{matrix.engine}}
         id: run-test
