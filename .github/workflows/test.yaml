@@ -126,7 +126,7 @@ jobs:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
-        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        feature: [auto-reconnect, browser-build, studio]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
           - engine: napi
@@ -161,6 +161,45 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+
+  engines:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [napi-preview-feature]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test engines - ${{ matrix.feature }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh engines ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()

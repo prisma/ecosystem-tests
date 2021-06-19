@@ -1,9 +1,8 @@
 #!/bin/bash
  
 echo "-------------- Checking Generated Client QE Binary --------------"
-
-dir=$1
-project=$2
+DIR=$1
+PROJECT=$2
 
 # These are skipping for a variaty of reasons like:
 # - Custom project structure

@@ -74,6 +74,7 @@ async function install(env?: Record<string, string>) {
     env,
   })
 }
+
 async function version(env?: Record<string, string>) {
   const result = await execa('yarn', ['-s', 'prisma', '-v'], {
     ...defaultExecaOptions,
@@ -82,10 +83,12 @@ async function version(env?: Record<string, string>) {
   })
   return result.stdout
 }
+
 function snapshotDirectory(pth: string) {
   const files = fs.readdirSync(pth)
   expect(files).toMatchSnapshot(pth)
 }
+
 async function testGeneratedClient(env?: Record<string, string>) {
   await execa.node('./test-generated-client.js', [], {
     ...defaultExecaOptions,
@@ -105,6 +108,7 @@ function cleanVersionSnapshot(str: string): string {
     })
     .join('\n')
 }
+
 export async function runTest(options: {
   previewFeatures?: string[]
   binaryTargets?: string[]
