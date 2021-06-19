@@ -35,7 +35,6 @@ describe('Node-API on ' + os.type(), () => {
   
   test('Off, after generate PRISMA_FORCE_NAPI=true', async () => {
     const options = {
-      env: {},
       env_after_generate: {
         PRISMA_FORCE_NAPI: 'true',
       },
@@ -46,7 +45,6 @@ describe('Node-API on ' + os.type(), () => {
   
   test('Off, after generate PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY', async () => {
     const options = {
-      env: {},
       env_after_generate: {
         PRISMA_FORCE_NAPI: 'true',
         PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
