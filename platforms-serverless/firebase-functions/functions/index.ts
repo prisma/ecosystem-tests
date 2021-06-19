@@ -1,7 +1,11 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 import * as functions from 'firebase-functions'
 
+// Read from config store and set as env variable 
 process.env.FIREBASE_FUNCTIONS_PG_URL = functions.config().prisma.db
+if(functions.config().prisma.napi === 'true') {
+  process.env.PRISMA_FORCE_NAPI = functions.config().prisma.napi
+}
 
 const client = new PrismaClient({
   log: ['info', 'query', 'warn'],
