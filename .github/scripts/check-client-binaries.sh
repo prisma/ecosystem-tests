@@ -13,10 +13,10 @@ project=$2
 skipped_projects=(
   prisma-dbml-generator         # No generated Client, so only Client stub with no engine included
   prisma-json-schema-generator  # No generated Client, so only Client stub with no engine included
-  napi-preview-feature          # TODO: Client has binary instead of library, CLI already has both - INVESTIGATE!
+  napi-preview-feature          # 
   pkg                           # No generated Client, so only Client stub with no engine included
   aws-graviton                  # No local project at all (everything happens on server), so no `prisma` or `node_modules
-  #firebase-functions            # TODO: binary only: "ls: cannot access 'node_modules/.prisma/client/': No such file or directory" - no local node_modules as local installation happens in sub folder - Fix script if possible!
+  firebase-functions            # No local project at expected location (but in `functions` subfolder)
   studio                        # TODO: No generated Client in `node_modules/.prisma/client/`
   netlify-cli                   # Client is generated into `../functions/generated/client` via use of `output`
   jest-with-multiple-generators # No generated Client locally in default path, both Clients have custom `output`
