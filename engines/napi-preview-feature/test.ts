@@ -1,55 +1,108 @@
 import { runTest } from './utils'
 const os = require('os');
 
-describe('Node-API on ' + os.type(), () => {
-  test('PRISMA_FORCE_NAPI=true and Preview Feature', async () => {
-    const options = {
-      env: {
-        PRISMA_FORCE_NAPI: 'true',
-      },
-      previewFeatures: ['nApi'],
-    }
-    await runTest(options)
-  }, 50000)
+describe('Engine Type on ' + os.type(), () => {
 
-  test('PRISMA_FORCE_NAPI=true', async () => {
-    const options = {
-      env: {
-        PRISMA_FORCE_NAPI: 'true',
-      },
-    }
-    await runTest(options)
-  }, 50000)
+  describe('Binary', () => {
 
-  test('Preview Feature', async () => {
-    const options = {
-      previewFeatures: ['nApi'],
-    }
-    await runTest(options)
-  }, 100000)
+    test('no options', async () => {
+      const options = {}
+      await runTest(options)
+    }, 100000)
+  
+    test('PRISMA_QUERY_ENGINE_BINARY uses supplied binary', async () => {
+      const options = {
+        env: {
+          PRISMA_QUERY_ENGINE_BINARY: 'foo.query-engine'
+        },
+      }
+      await runTest(options)
+    }, 100000)
+  
+    test('PRISMA_QUERY_ENGINE_LIBRARY (!) uses default binary', async () => {
+      // should just normally use binary
+      const options = {
+        env: {
+          PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+        },
+      }
+      await runTest(options)
+    }, 100000)
 
-  test('Off', async () => {
-    const options = {}
-    await runTest(options)
-  }, 50000)
-  
-  test('Off, after generate PRISMA_FORCE_NAPI=true', async () => {
-    const options = {
-      env_after_generate: {
-        PRISMA_FORCE_NAPI: 'true',
-      },
-    }
-    await runTest(options)
-  }, 50000)
-  
-  
-  test('Off, after generate PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY', async () => {
-    const options = {
-      env_after_generate: {
-        PRISMA_FORCE_NAPI: 'true',
-        PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
-      },
-    }
-    await runTest(options)
-  }, 50000)
+  })
+
+  describe('Library', () => {
+
+    test('Preview Feature uses default library', async () => {
+      const options = {
+        previewFeatures: ['nApi'],
+      }
+      await runTest(options)
+    }, 100000)
+
+    test('PRISMA_FORCE_NAPI=true uses default library', async () => {
+      const options = {
+        env: {
+          PRISMA_FORCE_NAPI: 'true',
+        },
+      }
+      await runTest(options)
+    }, 100000)
+
+    test('PRISMA_FORCE_NAPI=true and Preview Feature uses default library', async () => {
+      const options = {
+        env: {
+          PRISMA_FORCE_NAPI: 'true',
+        },
+        previewFeatures: ['nApi'],
+      }
+      await runTest(options)
+    }, 100000)
+
+
+    test('PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY uses supplied library', async () => {
+      const options = {
+        env: {
+          PRISMA_FORCE_NAPI: 'true',
+          PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+        },
+      }
+      await runTest(options)
+    }, 100000)
+
+    test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY uses supplied library', async () => {
+      const options = {
+        previewFeatures: ['nApi'],
+        env: {
+          PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+        },
+      }
+      await runTest(options)
+    }, 100000)
+
+  })
+
+  describe('Binary first, then Library', () => {
+
+    test('Binary build, deployment with PRISMA_FORCE_NAPI=true uses default binary for build, default library later', async () => {
+      const options = {
+        env_on_deploy: {
+          PRISMA_FORCE_NAPI: 'true',
+        },
+      }
+      await runTest(options)
+    }, 100000)
+    
+    test('Binary build, deployment with PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY uses default binary for build, supplied library later', async () => {
+      const options = {
+        env_on_deploy: {
+          PRISMA_FORCE_NAPI: 'true',
+          PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+        },
+      }
+      await runTest(options)
+    }, 100000)
+
+  })
+
 })
