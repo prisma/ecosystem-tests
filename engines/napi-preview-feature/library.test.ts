@@ -9,7 +9,7 @@ describe('Library (on WindowsNT)', () => {
       previewFeatures: ['nApi'],
     }
     await runTest(options)
-  }, 100000)
+  })
 
   test('PRISMA_FORCE_NAPI=true uses default library', async () => {
     const options = {
@@ -18,7 +18,7 @@ describe('Library (on WindowsNT)', () => {
       },
     }
     await runTest(options)
-  }, 100000)
+  })
 
   test('PRISMA_FORCE_NAPI=true and Preview Feature uses default library', async () => {
     const options = {
@@ -28,7 +28,7 @@ describe('Library (on WindowsNT)', () => {
       previewFeatures: ['nApi'],
     }
     await runTest(options)
-  }, 100000)
+  })
 
 
   test('PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY uses supplied library', async () => {
@@ -39,7 +39,7 @@ describe('Library (on WindowsNT)', () => {
       },
     }
     await runTest(options)
-  }, 100000)
+  })
 
   test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY uses supplied library', async () => {
     const options = {
@@ -49,6 +49,6 @@ describe('Library (on WindowsNT)', () => {
       },
     }
     await runTest(options)
-  }, 100000)
+  })
 
 })

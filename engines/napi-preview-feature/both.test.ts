@@ -11,7 +11,7 @@ describe('Binary first, then Library (on WindowsNT)', () => {
       },
     }
     await runTest(options)
-  }, 100000)
+  })
   
   test('Binary build, deployment with PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY uses default binary for build, supplied library later', async () => {
     const options = {
@@ -21,7 +21,7 @@ describe('Binary first, then Library (on WindowsNT)', () => {
       },
     }
     await runTest(options)
-  }, 100000)
+  })
 
 })
 
