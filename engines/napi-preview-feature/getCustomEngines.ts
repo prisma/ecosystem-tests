@@ -8,7 +8,8 @@ async function main() {
   await version()
   fs.copySync('./node_modules/@prisma/engines', './custom-engines/binary/' + os.type())
 
-  // TODO library
+  fs.rmdirSync('./node_modules/@prisma/engines', { recursive: true })
+
   process.env.PRISMA_FORCE_NAPI='true'
   await install()
   await version()
