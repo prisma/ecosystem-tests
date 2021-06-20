@@ -3,7 +3,7 @@ import { runTest, getCustomLibraryPath } from './utils'
 // TODO set cutom binary (!) path and see if it is ignored
 describe('Library', () => {
 
-  test('Preview Feature, uses default library', async () => {
+  test('Preview Feature, uses default binary for CLI and default library for Client', async () => {
     const options = {
       previewFeatures: ['nApi'],
     }
