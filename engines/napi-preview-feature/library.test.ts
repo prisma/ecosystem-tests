@@ -1,4 +1,4 @@
-import { runTest, getCustomLibraryPath } from './utils'
+import { runTest, getCustomLibraryPath, getCustomBinaryPath } from './utils'
 
 // TODO set cutom binary (!) path and see if it is ignored
 describe('Library', () => {
@@ -60,4 +60,15 @@ describe('Library', () => {
     await runTest(options)
   })
 
+  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses supplied binary for CLI and supplied library for Client', async () => {
+    const options = {
+      previewFeatures: ['nApi'],
+      env: {
+        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),
+        PRISMA_QUERY_ENGINE_BINARY: getCustomBinaryPath(),
+      },
+    }
+    await runTest(options)
+  })
+  
 })
