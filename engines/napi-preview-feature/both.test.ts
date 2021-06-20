@@ -1,10 +1,8 @@
-import { runTest } from './utils'
-const os = require('os');
+import { runTest, getCustomLibraryPath, getCustomBinaryPath } from './utils'
 
-//describe('Binary first, then Library (on ' + os.type() + ')', () => {
-describe('Binary first, then Library (on WindowsNT)', () => {
+describe('Binary first, then Library', () => {
 
-  test('Binary build, deployment with PRISMA_FORCE_NAPI=true uses default binary for build, default library later', async () => {
+  test('Binary build, deployment with PRISMA_FORCE_NAPI=true, uses default binary for build, default library later', async () => {
     const options = {
       env_on_deploy: {
         PRISMA_FORCE_NAPI: 'true',
@@ -13,11 +11,11 @@ describe('Binary first, then Library (on WindowsNT)', () => {
     await runTest(options)
   })
   
-  test('Binary build, deployment with PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY uses default binary for build, supplied library later', async () => {
+  test('Binary build, deployment with PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY, uses default binary for build, supplied library later', async () => {
     const options = {
       env_on_deploy: {
         PRISMA_FORCE_NAPI: 'true',
-        PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),
       },
     }
     await runTest(options)
