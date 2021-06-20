@@ -1,5 +1,7 @@
 import execa from 'execa'
 import fs from 'fs'
+const os = require('os');
+import path from 'path';
 
 const defaultExecaOptions = {
   preferLocal: true,
@@ -187,4 +189,17 @@ export async function runTest(options: {
     const versionOutput2 = await version(options.env)
     expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot()
   }
+}
+
+
+export function getCustomBinaryPath() {
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query-engine-windows.exe' : 'query-engine')
+  // Using absolute path because of https://github.com/prisma/prisma/issues/7779
+  return path.resolve('.', 'custom-engines', 'binary', os.type(), OS_BINARY)
+}
+
+export function getCustomLibraryPath() {
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'foo.node' : 'foo.node')
+  // Using absolute path because of https://github.com/prisma/prisma/issues/7779
+  return path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
 }

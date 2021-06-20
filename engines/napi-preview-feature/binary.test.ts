@@ -1,7 +1,4 @@
-import path from 'path';
-import { runTest } from './utils'
-const os = require('os');
-const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query-engine-windows.exe' : 'query-engine')
+import { runTest, getCustomBinaryPath, getCustomLibraryPath } from './utils'
 
 describe('Binary', () => {
 
@@ -13,8 +10,7 @@ describe('Binary', () => {
   test('PRISMA_QUERY_ENGINE_BINARY, uses supplied binary', async () => {
     const options = {
       env: {
-        // Using absolute path because of https://github.com/prisma/prisma/issues/7779
-        PRISMA_QUERY_ENGINE_BINARY: path.resolve('.', 'custom-engines', os.type(), OS_BINARY)
+        PRISMA_QUERY_ENGINE_BINARY: getCustomBinaryPath()
       },
     }
     await runTest(options)
@@ -23,7 +19,7 @@ describe('Binary', () => {
   test('PRISMA_QUERY_ENGINE_LIBRARY (!), uses default binary (and ignores env var)', async () => {
     const options = {
       env: {
-        PRISMA_QUERY_ENGINE_LIBRARY: 'foo.node'
+        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
       },
     }
     await runTest(options)

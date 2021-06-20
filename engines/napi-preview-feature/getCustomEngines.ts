@@ -6,7 +6,13 @@ const os = require('os');
 async function main() {
   await install()
   await version()
-  fs.copySync('./node_modules/@prisma/engines', './custom-engines/' + os.type())
+  fs.copySync('./node_modules/@prisma/engines', './custom-engines/binary/' + os.type())
+
+  // TODO library
+  process.env.PRISMA_FORCE_NAPI='true'
+  await install()
+  await version()
+  fs.copySync('./node_modules/@prisma/engines', './custom-engines/library/' + os.type())
 }
 main()
 
