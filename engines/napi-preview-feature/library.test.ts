@@ -39,10 +39,21 @@ describe('Library', () => {
     await runTest(options)
   })
 
-  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses supplied library', async () => {
+  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses default binary for CLI and supplied library for Client', async () => {
     const options = {
       previewFeatures: ['nApi'],
       env: {
+        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
+      },
+    }
+    await runTest(options)
+  })
+
+  test('PRISMA_FORCE_NAPI=true and Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses supplied library', async () => {
+    const options = {
+      previewFeatures: ['nApi'],
+      env: {
+        PRISMA_FORCE_NAPI: 'true',
         PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
       },
     }
