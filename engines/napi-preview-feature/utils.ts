@@ -113,10 +113,10 @@ export async function runTest(options: {
   previewFeatures?: string[]
   binaryTargets?: string[]
   env?: Record<string, string>
-  env_after_install?: Record<string, string>
-  env_after_generate?: Record<string, string>
+  env_on_deploy?: Record<string, string>
 }) {
   // This ensures that if PRISMA_FORCE_NAPI is set for the workflow it is removed before running these tests
+  // TODO Should not be necessary any more
   if (process.env.PRISMA_FORCE_NAPI === 'true') {
     delete process.env.PRISMA_FORCE_NAPI
   }
@@ -134,23 +134,24 @@ export async function runTest(options: {
   snapshotDirectory('./node_modules/@prisma/engines')
   snapshotDirectory('./node_modules/prisma')
 
+  // snapshot -v output
   const versionOutput = await version(options.env)
   expect(cleanVersionSnapshot(versionOutput)).toMatchSnapshot()
-  
-  if(options.env_after_install) {
-    options.env = options.env_after_install
-  }
-  
+    
   // prisma generate
   await generate(options.env)
   snapshotDirectory('./node_modules/.prisma/client')
 
-  if(options.env_after_generate) {
-    options.env = options.env_after_generate
+  // Overwrite env to simulate deployment with different settings
+  if(options.env_on_deploy) {
+    options.env = options.env_on_deploy
   }
   
   await testGeneratedClient(options.env)
-  
-  const versionOutput2 = await version(options.env)
-  expect(cleanVersionSnapshot(versionOutput2)).toMatchSnapshot()
+
+  // Another -v snapshot if env changed after generate
+  if(options.env_on_deploy) {
+    const versionOutput2 = await version(options.env)
+    expect(cleanVersionSnapshot(versionOutput2)).toMatchSnapshot()
+  }
 }
