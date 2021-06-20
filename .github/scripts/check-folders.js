@@ -7,7 +7,7 @@ const path = require('path')
 async function main() {
   const folders = glob
     .sync('**/package.json', {
-      ignore: '**/(node_modules|custom-engines)/**',
+      ignore: ['**/node_modules/**', '**/custom-engines/**'],
     })
     .map((file) => file.replace('/package.json', ''))
     .filter((file) => {
