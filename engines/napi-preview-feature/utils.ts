@@ -6,7 +6,8 @@ const defaultExecaOptions = {
   stdio: 'inherit',
   cwd: __dirname,
 } as const
-function buildSchema(options?: {
+
+function buildSchemaFile(options?: {
   previewFeatures?: string[]
   binaryTargets?: string[]
 }) {
@@ -56,7 +57,7 @@ async function generate(env?: Record<string, string>) {
   })
 }
 
-async function clean() {
+async function cleanFilesystem() {
   fs.rmdirSync('./node_modules/prisma', { recursive: true })
   fs.rmdirSync('./node_modules/@prisma', { recursive: true })
   fs.rmdirSync('./node_modules/.prisma', { recursive: true })
@@ -66,16 +67,18 @@ async function clean() {
   if (fs.existsSync('./data.json')) {
     fs.unlinkSync('./data.json')
   }
+  fs.rmdirSync('./node_modules/.cache/prisma', { recursive: true })
+
 }
 
-async function install(env?: Record<string, string>) {
+export async function install(env?: Record<string, string>) {
   await execa('yarn', ['install', '--force'], {
     ...defaultExecaOptions,
     env,
   })
 }
 
-async function version(env?: Record<string, string>) {
+export async function version(env?: Record<string, string>) {
   const result = await execa('yarn', ['-s', 'prisma', '-v'], {
     ...defaultExecaOptions,
     stdio: 'pipe',
@@ -98,7 +101,7 @@ async function testGeneratedClient(env?: Record<string, string>) {
   expect(data).toMatchSnapshot()
 }
 
-function cleanVersionSnapshot(str: string): string {
+function sanitizeVersionSnapshot(str: string): string {
   let lines = str.split('\n')
   return lines
     .map((line) => {
@@ -122,9 +125,9 @@ export async function runTest(options: {
   }
 
   // TODO Instead of cleaning, use a unique folder for each test
-  await clean()
+  await cleanFilesystem()
 
-  buildSchema({
+  buildSchemaFile({
     previewFeatures: options.previewFeatures,
     binaryTargets: options.binaryTargets,
   })
@@ -136,7 +139,7 @@ export async function runTest(options: {
 
   // snapshot -v output
   const versionOutput = await version(options.env)
-  expect(cleanVersionSnapshot(versionOutput)).toMatchSnapshot()
+  expect(sanitizeVersionSnapshot(versionOutput)).toMatchSnapshot()
     
   // prisma generate
   await generate(options.env)
@@ -149,9 +152,10 @@ export async function runTest(options: {
   
   await testGeneratedClient(options.env)
 
-  // Another -v snapshot if env changed after generate
+  // Additional snapshots if env changed after generate
   if(options.env_on_deploy) {
+    snapshotDirectory('./node_modules/.prisma/client')
     const versionOutput2 = await version(options.env)
-    expect(cleanVersionSnapshot(versionOutput2)).toMatchSnapshot()
+    expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot()
   }
 }
