@@ -68,7 +68,6 @@ async function cleanFilesystem() {
     fs.unlinkSync('./data.json')
   }
   fs.rmdirSync('./node_modules/.cache/prisma', { recursive: true })
-
 }
 
 export async function install(env?: Record<string, string>) {
@@ -98,7 +97,37 @@ async function testGeneratedClient(env?: Record<string, string>) {
     env,
   })
   const data = require('./data.json')
-  expect(data).toMatchSnapshot()
+  // using inline snapshot here as this is identical for all tests run here
+  expect(data).toMatchInlineSnapshot(`
+    Object {
+      "delete": Object {
+        "posts": Object {
+          "count": 1,
+        },
+        "users": Object {
+          "count": 1,
+        },
+      },
+      "post.findUnique": Object {
+        "id": 1,
+        "title": "Test",
+        "userId": 1,
+      },
+      "user.create": Object {
+        "email": "test@example.com",
+        "id": 1,
+        "name": "Test",
+        "posts": Array [
+          Object {
+            "id": 1,
+            "title": "Test",
+            "userId": 1,
+          },
+        ],
+      },
+      "users.findMany": Array [],
+    }
+  `)
 }
 
 function sanitizeVersionSnapshot(str: string): string {
@@ -140,20 +169,20 @@ export async function runTest(options: {
   // snapshot -v output
   const versionOutput = await version(options.env)
   expect(sanitizeVersionSnapshot(versionOutput)).toMatchSnapshot()
-    
+
   // prisma generate
   await generate(options.env)
   snapshotDirectory('./node_modules/.prisma/client')
 
   // Overwrite env to simulate deployment with different settings
-  if(options.env_on_deploy) {
+  if (options.env_on_deploy) {
     options.env = options.env_on_deploy
   }
-  
+
   await testGeneratedClient(options.env)
 
   // Additional snapshots if env changed after generate
-  if(options.env_on_deploy) {
+  if (options.env_on_deploy) {
     snapshotDirectory('./node_modules/.prisma/client')
     const versionOutput2 = await version(options.env)
     expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot()

@@ -3,8 +3,7 @@ import { runTest } from './utils'
 const os = require('os');
 const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query-engine-windows.exe' : 'query-engine')
 
-//describe('Binary (on ' + os.type() + ')', () => {
-describe('Binary (on WindowsNT)', () => {
+describe('Binary', () => {
 
   test('no options, uses default binary', async () => {
     const options = {}
