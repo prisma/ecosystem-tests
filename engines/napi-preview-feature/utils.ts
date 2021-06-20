@@ -199,7 +199,7 @@ export function getCustomBinaryPath() {
 }
 
 export function getCustomLibraryPath() {
-  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'foo.node' : 'foo.node')
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query_engine_napi-windows.dll.node' : 'foo.node')
   // Using absolute path because of https://github.com/prisma/prisma/issues/7779
   return path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
 }
