@@ -7,8 +7,8 @@ PROJECT=$2
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
-  aws-graviton # no local project at all (everything happens on server), so no `prisma` or `node_modules
-  firebase-functions # no local project at expected location (but in `functions` subfolder) # TODO Why does `yarn prisma -v` return something in that directory though!?
+  aws-graviton        # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  firebase-functions  # No local project at expected location (but in `functions` subfolder)
 )
 
 case "${skipped_projects[@]}" in  *$2*)

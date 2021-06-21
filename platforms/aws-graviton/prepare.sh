@@ -2,6 +2,7 @@
 
 set -eu
 
+# TODO Why do we do this?
 cp ./code/package.json ./package.json
 
 echo "Disabling StrictHostKeyChecking"
