@@ -60,7 +60,7 @@ describe('Library', () => {
     await runTest(options)
   })
 
-  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses supplied binary for CLI and supplied library for Client', async () => {
+  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY and PRISMA_QUERY_ENGINE_BINARY, uses supplied binary for CLI and supplied library for Client', async () => {
     const options = {
       previewFeatures: ['nApi'],
       env: {

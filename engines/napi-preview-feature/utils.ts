@@ -90,9 +90,10 @@ export async function version(env?: Record<string, string>) {
   return result.stdout
 }
 
-function snapshotDirectory(pth: string) {
-  const files = fs.readdirSync(pth)
-  expect(files).toMatchSnapshot(pth)
+function snapshotDirectory(path: string, hint?: string) {
+  const files = fs.readdirSync(path)
+  const snapshotName = path + ((hint) ? ' @ ' + hint : '')
+  expect(files).toMatchSnapshot(snapshotName)
 }
 
 async function testGeneratedClient(env?: Record<string, string>) {
@@ -172,11 +173,11 @@ export async function runTest(options: {
 
   // snapshot -v output
   const versionOutput = await version(options.env)
-  expect(sanitizeVersionSnapshot(versionOutput)).toMatchSnapshot()
+  expect(sanitizeVersionSnapshot(versionOutput)).toMatchSnapshot('version output @ 0 - env')
 
   // prisma generate
   await generate(options.env)
-  snapshotDirectory('./node_modules/.prisma/client')
+  snapshotDirectory('./node_modules/.prisma/client', '0 - env')
 
   // Overwrite env to simulate deployment with different settings
   if (options.env_on_deploy) {
@@ -187,9 +188,9 @@ export async function runTest(options: {
 
   // Additional snapshots if env changed after generate
   if (options.env_on_deploy) {
-    snapshotDirectory('./node_modules/.prisma/client')
+    snapshotDirectory('./node_modules/.prisma/client', '1 - after_env_change')
     const versionOutput2 = await version(options.env)
-    expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot()
+    expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot('version output @ 1 - after_env_change')
   }
 }
 
