@@ -203,7 +203,7 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh engines ${{ matrix.feature }}
 
   os:
     needs: start-time
