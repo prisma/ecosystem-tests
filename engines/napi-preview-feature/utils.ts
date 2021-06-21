@@ -1,12 +1,15 @@
 import execa from 'execa'
 import fs from 'fs'
+const os = require('os');
+import path from 'path';
 
 const defaultExecaOptions = {
   preferLocal: true,
   stdio: 'inherit',
   cwd: __dirname,
 } as const
-function buildSchema(options?: {
+
+function buildSchemaFile(options?: {
   previewFeatures?: string[]
   binaryTargets?: string[]
 }) {
@@ -56,7 +59,7 @@ async function generate(env?: Record<string, string>) {
   })
 }
 
-async function clean() {
+async function cleanFilesystem() {
   fs.rmdirSync('./node_modules/prisma', { recursive: true })
   fs.rmdirSync('./node_modules/@prisma', { recursive: true })
   fs.rmdirSync('./node_modules/.prisma', { recursive: true })
@@ -66,16 +69,19 @@ async function clean() {
   if (fs.existsSync('./data.json')) {
     fs.unlinkSync('./data.json')
   }
+  // Also remove download cache, see https://github.com/prisma/prisma/issues/7777
+  fs.rmdirSync('./node_modules/.cache/prisma', { recursive: true })
+  fs.rmdirSync(path.join(os.homedir(), '.cache/prisma'), { recursive: true })
 }
 
-async function install(env?: Record<string, string>) {
+export async function install(env?: Record<string, string>) {
   await execa('yarn', ['install', '--force'], {
     ...defaultExecaOptions,
     env,
   })
 }
 
-async function version(env?: Record<string, string>) {
+export async function version(env?: Record<string, string>) {
   const result = await execa('yarn', ['-s', 'prisma', '-v'], {
     ...defaultExecaOptions,
     stdio: 'pipe',
@@ -84,9 +90,10 @@ async function version(env?: Record<string, string>) {
   return result.stdout
 }
 
-function snapshotDirectory(pth: string) {
-  const files = fs.readdirSync(pth)
-  expect(files).toMatchSnapshot(pth)
+function snapshotDirectory(path: string, hint?: string) {
+  const files = fs.readdirSync(path)
+  const snapshotName = path + ((hint) ? ' @ ' + hint : '')
+  expect(files).toMatchSnapshot(snapshotName)
 }
 
 async function testGeneratedClient(env?: Record<string, string>) {
@@ -95,13 +102,46 @@ async function testGeneratedClient(env?: Record<string, string>) {
     env,
   })
   const data = require('./data.json')
-  expect(data).toMatchSnapshot()
+  // using inline snapshot here as this is identical for all tests run here
+  expect(data).toMatchInlineSnapshot(`
+    Object {
+      "delete": Object {
+        "posts": Object {
+          "count": 1,
+        },
+        "users": Object {
+          "count": 1,
+        },
+      },
+      "post.findUnique": Object {
+        "id": 1,
+        "title": "Test",
+        "userId": 1,
+      },
+      "user.create": Object {
+        "email": "test@example.com",
+        "id": 1,
+        "name": "Test",
+        "posts": Array [
+          Object {
+            "id": 1,
+            "title": "Test",
+            "userId": 1,
+          },
+        ],
+      },
+      "users.findMany": Array [],
+    }
+  `)
 }
 
-function cleanVersionSnapshot(str: string): string {
+function sanitizeVersionSnapshot(str: string): string {
   let lines = str.split('\n')
   return lines
     .map((line) => {
+      if (line.includes('Preview Features')) {
+        return line
+      }
       const test = line.split(':')
       const location = test[1].match(/\(([^)]+)\)/)
       return `${test[0]} : placeholder ${location ? location[0] : ''}`
@@ -113,16 +153,18 @@ export async function runTest(options: {
   previewFeatures?: string[]
   binaryTargets?: string[]
   env?: Record<string, string>
+  env_on_deploy?: Record<string, string>
 }) {
   // This ensures that if PRISMA_FORCE_NAPI is set for the workflow it is removed before running these tests
+  // TODO Should not be necessary any more
   if (process.env.PRISMA_FORCE_NAPI === 'true') {
     delete process.env.PRISMA_FORCE_NAPI
   }
 
   // TODO Instead of cleaning, use a unique folder for each test
-  await clean()
+  await cleanFilesystem()
 
-  buildSchema({
+  buildSchemaFile({
     previewFeatures: options.previewFeatures,
     binaryTargets: options.binaryTargets,
   })
@@ -132,12 +174,42 @@ export async function runTest(options: {
   snapshotDirectory('./node_modules/@prisma/engines')
   snapshotDirectory('./node_modules/prisma')
 
+  // snapshot -v output
+  const versionOutput = await version(options.env)
+  expect(sanitizeVersionSnapshot(versionOutput)).toMatchSnapshot('version output @ 0 - env')
+
   // prisma generate
   await generate(options.env)
-  snapshotDirectory('./node_modules/.prisma/client')
+  snapshotDirectory('./node_modules/.prisma/client', '0 - env')
+
+  // Overwrite env to simulate deployment with different settings
+  if (options.env_on_deploy) {
+    options.env = options.env_on_deploy
+  }
 
   await testGeneratedClient(options.env)
-  
-  const versionOutput = await version(options.env)
-  expect(cleanVersionSnapshot(versionOutput)).toMatchSnapshot()
+
+  // Additional snapshots if env changed after generate
+  if (options.env_on_deploy) {
+    snapshotDirectory('./node_modules/.prisma/client', '1 - after_env_change')
+    const versionOutput2 = await version(options.env)
+    expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot('version output @ 1 - after_env_change')
+  }
+}
+
+
+export function getCustomBinaryPath() {
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query-engine-windows.exe' : ((os.type() == 'Darwin') ? 'query-engine-darwin' : 'query-engine-debian-openssl-1.1.x'))
+  // Using absolute path because of https://github.com/prisma/prisma/issues/7779
+  let engine = path.resolve('.', 'custom-engines', 'binary', os.type(), OS_BINARY)
+  console.log('binary', { engine })
+  return engine
+}
+
+export function getCustomLibraryPath() {
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query_engine_napi-windows.dll.node' : ((os.type() == 'Darwin') ? 'libquery_engine_napi-darwin.dylib.node' : 'libquery_engine_napi-debian-openssl-1.1.x.so.node'))
+  // Using absolute path because of https://github.com/prisma/prisma/issues/7779
+  let engine = path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
+  console.log('library', { engine })
+  return engine
 }
