@@ -139,6 +139,9 @@ function sanitizeVersionSnapshot(str: string): string {
   let lines = str.split('\n')
   return lines
     .map((line) => {
+      if(line.includes('Preview Features')) {
+        return line
+      }
       const test = line.split(':')
       const location = test[1].match(/\(([^)]+)\)/)
       return `${test[0]} : placeholder ${location ? location[0] : ''}`
