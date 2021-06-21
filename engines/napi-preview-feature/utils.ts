@@ -69,7 +69,9 @@ async function cleanFilesystem() {
   if (fs.existsSync('./data.json')) {
     fs.unlinkSync('./data.json')
   }
+  // Also remove download cache, see https://github.com/prisma/prisma/issues/7777
   fs.rmdirSync('./node_modules/.cache/prisma', { recursive: true })
+  fs.rmdirSync(path.join(os.homedir(), '.cache/prisma'), { recursive: true })  
 }
 
 export async function install(env?: Record<string, string>) {
@@ -193,13 +195,17 @@ export async function runTest(options: {
 
 
 export function getCustomBinaryPath() {
-  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query-engine-windows.exe' : 'query-engine')
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query-engine-windows.exe' : 'query-engine-debian-openssl-1.1.x')
   // Using absolute path because of https://github.com/prisma/prisma/issues/7779
-  return path.resolve('.', 'custom-engines', 'binary', os.type(), OS_BINARY)
+  let engine = path.resolve('.', 'custom-engines', 'binary', os.type(), OS_BINARY)
+  console.log('binary', { engine })
+  return engine
 }
 
 export function getCustomLibraryPath() {
-  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query_engine_napi-windows.dll.node' : 'foo.node')
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query_engine_napi-windows.dll.node' : 'libquery_engine_napi-debian-openssl-1.1.x.so.node')
   // Using absolute path because of https://github.com/prisma/prisma/issues/7779
-  return path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
+  let engine = path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
+  console.log('library', { engine })
+  return engine
 }
