@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 sandbox_id=$(cat sandbox_id)
 url="https://$sandbox_id.sse.codesandbox.io"
