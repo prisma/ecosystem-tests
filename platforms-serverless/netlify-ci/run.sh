@@ -5,13 +5,20 @@ set -eu
 # When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   # use the default schema at prisma/schema.prisma file
+  echo "Using normal schema"
   true
 else
+  echo "Using Napi enabled schema"
   cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
+# Modify package.json to bust cache
+sed -i "s/1.0.0/$(date +%s%N)/" package.json
+
+# Set up project
 rm -rf node_modules/
 yarn install
+yarn prisma generate
 
 # create ssh key
 mkdir -p ~/.ssh
@@ -28,5 +35,6 @@ git init
 git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
 git add .
 git commit -m "push to netlify"
+# TODO Do not force push so history is available
 git push origin master --force
 rm -rf .git
