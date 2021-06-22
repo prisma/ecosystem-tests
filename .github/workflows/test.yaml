@@ -228,9 +228,10 @@ jobs:
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         include:
-          - os: windows-latest
+          - engine: ['napi', 'binary']
             node_version: 14
-            architecture: x86
+            architecture: [x86, x64]
+            os: windows-latest
     runs-on: ${{ matrix.os }}
 
     env:
