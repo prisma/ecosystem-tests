@@ -219,7 +219,7 @@ jobs:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
-        node:
+        node-version:
           - 12
           - 14
           - 15
@@ -253,23 +253,23 @@ jobs:
         if: ${{ matrix.engine == 'napi' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
-      - name: use node ${{ matrix.node }}
+      - name: use node ${{ matrix.node-version }} (${{ matrix.architecture }})
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node-version }}
           architecture: ${{ matrix.architecture }}
           
-      - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
+      - name: test on node ${{ matrix.node-version }} (${{ matrix.architecture }}) - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node-version }} (${{ matrix.architecture }})"
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node-version }} (${{ matrix.architecture }})"
 
   binaries:
     needs: start-time
