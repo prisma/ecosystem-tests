@@ -237,6 +237,14 @@ jobs:
             node-version: 14
             architecture: x86
             os: windows-latest
+          - engine: napi
+            node-version: 14
+            architecture: x64
+            os: windows-latest
+          - engine: binary
+            node-version: 14
+            architecture: x64
+            os: windows-latest
     runs-on: ${{ matrix.os }}
 
     env:
