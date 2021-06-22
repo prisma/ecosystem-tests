@@ -6,9 +6,11 @@ set -eu
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   # use the default schema at prisma/schema.prisma file
   echo "Using normal schema"
+  ENGINE='binary'
   true
 else
   echo "Using Napi enabled schema"
+  ENGINE='node-api libary'
   cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
@@ -34,7 +36,7 @@ git config --global user.name "Prismo"
 git init
 git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
 git add .
-git commit -m "push to netlify: $(date +%s%N), napi = $(PRISMA_FORCE_NAPI)"
+git commit -m "push to netlify: $(date +%s%N), engine = $(ENGINE)"
 # TODO Do not force push so history is available
 git push origin master --force
 rm -rf .git
