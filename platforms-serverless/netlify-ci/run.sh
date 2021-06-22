@@ -2,6 +2,9 @@
 
 set -eu
 
+ID=$(date +%s%N)
+echo ID > id.txt
+
 # When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   # use the default schema at prisma/schema.prisma file
@@ -36,7 +39,7 @@ git config --global user.name "Prismo"
 git init
 git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
 git add .
-git commit -m "push to netlify: $(date +%s%N), engine = $ENGINE"
+git commit -m "push to netlify: $ID, engine = $ENGINE"
 # TODO Do not force push so history is available
-git push origin master --force
+git push origin ID --force
 rm -rf .git
