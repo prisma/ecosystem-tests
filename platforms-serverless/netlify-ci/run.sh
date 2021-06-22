@@ -36,7 +36,7 @@ git config --global user.name "Prismo"
 git init
 git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
 git add .
-git commit -m "push to netlify: $(date +%s%N), engine = $(ENGINE)"
+git commit -m "push to netlify: $(date +%s%N), engine = $ENGINE"
 # TODO Do not force push so history is available
 git push origin master --force
 rm -rf .git
