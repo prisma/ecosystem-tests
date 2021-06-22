@@ -211,7 +211,7 @@ export function getCustomLibraryPath() {
 export async function getCustomEngines() {
   const binary_keep = './custom-engines/binary/' + os.type() + '/.keep'
   if(fs.existsSync(binary_keep)) {
-    fs.rmSync(binary_keep)
+    fs.unlinkSync(binary_keep)
     await install()
     await version()
     fs.copySync('./node_modules/@prisma/engines', './custom-engines/binary/' + os.type())
@@ -221,7 +221,7 @@ export async function getCustomEngines() {
 
   const library_keep = './custom-engines/library/' + os.type() + '/.keep'
   if(fs.existsSync(library_keep)) {
-    fs.rmSync(library_keep)
+    fs.unlinkSync(library_keep)
     process.env.PRISMA_FORCE_NAPI='true'
     await install()
     await version()
