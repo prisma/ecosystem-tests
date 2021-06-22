@@ -155,12 +155,6 @@ export async function runTest(options: {
   env?: Record<string, string>
   env_on_deploy?: Record<string, string>
 }) {
-  // This ensures that if PRISMA_FORCE_NAPI is set for the workflow it is removed before running these tests
-  // TODO Should not be necessary any more
-  if (process.env.PRISMA_FORCE_NAPI === 'true') {
-    delete process.env.PRISMA_FORCE_NAPI
-  }
-
   // TODO Instead of cleaning, use a unique folder for each test
   await cleanFilesystem()
 
