@@ -1,7 +1,7 @@
 import execa from 'execa'
-import fs from 'fs'
 const os = require('os');
 import path from 'path';
+const fs = require('fs-extra')
 
 const defaultExecaOptions = {
   preferLocal: true,
@@ -212,4 +212,25 @@ export function getCustomLibraryPath() {
   let engine = path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
   console.log('library', { engine })
   return engine
+}
+
+export async function getCustomEngines() {
+  const binary_keep = './custom-engines/binary/' + os.type() + '/.keep'
+  if(fs.existsSync(binary_keep)) {
+    fs.rmSync(binary_keep)
+    await install()
+    await version()
+    fs.copySync('./node_modules/@prisma/engines', './custom-engines/binary/' + os.type())
+  }
+
+  fs.rmdirSync('./node_modules/@prisma/engines', { recursive: true })
+
+  const library_keep = './custom-engines/library/' + os.type() + '/.keep'
+  if(fs.existsSync(library_keep)) {
+    fs.rmSync(library_keep)
+    process.env.PRISMA_FORCE_NAPI='true'
+    await install()
+    await version()
+    fs.copySync('./node_modules/@prisma/engines', './custom-engines/library/' + os.type())
+  }
 }
