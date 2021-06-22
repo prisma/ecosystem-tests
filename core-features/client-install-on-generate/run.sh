@@ -2,6 +2,8 @@
 
 set -eux
 
+pwd
+
 yarn install
 yarn remove @prisma/client
 
