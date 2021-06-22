@@ -41,5 +41,5 @@ git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
 git add .
 git commit -m "push to netlify: $ID, engine = $ENGINE"
 # TODO Do not force push so history is available
-git push origin $ID
+git push -u origin $ID
 rm -rf .git
