@@ -5,4 +5,4 @@ set -eux
 yarn install
 yarn remove @prisma/client
 
-yarn prisma generate
+env DEBUG="prisma:generator" yarn prisma generate
