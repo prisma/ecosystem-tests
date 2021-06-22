@@ -2,4 +2,6 @@
 
 set -eux
 
+pwd
+
 yarn test
