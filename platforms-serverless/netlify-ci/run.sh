@@ -13,7 +13,7 @@ else
 fi
 
 # Modify package.json to bust cache
-sed -i "s/1.0.0/$(date +%s%N)/" package.json
+sed -i "s/netlify-ci-to-be-replace-on-build/$(date +%s%N)/" package.json
 
 # Set up project
 rm -rf node_modules/
