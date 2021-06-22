@@ -226,11 +226,16 @@ jobs:
           - 16
           - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+        architecture: x64
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         include:
-          - engine: ['napi', 'binary']
+          - engine: napi
             node_version: 14
-            architecture: [x86, x64]
+            architecture: x86
+            os: windows-latest
+          - engine: binary
+            node_version: 14
+            architecture: x86
             os: windows-latest
     runs-on: ${{ matrix.os }}
 
@@ -252,7 +257,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-
+          architecture: ${{ matrix.architecture }}
+          
       - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
