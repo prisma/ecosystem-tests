@@ -227,6 +227,10 @@ jobs:
           - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            node_version: 14
+            architecture: x86
     runs-on: ${{ matrix.os }}
 
     env:
