@@ -1,8 +1,12 @@
-import { runTest, getCustomLibraryPath, getCustomBinaryPath } from './utils'
+import { runTest, getCustomLibraryPath, getCustomBinaryPath, getCustomEngines } from './utils'
 
 // TODO set cutom binary (!) path and see if it is ignored
 describe('Library', () => {
 
+  beforeAll(() => {
+    return getCustomEngines()
+  })
+  
   test('Preview Feature, uses default binary for CLI and default library for Client', async () => {
     const options = {
       previewFeatures: ['nApi'],

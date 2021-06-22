@@ -1,6 +1,10 @@
-import { runTest, getCustomBinaryPath, getCustomLibraryPath } from './utils'
+import { runTest, getCustomEngines, getCustomBinaryPath, getCustomLibraryPath } from './utils'
 
 describe('Binary', () => {
+
+  beforeAll(() => {
+    return getCustomEngines()
+  })
 
   test('no options, uses default binary', async () => {
     const options = {}

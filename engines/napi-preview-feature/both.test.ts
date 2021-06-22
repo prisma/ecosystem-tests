@@ -1,7 +1,11 @@
-import { runTest, getCustomLibraryPath, getCustomBinaryPath } from './utils'
+import { runTest, getCustomLibraryPath, getCustomBinaryPath, getCustomEngines } from './utils'
 
 describe('Binary first, then Library | ', () => {
 
+  beforeAll(() => {
+    return getCustomEngines()
+  })
+  
   // TODO Skipped as this currently does not work https://github.com/prisma/prisma/issues/7783
   test.skip('Binary build, deployment with PRISMA_FORCE_NAPI=true, uses default binary for build, default library later', async () => {
     const options = {
