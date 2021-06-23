@@ -8,7 +8,13 @@ describe('Binary', () => {
 
   test('no options, uses default binary', async () => {
     const options = {}
-    await runTest(options)
+    const snapshots = {
+      engines: 'engine-binary',
+      prisma: 'prisma-binary',
+      version: 'version-binary',
+      client: 'client-binary',
+    }
+    await runTest(options, snapshots)
   })
 
   test('PRISMA_QUERY_ENGINE_BINARY, uses supplied binary', async () => {
@@ -17,7 +23,13 @@ describe('Binary', () => {
         PRISMA_QUERY_ENGINE_BINARY: getCustomBinaryPath()
       },
     }
-    await runTest(options)
+    const snapshots = { // TODO
+      engines: 'engine-binary', 
+      prisma: 'prisma-binary',
+      version: 'version-binary',
+      client: 'client-binary',
+    }
+    await runTest(options, snapshots)
   })
 
   test('PRISMA_QUERY_ENGINE_LIBRARY (!), uses default binary (and ignores env var)', async () => {
@@ -26,7 +38,13 @@ describe('Binary', () => {
         PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
       },
     }
-    await runTest(options)
+    const snapshots = { // TODO
+      engines: 'engine-binary',
+      prisma: 'prisma-binary',
+      version: 'version-binary',
+      client: 'client-binary',
+    }
+    await runTest(options, snapshots)
   })
 
 })

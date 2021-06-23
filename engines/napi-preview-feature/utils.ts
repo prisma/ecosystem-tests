@@ -2,6 +2,7 @@ import execa from 'execa'
 const os = require('os');
 import path from 'path';
 const fs = require('fs-extra')
+import { Snapshots } from './snapshots'
 
 const defaultExecaOptions = {
   preferLocal: true,
@@ -90,10 +91,9 @@ export async function version(env?: Record<string, string>) {
   return result.stdout
 }
 
-function snapshotDirectory(path: string, hint?: string) {
-  const files = fs.readdirSync(path)
-  const snapshotName = path + ((hint) ? ' @ ' + hint : '')
-  expect(files).toMatchSnapshot(snapshotName)
+function snapshotDirectory(options: { path: string, hint?: string, snapshot: string }) {
+  const files = fs.readdirSync(options.path)
+  expect(files).toMatchInlineSnapshot(Snapshots[os.type()][options.snapshot])
 }
 
 async function testGeneratedClient(env?: Record<string, string>) {
@@ -154,6 +154,11 @@ export async function runTest(options: {
   binaryTargets?: string[]
   env?: Record<string, string>
   env_on_deploy?: Record<string, string>
+}, snapshots: {
+  engines: string
+  prisma: string
+  version: string
+  client: string
 }) {
   // TODO Instead of cleaning, use a unique folder for each test
   await cleanFilesystem()
@@ -165,16 +170,16 @@ export async function runTest(options: {
 
   // yarn install
   await install(options.env)
-  snapshotDirectory('./node_modules/@prisma/engines')
-  snapshotDirectory('./node_modules/prisma')
+  snapshotDirectory({ path: './node_modules/@prisma/engines', snapshot: snapshots?.engines })
+  snapshotDirectory({ path: './node_modules/prisma', snapshot: snapshots?.prisma })
 
   // snapshot -v output
   const versionOutput = await version(options.env)
-  expect(sanitizeVersionSnapshot(versionOutput)).toMatchSnapshot('version output @ 0 - env')
+  expect(sanitizeVersionSnapshot(versionOutput)).toMatchInlineSnapshot(Snapshots[os.type()][snapshots.version])
 
   // prisma generate
   await generate(options.env)
-  snapshotDirectory('./node_modules/.prisma/client', '0 - env')
+  snapshotDirectory({ path: './node_modules/.prisma/client', hint: '0 - env', snapshot: snapshots?.client })
 
   // Overwrite env to simulate deployment with different settings
   if (options.env_on_deploy) {
@@ -183,12 +188,14 @@ export async function runTest(options: {
 
   await testGeneratedClient(options.env)
 
+  /*
   // Additional snapshots if env changed after generate
   if (options.env_on_deploy) {
     snapshotDirectory('./node_modules/.prisma/client', '1 - after_env_change')
     const versionOutput2 = await version(options.env)
     expect(sanitizeVersionSnapshot(versionOutput2)).toMatchSnapshot('version output @ 1 - after_env_change')
   }
+  */
 }
 
 
@@ -227,4 +234,5 @@ export async function getCustomEngines() {
     await version()
     fs.copySync('./node_modules/@prisma/engines', './custom-engines/library/' + os.type())
   }
+  delete process.env.PRISMA_FORCE_NAPI
 }
