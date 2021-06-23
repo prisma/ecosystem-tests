@@ -9,6 +9,7 @@ sleep 30
 
 prismaVersion=$(sh ../../utils/prisma_version.sh)
 
+# TODO check for engine files
 expected="{\"prismaVersion\":\"$prismaVersion\",\"createUser\":{\"name\":\"Alice\"},\"updateUser\":{\"name\":\"Bob\"},\"deleteUser\":{\"name\":\"Bob\"}}"
 actual=$(curl localhost:3000)
 
