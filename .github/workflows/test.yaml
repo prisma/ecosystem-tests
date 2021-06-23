@@ -175,7 +175,7 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
 
-migrate:
+  migrate:
     needs: start-time
 
     strategy:
