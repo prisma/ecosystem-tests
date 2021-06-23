@@ -500,8 +500,6 @@ jobs:
           - aws-graviton
           - codesandbox
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          - platform: heroku # https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
     env:
@@ -654,8 +652,7 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
-          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
-          - platform: netlify-ci # see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
 
