@@ -33,7 +33,7 @@ There are also the branches `latest` and `patch-dev`, which mirror the code from
 The e2e tests are defined in `.github/workflows/test.yaml`. Currently, this action tests:
 
 - Operating Systems: Linux, Mac, Windows (see `generic/`)
-- Node versions: 10, 12 (see `generic/`)
+- Node versions: 12, 14 (see `generic/`)
 - Frameworks (see `frameworks/`)
 - Cloud platforms (see `platforms/`)
 - Bundlers (see `bundlers/`)

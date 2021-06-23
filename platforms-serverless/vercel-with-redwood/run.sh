@@ -10,5 +10,18 @@ export FORCE_RUNTIME_TAG=canary
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
-yarn vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force
+
+
+if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+  yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> deployment-url.txt
+else
+  yarn -s vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm --force 1> deployment-url.txt
+fi
+
+echo ''
+cat deployment-url.txt
+DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
+echo ''
+echo "Deployed to ${DEPLOYED_URL}"
+
 sleep 15

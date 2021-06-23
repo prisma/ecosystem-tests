@@ -37,7 +37,8 @@ if [ -f "prepare.sh" ]; then
   echo "prepare script found, executing $dir/$project/prepare.sh"
   echo ""
 
-  bash prepare.sh
+  # execute & allow export of env vars
+  . prepare.sh
 
   echo ""
   echo "finished prepare.sh"
@@ -57,7 +58,7 @@ set -e
 if [ $code -eq 0 ]; then
   echo "-----------------------------"
   echo ""
-  echo "run.sh was successful, running $dir/$project/test.sh..."
+  echo "run.sh was successful (code $code), running $dir/$project/test.sh..."
   echo ""
 
   if [ ! -f "test.sh" ]; then
@@ -71,7 +72,7 @@ if [ $code -eq 0 ]; then
   set -e
 
   echo ""
-  echo "finished test.sh"
+  echo "finished test.sh (code $code)"
   echo ""
   echo "-----------------------------"
 fi
@@ -89,10 +90,10 @@ fi
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
   echo ""
-  echo "finally script found, executing $dir/$project/finally.sh"
+  echo "finally script found, executing $dir/$project/finally.sh (with test exit code $code as param)"
   echo ""
 
-  bash finally.sh
+  bash finally.sh $code
 
   echo ""
   echo "finished finally.sh"
