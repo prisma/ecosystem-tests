@@ -226,5 +226,6 @@ export async function getCustomEngines() {
     await install()
     await version()
     fs.copySync('./node_modules/@prisma/engines', './custom-engines/library/' + os.type())
+    delete process.env.PRISMA_FORCE_NAPI
   }
 }
