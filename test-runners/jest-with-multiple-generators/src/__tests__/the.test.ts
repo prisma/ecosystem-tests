@@ -37,25 +37,48 @@ describe('Prisma in jest with multiple generators', () => {
     const filesB = fs.readdirSync(
       path.dirname(require.resolve('../../generated/database/client2')),
     )
-    expect(filesA).toMatchInlineSnapshot(`
-      Array [
-        "index-browser.js",
-        "index.d.ts",
-        "index.js",
-        "query-engine-debian-openssl-1.1.x",
-        "runtime",
-        "schema.prisma",
-      ]
-    `)
-    expect(filesB).toMatchInlineSnapshot(`
-      Array [
-        "index-browser.js",
-        "index.d.ts",
-        "index.js",
-        "query-engine-debian-openssl-1.1.x",
-        "runtime",
-        "schema.prisma",
-      ]
-    `)
+    if (process.env.PRISMA_FORCE_NAPI === 'true') {
+      expect(filesA).toMatchInlineSnapshot(`
+Array [
+  "index-browser.js",
+  "index.d.ts",
+  "index.js",
+  "package.json",
+  "libquery_engine_napi-debian-openssl-1.1.x.so.node",
+  "schema.prisma",
+]
+`)
+      expect(filesB).toMatchInlineSnapshot(`
+Array [
+  "index-browser.js",
+  "index.d.ts",
+  "index.js",
+  "package.json",
+  "libquery_engine_napi-debian-openssl-1.1.x.so.node",
+  "schema.prisma",
+]
+`) 
+    } else {
+      expect(filesA).toMatchInlineSnapshot(`
+Array [
+  "index-browser.js",
+  "index.d.ts",
+  "index.js",
+  "package.json",
+  "query-engine-debian-openssl-1.1.x",
+  "schema.prisma",
+]
+`)
+      expect(filesB).toMatchInlineSnapshot(`
+Array [
+  "index-browser.js",
+  "index.d.ts",
+  "index.js",
+  "package.json",
+  "query-engine-debian-openssl-1.1.x",
+  "schema.prisma",
+]
+`)  
+    }
   })
 })
