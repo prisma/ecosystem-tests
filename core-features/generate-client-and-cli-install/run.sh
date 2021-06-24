@@ -7,6 +7,6 @@ yarn remove @prisma/client
 yarn remove prisma
 mv package.json package.json.backup
 
-yarn add global prisma
+yarn global add prisma
 which prisma
 yarn prisma generate
