@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn test
+yarn run jest
