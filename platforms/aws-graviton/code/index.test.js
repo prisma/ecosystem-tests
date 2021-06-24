@@ -29,8 +29,8 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
+  "libquery_engine_napi-linux-arm-openssl-1.0.x.so.node",
   "package.json",
-  "libquery_engine_napi-debian-openssl-1.1.x.so.node",
   "schema.prisma",
 ]
 `)  
@@ -41,13 +41,11 @@ Array [
   "index.d.ts",
   "index.js",
   "package.json",
-  "query-engine-debian-openssl-1.1.x",
+  "query-engine-linux-arm-openssl-1.0.x",
   "schema.prisma",
 ]
 `)  
     }
   })
-
-  libquery_engine_napi-debian-openssl-1.1.x.so.node
 
 })
