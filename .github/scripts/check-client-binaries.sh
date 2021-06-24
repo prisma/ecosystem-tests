@@ -1,3 +1,5 @@
+#!/bin/bash
+ 
 echo "-------------- Checking Generated Client QE Binary --------------"
 
 dir=$1
@@ -8,7 +10,17 @@ project=$2
 # - Custom output location
 # - They do not generate a client
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
-skipped_projects=(prisma-dbml-generator prisma-json-schema-generator napi-preview-feature pkg aws-graviton firebase-functions studio netlify-cli jest-with-multiple-generators)
+skipped_projects=(
+  prisma-dbml-generator         # No generated Client, so only Client stub with no engine included
+  prisma-json-schema-generator  # No generated Client, so only Client stub with no engine included
+  napi-preview-feature          # 
+  pkg                           # No generated Client, so only Client stub with no engine included
+  aws-graviton                  # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  firebase-functions            # No local project at expected location (but in `functions` subfolder)
+  studio                        # TODO: No generated Client in `node_modules/.prisma/client/`
+  netlify-cli                   # Client is generated into `../functions/generated/client` via use of `output`
+  jest-with-multiple-generators # No generated Client locally in default path, both Clients have custom `output`
+)
 
 case "${skipped_projects[@]}" in  *$2*)
   echo "Skipping as $2 is present in skipped_projects"

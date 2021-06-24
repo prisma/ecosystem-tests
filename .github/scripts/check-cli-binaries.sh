@@ -1,10 +1,15 @@
+#!/bin/bash
+
 echo "-------------- Checking CLI/Engines QE Binary --------------"
 DIR=$1
 PROJECT=$2
 
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
-skipped_projects=(aws-graviton firebase-functions)
+skipped_projects=(
+  aws-graviton        # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  firebase-functions  # No local project at expected location (but in `functions` subfolder)
+)
 
 case "${skipped_projects[@]}" in  *$2*)
   echo "Skipping as $2 is present in skipped_projects"
@@ -69,6 +74,9 @@ ls node_modules/@prisma/engines/
 echo "--- ls node_modules/prisma/ ---"
 ls node_modules/prisma/
 echo "---"
+
+# TODO Add test that makes sure not _wrong_ files are present as well
+# Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine_napi-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
 if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
   echo "✔ Correct Query Engine exists"
 else
