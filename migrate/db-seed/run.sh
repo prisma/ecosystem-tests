@@ -2,9 +2,10 @@
 
 set -eux
 
+ID=$(date +%s%N)
+export CORE_FEATURES_DB_SEED_URL="$CORE_FEATURES_DB_SEED_URL$ID"
+
 yarn install
 yarn prisma generate
 
-# Reproduction via https://github.com/prisma/prisma/issues/7176
-yarn prisma migrate reset --force --skip-seed
 yarn prisma db push
