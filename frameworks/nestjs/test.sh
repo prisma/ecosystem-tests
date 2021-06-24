@@ -10,7 +10,7 @@ sleep 30
 prismaVersion=$(sh ../../utils/prisma_version.sh)
 
 # TODO check for engine files
-expected="{\"prismaVersion\":\"$prismaVersion\",\"createUser\":{\"name\":\"Alice\"},\"updateUser\":{\"name\":\"Bob\"},\"deleteUser\":{\"name\":\"Bob\"}},\"files\":\"TODO\"}"
+expected="{\"prismaVersion\":\"$prismaVersion\",\"createUser\":{\"name\":\"Alice\"},\"updateUser\":{\"name\":\"Bob\"},\"deleteUser\":{\"name\":\"Bob\"},\"files\":\"TODO\"}"
 actual=$(curl localhost:3000)
 
 if [ "$expected" != "$actual" ]; then
