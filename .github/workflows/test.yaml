@@ -187,7 +187,6 @@ jobs:
         ]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-migrate
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
