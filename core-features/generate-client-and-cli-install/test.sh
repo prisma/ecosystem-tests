@@ -2,5 +2,5 @@
 
 set -eux
 
-npm install jest@26
-npx run jest
+npm install -g jest@26
+jest
