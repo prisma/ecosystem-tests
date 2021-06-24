@@ -8,4 +8,5 @@ yarn remove prisma
 mv package.json package.json.backup
 
 yarn global add prisma
-yarn global prisma generate
+export PATH="$(yarn global bin):$PATH"
+yarn prisma generate
