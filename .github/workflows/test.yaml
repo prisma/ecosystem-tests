@@ -35,6 +35,9 @@ jobs:
       - frameworks
       - platforms
       - platforms-serverless
+      - platforms-napi
+      - platforms-serverless-napi
+      - engines
       - bundlers
       - libraries
       - databases
@@ -59,6 +62,9 @@ jobs:
       - frameworks
       - platforms
       - platforms-serverless
+      - platforms-napi
+      - platforms-serverless-napi
+      - engines
       - bundlers
       - libraries
       - databases
@@ -72,8 +78,8 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
-  ####################################################
-  ### real jobs after this
+####################################################
+### real jobs after this
 
   process-managers:
     needs: start-time
@@ -130,7 +136,6 @@ jobs:
           auto-reconnect, 
           browser-build, 
           studio, 
-          napi-preview-feature,
           client-install-on-generate
         ]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
@@ -221,7 +226,41 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
-        
+
+  engines:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [napi-preview-feature]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test engines - ${{ matrix.feature }}
+        run: bash .github/scripts/test-project.sh engines ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh engines ${{ matrix.feature }}
+
   os:
     needs: start-time
 
