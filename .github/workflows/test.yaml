@@ -140,13 +140,6 @@ jobs:
           studio, 
           client-install-on-generate
         ]
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          # TODO these have different files, so test currently fail
-          - feature: napi-preview-feature
-            os: windows-latest
-          - feature: napi-preview-feature
-            os: macos-latest
     runs-on: ${{ matrix.os }}
 
     env:
