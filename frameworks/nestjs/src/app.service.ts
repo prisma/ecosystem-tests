@@ -40,6 +40,9 @@ export class AppService {
       },
     });
 
+    // TODO
+    const files = 'TODO'
+
     return JSON.stringify({
       prismaVersion: Prisma.prismaVersion.client,
       createUser: {
@@ -47,6 +50,7 @@ export class AppService {
       },
       updateUser,
       deleteUser,
+      files
     });
   }
 }
