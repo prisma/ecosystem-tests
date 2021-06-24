@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn run jest
+npx run jest@26

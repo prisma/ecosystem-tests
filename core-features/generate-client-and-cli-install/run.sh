@@ -2,12 +2,12 @@
 
 set -eux
 
-yarn install
-yarn remove @prisma/client
-yarn remove prisma
-mv package.json package.json.backup
+VERSION=$(cat .github/prisma-version.txt)
 
-yarn global add prisma
-export PATH="$(yarn global bin):$PATH"
+# no install, instead rename file
+#yarn install
+
+# global instead instead
+npm install -g prisma@$VERSION
 prisma generate
 
