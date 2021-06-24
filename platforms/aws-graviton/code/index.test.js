@@ -23,7 +23,19 @@ describe('Prisma', () => {
     const fs = require('fs')
     const path = require('path')
     const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
-    expect(files).toMatchInlineSnapshot(`
+    if (process.env.PRISMA_FORCE_NAPI === 'true') {
+      expect(files).toMatchInlineSnapshot(`
+Array [
+  "index-browser.js",
+  "index.d.ts",
+  "index.js",
+  "package.json",
+  "libquery_engine_napi-debian-openssl-1.1.x.so.node",
+  "schema.prisma",
+]
+`)  
+    } else {
+      expect(files).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
   "index.d.ts",
@@ -32,7 +44,10 @@ Array [
   "query-engine-debian-openssl-1.1.x",
   "schema.prisma",
 ]
-`)
+`)  
+    }
   })
+
+  libquery_engine_napi-debian-openssl-1.1.x.so.node
 
 })
