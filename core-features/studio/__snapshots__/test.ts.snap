@@ -27,15 +27,36 @@ Object {
     },
     "error": null,
   },
-  "requestId": 2,
+  "requestId": 1,
 }
 `;
 
 exports[`Studio can create records 2`] = `
 Object {
-  "email": "email3@test.com",
-  "id": 3,
-  "name": "Name 3",
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "params": Object {
+        "action": "findUnique",
+        "args": Object {
+          "where": Object {
+            "id": 3,
+          },
+        },
+        "dataPath": Array [],
+        "model": "User",
+        "runInTransaction": false,
+      },
+      "response": Object {
+        "email": "email3@test.com",
+        "id": 3,
+        "name": "Name 3",
+      },
+    },
+    "error": null,
+  },
+  "requestId": 1,
 }
 `;
 
@@ -64,11 +85,34 @@ Object {
     },
     "error": null,
   },
-  "requestId": 4,
+  "requestId": 1,
 }
 `;
 
-exports[`Studio can delete records 2`] = `null`;
+exports[`Studio can delete records 2`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "params": Object {
+        "action": "findUnique",
+        "args": Object {
+          "where": Object {
+            "id": 2,
+          },
+        },
+        "dataPath": Array [],
+        "model": "User",
+        "runInTransaction": false,
+      },
+      "response": null,
+    },
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
 
 exports[`Studio can make queries 1`] = `
 Object {
@@ -129,14 +173,35 @@ Object {
     },
     "error": null,
   },
-  "requestId": 3,
+  "requestId": 1,
 }
 `;
 
 exports[`Studio can update records 2`] = `
 Object {
-  "email": "email1@test.com",
-  "id": 1,
-  "name": "Updated Name 1",
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "params": Object {
+        "action": "findUnique",
+        "args": Object {
+          "where": Object {
+            "id": 1,
+          },
+        },
+        "dataPath": Array [],
+        "model": "User",
+        "runInTransaction": false,
+      },
+      "response": Object {
+        "email": "email1@test.com",
+        "id": 1,
+        "name": "Updated Name 1",
+      },
+    },
+    "error": null,
+  },
+  "requestId": 1,
 }
 `;
