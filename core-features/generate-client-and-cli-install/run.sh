@@ -2,7 +2,7 @@
 
 set -eux
 
-VERSION=$(cat .github/prisma-version.txt)
+VERSION=$(cat ../../.github/prisma-version.txt)
 
 # no install, instead rename file
 #yarn install
