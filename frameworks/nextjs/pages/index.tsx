@@ -16,9 +16,14 @@ export async function getStaticProps() {
     },
   })
 
+  const users = await client.user.findMany()
+
+  const files = 'TODO'
+
   return {
     props: {
-      users: await client.user.findMany(),
+      users: users,
+      files: files
     },
     revalidate: 5,
   }
