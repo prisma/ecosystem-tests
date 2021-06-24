@@ -2,4 +2,5 @@
 
 set -eux
 
-npx run jest@26
+npm install jest@26
+npx run jest
