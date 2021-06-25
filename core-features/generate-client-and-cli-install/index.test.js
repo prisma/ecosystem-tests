@@ -12,7 +12,7 @@ describe('prisma generate', () => {
 
   it('adds prisma to package.json', async () => {
     const pkgjson = require('./package.json')
-    expect(pkgjson.dependencies["prisma"]).toBeTruthy()
+    expect(pkgjson.devDependencies["prisma"]).toBeTruthy()
   })
 
 })
