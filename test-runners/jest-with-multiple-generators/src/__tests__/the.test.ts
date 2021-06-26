@@ -43,7 +43,7 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
-  "libquery_engine_napi-debian-openssl-1.1.x.so.node",
+  "libquery_engine-debian-openssl-1.1.x.so.node",
   "runtime",
   "schema.prisma",
 ]
@@ -53,7 +53,7 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
-  "libquery_engine_napi-debian-openssl-1.1.x.so.node",
+  "libquery_engine-debian-openssl-1.1.x.so.node",
   "runtime",
   "schema.prisma",
 ]

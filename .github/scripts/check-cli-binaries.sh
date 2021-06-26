@@ -53,16 +53,16 @@ else
   echo "N-API: Enabled"
   case $os_name in
     linux)
-      qe_location="node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node"
-      qe_location2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine_napi-debian-openssl-1.1.x.so.node"
+      qe_location="node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node"
+      qe_location2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      qe_location="node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node"
-      qe_location2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine_napi-darwin.dylib.node"
+      qe_location="node_modules/@prisma/engines/libquery_engine-darwin.dylib.node"
+      qe_location2="node_modules/prisma/node_modules/@prisma/engines/libquery_engine-darwin.dylib.node"
       ;;
     windows*)
-      qe_location="node_modules\@prisma\engines\query_engine_napi-windows.dll.node"
-      qe_location2="node_modules\prisma\node_modules\engines\query_engine_napi-windows.dll.node"
+      qe_location="node_modules\@prisma\engines\query_engine-windows.dll.node"
+      qe_location2="node_modules\prisma\node_modules\engines\query_engine-windows.dll.node"
       ;;
   esac
 fi
@@ -76,7 +76,7 @@ ls node_modules/prisma/
 echo "---"
 
 # TODO Add test that makes sure not _wrong_ files are present as well
-# Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine_napi-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
+# Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
 if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
   echo "✔ Correct Query Engine exists"
 else

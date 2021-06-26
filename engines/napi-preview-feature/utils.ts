@@ -201,7 +201,7 @@ export function getCustomBinaryPath() {
 }
 
 export function getCustomLibraryPath() {
-  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query_engine_napi-windows.dll.node' : ((os.type() == 'Darwin') ? 'libquery_engine_napi-darwin.dylib.node' : 'libquery_engine_napi-debian-openssl-1.1.x.so.node'))
+  const OS_BINARY = ((os.type() == 'Windows_NT') ? 'query_engine-windows.dll.node' : ((os.type() == 'Darwin') ? 'libquery_engine-darwin.dylib.node' : 'libquery_engine-debian-openssl-1.1.x.so.node'))
   // Using absolute path because of https://github.com/prisma/prisma/issues/7779
   let engine = path.resolve('.', 'custom-engines', 'library', os.type(), OS_BINARY)
   console.log('library', { engine })
