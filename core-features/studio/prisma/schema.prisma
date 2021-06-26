@@ -11,8 +11,4 @@ model User {
     id    Int    @id
     name  String
     email String
-
-    parentId Int
-    parent   User   @relation(fields: [parentId], references: [id])
-    children User[] @relation("UserToUser")
 }

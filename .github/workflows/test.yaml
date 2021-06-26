@@ -87,7 +87,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] # ['napi', 'binary']
         feature: [pm2]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -102,9 +102,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -138,6 +138,8 @@ jobs:
           studio, 
           generate-client-install,
           generate-client-and-cli-install
+          client-install-on-generate,
+          client-install-on-generate-sub-project
         ]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -347,7 +349,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         packager:
           - npm
           - npm-global
@@ -369,9 +371,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -396,7 +398,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         framework:
           - nestjs
           - nextjs
@@ -414,9 +416,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -731,7 +733,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         bundler:
           - webpack
           - parcel
@@ -751,9 +753,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -778,7 +780,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         library:
           - express
           - apollo-server
@@ -800,9 +802,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -827,7 +829,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         database:
           - digitalocean-pgbouncer
           - docker-pgbouncer
@@ -873,9 +875,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -903,7 +905,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] # ['napi', 'binary']
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -919,9 +921,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
