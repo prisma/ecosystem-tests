@@ -20,7 +20,7 @@ skipped_projects=(
   studio                                  # TODO: No generated Client in `node_modules/.prisma/client/`
   netlify-cli                             # Client is generated into `../functions/generated/client` via use of `output`
   jest-with-multiple-generators           # No generated Client locally in default path, both Clients have custom `output`
-  client-install-on-generate-sub-project  # Client is generated into a subfolder
+  generate-client-install-on-sub-project  # Client is generated into a subfolder
 )
 
 case "${skipped_projects[@]}" in  *$2*)
