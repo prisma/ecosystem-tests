@@ -135,9 +135,10 @@ jobs:
         feature: [
           auto-reconnect, 
           browser-build, 
-          studio, 
-          client-install-on-generate,
-          client-install-on-generate-sub-project
+          studio,
+          generate-client-and-cli-install,
+          generate-client-install,
+          generate-client-install-on-sub-project
         ]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
