@@ -26,7 +26,7 @@ test('generated client files', async () => {
     process.env.PRISMA_FORCE_NAPI === 'true'
       ? [
           'index.js',
-          'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
+          'libquery_engine-rhel-openssl-1.0.x.so.node',
           'package.json',
           'schema.prisma',
         ]

@@ -30,7 +30,7 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
-  "libquery_engine_napi-linux-arm-openssl-1.0.x.so.node",
+  "libquery_engine-linux-arm-openssl-1.0.x.so.node",
   "package.json",
   "schema.prisma",
 ]

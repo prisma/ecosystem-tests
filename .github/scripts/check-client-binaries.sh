@@ -63,13 +63,13 @@ else
   echo "N-API: Enabled"
   case $os_name in
     linux)
-      qe_location="node_modules/.prisma/client/libquery_engine_napi-debian-openssl-1.1.x.so.node"
+      qe_location="node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      qe_location="node_modules/.prisma/client/libquery_engine_napi-darwin.dylib.node"
+      qe_location="node_modules/.prisma/client/libquery_engine-darwin.dylib.node"
       ;;
     windows*)
-      qe_location="node_modules\.prisma\client\query_engine_napi-windows.dll.node"
+      qe_location="node_modules\.prisma\client\query_engine-windows.dll.node"
       ;;
     *)
       os_name=notset
