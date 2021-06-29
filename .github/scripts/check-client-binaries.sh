@@ -47,7 +47,7 @@ esac
 echo "Assumed OS: $os_name"
 
 if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
-  echo "N-API: Disabled"
+  echo "Node-API: Disabled"
   case $os_name in
     linux)
       qe_location="node_modules/.prisma/client/query-engine-debian-openssl-1.1.x"
@@ -60,7 +60,7 @@ if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
       ;;
   esac
 else
-  echo "N-API: Enabled"
+  echo "Node-API: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node"
