@@ -1051,10 +1051,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@netlify/build@^12.13.0":
-  version "12.14.0"
-  resolved "https://registry.yarnpkg.com/@netlify/build/-/build-12.14.0.tgz#027b76b430c6968a95ac469f1befd86e30dbbb35"
-  integrity sha512-GsNxIqk5xFL7RtDbp0a0bLi6WzZyBvLBWLfNCPzJ16YZKKIHEFWT8BE/nppPqqCubcFI6S2og3nwO22Bwu7Y1A==
+"@netlify/build@^12.14.0":
+  version "12.16.0"
+  resolved "https://registry.yarnpkg.com/@netlify/build/-/build-12.16.0.tgz#330022d15568620e24a16d922b9029bddcca7841"
+  integrity sha512-UTxuAoi6fLDap2oMzTrFuaqlj+lBP/3cqj6+Ayghfi9ceNuuMgOcviSJXtKc7dIYlvJ/pn0VOftdHYP1EDy2Dg==
   dependencies:
     "@bugsnag/js" "^7.0.0"
     "@netlify/cache-utils" "^1.0.7"
@@ -1071,6 +1071,7 @@
     array-flat-polyfill "^1.0.1"
     chalk "^3.0.0"
     clean-stack "^2.2.0"
+    deepmerge "^4.2.2"
     dot-prop "^5.3.0"
     execa "^3.3.0"
     figures "^3.2.0"
@@ -1298,10 +1299,10 @@
   dependencies:
     execa "^3.4.0"
 
-"@netlify/zip-it-and-ship-it@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@netlify/zip-it-and-ship-it/-/zip-it-and-ship-it-4.7.0.tgz#c76930314dff00f75500f8dd0333cc23a68ca73f"
-  integrity sha512-s7h6IXQDn8HaBQxi0Y3k9BlmWrPI5nlODuSsNlHvacBo4JA3gseXMeVW4nOsuMInfLq3E4GdGhwXnpCAQqewVA==
+"@netlify/zip-it-and-ship-it@4.8.0", "@netlify/zip-it-and-ship-it@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@netlify/zip-it-and-ship-it/-/zip-it-and-ship-it-4.8.0.tgz#e468ac5b4f3c5f8491fc55aac6e1a5fa303b6a3a"
+  integrity sha512-Dq0hBeX2LW62eny22d+isU4SvEilT/4eusjP1EFA0XYaDCgQ9rFJ50+NySXfxxu20qbfZmt34XKiby+tO7EcRA==
   dependencies:
     "@netlify/esbuild" "^0.13.6"
     acorn "^8.4.0"
@@ -1359,40 +1360,6 @@
     semver "^7.3.2"
     unixify "^1.0.0"
     yargs "^15.4.1"
-
-"@netlify/zip-it-and-ship-it@^4.8.0":
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/@netlify/zip-it-and-ship-it/-/zip-it-and-ship-it-4.8.0.tgz#e468ac5b4f3c5f8491fc55aac6e1a5fa303b6a3a"
-  integrity sha512-Dq0hBeX2LW62eny22d+isU4SvEilT/4eusjP1EFA0XYaDCgQ9rFJ50+NySXfxxu20qbfZmt34XKiby+tO7EcRA==
-  dependencies:
-    "@netlify/esbuild" "^0.13.6"
-    acorn "^8.4.0"
-    archiver "^5.3.0"
-    array-flat-polyfill "^1.0.1"
-    common-path-prefix "^3.0.0"
-    cp-file "^9.0.0"
-    del "^6.0.0"
-    elf-cam "^0.1.1"
-    end-of-stream "^1.4.4"
-    filter-obj "^2.0.1"
-    find-up "^5.0.0"
-    glob "^7.1.6"
-    junk "^3.1.0"
-    locate-path "^6.0.0"
-    make-dir "^3.1.0"
-    merge-options "^3.0.4"
-    minimatch "^3.0.4"
-    p-map "^4.0.0"
-    path-exists "^4.0.0"
-    pkg-dir "^5.0.0"
-    precinct "^8.0.0"
-    read-package-json-fast "^2.0.2"
-    require-package-name "^2.0.1"
-    resolve "^2.0.0-next.1"
-    semver "^7.0.0"
-    tmp-promise "^3.0.2"
-    unixify "^1.0.0"
-    yargs "^16.0.0"
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -6358,18 +6325,18 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@3.39.2:
-  version "3.39.2"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-3.39.2.tgz#1cc80ffd134815cab86eca026a36279c30096313"
-  integrity sha512-FVqdTkzsENUeU2akC5qojDpg3UATmpyV4Be00U00TRDB+1PAQ0ujPljVP9s01EgPDsBqmFamwaGSIBmUpzY9AQ==
+netlify-cli@3.39.3:
+  version "3.39.3"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-3.39.3.tgz#68d09132e16ff4acd58b9e94a69af2ddb5e6f932"
+  integrity sha512-AeD5P73ssUP1A9qw0xkFCuK4v4zj2Q5ttO3rcO77+STfxLHXfQ6Z1Lwhe3x51C0GNzIYSQTBHTW0Xfgt2/sXyw==
   dependencies:
-    "@netlify/build" "^12.13.0"
+    "@netlify/build" "^12.14.0"
     "@netlify/config" "^9.3.0"
     "@netlify/framework-info" "^5.4.0"
     "@netlify/plugin-edge-handlers" "^1.11.19"
     "@netlify/plugins-list" "^2.18.1"
     "@netlify/routing-local-proxy" "^0.30.2"
-    "@netlify/zip-it-and-ship-it" "4.7.0"
+    "@netlify/zip-it-and-ship-it" "4.8.0"
     "@oclif/command" "^1.6.1"
     "@oclif/config" "^1.15.1"
     "@oclif/errors" "^1.3.4"
