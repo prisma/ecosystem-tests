@@ -2,7 +2,9 @@
 
 set -eu
 
-# explicitly ignore the yarn lockfile here, npm will install the latest packages
-# from the lockfile which will already ensure the correct prisma version gets fetched
+cp package.json sub-project-1/package.json
+cp -r sub-project-1 sub-project-2
+rm package.json
+
 pnpm install
 pnpm -r generate
