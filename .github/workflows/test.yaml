@@ -839,6 +839,7 @@ jobs:
           - gcp-postgresql-ssl
           - gcp-mysql-ssl
           - mongodb-atlas
+          - mongodb-digitalocean
           - supabase
           - supabase-pool
           - planetscale
@@ -864,6 +865,8 @@ jobs:
       GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
       GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
       DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
+      DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
+      MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
       PLANETSCALE_ORG: ${{ secrets.PLANETSCALE_ORG }}
