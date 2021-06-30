@@ -2,7 +2,7 @@
 
 set -eu
 
-cp package.json sub-project-1/package.json
+cp package.json sub-project-1
 cp -r sub-project-1 sub-project-2
 rm package.json
 
