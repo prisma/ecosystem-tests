@@ -1,10 +1,10 @@
 #!/bin/sh
 
-cd workspace
-
 FILE1=sub-project-1/node_modules/.prisma/client/index.js
 
 set -eux
+
+cd workspace
 
 if [ ! -f "$FILE1" ]; then
     echo "Client did not generate"; exit 1;

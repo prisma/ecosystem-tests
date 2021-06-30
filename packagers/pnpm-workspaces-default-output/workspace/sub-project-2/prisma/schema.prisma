@@ -1,11 +1,10 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/.prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("PACKAGERS_PNPM_CUSTOM_OUTPUT_1_PG_URL")
+  url      = env("PACKAGERS_PNPM_DEFAULT_OUTPUT_2_PG_URL")
 }
 
 model User {
