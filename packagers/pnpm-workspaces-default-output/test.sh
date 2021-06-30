@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd workspace
+
 FILE1=sub-project-1/node_modules/.prisma/client/index.js
 
 set -eux
