@@ -6,11 +6,10 @@ Tests `pnpm` workspaces.
 
 ### Environment variables
 
-The environment variable `PACKAGERS_NPM_PG_URL` should point to a postgres database.
-In CI, it uses our internal e2e test database using `packagers-npm` as database URL.
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
-
+The environment variable `PACKAGERS_PNPM_CUSTOM_OUTPUT_1_PG_URL` and
+`PACKAGERS_PNPM_CUSTOM_OUTPUT_2_PG_URL` should point to a postgres database. In
+CI, it uses our internal e2e test database that was created with
+[prisma/db-provision](https://github.com/prisma/db-provision).
 ### Run tests
 
 ```shell script
