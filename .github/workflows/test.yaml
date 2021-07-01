@@ -570,23 +570,19 @@ jobs:
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
-      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
-      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
-      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
-      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -600,16 +596,21 @@ jobs:
       VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
       VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
       NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
-      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
-      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
       AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
       AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
       AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
+      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
+      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
+      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
+      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
+      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
+      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
+      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
+      DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
 
     steps:
       - uses: actions/checkout@v2
@@ -621,17 +622,21 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Set test specific DATABASE_URL
+        run: echo "$DATABASE_URL_POSTGRES_TEMPLATE + $GITHUB_JOB + $MATRIX_PLATFORM" >> $DATABASE_URL
+      - run: echo $DATABASE_URL
+
       - name: test ${{ matrix.platform }} - binary
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
   platforms-serverless-napi:
     needs: [start-time]
