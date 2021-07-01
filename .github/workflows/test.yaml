@@ -623,7 +623,7 @@ jobs:
         run: yarn
 
       - name: Set test specific DATABASE_URL
-        run: echo "$DATABASE_URL_POSTGRES_TEMPLATE + $GITHUB_JOB + $MATRIX_PLATFORM" >> $DATABASE_URL
+        run: export DATABASE_URL=foo && echo "$DATABASE_URL_POSTGRES_TEMPLATE + $GITHUB_JOB + $MATRIX_PLATFORM" >> $DATABASE_URL
       - run: echo $DATABASE_URL
 
       - name: test ${{ matrix.platform }} - binary
