@@ -341,7 +341,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: binaries-${{ matrix.binary }}-${{ matrix.os }}
+          name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.engine }}
           path: |
             ${{ github.workspace }}/binaries/${{ matrix.binary }}/prisma*
             
