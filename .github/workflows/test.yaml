@@ -629,9 +629,6 @@ jobs:
           replace=${{ github.job }}_${{ matrix.platform }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-        
-      - name: Output test specific DATABASE_URL
-        run: echo "$DATABASE_URL"
 
       - name: test ${{ matrix.platform }} - binary
         id: run-test
