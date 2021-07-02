@@ -2,6 +2,9 @@
 
 set -eux
 
+echo "DATABASE_URL:"
+echo "$DATABASE_URL"
+
 yarn install
 yarn prisma generate
 yarn tsc

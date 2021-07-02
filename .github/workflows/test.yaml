@@ -625,7 +625,8 @@ jobs:
       - name: Set test specific DATABASE_URL
         run: echo "$DATABASE_URL_POSTGRES_TEMPLATE_$GITHUB_JOB_$MATRIX_PLATFORM" >> $GITHUB_ENV
         
-      - run: echo $DATABASE_URL
+      - name: Output test specific DATABASE_URL
+        run: echo "$DATABASE_URL"
 
       - name: test ${{ matrix.platform }} - binary
         id: run-test
