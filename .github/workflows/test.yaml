@@ -623,7 +623,7 @@ jobs:
         run: yarn
 
       - name: Set test specific DATABASE_URL
-        run: echo "DATABASE_URL=$DATABASE_URL_POSTGRES_TEMPLATE_$GITHUB_JOB_$MATRIX_PLATFORM" >> $GITHUB_ENV
+        run: echo "DATABASE_URL=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}_{{ github.job}}_${{ matrix.platform }}" >> $GITHUB_ENV
         
       - name: Output test specific DATABASE_URL
         run: echo "$DATABASE_URL"
