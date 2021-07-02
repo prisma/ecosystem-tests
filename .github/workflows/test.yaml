@@ -9,6 +9,7 @@ on:
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+  DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
 
 defaults:
   run:
@@ -610,7 +611,6 @@ jobs:
       AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
       AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
       GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
-      DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
 
     steps:
       - uses: actions/checkout@v2
@@ -769,6 +769,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 12
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
         id: run-test
