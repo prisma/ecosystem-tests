@@ -9,9 +9,6 @@ yarn install
 yarn prisma generate
 yarn tsc
 
-# make sure database exists
-npx prisma db push --accept-data-loss
-
 app="azure-function-linux-e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$app" > func-tmp.txt
 

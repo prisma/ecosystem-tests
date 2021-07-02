@@ -28,6 +28,18 @@ echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
 
+
+# Find schema, if it contains `env("DATABASE_URL")`, db push that schema to database
+schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
+if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
+  echo ""
+  echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
+  echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
+  npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
+  echo ""
+fi
+
+
 echo "cd $dir/$project"
 cd "$dir/$project"
 
