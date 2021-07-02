@@ -626,7 +626,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.platform }}
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
@@ -723,6 +723,14 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.platform }} - napi
         id: run-test
         uses: nick-invision/retry@v2
@@ -774,7 +782,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.platform }}
+          replace=${{ github.job }}_${{ matrix.bundler }}_${{ matrix.os }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
