@@ -1,7 +1,7 @@
 // Like, postgresql://user:password@localhost:5432/database/schema
 datasource db {
   provider = "postgresql"
-  url      = env("VERCEL_NODE_BUILDER_PG_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
