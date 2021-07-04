@@ -52,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['binary'] #['napi', 'binary']
+        engine: ['binary'] #['node-api', 'binary']
         generator:
           [
             prisma-dbml-generator,
@@ -77,7 +77,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
       
       - name: Install Dependencies
