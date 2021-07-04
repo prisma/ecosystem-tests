@@ -9,6 +9,14 @@ on:
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
+  CI: 1
+  # TODO: Consolidate these env vars. They shouldn't be required for slack notification
+  # They are only required because `test-project.sh` hardcodes the names
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
+  SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
+  ##
+  SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
+  SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
 
 defaults:
   run:
@@ -52,7 +60,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['binary'] #['node-api', 'binary']
         generator:
           [
             prisma-dbml-generator,
@@ -60,17 +67,10 @@ jobs:
             prisma-json-schema-generator,
             prisma-nestjs-graphql,
           ]
+        engine: ['binary'] #['node-api', 'binary']
     runs-on: ubuntu-latest
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      # TODO: Consolidate these env vars. They shouldn't be required for slack notification
-      # They are only required because `test-project.sh` hardcodes the names
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
-      ##
-      SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
-      SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
       SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
     steps:
