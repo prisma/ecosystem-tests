@@ -35,6 +35,9 @@ jobs:
       - frameworks
       - platforms
       - platforms-serverless
+      - platforms-napi
+      - platforms-serverless-napi
+      - engines
       - bundlers
       - libraries
       - databases
@@ -59,6 +62,9 @@ jobs:
       - frameworks
       - platforms
       - platforms-serverless
+      - platforms-napi
+      - platforms-serverless-napi
+      - engines
       - bundlers
       - libraries
       - databases
@@ -72,8 +78,8 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
-  ####################################################
-  ### real jobs after this
+####################################################
+### real jobs after this
 
   process-managers:
     needs: start-time
@@ -81,7 +87,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] # ['napi', 'binary']
         feature: [pm2]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -96,9 +102,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -126,11 +132,15 @@ jobs:
       fail-fast: false
       matrix:
         engine: ['napi', 'binary']
-        feature: [auto-reconnect, browser-build, studio, napi-preview-feature]
+        feature: [
+          auto-reconnect, 
+          browser-build, 
+          studio,
+          generate-client-and-cli-install,
+          generate-client-install,
+          generate-client-install-on-sub-project
+        ]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          - engine: napi
-            feature: studio
     runs-on: ${{ matrix.os }}
 
     env:
@@ -165,6 +175,40 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+
+  engines:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [napi-preview-feature]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      CI: 1
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: test engines - ${{ matrix.feature }}
+        run: bash .github/scripts/test-project.sh engines ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh engines ${{ matrix.feature }}
 
   os:
     needs: start-time
@@ -304,7 +348,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         packager:
           - npm
           - npm-global
@@ -326,9 +370,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -353,7 +397,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         framework:
           - nestjs
           - nextjs
@@ -371,9 +415,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -462,8 +506,6 @@ jobs:
           - codesandbox
           - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          - platform: heroku # https://github.com/prisma/e2e-tests/issues/1748
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
     
@@ -618,10 +660,7 @@ jobs:
           - serverless-framework-lambda
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
-          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/e2e-tests/issues/1748
-          - platform: azure-functions-linux # Env vars not passed to n-api, see https://github.com/prisma/e2e-tests/issues/1748
-          - platform: firebase-functions # see https://github.com/prisma/e2e-tests/issues/1748
-          - platform: netlify-ci # see https://github.com/prisma/e2e-tests/issues/1748
+          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
 
@@ -699,7 +738,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         bundler:
           - webpack
           - parcel
@@ -719,9 +758,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -746,7 +785,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         library:
           - express
           - apollo-server
@@ -768,9 +807,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -795,7 +834,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] #['napi', 'binary']
         database:
           - digitalocean-pgbouncer
           - docker-pgbouncer
@@ -806,6 +845,7 @@ jobs:
           - gcp-postgresql-ssl
           - gcp-mysql-ssl
           - mongodb-atlas
+          - mongodb-digitalocean
           - supabase
           - supabase-pool
           - planetscale
@@ -831,6 +871,8 @@ jobs:
       GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
       GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
       DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
+      DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
+      MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
       PLANETSCALE_ORG: ${{ secrets.PLANETSCALE_ORG }}
@@ -841,9 +883,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -871,7 +913,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
+        engine: [binary] # ['napi', 'binary']
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -887,9 +929,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      #- name: Define Engine Type to test
+      #  if: ${{ matrix.engine == 'napi' }}
+      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install

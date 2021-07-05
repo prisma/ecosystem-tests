@@ -1,6 +1,6 @@
-# N-API Preview Feature Test
+# Node-API Preview Feature Test
 
-This tests that the n-api library is used in the generated client and that it works
+This tests that the node-api library is used in the generated client and that it works
 
 - Builds the required schema
 - Runs `yarn install`

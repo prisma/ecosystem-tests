@@ -1,6 +1,6 @@
-# Planetscale
+# PlanetScale
 
-Planetscale Database
+PlanetScale Database
 
 ## How to run this locally
 
@@ -10,7 +10,7 @@ You need to set several ENV variables:
 PLANETSCALE_ORG=...
 PLANETSCALE_SERVICE_TOKEN_NAME=...
 PLANETSCALE_SERVICE_TOKEN=...
-PSCALE_NO_UPDATE_NOTIFIER: true
+PSCALE_NO_UPDATE_NOTIFIER=true
 ```
 
 How to get these: https://docs.planetscale.com/tutorial/connect-any-application (and configure them for access to the database)

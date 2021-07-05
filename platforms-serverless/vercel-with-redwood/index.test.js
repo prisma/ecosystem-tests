@@ -47,7 +47,7 @@ test('should test .prisma/client files', async () => {
           'index-browser.js',
           'index.d.ts',
           'index.js',
-          'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
+          'libquery_engine-rhel-openssl-1.0.x.so.node',
           'package.json',
           'schema.prisma',
         ]
@@ -60,6 +60,7 @@ test('should test .prisma/client files', async () => {
           'schema.prisma',
         ]
   expect(data.files).toMatchObject(files)
+  console.log(data.files)
 })
 
 // TODO More testing here that the script actually works (see all the other tests)

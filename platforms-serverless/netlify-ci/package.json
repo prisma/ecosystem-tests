@@ -1,20 +1,17 @@
 {
-  "name": "netlify-ci",
+  "name": "netlify-ci-to-be-replace-on-build",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "12.20.15",
-    "netlify-cli": "3.37.14",
-    "prisma": "2.25.0-dev.39"
+    "prisma": "2.27.0-dev.27"
   },
   "scripts": {
-    "dev": "netlify dev",
+    "dev": "npx netlify dev",
     "build": "PRISMA_TELEMETRY_INFORMATION='e2e-tests platform netlify-ci build' && yarn prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "2.25.0-dev.39",
-    "fetch-retry": "^4.0.0",
-    "node-fetch": "^2.6.0"
+    "@prisma/client": "2.27.0-dev.27"
   }
 }
