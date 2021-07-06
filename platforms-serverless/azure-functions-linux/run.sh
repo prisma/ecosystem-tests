@@ -17,7 +17,7 @@ storage="prismae2elinuxstorage"
 
 az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Linux
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=*"
-az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "AZURE_FUNCTIONS_LINUX_PG_URL=$AZURE_FUNCTIONS_LINUX_PG_URL"
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DATABASE_URL=$DATABASE_URL"
 
 sleep 30
 yarn func azure functionapp publish "$app" --force
