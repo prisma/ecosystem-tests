@@ -2,6 +2,14 @@
 
 set -eux
 
+# When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
+if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+  # use the default schema at prisma/schema.prisma file
+  true
+else
+  cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
+fi
+
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
