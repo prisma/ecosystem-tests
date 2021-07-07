@@ -7,7 +7,6 @@ import {
   Prisma as PB,
 } from '../../generated/database/client2'
 
-
 const prismaA = new PCA()
 const prismaB = new PCB()
   
