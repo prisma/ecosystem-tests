@@ -8,7 +8,11 @@ on:
 
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
+  CI: 1 
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
+  DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
 
 defaults:
   run:
@@ -94,10 +98,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      PROCESS_MANAGER_PM2_PG_URL: ${{ secrets.PROCESS_MANAGER_PM2_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -113,17 +113,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh process-managers ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh process-managers ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
 
   core-features:
     needs: start-time
@@ -145,10 +153,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -164,17 +168,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh core-features ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh core-features ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
 
   engines:
     needs: start-time
@@ -188,10 +200,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -203,12 +211,20 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test engines - ${{ matrix.feature }}
-        run: bash .github/scripts/test-project.sh engines ${{ matrix.feature }}
+        run: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh engines ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
 
   os:
     needs: start-time
@@ -222,10 +238,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -241,6 +253,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+        
       - name: test on ${{ matrix.os }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
@@ -272,10 +292,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      OS_BASE_PG_URL: ${{ secrets.OS_BASE_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -288,6 +304,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
         id: run-test
@@ -314,9 +338,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       OS: ${{ matrix.os }}
 
     steps:
@@ -330,17 +351,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.binary }} ${{ matrix.os }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh binaries ${{ matrix.binary }} ${{ matrix.os }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
     needs: start-time
@@ -363,18 +392,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      PACKAGERS_NPM_PG_URL: ${{ secrets.PACKAGERS_NPM_PG_URL }}
-      PACKAGERS_PNPM_PG_URL: ${{ secrets.PACKAGERS_PNPM_PG_URL }}
-      # TODO use a single db per sub-project, waiting for 
-      # PACKAGERS_PNPM_CUSTOM_OUTPUT_1_PG_URL: ${{ secrets.PACKAGERS_PNPM_CUSTOM_OUTPUT_1_PG_URL }}
-      # PACKAGERS_PNPM_CUSTOM_OUTPUT_2_PG_URL: ${{ secrets.PACKAGERS_PNPM_CUSTOM_OUTPUT_2_PG_URL }}
-      # PACKAGERS_PNPM_DEFAULT_OUTPUT_1_PG_URL: ${{ secrets.PACKAGERS_PNPM_DEFAULT_OUTPUT_1_PG_URL }}
-      # PACKAGERS_PNPM_DEFAULT_OUTPUT_2_PG_URL: ${{ secrets.PACKAGERS_PNPM_DEFAULT_OUTPUT_2_PG_URL }}
-      PACKAGERS_YARN_PG_URL: ${{ secrets.PACKAGERS_YARN_PG_URL }}
-      PACKAGERS_YARN_WORKSPACES_PG_URL: ${{ secrets.PACKAGERS_YARN_WORKSPACES_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -388,17 +405,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh packagers ${{ matrix.packager }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.packager }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh packagers ${{ matrix.packager }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.packager }}
 
   frameworks:
     needs: start-time
@@ -415,11 +440,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      FRAMEWORK_NEXTJS_PG_URL: ${{ secrets.FRAMEWORK_NEXTJS_PG_URL }}
-      FRAMEWORK_NESTJS_PG_URL: ${{ secrets.FRAMEWORK_NESTJS_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -433,17 +453,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh frameworks ${{ matrix.framework }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.framework }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh frameworks ${{ matrix.framework }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.framework }}
 
   platforms:
     needs: start-time
@@ -462,10 +490,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
 
@@ -487,17 +511,25 @@ jobs:
         with:
           args: yarn --ignore-engines
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.platform }} - binary
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
   platforms-napi:
     needs: [start-time]
@@ -515,10 +547,6 @@ jobs:
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      HEROKU_PG_URL: ${{ secrets.HEROKU_PG_URL }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
       PRISMA_FORCE_NAPI: true
@@ -540,6 +568,14 @@ jobs:
         uses: ianwalter/puppeteer-container@v4.0.0
         with:
           args: yarn --ignore-engines
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.platform }} - napi
         id: run-test
@@ -578,24 +614,17 @@ jobs:
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
-      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
-      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
-      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
-      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -609,16 +638,11 @@ jobs:
       VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
       VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
       NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
-      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
-      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
       AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
       AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
       AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -630,17 +654,25 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.platform }} - binary
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
   platforms-serverless-napi:
     needs: [start-time]
@@ -670,24 +702,17 @@ jobs:
     env:
       PRISMA_FORCE_NAPI: true
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
-      GCP_FUNCTIONS_PG_URL: ${{ secrets.GCP_FUNCTIONS_PG_URL }}
-      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_PG_URL: ${{ secrets.NETLIFY_PG_URL }}
-      NETLIFY_ZISI_PG_URL: ${{ secrets.NETLIFY_ZISI_PG_URL }}
-      LAMBDA_PG_URL: ${{ secrets.LAMBDA_PG_URL }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
+      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -701,16 +726,11 @@ jobs:
       VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
       VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      NETLIFY_BETA_PG_URL: ${{ secrets.NETLIFY_BETA_PG_URL }}
       NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
-      AZURE_FUNCTIONS_LINUX_PG_URL: ${{ secrets.AZURE_FUNCTIONS_LINUX_PG_URL }}
-      AZURE_FUNCTIONS_WINDOWS_PG_URL: ${{ secrets.AZURE_FUNCTIONS_WINDOWS_PG_URL }}
       AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
       AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
       AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-      FIREBASE_FUNCTIONS_PG_URL: ${{ secrets.FIREBASE_FUNCTIONS_PG_URL }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      SERVERLESS_LAMBDA_PG_URL: ${{ secrets.SERVERLESS_LAMBDA_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -722,6 +742,14 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.platform }} - napi
         id: run-test
@@ -751,12 +779,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      WEBPACK_PG_URL: ${{ secrets.WEBPACK_PG_URL }}
-      PARCEL_PG_URL: ${{ secrets.PARCEL_PG_URL }}
-      ROLLUP_PG_URL: ${{ secrets.ROLLUP_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -770,17 +792,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.bundler }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh bundlers ${{ matrix.bundler }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.bundler }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh bundlers ${{ matrix.bundler }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.bundler }}
 
   libraries:
     needs: start-time
@@ -799,13 +829,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      LIBRARY_EXPRESS_PG_URL: ${{ secrets.LIBRARY_EXPRESS_PG_URL }}
-      LIBRARY_APOLLO_SERVER_PG_URL: ${{ secrets.LIBRARY_APOLLO_SERVER_PG_URL }}
-      LIBRARY_TYPE_GRAPHQL_PG_URL: ${{ secrets.LIBRARY_TYPE_GRAPHQL_PG_URL }}
-      LIBRARY_NEXUS_SCHEMA_PG_URL: ${{ secrets.LIBRARY_NEXUS_SCHEMA_PG_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -819,17 +842,25 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.library }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.library }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh libraries ${{ matrix.library }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.library }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh libraries ${{ matrix.library }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.library }}
 
   databases:
     needs: start-time
@@ -856,12 +887,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
+      START_TIME: ${{ needs.start-time.outputs.start-time }}}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
       DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
@@ -904,11 +932,11 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh databases ${{ matrix.database }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.database }}
 
   databases-macos:
     needs: start-time
@@ -924,9 +952,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
 
     steps:
@@ -950,11 +975,11 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh databases-macos ${{ matrix.database }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh databases ${{ matrix.database }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.database }}
 
   test-runners:
     needs: start-time
@@ -970,9 +995,6 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
     steps:
       - uses: actions/checkout@v2
@@ -986,14 +1008,22 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.test-runner }}_${{ matrix.os }}_${{ matrix.engine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
       - name: test ${{ matrix.test-runner }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh test-runners ${{ matrix.test-runner }}
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.test-runner }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh test-runners ${{ matrix.test-runner }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.test-runner }}
