@@ -7,8 +7,14 @@ import {
   Prisma as PB,
 } from '../../generated/database/client2'
 
+
 const prismaA = new PCA()
 const prismaB = new PCB()
+  
+afterAll(() => {
+  prismaA.$disconnect()
+  prismaB.$disconnect()
+})
 
 describe('Prisma in jest with multiple generators', () => {
   it('should work', () => {
