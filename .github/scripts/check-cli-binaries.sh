@@ -9,6 +9,7 @@ PROJECT=$2
 skipped_projects=(
   aws-graviton        # No local project at all (everything happens on server), so no `prisma` or `node_modules
   firebase-functions  # No local project at expected location (but in `functions` subfolder)
+  heroku              # no local project installation, so nothing to test locally
 )
 
 case "${skipped_projects[@]}" in  *$2*)

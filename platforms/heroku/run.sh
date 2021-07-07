@@ -10,10 +10,6 @@ else
   cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms heroku build'
-yarn install
-yarn prisma generate
-
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 

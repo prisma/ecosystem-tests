@@ -21,6 +21,7 @@ skipped_projects=(
   netlify-cli                             # Client is generated into `../functions/generated/client` via use of `output`
   jest-with-multiple-generators           # No generated Client locally in default path, both Clients have custom `output`
   generate-client-install-on-sub-project  # Client is generated into a subfolder
+  heroku                                  # no local project installation, so nothing to test locally
 )
 
 case "${skipped_projects[@]}" in  *$2*)
