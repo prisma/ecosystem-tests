@@ -9,6 +9,11 @@ import {
 
 const prismaA = new PCA()
 const prismaB = new PCB()
+  
+afterAll(() => {
+  await prismaA.$disconnect()
+  await prismaB.$disconnect()
+})
 
 describe('Prisma in jest with multiple generators', () => {
   it('should work', () => {
