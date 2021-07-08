@@ -30,10 +30,10 @@ echo "running $dir/$project"
 
 
 # Find schema, if it contains `env("DATABASE_URL")`, db push that schema to database
-if [[ "$project" = "planetscale" ]]
+if [[ "$project" = "foobar" ]]
 then
   true
-  # have to skip planetscale until https://github.com/planetscale/cli/issues/322 is implemented
+  # if a project needs to be skipped for any reason, replace `foobar` with its folder name
 else
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
