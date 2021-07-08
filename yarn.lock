@@ -2,22 +2,25 @@
 # yarn lockfile v1
 
 
-"@prisma/client@2.26.0-dev.30":
-  version "2.26.0-dev.30"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.26.0-dev.30.tgz#06320f8967339d6337f7b79bc92e3339f07ffa36"
-  integrity sha512-df4oUV/0GkcETjZPNsXAkHXNhYuZpjtRfGXJ2/pR8+XOMo0ipaO0I28VmbDB9gfo5np42x4ZlFpAPvd2aa+3PQ==
-  dependencies:
-    "@prisma/engines-version" "2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f"
+"@tsconfig/node10@^1.0.7":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.8.tgz#c1e4e80d6f964fbecb3359c43bd48b40f7cadad9"
+  integrity sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg==
 
-"@prisma/engines-version@2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f":
-  version "2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f"
-  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f.tgz#31267d00a6fa41d89d27fba942e37491ae8af4ce"
-  integrity sha512-mnuRsXloul5czd+BmSvprIKj7guu1+3SA9eTD0X1JVk1WDE4W0qr4Fv9iZFbL7wVeAzetEJIeldV6qkd1Wj2Ug==
+"@tsconfig/node12@^1.0.7":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node12/-/node12-1.0.9.tgz#62c1f6dee2ebd9aead80dc3afa56810e58e1a04c"
+  integrity sha512-/yBMcem+fbvhSREH+s14YJi18sp7J9jpuhYByADT2rypfajMZZN4WQ6zBGgBKp53NKmqI36wFYDb3yaMPurITw==
 
-"@prisma/engines@2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f":
-  version "2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f.tgz#4110ef0b0f6b512c039e4a44f44e2f4acab211cc"
-  integrity sha512-0SdYyEI4aJrErsR5dYCE+9BvHHBUaZv4IpPEl0XpGPIhN3gkdqnS2UbzRjSasC6+kgBPpwphFre7ReDJMD0ChA==
+"@tsconfig/node14@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node14/-/node14-1.0.1.tgz#95f2d167ffb9b8d2068b0b235302fafd4df711f2"
+  integrity sha512-509r2+yARFfHHE7T6Puu2jjkoycftovhXRqW328PDXTVGKihlb1P8Z9mMZH04ebyajfRY7dedfGynlrFHJUQCg==
+
+"@tsconfig/node16@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.1.tgz#a6ca6a9a0ff366af433f42f5f0e124794ff6b8f1"
+  integrity sha512-FTgBI767POY/lKNDNbIzgAX6miIDBs6NTCbdlDb8TrWovHsSvaVIZDlTqym29C6UqhzwcJx4CYr+AlrMywA0cA==
 
 "@types/node@14.14.30":
   version "14.14.30"
@@ -131,13 +134,6 @@ path-is-absolute@^1.0.0:
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
   integrity sha1-F0uSaHNVNP+8es5r9TpanhtcX18=
 
-prisma@2.26.0-dev.30:
-  version "2.26.0-dev.30"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.26.0-dev.30.tgz#cf9dc6b84c1e2c144d2c2ae0a68607262a274c4e"
-  integrity sha512-LWJzlQvvVHpx8M+UF2lW84bD5GerqalIaoLxTjZrn19Zzb2C0ePwuMEmMRh6USLBQiXJtggtZ0hwN8CK/rN5BQ==
-  dependencies:
-    "@prisma/engines" "2.26.0-17.62c023f4f3219f87170b9b344189731f047a053f"
-
 source-map-support@^0.5.17:
   version "0.5.19"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
@@ -151,11 +147,15 @@ source-map@^0.6.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-ts-node@9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-9.1.1.tgz#51a9a450a3e959401bda5f004a72d54b936d376d"
-  integrity sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==
+ts-node@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.0.0.tgz#05f10b9a716b0b624129ad44f0ea05dac84ba3be"
+  integrity sha512-ROWeOIUvfFbPZkoDis0L/55Fk+6gFQNZwwKPLinacRl6tsxstTF1DbAcLKkovwnpKMVvOMHP1TIbnwXwtLg1gg==
   dependencies:
+    "@tsconfig/node10" "^1.0.7"
+    "@tsconfig/node12" "^1.0.7"
+    "@tsconfig/node14" "^1.0.0"
+    "@tsconfig/node16" "^1.0.1"
     arg "^4.1.0"
     create-require "^1.1.0"
     diff "^4.0.1"
