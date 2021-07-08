@@ -476,6 +476,7 @@ jobs:
   platforms:
     needs: start-time
     timeout-minutes: 60
+
     strategy:
       fail-fast: false
       matrix:
@@ -484,6 +485,7 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
+          - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -492,6 +494,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
 
     steps:
       - uses: actions/checkout@v2
@@ -532,7 +535,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
   platforms-napi:
-    needs: [start-time]
+    needs: start-time
     timeout-minutes: 60
 
     strategy:
@@ -542,13 +545,16 @@ jobs:
           - heroku
           - aws-graviton
           - codesandbox
+          - m1-macstadium
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
+    
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
       PRISMA_FORCE_NAPI: true
 
     steps:

@@ -23,6 +23,7 @@ skipped_projects=(
   generate-client-install-on-sub-project  # Client is generated into a subfolder
   pnpm-workspaces-custom-output           # Client is generated into a subfolder
   pnpm-workspaces-default-output          # Client is generated into a subfolder
+  m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
 )
 
 case "${skipped_projects[@]}" in  *$2*)
