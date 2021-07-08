@@ -11,8 +11,8 @@ const prismaA = new PCA()
 const prismaB = new PCB()
   
 afterAll(() => {
-  prismaA.$disconnect()
-  prismaB.$disconnect()
+  await prismaA.$disconnect()
+  await prismaB.$disconnect()
 })
 
 describe('Prisma in jest with multiple generators', () => {
