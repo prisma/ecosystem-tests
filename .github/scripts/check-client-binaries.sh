@@ -13,7 +13,7 @@ project=$2
 skipped_projects=(
   prisma-dbml-generator                   # No generated Client, so only Client stub with no engine included
   prisma-json-schema-generator            # No generated Client, so only Client stub with no engine included
-  engine-types                   #
+  engine-types                            #
   pkg                                     # No generated Client, so only Client stub with no engine included
   aws-graviton                            # No local project at all (everything happens on server), so no `prisma` or `node_modules
   firebase-functions                      # No local project at expected location (but in `functions` subfolder)
