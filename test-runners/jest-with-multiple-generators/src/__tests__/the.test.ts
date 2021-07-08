@@ -10,7 +10,7 @@ import {
 const prismaA = new PCA()
 const prismaB = new PCB()
   
-afterAll(() => {
+afterAll(async () => {
   await prismaA.$disconnect()
   await prismaB.$disconnect()
 })
