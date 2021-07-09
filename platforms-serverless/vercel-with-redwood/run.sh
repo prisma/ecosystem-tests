@@ -11,6 +11,7 @@ echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
 
+yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
   yarn -s vercel --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --prod --scope=prisma --confirm --force 1> deployment-url.txt
