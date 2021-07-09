@@ -14,9 +14,9 @@ echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
 yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
-  yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --prod --scope=prisma --confirm --force 1> deployment-url.txt
 else
-  yarn -s vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm --force 1> deployment-url.txt
 fi
 
 echo ''
