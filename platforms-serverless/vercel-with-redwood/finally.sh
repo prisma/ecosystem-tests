@@ -2,4 +2,6 @@
 
 set -eu
 
-yarn vercel logs e2e-vercel-with-redwood.vercel.app --token=$VERCEL_TOKEN --scope=prisma
+cat deployment-url.txt
+DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
+yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=prisma
