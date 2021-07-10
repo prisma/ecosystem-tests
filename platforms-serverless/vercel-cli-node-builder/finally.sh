@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 cat deployment-url.txt
 DEPLOYED_URL=$( tail -n 1 deployment-url.txt )

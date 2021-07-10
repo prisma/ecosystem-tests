@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-with-redwood build'
 yarn

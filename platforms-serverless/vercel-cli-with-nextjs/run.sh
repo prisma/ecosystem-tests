@@ -1,9 +1,10 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-with-nextjs build'
 yarn
+
 export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
 export VERCEL_ORG_ID=$VERCEL_WITH_NEXTJS_ORG_ID
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
@@ -15,7 +16,6 @@ if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
 else
   yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --force --confirm 1> deployment-url.txt
 fi
-
 
 echo ''
 cat deployment-url.txt

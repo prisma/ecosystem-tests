@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const fs = require('fs')
+const pjson = require('./package.json')
 
 function getDeploymentURL() {
   const data = fs.readFileSync('./deployment-url.txt', { encoding: 'utf8' })
@@ -8,8 +9,6 @@ function getDeploymentURL() {
 // const endpoint = 'https://e2e-vercel-with-nextjs.vercel.app/api'
 // const endpoint = 'http://localhost:3001/api'
 const endpoint = getDeploymentURL()
-
-const pjson = require('./package.json')
 
 test('prisma version and output', async () => {
   const r = await fetch(endpoint + '/api')
