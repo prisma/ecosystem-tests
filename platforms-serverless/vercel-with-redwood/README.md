@@ -1,24 +1,24 @@
-# Vercel with Redwood
+# Redwood
 
-[RedwoodJS](https://redwoodjs.com/) deployed on Vercel.
+> **WARNING:** RedwoodJS software has not reached a stable version 1.0 and should not be considered suitable for production use. In the "make it work; make it right; make it fast" paradigm, Redwood is in the later stages of the "make it work" phase.
 
-## How to run this locally
+## Getting Started
+- [Tutorial](https://redwoodjs.com/tutorial/welcome-to-redwood): getting started and complete overview guide.
+- [Docs](https://redwoodjs.com/docs/introduction): using the Redwood Router, handling assets and files, list of command-line tools, and more.
+- [Redwood Community](https://community.redwoodjs.com): get help, share tips and tricks, and collaborate on everything about RedwoodJS.
 
-### Vercel authentication
+### Setup
 
-A vercel token needs to be set with the environment variable `VERCEL_TOKEN`.
+We use Yarn as our package manager. To get the dependencies installed, just do this in the root directory:
 
-Alternatively, you can login using `vercel login`.
-
-### Environment variables
-
-The environment variable `REDWOOD_WITH_VERCEL_PG_URL` should point to a postgres database.
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
-
-### Run tests
-
-```shell script
-yarn rw dev # change the link in index.test.js to http://localhost:8911/graphql
-sh test.sh
+```terminal
+yarn install
 ```
+
+### Fire it up
+
+```terminal
+yarn redwood dev
+```
+
+Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`. 
