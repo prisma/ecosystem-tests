@@ -24,6 +24,7 @@ skipped_projects=(
   pnpm-workspaces-custom-output           # Client is generated into a subfolder
   pnpm-workspaces-default-output          # Client is generated into a subfolder
   m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  vercel-cli-with-redwood                 # Not generated locally
 )
 
 case "${skipped_projects[@]}" in  *$2*)
