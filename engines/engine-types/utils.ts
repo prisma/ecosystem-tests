@@ -209,23 +209,37 @@ export function getCustomLibraryPath() {
 }
 
 export async function getCustomEngines() {
-  const binary_keep = './custom-engines/binary/' + os.type() + '/.keep'
+  console.log("getCustomeEngines start")
+  const binaryFolder = './custom-engines/binary/' + os.type()
+  const binary_keep = binaryFolder + '/.keep'
   if(fs.existsSync(binary_keep)) {
     fs.unlinkSync(binary_keep)
     await install()
     await version()
-    fs.copySync('./node_modules/@prisma/engines', './custom-engines/binary/' + os.type())
+    fs.copySync('./node_modules/@prisma/engines', binaryFolder)
   }
 
   fs.rmdirSync('./node_modules/@prisma/engines', { recursive: true })
 
-  const library_keep = './custom-engines/library/' + os.type() + '/.keep'
+  const libraryFolder = './custom-engines/library/' + os.type()
+  const library_keep = libraryFolder + '/.keep'
   if(fs.existsSync(library_keep)) {
     fs.unlinkSync(library_keep)
     process.env.PRISMA_FORCE_NAPI='true'
     await install()
     await version()
-    fs.copySync('./node_modules/@prisma/engines', './custom-engines/library/' + os.type())
+    fs.copySync('./node_modules/@prisma/engines', libraryFolder)
     delete process.env.PRISMA_FORCE_NAPI
   }
+  console.log("getCustomeEngines end")
+
+  console.log("binaryFolder:")
+  fs.readdirSync(binaryFolder).forEach((file: any) => {
+    console.log(file);
+  });
+
+  console.log("libraryFolder:")
+  fs.readdirSync(libraryFolder).forEach((file: any) => {
+    console.log(file);
+  });
 }

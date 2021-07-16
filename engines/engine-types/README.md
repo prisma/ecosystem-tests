@@ -1,6 +1,6 @@
-# Node-API Preview Feature Test
+# Engine Types
 
-This tests that the node-api library is used in the generated client and that it works
+This tests the different configurations around engine types (binary vs. node-api library), that the correct one is used in the generated client and that it works
 
 - Builds the required schema
 - Runs `yarn install`
