@@ -39,8 +39,8 @@ jobs:
       - frameworks
       - platforms
       - platforms-serverless
-      - platforms-napi
-      - platforms-serverless-napi
+      - platforms-node-api
+      - platforms-serverless-node-api
       - engines
       - bundlers
       - libraries
@@ -66,8 +66,8 @@ jobs:
       - frameworks
       - platforms
       - platforms-serverless
-      - platforms-napi
-      - platforms-serverless-napi
+      - platforms-node-api
+      - platforms-serverless-node-api
       - engines
       - bundlers
       - libraries
@@ -91,8 +91,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] # ['napi', 'binary']
         feature: [pm2]
+        engine: [binary] # ['node-api', 'binary']
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -103,7 +103,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
@@ -139,7 +139,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
         feature: [
           auto-reconnect, 
           browser-build, 
@@ -148,6 +147,7 @@ jobs:
           generate-client-install,
           generate-client-install-on-sub-project
         ]
+        engine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -158,7 +158,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
+        if: ${{ matrix.engine == 'node-api' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
@@ -232,8 +232,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
+        engine: ['node-api', 'binary']
     runs-on: ${{ matrix.os }}
 
     env:
@@ -243,7 +243,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
+        if: ${{ matrix.engine == 'node-api' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
@@ -279,7 +279,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
         node:
           - 12
           - 14
@@ -287,6 +286,7 @@ jobs:
           - 16
           - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+        engine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -297,7 +297,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
+        if: ${{ matrix.engine == 'node-api' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
@@ -331,9 +331,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
-        os: [ubuntu-latest, macos-latest, windows-latest]
         binary: [pkg]
+        engine: ['node-api', 'binary']
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -344,7 +344,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
+        if: ${{ matrix.engine == 'node-api' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - uses: actions/setup-node@v2
@@ -377,7 +377,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] #['napi', 'binary']
         packager:
           - npm
           - npm-global
@@ -387,6 +386,7 @@ jobs:
           - yarn
           - yarn-workspaces
           - yarn2-without-pnp
+        engine: [binary] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -397,7 +397,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
@@ -431,10 +431,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] #['napi', 'binary']
         framework:
           - nestjs
           - nextjs
+        engine: [binary] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -445,7 +445,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
@@ -480,12 +480,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['binary'] # see extracted napi below
         platform:
           - heroku
           - aws-graviton
           - codesandbox
           - m1-macstadium
+        engine: ['binary'] # see extracted node-api below
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -534,8 +534,8 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
-  platforms-napi:
-    needs: start-time
+  platforms-node-api:
+    needs: [start-time]
     timeout-minutes: 60
 
     strategy:
@@ -546,6 +546,7 @@ jobs:
           - aws-graviton
           - codesandbox
           - m1-macstadium
+        engine: ['node-api'] # see binary above
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -583,7 +584,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.platform }} - napi
+      - name: test ${{ matrix.platform }} - node-api
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -601,7 +602,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['binary'] # see extracted napi below
         platform:
           - lambda
           - vercel-node-builder
@@ -615,6 +615,7 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
+        engine: ['binary'] # see extracted node-api below
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
@@ -680,7 +681,7 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
-  platforms-serverless-napi:
+  platforms-serverless-node-api:
     needs: [start-time]
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -699,6 +700,7 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
+        engine: ['node-api'] # see binary above
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
           - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
@@ -757,7 +759,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.platform }} - napi
+      - name: test ${{ matrix.platform }} - node-api
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -775,11 +777,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] #['napi', 'binary']
         bundler:
           - webpack
           - parcel
           - rollup
+        engine: [binary] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -790,7 +792,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
@@ -824,12 +826,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] #['napi', 'binary']
         library:
           - express
           - apollo-server
           - type-graphql
           - nexus-schema
+        engine: [binary] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -840,7 +842,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
@@ -874,7 +876,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] #['napi', 'binary']
         database:
           - digitalocean-pgbouncer
           - docker-pgbouncer
@@ -889,6 +890,7 @@ jobs:
           - supabase
           - supabase-pool
           - planetscale
+        engine: [binary] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -921,7 +923,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
@@ -950,7 +952,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] # ['napi', 'binary']
+        engine: [binary] # ['node-api', 'binary']
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -964,7 +966,7 @@ jobs:
       - uses: actions/checkout@v2
 
       #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'napi' }}
+      #  if: ${{ matrix.engine == 'node-api' }}
       #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: Install Dependencies
@@ -993,9 +995,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: ['napi', 'binary']
         test-runner:
           - jest-with-multiple-generators
+        engine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -1006,7 +1008,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'napi' }}
+        if: ${{ matrix.engine == 'node-api' }}
         run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
 
       - name: use node 12
