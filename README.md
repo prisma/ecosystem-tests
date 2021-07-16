@@ -78,3 +78,4 @@ set -eu
 If you need additional dependencies such as CLIs, you can install them in the optional `prepare.sh` in a specific folder. It will automatically be picked up to run before the `run.sh` file does.
 
 **Note:** It's important to add `prisma` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
+

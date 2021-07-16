@@ -15,6 +15,6 @@ fi
 
 cd functions/ && sh prepare_in_project.sh "$func" && cd ..
 
-firebase functions:config:set prisma.db="$FIREBASE_FUNCTIONS_PG_URL"
+firebase functions:config:set prisma.db="$DATABASE_URL"
 
 firebase deploy --token "$FIREBASE_TOKEN" --only "functions:$func"
