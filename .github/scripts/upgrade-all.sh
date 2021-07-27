@@ -31,7 +31,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   echo "running $item"
   cd "$(dirname "$item")/"
 
-  pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client' || pkg.name == 'web') { process.exit(0); }"
+  pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
   valid="$(node -e "$pkg;console.log('true')")"
   hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
