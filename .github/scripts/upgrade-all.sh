@@ -35,6 +35,20 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   valid="$(node -e "$pkg;console.log('true')")"
   hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
+  if [ -f "upgrade.sh" ]; then
+    echo "-----------------------------"
+    echo ""
+    echo "upgrade script found, executing $(pwd)/upgrade.sh"
+    echo ""
+
+    bash upgrade.sh
+
+    echo ""
+    echo "finished upgrade.sh"
+    echo ""
+    echo "-----------------------------"
+  fi
+
   ## ACTION
   if [ "$hasResolutions" = "true" ]; then
     json -I -f package.json -e "this.resolutions['prisma']='$version'"
