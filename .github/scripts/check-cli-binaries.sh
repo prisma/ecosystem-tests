@@ -37,7 +37,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
 esac
 echo "Assumed OS: $os_name"
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
+if [ "$PRISMA_CLI_QUERY_ENGINE_TYPE" == "binary" ]; then
   echo "Node-API: Disabled"
   case $os_name in
     linux)
