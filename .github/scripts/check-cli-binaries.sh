@@ -73,9 +73,9 @@ fi
 
 echo "--- yarn prisma -v ---"
 yarn -s prisma -v
-echo "--- ls node_modules/@prisma/engines/ ---"
+echo "--- ls -lh node_modules/@prisma/engines/ ---"
 ls node_modules/@prisma/engines/
-echo "--- ls node_modules/prisma/ ---"
+echo "--- ls -lh node_modules/prisma/ ---"
 ls node_modules/prisma/
 echo "---"
 
