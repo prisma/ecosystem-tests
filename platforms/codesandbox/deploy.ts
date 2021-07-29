@@ -98,9 +98,9 @@ async function main() {
       }
     })
     .reduce((files, file) => {
-      // Enables Node-API in Codesandbox 
-      if(file.filePath === 'prisma/.env' && process.env.PRISMA_FORCE_NAPI === 'true'){
-        file.content = file.content + `\nPRISMA_FORCE_NAPI=true`
+      // Sets Client EngineType (binary/node-api) in Codesandbox
+      if(file.filePath === 'prisma/.env'){
+        file.content = file.content + `\PRISMA_CLIENT_ENGINE_TYPE=${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
       }
       return {
         ...files,

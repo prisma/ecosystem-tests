@@ -2,12 +2,12 @@
 
 set -eux
 
-# When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
-if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+# When PRISMA_CLIENT_ENGINE_TYPE is set to binary, overwrite existing schema file with one that sets the engineType to `binary`
+if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
+    cp ./prisma/schema-with-binary.prisma ./prisma/schema.prisma
+else
   # use the default schema at prisma/schema.prisma file
   true
-else
-  cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
 fi
 
 export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms heroku build'
