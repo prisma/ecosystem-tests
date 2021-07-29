@@ -8,7 +8,7 @@ on:
 
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
-  CI: 1 
+  CI: 1
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
@@ -92,7 +92,7 @@ jobs:
       fail-fast: false
       matrix:
         feature: [pm2]
-        engine: [binary] # ['node-api', 'binary']
+        clientEngine: [node-api] # ['node-api', 'binary']
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -102,9 +102,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -117,11 +116,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -140,14 +139,14 @@ jobs:
       fail-fast: false
       matrix:
         feature: [
-          auto-reconnect, 
-          browser-build, 
+          auto-reconnect,
+          browser-build,
           studio,
           generate-client-and-cli-install,
           generate-client-install,
           generate-client-install-on-sub-project
         ]
-        engine: ['node-api', 'binary']
+        clientEngine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -157,9 +156,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'node-api' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -172,11 +170,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{matrix.engine}}
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -233,7 +231,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        engine: ['node-api', 'binary']
+        clientEngine: ['node-api', 'binary']
     runs-on: ${{ matrix.os }}
 
     env:
@@ -242,9 +240,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'node-api' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -257,11 +254,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-        
-      - name: test on ${{ matrix.os }} - ${{matrix.engine}}
+
+      - name: test on ${{ matrix.os }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -286,7 +283,7 @@ jobs:
           - 16
           - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
-        engine: ['node-api', 'binary']
+        clientEngine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -296,9 +293,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'node-api' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v2
@@ -309,11 +305,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test on node ${{ matrix.node }} - ${{matrix.engine}}
+      - name: test on node ${{ matrix.node }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -332,7 +328,7 @@ jobs:
       fail-fast: false
       matrix:
         binary: [pkg]
-        engine: ['node-api', 'binary']
+        clientEngine: ['node-api', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
@@ -343,9 +339,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'node-api' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - uses: actions/setup-node@v2
         with:
@@ -355,11 +350,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.engine}}
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -386,7 +381,7 @@ jobs:
           - yarn
           - yarn-workspaces
           - yarn2-without-pnp
-        engine: [binary] #['node-api', 'binary']
+        clientEngine: [node-api] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -396,9 +391,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -409,11 +403,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: packager ${{ matrix.packager }} - ${{matrix.engine}}
+      - name: packager ${{ matrix.packager }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -434,7 +428,7 @@ jobs:
         framework:
           - nestjs
           - nextjs
-        engine: [binary] #['node-api', 'binary']
+        clientEngine: [node-api] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -444,9 +438,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -457,11 +450,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: framework ${{ matrix.framework }} - ${{matrix.engine}}
+      - name: framework ${{ matrix.framework }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -485,7 +478,7 @@ jobs:
           - aws-graviton
           - codesandbox
           - m1-macstadium
-        engine: ['binary'] # see extracted node-api below
+        clientEngine: ['node-api','binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -504,6 +497,9 @@ jobs:
         with:
           node-version: 12
 
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn
 
@@ -518,11 +514,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.platform }} - binary
+      - name: test ${{ matrix.platform }} - {{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -533,68 +529,6 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
-
-  platforms-node-api:
-    needs: [start-time]
-    timeout-minutes: 60
-
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - heroku
-          - aws-graviton
-          - codesandbox
-          - m1-macstadium
-        engine: ['node-api'] # see binary above
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
-    
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
-      PRISMA_FORCE_NAPI: true
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: use node 12
-        uses: actions/setup-node@v2
-        with:
-          node-version: 12
-
-      - name: Install Dependencies
-        run: yarn
-
-      # Install Puppeteer for Codesandbox test only
-      - name: Install Puppeteer
-        if: ${{ matrix.platform == 'codesandbox' }}
-        uses: ianwalter/puppeteer-container@v4.0.0
-        with:
-          args: yarn --ignore-engines
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.engine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - node-api
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh platforms ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh platforms ${{ matrix.platform }}
 
   platforms-serverless:
     needs: start-time
@@ -615,8 +549,12 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
-        engine: ['binary'] # see extracted node-api below
+        clientEngine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
+          - clientEngine: node-api
+            platform: azure-functions-windows
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
     env:
@@ -653,10 +591,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: use node 14
         uses: actions/setup-node@v2
         with:
           node-version: 14
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn
@@ -669,7 +611,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.platform }} - binary
+      - name: test ${{ matrix.platform }} - {{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -681,96 +623,6 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
 
-  platforms-serverless-node-api:
-    needs: [start-time]
-    timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - lambda
-          - vercel-node-builder
-          - vercel-cli
-          - vercel-with-redwood
-          - vercel-with-nextjs
-          - netlify-cli
-          - netlify-ci
-          - gcp-functions
-          - firebase-functions
-          - azure-functions-linux
-          - azure-functions-windows
-          - serverless-framework-lambda
-        engine: ['node-api'] # see binary above
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          - platform: azure-functions-windows # 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
-    runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
-
-    env:
-      PRISMA_FORCE_NAPI: true
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-      NPM_CONFIG_LOGLEVEL: error
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_ZISI: ${{ secrets.SSH_KEY_NETLIFY_ZISI }}
-      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ROLE: ${{ secrets.AWS_ROLE }}
-      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
-      VERCEL_NODE_BUILDER_ORG_ID: ${{ secrets.VERCEL_NODE_BUILDER_ORG_ID }}
-      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
-      VERCEL_WITH_REDWOOD_ORG_ID: ${{ secrets.VERCEL_WITH_REDWOOD_ORG_ID }}
-      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_ORG_ID: ${{ secrets.VERCEL_WITH_NEXTJS_ORG_ID }}
-      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
-      VERCEL_API_ORG_ID: ${{ secrets.VERCEL_API_ORG_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      NETLIFY_BUILD_LIFECYCLE_TRIAL: ${{ secrets.NETLIFY_BUILD_LIFECYCLE_TRIAL }}
-      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
-      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
-      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: use node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Dependencies
-        run: yarn
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - node-api
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
-
   bundlers:
     needs: start-time
 
@@ -781,7 +633,7 @@ jobs:
           - webpack
           - parcel
           - rollup
-        engine: [binary] #['node-api', 'binary']
+        clientEngine: [node-api] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -791,9 +643,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -831,7 +682,7 @@ jobs:
           - apollo-server
           - type-graphql
           - nexus-schema
-        engine: [binary] #['node-api', 'binary']
+        clientEngine: [node-api] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -841,9 +692,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -854,11 +704,11 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.library }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.library }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.library }} - ${{matrix.engine}}
+      - name: test ${{ matrix.library }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -890,7 +740,7 @@ jobs:
           - supabase
           - supabase-pool
           - planetscale
-        engine: [binary] #['node-api', 'binary']
+        clientEngine: [node-api] #['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -922,9 +772,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -952,7 +801,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [binary] # ['node-api', 'binary']
+        clientEngine: [node-api] # ['node-api', 'binary']
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -965,9 +814,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -997,7 +845,7 @@ jobs:
       matrix:
         test-runner:
           - jest-with-multiple-generators
-        engine: ['node-api', 'binary']
+        clientEngine: ['node-api', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -1007,9 +855,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Define Engine Type to test
-        if: ${{ matrix.engine == 'node-api' }}
-        run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
+      # - name: Define Client Engine Type to test
+      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE={{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -1020,7 +867,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.test-runner }}_${{ matrix.os }}_${{ matrix.engine }}
+          replace=${{ github.job }}_${{ matrix.test-runner }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
