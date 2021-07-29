@@ -8,7 +8,7 @@ echo "$GCP_FUNCTIONS_ACCOUNT"
 
 # When PRISMA_CLIENT_ENGINE_TYPE is set to `binary`, overwrite existing schema file with one that sets the engineType to 'binary'
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  cp ./functions/prisma/schema-with-binary.prisma ./functions/prisma/schema.prisma
+  cp ./prisma/schema-with-binary.prisma ./prisma/schema.prisma
 else
   # use the default schema at prisma/schema.prisma file
   true
