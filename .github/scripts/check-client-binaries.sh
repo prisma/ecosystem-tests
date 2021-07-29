@@ -81,7 +81,7 @@ else
 fi
 
 echo "--- ls node_modules/.prisma/client/ ---"
-ls node_modules/.prisma/client/
+ls -lh node_modules/.prisma/client/
 echo "---"
 if [ -f "$qe_location" ] ; then
   echo "✔ Correct Query Engine exists"
