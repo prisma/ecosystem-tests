@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 # checks whether PRISMA_FORCE_NAPI has length equal to zero
 if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then

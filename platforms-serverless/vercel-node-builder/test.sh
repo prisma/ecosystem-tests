@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
 
 # checks whether PRISMA_FORCE_NAPI has length equal to zero

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
   echo "Node-API: Disabled"
