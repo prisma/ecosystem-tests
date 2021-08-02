@@ -1,78 +1,48 @@
-import { runTest, getCustomLibraryPath, getCustomBinaryPath, getCustomEngines } from './utils'
+import { EngineType } from './constants';
+import {
+  getCustomBinaryPath,
+  getCustomEngines,
+  getCustomLibraryPath,
+  runTest,
+} from './utils'
 
 // TODO set cutom binary (!) path and see if it is ignored
 describe('Library', () => {
-
   beforeAll(() => {
     return getCustomEngines()
   })
-  
-  test('Preview Feature, uses default binary for CLI and default library for Client', async () => {
-    const options = {
-      previewFeatures: ['nApi'],
-    }
+
+  test('default', async () => {
+    const options = {}
     await runTest(options)
   })
 
-  test('PRISMA_FORCE_NAPI=true, uses default library', async () => {
+  test('env(PRISMA_CLI_QUERY_ENGINE_TYPE=binary)', async () => {
     const options = {
       env: {
-        PRISMA_FORCE_NAPI: 'true',
+        PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Binary,
       },
     }
     await runTest(options)
   })
 
-  test('PRISMA_FORCE_NAPI=true and Preview Feature, uses default library', async () => {
+  test('env(PRISMA_QUERY_ENGINE_LIBRARY): uses supplied library', async () => {
     const options = {
       env: {
-        PRISMA_FORCE_NAPI: 'true',
-      },
-      previewFeatures: ['nApi'],
-    }
-    await runTest(options)
-  })
-
-  test('PRISMA_FORCE_NAPI=true and PRISMA_QUERY_ENGINE_LIBRARY, uses supplied library', async () => {
-    const options = {
-      env: {
-        PRISMA_FORCE_NAPI: 'true',
-        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
+        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),
       },
     }
     await runTest(options)
   })
 
-  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses default binary for CLI and supplied library for Client', async () => {
+  test('env(PRISMA_CLI_QUERY_ENGINE_TYPE=binary, PRISMA_QUERY_ENGINE_LIBRARY, PRISMA_QUERY_ENGINE_BINARY): uses supplied binary for CLI and supplied library for Client', async () => {
     const options = {
-      previewFeatures: ['nApi'],
       env: {
-        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
-      },
-    }
-    await runTest(options)
-  })
-
-  test('PRISMA_FORCE_NAPI=true and Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY, uses supplied library', async () => {
-    const options = {
-      previewFeatures: ['nApi'],
-      env: {
-        PRISMA_FORCE_NAPI: 'true',
-        PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath()
-      },
-    }
-    await runTest(options)
-  })
-
-  test('Preview Feature and PRISMA_QUERY_ENGINE_LIBRARY and PRISMA_QUERY_ENGINE_BINARY, uses supplied binary for CLI and supplied library for Client', async () => {
-    const options = {
-      previewFeatures: ['nApi'],
-      env: {
+        PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Binary,
         PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),
         PRISMA_QUERY_ENGINE_BINARY: getCustomBinaryPath(),
       },
     }
     await runTest(options)
   })
-  
 })
