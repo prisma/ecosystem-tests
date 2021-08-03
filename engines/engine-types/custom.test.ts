@@ -1,9 +1,7 @@
 import { EngineType } from './constants'
 import {
   getCustomBinaryPath,
-  getCustomEngines,
   getCustomLibraryPath,
-  getExpectedEngines,
   runTest,
 } from './utils'
 
@@ -30,12 +28,11 @@ function buildTests() {
                 PRISMA_QUERY_ENGINE_LIBRARY: customQELibrary,
                 PRISMA_QUERY_ENGINE_BINARY: customQEBinary,
               },
-              engineType: engineType,
+              schema: {
+                engineType: engineType,
+              }
             }
-            const expected = getExpectedEngines(options)
-            test(`expected(CLI=${expected.cliEngineType}, CLIENT=${expected.clientEngineType}) env(CLIENT=${clientEngineType}, CLI=${cliQueryEngineType} CUSTOM_QE_LIB=${customQELibrary} CUSTOM_QE_BINARY=${customQEBinary}) schema(engineType=${engineType})`, async () => {
-              await runTest(options)
-            })
+            runTest(options)
           })
         })
       })
@@ -43,9 +40,5 @@ function buildTests() {
   })
 }
 describe.skip('Custom', () => {
-  beforeAll(() => {
-    return getCustomEngines()
-  })
-
   buildTests()
 })
