@@ -2,7 +2,13 @@ import execa from 'execa'
 import fs from 'fs-extra'
 import os from 'os'
 import path from 'path'
-import { DEFAULT_CLIENT_ENGINE_TYPE, DEFAULT_CLI_QUERY_ENGINE_TYPE, EngineType, Expected, TestContext } from './constants'
+import {
+  DEFAULT_CLIENT_ENGINE_TYPE,
+  DEFAULT_CLI_QUERY_ENGINE_TYPE,
+  EngineType,
+  Expected,
+  TestContext,
+} from './constants'
 
 const defaultExecaOptions = {
   preferLocal: true,
@@ -181,15 +187,115 @@ async function setupTmpProject(projectDir: string) {
 function generateTestName(options: TestContext, expected: Expected) {
   const expectedStr = `expected(CLI=${expected.cliEngineType}, CLIENT=${expected.clientEngineType})`
   const envOverridesStr = options?.env
-    ? `env(PRISMA_CLIENT_ENGINE_TYPE=${options?.env?.PRISMA_CLIENT_ENGINE_TYPE}, PRISMA_CLI_QUERY_ENGINE_TYPE=${options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE} PRISMA_QUERY_ENGINE_LIBRARY=${options?.env?.PRISMA_QUERY_ENGINE_LIBRARY} PRISMA_QUERY_ENGINE_BINARY=${options?.env?.PRISMA_QUERY_ENGINE_BINARY})`
+    ? `env(PRISMA_CLIENT_ENGINE_TYPE=${
+        options?.env?.PRISMA_CLIENT_ENGINE_TYPE
+      }, PRISMA_CLI_QUERY_ENGINE_TYPE=${
+        options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE
+      } ${
+        options?.env?.PRISMA_QUERY_ENGINE_LIBRARY
+          ? 'PRISMA_QUERY_ENGINE_LIBRARY '
+          : ''
+      }${
+        options?.env?.PRISMA_QUERY_ENGINE_BINARY
+          ? 'PRISMA_QUERY_ENGINE_BINARY'
+          : ''
+      })`
     : ''
   const schemaStr = options?.schema?.engineType
     ? ` schema(engineType=${options?.schema?.engineType})`
     : ``
   return [expectedStr, envOverridesStr, schemaStr].join(' ')
 }
+
 /**
- * Generates and tests if the correct engines are used. {@link getExpectedEngines } is used to determin what engine is expected for the `cli` and the `client`
+ * Checks the version output for the correct engine and if `PRISMA_QUERY_ENGINE_BINARY` or `PRISMA_QUERY_ENGINE_LIBRARY`
+ * are correctly used
+ */
+async function checkVersionOutput(
+  projectDir: string,
+  options: TestContext,
+  expected: Expected,
+) {
+  const expectedQueryEngineRE =
+    expected.cliEngineType === EngineType.Binary
+      ? new RegExp(/Query Engine (?!\(Node-API\))/) // Negative lookahead for Node-API
+      : new RegExp(/Query Engine \(Node-API\)/)
+
+  const versionOutput = await version(projectDir, options.env)
+  const hasCorrectEngine = expectedQueryEngineRE.test(versionOutput)
+  expect(hasCorrectEngine).toBe(true)
+  if (
+    options.env?.PRISMA_QUERY_ENGINE_BINARY &&
+    expected.cliEngineType === EngineType.Binary
+  ) {
+    expect(versionOutput).toContain('resolved by PRISMA_QUERY_ENGINE_BINARY')
+  }
+  if (
+    options.env?.PRISMA_QUERY_ENGINE_LIBRARY &&
+    expected.cliEngineType === EngineType.NodeAPI
+  ) {
+    expect(versionOutput).toContain('resolved by PRISMA_QUERY_ENGINE_LIBRARY')
+  }
+}
+
+function checkCLIForExpectedEngine(
+  projectDir: string,
+  options: TestContext,
+  expected: Expected,
+) {
+  const cliDir = path.join(projectDir, 'node_modules', 'prisma')
+  const cliFiles = fs.readdirSync(cliDir)
+  if (expected.cliEngineType === EngineType.Binary) {
+    // Binary
+    const binaryName = getOSBinaryName()
+    const hasQEBinary = cliFiles.includes(binaryName)
+    if (options.env && options.env?.PRISMA_QUERY_ENGINE_BINARY) {
+      // If a custom path is specified for the QE then it should not be present
+      expect(hasQEBinary).toBe(false)
+    } else {
+      // If no custom path is specified then the QE Binary should be present
+      expect(hasQEBinary).toBe(true)
+    }
+  } else {
+    // Library
+    const libraryName = getOSLibraryName()
+    const hasQELibrary = cliFiles.includes(libraryName)
+    if (options.env && options.env?.PRISMA_QUERY_ENGINE_LIBRARY) {
+      // If a custom path is specified for the QE Library then it should not be present
+      expect(hasQELibrary).toBe(false)
+    } else {
+      // If no custom path is specified then the QE Library should be present
+      expect(hasQELibrary).toBe(true)
+    }
+  }
+}
+
+function checkClientForExpectedEngine(
+  projectDir: string,
+  options: TestContext,
+  expected: Expected,
+) {
+  const generatedClientDir = path.join(
+    projectDir,
+    'node_modules',
+    '.prisma',
+    'client',
+  )
+  const clientFiles = fs.readdirSync(generatedClientDir)
+  if (expected.clientEngineType === EngineType.Binary) {
+    // Binary
+    const binaryName = getOSBinaryName()
+    const hasQEBinary = clientFiles.includes(binaryName)
+    expect(hasQEBinary).toBe(true)
+  } else {
+    // Library
+    const libraryName = getOSLibraryName()
+    const hasQELibrary = clientFiles.includes(libraryName)
+    expect(hasQELibrary).toBe(true)
+  }
+}
+/**
+ * Generates and tests if the correct engines are used. {@link getExpectedEngines } is used to determine what engine is expected for the `cli` and the `client`
  */
 export async function runTest(options: TestContext) {
   const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'test-'))
@@ -203,64 +309,25 @@ export async function runTest(options: TestContext) {
 
     // yarn install
     await install(projectDir, options.env)
-    snapshotDirectory(projectDir, './node_modules/@prisma/engines')
-    snapshotDirectory(projectDir, './node_modules/prisma')
+    // snapshotDirectory(projectDir, './node_modules/@prisma/engines')
+    // snapshotDirectory(projectDir, './node_modules/prisma')
 
     // snapshot -v output
-    const versionOutput = await version(projectDir, options.env)
-    expect(sanitizeVersionSnapshot(projectDir, versionOutput)).toMatchSnapshot(
-      'version output @ 0 - env',
-    )
+    await checkVersionOutput(projectDir, options, expected)
+
+    // expect(sanitizeVersionSnapshot(projectDir, versionOutput)).toMatchSnapshot(
+    //   'version output @ 0 - env',
+    // )
     // Check CLI Engine Files
-    const cliDir = path.join(projectDir, 'node_modules', 'prisma')
-    const cliFiles = fs.readdirSync(cliDir)
-    if (expected.cliEngineType === EngineType.Binary) {
-      // Binary
-      const binaryName = getOSBinaryName()
-      const hasQEBinary = cliFiles.includes(binaryName)
-      if (options.env && options.env?.PRISMA_QUERY_ENGINE_BINARY) {
-        // If a custom path is specified for the QE then it should not be present
-        expect(hasQEBinary).toBe(false)
-      } else {
-        // If no custom path is specified then the QE Binary should be present
-        expect(hasQEBinary).toBe(true)
-      }
-    } else {
-      // Library
-      const libraryName = getOSLibraryName()
-      const hasQELibrary = cliFiles.includes(libraryName)
-      if (options.env && options.env?.PRISMA_QUERY_ENGINE_LIBRARY) {
-        // If a custom path is specified for the QE Library then it should not be present
-        expect(hasQELibrary).toBe(false)
-      } else {
-        // If no custom path is specified then the QE Library should be present
-        expect(hasQELibrary).toBe(true)
-      }
-    }
+    checkCLIForExpectedEngine(projectDir, options, expected)
 
     // prisma generate
     await generate(projectDir, options.env)
-    snapshotDirectory(projectDir, './node_modules/.prisma/client', '0 - env')
+    // snapshotDirectory(projectDir, './node_modules/.prisma/client', '0 - env')
 
     // Check Generated Client Engine
-    const generatedClientDir = path.join(
-      projectDir,
-      'node_modules',
-      '.prisma',
-      'client',
-    )
-    const clientFiles = fs.readdirSync(generatedClientDir)
-    if (expected.clientEngineType === EngineType.Binary) {
-      // Binary
-      const binaryName = getOSBinaryName()
-      const hasQEBinary = clientFiles.includes(binaryName)
-      expect(hasQEBinary).toBe(true)
-    } else {
-      // Library
-      const libraryName = getOSLibraryName()
-      const hasQELibrary = clientFiles.includes(libraryName)
-      expect(hasQELibrary).toBe(true)
-    }
+
+    checkClientForExpectedEngine(projectDir, options, expected)
 
     // Overwrite env to simulate deployment with different settings
     if (options.env_on_deploy) {
@@ -271,15 +338,8 @@ export async function runTest(options: TestContext) {
 
     // Additional snapshots if env changed after generate
     if (options.env_on_deploy) {
-      snapshotDirectory(
-        projectDir,
-        './node_modules/.prisma/client',
-        '1 - after_env_change',
-      )
-      const versionOutput2 = await version(projectDir, options.env)
-      expect(
-        sanitizeVersionSnapshot(projectDir, versionOutput2),
-      ).toMatchSnapshot('version output @ 1 - after_env_change')
+      const expectedPostDeploy = getExpectedEngines(options)
+      await checkVersionOutput(projectDir, options, expectedPostDeploy)
     }
   })
 }
@@ -371,7 +431,7 @@ export function getExpectedEngines(options: TestContext): Expected {
       options?.env?.PRISMA_CLIENT_ENGINE_TYPE,
     ),
     cliEngineType: getExpectedCLIEngine(
-      options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE
+      options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE,
     ),
   }
 }
