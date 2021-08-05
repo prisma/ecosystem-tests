@@ -7,7 +7,7 @@ import {
   DEFAULT_CLI_QUERY_ENGINE_TYPE,
   EngineType,
   Expected,
-  TestContext,
+  TestOptions,
 } from './constants'
 
 const defaultExecaOptions = {
@@ -184,7 +184,7 @@ async function setupTmpProject(projectDir: string) {
   ]
   await Promise.all(wait)
 }
-function generateTestName(options: TestContext, expected: Expected) {
+function generateTestName(options: TestOptions, expected: Expected) {
   const expectedStr = `expected(CLI=${expected.cliEngineType}, CLIENT=${expected.clientEngineType})`
   const envOverridesStr = options?.env
     ? `env(PRISMA_CLIENT_ENGINE_TYPE=${
@@ -201,8 +201,16 @@ function generateTestName(options: TestContext, expected: Expected) {
           : ''
       })`
     : ''
-  const schemaStr = options?.schema?.engineType
-    ? ` schema(engineType=${options?.schema?.engineType})`
+  const schemaStr = options?.schema
+    ? ` schema(${
+        options?.schema?.engineType
+          ? `engineType=${options?.schema?.engineType} `
+          : ''
+      }${
+        options?.schema?.previewFeatures
+          ? `previewFeatures=[${options?.schema?.previewFeatures.join(',')}]`
+          : ''
+      })`
     : ``
   return [expectedStr, envOverridesStr, schemaStr].join(' ')
 }
@@ -213,7 +221,7 @@ function generateTestName(options: TestContext, expected: Expected) {
  */
 async function checkVersionOutput(
   projectDir: string,
-  options: TestContext,
+  options: TestOptions,
   expected: Expected,
 ) {
   const expectedQueryEngineRE =
@@ -240,7 +248,7 @@ async function checkVersionOutput(
 
 function checkCLIForExpectedEngine(
   projectDir: string,
-  options: TestContext,
+  options: TestOptions,
   expected: Expected,
 ) {
   const cliDir = path.join(projectDir, 'node_modules', 'prisma')
@@ -272,7 +280,7 @@ function checkCLIForExpectedEngine(
 
 function checkClientForExpectedEngine(
   projectDir: string,
-  options: TestContext,
+  options: TestOptions,
   expected: Expected,
 ) {
   const generatedClientDir = path.join(
@@ -295,11 +303,11 @@ function checkClientForExpectedEngine(
   }
 }
 /**
- * Generates and tests if the correct engines are used. {@link getExpectedEngines } is used to determine what engine is expected for the `cli` and the `client`
+ * Generates and tests if the correct engines are used. {@link getExpectedEngineTypes } is used to determine what engine is expected for the `cli` and the `client`
  */
-export async function runTest(options: TestContext) {
+export async function runTest(options: TestOptions) {
   const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'test-'))
-  const expected = getExpectedEngines(options)
+  const expected = getExpectedEngineTypes(options)
   const testName = generateTestName(options, expected)
   return test(testName, async () => {
     console.log(`Project DIR: ${projectDir}`)
@@ -312,13 +320,12 @@ export async function runTest(options: TestContext) {
     // snapshotDirectory(projectDir, './node_modules/@prisma/engines')
     // snapshotDirectory(projectDir, './node_modules/prisma')
 
-    // snapshot -v output
     await checkVersionOutput(projectDir, options, expected)
 
+    // Check CLI Engine Files
     // expect(sanitizeVersionSnapshot(projectDir, versionOutput)).toMatchSnapshot(
     //   'version output @ 0 - env',
     // )
-    // Check CLI Engine Files
     checkCLIForExpectedEngine(projectDir, options, expected)
 
     // prisma generate
@@ -326,7 +333,6 @@ export async function runTest(options: TestContext) {
     // snapshotDirectory(projectDir, './node_modules/.prisma/client', '0 - env')
 
     // Check Generated Client Engine
-
     checkClientForExpectedEngine(projectDir, options, expected)
 
     // Overwrite env to simulate deployment with different settings
@@ -338,7 +344,7 @@ export async function runTest(options: TestContext) {
 
     // Additional snapshots if env changed after generate
     if (options.env_on_deploy) {
-      const expectedPostDeploy = getExpectedEngines(options)
+      const expectedPostDeploy = getExpectedEngineTypes(options)
       await checkVersionOutput(projectDir, options, expectedPostDeploy)
     }
   })
@@ -385,25 +391,19 @@ export function getCustomLibraryPath() {
 }
 
 export async function getCustomEngines() {
-  // console.log('getCustomeEngines start')
   const binaryFolder = './custom-engines/binary/' + os.type()
-  const binary_keep = binaryFolder + '/.keep'
-  if (fs.existsSync(binary_keep)) {
-    fs.unlinkSync(binary_keep)
+  if (!fs.existsSync(binaryFolder)) {
+    fs.mkdirpSync(binaryFolder)
     const env = {
       PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Binary,
     }
     await install(process.cwd(), env)
     await version(process.cwd(), env)
     fs.copySync('./node_modules/@prisma/engines', binaryFolder)
+    fs.rmdirSync('./node_modules/@prisma/engines', { recursive: true })
   }
-
-  fs.rmdirSync('./node_modules/@prisma/engines', { recursive: true })
-
   const libraryFolder = './custom-engines/library/' + os.type()
-  const library_keep = libraryFolder + '/.keep'
-  if (fs.existsSync(library_keep)) {
-    fs.unlinkSync(library_keep)
+  if (!fs.existsSync(libraryFolder)) {
     const env = {
       PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.NodeAPI,
     }
@@ -412,45 +412,32 @@ export async function getCustomEngines() {
     await version(process.cwd(), env)
     fs.copySync('./node_modules/@prisma/engines', libraryFolder, {})
   }
-  // console.log('getCustomeEngines end')
-
-  // console.log('binaryFolder:')
-  // fs.readdirSync(binaryFolder).forEach((file: any) => {
-  //   console.log(file)
-  // })
-
-  // console.log('libraryFolder:')
-  // fs.readdirSync(libraryFolder).forEach((file: any) => {
-  //   console.log(file)
-  // })
 }
-export function getExpectedEngines(options: TestContext): Expected {
+export function getExpectedEngineTypes(options: TestOptions): Expected {
   return {
-    clientEngineType: getExpectedClientEngine(
-      options.schema?.engineType,
-      options?.env?.PRISMA_CLIENT_ENGINE_TYPE,
-    ),
-    cliEngineType: getExpectedCLIEngine(
-      options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE,
-    ),
+    clientEngineType: getExpectedClientEngineType(options),
+    cliEngineType: getExpectedCLIEngineType(options),
   }
 }
-export function getExpectedClientEngine(
-  engineType: EngineType | undefined,
-  envOverride: EngineType | undefined,
-) {
-  if (envOverride) {
-    return envOverride
+export function getExpectedClientEngineType(options: TestOptions) {
+  if (options?.env?.PRISMA_CLIENT_ENGINE_TYPE) {
+    return options?.env?.PRISMA_CLIENT_ENGINE_TYPE
   }
-  if (engineType) {
-    return engineType
+  if (options.schema?.engineType) {
+    return options.schema?.engineType
+  }
+  if (
+    options.schema?.previewFeatures &&
+    options.schema?.previewFeatures.includes('nApi')
+  ) {
+    return EngineType.NodeAPI
   }
 
   return DEFAULT_CLIENT_ENGINE_TYPE
 }
-export function getExpectedCLIEngine(envOverride: EngineType | undefined) {
-  if (envOverride) {
-    return envOverride
+export function getExpectedCLIEngineType(options: TestOptions) {
+  if (options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE) {
+    return options?.env?.PRISMA_CLI_QUERY_ENGINE_TYPE
   }
   return DEFAULT_CLI_QUERY_ENGINE_TYPE
 }

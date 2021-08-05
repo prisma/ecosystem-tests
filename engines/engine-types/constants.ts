@@ -2,7 +2,7 @@ export enum EngineType {
   NodeAPI = 'node-api',
   Binary = 'binary',
 }
-export interface TestContext {
+export interface TestOptions {
   schema?: {
     previewFeatures?: string[]
     engineType?: EngineType
@@ -32,6 +32,6 @@ export const ENV_VARS = {
   // For Overriding Query Engine Binary Path
   PRISMA_QUERY_ENGINE_BINARY: 'PRISMA_QUERY_ENGINE_BINARY',
 }
-export const DEFAULT_CLI_QUERY_ENGINE_TYPE = EngineType.NodeAPI
-export const DEFAULT_CLIENT_ENGINE_TYPE = EngineType.NodeAPI
+export const DEFAULT_CLI_QUERY_ENGINE_TYPE = EngineType.Binary
+export const DEFAULT_CLIENT_ENGINE_TYPE = EngineType.Binary
 
