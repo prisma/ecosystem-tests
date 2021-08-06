@@ -347,7 +347,7 @@ export async function runTest(options: TestOptions) {
       const expectedPostDeploy = getExpectedEngineTypes(options)
       await checkVersionOutput(projectDir, options, expectedPostDeploy)
     }
-  })
+  }, 200_000)
 }
 export function getOSBinaryName() {
   return os.type() == 'Windows_NT'

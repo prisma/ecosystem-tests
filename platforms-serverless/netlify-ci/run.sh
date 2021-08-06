@@ -11,8 +11,8 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   cp ./prisma/schema-with-binary.prisma ./prisma/schema.prisma
 else
   # use the default schema at prisma/schema.prisma file
-  echo "Using normal schema"
-  true
+  echo "Using Node-API enabled schema"
+  cp ./prisma/schema-with-node-api.prisma ./prisma/schema.prisma
 fi
 
 

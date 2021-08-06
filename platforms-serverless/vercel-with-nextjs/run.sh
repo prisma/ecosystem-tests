@@ -12,7 +12,7 @@ echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=prisma --confirm --force 1> deployment-url.txt
 else
-  yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --force --confirm 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="node-api" --prod --scope=prisma --force --confirm 1> deployment-url.txt
 fi
 
 
