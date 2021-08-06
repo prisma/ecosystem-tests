@@ -5,6 +5,17 @@ echo "-------------- Checking Generated Client QE Binary --------------"
 dir=$1
 project=$2
 
+DEFAULT_CLIENT_ENGINE_TYPE='binary'
+
+# Check to see if the env var "PRISMA_CLIENT_ENGINE_TYPE" is set if not then using the default
+if [ -z "$PRISMA_CLIENT_ENGINE_TYPE" ]; then
+  echo "Using default client engine: $DEFAULT_CLIENT_ENGINE_TYPE"
+  CLIENT_ENGINE_TYPE=$DEFAULT_CLIENT_ENGINE_TYPE
+else
+  echo "Using env(PRISMA_CLIENT_ENGINE_TYPE): $PRISMA_CLIENT_ENGINE_TYPE"
+  CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
+fi
+
 # These are skipping for a variaty of reasons like:
 # - Custom project structure
 # - Custom output location
@@ -49,7 +60,7 @@ esac
 
 echo "Assumed OS: $os_name"
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
+if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
   echo "Node-API: Disabled"
   case $os_name in
     linux)
@@ -62,8 +73,7 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       qe_location="node_modules\.prisma\client\query-engine-windows.exe"
       ;;
   esac
-fi
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "node-api" ]; then
+elif [ $CLIENT_ENGINE_TYPE == "node-api" ]; then
   echo "Node-API: Enabled"
   case $os_name in
     linux)
@@ -79,6 +89,9 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "node-api" ]; then
       os_name=notset
       ;;
   esac
+else
+  echo "❌ CLIENT_ENGINE_TYPE was not set"
+  exit 1
 fi
 
 echo "--- ls -lh node_modules/.prisma/client/ ---"
