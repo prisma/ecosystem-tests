@@ -78,8 +78,8 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
-####################################################
-### real jobs after this
+  ####################################################
+  ### real jobs after this
 
   process-managers:
     needs: start-time
@@ -88,7 +88,7 @@ jobs:
       fail-fast: false
       matrix:
         feature: [pm2]
-        clientEngine: [node-api] # ['node-api', 'binary']
+        clientEngine: [library] # ['library', 'binary']
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -134,15 +134,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [
-          auto-reconnect,
-          browser-build,
-          studio,
-          generate-client-and-cli-install,
-          generate-client-install,
-          generate-client-install-on-sub-project
-        ]
-        clientEngine: ['node-api', 'binary']
+        feature:
+          [
+            auto-reconnect,
+            browser-build,
+            studio,
+            generate-client-and-cli-install,
+            generate-client-install,
+            generate-client-install-on-sub-project,
+          ]
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -227,7 +228,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        clientEngine: ['node-api', 'binary']
+        clientEngine: ['library', 'binary']
     runs-on: ${{ matrix.os }}
 
     env:
@@ -279,7 +280,7 @@ jobs:
           - 16
           - 12.2.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
-        clientEngine: ['node-api', 'binary']
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -324,7 +325,7 @@ jobs:
       fail-fast: false
       matrix:
         binary: [pkg]
-        clientEngine: ['node-api', 'binary']
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
@@ -377,7 +378,7 @@ jobs:
           - yarn
           - yarn-workspaces
           - yarn2-without-pnp
-        clientEngine: [node-api] #['node-api', 'binary']
+        clientEngine: [library] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -424,7 +425,7 @@ jobs:
         framework:
           - nestjs
           - nextjs
-        clientEngine: [node-api] #['node-api', 'binary']
+        clientEngine: [binary] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -474,7 +475,7 @@ jobs:
           - aws-graviton
           - codesandbox
           - m1-macstadium
-        clientEngine: ['node-api','binary']
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
@@ -545,11 +546,11 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
-        clientEngine: ['node-api', 'binary']
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
           # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
-          - clientEngine: node-api
+          - clientEngine: library
             platform: azure-functions-windows
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
@@ -629,7 +630,7 @@ jobs:
           - webpack
           - parcel
           - rollup
-        clientEngine: [node-api] #['node-api', 'binary']
+        clientEngine: [binary] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -678,7 +679,7 @@ jobs:
           - apollo-server
           - type-graphql
           - nexus-schema
-        clientEngine: [node-api] #['node-api', 'binary']
+        clientEngine: [binary] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -736,7 +737,7 @@ jobs:
           - supabase
           - supabase-pool
           - planetscale
-        clientEngine: [node-api] #['node-api', 'binary']
+        clientEngine: [binary] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -797,7 +798,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        clientEngine: [node-api] # ['node-api', 'binary']
+        clientEngine: [binary] # ['library', 'binary']
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -841,7 +842,7 @@ jobs:
       matrix:
         test-runner:
           - jest-with-multiple-generators
-        clientEngine: ['node-api', 'binary']
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 

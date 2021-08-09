@@ -1,5 +1,5 @@
-import fetch from 'node-fetch'
 import fs from 'fs'
+import fetch from 'node-fetch'
 import puppeteer from 'puppeteer'
 
 interface CSBFile {
@@ -98,9 +98,11 @@ async function main() {
       }
     })
     .reduce((files, file) => {
-      // Sets Client EngineType (binary/node-api) in Codesandbox
-      if(file.filePath === 'prisma/.env'){
-        file.content = file.content + `\PRISMA_CLIENT_ENGINE_TYPE=${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
+      // Sets Client EngineType (binary/library) in Codesandbox
+      if (file.filePath === 'prisma/.env') {
+        file.content =
+          file.content +
+          `\PRISMA_CLIENT_ENGINE_TYPE=${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
       }
       return {
         ...files,
@@ -132,7 +134,9 @@ async function main() {
     }
   } catch (e) {
     console.error(`Something went wrong`)
-    console.error(`You can debug this here: https://codesandbox.io/s/${json.sandbox_id}`);
+    console.error(
+      `You can debug this here: https://codesandbox.io/s/${json.sandbox_id}`,
+    )
     throw new Error(e)
   }
 }

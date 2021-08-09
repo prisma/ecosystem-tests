@@ -226,7 +226,7 @@ async function checkVersionOutput(
 ) {
   const expectedQueryEngineRE =
     expected.cliEngineType === EngineType.Binary
-      ? new RegExp(/Query Engine (?!\(Node-API\))/) // Negative lookahead for Node-API
+      ? new RegExp(/Query Engine \(Binary\)/)
       : new RegExp(/Query Engine \(Node-API\)/)
 
   const versionOutput = await version(projectDir, options.env)
@@ -240,7 +240,7 @@ async function checkVersionOutput(
   }
   if (
     options.env?.PRISMA_QUERY_ENGINE_LIBRARY &&
-    expected.cliEngineType === EngineType.NodeAPI
+    expected.cliEngineType === EngineType.Library
   ) {
     expect(versionOutput).toContain('resolved by PRISMA_QUERY_ENGINE_LIBRARY')
   }
@@ -405,7 +405,7 @@ export async function getCustomEngines() {
   const libraryFolder = './custom-engines/library/' + os.type()
   if (!fs.existsSync(libraryFolder)) {
     const env = {
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.NodeAPI,
+      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Library,
     }
 
     await install(process.cwd(), env)
@@ -430,7 +430,7 @@ export function getExpectedClientEngineType(options: TestOptions) {
     options.schema?.previewFeatures &&
     options.schema?.previewFeatures.includes('nApi')
   ) {
-    return EngineType.NodeAPI
+    return EngineType.Library
   }
 
   return DEFAULT_CLIENT_ENGINE_TYPE

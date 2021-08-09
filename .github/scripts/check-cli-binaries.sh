@@ -65,7 +65,7 @@ if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
       qe_location2="node_modules\prisma\node_modules\engines\query-engine-windows.exe"
       ;;
   esac
-elif [ $CLI_QUERY_ENGINE_TYPE == "node-api" ]; then
+elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
   echo "Node-API: Enabled"
   case $os_name in
     linux)

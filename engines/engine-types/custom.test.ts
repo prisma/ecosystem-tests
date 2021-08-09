@@ -8,7 +8,7 @@ import {
 function buildTests() {
   const engineTypes = [
     EngineType.Binary,
-    EngineType.NodeAPI,
+    EngineType.Library,
     undefined,
   ] as const
   const PRISMA_CLIENT_ENGINE_TYPE = engineTypes

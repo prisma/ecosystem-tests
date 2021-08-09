@@ -17,7 +17,7 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
   })
   runTest({
     env: {
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.NodeAPI,
+      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Library,
     },
   })
   runTest({
@@ -44,7 +44,7 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
   })
   runTest({
     env: {
-      PRISMA_CLIENT_ENGINE_TYPE: EngineType.NodeAPI,
+      PRISMA_CLIENT_ENGINE_TYPE: EngineType.Library,
     },
   })
   runTest({
@@ -55,8 +55,8 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
   })
   runTest({
     env: {
-      PRISMA_CLIENT_ENGINE_TYPE: EngineType.NodeAPI,
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.NodeAPI,
+      PRISMA_CLIENT_ENGINE_TYPE: EngineType.Library,
+      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Library,
     },
   })
   // Schema
@@ -67,7 +67,7 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
   })
   runTest({
     schema: {
-      engineType: EngineType.NodeAPI,
+      engineType: EngineType.Library,
     },
   })
 
@@ -88,7 +88,7 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
 
   runTest({
     schema: {
-      engineType: EngineType.NodeAPI,
+      engineType: EngineType.Library,
     },
     env: {
       PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),

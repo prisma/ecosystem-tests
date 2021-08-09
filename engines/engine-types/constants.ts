@@ -1,5 +1,5 @@
 export enum EngineType {
-  NodeAPI = 'node-api',
+  Library = 'library',
   Binary = 'binary',
 }
 export interface TestOptions {
