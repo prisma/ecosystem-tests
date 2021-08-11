@@ -1,11 +1,11 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["nApi"]
+  engineType = "binary"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("HEROKU_PG_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {

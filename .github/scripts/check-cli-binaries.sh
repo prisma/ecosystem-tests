@@ -4,6 +4,18 @@ echo "-------------- Checking CLI/Engines QE Binary --------------"
 DIR=$1
 PROJECT=$2
 
+DEFAULT_CLI_QUERY_ENGINE_TYPE='binary'
+
+# Check to see if the env var "PRISMA_CLI_QUERY_ENGINE_TYPE" is set if not then using the default
+if [ -z "$PRISMA_CLI_QUERY_ENGINE_TYPE" ]; then
+  echo "Using default cli qe: $DEFAULT_CLI_QUERY_ENGINE_TYPE"
+  CLI_QUERY_ENGINE_TYPE=$DEFAULT_CLI_QUERY_ENGINE_TYPE
+else
+  echo "Using env(PRISMA_CLI_QUERY_ENGINE_TYPE): $PRISMA_CLI_QUERY_ENGINE_TYPE"
+  CLI_QUERY_ENGINE_TYPE=$PRISMA_CLI_QUERY_ENGINE_TYPE
+fi
+
+
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
@@ -36,8 +48,8 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
     ;;
 esac
 echo "Assumed OS: $os_name"
-
-if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
+echo $CLI_QUERY_ENGINE_TYPE == "binary"
+if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
   echo "Node-API: Disabled"
   case $os_name in
     linux)
@@ -53,7 +65,7 @@ if [ -z ${PRISMA_FORCE_NAPI+x} ]; then
       qe_location2="node_modules\prisma\node_modules\engines\query-engine-windows.exe"
       ;;
   esac
-else
+elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
   echo "Node-API: Enabled"
   case $os_name in
     linux)
@@ -69,7 +81,11 @@ else
       qe_location2="node_modules\prisma\node_modules\engines\query_engine-windows.dll.node"
       ;;
   esac
+else
+  echo "❌ CLI_QUERY_ENGINE_TYPE was not set"
+  exit 1
 fi
+
 
 echo "--- yarn prisma -v ---"
 yarn -s prisma -v

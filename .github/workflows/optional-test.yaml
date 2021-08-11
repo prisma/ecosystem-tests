@@ -67,7 +67,7 @@ jobs:
             prisma-json-schema-generator,
             prisma-nestjs-graphql,
           ]
-        engine: ['binary'] #['node-api', 'binary']
+        clientEngine: ['binary'] #['library', 'binary']
     runs-on: ubuntu-latest
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
@@ -76,10 +76,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Define Engine Type to test
-      #  if: ${{ matrix.engine == 'node-api' }}
-      #  run: echo "PRISMA_FORCE_NAPI=true" >> $GITHUB_ENV
-      
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: yarn install
 
@@ -87,7 +86,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.generator }} - ${{matrix.engine}}
+      - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
