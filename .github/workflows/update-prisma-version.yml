@@ -1,0 +1,53 @@
+name: update-prisma-version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to check and update the prisma version"
+        required: true
+      branch:
+        description: "Branch to update."
+        required: true
+
+jobs:
+  update_prisma:
+    name: "Check and update Prisma@${{ github.event.inputs.version }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+          
+      # This step uses `@prisma/ensure-npm-release` (abbv. `enr`) https://github.com/prisma/ensure-npm-release
+      - name: Check if version is available on npm
+        run: |
+          echo 'Checking that all packages [@prisma/client, prisma at ${{ github.event.inputs.version }}'
+          pnpx -y -p @prisma/ensure-npm-release enr update -p prisma -u ${{ github.event.inputs.version }}
+          pnpx -y -p @prisma/ensure-npm-release enr update -p @prisma/client -u ${{ github.event.inputs.version }}
+          echo 'Awesome, we can update these packages now'
+
+      - name: Update prisma version
+        run: |
+          echo 'Updating Prisma to ${{ github.event.inputs.version }} on branch ${{ github.event.input.branch }}'
+          pnpm recursive install --filter ./ prisma@${{ github.event.inputs.version }} @prisma/client@${{ github.event.input.version }}
+
+      - name: Commit updates
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          commit_message: "chore(packages): bump prisma to ${{ github.event.input.version }}"
+          branch: ${{ github.event.input.branch }}
+          commit_user_name: Prismo
+          commit_user_email: prismabots@gmail.com
+          commit_author: Prismo <prismabots@gmail.com>
+
+       
+

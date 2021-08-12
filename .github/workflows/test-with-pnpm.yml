@@ -1,4 +1,4 @@
-name: test
+name: test-with-pnpm
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'renovate.json'
 
 env:
-  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test.yaml'
+  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests test-with-pnpm.yaml'
   CI: 1
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -100,13 +100,16 @@ jobs:
 
       # - name: Define Client Engine Type to test
       #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: yarn install
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
 
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -156,12 +159,17 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
 
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -199,12 +207,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        run: yarn install
 
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+    
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -240,12 +253,16 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -497,8 +514,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+
       - name: Install Dependencies
-        run: yarn
+        run: pnpm install
 
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
@@ -597,8 +619,12 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+
       - name: Install Dependencies
-        run: yarn
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -656,7 +682,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.bundler }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -748,7 +774,6 @@ jobs:
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
       DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
-      DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
       GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
       GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
       GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
@@ -762,22 +787,29 @@ jobs:
       MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+      PLANETSCALE_ORG: ${{ secrets.PLANETSCALE_ORG }}
+      PLANETSCALE_SERVICE_TOKEN_NAME: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_NAME }}
+      PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
+      PSCALE_NO_UPDATE_NOTIFIER: true
 
     steps:
       - uses: actions/checkout@v2
 
       # - name: Define Client Engine Type to test
       #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: yarn install
-
       - name: use node 12
         uses: actions/setup-node@v2
         with:
           node-version: 12
+      
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
 
-      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -811,15 +843,19 @@ jobs:
       # - name: Define Client Engine Type to test
       #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - name: use node 12
         uses: actions/setup-node@v2
         with:
           node-version: 12
+      
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
 
-      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.database }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -865,7 +901,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.test-runner }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.test-runner }} - ${{matrix.engine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -875,4 +911,5 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.test-runner }}
+        run: bash .github/slack/notify-failur.sh ${{ github.job}} ${{ matrix.test-runner }}
+e
