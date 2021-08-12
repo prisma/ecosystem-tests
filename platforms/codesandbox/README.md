@@ -2,7 +2,7 @@
 
 ## Friction points
 
-- In order to test Node-API `prisma/.env` is modified in `deploy.ts` to add the env var `PRISMA_FORCE_NAPI`
+- In order to test `node-api` and `binary` the `prisma/.env` is modified in `deploy.ts` to add the env var `PRISMA_CLIENT_ENGINE_TYPE`
 - https://github.com/prisma/prisma/issues/805
 
 ## How to run this locally

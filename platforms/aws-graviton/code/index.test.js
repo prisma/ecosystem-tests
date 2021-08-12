@@ -23,8 +23,7 @@ describe('Prisma', () => {
     const fs = require('fs')
     const path = require('path')
     const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
-    
-    if (process.env.PRISMA_FORCE_NAPI === 'true') {
+    if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
       expect(files).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
@@ -34,7 +33,7 @@ Array [
   "package.json",
   "schema.prisma",
 ]
-`)  
+`)
     } else {
       expect(files).toMatchInlineSnapshot(`
 Array [
@@ -45,7 +44,7 @@ Array [
   "query-engine-linux-arm-openssl-1.0.x",
   "schema.prisma",
 ]
-`)  
+`)
     }
   })
 
