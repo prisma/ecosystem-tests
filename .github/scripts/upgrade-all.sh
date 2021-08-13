@@ -20,7 +20,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     continue
     ;;
   esac
-  
+
   echo ""
   echo "=========================="
   echo "> df -h"
@@ -31,7 +31,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   echo "running $item"
   cd "$(dirname "$item")/"
 
-  pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client') { process.exit(0); }"
+  pkg="var pkg=require('./package.json'); if (pkg.name == '.prisma/client') { process.exit(0); }"
   valid="$(node -e "$pkg;console.log('true')")"
   hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
 
@@ -60,11 +60,11 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
       yarn add "@prisma/client@$version"
       ;;
     *)
-      yarn add "prisma@$version" --dev --ignore-scripts
-      yarn add "@prisma/client@$version" --ignore-scripts
+      yarn add "prisma@$version" --dev --ignore-scripts --ignore-workspace-root-check
+      yarn add "@prisma/client@$version" --ignore-scripts --ignore-workspace-root-check
       ;;
     esac
-          
+
   fi
   ## END
 
