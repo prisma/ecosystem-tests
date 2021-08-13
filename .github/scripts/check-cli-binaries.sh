@@ -4,7 +4,7 @@ echo "-------------- Checking CLI/Engines QE Binary --------------"
 DIR=$1
 PROJECT=$2
 
-DEFAULT_CLI_QUERY_ENGINE_TYPE='binary'
+DEFAULT_CLI_QUERY_ENGINE_TYPE='library'
 
 # Check to see if the env var "PRISMA_CLI_QUERY_ENGINE_TYPE" is set if not then using the default
 if [ -z "$PRISMA_CLI_QUERY_ENGINE_TYPE" ]; then
