@@ -25,7 +25,6 @@ skipped_projects=(
   pnpm                            # Current logic does not work with pnpm hoisitng
   pnpm-workspaces-custom-output   # Current logic does not work with pnpm hoisitng
   pnpm-workspaces-default-output  # Current logic does not work with pnpm hoisitng
-  vercel-with-redwood             # No prisma dep at root level
 )
 
 case "${skipped_projects[@]}" in  *$2*)
