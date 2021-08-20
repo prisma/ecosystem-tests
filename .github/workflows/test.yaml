@@ -656,7 +656,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.bundler }} - ${{matrix.engine}}
+      - name: test ${{ matrix.bundler }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -748,6 +748,7 @@ jobs:
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
       DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+      DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
       GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
       GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
       GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
@@ -761,10 +762,6 @@ jobs:
       MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
-      PLANETSCALE_ORG: ${{ secrets.PLANETSCALE_ORG }}
-      PLANETSCALE_SERVICE_TOKEN_NAME: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_NAME }}
-      PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
-      PSCALE_NO_UPDATE_NOTIFIER: true
 
     steps:
       - uses: actions/checkout@v2
@@ -780,7 +777,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }} - ${{matrix.engine}}
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -822,7 +819,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }} - ${{matrix.engine}}
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -868,7 +865,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.test-runner }} - ${{matrix.engine}}
+      - name: test ${{ matrix.test-runner }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
