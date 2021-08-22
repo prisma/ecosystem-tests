@@ -36,7 +36,7 @@ jobs:
 
       - name: Reset the branch with the dev branch
         run: |
-          git remote add github https://github.com/${{ github.event.repo.name }}.git
+          git remote add github https://github.com/${{ github.event.repository.name }}.git
           git fetch github dev
           git reset --hard "github/dev"
 
