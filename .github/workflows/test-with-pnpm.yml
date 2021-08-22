@@ -911,5 +911,4 @@ jobs:
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failur.sh ${{ github.job}} ${{ matrix.test-runner }}
-e
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.test-runner }}

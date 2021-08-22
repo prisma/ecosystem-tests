@@ -36,7 +36,9 @@ jobs:
 
       - name: Reset the branch with the dev branch
         run: |
-          git reset --hard "origin/dev"
+          git remote add github https://github.com/${{ github.event.repo.name }}.git
+          git fetch github dev
+          git reset --hard "github/dev"
 
       - name: Update prisma version
         run: |
