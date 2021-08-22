@@ -17,16 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-        # Always update on dev as it has the latest changes. 
-        # Changes then will be forced pushed to required branch
-          ref: dev
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Use Node.js
         uses: actions/setup-node@v2
 
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: ${{ github.event.inputs.branch }}
+          version: latest
           
       # This step uses `@prisma/ensure-npm-release` (abbv. `enr`) https://github.com/prisma/ensure-npm-release
       - name: Check if version is available on npm
