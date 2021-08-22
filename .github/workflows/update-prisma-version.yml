@@ -17,14 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.branch }}
+        # Always update on dev as it has the latest changes. 
+        # Changes then will be forced pushed to required branch
+          ref: dev
 
       - name: Use Node.js
         uses: actions/setup-node@v2
 
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: latest
+          version: ${{ github.event.inputs.branch }
           
       # This step uses `@prisma/ensure-npm-release` (abbv. `enr`) https://github.com/prisma/ensure-npm-release
       - name: Check if version is available on npm
@@ -33,6 +35,10 @@ jobs:
           pnpx -y -p @prisma/ensure-npm-release enr update -p prisma -u ${{ github.event.inputs.version }}
           pnpx -y -p @prisma/ensure-npm-release enr update -p @prisma/client -u ${{ github.event.inputs.version }}
           echo 'Awesome, we can update these packages now'
+
+      - name: Reset the branch with the dev branch
+        run: |
+          git reset --hard "origin/dev"
 
       - name: Update prisma version
         run: |
@@ -45,9 +51,8 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           commit_message: "chore(packages): bump prisma to ${{ github.event.input.version }}"
           branch: ${{ github.event.input.branch }}
+          push_options: --force
           commit_user_name: Prismo
           commit_user_email: prismabots@gmail.com
           commit_author: Prismo <prismabots@gmail.com>
-
-       
 
