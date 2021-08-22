@@ -42,15 +42,15 @@ jobs:
 
       - name: Update prisma version
         run: |
-          echo 'Updating Prisma to ${{ github.event.inputs.version }} on branch ${{ github.event.input.branch }}'
-          pnpm recursive install --filter ./ prisma@${{ github.event.inputs.version }} @prisma/client@${{ github.event.input.version }}
+          echo 'Updating Prisma to ${{ github.event.inputs.version }} on branch ${{ github.event.inputs.branch }}'
+          pnpm recursive install --filter ./ prisma@${{ github.event.inputs.version }} @prisma/client@${{ github.event.inputs.version }}
 
       - name: Commit updates
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
-          commit_message: "chore(packages): bump prisma to ${{ github.event.input.version }}"
-          branch: ${{ github.event.input.branch }}
+          commit_message: "chore(packages): bump prisma to ${{ github.event.inputs.version }}"
+          branch: ${{ github.event.inputs.branch }}
           push_options: --force
           commit_user_name: Prismo
           commit_user_email: prismabots@gmail.com
