@@ -66,7 +66,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   echo "checking $item"
 
   case "$item" in
-  *".github"* | *"functions/generated/client"*)
+  *"./package.json"* | *".github"* | *"functions/generated/client"*)
     echo "ignoring $item"
     continue
     ;;

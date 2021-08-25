@@ -1,0 +1,14 @@
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL_PLANETSCALE")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id    String  @id @default(cuid())
+    email String  @unique
+    name  String?
+}

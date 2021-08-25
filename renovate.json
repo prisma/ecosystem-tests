@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
+  "reviewers": ["@williamluke4", "@millsp"],
   "automerge": true,
   "automergeType": "branch",
   "major": {
@@ -8,12 +9,16 @@
   },
   "dependencyDashboard": true,
   "prConcurrentLimit": 25,
-  "rebaseWhen": "conflicted",
+  "rebaseWhen": "auto",
   "ignoreDeps": ["prisma", "@prisma/client"],
   "packageRules": [
     {
       "matchPackagePatterns": "^@redwoodjs",
       "groupName": ["@redwoodjs packages"]
+    },
+    {
+      "groupName": "jest",
+      "packageNames": ["jest", "@types/jest", "ts-jest"]
     }
   ]
 }

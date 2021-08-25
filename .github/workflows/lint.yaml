@@ -1,9 +1,19 @@
 name: lint test suite
-on: push
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'renovate.json'
   
 jobs:
   check-test-suite-coverage:
     runs-on: ubuntu-latest
+    
+    # Ignore if renovate (dependency update) or if triggerred by auto update
+    # Needs to be in a string because the colon after chore breaks yaml
+    if: "${{ !contains(github.actor, 'renovate') && !contains(github.event.head_commit.message, 'chore: sync, use') }}"
+
     steps:
       - uses: actions/checkout@v2
 

@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "api",
+      "web",
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "@redwoodjs/core": "0.36.1",
+    "graphql-request": "3.5.0",
+    "jest": "27.0.6",
+    "vercel": "23.1.2",
+    "prisma": "2.30.0-dev.6"
+  },
+  "dependencies": {
+    "@prisma/client": "2.30.0-dev.6"
+  },
+  "eslintConfig": {
+    "extends": "@redwoodjs/eslint-config",
+    "root": true
+  },
+  "engines": {
+    "node": "14.x",
+    "yarn": "1.x"
+  },
+  "scripts": {
+    "test": "yarn jest ./index.test.js"
+  }
+}

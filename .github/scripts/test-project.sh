@@ -15,8 +15,10 @@ set -u
 pjson_path=$(find $dir/$project -name "package.json" ! -path "*/node_modules/*" | head -n 1)
 bash .github/scripts/print-version.sh $pjson_path
 
+echo "cd .github/slack/"
 cd .github/slack/
 yarn install
+echo "cd ../.."
 cd ../..
 
 root=$(pwd)
@@ -26,6 +28,24 @@ echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
 
+
+# Find schema, if it contains `env("DATABASE_URL")`, db push that schema to database
+if [[ "$project" = "foobar" ]]
+then
+  true
+  # if a project needs to be skipped for any reason, replace `foobar` with its folder name
+else
+  schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
+  if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
+    echo ""
+    echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
+    echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
+    npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
+    echo ""
+  fi 
+fi
+
+echo "cd $dir/$project"
 cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
@@ -34,7 +54,8 @@ if [ -f "prepare.sh" ]; then
   echo "prepare script found, executing $dir/$project/prepare.sh"
   echo ""
 
-  bash prepare.sh
+  # execute & allow export of env vars
+  . prepare.sh
 
   echo ""
   echo "finished prepare.sh"
@@ -54,7 +75,7 @@ set -e
 if [ $code -eq 0 ]; then
   echo "-----------------------------"
   echo ""
-  echo "run.sh was successful, running $dir/$project/test.sh..."
+  echo "run.sh was successful (code $code), running $dir/$project/test.sh..."
   echo ""
 
   if [ ! -f "test.sh" ]; then
@@ -68,18 +89,28 @@ if [ $code -eq 0 ]; then
   set -e
 
   echo ""
-  echo "finished test.sh"
+  echo "finished test.sh (code $code)"
   echo ""
   echo "-----------------------------"
 fi
 
+# confirm existence of correct engine
+if [ $code -eq 0 ]; then
+  echo "-------------- Checking Binaries ---------------"
+  bash ../../.github/scripts/check-cli-binaries.sh $dir $project
+  bash ../../.github/scripts/check-client-binaries.sh $dir $project
+  echo "------------------------------------------------"
+fi
+
+# TODO parse output of npx prisma -v --json for correct file/path
+
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
   echo ""
-  echo "finally script found, executing $dir/$project/finally.sh"
+  echo "finally script found, executing $dir/$project/finally.sh (with test exit code $code as param)"
   echo ""
 
-  bash finally.sh
+  bash finally.sh $code
 
   echo ""
   echo "finished finally.sh"

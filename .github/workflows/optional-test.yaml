@@ -1,8 +1,27 @@
 name: optional-test
-on: push
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'renovate.json'
+
 env:
   PRISMA_TELEMETRY_INFORMATION: 'e2e-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
+  CI: 1
+  # TODO: Consolidate these env vars. They shouldn't be required for slack notification
+  # They are only required because `test-project.sh` hardcodes the names
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
+  SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
+  ##
+  SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
+  SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
+
+defaults:
+  run:
+    # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
+    shell: bash
 
 jobs:
   start-time:
@@ -23,7 +42,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
       - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"         
+        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
   report-to-slack-failure:
     runs-on: ubuntu-latest
@@ -41,27 +60,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature:
+        generator:
           [
             prisma-dbml-generator,
             typegraphql-prisma,
             prisma-json-schema-generator,
+            prisma-nestjs-graphql,
           ]
+        clientEngine: ['binary'] #['library', 'binary']
     runs-on: ubuntu-latest
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      CI: 1
-      # TODO: Consolidate these env vars. They shouldn't be required for slack notification
-      # They are only required because `test-project.sh` hardcodes the names
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
-      SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
-      ##
-      SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
-      SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
       SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
     steps:
       - uses: actions/checkout@v2
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -70,14 +86,14 @@ jobs:
         with:
           node-version: 12
 
-      - name: test feature - ${{ matrix.feature }}
+      - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.generator }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.generator }}
