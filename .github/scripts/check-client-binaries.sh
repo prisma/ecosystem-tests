@@ -5,7 +5,7 @@ echo "-------------- Checking Generated Client QE Binary --------------"
 dir=$1
 project=$2
 
-DEFAULT_CLIENT_ENGINE_TYPE='binary'
+DEFAULT_CLIENT_ENGINE_TYPE='library'
 
 # Check to see if the env var "PRISMA_CLIENT_ENGINE_TYPE" is set if not then using the default
 if [ -z "$PRISMA_CLIENT_ENGINE_TYPE" ]; then
