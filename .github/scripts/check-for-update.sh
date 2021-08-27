@@ -143,11 +143,11 @@ while [ $i -le $count ]; do
           case "$item" in
           *"yarn2"*)
             echo "> yarn add prisma@$v --dev"
-            yarn add "prisma@$v" --dev &
+            yarn add "prisma@$v" --dev
             ;;
           *)
             echo "> yarn add prisma@$v --dev --ignore-scripts"
-            yarn add "prisma@$v" --dev --ignore-scripts &
+            yarn add "prisma@$v" --dev --ignore-scripts
             ;;
           esac
           
@@ -169,11 +169,11 @@ while [ $i -le $count ]; do
           case "$item" in
           *"yarn2"*)
             echo "> yarn add @prisma/client@$v" 
-            yarn add "@prisma/client@$v" &
+            yarn add "@prisma/client@$v"
             ;;
           *)
             echo "> yarn add @prisma/client@$v --ignore-scripts" 
-            yarn add "@prisma/client@$v" --ignore-scripts &
+            yarn add "@prisma/client@$v" --ignore-scripts
             ;;
           esac
           
