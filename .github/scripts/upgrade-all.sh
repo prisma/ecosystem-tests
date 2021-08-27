@@ -56,12 +56,12 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   elif [ "$valid" = "true" ]; then
     case "$item" in
     *"yarn2"*)
-      yarn add "prisma@$version" --dev
-      yarn add "@prisma/client@$version"
+      yarn add "prisma@$version" --dev &
+      yarn add "@prisma/client@$version" &
       ;;
     *)
-      yarn add "prisma@$version" --dev --ignore-scripts --ignore-workspace-root-check
-      yarn add "@prisma/client@$version" --ignore-scripts --ignore-workspace-root-check
+      yarn add "prisma@$version" --dev --ignore-scripts --ignore-workspace-root-check &
+      yarn add "@prisma/client@$version" --ignore-scripts --ignore-workspace-root-check &
       ;;
     esac
 

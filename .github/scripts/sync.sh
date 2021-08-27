@@ -6,18 +6,18 @@ shopt -s inherit_errexit || true
 branch="$1"
 default="dev"
 
-mkdir -p ~/.ssh
-echo "$SSH_KEY" > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-ssh-keyscan github.com >> ~/.ssh/known_hosts
+# mkdir -p ~/.ssh
+# echo "$SSH_KEY" > ~/.ssh/id_rsa
+# chmod 600 ~/.ssh/id_rsa
+# ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-git config --global user.email "prismabots@gmail.com"
-git config --global user.name "Prismo"
+# git config --global user.email "prismabots@gmail.com"
+# git config --global user.name "Prismo"
 
-git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
+# git remote add github "git@github.com:$GITHUB_REPOSITORY.git" || true
 
-git fetch github "$default"
-git reset --hard "github/$default"
+# git fetch github "$default"
+# git reset --hard "github/$default"
 
 version=$(bash .github/scripts/prisma-version.sh "$branch")
 bash .github/scripts/upgrade-all.sh "$version"

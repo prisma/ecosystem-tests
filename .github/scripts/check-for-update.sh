@@ -33,18 +33,18 @@ echo ""
 echo "=========================="
 echo "setting up ssh repo"
 
-mkdir -p ~/.ssh
-echo "$SSH_KEY" > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-ssh-keyscan github.com >> ~/.ssh/known_hosts
+# mkdir -p ~/.ssh
+# echo "$SSH_KEY" > ~/.ssh/id_rsa
+# chmod 600 ~/.ssh/id_rsa
+# ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-git config --global user.email "prismabots@gmail.com"
-git config --global user.name "Prismo"
+# git config --global user.email "prismabots@gmail.com"
+# git config --global user.name "Prismo"
 
-git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
-git fetch github "$branch"
-git reset --hard "github/$branch"
-git checkout "github/$branch"
+# git remote add github "git@github.com:$GITHUB_REPOSITORY.git"
+# git fetch github "$branch"
+# git reset --hard "github/$branch"
+# git checkout "github/$branch"
 
 # prepare script: read package.json but ignore workspace package.json files, redwood "web" and "api" package.json file
 pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client' || pkg.name == 'web' || pkg.name == 'api') { process.exit(0); }"
@@ -70,8 +70,8 @@ while [ $i -le $count ]; do
 
   echo "=========================="
   echo "updating git checkout"
-  git fetch github "$branch"
-  git reset --hard "github/$branch"
+  # git fetch github "$branch"
+  # git reset --hard "github/$branch"
 
   echo "=========================="
   echo "getting package version:"
@@ -143,11 +143,11 @@ while [ $i -le $count ]; do
           case "$item" in
           *"yarn2"*)
             echo "> yarn add prisma@$v --dev"
-            yarn add "prisma@$v" --dev
+            yarn add "prisma@$v" --dev &
             ;;
           *)
             echo "> yarn add prisma@$v --dev --ignore-scripts"
-            yarn add "prisma@$v" --dev --ignore-scripts 
+            yarn add "prisma@$v" --dev --ignore-scripts &
             ;;
           esac
           
@@ -169,11 +169,11 @@ while [ $i -le $count ]; do
           case "$item" in
           *"yarn2"*)
             echo "> yarn add @prisma/client@$v" 
-            yarn add "@prisma/client@$v"
+            yarn add "@prisma/client@$v" &
             ;;
           *)
             echo "> yarn add @prisma/client@$v --ignore-scripts" 
-            yarn add "@prisma/client@$v" --ignore-scripts
+            yarn add "@prisma/client@$v" --ignore-scripts &
             ;;
           esac
           
