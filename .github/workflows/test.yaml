@@ -98,8 +98,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -388,8 +388,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -425,7 +425,7 @@ jobs:
         framework:
           - nestjs
           - nextjs
-        clientEngine: [binary] #['library', 'binary']
+        clientEngine: [library] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -435,8 +435,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -630,7 +630,7 @@ jobs:
           - webpack
           - parcel
           - rollup
-        clientEngine: [binary] #['library', 'binary']
+        clientEngine: [library] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -640,8 +640,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -679,7 +679,7 @@ jobs:
           - apollo-server
           - type-graphql
           - nexus-schema
-        clientEngine: [binary] #['library', 'binary']
+        clientEngine: [library] #['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -689,8 +689,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node 12
         uses: actions/setup-node@v2
@@ -737,7 +737,7 @@ jobs:
           - supabase
           - supabase-pool
           - planetscale
-        clientEngine: [binary] #['library', 'binary']
+        clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -766,8 +766,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
@@ -795,7 +795,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        clientEngine: [binary] # ['library', 'binary']
+        clientEngine: [library] # ['library', 'binary']
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -808,8 +808,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Define Client Engine Type to test
-      #   run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn install
