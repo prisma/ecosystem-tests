@@ -67,7 +67,7 @@ jobs:
             prisma-json-schema-generator,
             prisma-nestjs-graphql,
           ]
-        clientEngine: ['binary'] #['library', 'binary']
+        clientEngine: ['library', 'binary']
     runs-on: ubuntu-latest
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
