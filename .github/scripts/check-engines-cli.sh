@@ -49,7 +49,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
 esac
 
 echo "Assumed OS: $os_name"
-echo "CLI_QUERY_ENGINE_TYPE == $CLI_QUERY_ENGINE_TYPE
+echo "CLI_QUERY_ENGINE_TYPE == $CLI_QUERY_ENGINE_TYPE"
 
 if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
   echo "Node-API: Disabled"
