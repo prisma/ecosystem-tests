@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "-------------- Checking Generated Client QE Binary --------------"
+echo "-------------- Checking Generated Client QE Engine --------------"
 
 dir=$1
 project=$2

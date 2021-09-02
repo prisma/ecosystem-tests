@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "-------------- Checking CLI/Engines QE Binary --------------"
+echo "-------------- Checking CLI/Engines QE Engine --------------"
+
 DIR=$1
 PROJECT=$2
 
@@ -14,7 +15,6 @@ else
   echo "Using env(PRISMA_CLI_QUERY_ENGINE_TYPE): $PRISMA_CLI_QUERY_ENGINE_TYPE"
   CLI_QUERY_ENGINE_TYPE=$PRISMA_CLI_QUERY_ENGINE_TYPE
 fi
-
 
 # These are skipping because they have different project structures
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
