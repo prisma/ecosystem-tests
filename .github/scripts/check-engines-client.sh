@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "-------------- Checking Generated Client QE Binary --------------"
+echo "-------------- Checking Generated Client QE Engine --------------"
 
 dir=$1
 project=$2
@@ -60,6 +60,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
 esac
 
 echo "Assumed OS: $os_name"
+echo "CLIENT_ENGINE_TYPE == $CLIENT_ENGINE_TYPE"
 
 if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
   echo "Node-API: Disabled"
