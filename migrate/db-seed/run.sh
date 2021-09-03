@@ -3,6 +3,7 @@
 set -eux
 
 yarn install
-yarn prisma generate
 
-yarn prisma db push
+# generate not needed, it will be done by db push
+# yarn prisma generate
+yarn prisma db push --force-reset
