@@ -196,8 +196,7 @@ jobs:
             db-seed
           ]
         clientEngine: ['library', 'binary']
-        # todo enable on all
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
