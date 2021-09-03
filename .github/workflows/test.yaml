@@ -739,6 +739,11 @@ jobs:
           - planetscale
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          # excludes mongodb-digitalocean for library engine (to be added again later)
+          - database: 'mongodb-digitalocean'
+            clientEngine: 'library'
+        
     runs-on: ${{ matrix.os }}
 
     env:
