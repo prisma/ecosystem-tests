@@ -42,21 +42,21 @@ test('should test .prisma/client files', async () => {
   `
   const data = await request(endpoint, query)
   const files =
-    process.env.PRISMA_FORCE_NAPI === 'true'
+    process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
       ? [
           'index-browser.js',
           'index.d.ts',
           'index.js',
-          'libquery_engine_napi-rhel-openssl-1.0.x.so.node',
           'package.json',
+          'query-engine-rhel-openssl-1.0.x',
           'schema.prisma',
         ]
       : [
           'index-browser.js',
           'index.d.ts',
           'index.js',
+          'libquery_engine-rhel-openssl-1.0.x.so.node',
           'package.json',
-          'query-engine-rhel-openssl-1.0.x',
           'schema.prisma',
         ]
   expect(data.files).toMatchObject(files)

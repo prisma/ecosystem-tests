@@ -2,7 +2,7 @@
 
 | CI Status                                                                                                                                                                                      | Branch        |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+-branch%3Apatch-dev+branch%3Adev) <!-- Attention: The `patch-dev` here is intentional, it is _filtering out_ the `patch-dev` branch - otherwise this link will show runs both for `dev` _and_ `patch-dev`. Github unfortunately has a (reported) bug in display the filter in the resulting page, so it look as if we were filtering _for_ `patch-dev`. The results are correct though. --> | `dev` |
+| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+-branch%3Apatch-dev+branch%3Adev) <!-- Attention: The `patch-dev` here is intentional, it is _filtering out_ the `patch-dev` branch - otherwise this link will show runs both for `dev` _and_ `patch-dev`. GitHub unfortunately has a (reported) bug in display the filter in the resulting page, so it look as if we were filtering _for_ `patch-dev`. The results are correct though. --> | `dev` |
 | [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)                | `latest`      |
 | [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)       | `patch-dev`   |
 | [![test integration](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=integration)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Aintegration) | `integration` |
@@ -20,7 +20,7 @@ Renovate is enabled for this repository for all dependencies except `prisma` and
 
 ### Prisma Updates
 
-If there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the e2e tests. This is implemented in `.github/workflows/check-for-update.yaml` using a Github Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `master`.
+If there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the e2e tests. This is implemented in `.github/workflows/check-for-update.yaml` using a GitHub Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `dev`.
 
 ### Branches and npm channels
 
@@ -50,7 +50,7 @@ We use [conventional commits](https://www.conventionalcommits.org) (also known a
 
 ## Development Workflow
 
-We develop directly against Github Actions. The workflow looks like this:
+We develop directly against GitHub Actions. The workflow looks like this:
 
 1. Checkout a branch
 2. Make your changes
@@ -78,3 +78,4 @@ set -eu
 If you need additional dependencies such as CLIs, you can install them in the optional `prepare.sh` in a specific folder. It will automatically be picked up to run before the `run.sh` file does.
 
 **Note:** It's important to add `prisma` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
+
