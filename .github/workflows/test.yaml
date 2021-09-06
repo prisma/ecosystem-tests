@@ -334,22 +334,22 @@ jobs:
           - 12.6.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
         clientEngine: ['library', 'binary']
-        architecture: [x64
+        architecture: [x64]
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        include:
-          - engine: napi
+        include: # include additional combinations for explicit x64 (64 bit Node) and x86 (32 bit Node) on Windows
+          - clientEngine: library
             node-version: 14
             architecture: x86
             os: windows-latest
-          - engine: binary
+          - clientEngine: binary
             node-version: 14
             architecture: x86
             os: windows-latest
-          - engine: napi
+          - clientEngine: library
             node-version: 14
             architecture: x64
             os: windows-latest
-          - engine: binary
+          - clientEngine: binary
             node-version: 14
             architecture: x64
             os: windows-latest
