@@ -29,7 +29,7 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
-  "libquery_engine-linux-arm-openssl-1.0.x.so.node",
+  "libquery_engine-linux-arm64-openssl-1.0.x.so.node",
   "package.json",
   "schema.prisma",
 ]
@@ -41,7 +41,7 @@ Array [
   "index.d.ts",
   "index.js",
   "package.json",
-  "query-engine-linux-arm-openssl-1.0.x",
+  "query-engine-linux-arm64-openssl-1.0.x",
   "schema.prisma",
 ]
 `)
