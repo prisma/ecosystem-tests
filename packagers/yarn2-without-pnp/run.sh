@@ -2,7 +2,7 @@
 
 set -eu
 
-yarn set version 2.x
+yarn set version 2
 
 # To avoid this error 
 # YN0028: │ The lockfile would have been modified by this install, which is explicitly forbidden.
