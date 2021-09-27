@@ -38,7 +38,7 @@ async function fetchWithPuppeteer(endpoint) {
   await page.goto(endpoint)
   await page.waitForTimeout(10000)
   const screenshot = await page.screenshot()
-  fs.writeFileSync('image.png', screenshot)
+  fs.writeFileSync('image.png', screenshot as Buffer)
   await browser.close()
 
   const r = await fetch(endpoint)
