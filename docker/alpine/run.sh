@@ -3,6 +3,7 @@
 set -eux
 export DEBUG="*"
 
+yarn install
 
 docker build --build-arg DEBUG=${DEBUG} \
 --build-arg PRISMA_TELEMETRY_INFORMATION="${PRISMA_TELEMETRY_INFORMATION}" \
