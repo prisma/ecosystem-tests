@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - core-features
+      - migrate
       - os
       - node
       - binaries
@@ -46,6 +47,7 @@ jobs:
       - databases-macos
       - process-managers
       - test-runners
+      - docker
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v2
@@ -57,6 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - core-features
+      - migrate
       - os
       - node
       - binaries
@@ -71,6 +74,7 @@ jobs:
       - databases-macos
       - process-managers
       - test-runners
+      - docker
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v2
@@ -128,6 +132,53 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
 
+  docker:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [alpine]
+        clientEngine: [library, binary] 
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+
   core-features:
     needs: start-time
 
@@ -145,6 +196,57 @@ jobs:
           ]
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+
+  migrate:
+    needs: start-time
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature:
+          [
+            db-seed-commonjs-pkg,
+            db-seed-esm-pkg
+          ]
+        clientEngine: ['library']
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -739,6 +841,11 @@ jobs:
           - planetscale
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
+        exclude:
+          # excludes mongodb-digitalocean for library engine (to be added again later)
+          - database: 'mongodb-digitalocean'
+            clientEngine: 'library'
+        
     runs-on: ${{ matrix.os }}
 
     env:
