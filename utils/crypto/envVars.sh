@@ -3,5 +3,7 @@
 # equivalent of dirname in node.js
 DIR=$(dirname "${BASH_SOURCE[0]}")
 
+echo $DIR
+
 # execute what ts-node has printed
 eval $(yarn --cwd $DIR ts-node $DIR/envVars.ts "$@")
