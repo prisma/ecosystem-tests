@@ -4,4 +4,4 @@
 DIR=$(dirname "${BASH_SOURCE[0]}")
 
 # execute what ts-node has printed
-eval $(yarn ts-node $DIR/envVars.ts "$@")
+eval $(yarn --cwd $DIR ts-node $DIR/envVars.ts "$@")
