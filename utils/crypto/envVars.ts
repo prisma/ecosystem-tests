@@ -1,11 +1,11 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 import { decrypt } from "./decrypt";
 
 const envVars = {
-    CF_DATA_PROXY_URL: "U2FsdGVkX1+ItPw3mYKKEc4YVfK6nnOFZg6Vfciid08=",
-    CF_ACCOUNT_ID: "U2FsdGVkX1+ItPw3mYKKEc4YVfK6nnOFZg6Vfciid08=",
-    CF_API_TOKEN: "U2FsdGVkX1+ItPw3mYKKEc4YVfK6nnOFZg6Vfciid08="
+    CF_DATA_PROXY_URL: "U2FsdGVkX1+lmUv1EuHjvyIv1lhPgqgIFnx7IkabaGkchigC2NHjZ6FVIBTC0pMNNo1OvdqLB6vGqHf7CFA+bXgtqkSdEStLQyys1L6WQnEUNEJn6PvtDwT5DOXE0gYHoUitFM9VP9yQI8BolMGZWYWpV7PT8UTxZuf7o+EaTqY8AsXXRF6YrKQGdM1aviY6",
+    CF_ACCOUNT_ID: "U2FsdGVkX1/kgKmF6Nc3rIIkben8az6boItdyzPJFj5vEPoxnWtfpyjEO8E6voHLB4Zl/+kddgTA14uboA+40A==",
+    CF_API_TOKEN: "U2FsdGVkX18fx8PpClVvhLV9TuBGm//20tdPUYRowj/hBUw+r7nECbfZ7DBPKgI9lelSXXKOXD4FFNg6FPpURA=="
 }
 
 /**

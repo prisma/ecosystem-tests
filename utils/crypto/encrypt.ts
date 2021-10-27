@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 import * as childProcess from 'child_process'
 import util from 'util'
@@ -19,7 +19,7 @@ export async function encrypt(value: string) {
 
     if (output.stderr) process.exit(1)
 
-    return output.stdout.trim()
+    return output.stdout.trim().replace(/\n/g, '')
 }
 
 /**
@@ -29,12 +29,7 @@ export async function encrypt(value: string) {
 async function main() {
     if (require.main !== module) return
 
-    const envVarArg = process.argv.slice(2)[0]
-    const equalSignPos = envVarArg.indexOf('=')
-    const envVarName = envVarArg.substr(0, equalSignPos)
-    const envVarValue = envVarArg.substr(equalSignPos + 1)
-
-    console.log(`${envVarName}=${await encrypt(envVarValue)}`)
+    console.log(await encrypt(process.argv[2]))
 }
 
 main()
