@@ -52,7 +52,7 @@ echo "Assumed OS: $os_name"
 echo "CLI_QUERY_ENGINE_TYPE == $CLI_QUERY_ENGINE_TYPE"
 
 if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
-  echo "Node-API: Disabled"
+  echo "Binary: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x"
@@ -68,7 +68,7 @@ if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
       ;;
   esac
 elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
-  echo "Node-API: Enabled"
+  echo "Library: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node"
@@ -83,6 +83,9 @@ elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
       qe_location2="node_modules\prisma\node_modules\engines\query_engine-windows.dll.node"
       ;;
   esac
+elif [ $CLI_QUERY_ENGINE_TYPE == "dataproxy" ]; then
+  echo "DataProxy: Enabled"
+  qe_location=""
 else
   echo "❌ CLI_QUERY_ENGINE_TYPE was not set"
   exit 1

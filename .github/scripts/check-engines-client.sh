@@ -93,6 +93,7 @@ elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
   esac
 elif [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
   echo "DataProxy: Enabled"
+  qe_location=""
 else
   echo "❌ CLIENT_ENGINE_TYPE was not set"
   exit 1
