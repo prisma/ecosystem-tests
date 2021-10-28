@@ -101,7 +101,7 @@ fi
 echo "--- ls -lh node_modules/.prisma/client/ ---"
 ls -lh node_modules/.prisma/client/
 echo "---"
-if [ -f "$qe_location" ] || [ $CLI_QUERY_ENGINE_TYPE == "dataproxy" ] ; then
+if [ -f "$qe_location" ] || [ $CLIENT_ENGINE_TYPE == "dataproxy" ] ; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
