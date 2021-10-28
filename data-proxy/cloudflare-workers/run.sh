@@ -2,4 +2,4 @@
 
 yarn install
 yarn prisma generate
-yarn wrangler publish
+yarn wrangler publish 2> deployment-url.txt
