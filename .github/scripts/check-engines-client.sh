@@ -93,7 +93,6 @@ elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
   esac
 elif [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
   echo "DataProxy: Enabled"
-  qe_location=""
 else
   echo "❌ CLIENT_ENGINE_TYPE was not set"
   exit 1
@@ -102,7 +101,7 @@ fi
 echo "--- ls -lh node_modules/.prisma/client/ ---"
 ls -lh node_modules/.prisma/client/
 echo "---"
-if [ -f "$qe_location" ] ; then
+if [ -f "$qe_location" ] || [ $CLI_QUERY_ENGINE_TYPE == "dataproxy" ] ; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
