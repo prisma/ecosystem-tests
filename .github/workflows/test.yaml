@@ -689,7 +689,6 @@ jobs:
       AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
       AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      AES_256_PASS: ${{ secrets.AES_256_PASS }}
 
     steps:
       - uses: actions/checkout@v2
@@ -733,6 +732,7 @@ jobs:
       matrix:
         platform:
           - cloudflare-workers
+        clientEngine: ['dataproxy']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
@@ -752,6 +752,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: yarn
