@@ -63,7 +63,7 @@ echo "Assumed OS: $os_name"
 echo "CLIENT_ENGINE_TYPE == $CLIENT_ENGINE_TYPE"
 
 if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
-  echo "Node-API: Disabled"
+  echo "Binary: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/.prisma/client/query-engine-debian-openssl-1.1.x"
@@ -76,7 +76,7 @@ if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
       ;;
   esac
 elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
-  echo "Node-API: Enabled"
+  echo "Library: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node"
@@ -91,6 +91,8 @@ elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
       os_name=notset
       ;;
   esac
+elif [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
+  echo "DataProxy: Enabled"
 else
   echo "❌ CLIENT_ENGINE_TYPE was not set"
   exit 1
