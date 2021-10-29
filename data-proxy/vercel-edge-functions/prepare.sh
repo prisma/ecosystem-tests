@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests data-proxy cloudflare-workers build'
+export PRISMA_TELEMETRY_INFORMATION='e2e-tests data-proxy vercel-edge-functions build'
 
 source ../../utils/crypto/envVars.sh CF_DATA_PROXY_URL VERCEL_EDGE_FUNCTIONS_PROJECT_ID VERCEL_EDGE_FUNCTIONS_ORG_ID
 
