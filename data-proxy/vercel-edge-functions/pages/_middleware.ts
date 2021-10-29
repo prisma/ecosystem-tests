@@ -1,3 +1,4 @@
+import type { NextRequest } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient({})
@@ -15,8 +16,8 @@ async function getUsers() {
   })
 }
 
-addEventListener("fetch", (event: FetchEvent) => {
-  if (new URL(event.request.url).pathname === '/') {
-    return event.respondWith(getUsers())
+export function middleware(request: NextRequest) {
+  if (new URL(request.url).pathname === '/') {
+    return getUsers()
   }
-})
+}
