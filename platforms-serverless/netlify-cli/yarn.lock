@@ -1204,10 +1204,10 @@
     validate-npm-package-name "^3.0.0"
     yargs "^15.3.0"
 
-"@netlify/config@^15.8.0":
-  version "15.8.0"
-  resolved "https://registry.yarnpkg.com/@netlify/config/-/config-15.8.0.tgz#e7d0c8ab7e8c913af4c7fbfd396d7120e271ba1b"
-  integrity sha512-B/0adxE6FvaxfFmM55L/jQIbVuSuqWHbudv26zwPJw3vo6jq+BlHKLnNGBjKopjMjmV28z+vKVd5j9oUMmyg4Q==
+"@netlify/config@^15.8.1":
+  version "15.8.2"
+  resolved "https://registry.yarnpkg.com/@netlify/config/-/config-15.8.2.tgz#5fe4a237864f94fd0da54a2df267b798081fba17"
+  integrity sha512-5EEG+SaYm76UPgvepByrSuFlIxrnUphs0ww3tGUdyqDn49222T5pHKkMjDh2ukxCT6D+YPZx8U8H3+YBdoT4qA==
   dependencies:
     "@ungap/from-entries" "^0.2.1"
     array-flat-polyfill "^1.0.1"
@@ -1225,9 +1225,9 @@
     js-yaml "^4.0.0"
     make-dir "^3.1.0"
     map-obj "^4.0.0"
-    netlify "^8.0.3"
+    netlify "^8.0.4"
     netlify-headers-parser "^4.0.1"
-    netlify-redirect-parser "^11.0.2"
+    netlify-redirect-parser "^11.0.3"
     omit.js "^2.0.2"
     p-locate "^5.0.0"
     path-exists "^4.0.0"
@@ -6567,13 +6567,13 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@6.14.10:
-  version "6.14.10"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-6.14.10.tgz#f82614da60d9a0f29e4673a95c11c0bf9f62669b"
-  integrity sha512-y36OPWlugPuKwp7qINIJf59mcLYC35sMnpJB31u4xCFJ7CtSoV0dynfU/rWMi2RCNhKU5tg3bLfvPK6m3ozkvQ==
+netlify-cli@6.14.11:
+  version "6.14.11"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-6.14.11.tgz#22123de4fb0f793e7008e3e1ebd72d4916bc1126"
+  integrity sha512-20u+w47BF7CKAE3XDB2icFpwVrEXEMxfFFjnD0X7X7QtLMW3yDxIYp5P2b8tLwL55bwT327cIbnQ7hObaBzeDg==
   dependencies:
     "@netlify/build" "^18.21.2"
-    "@netlify/config" "^15.8.0"
+    "@netlify/config" "^15.8.1"
     "@netlify/framework-info" "^5.11.0"
     "@netlify/local-functions-proxy" "^1.1.1"
     "@netlify/plugin-edge-handlers" "^1.11.22"
@@ -6716,6 +6716,16 @@ netlify-redirect-parser@^11.0.2:
     path-exists "^4.0.0"
     toml "^3.0.0"
 
+netlify-redirect-parser@^11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/netlify-redirect-parser/-/netlify-redirect-parser-11.0.3.tgz#29bedbb7e81bc6ead691d7052b7bf515525dc3c1"
+  integrity sha512-L16LibuCzfXT/9sAuy4ovarZ23y1JVhCIa5zqGo96Z3d2RgM9EJ0ZeLNdzsG7zABm2za5FLaM/XItfm33FcZsw==
+  dependencies:
+    filter-obj "^2.0.2"
+    is-plain-obj "^3.0.0"
+    path-exists "^4.0.0"
+    toml "^3.0.0"
+
 netlify-redirect-parser@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/netlify-redirect-parser/-/netlify-redirect-parser-8.2.0.tgz#cf4eb0b0e960468857407005a69618fc244e4b9d"
@@ -6748,6 +6758,19 @@ netlify@^8.0.3:
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/netlify/-/netlify-8.0.3.tgz#05dda56cc079d1a81ba119b3edc45a35d4cf499e"
   integrity sha512-X20SPnE1N/nRiXa6j7BRrn/TtL4i8sgawFLHOBC5e1HzUUwPyNQAiK7nWFv4igUHUZZbIWFSqTzB/ZoHsOrJEA==
+  dependencies:
+    "@netlify/open-api" "^2.5.2"
+    lodash.camelcase "^4.3.0"
+    micro-api-client "^3.3.0"
+    node-fetch "^2.6.1"
+    omit.js "^2.0.2"
+    p-wait-for "^3.2.0"
+    qs "^6.9.6"
+
+netlify@^8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/netlify/-/netlify-8.0.4.tgz#2dcb785b527b5799f55c041f402ae6b842466bd9"
+  integrity sha512-v0iG/u5y3GDP+H50SEbQHUdYHTNMNKtoxUP9cBbt2H0i4rpCcebQAQ1AKEwbpxF8sCO0+ywXIqpGiOd5Wwzjew==
   dependencies:
     "@netlify/open-api" "^2.5.2"
     lodash.camelcase "^4.3.0"
