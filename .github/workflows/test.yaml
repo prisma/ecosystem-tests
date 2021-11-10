@@ -733,7 +733,7 @@ jobs:
         platform:
           - cloudflare-workers
           - vercel-edge-functions
-        clientEngine: ['dataproxy']
+        clientEngine: ['dataproxy'] # only valid value here
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-workers-${{ matrix.platform }}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests data-proxy cloudflare-workers build'
+export PRISMA_TELEMETRY_INFORMATION='e2e-tests workers cloudflare-workers build'
 
 source ../../utils/crypto/envVars.sh CF_ACCOUNT_ID CF_API_TOKEN CF_DATA_PROXY_URL
 
