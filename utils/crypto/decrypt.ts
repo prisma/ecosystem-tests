@@ -23,7 +23,7 @@ export async function decrypt(value: string) {
 }
 
 /**
- * Decrypt an env var via the command line
+ * Decrypt a value via the command line
  * @returns 
  */
 async function main() {

@@ -23,7 +23,7 @@ export async function encrypt(value: string) {
 }
 
 /**
- * Encrypt an env var via the command line
+ * Encrypt a value via the command line
  * @returns 
  */
 async function main() {

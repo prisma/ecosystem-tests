@@ -2,7 +2,7 @@
 
 export PRISMA_TELEMETRY_INFORMATION='e2e-tests workers cloudflare-workers build'
 
-source ../../utils/crypto/envVars.sh CF_ACCOUNT_ID CF_API_TOKEN CF_DATA_PROXY_URL
+source ../../utils/crypto/setEnv.sh CF_ACCOUNT_ID CF_API_TOKEN CF_DATA_PROXY_URL
 
 # we add the data proxy URL into the configuration file directly
 cp -fr wrangler.base.toml wrangler.toml # needed for e2e retries
