@@ -10,4 +10,4 @@ MOD_DIR="$DIR/../../node_modules"
 TS_NODE=$(yarn --modules-folder $MOD_DIR bin ts-node)
 
 # execute what ts-node has printed out
-eval $($TS_NODE $DIR/envVars.ts "$@")
+eval $($TS_NODE $DIR/setEnv.ts "$@")

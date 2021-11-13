@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
 import { decrypt } from './decrypt';
-import envVars from './envVars'
+import { envVars } from './envVars'
 
 /**
  * Decrypt a given encrypted entry of `envVars`

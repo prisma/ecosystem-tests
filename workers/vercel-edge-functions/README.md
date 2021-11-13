@@ -4,8 +4,8 @@ Deploys a Prisma Client using the Data Proxy on Vercel Edge Functions.
 
 ## How to run this
 
-Set the environment variable called via `export AES_256_PASS=<value>`
+Set the crypto env var via `export AES_256_PASS=<value>`
 
 ```sh
-./prepare.sh && ./run.sh && ./prepare.sh && ./finally.sh
+source ./prepare.sh && ./run.sh && ./test.sh && ./finally.sh
 ```

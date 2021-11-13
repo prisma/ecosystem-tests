@@ -1,4 +1,4 @@
-export default {
+export const envVars = {
     /** Workers **/
 
     // cloudflare-workers
