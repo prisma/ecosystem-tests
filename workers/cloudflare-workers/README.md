@@ -1,6 +1,6 @@
-# vercel-edge-functions
+# cloudflare workers
 
-Deploys a Prisma Client using the Data Proxy on Vercel Edge Functions.
+Deploys a Prisma Client using the Data Proxy on Cloudflare Workers.
 
 ## How to run this
 
