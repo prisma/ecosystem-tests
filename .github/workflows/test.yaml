@@ -31,6 +31,7 @@ jobs:
   report-to-slack-success:
     runs-on: ubuntu-latest
     needs:
+      - workers
       - core-features
       - migrate
       - os
@@ -58,6 +59,7 @@ jobs:
   report-to-slack-failure:
     runs-on: ubuntu-latest
     needs:
+      - workers
       - core-features
       - migrate
       - os
@@ -711,6 +713,54 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
+
+  workers:
+    needs: start-time
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - cloudflare-workers
+          - vercel-edge-functions
+        clientEngine: ['dataproxy'] # only valid value here
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.run_id }}-workers-${{ matrix.platform }}
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+      NPM_CONFIG_LOGLEVEL: error
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      AES_256_PASS: ${{ secrets.AES_256_PASS }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: use node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: test ${{ matrix.platform }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
