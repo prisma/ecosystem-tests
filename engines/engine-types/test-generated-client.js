@@ -1,6 +1,7 @@
 // @ts-check
 const PrismaClient = require('@prisma/client').PrismaClient
 const fs = require('fs')
+const path = require('path')
 let data = {}
 async function main() {
   const prisma = new PrismaClient()
@@ -39,10 +40,15 @@ async function main() {
     users: usersDeleted,
     posts: postsDeleted,
   }
-
+  // @ts-ignore
+  data['clientEngine'] = prisma._clientEngineType
   await prisma.$disconnect()
-  fs.writeFileSync('./data.json', JSON.stringify(data, undefined, 2), {
-    encoding: 'utf8',
-  })
+  fs.writeFileSync(
+    path.join(__dirname, './data.json'),
+    JSON.stringify(data, undefined, 2),
+    {
+      encoding: 'utf8',
+    },
+  )
 }
 main()

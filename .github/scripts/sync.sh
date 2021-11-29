@@ -31,7 +31,7 @@ if [ -z "$(git status -s)" ]; then
   exit 0
 fi
 
-git commit -am "chore: sync, use $(bash .github/scripts/prisma-version.sh "$branch")"
+git commit -am "chore: sync, use $version"
 
 # force-push to $branch
 git push github "HEAD:refs/heads/$branch" --force

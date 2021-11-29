@@ -6,7 +6,7 @@ func="$(cat func-tmp.txt)"
 url="https://us-central1-prisma-e2e-tests-265911.cloudfunctions.net/$func"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
 
-if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   files=',"files":["index-browser.js","index.d.ts","index.js","package.json","query-engine-debian-openssl-1.1.x","schema.prisma"]'
 else
   files=',"files":["index-browser.js","index.d.ts","index.js","libquery_engine-debian-openssl-1.1.x.so.node","package.json","schema.prisma"]'

@@ -5,12 +5,14 @@ set -eux
 # just make sure this variable is set because gcloud expects it to be set
 echo "$GCP_FUNCTIONS_ACCOUNT"
 
-# When PRISMA_FORCE_NAPI is set, overwrite existing schema file with one that enables the napi preview feature
-if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
-  # use the default schema at prisma/schema.prisma file
-  true
+
+# When PRISMA_CLIENT_ENGINE_TYPE is set to `binary`, overwrite existing schema file with one that sets the engineType to 'binary'
+if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
+  echo "Using Binary enabled schema"
+  cp ./prisma/schema-with-binary.prisma ./prisma/schema.prisma
 else
-  cp ./prisma/schema-with-napi.prisma ./prisma/schema.prisma
+  echo "Using Node-API enabled schema"
+  cp ./prisma/schema-with-node-api.prisma ./prisma/schema.prisma
 fi
 
 yarn install
