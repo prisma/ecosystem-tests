@@ -18,7 +18,7 @@ test('should test prisma version', async () => {
   `
   const data = await request(endpoint, query)
   expect(data.prismaVersion).toEqual(pjson.dependencies['@prisma/client'])
-})
+}, 10000)
 
 test('should query graphql users', async () => {
   const query = gql`
@@ -32,7 +32,7 @@ test('should query graphql users', async () => {
   `
   const data = await request(endpoint, query)
   expect(data).toMatchSnapshot()
-})
+}, 10000)
 
 test('should test .prisma/client files', async () => {
   const query = gql`
