@@ -52,7 +52,7 @@ echo "Assumed OS: $os_name"
 echo "CLI_QUERY_ENGINE_TYPE == $CLI_QUERY_ENGINE_TYPE"
 
 if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
-  echo "Node-API: Disabled"
+  echo "Binary: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x"
@@ -68,7 +68,7 @@ if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
       ;;
   esac
 elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
-  echo "Node-API: Enabled"
+  echo "Library: Enabled"
   case $os_name in
     linux)
       qe_location="node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node"
@@ -83,6 +83,8 @@ elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
       qe_location2="node_modules\prisma\node_modules\engines\query_engine-windows.dll.node"
       ;;
   esac
+elif [ $CLI_QUERY_ENGINE_TYPE == "dataproxy" ]; then
+  echo "DataProxy: Enabled"
 else
   echo "❌ CLI_QUERY_ENGINE_TYPE was not set"
   exit 1
@@ -99,7 +101,9 @@ echo "---"
 
 # TODO Add test that makes sure not _wrong_ files are present as well
 # Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
-if [ -f "$qe_location" ]  || [ -f "$qe_location2" ] ; then
+if [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
+  echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
+elif [ -f "$qe_location" ] || [ -f "$qe_location2" ]; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} or ${qe_location2} when using ${os_name}"
