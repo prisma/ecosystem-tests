@@ -6,7 +6,7 @@ Tests `pnpm`.
 
 ### Environment variables
 
-The environment variable `PACKAGERS_PNPM_PG_URL` should point to a postgres
+The environment variable `DATABASE_URL` should point to a postgres
 database. In CI, it uses our internal e2e test database that was created with
 [prisma/db-provision](https://github.com/prisma/db-provision).
 

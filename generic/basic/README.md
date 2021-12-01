@@ -9,7 +9,8 @@ CI, for example on different operating systems and using different node versions
 
 ### Environment variables
 
-The environment variable `OS_BASE_PG_URL` should point to a postgres database.
+The environment variable `DATABASE_URL` should point to a postgres database. 
+
 In CI, it uses our internal e2e test database using `os-base` as database URL.
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.

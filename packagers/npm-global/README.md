@@ -6,7 +6,8 @@ Tests global install of `prisma` package with `npm`.
 
 ### Environment variables
 
-The environment variable `PACKAGERS_NPM_PG_URL` should point to a postgres database.
+The environment variable `DATABASE_URL` should point to a postgres database.
+
 In CI, it uses our internal e2e test database using `packagers-npm` as database URL.
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
