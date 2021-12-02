@@ -448,13 +448,14 @@ jobs:
         with:
           node-version: 12
 
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+      # no database used in existing binaries tests
+      # - name: Set test specific DATABASE_URL
+      #   run: |
+      #     string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+      #     search=database
+      #     replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+      #     replaced=${string/$search/$replace}
+      #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.clientEngine}}
         id: run-test
