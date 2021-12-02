@@ -33,7 +33,7 @@ echo "running $dir/$project"
 if [[ "$project" = "foobar" ]]
 then
   true
-  # if a project needs to be skipped for any reason, replace `foobar` with its folder name
+  # if a project needs to be skipped for any reason, replace `foobar` with its folder name or add additional conditions
 else
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
