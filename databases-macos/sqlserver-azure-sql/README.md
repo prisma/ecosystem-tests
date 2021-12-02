@@ -1,4 +1,4 @@
-# SQL Server
+# SQL Server on Azure SQL (from MacOS)
 
 Prisma Client with SQL Server.
 
@@ -7,8 +7,3 @@ Prisma Client with SQL Server.
 ### Run tests
 
 Set the env var (`DATABASE_URL_DB_SQL_SERVER_AZURE_SQL`). The data should match the snapshot.
-
-```shell script
-yarn install
-yarn test
-```
