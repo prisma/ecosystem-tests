@@ -122,17 +122,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   docker:
     needs: start-time
@@ -169,17 +169,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   core-features:
     needs: start-time
@@ -224,17 +224,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   migrate:
     needs: start-time
@@ -275,17 +275,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{matrix.clientEngine}}
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   engines:
     needs: start-time
@@ -319,11 +319,11 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test engines - ${{ matrix.feature }}
-        run: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.feature }}
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   os:
     needs: start-time
@@ -359,7 +359,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test on ${{ matrix.os }} - ${{matrix.clientEngine}}
+      - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -411,7 +411,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test on node ${{ matrix.node }} - ${{matrix.clientEngine}}
+      - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -457,17 +457,17 @@ jobs:
       #     replaced=${string/$search/$replace}
       #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{matrix.clientEngine}}
+      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.binary }} ${{ matrix.os }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.binary }} ${{ matrix.os }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
     needs: start-time
@@ -510,17 +510,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: packager ${{ matrix.packager }} - ${{matrix.clientEngine}}
+      - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.packager }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.packager }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
 
   frameworks:
     needs: start-time
@@ -557,17 +557,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: framework ${{ matrix.framework }} - ${{matrix.clientEngine}}
+      - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.framework }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.framework }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
 
   platforms:
     needs: start-time
@@ -627,11 +627,11 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   platforms-serverless:
     needs: start-time
@@ -718,11 +718,11 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   workers:
     needs: start-time
@@ -766,11 +766,11 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   bundlers:
     needs: start-time
@@ -808,17 +808,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.bundler }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.bundler }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.bundler }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.bundler }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.bundler }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.bundler }}
 
   libraries:
     needs: start-time
@@ -863,11 +863,11 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.library }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.library }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.library }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
 
   databases:
     needs: start-time
@@ -934,17 +934,17 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.database }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.database }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
   databases-macos:
     needs: start-time
@@ -976,17 +976,17 @@ jobs:
         with:
           node-version: 12
 
-      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.database }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.database }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
   test-runners:
     needs: start-time
@@ -1022,14 +1022,14 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.test-runner }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.test-runner }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job}} ${{ matrix.test-runner }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.test-runner }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job}} ${{ matrix.test-runner }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
