@@ -31,14 +31,7 @@ yarn pkg node_modules/prisma -t node12-$os
 ./$filename init --datasource-provider sqlite
 
 # add model to schema file
-cat <> prisma/schema.prisma
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-}
-EOF
+echo -e "\nmodel User {\n  id    Int     @id @default(autoincrement())\  email String  @unique\n  name  String?\n}" >> prisma/schema.prisma
 
 #export DEBUG="*"
 set DOTENV_CONFIG_DEBUG=true
