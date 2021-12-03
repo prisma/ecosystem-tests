@@ -25,3 +25,11 @@ esac
 yarn pkg node_modules/prisma -t node12-$os
 
 ./$filename --version
+
+./$filename
+
+./$filename init --datasource-provider sqlite
+
+./$filename db push
+
+./$filename generate
