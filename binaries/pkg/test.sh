@@ -30,9 +30,9 @@ yarn pkg node_modules/prisma -t node12-$os
 
 ./$filename init --datasource-provider sqlite
 
-set DEBUG=*
-export DEBUG="*"
+#export DEBUG="*"
+export DOTENV_CONFIG_DEBUG="true"
 export DATABASE_URL="file:./dev.db"
-./$filename db push
+./$filename db push --skip-generate
 
 ./$filename generate
