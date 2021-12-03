@@ -46,4 +46,6 @@ export DOTENV_CONFIG_DEBUG="true"
 export DATABASE_URL="file:./dev.db"
 ./$filename2 db push --skip-generate
 
+cat prisma/schema.prisma
+
 ./$filename2 generate
