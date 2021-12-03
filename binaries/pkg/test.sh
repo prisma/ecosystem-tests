@@ -30,6 +30,9 @@ yarn pkg node_modules/prisma -t node12-$os
 
 ./$filename init --datasource-provider sqlite
 
+cat .env
+
+set DEBUG="*"
 ./$filename db push
 
 ./$filename generate
