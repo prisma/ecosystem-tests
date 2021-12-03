@@ -2,6 +2,8 @@
 
 set -eux
 
+yarn prisma -v
+
 os=""
 filename="./prisma"
 filename2="./amsirp"
