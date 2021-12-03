@@ -4,6 +4,7 @@ set -eux
 
 os=""
 filename="./prisma"
+filename2="./amsirp"
 
 case $OS in
 "ubuntu-latest")
@@ -15,6 +16,7 @@ case $OS in
 "windows-latest")
   os="win"
   filename="./prisma.exe"
+  filename2="./prisma.exe"
   ;;
 *)
   echo "no such os $OS"
@@ -24,11 +26,14 @@ esac
 
 yarn pkg node_modules/prisma -t node12-$os
 
-./$filename --version
+# workaround for issue documented in https://github.com/prisma/prisma/pull/10568
+mv $filename $filename2
 
-./$filename
+./$filename2 --version
 
-./$filename init --datasource-provider sqlite
+./$filename2
+
+./$filename2 init --datasource-provider sqlite
 
 # add model to schema file
 echo -e "\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email String  @unique\n  name  String?\n}\n" >> prisma/schema.prisma
@@ -36,7 +41,9 @@ echo -e "\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email 
 #export DEBUG="*"
 set DOTENV_CONFIG_DEBUG=true
 export DOTENV_CONFIG_DEBUG="true"
-export DATABASE_URL="file:./dev.db"
-./$filename db push --skip-generate
 
-./$filename generate
+# work around .env not being read successfully
+export DATABASE_URL="file:./dev.db"
+./$filename2 db push --skip-generate
+
+./$filename2 generate
