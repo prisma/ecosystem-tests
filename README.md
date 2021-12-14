@@ -85,7 +85,7 @@ Please write POSIX-compliant scripts (not bash) and use the the following templa
 ```shell script
 #!/bin/sh
 
-set -eu
+set -eux
 
 # ...
 ```
