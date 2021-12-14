@@ -1,10 +1,11 @@
 datasource db {
-    provider = "postgresql"
+    provider = "cockroachDb"
     url      = env("DATABASE_URL_COACKROACH_CLOUD")
 }
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["cockroachDb"]
 }
 
 model User {
