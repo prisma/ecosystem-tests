@@ -1,0 +1,20 @@
+{
+  "name": "db-seed-esm-pkg",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "14.18.0",
+    "jest": "27.4.5",
+    "prettier": "2.5.1",
+    "prisma": "3.7.0-dev.32",
+    "ts-node": "10.4.0"
+  },
+  "dependencies": {
+    "@prisma/client": "3.7.0-dev.32"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
+  }
+}

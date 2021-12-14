@@ -33,7 +33,7 @@ echo "running $dir/$project"
 if [[ "$project" = "foobar" ]]
 then
   true
-  # if a project needs to be skipped for any reason, replace `foobar` with its folder name
+  # if a project needs to be skipped for any reason, replace `foobar` with its folder name or add additional conditions
 else
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
@@ -96,9 +96,9 @@ fi
 
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
-  echo "-------------- Checking Binaries ---------------"
-  bash ../../.github/scripts/check-cli-binaries.sh $dir $project
-  bash ../../.github/scripts/check-client-binaries.sh $dir $project
+  echo "-------------- Checking Engines ----------------"
+  bash ../../.github/scripts/check-engines-client.sh $dir $project
+  bash ../../.github/scripts/check-engines-cli.sh $dir $project
   echo "------------------------------------------------"
 fi
 
