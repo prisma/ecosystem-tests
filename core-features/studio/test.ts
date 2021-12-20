@@ -15,7 +15,7 @@ async function sendRequest(
   const response = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/plain',
     },
     body: JSON.stringify({
       requestId: 1,
