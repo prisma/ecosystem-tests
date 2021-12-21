@@ -1,3 +1,4 @@
 module.exports = {
-  target: 'node'
+  target: 'node',
+  externals: ['encoding']
 }
