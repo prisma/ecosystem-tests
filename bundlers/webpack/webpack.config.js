@@ -1,4 +1,4 @@
 module.exports = {
   target: 'node',
-  externals: ['encoding']
+  externals: ['encoding', '_http_common']
 }
