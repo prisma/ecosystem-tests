@@ -1,19 +1,29 @@
 #!/bin/bash
 
+set -e
+
 echo "-------------- Checking CLI/Engines QE Engine --------------"
 
 DIR=$1
 PROJECT=$2
 
-DEFAULT_CLI_QUERY_ENGINE_TYPE='library'
+DEFAULT_QUERY_ENGINE_TYPE='library'
 
 # Check to see if the env var "PRISMA_CLI_QUERY_ENGINE_TYPE" is set if not then using the default
 if [ -z "$PRISMA_CLI_QUERY_ENGINE_TYPE" ]; then
-  echo "Using default cli qe: $DEFAULT_CLI_QUERY_ENGINE_TYPE"
-  CLI_QUERY_ENGINE_TYPE=$DEFAULT_CLI_QUERY_ENGINE_TYPE
+  echo "Using default cli qe: $DEFAULT_QUERY_ENGINE_TYPE"
+  CLI_QUERY_ENGINE_TYPE=$DEFAULT_QUERY_ENGINE_TYPE
 else
   echo "Using env(PRISMA_CLI_QUERY_ENGINE_TYPE): $PRISMA_CLI_QUERY_ENGINE_TYPE"
   CLI_QUERY_ENGINE_TYPE=$PRISMA_CLI_QUERY_ENGINE_TYPE
+fi
+
+if [ -z "$PRISMA_CLIENT_ENGINE_TYPE" ]; then
+  echo "Using default client engine type: $DEFAULT_QUERY_ENGINE_TYPE"
+  CLIENT_ENGINE_TYPE=$DEFAULT_QUERY_ENGINE_TYPE
+else
+  echo "Using env(PRISMA_CLIENT_ENGINE_TYPE): $PRISMA_CLIENT_ENGINE_TYPE"
+  CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
 fi
 
 # These are skipping because they have different project structures
@@ -101,7 +111,7 @@ echo "---"
 
 # TODO Add test that makes sure not _wrong_ files are present as well
 # Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
-if [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
+if [ "$CLIENT_ENGINE_TYPE" == "dataproxy" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
 elif [ -f "$qe_location" ] || [ -f "$qe_location2" ]; then
   echo "✔ Correct Query Engine exists"
