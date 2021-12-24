@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 echo "-------------- Checking CLI/Engines QE Engine --------------"
 
 DIR=$1
