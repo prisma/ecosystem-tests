@@ -18,7 +18,7 @@ function patchPackageJson(packageJsonPath) {
   }
 
   const patchedPackageJson = JSON.stringify(packageManifest, null, 2)
-  fs.writeFileSync(packageJsonPath, patchedPackageJson)
+  fs.writeFileSync(packageJsonPath, patchedPackageJson + '\n')
 }
 
 patchPackageJson(path.join(__dirname, 'package.json'))
