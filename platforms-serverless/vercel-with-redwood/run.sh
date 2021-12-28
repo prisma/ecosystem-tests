@@ -5,7 +5,10 @@ set -eu
 yarn policies set-version 1.18.0
 
 export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-with-redwood build'
+
+node patch-package-json.js
 yarn
+
 export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_PROJECT_ID
 export VERCEL_ORG_ID=$VERCEL_WITH_REDWOOD_ORG_ID
 export FORCE_RUNTIME_TAG=canary
