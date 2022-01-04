@@ -33,7 +33,7 @@ datasource db {
     ? `previewFeatures = ${options.previewFeatures.map((p) => `["${p}"]`)}`
     : ''
   const clientEngineType = options?.engineType
-    ? `engineType = ${options.engineType}`
+    ? `engineType = "${options.engineType}"`
     : ''
   const binaryTargetsStr = options?.binaryTargets
     ? `binaryTargets = ${options.binaryTargets.map((p) => `["${p}"]`)}`
