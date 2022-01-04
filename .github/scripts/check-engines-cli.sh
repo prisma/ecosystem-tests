@@ -101,7 +101,7 @@ echo "---"
 
 # TODO Add test that makes sure not _wrong_ files are present as well
 # Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
-if [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
+if [ "$CLI_QUERY_ENGINE_TYPE" == "dataproxy" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
 elif [ -f "$qe_location" ] || [ -f "$qe_location2" ]; then
   echo "✔ Correct Query Engine exists"
