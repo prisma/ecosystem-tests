@@ -4,8 +4,11 @@ const client = new PrismaClient()
 
 // A `main` function so that we can use async/await
 async function main() {
+  console.log("before any action")
+  
   await client.user.deleteMany({})
-
+  console.log("deleted all users")
+            
   const objectId = '6d795f757365725f69643030'
 
   const user_created = await client.user.create({
