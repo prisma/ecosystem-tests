@@ -8,19 +8,24 @@ async function main() {
 
   const objectId = '6d795f757365725f69643030'
 
-  await client.user.create({
+  const user_created = await client.user.create({
     data: {
       id: objectId,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
   })
+  console.log("user_created", user_created)
 
+  const users = await client.user.findMany()
+  console.log("users", users)
+  
   const user = await client.user.findUnique({
     where: {
       id: objectId,
     },
   })
+  console.log("user", user)
 
   const expect = JSON.stringify({
     id: objectId,
