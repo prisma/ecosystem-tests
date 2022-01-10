@@ -10,10 +10,11 @@ describe('use data proxy', () => {
     console.debug(cloudflareWorkersDeploymentUrl)
     
     const response = await fetch(cloudflareWorkersDeploymentUrl)
-    console.debug(await response.text())
     
-    const jsonData = await response.json()
-
+    const bodyAsText = await response.text()
+    console.debug(bodyAsText)
+    
+    const jsonData = JSON.parse(bodyAsText)
     expect(jsonData).toMatchInlineSnapshot(`
 Object {
   "data": Array [
