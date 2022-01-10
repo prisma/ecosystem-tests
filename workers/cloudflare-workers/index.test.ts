@@ -7,9 +7,14 @@ describe('use data proxy', () => {
     jest.setTimeout(30000)
 
     const cloudflareWorkersDeploymentUrl = process.env.DEPLOYMENT_URL!
-    const response = await fetch(cloudflareWorkersDeploymentUrl )
-    const jsonData = await response.json()
-
+    console.debug(cloudflareWorkersDeploymentUrl)
+    
+    const response = await fetch(cloudflareWorkersDeploymentUrl)
+    
+    const bodyAsText = await response.text()
+    console.debug(bodyAsText)
+    
+    const jsonData = JSON.parse(bodyAsText)
     expect(jsonData).toMatchInlineSnapshot(`
 Object {
   "data": Array [

@@ -7,9 +7,14 @@ describe('use data proxy', () => {
     jest.setTimeout(30000)
 
     const vercelEdgeFunctionsDeployment = process.env.DEPLOYMENT_URL!
+    console.debug(vercelEdgeFunctionsDeployment)
+    
     const response = await fetch(vercelEdgeFunctionsDeployment)
-    const jsonData = await response.json()
 
+    const bodyAsText = await response.text()
+    console.debug(bodyAsText)
+    
+    const jsonData = JSON.parse(bodyAsText)
     expect(jsonData).toMatchInlineSnapshot(`
 Object {
   "data": Array [
