@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# disable cmd printitng in this script
+# disable cmd printings in this script
 # we don't want sensitive info to leak
 if [[ $- == *x* ]]; then # if -x is on
     set +x # then we disable it
