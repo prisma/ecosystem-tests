@@ -20,6 +20,6 @@ TS_NODE=$(yarn --modules-folder $MOD_DIR bin ts-node)
 eval $($TS_NODE $DIR/setEnv.ts "$@")
 
 # reactivate -x flag for cmd printing
-if [[ $HAS_X_FLAG == true ]]; then
+if [[ "${HAS_X_FLAG-}" == true ]]; then
     set -x
 fi
