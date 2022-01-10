@@ -10,9 +10,11 @@ describe('use data proxy', () => {
     console.debug(vercelEdgeFunctionsDeployment)
     
     const response = await fetch(vercelEdgeFunctionsDeployment)
-    console.debug(await response.text())
+
+    const bodyAsText = await response.text()
+    console.debug(bodyAsText)
     
-    const jsonData = await response.json()
+    const jsonData = JSON.parse(bodyAsText)
     expect(jsonData).toMatchInlineSnapshot(`
 Object {
   "data": Array [
