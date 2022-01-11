@@ -1,6 +1,8 @@
-const nodeExternals = require('webpack-node-externals')
-
 module.exports = {
   target: 'node',
-  externals: [nodeExternals()],
+  externals: {
+    "_http_common": "commonjs2 _http_common",
+    "encoding": "commonjs2 encoding",
+  }
 }
+
