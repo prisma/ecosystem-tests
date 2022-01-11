@@ -24,18 +24,6 @@ async function getStdin() {
 }
 
 async function main() {
-  const stdinData = await getStdin()
-  console.log('stdin:', stdinData)
-
-  /**
-   * @type string[]
-   **/
-  const filesChanged = JSON.parse(stdinData)
-  console.log('filesChanged:', filesChanged)
-
-  const jobsToRun = {}
-  let fallbackToAll = false
-
   const testDirectories = [
     'process-managers',
     'docker',
@@ -56,6 +44,39 @@ async function main() {
     'databases-macos',
     'test-runners',
   ]
+
+  const { GITHUB_REF } = process.env
+
+  // Object used as output
+  const jobsToRun = {}
+
+  // If true we will run all tests
+  let fallbackToAll = false
+
+  // Get which files changed from the action via stdin
+  const stdinData = await getStdin()
+  console.log('stdin:', stdinData)
+  const filesChanged = JSON.parse(stdinData)
+  console.log('filesChanged:', filesChanged)
+
+  // If we are in one of our special branches we always run all tests
+  if (
+    [
+      'refs/heads/dev',
+      'refs/heads/patch-dev',
+      'refs/heads/latest',
+      'refs/heads/integration',
+    ].includes(GITHUB_REF)
+  ) {
+    console.log(
+      `GITHUB_REF=${GITHUB_REF} - special branch detected, settting fallbackToAll to true`,
+    )
+    fallbackToAll = true
+  }
+
+  /**
+   * @type string[]
+   **/
 
   for (const directoryName of testDirectories) {
     // If changes are located only in one of the directories
