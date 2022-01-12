@@ -168,7 +168,8 @@ jobs:
 
   docker:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    # if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ github.job == 'docker' }}
 
     strategy:
       fail-fast: false
