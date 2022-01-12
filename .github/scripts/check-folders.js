@@ -43,6 +43,8 @@ async function main() {
         'start-time', // Not a test but a job that fills an env var with the job start time
         'report-to-slack-success', // Not a test but a job that posts to slack
         'report-to-slack-failure', // Not a test but a job that posts to slack
+        'detect_jobs_to_run', // Not a test but a job that decides which tests should run
+        'cleanup-runs', // Not a test but a job that cancels previous runs
       ]
       return !jobsToIgnore.includes(key)
     })
