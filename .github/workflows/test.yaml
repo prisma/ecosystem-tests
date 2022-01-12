@@ -54,10 +54,6 @@ jobs:
           format: 'json'
       - id: detect
         run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
-      - name: Run commands
-        run: |
-          string=${{ github.job }}
-          echo "string=$string"
 
   report-to-slack-success:
     runs-on: ubuntu-latest
@@ -120,7 +116,7 @@ jobs:
 
   process-managers:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['process-managers'] == true }}
 
     strategy:
       fail-fast: false
@@ -168,8 +164,7 @@ jobs:
 
   docker:
     needs: [start-time, detect_jobs_to_run]
-    # if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
-    if: ${{ github.job == 'docker' }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
 
     strategy:
       fail-fast: false
@@ -217,7 +212,7 @@ jobs:
 
   core-features:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['core-features'] == true }}
 
     strategy:
       fail-fast: false
@@ -273,7 +268,7 @@ jobs:
 
   migrate:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['migrate'] == true }}
 
     strategy:
       fail-fast: false
@@ -321,7 +316,7 @@ jobs:
 
   engines:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['engines'] == true }}
 
     strategy:
       fail-fast: false
@@ -360,7 +355,7 @@ jobs:
 
   os:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['os'] == true }}
 
     strategy:
       fail-fast: false
@@ -407,7 +402,7 @@ jobs:
 
   node:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
 
     strategy:
       fail-fast: false
@@ -460,7 +455,7 @@ jobs:
 
   binaries:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['binaries'] == true }}
 
     strategy:
       fail-fast: false
@@ -507,7 +502,7 @@ jobs:
 
   packagers:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['packagers'] == true }}
 
     strategy:
       fail-fast: false
@@ -561,7 +556,7 @@ jobs:
 
   frameworks:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['frameworks'] == true }}
 
     strategy:
       fail-fast: false
@@ -609,7 +604,7 @@ jobs:
 
   platforms:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platfroms'] == true }}
 
     timeout-minutes: 60
     strategy:
@@ -674,7 +669,7 @@ jobs:
 
   platforms-serverless:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platfroms-serverless'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -767,7 +762,7 @@ jobs:
 
   workers:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['workers'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -817,7 +812,7 @@ jobs:
 
   bundlers:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['bundlers'] == true }}
 
     strategy:
       fail-fast: false
@@ -866,7 +861,7 @@ jobs:
 
   libraries:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['libraries'] == true }}
 
     strategy:
       fail-fast: false
@@ -916,7 +911,7 @@ jobs:
 
   databases:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
 
     strategy:
       fail-fast: false
@@ -998,7 +993,7 @@ jobs:
 
   databases-macos:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases-macos'] == true }}
 
     strategy:
       fail-fast: false
@@ -1041,7 +1036,7 @@ jobs:
 
   test-runners:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['test-runners'] == true }}
 
     strategy:
       fail-fast: false
