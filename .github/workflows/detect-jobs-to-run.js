@@ -46,6 +46,7 @@ async function main() {
       ]
       return !jobsToIgnore.includes(key)
     })
+  console.debug(testDirectories)
 
   const { GITHUB_REF } = process.env
 
@@ -57,9 +58,9 @@ async function main() {
 
   // Get which files changed from the action via stdin
   const stdinData = await getStdin()
-  console.log('stdin:', stdinData)
+  console.debug('stdin:', stdinData)
   const filesChanged = JSON.parse(stdinData)
-  console.log('filesChanged:', filesChanged)
+  console.debug('filesChanged:', filesChanged)
 
   // If we are in one of our special branches we always run all tests
   if (
@@ -70,7 +71,7 @@ async function main() {
       'refs/heads/integration',
     ].includes(GITHUB_REF)
   ) {
-    console.log(
+    console.debug(
       `GITHUB_REF=${GITHUB_REF} - special branch detected, settting fallbackToAll to true`,
     )
     fallbackToAll = true
@@ -92,20 +93,20 @@ async function main() {
     }
   }
 
-  console.log('fallbackToAll:', fallbackToAll)
-  console.log('jobsToRun:', jobsToRun)
+  console.debug('fallbackToAll:', fallbackToAll)
+  console.debug('jobsToRun:', jobsToRun)
 
   if (fallbackToAll) {
-    console.log('Fallback! All directories must be tested.')
+    console.debug('Fallback! All directories must be tested.')
     // creates an object with all values set to true
     const fallbackRunAll = testDirectories.reduce(
       (acc, curr) => ((acc[curr] = true), acc),
       {},
     )
-    console.log('fallbackRunAll:', fallbackRunAll)
+    console.debug('fallbackRunAll:', fallbackRunAll)
     console.log('::set-output name=jobs::' + JSON.stringify(fallbackRunAll))
   } else {
-    console.log('Only one directory will be tested')
+    console.debug('Only one directory will be tested')
     console.log('::set-output name=jobs::' + JSON.stringify(jobsToRun))
   }
 }
