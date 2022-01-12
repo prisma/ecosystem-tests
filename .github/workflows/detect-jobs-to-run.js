@@ -4,6 +4,9 @@
 // This was originally done in prisma/prisma repository and adapted to e2e
 // https://github.com/prisma/prisma/blob/main/.github/workflows/detect-jobs-to-run.js
 
+const yaml = require('yaml')
+const fs = require('fs')
+const path = require('path')
 const { stdin } = process
 
 // From https://github.com/sindresorhus/get-stdin/blob/main/index.js
@@ -24,26 +27,25 @@ async function getStdin() {
 }
 
 async function main() {
-  const testDirectories = [
-    'process-managers',
-    'docker',
-    'core-features',
-    'migrate',
-    'engine',
-    'os',
-    'node',
-    'binaries',
-    'packagers',
-    'frameworks',
-    'platforms',
-    'paltforms-serverless',
-    'workers',
-    'bundlers',
-    'libraries',
-    'databases',
-    'databases-macos',
-    'test-runners',
-  ]
+  const testYamlString = fs.readFileSync(
+    path.join(process.cwd(), '.github/workflows/test.yaml'),
+    { encoding: 'utf8' },
+  )
+  const testYaml = yaml.parse(testYamlString)
+
+  // ['process-managers', 'docker', 'core-features', ...]
+  const testDirectories = Object.keys(testYaml['jobs'])
+    .concat(Object.keys(testYaml['jobs']))
+    .filter((key) => {
+      const jobsToIgnore = [
+        'start-time', // Not a test but a job that fills an env var with the job start time
+        'report-to-slack-success', // Not a test but a job that posts to slack
+        'report-to-slack-failure', // Not a test but a job that posts to slack
+        'detect_jobs_to_run', // Not a test but a job that decides which tests should run
+        'cleanup-runs', // Not a test but a job that cancels previous runs
+      ]
+      return !jobsToIgnore.includes(key)
+    })
 
   const { GITHUB_REF } = process.env
 
