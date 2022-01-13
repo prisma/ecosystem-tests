@@ -19,5 +19,5 @@ describe('Prisma', () => {
     expect(data).toMatchObject([])
   })
 
-  // TODO Check for engine files depending on env var
+  // TODO Check for engine files depending on env var.
 })
