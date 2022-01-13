@@ -609,7 +609,7 @@ jobs:
 
   platforms:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platfroms'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms'] == true }}
 
     timeout-minutes: 60
     strategy:
