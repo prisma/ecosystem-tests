@@ -2,7 +2,7 @@ const { detectJobsTorun } = require('./detect-jobs-to-run')
 // @ts-check
 
 //
-// This is running automatically with the `lint test suite` job
+// This is running automatically with the `test and lint test suite` job
 //
 // To run manually this file:
 // `npx jest detect-jobs-to-run`
