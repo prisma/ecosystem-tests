@@ -9,10 +9,14 @@ on:
   # Defining both push (and specify the branches) and pull_request solves the problem
   push:
     branches:
+      # Push events our default branch
       - dev
+      # Push events on our special branches
       - patch-dev
       - latest
       - integration
+      # Push events to branches matching refs/heads/renovate/...
+      - 'renovate/**'
   pull_request:
     paths-ignore:
       - '*.md'
