@@ -7,7 +7,7 @@ describe('Prisma', () => {
     prisma.$disconnect()
   })
 
-  it('should test Prisma version', () => {
+  it('prismaVersion.client === @prisma/client version from package.json', () => {
     const pjson = require('./package.json')
     expect(Prisma.prismaVersion.client).toBe(
       pjson.dependencies['@prisma/client'],
@@ -20,5 +20,4 @@ describe('Prisma', () => {
   })
 
   // TODO Check for engine files depending on env var
-  
 })
