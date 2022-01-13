@@ -61,10 +61,6 @@ jobs:
     steps:
       - id: checkout
         uses: actions/checkout@v2
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - id: files
         uses: Ana06/get-changed-files@v2.1.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
