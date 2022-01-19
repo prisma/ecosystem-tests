@@ -15,8 +15,6 @@ on:
       - patch-dev
       - latest
       - integration
-      # Push events to branches matching refs/heads/renovate/...
-      - 'renovate/**'
   pull_request:
     paths-ignore:
       - '*.md'
@@ -709,7 +707,7 @@ jobs:
           - firebase-functions
           - azure-functions-linux
           - azure-functions-windows
-          # - serverless-framework-lambda Temporary disable
+          - serverless-framework-lambda
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
         exclude:
