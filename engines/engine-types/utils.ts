@@ -309,31 +309,44 @@ export async function runTest(options: TestOptions) {
   const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'test-'))
   const expected = getExpectedEngineTypes(options)
   const testName = generateTestName(options, expected)
+
+  // start a timer
+  const timerName = 'test() time'
+  console.time(timerName)
+
   return test(testName, async () => {
     console.log(`Project DIR: ${projectDir}`)
     // await removePrismaCache()
     await setupTmpProject(projectDir)
+    console.timeLog(timerName, 'setupTmpProject()')
+
     buildSchemaFile(projectDir, options.schema)
+    console.timeLog(timerName, 'buildSchemaFile()')
 
     // yarn install
     await install(projectDir, options.env)
+    console.timeLog(timerName, 'install()')
     // snapshotDirectory(projectDir, './node_modules/@prisma/engines')
     // snapshotDirectory(projectDir, './node_modules/prisma')
 
     await checkVersionOutput(projectDir, options, expected)
+    console.timeLog(timerName, 'checkVersionOutput()')
 
     // Check CLI Engine Files
     // expect(sanitizeVersionSnapshot(projectDir, versionOutput)).toMatchSnapshot(
     //   'version output @ 0 - env',
     // )
     checkCLIForExpectedEngine(projectDir, options, expected)
+    console.timeLog(timerName, 'checkCLIForExpectedEngine()')
 
     // prisma generate
     await generate(projectDir, options.env)
+    console.timeLog(timerName, 'generate()')
     // snapshotDirectory(projectDir, './node_modules/.prisma/client', '0 - env')
 
     // Check Generated Client Engine
     checkClientForExpectedEngine(projectDir, options, expected)
+    console.timeLog(timerName, 'checkCLIForExpectedEngine()')
 
     // Overwrite env to simulate deployment with different settings
     if (options.env_on_deploy) {
@@ -341,13 +354,18 @@ export async function runTest(options: TestOptions) {
     }
 
     await testGeneratedClient(projectDir, options.env, expected)
+    console.timeLog(timerName, 'testGeneratedClient()')
 
     // Additional snapshots if env changed after generate
     if (options.env_on_deploy) {
       const expectedPostDeploy = getExpectedEngineTypes(options)
       await checkVersionOutput(projectDir, options, expectedPostDeploy)
+      console.timeLog(timerName, 'checkVersionOutput()')
     }
-  }, 200_000)
+
+    // end timer
+    console.timeEnd(timerName);
+  }, 300_000)
 }
 export function getOSBinaryName() {
   return os.type() == 'Windows_NT'
