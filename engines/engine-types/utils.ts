@@ -310,12 +310,13 @@ export async function runTest(options: TestOptions) {
   const expected = getExpectedEngineTypes(options)
   const testName = generateTestName(options, expected)
 
-  // start a timer
-  const timerName = 'test() time'
-  console.time(timerName)
-
   return test(testName, async () => {
     console.log(`Project DIR: ${projectDir}`)
+    
+    // start a timer
+    const timerName = `test() time ${projectDir}`
+    console.time(timerName)
+
     // await removePrismaCache()
     await setupTmpProject(projectDir)
     console.timeLog(timerName, 'setupTmpProject()')
