@@ -106,7 +106,7 @@ jobs:
   report-to-slack-failure:
     runs-on: ubuntu-latest
     needs:
-      - workers
+      - dataproxy
       - core-features
       - migrate
       - os
@@ -795,7 +795,7 @@ jobs:
         clientEngine: ['dataproxy'] # only valid value here
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-workers-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-dataproxy-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       NPM_CONFIG_LOGLEVEL: error
