@@ -3,7 +3,10 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient({})
 
 async function getUsers() {
-  const data = await prisma.user.findMany()
+  const data = await prisma.$transaction([
+    prisma.user.findFirst(),
+    prisma.user.findMany()
+  ])
 
   const json = JSON.stringify({ data })
 
