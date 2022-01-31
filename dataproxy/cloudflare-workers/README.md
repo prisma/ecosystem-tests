@@ -9,3 +9,4 @@ Set the crypto env var via `export AES_256_PASS=<value>`
 ```sh
 source ./prepare.sh && ./run.sh && ./test.sh && ./finally.sh
 ```
+
