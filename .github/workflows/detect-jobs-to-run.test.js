@@ -33,7 +33,7 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
+  "dataproxy": true,
 }
 `)
   })
@@ -61,7 +61,7 @@ Object {
   "platforms-serverless": false,
   "process-managers": false,
   "test-runners": false,
-  "workers": false,
+  "dataproxy": false,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -91,7 +91,7 @@ Object {
   "platforms-serverless": false,
   "process-managers": false,
   "test-runners": false,
-  "workers": false,
+  "dataproxy": false,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -123,7 +123,7 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
+  "dataproxy": true,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -153,7 +153,7 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
+  "dataproxy": true,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -183,7 +183,7 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
+  "dataproxy": true,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
