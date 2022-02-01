@@ -1,5 +1,8 @@
 export const envVars = {
-    /** Workers **/
+    /** DataProxy **/
+
+    // nodejs-basic
+    NODEJS_DATA_PROXY_URL: "U2FsdGVkX187qRBSpPYoBu+9kcycYm/7BvLMBftPQbzKid8w0ZXamlDLESDjjlWZZoq40pyYNZxyOa7Y9jXul6U7lf2NPP5EZ41LS1kAW1nUGfSkFf/5Lgek5kbxoaOChuhboHmydnb/Ok5ztaVtLcTzYP4HmSeOAPEwDid9M7sD1CXcsmfA+1bDDpKmggFB",
 
     // cloudflare-workers
     CF_DATA_PROXY_URL: "U2FsdGVkX187qRBSpPYoBu+9kcycYm/7BvLMBftPQbzKid8w0ZXamlDLESDjjlWZZoq40pyYNZxyOa7Y9jXul6U7lf2NPP5EZ41LS1kAW1nUGfSkFf/5Lgek5kbxoaOChuhboHmydnb/Ok5ztaVtLcTzYP4HmSeOAPEwDid9M7sD1CXcsmfA+1bDDpKmggFB",

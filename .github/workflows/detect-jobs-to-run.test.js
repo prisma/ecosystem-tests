@@ -21,6 +21,7 @@ Object {
   "core-features": true,
   "databases": true,
   "databases-macos": true,
+  "dataproxy": true,
   "docker": true,
   "engines": true,
   "frameworks": true,
@@ -33,7 +34,6 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
 }
 `)
   })
@@ -49,6 +49,7 @@ Object {
   "core-features": false,
   "databases": false,
   "databases-macos": false,
+  "dataproxy": false,
   "docker": false,
   "engines": false,
   "frameworks": false,
@@ -61,7 +62,6 @@ Object {
   "platforms-serverless": false,
   "process-managers": false,
   "test-runners": false,
-  "workers": false,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -79,6 +79,7 @@ Object {
   "core-features": false,
   "databases": true,
   "databases-macos": false,
+  "dataproxy": false,
   "docker": false,
   "engines": false,
   "frameworks": false,
@@ -91,7 +92,6 @@ Object {
   "platforms-serverless": false,
   "process-managers": false,
   "test-runners": false,
-  "workers": false,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -111,6 +111,7 @@ Object {
   "core-features": true,
   "databases": true,
   "databases-macos": true,
+  "dataproxy": true,
   "docker": true,
   "engines": true,
   "frameworks": true,
@@ -123,7 +124,6 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -141,6 +141,7 @@ Object {
   "core-features": true,
   "databases": true,
   "databases-macos": true,
+  "dataproxy": true,
   "docker": true,
   "engines": true,
   "frameworks": true,
@@ -153,7 +154,6 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)
@@ -171,6 +171,7 @@ Object {
   "core-features": true,
   "databases": true,
   "databases-macos": true,
+  "dataproxy": true,
   "docker": true,
   "engines": true,
   "frameworks": true,
@@ -183,7 +184,6 @@ Object {
   "platforms-serverless": true,
   "process-managers": true,
   "test-runners": true,
-  "workers": true,
 }
 `)
     expect(jobsToRun.platforms).toBe(true)

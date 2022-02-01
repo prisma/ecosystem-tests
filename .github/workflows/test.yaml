@@ -78,7 +78,7 @@ jobs:
   report-to-slack-success:
     runs-on: ubuntu-latest
     needs:
-      - workers
+      - dataproxy
       - core-features
       - migrate
       - os
@@ -106,7 +106,7 @@ jobs:
   report-to-slack-failure:
     runs-on: ubuntu-latest
     needs:
-      - workers
+      - dataproxy
       - core-features
       - migrate
       - os
@@ -780,21 +780,22 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
-  workers:
+  dataproxy:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['workers'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['dataproxy'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
       fail-fast: false
       matrix:
         platform:
+          - nodejs
           - cloudflare-workers
           - vercel-edge-functions
         clientEngine: ['dataproxy'] # only valid value here
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-workers-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-dataproxy-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       NPM_CONFIG_LOGLEVEL: error

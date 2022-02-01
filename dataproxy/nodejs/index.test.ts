@@ -1,23 +1,19 @@
-/// <reference types="@types/jest" />
+import { getUsers } from './src/index'
 
-import fetch from 'node-fetch'
+/// <reference types="@types/jest" />
 
 describe('use data proxy', () => {
   test('fetch response', async () => {
-    jest.setTimeout(30000)
+    const users = await getUsers()
 
-    const vercelEdgeFunctionsDeployment = process.env.DEPLOYMENT_URL!
-    console.debug(vercelEdgeFunctionsDeployment)
-    
-    const response = await fetch(vercelEdgeFunctionsDeployment)
-
-    const bodyAsText = await response.text()
-    console.debug(bodyAsText)
-    
-    const jsonData = JSON.parse(bodyAsText)
-    expect(jsonData).toMatchInlineSnapshot(`
-Object {
-  "data": Array [
+    expect(users).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "email": "Eleanore_Feest@yahoo.com",
+    "name": "Autumn",
+    "user_id": 1,
+  },
+  Array [
     Object {
       "email": "Eleanore_Feest@yahoo.com",
       "name": "Autumn",
@@ -69,7 +65,7 @@ Object {
       "user_id": 10,
     },
   ],
-}
+]
 `)
   })
 })
