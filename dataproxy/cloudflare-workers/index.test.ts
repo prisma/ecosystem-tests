@@ -4,8 +4,6 @@ import fetch from 'node-fetch'
 
 describe('use data proxy', () => {
   test('fetch response', async () => {
-    jest.setTimeout(30000)
-
     const cloudflareWorkersDeploymentUrl = process.env.DEPLOYMENT_URL!
     console.debug(cloudflareWorkersDeploymentUrl)
     
@@ -78,5 +76,5 @@ Object {
   ],
 }
 `)
-  })
+  }, 30000)
 })
