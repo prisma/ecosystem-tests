@@ -6,13 +6,13 @@ export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-cli build'
 yarn
 
 export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
-export VERCEL_ORG_ID=$VERCEL_API_ORG_ID
+export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 else
-  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="library" --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="library" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 fi
 
 echo ''
@@ -23,7 +23,7 @@ echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=prisma)
+OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
 echo "${OUTPUT}"
 
 # Check the Vercel Build Logs for the postinstal hook"
