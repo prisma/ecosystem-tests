@@ -11,6 +11,5 @@ export const envVars = {
 
     // vercel-edge-functions
     VERCEL_DATA_PROXY_URL: "U2FsdGVkX187qRBSpPYoBu+9kcycYm/7BvLMBftPQbzKid8w0ZXamlDLESDjjlWZZoq40pyYNZxyOa7Y9jXul6U7lf2NPP5EZ41LS1kAW1nUGfSkFf/5Lgek5kbxoaOChuhboHmydnb/Ok5ztaVtLcTzYP4HmSeOAPEwDid9M7sD1CXcsmfA+1bDDpKmggFB",
-    VERCEL_EDGE_FUNCTIONS_ORG_ID: "U2FsdGVkX1+OynKKazwnZh8yRbrGoapHZmyTDNe2ryNIFCGS/x8ALH8xROfzCdz+",
     VERCEL_EDGE_FUNCTIONS_PROJECT_ID: "U2FsdGVkX1/rvuHFq0MrRcXU3LmvnzZQp8A9/WeoqYg8IllvAJhujSnQOVfSvbqvfBGzk7t/ewBV/uXyQ99Jwg=="
 }
