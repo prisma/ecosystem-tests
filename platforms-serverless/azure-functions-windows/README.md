@@ -24,6 +24,8 @@ az login
 
 If not, you can use a service principal. The Prisma service principal details can be found in our internal 1Password. You can also create a service principal from the CI with `sh rbac.sh`.
 
+Note: Client secret lifetime is limited (docs say: two years or less.)
+
 ```shell script
 az login --service-principal -u "$AZURE_SP_NAME" -p "$AZURE_SP_PASSWORD" --tenant "$AZURE_SP_TENANT"
 ```
@@ -31,4 +33,3 @@ az login --service-principal -u "$AZURE_SP_NAME" -p "$AZURE_SP_PASSWORD" --tenan
 ### Prepare
 
 To create a function on your own account, run `sh create.sh` first.
-
