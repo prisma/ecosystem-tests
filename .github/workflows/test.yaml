@@ -1076,9 +1076,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
+      - run: ls C:/Program Files/Azure Cosmos DB Emulator
       #- uses: janpio/cosmos-emulator-github-action@mongodb
       - run: Microsoft.Azure.Cosmos.Emulator.exe /EnableMongoDbEndpoint=4.0
         working-directory: C:/Program Files/Azure Cosmos DB Emulator
