@@ -1075,8 +1075,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: galvesribeiro/AzureCosmosAction@master
+
+      - uses: southpolesteve/cosmos-emulator-github-action@v1
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
