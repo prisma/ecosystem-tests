@@ -1076,12 +1076,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       #- uses: janpio/cosmos-emulator-github-action@mongodb
       - run: Microsoft.Azure.Cosmos.Emulator.exe /EnableMongoDbEndpoint=4.0
         working-directory: C:/Program Files/Azure Cosmos DB Emulator
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+
       - run: yarn install
         working-directory: databases-windows/mongodb-azure-cosmosdb-emulator
       - run: node databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js
