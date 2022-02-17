@@ -1076,15 +1076,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Dependencies
+        run: yarn install
+
       - uses: southpolesteve/cosmos-emulator-github-action@v1
       - run: node databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js
       - run: node databases-windows/mongodb-azure-cosmosdb-emulator/mongoclient.js
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: yarn install
 
       - name: use node 12
         uses: actions/setup-node@v2
