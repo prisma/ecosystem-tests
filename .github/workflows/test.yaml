@@ -1077,6 +1077,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: southpolesteve/cosmos-emulator-github-action@v1
+      - run: node databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js
+      - run: node databases-windows/mongodb-azure-cosmosdb-emulator/mongoclient.js
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
