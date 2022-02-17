@@ -1077,7 +1077,7 @@ jobs:
       - uses: actions/checkout@v2
 
 
-      - uses: southpolesteve/cosmos-emulator-github-action@v1
+      - uses: janpio/cosmos-emulator-github-action@mongodb
       - run: yarn install
         working-directory: databases-windows/mongodb-azure-cosmosdb-emulator
       - run: node databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js
