@@ -1,6 +1,3 @@
-
-
-
 # MongoDB Atlas (Sharded connection string)
 
 Prisma Client with MongoDB Atlas.
