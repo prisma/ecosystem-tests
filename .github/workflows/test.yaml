@@ -1082,8 +1082,7 @@ jobs:
       - run: ls "C:/Program Files/Azure Cosmos DB Emulator"
       #- uses: janpio/cosmos-emulator-github-action@mongodb
       - run: |
-          "Microsoft.Azure.Cosmos.Emulator.exe" /EnableMongoDbEndpoint=4.0
-        working-directory: "C:/Program Files/Azure Cosmos DB Emulator"
+          "C:/Program Files/Azure Cosmos DB Emulator/Microsoft.Azure.Cosmos.Emulator.exe" /EnableMongoDbEndpoint=4.0
 
       - run: yarn install
         working-directory: databases-windows/mongodb-azure-cosmosdb-emulator
