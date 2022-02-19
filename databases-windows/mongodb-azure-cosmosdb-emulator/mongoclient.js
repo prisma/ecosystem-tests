@@ -8,16 +8,10 @@ const client = new MongoClient(uri, options);
 async function run() {
   try {
     await client.connect();
-    const database = client.db("sample_mflix");
-    const movies = database.collection("movies");
-
-    const query = { title: "The Room" };
-    const options = {
-      sort: { "imdb.rating": -1 },
-      projection: { _id: 0, title: 1, imdb: 1 },
-    };
-    const movie = await movies.findOne(query, options);
-    console.log(movie);
+    const database = client.db("e2e-tests");
+    const collection = database.collection("User");
+    const entry = await collection.insertOne({ email: "foo@bar.org", name: "Foo" });
+    console.log(entry);
   } finally {
     await client.close();
   }
