@@ -125,7 +125,7 @@ jobs:
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
 
-      - run: cp "databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js" "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/Microsoft.Azure.CosmosDB.Emulator.psm1"
+      - run: cp "databases-windows/mongodb-azure-cosmosdb-emulator/Microsoft.Azure.CosmosDB.Emulator.psm1" "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/Microsoft.Azure.CosmosDB.Emulator.psm1"
 
       - run: ls -l "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/"
       #- uses: janpio/cosmos-emulator-github-action@mongodb
