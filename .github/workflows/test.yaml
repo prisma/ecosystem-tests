@@ -125,18 +125,19 @@ jobs:
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
 
-      #- run: cp "databases-windows/mongodb-azure-cosmosdb-emulator/Microsoft.Azure.CosmosDB.Emulator.psm1" "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/Microsoft.Azure.CosmosDB.Emulator.psm1"
-
+      # TODO Move all this into a GH Actions
+      - run: cp "databases-windows/mongodb-azure-cosmosdb-emulator/Microsoft.Azure.CosmosDB.Emulator.psm1" "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/Microsoft.Azure.CosmosDB.Emulator.psm1"
       - run: ls -l "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/"
+      - run: |
+          Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+          Start-CosmosDbEmulator -EnableMongoDb 4.0
+        shell: pwsh
+
       #- uses: janpio/cosmos-emulator-github-action@mongodb
+
       #- run: |
       #    "C:/Program Files/Azure Cosmos DB Emulator/Microsoft.Azure.Cosmos.Emulator.exe" /EnableMongoDbEndpoint=4.0
       #  shell: cmd
-
-      - run: |
-          Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
-          Start-CosmosDbEmulator
-        shell: pwsh
 
       - run: yarn install
         working-directory: databases-windows/mongodb-azure-cosmosdb-emulator
