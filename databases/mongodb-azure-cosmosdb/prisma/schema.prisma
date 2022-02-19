@@ -18,3 +18,10 @@ model Post {
   id    String @id @map("_id")
   title String
 }
+
+
+model test {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  name  String?
+}

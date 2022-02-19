@@ -35,6 +35,15 @@ async function main() {
 
   console.log('success')
 
+  await client.test.create({
+    data: {
+      id: objectId,
+      email: 'alice@prisma.io',
+      name: 'Alice',
+    },
+  })
+
+
   await client.$disconnect()
 }
 
