@@ -122,23 +122,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
+      - uses: janpio/azure-cosmos-db-emulator-github-action@main
+        with:
+          parameter_string: "-EnableMongoDb 4.0"
 
-      # TODO Move all this into a GH Actions
-      - run: cp "databases-windows/mongodb-azure-cosmosdb-emulator/Microsoft.Azure.CosmosDB.Emulator.psm1" "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/Microsoft.Azure.CosmosDB.Emulator.psm1"
-      - run: ls -l "C:/Program Files/Azure Cosmos DB Emulator/PSModules/Microsoft.Azure.CosmosDB.Emulator/"
-      - run: |
-          Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
-          Start-CosmosDbEmulator -EnableMongoDb 4.0
-        shell: pwsh
-
-      #- uses: janpio/cosmos-emulator-github-action@mongodb
-
-      #- run: |
-      #    "C:/Program Files/Azure Cosmos DB Emulator/Microsoft.Azure.Cosmos.Emulator.exe" /EnableMongoDbEndpoint=4.0
-      #  shell: cmd
-
+      # Manually confirm emulator is running 
+      # (and abuse mongoclient to create database + collection)
       - run: yarn install
         working-directory: databases-windows/mongodb-azure-cosmosdb-emulator
       - run: node databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js
