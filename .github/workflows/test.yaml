@@ -1080,13 +1080,6 @@ jobs:
         with:
           parameter_string: "-EnableMongoDb 4.0"
 
-      # Manually confirm emulator is running 
-      # (and abuse mongoclient to create database + collection)
-      - run: yarn install
-        working-directory: databases-windows/mongodb-azure-cosmosdb-emulator
-      - run: node databases-windows/mongodb-azure-cosmosdb-emulator/cosmosclient.js
-      - run: node databases-windows/mongodb-azure-cosmosdb-emulator/mongoclient.js
-
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 

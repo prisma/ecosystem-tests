@@ -6,13 +6,13 @@ const client = new PrismaClient()
 async function main() {
 
   // On CosmosDB the first delete will fail if you do not make sure the database and collection actually exist, so creating so dummy data first
-  await client.user.create({
-    data: {
-      id: '6d795f757365725f69643031',
-      email: 'foo@prisma.io',
-      name: 'Foo',
-    },
-  })
+  // await client.user.create({
+  //   data: {
+  //     id: '6d795f757365725f69643031',
+  //     email: 'foo@prisma.io',
+  //     name: 'Foo',
+  //   },
+  // })
 
 
   await client.user.deleteMany({})
