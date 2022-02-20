@@ -1081,7 +1081,7 @@ jobs:
           parameter_string: "-EnableMongoDb 4.0"
 
       # Run a simple MongoDB query to create entry in database and collection (as other non-create queries [like the initial deleteMany in the test script] will otherwise get an error message)
-      - run: npm ci && node mongoclient.js
+      - run: yarn install && node mongoclient.js
         working-directory: ${{ github.job }}/${{ matrix.database }}
 
       - name: Define Client Engine Type to test
