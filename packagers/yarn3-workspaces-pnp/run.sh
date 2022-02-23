@@ -3,7 +3,7 @@
 set -eu
 
 # Set Yarn to 3.x
-yarn set version 3.x
+yarn set version berry
 
 # To avoid this error 
 # YN0028: │ The lockfile would have been modified by this install, which is explicitly forbidden.
