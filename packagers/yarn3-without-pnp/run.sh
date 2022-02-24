@@ -5,8 +5,8 @@ set -eu
 # Set Yarn to berry
 yarn set version berry
 
-# To set Yarn to 2.x
-yarn set version 2.x
+# To set Yarn to 3.x
+yarn set version 3.x
 
 # Set nodeLinker to node-modules
 yarn config set nodeLinker node-modules
