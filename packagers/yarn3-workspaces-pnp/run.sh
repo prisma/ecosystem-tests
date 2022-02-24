@@ -5,7 +5,6 @@ set -eu
 # for script to update prisma
 mv package.json.orig package.json
 mv packages/sub-project-2/package.json.orig packages/sub-project-2/package.json
-rm packages/sub-project-1/yarn.lock
 
 # Set Yarn to berry
 yarn set version berry
