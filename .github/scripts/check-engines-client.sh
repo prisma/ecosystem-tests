@@ -16,7 +16,7 @@ else
   CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
 fi
 
-# These are skipping for a variaty of reasons like:
+# These are skipping for a variety of reasons like:
 # - Custom project structure
 # - Custom output location
 # - They do not generate a client
@@ -36,6 +36,7 @@ skipped_projects=(
   pnpm-workspaces-default-output          # Client is generated into a subfolder
   m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
+  yarn3-workspaces-pnp                    # Client is generated into a subfolder
 )
 
 case "${skipped_projects[@]}" in  *$2*)

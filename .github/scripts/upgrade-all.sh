@@ -15,7 +15,7 @@ dir=$(pwd)
 
 echo "$packages" | tr ' ' '\n' | while read -r item; do
   case "$item" in
-  *"./package.json"* | *".github"* | *"yarn-workspaces/package.json"* | *"functions/generated/client"*)
+  *"./package.json"* | *".github"* | *"yarn-workspaces/package.json"* | *"yarn3-workspaces-pnp/package.json"* | *"functions/generated/client"*)
     echo "ignoring $item"
     continue
     ;;
