@@ -141,7 +141,7 @@ while [ $i -le $count ]; do
           echo "$item: prisma expected $v, actual $vCLI"
           
           case "$item" in
-          *"yarn2"*)
+          *"yarn3"*)
             echo "> yarn add prisma@$v --dev"
             yarn add "prisma@$v" --dev
             ;;
@@ -167,7 +167,7 @@ while [ $i -le $count ]; do
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
           
           case "$item" in
-          *"yarn2"*)
+          *"yarn3"*)
             echo "> yarn add @prisma/client@$v" 
             yarn add "@prisma/client@$v"
             ;;

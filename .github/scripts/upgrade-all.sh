@@ -55,7 +55,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
   elif [ "$valid" = "true" ]; then
     case "$item" in
-    *"yarn2"*)
+    *"yarn3"*)
       yarn add "prisma@$version" --dev
       yarn add "@prisma/client@$version"
       ;;
