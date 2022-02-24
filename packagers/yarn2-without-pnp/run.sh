@@ -2,8 +2,11 @@
 
 set -eu
 
-# Set Yarn to Berry (latest Yarn 2 version known to Yarn 1)
+# Set Yarn to berry
 yarn set version berry
+
+# To set Yarn to 2.x
+yarn set version 2.x
 
 # Set nodeLinker to node-modules
 yarn config set nodeLinker node-modules
