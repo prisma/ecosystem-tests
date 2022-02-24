@@ -2,6 +2,9 @@
 
 set -eu
 
+# for script to update prisma
+mv package.json.orig package.json
+
 # Set Yarn to berry
 yarn set version berry
 
