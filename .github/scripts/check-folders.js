@@ -18,7 +18,8 @@ async function main() {
         'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
         'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
         'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
-        'packagers/yarn3-workspaces-pnp/packages', // We don't want to include the workspace folders in the matrix
+        'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
+        'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
         'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
         'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
       ]
