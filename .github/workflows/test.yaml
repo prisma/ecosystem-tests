@@ -487,7 +487,7 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      OS: ${{ matrix.os }}
+      OS: ${{ matrix.os }} # Needed in script
 
     steps:
       - uses: actions/checkout@v2
@@ -539,6 +539,9 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
+    env:
+      OS: ${{ matrix.os }} # Needed in script
+      
     steps:
     - uses: actions/download-artifact@v2
       with:
