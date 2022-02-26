@@ -548,15 +548,18 @@ jobs:
         name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.clientEngine }}
     - name: Display structure of downloaded files
       run: ls -R
-    - run: |
+    - name: Test binary
+      run: |
         os=""
         filename="./prisma"
         case $OS in
         "ubuntu-latest")
           os="linux"
+          chmod +x $filename
           ;;
         "macos-latest")
           os="macos"
+          chmod +x $filename
           ;;
         "windows-latest")
           os="win"
