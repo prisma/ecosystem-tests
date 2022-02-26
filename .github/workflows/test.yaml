@@ -519,7 +519,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.engine }}
+          name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.clientEngine }}
           path: |
             ${{ github.workspace }}/binaries/${{ matrix.binary }}/prisma*
             
@@ -542,7 +542,7 @@ jobs:
     steps:
     - uses: actions/download-artifact@v2
       with:
-        name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.engine }}
+        name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.clientEngine }}
     - name: Display structure of downloaded files
       run: ls -R
     - run: |
