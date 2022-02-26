@@ -6,8 +6,7 @@ sandbox_id=$(cat sandbox_id)
 url="https://$sandbox_id.sse.codesandbox.io"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
 
-# checks whether PRISMA_FORCE_NAPI has length equal to zero
-if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   files=',"files":["index-browser.js","index.d.ts","index.js","package.json","query-engine-debian-openssl-1.1.x","schema.prisma"]'
 else
   files=',"files":["index-browser.js","index.d.ts","index.js","libquery_engine-debian-openssl-1.1.x.so.node","package.json","schema.prisma"]'

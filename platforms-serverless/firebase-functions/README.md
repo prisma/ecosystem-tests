@@ -23,16 +23,3 @@ For more install methods, follow the [official install docs](https://firebase.go
 A [firebase token](https://firebase.google.com/docs/cli#cli-ci-systems) needs to be set with the environment variable `FIREBASE_TOKEN`.
 
 If you use an interactive login using `firebase login`, you need to temporarily edit `run.sh` and remove the `--token` parameter so the firebase will use your credentials saved by `firebase login`.
-
-### Environment variables
-
-The environment variable `FIREBASE_FUNCTIONS_PG_URL` should point to a postgres database.
-In CI, it uses our internal e2e test database using `platform-firebase-functions` as database URL.
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
-
-### Run tests
-
-```shell script
-sh run.sh
-```

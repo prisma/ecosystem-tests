@@ -6,14 +6,13 @@ export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-node-builder bui
 yarn
 
 export VERCEL_PROJECT_ID=$VERCEL_NODE_BUILDER_PROJECT_ID
-export VERCEL_ORG_ID=$VERCEL_NODE_BUILDER_ORG_ID
+export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
-# checks whether PRISMA_FORCE_NAPI has length equal to zero
-if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
-  yarn -s vercel --token=$VERCEL_TOKEN --prod --scope=prisma --confirm --force 1> deployment-url.txt
+if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 else
-  yarn -s vercel --token=$VERCEL_TOKEN --env PRISMA_FORCE_NAPI=true --build-env PRISMA_FORCE_NAPI=true --prod --scope=prisma --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="library" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 fi
 echo ''
 cat deployment-url.txt

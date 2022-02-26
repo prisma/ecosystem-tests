@@ -5,11 +5,11 @@ datasource db {
 
 generator client {
     provider        = "prisma-client-js"
-    previewFeatures = ["mongodb"]
+    previewFeatures = ["mongoDb"]
 }
 
 model User {
-  id    String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
   email String @unique
   name  String?
 }

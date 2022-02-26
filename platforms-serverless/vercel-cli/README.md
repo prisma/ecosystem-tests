@@ -15,9 +15,3 @@ Alternatively, you can login using `vercel login`.
 The environment variable `VERCEL_PG_URL` should point to a postgres database.
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
-
-### Run tests
-
-```shell script
-sh run.sh
-```

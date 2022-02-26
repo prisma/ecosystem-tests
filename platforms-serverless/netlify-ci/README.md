@@ -4,15 +4,8 @@ Prisma and Netlify integration via Git (via another separate Git repository that
 
 ## How to run this locally
 
-
 ### Environment variables
 
-The environment variable `NETLIFY_PG_URL` should point to a postgres database.
+The environment variable `NETLIFY_BETA_PG_URL` should point to a postgres database.
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
-
-### Run tests
-
-```shell script
-sh run.sh
-```

@@ -21,7 +21,7 @@ if [ "$TEST_EXIT_CODE" -eq "0" ]; then
 
 else
     # If tests failed
-    echo "Too View Logs Visit"
+    echo "To view Logs visit"
     echo "https://portal.azure.com/#blade/WebsitesExtension/FunctionMenuBlade/monitor/resourceId/%2Fsubscriptions%2F${subscriptionId}%2FresourceGroups%2F${group}%2Fproviders%2FMicrosoft.Web%2Fsites%2F${app}%2Ffunctions%2F${app}"
 
     # move function code back to placeholder location, so we can try again

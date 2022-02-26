@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -eux
 shopt -s inherit_errexit || true
 
 export CI=true
@@ -27,6 +27,23 @@ echo ""
 echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
+
+
+# Find schema, if it contains `env("DATABASE_URL")`, db push that schema to database
+if [[ "$project" = "foobar" ]]
+then
+  true
+  # if a project needs to be skipped for any reason, replace `foobar` with its folder name or add additional conditions
+else
+  schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
+  if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
+    echo ""
+    echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
+    echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
+    npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
+    echo ""
+  fi 
+fi
 
 echo "cd $dir/$project"
 cd "$dir/$project"
@@ -79,9 +96,9 @@ fi
 
 # confirm existence of correct engine
 if [ $code -eq 0 ]; then
-  echo "-------------- Checking Binaries ---------------"
-  bash ../../.github/scripts/check-cli-binaries.sh $dir $project
-  bash ../../.github/scripts/check-client-binaries.sh $dir $project
+  echo "-------------- Checking Engines ----------------"
+  bash ../../.github/scripts/check-engines-client.sh $dir $project
+  bash ../../.github/scripts/check-engines-cli.sh $dir $project
   echo "------------------------------------------------"
 fi
 

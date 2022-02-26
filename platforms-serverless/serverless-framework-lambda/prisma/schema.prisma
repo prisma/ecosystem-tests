@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("SERVERLESS_LAMBDA_PG_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {

@@ -2,7 +2,7 @@ import { PrismaClient, Prisma } from '@prisma/client'
 import * as functions from 'firebase-functions'
 
 // Read from config store and set as env variable 
-process.env.FIREBASE_FUNCTIONS_PG_URL = functions.config().prisma.db
+process.env.DATABASE_URL = functions.config().prisma.db
 
 const client = new PrismaClient({
   log: ['info', 'query', 'warn'],
@@ -10,8 +10,6 @@ const client = new PrismaClient({
 
 const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest(
   async (req, res) => {
-
-    console.log('process.env.FIREBASE_FUNCTIONS_PG_URL', process.env.FIREBASE_FUNCTIONS_PG_URL)
 
     const fs = require('fs')
     const path = require('path')

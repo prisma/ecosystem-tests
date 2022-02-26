@@ -1,0 +1,15 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NETLIFY_BETA_PG_URL")
+}
+
+model User {
+  id    String  @id @default(cuid())
+  email String  @unique
+  name  String?
+}

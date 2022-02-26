@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
+  "main": "index.js",
   "scripts": {
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
@@ -10,17 +11,17 @@
     "postinstall": "CI=1 && PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms/firebase-functions postinstall' && yarn prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "2.27.0-dev.25",
-    "firebase-admin": "9.7.0",
-    "firebase-functions": "3.14.1"
+    "@prisma/client": "3.11.0-dev.16",
+    "firebase-admin": "10.0.2",
+    "firebase-functions": "3.18.1"
   },
   "devDependencies": {
-    "firebase-functions-test": "0.3.0",
-    "prisma": "2.27.0-dev.25",
-    "ts-node": "9.1.1",
-    "typescript": "4.2.4"
+    "firebase-functions-test": "0.3.3",
+    "prisma": "3.11.0-dev.16",
+    "ts-node": "10.5.0",
+    "typescript": "4.5.5"
   },
   "engines": {
-    "node": "12"
+    "node": "14"
   }
 }

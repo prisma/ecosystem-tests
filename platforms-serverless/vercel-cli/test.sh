@@ -1,9 +1,8 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
-# checks whether PRISMA_FORCE_NAPI has length equal to zero
-if [[ -z "${PRISMA_FORCE_NAPI+x}" ]]; then
+if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   files=',"files":["index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]'
 else
   files=',"files":["index.js","libquery_engine-rhel-openssl-1.0.x.so.node","package.json","schema.prisma"]'

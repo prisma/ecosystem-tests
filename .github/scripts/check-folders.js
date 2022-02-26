@@ -18,7 +18,10 @@ async function main() {
         'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
         'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
         'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
+        'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
+        'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
         'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
+        'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
       ]
       return !ignoreFiles.includes(file)
     })
@@ -42,6 +45,8 @@ async function main() {
         'start-time', // Not a test but a job that fills an env var with the job start time
         'report-to-slack-success', // Not a test but a job that posts to slack
         'report-to-slack-failure', // Not a test but a job that posts to slack
+        'detect_jobs_to_run', // Not a test but a job that decides which tests should run
+        'cleanup-runs', // Not a test but a job that cancels previous runs
       ]
       return !jobsToIgnore.includes(key)
     })
@@ -82,7 +87,7 @@ async function main() {
     process.exit(0)
   } else {
     console.log(
-      'There are some folders in e2e-tests that are not used in test.yml or optional-test.yml workflows',
+      'There are some folders in e2e-tests that are not used in test.yaml or optional-test.yaml workflows',
     )
     console.log(remainingFolders)
     process.exit(1)

@@ -46,8 +46,8 @@ git fetch github "$branch"
 git reset --hard "github/$branch"
 git checkout "github/$branch"
 
-# prepare script: read package.json but ignore workspace package.json files, redwood "web" package.json file
-pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client' || pkg.name == 'web') { process.exit(0); }"
+# prepare script: read package.json but ignore workspace package.json files, redwood "web" and "api" package.json file
+pkg="var pkg=require('./package.json'); if (pkg.workspaces || pkg.name == '.prisma/client' || pkg.name == 'web' || pkg.name == 'api') { process.exit(0); }"
 
 # since GH actions are limited to 5 minute cron jobs, just run this continuously for 5 minutes
 minutes=5   # cron job runs each x minutes
@@ -141,7 +141,7 @@ while [ $i -le $count ]; do
           echo "$item: prisma expected $v, actual $vCLI"
           
           case "$item" in
-          *"yarn2"*)
+          *"yarn3"*)
             echo "> yarn add prisma@$v --dev"
             yarn add "prisma@$v" --dev
             ;;
@@ -167,7 +167,7 @@ while [ $i -le $count ]; do
           echo "$item: @prisma/client expected $v, actual $vPrismaClient"
           
           case "$item" in
-          *"yarn2"*)
+          *"yarn3"*)
             echo "> yarn add @prisma/client@$v" 
             yarn add "@prisma/client@$v"
             ;;

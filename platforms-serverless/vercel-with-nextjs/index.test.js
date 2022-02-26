@@ -23,19 +23,19 @@ test('generated client files', async () => {
   const r = await fetch(endpoint + '/api/files')
   const data = await r.json()
   const files =
-    process.env.PRISMA_FORCE_NAPI === 'true'
+    process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
       ? [
-          'index.js',
-          'libquery_engine-rhel-openssl-1.0.x.so.node',
-          'package.json',
-          'schema.prisma',
-        ]
+        'index.js',
+        'package.json',
+        'query-engine-rhel-openssl-1.0.x',
+        'schema.prisma',
+      ]
       : [
-          'index.js',
-          'package.json',
-          'query-engine-rhel-openssl-1.0.x',
-          'schema.prisma',
-        ]
+        'index.js',
+        'libquery_engine-rhel-openssl-1.0.x.so.node',
+        'package.json',
+        'schema.prisma',
+      ]
   expect(data).toMatchObject({
     files: files,
   })

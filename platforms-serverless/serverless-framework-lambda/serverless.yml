@@ -14,7 +14,7 @@ functions:
     handler: index.handler
     name: e2e-tests-serverless-lambda
     environment:
-      SERVERLESS_LAMBDA_PG_URL: ${env:SERVERLESS_LAMBDA_PG_URL}
+      DATABASE_URL: ${env:DATABASE_URL}
 
 # only include the Prisma binary required on AWS Lambda while packaging
 package:

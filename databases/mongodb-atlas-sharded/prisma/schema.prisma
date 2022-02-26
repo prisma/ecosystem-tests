@@ -1,0 +1,20 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL_DB_MONGODB_ATLAS_SHARDED")
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["mongoDb"]
+}
+
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  name  String?
+}
+
+model Post {
+  id    String @id @map("_id")
+  title String
+}
