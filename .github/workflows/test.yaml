@@ -62,7 +62,7 @@ jobs:
       jobs: ${{ steps.detect.outputs.jobs }}
     steps:
       - id: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - id: files
         uses: Ana06/get-changed-files@v2.1.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
@@ -98,7 +98,7 @@ jobs:
       - docker
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
@@ -126,7 +126,7 @@ jobs:
       - docker
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
@@ -150,7 +150,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -198,7 +198,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -254,7 +254,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -302,7 +302,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -349,7 +349,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install Dependencies
         run: yarn install
@@ -388,7 +388,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -443,7 +443,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -490,7 +490,7 @@ jobs:
       OS: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -545,7 +545,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -593,7 +593,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -648,7 +648,7 @@ jobs:
       SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: use node 12
         uses: actions/setup-node@v3
@@ -745,7 +745,7 @@ jobs:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: use node 14
         uses: actions/setup-node@v3
@@ -805,7 +805,7 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: use node 14
         uses: actions/setup-node@v3
@@ -849,7 +849,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -899,7 +899,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -990,7 +990,7 @@ jobs:
       DATABASE_URL_COACKROACH_CLOUD: ${{ secrets.DATABASE_URL_COACKROACH_CLOUD }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -1033,7 +1033,7 @@ jobs:
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -1075,7 +1075,7 @@ jobs:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
