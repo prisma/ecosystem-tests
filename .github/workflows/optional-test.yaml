@@ -39,7 +39,7 @@ jobs:
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
@@ -50,7 +50,7 @@ jobs:
       - community-generators
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
@@ -74,7 +74,7 @@ jobs:
       SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
