@@ -6,7 +6,7 @@ FILE2=sub-project-2/node_modules/.prisma/client/index.js
 set -eux
 
 cd workspace/sub-project-1
-FILE0=$(node -e "path.join(require.resolve('@prisma/client/package.json'), '..', '..', '..', '.prisma')")
+FILE0=$(node -e "console.log(path.join(require.resolve('@prisma/client/package.json'), '..', '..', '..', '.prisma'))")
 
 if [ -f "$FILE1" ] || [ -f "$FILE2" ]; then
     echo "Client should not generate in sub-folder"; exit 1;
