@@ -47,7 +47,7 @@ Renovate is enabled for this repository for all dependencies except `prisma` and
 
 #### Prisma
 
-When there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the ecosystem tests. This is implemented in `.github/workflows/check-for-update.yaml` using a GitHub Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `dev`.
+When there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the tests. This is implemented in `.github/workflows/check-for-update.yaml` using a GitHub Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `dev`.
 
 ### Branches and npm channels
 
