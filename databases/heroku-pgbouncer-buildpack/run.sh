@@ -2,7 +2,7 @@
 
 set -eux
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests databases heroku-pgbouncer-buildpack build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests databases heroku-pgbouncer-buildpack build'
 yarn install
 yarn prisma generate
 

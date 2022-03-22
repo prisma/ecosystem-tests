@@ -87,7 +87,7 @@ async function main() {
     process.exit(0)
   } else {
     console.log(
-      'There are some folders in e2e-tests that are not used in test.yaml or optional-test.yaml workflows',
+      'There are some folders in ecosystem-tests that are not used in test.yaml or optional-test.yaml workflows',
     )
     console.log(remainingFolders)
     process.exit(1)

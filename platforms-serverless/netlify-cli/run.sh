@@ -5,7 +5,7 @@ set -eux
 yarn install
 yarn prisma generate
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms netlify-cli build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms netlify-cli build'
 
 
 # create empty `functions-build` folder

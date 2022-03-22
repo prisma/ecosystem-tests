@@ -7,7 +7,7 @@ on:
       - 'renovate.json'
 
 env:
-  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests optional-test.yaml'
+  PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
   CI: 1
   # TODO: Consolidate these env vars. They shouldn't be required for slack notification
