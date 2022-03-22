@@ -17,7 +17,7 @@ You can check out the latest test runs by checking the ["test" workflow results]
 
 ### Projects and Tests
 
-The ecosystem tests are defined in `.github/workflows/test.yaml` and `.github/workflows/optional-test.yaml`, and the test projects live in folder of form `foo/bar` in this repository. Each `foo` has one or multiple jobs in the GitHub Actions Workflows, and the `bar`s are part of the matrix per job.
+The tests are defined in `.github/workflows/test.yaml` and `.github/workflows/optional-test.yaml`, and the test projects live in folder of form `foo/bar` in this repository. Each `foo` has one or multiple jobs in the GitHub Actions Workflows, and the `bar`s are part of the matrix per job.
 
 All of the jobs run `.github/scripts/test-project.sh`, which then executes the test project.
 
