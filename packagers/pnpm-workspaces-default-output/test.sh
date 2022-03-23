@@ -12,7 +12,7 @@ if [ -f "$FILE1" ] || [ -f "$FILE2" ]; then
     echo "Client should not generate in sub-folder"; exit 1;
 fi;
 
-if [ ! -f "$FILE0" ]; then
+if [ ! -d "$FILE0" ]; then
     echo "Client did not generate"; exit 1;
 fi;
 
