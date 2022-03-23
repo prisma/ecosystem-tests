@@ -13,13 +13,13 @@ on:
         required: true
 
 env:
-  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests upgrade-branch-to-version.yaml'
+  PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests upgrade-branch-to-version.yaml'
 
 jobs:
   upgrade-branch-to-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: use node 12
         uses: actions/setup-node@v3
@@ -39,7 +39,7 @@ jobs:
       - upgrade-branch-to-version
     if: failure()
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
         with:

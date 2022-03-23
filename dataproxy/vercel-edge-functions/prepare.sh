@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests dataproxy vercel-edge-functions build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests dataproxy vercel-edge-functions build'
 
 source ../../utils/crypto/setEnv.sh VERCEL_DATA_PROXY_URL VERCEL_EDGE_FUNCTIONS_PROJECT_ID
 

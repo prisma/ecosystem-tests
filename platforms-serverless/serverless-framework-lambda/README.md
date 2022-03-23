@@ -11,4 +11,4 @@ AWS Lambda using the serverless framework.
 - `AWS_SECRET_ACCESS_KEY`: The AWS secret.
 - `AWS_ACCESS_KEY_ID`: The AWS access key id.
 
-Check 1Password for the values for our e2e account.
+Check 1Password for the values for our ecosystem-tests account.
