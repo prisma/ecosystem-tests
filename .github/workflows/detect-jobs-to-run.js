@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // @ts-check
 
-// This was originally done in prisma/prisma repository and adapted to e2e
+// This was originally done in prisma/prisma repository and adapted to ecosystem
 // https://github.com/prisma/prisma/blob/main/.github/workflows/detect-jobs-to-run.js
 
 const yaml = require('yaml')

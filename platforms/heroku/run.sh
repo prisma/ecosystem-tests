@@ -11,7 +11,7 @@ else
   cp ./prisma/schema-with-node-api.prisma ./prisma/schema.prisma
 fi
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms heroku build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms heroku build'
 yarn install
 yarn prisma generate
 

@@ -6,7 +6,7 @@ POSIX-compliant shell script to access the status of this repository.
 ```shell script
 #!/bin/sh
 
-# This script checks if the prisma e2e test workflow passes
+# This script checks if the prisma ecosystem test workflow passes
 # Check the end of the file for usage
 
 check() {
@@ -34,6 +34,6 @@ check() {
 
 # Syntax:
 # check <repo slug> <workflow name>
-check "prisma/prisma-e2e-tests" "test"
+check "prisma/ecosystem-tests" "test"
 
 ```

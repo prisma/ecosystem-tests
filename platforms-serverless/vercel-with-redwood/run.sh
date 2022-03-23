@@ -4,7 +4,7 @@ set -eu
 
 yarn policies set-version 1.18.0
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-with-redwood build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwood build'
 
 node patch-package-json.js
 yarn

@@ -1,23 +1,23 @@
-# Prisma e2e Tests
+# Prisma Ecosystem Tests
 
 This repository continuously tests Prisma Client on and with various operating systems, databases, frameworks, platforms and other setups.
 
 | CI Status                                                                                                                                                                                      | Branch        |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| [![test dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Adev) | `dev` |
-| [![test latest](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Alatest)                | `latest`      |
-| [![test patch-dev](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)       | `patch-dev`   |
-| [![test integration](https://github.com/prisma/e2e-tests/workflows/test/badge.svg?branch=integration)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest+branch%3Aintegration) | `integration` |
-| [![check-for-update](https://github.com/prisma/e2e-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/e2e-tests/actions?query=workflow%3Acheck-for-update)                 | -             |
+| [![test dev](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Adev) | `dev` |
+| [![test latest](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Alatest)                | `latest`      |
+| [![test patch-dev](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)       | `patch-dev`   |
+| [![test integration](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=integration)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Aintegration) | `integration` |
+| [![check-for-update](https://github.com/prisma/ecosystem-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Acheck-for-update)                 | -             |
 
 
-You can check out the latest test runs by checking the ["test" workflow results](https://github.com/prisma/e2e-tests/actions?query=workflow%3Atest).
+You can check out the latest test runs by checking the ["test" workflow results](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest).
 
 ## How it works
 
 ### Projects and Tests
 
-The e2e tests are defined in `.github/workflows/test.yaml` and `.github/workflows/optional-test.yaml`, and the test projects live in folder of form `foo/bar` in this repository. Each `foo` has one or multiple jobs in the GitHub Actions Workflows, and the `bar`s are part of the matrix per job.
+The tests are defined in `.github/workflows/test.yaml` and `.github/workflows/optional-test.yaml`, and the test projects live in folder of form `foo/bar` in this repository. Each `foo` has one or multiple jobs in the GitHub Actions Workflows, and the `bar`s are part of the matrix per job.
 
 All of the jobs run `.github/scripts/test-project.sh`, which then executes the test project.
 
@@ -47,7 +47,7 @@ Renovate is enabled for this repository for all dependencies except `prisma` and
 
 #### Prisma
 
-When there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the e2e tests. This is implemented in `.github/workflows/check-for-update.yaml` using a GitHub Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `dev`.
+When there is a new version, [Prismo](https://github.com/prisma-bot) works tirelessly to commit and push a bump commit, triggering the tests. This is implemented in `.github/workflows/check-for-update.yaml` using a GitHub Action cron job. Since the cron job is limited to run each 5 minutes, we just run each cron job for exactly 5 minutes and check for updates each 10 seconds in each run. This check only runs in the default branch `dev`.
 
 ### Branches and npm channels
 

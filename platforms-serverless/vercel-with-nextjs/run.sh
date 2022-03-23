@@ -2,7 +2,7 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms vercel-with-nextjs build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-nextjs build'
 yarn
 export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
