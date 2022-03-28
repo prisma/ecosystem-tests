@@ -487,7 +487,7 @@ jobs:
 
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
-      OS: ${{ matrix.os }}
+      OS: ${{ matrix.os }} # Needed in script
 
     steps:
       - uses: actions/checkout@v3
@@ -516,10 +516,64 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
+      - uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.clientEngine }}
+          path: |
+            ${{ github.workspace }}/binaries/${{ matrix.binary }}/prisma*
+            
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
+  test-binaries:
+    needs: binaries
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['binaries'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        binary: [pkg]
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      OS: ${{ matrix.os }} # Needed in script
+      
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: binaries-${{ matrix.binary }}-${{ matrix.os }}-${{ matrix.clientEngine }}
+    - name: Display structure of downloaded files
+      run: ls -R
+    - name: Test binary
+      run: |
+        os=""
+        filename="./prisma"
+        case $OS in
+        "ubuntu-latest")
+          os="linux"
+          chmod +x $filename
+          ;;
+        "macos-latest")
+          os="macos"
+          chmod +x $filename
+          ;;
+        "windows-latest")
+          os="win"
+          filename="./prisma.exe"
+          ;;
+        *)
+          echo "no such os $OS"
+          exit 1
+          ;;
+        esac
+        export DEBUG="*"
+        ./$filename --version
+    
+    
   packagers:
     needs: [start-time, detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['packagers'] == true }}
