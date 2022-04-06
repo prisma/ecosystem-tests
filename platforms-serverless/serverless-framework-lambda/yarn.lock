@@ -405,25 +405,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-aws-sdk@2.1109.0:
+aws-sdk@2.1109.0, aws-sdk@^2.1109.0:
   version "2.1109.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1109.0.tgz#1be11188303f6545891edb0f7facf295f3ff9a40"
   integrity sha512-kcxDBPIpgN2mTgSxbbTPA5l63mCImDY+1YfZGAkZ9LIk+LYX3CPQC1vVP/iMrGioToB0KLSLechNuBif/6LXUA==
-  dependencies:
-    buffer "4.9.2"
-    events "1.1.1"
-    ieee754 "1.1.13"
-    jmespath "0.16.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
-
-aws-sdk@^2.1106.0:
-  version "2.1107.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1107.0.tgz#90155fd8c78de59ba79a50e392a442286dbcf5a0"
-  integrity sha512-gZaCm+zSSwjUYSa/cVg63uXhq5w9coT9yA8aTDOYzFkyl19b9H2CCixPeyf7KHtZdGwe3QAG2Oe6Rw0xtoCs+Q==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1400,10 +1385,10 @@ graceful-fs@^4.1.10, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
-graceful-fs@^4.2.9:
-  version "4.2.9"
-  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.9.tgz#041b05df45755e587a24942279b9d113146e1c96"
-  integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
+graceful-fs@^4.2.10:
+  version "4.2.10"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
+  integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
 graphlib@^2.1.8:
   version "2.1.8"
@@ -1796,6 +1781,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+lru-cache@^7.4.0:
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.7.3.tgz#98cd19eef89ce6a4a3c4502c17c833888677c252"
+  integrity sha512-WY9wjJNQt9+PZilnLbuFKM+SwDull9+6IAguOrarOMoOHTcJ9GnXSO11+Gw6c7xtDkBkthR57OZMtZKYr+1CEw==
 
 lru-queue@0.1, lru-queue@^0.1.0:
   version "0.1.0"
@@ -2405,10 +2395,17 @@ semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-serverless@3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.11.0.tgz#3e2ac4e1048986a83aeebac88c69eb3bba848818"
-  integrity sha512-v4yfKOK46ri12TkiuNfUrLo+PrfR4BI9WkrUxPF66Cst7Kdu1RH0qiCA6Gxpibauox++gnbxCdgoJ+XKw9nv1g==
+semver@^7.3.6:
+  version "7.3.6"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.6.tgz#5d73886fb9c0c6602e79440b97165c29581cbb2b"
+  integrity sha512-HZWqcgwLsjaX1HBD31msI/rXktuIhS+lWvdE4kN9z+8IVT4Itc7vqU2WvYsyD6/sjYCt4dEKH/m1M3dwI9CC5w==
+  dependencies:
+    lru-cache "^7.4.0"
+
+serverless@3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.12.0.tgz#a2519320062aa971414ea284c1ed4d33a81f7ec2"
+  integrity sha512-CKpJGnKYxfxCYw0IojoidfZiueOl0bhbzTcRcHDVDPJLi3DYMQ+o6EwWtF7m36Nkw6FXT36Wot7pmljHoXYrQQ==
   dependencies:
     "@serverless/dashboard-plugin" "^6.2.1"
     "@serverless/platform-client" "^4.3.2"
@@ -2416,7 +2413,7 @@ serverless@3.11.0:
     ajv "^8.11.0"
     ajv-formats "^2.1.1"
     archiver "^5.3.0"
-    aws-sdk "^2.1106.0"
+    aws-sdk "^2.1109.0"
     bluebird "^3.7.2"
     cachedir "^2.3.0"
     chalk "^4.1.2"
@@ -2436,7 +2433,7 @@ serverless@3.11.0:
     get-stdin "^8.0.0"
     globby "^11.1.0"
     got "^11.8.3"
-    graceful-fs "^4.2.9"
+    graceful-fs "^4.2.10"
     https-proxy-agent "^5.0.0"
     is-docker "^2.2.1"
     js-yaml "^4.1.0"
@@ -2453,7 +2450,7 @@ serverless@3.11.0:
     process-utils "^4.0.0"
     promise-queue "^2.2.5"
     require-from-string "^2.0.2"
-    semver "^7.3.5"
+    semver "^7.3.6"
     signal-exit "^3.0.7"
     strip-ansi "^6.0.1"
     supports-color "^8.1.1"
