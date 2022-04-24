@@ -1,20 +1,51 @@
-import { Role } from '@prisma/client'
+import { Role, Prisma } from '@prisma/client'
 import { prisma } from "../prisma";
 /** @type {import('./data.json').RequestHandler} */
 export async function get({ }) {
-  const created = await prisma.user.create({ data: { name: 'some name' } });
+  const enumValue:Role|undefined = Role.ADMIN;
 
-  const r:Role|undefined = Role.ADMIN;
-  console.debug(`Test at ${process.env.VERCEL_GIT_COMMIT_SHA ?? 'develop/preview'}`);
-  console.debug(`Using Enum both as values and as a type: ${r}`)
+  const createUser = await prisma.user.create({
+    data: {
+      name: 'Alice',
+    },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
 
-  if (created) {
-    return {
-      body: { created }
-    };
-  }
- 
+  const updateUser = await prisma.user.update({
+    where: {
+      id: createUser.id,
+    },
+    data: {
+      name: 'Bob',
+    },
+    select: {
+      name: true,
+    },
+  });
+
+  const deleteUser = await prisma.user.delete({
+    where: {
+      id: createUser.id,
+    },
+    select: {
+      name: true,
+    },
+  });
+
+  const result = {
+    createUser: {
+      name: createUser.name,
+    },
+    updateUser,
+    deleteUser,
+    enumValue
+  };
+
   return {
-    status: 404
+    status: 404,
+    body: JSON.stringify(result)
   };
 }
