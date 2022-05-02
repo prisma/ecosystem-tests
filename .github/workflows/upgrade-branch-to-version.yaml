@@ -21,10 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: upgrade-branch-to-version.sh
         run: bash .github/scripts/upgrade-branch-to-version.sh ${{github.event.inputs.branch}} ${{github.event.inputs.prismaVersion}}
@@ -43,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: report failure to slack
         run: echo "disabled"
