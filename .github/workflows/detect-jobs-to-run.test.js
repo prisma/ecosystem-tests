@@ -61,6 +61,7 @@ Object {
   "packagers": false,
   "platforms": true,
   "platforms-serverless": false,
+  "platforms-serverless-vercel": false,
   "process-managers": false,
   "test-runners": false,
 }
@@ -91,6 +92,7 @@ Object {
   "packagers": false,
   "platforms": true,
   "platforms-serverless": false,
+  "platforms-serverless-vercel": false,
   "process-managers": false,
   "test-runners": false,
 }
