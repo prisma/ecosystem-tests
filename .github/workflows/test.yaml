@@ -34,14 +34,6 @@ defaults:
     shell: bash
 
 jobs:
-  start-time:
-    runs-on: ubuntu-latest
-    outputs:
-      start-time: ${{ steps.start-time-output.outputs.start-time }}
-    steps:
-      - id: start-time-output
-        run: echo "::set-output name=start-time::$(date)"
-
   # # From https://github.com/marketplace/actions/skip-duplicate-actions
   # # This action cleans up previously running instances of a workflow on the same branch.
   # # This accomplishes the task of automatically cancelling CI runs on pushes to the same branch,
@@ -135,7 +127,7 @@ jobs:
   ### real jobs after this
 
   process-managers:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['process-managers'] == true }}
 
     strategy:
@@ -145,9 +137,6 @@ jobs:
         clientEngine: [library] # ['library', 'binary']
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
       - uses: actions/checkout@v3
@@ -160,7 +149,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -183,7 +172,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   docker:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
 
     strategy:
@@ -193,9 +182,6 @@ jobs:
         clientEngine: [library, binary]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
       - uses: actions/checkout@v3
@@ -208,7 +194,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -231,7 +217,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   core-features:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['core-features'] == true }}
 
     strategy:
@@ -250,9 +236,6 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -264,7 +247,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -287,7 +270,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   migrate:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['migrate'] == true }}
 
     strategy:
@@ -297,9 +280,6 @@ jobs:
         clientEngine: ['library']
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
       - uses: actions/checkout@v3
@@ -312,7 +292,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -335,7 +315,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   engines:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['engines'] == true }}
 
     strategy:
@@ -345,9 +325,6 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -356,7 +333,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -374,7 +351,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   os:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['os'] == true }}
 
     strategy:
@@ -383,9 +360,6 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         clientEngine: ['library', 'binary']
     runs-on: ${{ matrix.os }}
-
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
       - uses: actions/checkout@v3
@@ -398,7 +372,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -421,7 +395,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
   node:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
 
     strategy:
@@ -438,9 +412,6 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
 
     steps:
       - uses: actions/checkout@v3
@@ -474,7 +445,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   binaries:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['binaries'] == true }}
 
     strategy:
@@ -486,9 +457,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
       OS: ${{ matrix.os }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -497,7 +466,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       # no database used in existing binaries tests
       # - name: Set test specific DATABASE_URL
@@ -521,7 +490,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
   packagers:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['packagers'] == true }}
 
     strategy:
@@ -541,19 +510,15 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -576,7 +541,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
 
   frameworks:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['frameworks'] == true }}
 
     strategy:
@@ -589,19 +554,15 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -624,7 +585,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
 
   platforms:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms'] == true }}
 
     timeout-minutes: 60
@@ -642,7 +603,6 @@ jobs:
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
 
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
       SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
@@ -650,10 +610,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -689,7 +648,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   platforms-serverless:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
@@ -718,7 +677,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -779,7 +737,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   dataproxy:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['dataproxy'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
@@ -795,7 +753,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-dataproxy-${{ matrix.platform }}
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -831,7 +788,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   bundlers:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['bundlers'] == true }}
 
     strategy:
@@ -845,19 +802,15 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -880,7 +833,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.bundler }}
 
   libraries:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['libraries'] == true }}
 
     strategy:
@@ -895,19 +848,15 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -930,7 +879,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
 
   databases:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
 
     strategy:
@@ -960,7 +909,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
       DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
@@ -994,10 +942,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1012,7 +959,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
   databases-macos:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases-macos'] == true }}
 
     strategy:
@@ -1025,7 +972,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
 
     steps:
@@ -1037,10 +983,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1055,7 +1000,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
   test-runners:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['test-runners'] == true }}
 
     strategy:
@@ -1067,19 +1012,15 @@ jobs:
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
-    env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |

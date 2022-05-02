@@ -24,14 +24,6 @@ defaults:
     shell: bash
 
 jobs:
-  start-time:
-    runs-on: ubuntu-latest
-    outputs:
-      start-time: ${{ steps.start-time-output.outputs.start-time }}
-    steps:
-      - id: start-time-output
-        run: echo "::set-output name=start-time::$(date)"
-
   report-to-slack-success:
     runs-on: ubuntu-latest
     needs:
@@ -56,7 +48,6 @@ jobs:
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
   community-generators:
-    needs: start-time
     strategy:
       fail-fast: false
       matrix:
@@ -70,7 +61,6 @@ jobs:
         clientEngine: ['library', 'binary']
     runs-on: ubuntu-latest
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
       SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
     steps:
@@ -84,7 +74,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
