@@ -14,8 +14,8 @@ async function main() {
   const ignoreFiles = [
     'package.json', // package.json at root
     'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
-    'platforms-serverless/vercel-with-redwood/api', // Redwood uses workspaces but is included
-    'platforms-serverless/vercel-with-redwood/web', // Redwood uses workspaces but is included
+    'platforms-serverless-vercel/vercel-with-redwood/api', // Redwood uses workspaces but is included
+    'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
     'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
     'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
