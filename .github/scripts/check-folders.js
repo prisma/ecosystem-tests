@@ -22,12 +22,6 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
-    
-    // Temporarily ignore Vercel projects as they are run in a separate, diffently named job
-    'platforms-serverless/vercel-cli',
-    'platforms-serverless/vercel-node-builder',
-    'platforms-serverless/vercel-with-nextjs',
-    'platforms-serverless/vercel-with-redwood',
   ]
   
   // Jobs in the workflow files that are not relevant and can be skipped

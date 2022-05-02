@@ -770,7 +770,7 @@ jobs:
 
   platforms-serverless-vercel:
     needs: [start-time, detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless-vercel'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -784,7 +784,7 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
+    concurrency: ${{ github.run_id }}-${{ github.job }}-${{ matrix.platform }}
     env:
       START_TIME: ${{ needs.start-time.outputs.start-time }}
       NPM_CONFIG_LOGLEVEL: error
@@ -826,11 +826,11 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 1
-          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
         
   dataproxy:
     needs: [start-time, detect_jobs_to_run]
