@@ -783,10 +783,6 @@ jobs:
           - vercel-with-nextjs
         clientEngine: ['library', 'binary']
         os: [ubuntu-latest] #, windows-latest, macos-latest]
-        exclude:
-          # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
-          - clientEngine: library
-            platform: azure-functions-windows
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
     env:
@@ -830,11 +826,11 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 1
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+          command: bash .github/scripts/test-project.sh platforms-serverless ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+        run: bash .github/slack/notify-failure.sh platforms-serverless ${{ matrix.platform }}
         
   dataproxy:
     needs: [start-time, detect_jobs_to_run]
