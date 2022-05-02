@@ -160,7 +160,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -208,7 +208,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -264,7 +264,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -312,7 +312,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -356,7 +356,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -398,7 +398,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -497,7 +497,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       # no database used in existing binaries tests
       # - name: Set test specific DATABASE_URL
@@ -550,10 +550,9 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -598,10 +597,9 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -650,10 +648,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -854,10 +851,9 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -904,10 +900,9 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -994,10 +989,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1037,10 +1031,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1076,10 +1069,9 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: use node 12
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set test specific DATABASE_URL
         run: |
