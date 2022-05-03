@@ -32,6 +32,7 @@ Object {
   "packagers": true,
   "platforms": true,
   "platforms-serverless": true,
+  "platforms-serverless-vercel": true,
   "process-managers": true,
   "test-runners": true,
 }
@@ -60,6 +61,7 @@ Object {
   "packagers": false,
   "platforms": true,
   "platforms-serverless": false,
+  "platforms-serverless-vercel": false,
   "process-managers": false,
   "test-runners": false,
 }
@@ -90,6 +92,7 @@ Object {
   "packagers": false,
   "platforms": true,
   "platforms-serverless": false,
+  "platforms-serverless-vercel": false,
   "process-managers": false,
   "test-runners": false,
 }
@@ -122,6 +125,7 @@ Object {
   "packagers": true,
   "platforms": true,
   "platforms-serverless": true,
+  "platforms-serverless-vercel": true,
   "process-managers": true,
   "test-runners": true,
 }
@@ -152,6 +156,7 @@ Object {
   "packagers": true,
   "platforms": true,
   "platforms-serverless": true,
+  "platforms-serverless-vercel": true,
   "process-managers": true,
   "test-runners": true,
 }
@@ -182,6 +187,7 @@ Object {
   "packagers": true,
   "platforms": true,
   "platforms-serverless": true,
+  "platforms-serverless-vercel": true,
   "process-managers": true,
   "test-runners": true,
 }
