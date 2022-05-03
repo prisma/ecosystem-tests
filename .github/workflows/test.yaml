@@ -728,7 +728,7 @@ jobs:
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   platforms-serverless-vercel:
-    needs: [start-time, detect_jobs_to_run]
+    needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless-vercel'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
