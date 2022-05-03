@@ -71,7 +71,7 @@ async function main() {
       return !jobsToIgnore.includes(key)
     })
   
-  // TODO ??
+  // Create an array of job names, from reading the `jobs` keys of the .yml file
   const jobs = jobKeys
     .map((key) => {
       const job = testYaml['jobs'][key] || optionalTestYaml['jobs'][key]
@@ -88,7 +88,7 @@ async function main() {
       return acc.concat([...folders])
     }, [])
 
-  // TODO ??
+  // Transform the shape to return something that can be easy to use from GitHub Actions if conditionals
   const foldersObj = folders.reduce((acc, folder) => {
     return {
       ...acc,
