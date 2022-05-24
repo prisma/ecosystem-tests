@@ -790,7 +790,6 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-        
   dataproxy:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['dataproxy'] == true }}
@@ -851,6 +850,7 @@ jobs:
       matrix:
         bundler:
           - webpack
+          - webpack-browser-custom-output
           - parcel
           - rollup
         clientEngine: [library] #['library', 'binary']

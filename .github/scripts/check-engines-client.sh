@@ -34,6 +34,7 @@ skipped_projects=(
   generate-client-install-on-sub-project  # Client is generated into a subfolder
   pnpm-workspaces-custom-output           # Client is generated into a subfolder
   pnpm-workspaces-default-output          # Client is generated into a subfolder
+  webpack-browser-custom-output           # Client is generated into a subfolder
   m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
   yarn3-workspaces-pnp                    # Client is generated into a subfolder
