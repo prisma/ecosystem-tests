@@ -1,8 +1,11 @@
 import arg from 'arg'
+import { diff } from 'jest-diff'
 import originalFetch from 'node-fetch'
 
-function getExpectedData(prismaVersion: string, binaryString = "") {
-  return `{"version":"${prismaVersion}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`
+function getExpectedData(prismaVersion: string, binaryString = '') {
+  return JSON.parse(
+    `{"version":"${prismaVersion}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`,
+  )
 }
 
 let rdata = null
@@ -24,11 +27,7 @@ function getFetch(expectedData: string) {
         rdata = data
       })
 
-      if (
-        error !== null ||
-        r.status != 200 ||
-        JSON.stringify(rdata) !== JSON.stringify(expectedData)
-      ) {
+      if (error !== null || r.status != 200 || JSON.stringify(rdata) !== JSON.stringify(expectedData)) {
         console.log(`retrying, attempt number ${attempt + 1}`)
         return true
       } else {
@@ -48,9 +47,16 @@ interface FetchRetryArgs {
 async function fetchRetry(args: FetchRetryArgs) {
   const expectedData = getExpectedData(args.prismaVersion, args.binaryString)
   const r = await getFetch(expectedData)(args.url)
-  const data = await r.text()
+  let data = await r.text()
+  try {
+    data = JSON.parse(data)
+  } catch (e) {
+    // ignore parsing error, use string for the diff
+  }
 
   if (JSON.stringify(data) !== JSON.stringify(expectedData)) {
+    console.log('diff:')
+    console.log(diff(expectedData, data))
     console.log('expected:')
     console.log(JSON.stringify(expectedData))
     console.log('but got:')
