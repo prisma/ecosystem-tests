@@ -49,8 +49,8 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
-  "query-engine-debian-openssl-1.1.x",
   "package.json",
+  "query-engine-debian-openssl-1.1.x",
   "runtime",
   "schema.prisma",
 ]
