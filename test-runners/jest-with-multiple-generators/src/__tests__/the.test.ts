@@ -1,11 +1,5 @@
-import {
-  Prisma as PA,
-  PrismaClient as PCA,
-} from '../../generated/database/client'
-import {
-  Prisma as PB,
-  PrismaClient as PCB,
-} from '../../generated/database/client2'
+import { Prisma as PA, PrismaClient as PCA } from '../../generated/database/client'
+import { Prisma as PB, PrismaClient as PCB } from '../../generated/database/client2'
 
 const prismaA = new PCA()
 const prismaB = new PCB()
@@ -36,18 +30,15 @@ describe('Prisma in jest with multiple generators', () => {
   it('should use the correct engine files', async () => {
     const fs = require('fs')
     const path = require('path')
-    const filesA = fs.readdirSync(
-      path.dirname(require.resolve('../../generated/database/client')),
-    )
-    const filesB = fs.readdirSync(
-      path.dirname(require.resolve('../../generated/database/client2')),
-    )
+    const filesA = fs.readdirSync(path.dirname(require.resolve('../../generated/database/client')))
+    const filesB = fs.readdirSync(path.dirname(require.resolve('../../generated/database/client2')))
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
       expect(filesA).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
+  "package.json",
   "query-engine-debian-openssl-1.1.x",
   "runtime",
   "schema.prisma",
@@ -58,6 +49,7 @@ Array [
   "index-browser.js",
   "index.d.ts",
   "index.js",
+  "package.json",
   "query-engine-debian-openssl-1.1.x",
   "runtime",
   "schema.prisma",
@@ -70,6 +62,7 @@ Array [
   "index.d.ts",
   "index.js",
   "libquery_engine-debian-openssl-1.1.x.so.node",
+  "package.json",
   "runtime",
   "schema.prisma",
 ]
@@ -80,6 +73,7 @@ Array [
   "index.d.ts",
   "index.js",
   "libquery_engine-debian-openssl-1.1.x.so.node",
+  "package.json",
   "runtime",
   "schema.prisma",
 ]
