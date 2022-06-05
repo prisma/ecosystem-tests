@@ -8,4 +8,4 @@ export DEPLOYMENT_URL
 
 echo $DEPLOYMENT_URL
 
-# yarn test
+yarn test

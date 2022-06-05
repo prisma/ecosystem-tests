@@ -44,6 +44,8 @@ test('should test .prisma/client files', async () => {
   const files =
     process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
       ? [
+          'edge.d.ts', 
+          'edge.js', 
           'index-browser.js',
           'index.d.ts',
           'index.js',
@@ -52,6 +54,8 @@ test('should test .prisma/client files', async () => {
           'schema.prisma',
         ]
       : [
+          'edge.d.ts', 
+          'edge.js', 
           'index-browser.js',
           'index.d.ts',
           'index.js',
