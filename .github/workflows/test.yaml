@@ -802,7 +802,7 @@ jobs:
           - nodejs
           - cloudflare-workers
           - vercel-edge-functions
-        clientEngine: ['dataproxy'] # only valid value here
+        clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-dataproxy-${{ matrix.platform }}

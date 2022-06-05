@@ -93,7 +93,7 @@ elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
       os_name=notset
       ;;
   esac
-elif [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
+elif [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "DataProxy: Enabled"
 else
   echo "❌ CLIENT_ENGINE_TYPE was not set"
@@ -103,7 +103,7 @@ fi
 echo "--- ls -lh node_modules/.prisma/client/ ---"
 ls -lh node_modules/.prisma/client/
 echo "---"
-if [ $CLIENT_ENGINE_TYPE == "dataproxy" ]; then
+if [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
 elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists"
