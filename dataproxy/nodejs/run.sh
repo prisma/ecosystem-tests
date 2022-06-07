@@ -4,6 +4,4 @@ set -eu
 
 yarn install
 
-echo "USING $PRISMA_CLIENT_ENGINE_TYPE"
-
-yarn prisma generate
+yarn prisma generate --data-proxy

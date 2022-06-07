@@ -1,11 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client/edge'
 
 const prisma = new PrismaClient({})
 
 async function getUsers() {
-  // we use a transaction as it has caused issues with tracing
-  // `traceparent: undefined` was being passed to the engine
-  // but we ultimately want to test that queries are sent well
   const data = await prisma.$transaction([
     prisma.user.findFirst(),
     prisma.user.findMany()

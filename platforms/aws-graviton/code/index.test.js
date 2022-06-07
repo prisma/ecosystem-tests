@@ -26,6 +26,8 @@ describe('Prisma', () => {
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
       expect(files).toMatchInlineSnapshot(`
 Array [
+  "edge.d.ts",
+  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
@@ -37,6 +39,8 @@ Array [
     } else {
       expect(files).toMatchInlineSnapshot(`
 Array [
+  "edge.d.ts",
+  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
