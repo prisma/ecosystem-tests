@@ -36,16 +36,19 @@ async function fetchWithPuppeteer(endpoint) {
   const page = await browser.newPage()
   await page.setDefaultNavigationTimeout(0)
   await page.goto(endpoint)
-  await page.waitForTimeout(10000)
+  await page.waitForTimeout(20_000)
   const screenshot = await page.screenshot()
   fs.writeFileSync('image.png', screenshot as Buffer)
   await browser.close()
 
   const r = await fetch(endpoint)
+  const body = await r.text()
   try {
-    await r.json()
+    const bodyAsJSON = JSON.parse(body)
+    console.debug(bodyAsJSON)
     return true
   } catch (e) {
+    console.error('body as text:', body)
     throw new Error(e)
   }
 }
@@ -79,13 +82,7 @@ async function ensureSandbox(endpoint) {
 }
 
 async function main() {
-  const relevantFilePaths = [
-    'src/index.js',
-    'prisma/schema.prisma',
-    'prisma/.env',
-    'package.json',
-    'yarn.lock',
-  ]
+  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'yarn.lock']
 
   const files: CSBFiles = relevantFilePaths
     .map((filePath) => {
@@ -100,9 +97,7 @@ async function main() {
     .reduce((files, file) => {
       // Sets Client EngineType (binary/library) in Codesandbox
       if (file.filePath === 'prisma/.env') {
-        file.content =
-          file.content +
-          `\PRISMA_CLIENT_ENGINE_TYPE=${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
+        file.content = file.content + `\PRISMA_CLIENT_ENGINE_TYPE=${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
       }
       return {
         ...files,
@@ -134,9 +129,7 @@ async function main() {
     }
   } catch (e) {
     console.error(`Something went wrong`)
-    console.error(
-      `You can debug this here: https://codesandbox.io/s/${json.sandbox_id}`,
-    )
+    console.error(`You can debug this here: https://codesandbox.io/s/${json.sandbox_id}`)
     throw new Error(e)
   }
 }
