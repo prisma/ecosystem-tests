@@ -1042,10 +1042,6 @@ jobs:
         with:
           node-version: 14
 
-      # Add SSH to login into and debug
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
