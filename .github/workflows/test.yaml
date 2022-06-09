@@ -402,11 +402,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 12
           - 14
           - 15
           - 16
-          - 12.6.0 # minimal node version via https://github.com/prisma/prisma/blob/master/src/packages/client/package.json and minimal minor version of node 12 via https://www.prisma.io/docs/reference/system-requirements
           - 14.0.0 # minimal minor version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 17
           - 18
