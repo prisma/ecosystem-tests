@@ -6,7 +6,9 @@ yarn install
 yarn prisma generate
 yarn tsc
 
-app="azure-function-linux-e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
+# Note that it needs to be maximum 32 chars
+# Azure docs: Currently when generating a default host ID we use the host name (slot host name) and we would truncate it to 32 characters max.
+app="az-linux-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$app" > func-tmp.txt
 
 group="prisma-e2e-linux"
