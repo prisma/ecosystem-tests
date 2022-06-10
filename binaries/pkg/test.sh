@@ -22,6 +22,6 @@ case $OS in
   ;;
 esac
 
-yarn pkg node_modules/prisma -t node12-$os
+yarn pkg node_modules/prisma -t node14-$os
 
 ./$filename --version
