@@ -14,11 +14,14 @@ echo "$app" > func-tmp.txt
 group="prisma-e2e-windows"
 storage="prismae2ewin6owsstorage" # required because of brand foo
 
-# Runtime versions details at https://docs.microsoft.com/en-us/azure/azure-functions/functions-versions?tabs=in-process%2Cazure-cli%2Cv4&pivots=programming-language-javascript#languages
-# 4 = Is the "Recommended runtime version for functions in all languages." and has GA Node.js 14 & 16
-az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Windows --functions-version 4
+az functionapp create --resource-group "$group" --consumption-plan-location westeurope --name "$app" --storage-account "$storage" --runtime "node" --os-type Windows
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DEBUG=*"
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "DATABASE_URL=$DATABASE_URL"
+# https://docs.microsoft.com/en-us/azure/azure-functions/set-runtime-version?tabs=portal
+# Runtime versions details at https://docs.microsoft.com/en-us/azure/azure-functions/functions-versions?tabs=in-process%2Cazure-cli%2Cv4&pivots=programming-language-javascript#languages
+# 4 = Is the "Recommended runtime version for functions in all languages." and has GA Node.js 14 & 16
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "FUNCTIONS_EXTENSION_VERSION=~4"
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "WEBSITE_NODE_DEFAULT_VERSION=~14"
 
 sleep 30
 
