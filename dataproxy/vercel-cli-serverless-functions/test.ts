@@ -1,18 +1,18 @@
 /// <reference types="@types/jest" />
 
 import fetch from 'node-fetch'
+const pkgJson = require('./package.json')
 
-describe('use data proxy', () => {
-  test('fetch response', async () => {
-    console.debug(process.env.DEPLOYMENT_URL!)
-    
-    const response = await fetch(process.env.DEPLOYMENT_URL!)
-    
-    const bodyAsText = await response.text()
-    console.debug(bodyAsText)
-    
-    const jsonData = JSON.parse(bodyAsText)
-    expect(jsonData).toMatchInlineSnapshot(`
+test('querying works', async () => {
+  const url = process.env.DEPLOYMENT_URL! + '/api/query'
+  console.debug(url)
+  
+  const response = await fetch(url)
+  const bodyAsText = await response.text()
+  console.debug(bodyAsText)
+  
+  const data = JSON.parse(bodyAsText)
+  expect(data).toMatchInlineSnapshot(`
 Object {
   "data": Array [
     Object {
@@ -75,5 +75,28 @@ Object {
   ],
 }
 `)
-  }, 30000)
+}, 30000)
+
+test('expected files', async () => {
+  const url = process.env.DEPLOYMENT_URL! + '/api/files'
+  console.debug(url)
+  
+  const response = await fetch(url)
+  const bodyAsText = await response.text()
+  console.debug(bodyAsText)
+  
+  const { data } = JSON.parse(bodyAsText)
+  const files = [
+    'edge.d.ts', 
+    'edge.js', 
+    'index-browser.js',
+    'index.d.ts',
+    'index.js',
+    'libquery_engine-rhel-openssl-1.0.x.so.node',
+    'package.json',
+    'schema.prisma',
+  ]
+
+  expect(data.files).toMatchObject(files)
+  expect(data.version).toMatchObject(pkgJson.dependencies['@prisma/client'])
 })

@@ -8,9 +8,7 @@ export default async (req, res) => {
     prisma.user.findMany()
   ])
 
-  const json = JSON.stringify({ data })
-
-  return res.send(json)
+  return res.send(JSON.stringify({ data }))
 }
 
 // export default async (req, res) => {

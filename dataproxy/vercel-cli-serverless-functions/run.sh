@@ -4,7 +4,14 @@ set -eu
 
 yarn
 
-yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_GENERATE_DATAPROXY="true" --env DATAPROXY_VERCEL_CLI_DB_URL="$DATAPROXY_VERCEL_CLI_DB_URL" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
+yarn -s vercel \
+--prod \
+--token=$VERCEL_TOKEN \
+--scope=$VERCEL_ORG_ID \
+--build-env PRISMA_GENERATE_DATAPROXY="true" \
+--env DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_DB_URL="$DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_DB_URL" \
+--confirm --force \
+1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
@@ -27,8 +34,16 @@ fi
 
 # Check the Vercel Build Logs for "Generated Prisma Client"
 if echo "${OUTPUT}" | grep -q 'Generated Prisma Client'; then
-  echo 'Prisma Client Was Successfully Generated'
+  echo 'Prisma Client was successfully generated'
 else
-  echo "Prisma Client Was NOT GENERATED"
+  echo "Prisma Client was NOT GENERATED"
+  exit 1
+fi
+
+# Check the Vercel Build Logs for "| dataproxy" in generate
+if echo "${OUTPUT}" | grep -q '| dataproxy'; then
+  echo 'Data Proxy was successfully enabled'
+else
+  echo "Data Proxy was NOT ENABLED"
   exit 1
 fi
