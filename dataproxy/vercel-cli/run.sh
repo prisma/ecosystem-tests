@@ -2,14 +2,9 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests dataproxy vercel-cli build'
 yarn
 
-export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
-export VERCEL_ORG_ID=$VERCEL_ORG_ID
-echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
-echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
-yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_GENERATE_DATAPROXY="true" --env VERCEL_DATA_PROXY_URL="$VERCEL_DATA_PROXY_URL" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
+yarn -s vercel --token=$VERCEL_TOKEN --build-env PRISMA_GENERATE_DATAPROXY="true" --env DATAPROXY_VERCEL_CLI_DB_URL="$DATAPROXY_VERCEL_CLI_DB_URL" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
