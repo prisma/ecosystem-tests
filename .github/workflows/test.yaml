@@ -783,7 +783,7 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 1
-          // default is 10s
+          # default is 10s
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
@@ -836,7 +836,7 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 3
-          // default is 10s
+          # default is 10s
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
