@@ -64,6 +64,9 @@ describe('tracing', () => {
           return undefined
         }
 
+	// Remove value for the following keys
+	// they contain a version that can change
+	// removing them makes the test easier to maintain
         if (key === 'value' && ['telemetry.sdk.version', 'otel.library.version'].includes(this.key)) {
           return undefined
         }
