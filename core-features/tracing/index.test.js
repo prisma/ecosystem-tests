@@ -48,7 +48,7 @@ describe('tracing', () => {
 
     const snapshotJSON = JSON.stringify(
       traceTree,
-      (key, value) => {
+      function (key, value) {
         const ignoredKeys = [
           'traceID',
           'spanID',
@@ -61,6 +61,10 @@ describe('tracing', () => {
           'logs',
         ]
         if (ignoredKeys.includes(key)) {
+          return undefined
+        }
+
+        if (key === 'value' && ['telemetry.sdk.version', 'otel.library.version'].includes(this.key)) {
           return undefined
         }
 
@@ -117,8 +121,7 @@ describe('tracing', () => {
             },
             {
               \\"key\\": \\"telemetry.sdk.version\\",
-              \\"type\\": \\"string\\",
-              \\"value\\": \\"1.4.0\\"
+              \\"type\\": \\"string\\"
             },
             {
               \\"key\\": \\"otel.library.name\\",
@@ -127,8 +130,7 @@ describe('tracing', () => {
             },
             {
               \\"key\\": \\"otel.library.version\\",
-              \\"type\\": \\"string\\",
-              \\"value\\": \\"0.25.0\\"
+              \\"type\\": \\"string\\"
             },
             {
               \\"key\\": \\"internal.span.format\\",
@@ -174,8 +176,7 @@ describe('tracing', () => {
                 },
                 {
                   \\"key\\": \\"telemetry.sdk.version\\",
-                  \\"type\\": \\"string\\",
-                  \\"value\\": \\"1.4.0\\"
+                  \\"type\\": \\"string\\"
                 },
                 {
                   \\"key\\": \\"otel.library.name\\",
@@ -184,8 +185,7 @@ describe('tracing', () => {
                 },
                 {
                   \\"key\\": \\"otel.library.version\\",
-                  \\"type\\": \\"string\\",
-                  \\"value\\": \\"0.25.0\\"
+                  \\"type\\": \\"string\\"
                 },
                 {
                   \\"key\\": \\"internal.span.format\\",
@@ -226,8 +226,7 @@ describe('tracing', () => {
                     },
                     {
                       \\"key\\": \\"telemetry.sdk.version\\",
-                      \\"type\\": \\"string\\",
-                      \\"value\\": \\"1.4.0\\"
+                      \\"type\\": \\"string\\"
                     },
                     {
                       \\"key\\": \\"otel.library.name\\",
@@ -236,8 +235,7 @@ describe('tracing', () => {
                     },
                     {
                       \\"key\\": \\"otel.library.version\\",
-                      \\"type\\": \\"string\\",
-                      \\"value\\": \\"undefined\\"
+                      \\"type\\": \\"string\\"
                     },
                     {
                       \\"key\\": \\"internal.span.format\\",
@@ -268,8 +266,7 @@ describe('tracing', () => {
                         },
                         {
                           \\"key\\": \\"telemetry.sdk.version\\",
-                          \\"type\\": \\"string\\",
-                          \\"value\\": \\"1.4.0\\"
+                          \\"type\\": \\"string\\"
                         },
                         {
                           \\"key\\": \\"otel.library.name\\",
@@ -278,8 +275,7 @@ describe('tracing', () => {
                         },
                         {
                           \\"key\\": \\"otel.library.version\\",
-                          \\"type\\": \\"string\\",
-                          \\"value\\": \\"undefined\\"
+                          \\"type\\": \\"string\\"
                         },
                         {
                           \\"key\\": \\"internal.span.format\\",
@@ -315,8 +311,7 @@ describe('tracing', () => {
                             },
                             {
                               \\"key\\": \\"telemetry.sdk.version\\",
-                              \\"type\\": \\"string\\",
-                              \\"value\\": \\"1.4.0\\"
+                              \\"type\\": \\"string\\"
                             },
                             {
                               \\"key\\": \\"otel.library.name\\",
@@ -325,8 +320,7 @@ describe('tracing', () => {
                             },
                             {
                               \\"key\\": \\"otel.library.version\\",
-                              \\"type\\": \\"string\\",
-                              \\"value\\": \\"undefined\\"
+                              \\"type\\": \\"string\\"
                             },
                             {
                               \\"key\\": \\"internal.span.format\\",
@@ -363,8 +357,7 @@ describe('tracing', () => {
                             },
                             {
                               \\"key\\": \\"telemetry.sdk.version\\",
-                              \\"type\\": \\"string\\",
-                              \\"value\\": \\"1.4.0\\"
+                              \\"type\\": \\"string\\"
                             },
                             {
                               \\"key\\": \\"otel.library.name\\",
@@ -373,8 +366,7 @@ describe('tracing', () => {
                             },
                             {
                               \\"key\\": \\"otel.library.version\\",
-                              \\"type\\": \\"string\\",
-                              \\"value\\": \\"undefined\\"
+                              \\"type\\": \\"string\\"
                             },
                             {
                               \\"key\\": \\"internal.span.format\\",
@@ -383,56 +375,7 @@ describe('tracing', () => {
                             }
                           ]
                         },
-                        \\"children\\": [
-                          {
-                            \\"span\\": {
-                              \\"operationName\\": \\"prisma:db_query\\",
-                              \\"tags\\": [
-                                {
-                                  \\"key\\": \\"db.statement\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"SELECT 1\\"
-                                },
-                                {
-                                  \\"key\\": \\"service.name\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"prisma-tracing\\"
-                                },
-                                {
-                                  \\"key\\": \\"telemetry.sdk.language\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"nodejs\\"
-                                },
-                                {
-                                  \\"key\\": \\"telemetry.sdk.name\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"opentelemetry\\"
-                                },
-                                {
-                                  \\"key\\": \\"telemetry.sdk.version\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"1.4.0\\"
-                                },
-                                {
-                                  \\"key\\": \\"otel.library.name\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"prisma\\"
-                                },
-                                {
-                                  \\"key\\": \\"otel.library.version\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"undefined\\"
-                                },
-                                {
-                                  \\"key\\": \\"internal.span.format\\",
-                                  \\"type\\": \\"string\\",
-                                  \\"value\\": \\"proto\\"
-                                }
-                              ]
-                            },
-                            \\"children\\": []
-                          }
-                        ]
+                        \\"children\\": []
                       }
                     ]
                   }
