@@ -6,12 +6,18 @@ describe('use data proxy', () => {
   test('fetch response', async () => {
     const vercelEdgeFunctionsDeployment = process.env.DEPLOYMENT_URL!
     console.debug(vercelEdgeFunctionsDeployment)
-    
+
+    console.debug(new Date(), "Start await fetch(vercelEdgeFunctionsDeployment)")
+    console.time('fetchTook');
+
     const response = await fetch(vercelEdgeFunctionsDeployment)
+
+    console.timeEnd('fetchTook');
+    console.debug(new Date(), "End await fetch(vercelEdgeFunctionsDeployment)")
 
     const bodyAsText = await response.text()
     console.debug(bodyAsText)
-    
+
     const jsonData = JSON.parse(bodyAsText)
     expect(jsonData).toMatchInlineSnapshot(`
 Object {
