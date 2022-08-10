@@ -9,22 +9,25 @@ export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwo
 node patch-package-json.js
 yarn
 
-export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_PROJECT_ID
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 export FORCE_RUNTIME_TAG=canary
-echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
 
 yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  VERCEL_PROJECT_NAME="e2e-vercel-with-redwood_binary"
-  yarn -s vercel --name=$VERCEL_PROJECT_NAME --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env PRISMA_CLIENT_ENGINE_TYPE='binary' --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
+  echo "Binary"
+  export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID
+  echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
+  
+  yarn -s vercel --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env PRISMA_CLIENT_ENGINE_TYPE='binary' --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 else
   echo "Library (Default)"
-  VERCEL_PROJECT_NAME="e2e-vercel-with-redwood"
-  yarn -s vercel --name=$VERCEL_PROJECT_NAME --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env PRISMA_CLIENT_ENGINE_TYPE='library' --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
+  export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_PROJECT_ID
+  echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
+
+  yarn -s vercel --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env PRISMA_CLIENT_ENGINE_TYPE='library' --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 fi
 
 echo ''
