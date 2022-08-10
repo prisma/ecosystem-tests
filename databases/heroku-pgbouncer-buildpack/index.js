@@ -14,8 +14,6 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
-  await clientWithQueryStringParam.user.deleteMany({})
-  const id = '12345'
   const createUser = await clientWithQueryStringParam.user.create({
     data: {
       id,
@@ -25,7 +23,7 @@ app.get('/', async (req, res) => {
   })
   const updateUser = await clientWithQueryStringParam.user.update({
     where: {
-      id,
+      id: createUser.id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -34,18 +32,20 @@ app.get('/', async (req, res) => {
   })
   const users = await clientWithQueryStringParam.user.findUnique({
     where: {
-      id,
+      id: createUser.id,
     },
   })
+  const deleteUser = await clientWithQueryStringParam.user.delete({
+    where: { id: 1 },
+  })
 
-  const deleteManyUsers = await clientWithQueryStringParam.user.deleteMany()
   return res.send(
     JSON.stringify({
       version: Prisma.prismaVersion.client,
       createUser,
       updateUser,
       users,
-      deleteManyUsers,
+      deleteUser,
     }),
   )
 })

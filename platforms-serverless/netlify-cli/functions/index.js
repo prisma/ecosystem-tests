@@ -3,13 +3,8 @@ const { PrismaClient, Prisma } = require('./generated/client')
 const client = new PrismaClient()
 
 exports.handler = async function (event, context, callback) {
-  await client.user.deleteMany({})
-
-  const id = '12345'
-
   const createUser = await client.user.create({
     data: {
-      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -17,7 +12,7 @@ exports.handler = async function (event, context, callback) {
 
   const updateUser = await client.user.update({
     where: {
-      id,
+      id: createUser.id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -27,16 +22,18 @@ exports.handler = async function (event, context, callback) {
 
   const users = await client.user.findUnique({
     where: {
-      id,
+      id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await client.user.deleteMany()
+  const deleteUser = await client.user.delete({
+    where: { id: createUser.id },
+  })
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/generated/client")
-  
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + '/generated/client')
+
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -44,7 +41,7 @@ exports.handler = async function (event, context, callback) {
       createUser,
       updateUser,
       users,
-      deleteManyUsers,
+      deleteUser,
       files,
     }),
     headers: {

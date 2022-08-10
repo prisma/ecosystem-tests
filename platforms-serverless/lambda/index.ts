@@ -1,4 +1,4 @@
-const process = require('process');
+const process = require('process')
 
 const measure_start = process.hrtime.bigint()
 
@@ -19,13 +19,8 @@ export async function handler() {
 
   const measure_connect = process.hrtime.bigint()
 
-  await client.user.deleteMany({})
-
-  const id = '12345'
-
   const createUser = await client.user.create({
     data: {
-      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -33,7 +28,7 @@ export async function handler() {
 
   const updateUser = await client.user.update({
     where: {
-      id,
+      id: createUser.id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -43,11 +38,13 @@ export async function handler() {
 
   const users = await client.user.findUnique({
     where: {
-      id,
+      id: createUser.id,
     },
   })
 
-  const deleteManyUsers = await client.user.deleteMany({})
+  const deleteUser = await client.user.delete({
+    where: { id: createUser.id },
+  })
 
   const measure_end = process.hrtime.bigint()
 
@@ -56,14 +53,14 @@ export async function handler() {
     createUser,
     updateUser,
     users,
-    deleteManyUsers,
+    deleteUser,
     files,
     measurements: {
-      outside_handler: Number(measure_client-measure_start) / 1000000000,
-      inside_handler: Number(measure_end-measure_handler) / 1000000000,
-      inside_handler_connect: Number(measure_connect-measure_handler) / 1000000000,
-      inside_handler_queries: Number(measure_end-measure_connect) / 1000000000,
-      since_environment_start: Number(measure_end-measure_start) / 1000000000,
-    }
+      outside_handler: Number(measure_client - measure_start) / 1000000000,
+      inside_handler: Number(measure_end - measure_handler) / 1000000000,
+      inside_handler_connect: Number(measure_connect - measure_handler) / 1000000000,
+      inside_handler_queries: Number(measure_end - measure_connect) / 1000000000,
+      since_environment_start: Number(measure_end - measure_start) / 1000000000,
+    },
   }
 }

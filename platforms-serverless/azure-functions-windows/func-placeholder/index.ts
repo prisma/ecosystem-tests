@@ -3,17 +3,9 @@ import { Context, HttpRequest } from '@azure/functions'
 
 const client = new PrismaClient()
 
-export default async function (
-  context: Context,
-  req: HttpRequest,
-): Promise<void> {
-  await client.user.deleteMany({})
-
-  const id = '12345'
-
+export default async function (context: Context, req: HttpRequest): Promise<void> {
   const createUser = await client.user.create({
     data: {
-      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -35,7 +27,11 @@ export default async function (
     },
   })
 
-  const deleteManyUsers = await client.user.deleteMany({})
+  const deleteUser = await client.user.delete({
+    where: {
+      id: createUser.id,
+    },
+  })
 
   context.res = {
     status: 200,
@@ -44,7 +40,7 @@ export default async function (
       createUser,
       updateUser,
       users,
-      deleteManyUsers,
+      deleteUser,
     }),
   }
 

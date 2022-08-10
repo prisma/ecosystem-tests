@@ -7,10 +7,6 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
-  await client.user.deleteMany({})
-
-  const id = '12345'
-
   const createUser = await client.user.create({
     data: {
       id,
@@ -35,11 +31,13 @@ app.get('/', async (req, res) => {
     },
   })
 
-  const deleteManyUsers = await client.user.deleteMany()
+  const deleteUser = await client.user.delete({
+    where: { id: createUser.id },
+  })
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/node_modules/.prisma/client")
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + '/node_modules/.prisma/client')
 
   /*
   // list all files deployed in Lambda to debug when tests are failing
@@ -53,15 +51,13 @@ app.get('/', async (req, res) => {
     createUser,
     updateUser,
     users,
-    deleteManyUsers,
+    deleteUser,
     files,
     //tree,
   }
   console.log({ payload })
 
-  return res.send(
-    JSON.stringify(payload),
-  )
+  return res.send(JSON.stringify(payload))
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
