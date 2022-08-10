@@ -2,7 +2,7 @@
 
 set -eu
 
-yarn policies set-version 1.18.0
+yarn policies set-version 1.22.19
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwood build'
 
