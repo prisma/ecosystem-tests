@@ -33,6 +33,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
@@ -44,6 +46,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
@@ -69,12 +73,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
