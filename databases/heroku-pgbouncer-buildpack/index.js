@@ -36,7 +36,7 @@ app.get('/', async (req, res) => {
     },
   })
   const deleteUser = await clientWithQueryStringParam.user.delete({
-    where: { id: 1 },
+    where: { id: createUser.id },
   })
 
   return res.send(
