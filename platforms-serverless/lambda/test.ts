@@ -9,7 +9,10 @@ async function main() {
   const measure_start = process.hrtime.bigint()
   const data = await invokeLambdaSync(name, '')
   const measure_end = process.hrtime.bigint()
-  console.log('function invocation duration:', Number(measure_end - measure_start) / 1000000000)
+  console.log(
+    'function invocation duration:',
+    Number(measure_end - measure_start) / 1000000000,
+  )
 
   console.log({ data: data.$response.data })
 
@@ -27,7 +30,7 @@ async function main() {
   const expect =
     '{"version":"' +
     Prisma.prismaVersion.client +
-    `","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"}${files}}`
+    `","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${files}}`
 
   if (actual !== expect) {
     console.log('Expected: \n', expect, '\nBut got:\n', actual)

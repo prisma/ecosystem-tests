@@ -30,7 +30,7 @@ export async function main() {
     where: { id: createUser.id },
   })
 
-  return { createUser, updateUser, users }
+  return { createUser, updateUser, users, deleteUser }
 }
 
 main()

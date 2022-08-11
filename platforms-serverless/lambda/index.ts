@@ -53,6 +53,7 @@ export async function handler() {
     createUser,
     updateUser,
     users,
+    deleteUser,
     files,
     measurements: {
       outside_handler: Number(measure_client - measure_start) / 1000000000,

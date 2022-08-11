@@ -46,6 +46,7 @@ export async function handler() {
     createUser,
     updateUser,
     users,
+    deleteUser,
     files,
   }
 }

@@ -45,6 +45,7 @@ export default async (req, res) => {
     createUser,
     updateUser,
     users,
+    deleteUser,
     files,
     //tree,
   }
