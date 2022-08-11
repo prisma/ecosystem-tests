@@ -8,8 +8,13 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
   const path = require('path')
   const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
 
+  await client.user.deleteMany({})
+
+  const id = '12345'
+
   const createUser = await client.user.create({
     data: {
+      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -31,9 +36,7 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
     },
   })
 
-  const deleteUser = await client.user.delete({
-    where: { id: createUser.id },
-  })
+  const deleteManyUsers = await client.user.deleteMany({})
 
   context.res = {
     status: 200,
@@ -42,8 +45,8 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
       createUser,
       updateUser,
       users,
-      deleteUser,
-      files,
+      deleteManyUsers,
+      files
     }),
   }
 

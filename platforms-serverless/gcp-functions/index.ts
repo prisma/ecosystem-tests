@@ -8,8 +8,13 @@ export async function handler(req: any, res: any) {
   const prismaPath = path.dirname(require.resolve('.prisma/client'))
   const files = fs.readdirSync(prismaPath)
 
+  await client.user.deleteMany({})
+
+  const id = '12345'
+
   const createUser = await client.user.create({
     data: {
+      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -31,16 +36,14 @@ export async function handler(req: any, res: any) {
     },
   })
 
-  const deleteUser = await client.user.delete({
-    where: { id: createUser.id },
-  })
+  const deleteManyUsers = await client.user.deleteMany({})
 
   res.status(200).send({
     version: Prisma.prismaVersion.client,
     createUser,
     updateUser,
     users,
-    deleteUser,
-    files,
+    deleteManyUsers,
+    files
   })
 }

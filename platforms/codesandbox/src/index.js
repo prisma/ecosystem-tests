@@ -8,8 +8,13 @@ app.get('/', async (req, res) => {
   const path = require('path')
   const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
 
+  await client.user.deleteMany({})
+
+  const id = '12345'
+
   const createUser = await client.user.create({
     data: {
+      id,
       email: 'alice@prisma.io',
       name: 'Alice',
     },
@@ -17,7 +22,7 @@ app.get('/', async (req, res) => {
 
   const updateUser = await client.user.update({
     where: {
-      id: createUser.id,
+      id,
     },
     data: {
       email: 'bob@prisma.io',
@@ -27,13 +32,11 @@ app.get('/', async (req, res) => {
 
   const users = await client.user.findUnique({
     where: {
-      id: createUser.id,
+      id,
     },
   })
 
-  const deleteUser = await client.user.delete({
-    where: { id: createUser.id },
-  })
+  const deleteManyUsers = await client.user.deleteMany()
 
   return res.send(
     JSON.stringify({
@@ -41,7 +44,7 @@ app.get('/', async (req, res) => {
       createUser,
       updateUser,
       users,
-      deleteUser,
+      deleteManyUsers,
       files,
     }),
   )
