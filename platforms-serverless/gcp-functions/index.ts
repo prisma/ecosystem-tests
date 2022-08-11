@@ -40,7 +40,6 @@ export async function handler(req: any, res: any) {
     createUser,
     updateUser,
     users,
-    deleteUser,
     files,
   })
 }

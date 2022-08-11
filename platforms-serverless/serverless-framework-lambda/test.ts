@@ -9,10 +9,11 @@ async function main() {
   console.log({ data: data.$response.data })
 
   const actual = (data.$response.data as any).Payload
-  const binaryString = process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
-    ? `,"files":["edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]`
-    : `,"files":["edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-rhel-openssl-1.0.x.so.node","package.json","schema.prisma"]`
-  const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`
+  const binaryString =
+    process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
+      ? `,"files":["edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-1.0.x","schema.prisma"]`
+      : `,"files":["edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-rhel-openssl-1.0.x.so.node","package.json","schema.prisma"]`
+  const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"}${binaryString}}`
 
   if (actual !== expect) {
     console.log('Expected: \n', expect, '\nBut Got:\n', actual)

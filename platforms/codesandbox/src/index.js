@@ -41,7 +41,6 @@ app.get('/', async (req, res) => {
       createUser,
       updateUser,
       users,
-      deleteUser,
       files,
     }),
   )

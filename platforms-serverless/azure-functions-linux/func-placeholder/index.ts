@@ -42,7 +42,6 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
       createUser,
       updateUser,
       users,
-      deleteUser,
       files,
     }),
   }

@@ -45,7 +45,6 @@ const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest(async (req, res) =>
     createUser,
     updateUser,
     users,
-    deleteUser,
     files,
   })
 })

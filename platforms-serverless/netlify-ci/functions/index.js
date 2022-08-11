@@ -51,7 +51,6 @@ exports.handler = async function (event, context, callback) {
       createUser,
       updateUser,
       users,
-      deleteUser,
       files,
     }),
     headers: {
