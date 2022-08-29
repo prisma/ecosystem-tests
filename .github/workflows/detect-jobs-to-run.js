@@ -29,9 +29,14 @@ async function getStdin() {
 async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
   const testYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/test.yaml'), { encoding: 'utf8' })
   const testYaml = yaml.parse(testYamlString)
+  const optionalTestYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/optional-test.yaml'), {
+    encoding: 'utf8',
+  })
+  const optionalTestYaml = yaml.parse(optionalTestYamlString)
+  const allJobs = { ...testYaml['jobs'], ...optionalTestYaml['jobs'] }
 
   // ['process-managers', 'docker', 'core-features', ...]
-  const testDirectories = Object.keys(testYaml['jobs']).filter((key) => {
+  const testDirectories = Object.keys(allJobs).filter((key) => {
     const jobsToIgnore = [
       'report-to-slack-success', // Not a test but a job that posts to slack
       'report-to-slack-failure', // Not a test but a job that posts to slack
