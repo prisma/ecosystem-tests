@@ -1,11 +1,25 @@
 name: optional-test
 
 on:
+  # Note about push & pull_request
+  # when creating a new branch for a PR, push will be triggered immediately before the PR gets created
+  # The GitHub API / GitHub context base commit is then 0000000000000000000000000000000000000000
+  #
+  # The get-changed-files action used in the detect_jobs_to_run needs to have a non 0 base commit to ba able to diff
+  # Defining both push (and specify the branches) and pull_request solves the problem
   push:
+    branches:
+      # Push events our default branch
+      - dev
+      # Push events on our special branches
+      - patch-dev
+      - latest
+      - integration
+  pull_request:
     paths-ignore:
       - '*.md'
       - 'renovate.json'
-
+      
 env:
   PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
