@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  log: ['query', 'info', 'warn', 'error'],
+})
 
 // A `main` function so that we can use async/await
 async function main() {
