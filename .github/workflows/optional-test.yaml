@@ -80,6 +80,7 @@ jobs:
     needs:
       - community-generators
       - databases
+      
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
@@ -168,14 +169,14 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
