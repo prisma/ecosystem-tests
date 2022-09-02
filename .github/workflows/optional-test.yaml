@@ -64,6 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - community-generators
+      - databases
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
@@ -78,6 +79,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - community-generators
+      - databases
+      
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
@@ -103,9 +106,11 @@ jobs:
           ]
         clientEngine: ['library', 'binary']
     runs-on: ubuntu-latest
+
     env:
       SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -126,8 +131,52 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.generator }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.generator }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
+
+
+  databases:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - mongodb-azure-cosmosdb
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
