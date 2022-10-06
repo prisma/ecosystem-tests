@@ -1,9 +1,10 @@
-import { describe, it } from "https://deno.land/std@0.158.0/testing/bdd.ts";
 import { assertEquals } from "https://deno.land/std@0.158.0/testing/asserts.ts";
 import { getUsers } from "./src/index.ts";
 
-describe("use data proxy", () => {
-  it("fetches response", async () => {
+Deno.test(
+  "using data proxy, fetches response",
+  { sanitizeOps: false, sanitizeResources: false },
+  async () => {
     const users = await getUsers();
     assertEquals(users, [
       {
@@ -64,5 +65,5 @@ describe("use data proxy", () => {
         },
       ],
     ]);
-  });
-});
+  },
+);
