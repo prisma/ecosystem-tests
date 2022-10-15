@@ -5,7 +5,11 @@ function getDeploymentURL() {
   const data = fs.readFileSync('./deployment-url.txt', { encoding: 'utf8' })
   return data.trim()
 }
+// Library
 // const endpoint = 'https://e2e-vercel-with-nextjs.vercel.app/api'
+// Binary
+// const endpoint = 'https://e2e-vercel-with-nextjs-binary.vercel.app/api'
+
 // const endpoint = 'http://localhost:3001/api'
 const endpoint = getDeploymentURL()
 

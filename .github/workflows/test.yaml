@@ -59,11 +59,12 @@ jobs:
         uses: Ana06/get-changed-files@v2.1.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
-      - name: Install Dependencies
-        run: yarn install
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install
       - id: detect
         run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
@@ -144,12 +145,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -189,12 +191,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -242,12 +245,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -287,12 +291,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -328,12 +333,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -367,12 +373,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -613,12 +620,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn
+        run: yarn install
 
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
@@ -695,16 +703,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node 14
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -751,23 +759,27 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+      VERCEL_API_BINARY_PROJECT_ID: ${{ secrets.VERCEL_API_BINARY_PROJECT_ID }}
       VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_BINARY_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_BINARY_PROJECT_ID }}
       VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node 14
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn
+        run: yarn install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -783,6 +795,8 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 1
+          # default is 10s
+          retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
@@ -818,10 +832,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node 14
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
 
       - name: use deno v1.x
         uses: denoland/setup-deno@v1
@@ -832,7 +846,7 @@ jobs:
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn
+        run: yarn install
 
       - name: test ${{ matrix.platform }}
         id: run-test
@@ -840,6 +854,8 @@ jobs:
         with:
           timeout_minutes: 60
           max_attempts: 3
+          # default is 10s
+          retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
@@ -958,7 +974,7 @@ jobs:
           - mongodb-atlas-sharded
           - mongodb-atlas-serverless
           - mongodb-digitalocean
-          - mongodb-azure-cosmosdb
+          #- mongodb-azure-cosmosdb
           - supabase
           - supabase-pool
           - planetscale
@@ -987,7 +1003,7 @@ jobs:
       DATABASE_URL_DB_MONGODB_ATLAS_SHARDED: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SHARDED }}
       DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS }}
       DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
-      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+      #DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
       MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
@@ -999,12 +1015,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1040,12 +1057,13 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
