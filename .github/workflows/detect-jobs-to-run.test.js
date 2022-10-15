@@ -18,6 +18,7 @@ describe('detect-jobs-to-run', () => {
 Object {
   "binaries": true,
   "bundlers": true,
+  "community-generators": true,
   "core-features": true,
   "databases": true,
   "databases-macos": true,
@@ -47,6 +48,7 @@ Object {
 Object {
   "binaries": false,
   "bundlers": false,
+  "community-generators": false,
   "core-features": false,
   "databases": false,
   "databases-macos": false,
@@ -78,6 +80,7 @@ Object {
 Object {
   "binaries": false,
   "bundlers": false,
+  "community-generators": false,
   "core-features": false,
   "databases": true,
   "databases-macos": false,
@@ -103,6 +106,41 @@ Object {
     expect(jobsToRun['databases-macos']).toBe(false)
   })
 
+  it('files changed inside community-generators directory only', async () => {
+    const filesChanged = [
+      'community-generators/typegraphql-prisma/package.json',
+      'community-generators/typegraphql-prisma/something.js',
+    ]
+    const jobsToRun = await detectJobsTorun({ filesChanged })
+
+    expect(jobsToRun).toMatchInlineSnapshot(`
+Object {
+  "binaries": false,
+  "bundlers": false,
+  "community-generators": true,
+  "core-features": false,
+  "databases": false,
+  "databases-macos": false,
+  "dataproxy": false,
+  "docker": false,
+  "engines": false,
+  "frameworks": false,
+  "libraries": false,
+  "migrate": false,
+  "node": false,
+  "os": false,
+  "packagers": false,
+  "platforms": false,
+  "platforms-serverless": false,
+  "platforms-serverless-vercel": false,
+  "process-managers": false,
+  "test-runners": false,
+}
+`)
+
+    expect(jobsToRun['community-generators']).toBe(true)
+  })
+
   it('should fallback: no change', async () => {
     const filesChanged = []
     const jobsToRun = await detectJobsTorun({ filesChanged })
@@ -111,6 +149,7 @@ Object {
 Object {
   "binaries": true,
   "bundlers": true,
+  "community-generators": true,
   "core-features": true,
   "databases": true,
   "databases-macos": true,
@@ -142,6 +181,7 @@ Object {
 Object {
   "binaries": true,
   "bundlers": true,
+  "community-generators": true,
   "core-features": true,
   "databases": true,
   "databases-macos": true,
@@ -173,6 +213,7 @@ Object {
 Object {
   "binaries": true,
   "bundlers": true,
+  "community-generators": true,
   "core-features": true,
   "databases": true,
   "databases-macos": true,

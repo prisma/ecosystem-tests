@@ -17,15 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: yarn install
-
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: lint test suite coverage
         run: node .github/scripts/check-folders.js
 
       - name: run detect-jobs-to-run tests
-        run: npx --yes jest detect-jobs-to-run
+        run: yarn jest detect-jobs-to-run

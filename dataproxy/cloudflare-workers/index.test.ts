@@ -6,12 +6,18 @@ describe('use data proxy', () => {
   test('fetch response', async () => {
     const cloudflareWorkersDeploymentUrl = process.env.DEPLOYMENT_URL!
     console.debug(cloudflareWorkersDeploymentUrl)
-    
+
+    console.debug(new Date(), "Start await fetch(cloudflareWorkersDeploymentUrl)")
+    console.time('fetchTook');
+
     const response = await fetch(cloudflareWorkersDeploymentUrl)
-    
+
+    console.timeEnd('fetchTook');
+    console.debug(new Date(), "End await fetch(cloudflareWorkersDeploymentUrl)")
+
     const bodyAsText = await response.text()
     console.debug(bodyAsText)
-    
+
     const jsonData = JSON.parse(bodyAsText)
     expect(jsonData).toMatchInlineSnapshot(`
 Object {
