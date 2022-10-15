@@ -1,6 +1,13 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
+const encodeBase64 = (data) => {
+    return Buffer.from(data).toString('base64');
+}
+const decodeBase64 = (data) => {
+    return Buffer.from(data, 'base64').toString('ascii');
+}
+
 const edgeJsFile = './generated/client/deno/edge.js'
 
 const edgeJsString = fs.readFileSync(edgeJsFile, {encoding:'utf8'})
@@ -21,13 +28,13 @@ edgeJsStringLines.forEach((x, i) => {
 // console.log(inlineSchema)
 // console.log(inlineSchemaHash)
 
-const decodedSchema = atob(inlineSchema)
+const decodedSchema = decodeBase64(inlineSchema)
 
 const cleanedSchema = decodedSchema.replace("previewFeatures = [\"denoDeploy\"]", "")
 // console.log(inlineSchema.length)
 // console.log(cleanedSchema.length)
 
-const encodedCleanedSchema = btoa(cleanedSchema)
+const encodedCleanedSchema = encodeBase64(cleanedSchema)
 // console.log(encodedCleanedSchema)
 
 const newHash = crypto.createHash('sha256').update(encodedCleanedSchema).digest('hex')
