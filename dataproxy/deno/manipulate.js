@@ -30,7 +30,7 @@ edgeJsStringLines.forEach((x, i) => {
 
 const decodedSchema = decodeBase64(inlineSchema)
 
-const cleanedSchema = decodedSchema.replace("previewFeatures = [\"denoDeploy\"]", "")
+const cleanedSchema = decodedSchema.replace("previewFeatures = [\"deno\"]", "")
 // console.log(inlineSchema.length)
 // console.log(cleanedSchema.length)
 
