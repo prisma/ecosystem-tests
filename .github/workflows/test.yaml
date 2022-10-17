@@ -812,6 +812,7 @@ jobs:
       matrix:
         platform:
           - nodejs
+          - deno
           - cloudflare-workers
           - vercel-edge-functions
           - vercel-cli-serverless-functions
@@ -835,6 +836,11 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+
+      - name: use deno v1.x
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV

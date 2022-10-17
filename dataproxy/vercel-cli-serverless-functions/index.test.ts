@@ -95,6 +95,7 @@ test.skip('expected files', async () => {
 
   const { data } = JSON.parse(bodyAsText)
   const files = [
+    'deno',
     'edge.d.ts',
     'edge.js',
     'index-browser.js',
