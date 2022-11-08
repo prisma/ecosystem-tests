@@ -7,6 +7,8 @@ export RUST_BACKTRACE=full
 
 openssl version
 
+brew install nvm
+
 nvm install --lts
 
 brew install openssl@1.1
