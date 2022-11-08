@@ -6,7 +6,6 @@ export DEBUG="*"
 export RUST_BACKTRACE=full
 
 which openssl
-
 openssl version
 
 if [ `uname` = "Linux" ] ;
@@ -24,6 +23,7 @@ nvm install --lts
 
 brew install openssl@1.1
 
+which openssl
 openssl version
 
 yarn install
