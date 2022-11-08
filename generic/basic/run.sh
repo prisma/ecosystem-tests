@@ -25,4 +25,7 @@ brew install openssl@1.1
 openssl version
 
 yarn install
+
+yarn prisma db pull --print
+
 yarn prisma generate
