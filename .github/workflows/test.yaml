@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-20.04, ubuntu-22.04, macos-latest]
         clientEngine: ['library', 'binary']
     runs-on: ${{ matrix.os }}
 
