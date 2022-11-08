@@ -6,11 +6,18 @@ const pkgJson = require('./package.json')
 test('querying works', async () => {
   const url = process.env.DEPLOYMENT_URL! + '/api/query'
   console.debug(url)
-  
+
+  console.debug(new Date(), "Start await fetch(url)")
+  console.time('fetchTook');
+
   const response = await fetch(url)
+
+  console.timeEnd('fetchTook');
+  console.debug(new Date(), "End await fetch(url)")
+
   const bodyAsText = await response.text()
   console.debug(bodyAsText)
-  
+
   const data = JSON.parse(bodyAsText)
   expect(data).toMatchInlineSnapshot(`
 Object {
@@ -81,15 +88,16 @@ Object {
 test.skip('expected files', async () => {
   const url = process.env.DEPLOYMENT_URL! + '/api/files'
   console.debug(url)
-  
+
   const response = await fetch(url)
   const bodyAsText = await response.text()
   console.debug(bodyAsText)
-  
+
   const { data } = JSON.parse(bodyAsText)
   const files = [
-    'edge.d.ts', 
-    'edge.js', 
+    'deno',
+    'edge.d.ts',
+    'edge.js',
     'index-browser.js',
     'index.d.ts',
     'index.js',

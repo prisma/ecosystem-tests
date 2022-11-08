@@ -6,7 +6,10 @@ function getDeploymentURL() {
   const data = fs.readFileSync('./deployment-url.txt', { encoding: 'utf8' })
   return data
 }
+// Library
 // const endpoint = 'https://e2e-vercel-with-redwood.vercel.app/api/graphql'
+// Binary
+// const endpoint = 'https://e2e-vercel-with-redwood-binary.vercel.app/api/graphql'
 // const endpoint = 'http://localhost:8911/graphql'
 const endpoint = getDeploymentURL() + '/api/graphql'
 
@@ -44,8 +47,9 @@ test('should test .prisma/client files', async () => {
   const files =
     process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
       ? [
-          'edge.d.ts', 
-          'edge.js', 
+          'deno',
+          'edge.d.ts',
+          'edge.js',
           'index-browser.js',
           'index.d.ts',
           'index.js',
@@ -54,8 +58,9 @@ test('should test .prisma/client files', async () => {
           'schema.prisma',
         ]
       : [
-          'edge.d.ts', 
-          'edge.js', 
+          'deno',
+          'edge.d.ts',
+          'edge.js',
           'index-browser.js',
           'index.d.ts',
           'index.js',
