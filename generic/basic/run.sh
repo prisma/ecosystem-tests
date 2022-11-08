@@ -5,6 +5,8 @@ set -eux
 export DEBUG="*"
 export RUST_BACKTRACE=full
 
+which openssl
+
 openssl version
 
 if [ `uname` = "Linux" ] ;
