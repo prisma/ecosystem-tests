@@ -38,7 +38,7 @@ describe('tracing', () => {
 
     const jeagerResponse = await axios({
       method: 'GET',
-      url: 'http://localhost:16686/api/traces?service=prisma-tracing',
+      url: 'http://localhost:16686/api/traces?service=ecosystem-tests-core-features-tracing',
     })
     expect(jeagerResponse.status).toEqual(200)
 
@@ -64,9 +64,9 @@ describe('tracing', () => {
           return undefined
         }
 
-	// Remove value for the following keys
-	// they contain a version that can change
-	// removing them makes the test easier to maintain
+        // Remove value for the following keys
+        // they contain a version that can change
+        // removing them makes the test easier to maintain
         if (key === 'value' && ['telemetry.sdk.version', 'otel.library.version'].includes(this.key)) {
           return undefined
         }
@@ -110,7 +110,7 @@ describe('tracing', () => {
             {
               \\"key\\": \\"service.name\\",
               \\"type\\": \\"string\\",
-              \\"value\\": \\"prisma-tracing\\"
+              \\"value\\": \\"ecosystem-tests-core-features-tracing\\"
             },
             {
               \\"key\\": \\"telemetry.sdk.language\\",
@@ -165,7 +165,7 @@ describe('tracing', () => {
                 {
                   \\"key\\": \\"service.name\\",
                   \\"type\\": \\"string\\",
-                  \\"value\\": \\"prisma-tracing\\"
+                  \\"value\\": \\"ecosystem-tests-core-features-tracing\\"
                 },
                 {
                   \\"key\\": \\"telemetry.sdk.language\\",
@@ -215,7 +215,7 @@ describe('tracing', () => {
                     {
                       \\"key\\": \\"service.name\\",
                       \\"type\\": \\"string\\",
-                      \\"value\\": \\"prisma-tracing\\"
+                      \\"value\\": \\"ecosystem-tests-core-features-tracing\\"
                     },
                     {
                       \\"key\\": \\"telemetry.sdk.language\\",
@@ -255,7 +255,7 @@ describe('tracing', () => {
                         {
                           \\"key\\": \\"service.name\\",
                           \\"type\\": \\"string\\",
-                          \\"value\\": \\"prisma-tracing\\"
+                          \\"value\\": \\"ecosystem-tests-core-features-tracing\\"
                         },
                         {
                           \\"key\\": \\"telemetry.sdk.language\\",
@@ -300,7 +300,7 @@ describe('tracing', () => {
                             {
                               \\"key\\": \\"service.name\\",
                               \\"type\\": \\"string\\",
-                              \\"value\\": \\"prisma-tracing\\"
+                              \\"value\\": \\"ecosystem-tests-core-features-tracing\\"
                             },
                             {
                               \\"key\\": \\"telemetry.sdk.language\\",
@@ -346,7 +346,7 @@ describe('tracing', () => {
                             {
                               \\"key\\": \\"service.name\\",
                               \\"type\\": \\"string\\",
-                              \\"value\\": \\"prisma-tracing\\"
+                              \\"value\\": \\"ecosystem-tests-core-features-tracing\\"
                             },
                             {
                               \\"key\\": \\"telemetry.sdk.language\\",
