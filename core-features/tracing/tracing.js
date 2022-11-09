@@ -10,7 +10,7 @@ const { JaegerExporter } = require('@opentelemetry/exporter-jaeger')
 
 const provider = new NodeTracerProvider({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'prisma-tracing',
+    [SemanticResourceAttributes.SERVICE_NAME]: 'ecosystem-tests-core-features-tracing',
   }),
 })
 
