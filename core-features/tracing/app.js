@@ -1,3 +1,4 @@
+// enable Otel tracing in this app
 require('./tracing')
 const Fastify = require('fastify')
 const { PrismaClient } = require('@prisma/client')
