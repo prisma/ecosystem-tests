@@ -1,0 +1,8 @@
+# ITX PDP MYSQL
+
+Test's ITX PDP on mysql
+
+## Environment
+
+1. ITX_PDP_MYSQL_DATABASE_URL - Migrate URL
+2. ITX_PDP_MYSQL - PDP URL
