@@ -28,7 +28,7 @@ describe('long-running', () => {
   })
 
   test(
-    'should run a transaction for 6 mins and then still succeed',
+    'should run a transaction for 2 mins and then still succeed',
     async () => {
       const email = faker.internet.email()
 
