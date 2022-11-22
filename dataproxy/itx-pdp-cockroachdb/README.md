@@ -6,3 +6,7 @@ Test's ITX PDP on cockroachdb
 
 1. ITX_PDP_COCKROACHDB_DATABASE_URL - Migrate URL
 2. ITX_PDP_COCKROACHDB - PDP URL
+
+## Config
+
+To adjust the config for the tests please tweek the settings in `./config.ts`
