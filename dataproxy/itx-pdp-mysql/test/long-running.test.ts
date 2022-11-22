@@ -2,9 +2,12 @@ import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import util from 'util'
 import { prismaClientVersion } from './utils'
+import { config } from '../config'
+
 const delay = util.promisify(setTimeout)
-const twoMins = 120000
-const buffer = twoMins + 4000
+const buffer = 12000
+
+const transactionDelay = config['long-running'].transactionDelay
 
 describe('long-running', () => {
   let prisma: PrismaClient
@@ -34,7 +37,7 @@ describe('long-running', () => {
 
       const user = await prisma.$transaction(
         async (tx) => {
-          await delay(twoMins)
+          await delay(transactionDelay)
 
           return tx.user.create({
             data: {
@@ -43,8 +46,8 @@ describe('long-running', () => {
           })
         },
         {
-          maxWait: twoMins + buffer,
-          timeout: twoMins + buffer,
+          maxWait: transactionDelay + buffer,
+          timeout: transactionDelay + buffer,
         },
       )
 
@@ -56,6 +59,6 @@ describe('long-running', () => {
 
       expect(found?.email).toEqual(email)
     },
-    twoMins + buffer,
+    transactionDelay + buffer,
   )
 })

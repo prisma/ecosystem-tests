@@ -1,21 +1,22 @@
 import * as child_process from 'child_process'
 import util from 'util'
+import { config } from '../../config'
 const sleep = util.promisify(setTimeout)
+
+const { bursts, children, backoff } = config['burst-load']
 
 describe('burst-load', () => {
   jest.setTimeout(900_000_000)
 
-  test('should not fail when burst loading 20 itx, 20 times, with 1 second backoff', async () => {
-    const rounds = 20
-
+  test(`should not fail when burst loading ${children} itx, ${bursts} times, with ${backoff} ms backoff`, async () => {
     async function* burstGenerator() {
       let i = 0
 
-      while (i < rounds) {
+      while (i < bursts) {
         i++
 
         yield (async () => {
-          const list = new Array(20).fill(null)
+          const list = new Array(children).fill(null)
 
           await Promise.all(
             list.map((): Promise<void> => {
@@ -35,7 +36,7 @@ describe('burst-load', () => {
     }
 
     for await (const _round of burstGenerator()) {
-      await sleep(1000)
+      await sleep(backoff)
     }
   }, 900_000_000)
 })

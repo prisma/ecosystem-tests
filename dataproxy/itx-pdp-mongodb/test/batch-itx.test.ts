@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import util from 'util'
 const delay = util.promisify(setTimeout)
 const twoMins = 120000
-const buffer = twoMins + 4000
+const buffer = twoMins + 12000
 
 describe('batch-itx', () => {
   let prisma: PrismaClient

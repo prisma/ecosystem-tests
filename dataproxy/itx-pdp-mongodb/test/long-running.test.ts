@@ -4,7 +4,7 @@ import util from 'util'
 import { prismaClientVersion } from './utils'
 const delay = util.promisify(setTimeout)
 const twoMins = 120000
-const buffer = twoMins + 4000
+const buffer = twoMins + 12000
 
 describe('long-running', () => {
   let prisma: PrismaClient

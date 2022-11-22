@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import { config } from '../config'
+
+const activities = config['lots-of-activities'].amount
 
 describe('lots-of-activities', () => {
   let prisma: PrismaClient
@@ -8,8 +11,8 @@ describe('lots-of-activities', () => {
     prisma = new PrismaClient()
   })
 
-  test('should perform 1000 writes and then 1000 reads', async () => {
-    const emails = new Array(1000)
+  test(`should perform ${activities} writes and then ${activities} reads`, async () => {
+    const emails = new Array(activities)
       .fill(null)
       .map(() => `${faker.random.alphaNumeric(10)}@${faker.random.alphaNumeric(10)}.com`)
 
