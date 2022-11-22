@@ -1,7 +1,7 @@
 export const config = {
   globalTimeout: 900_000_000,
   'lots-of-activities': {
-    amount: 500, // Amount of read and writes inside a transaction
+    amount: 200, // Amount of read and writes inside a transaction
   },
   'long-running': {
     transactionDelay: 12000, // How long to delay the transaction
