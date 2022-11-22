@@ -62,6 +62,6 @@ describe('batch-itx', () => {
         },
       )
     },
-    transactionDelay + buffer,
+    config.globalTimeout,
   )
 })

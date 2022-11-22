@@ -59,6 +59,6 @@ describe('long-running', () => {
 
       expect(found?.email).toEqual(email)
     },
-    transactionDelay + buffer,
+    config.globalTimeout,
   )
 })
