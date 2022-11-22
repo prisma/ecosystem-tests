@@ -1,9 +1,12 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import util from 'util'
+import { config } from '../config'
+
 const delay = util.promisify(setTimeout)
-const twoMins = 120000
-const buffer = twoMins + 12000
+const buffer = 12000
+
+const { batchAmount, transactionDelay } = config['batch-itx']
 
 describe('batch-itx', () => {
   let prisma: PrismaClient
@@ -15,7 +18,7 @@ describe('batch-itx', () => {
   test(
     'should perform a batch write and update inside a itx with timeout',
     async () => {
-      const emails = new Array(2000)
+      const emails = new Array(batchAmount)
         .fill(null)
         .map(() => `${faker.random.alphaNumeric(10)}@${faker.random.alphaNumeric(10)}.com`)
 
@@ -30,7 +33,7 @@ describe('batch-itx', () => {
             })),
           })
 
-          await delay(twoMins)
+          await delay(transactionDelay)
 
           await tx.user.updateMany({
             where: { val: randomValu },
@@ -54,11 +57,11 @@ describe('batch-itx', () => {
           return users
         },
         {
-          maxWait: twoMins + buffer,
-          timeout: twoMins + buffer,
+          maxWait: transactionDelay + buffer,
+          timeout: transactionDelay + buffer,
         },
       )
     },
-    twoMins + buffer,
+    transactionDelay + buffer,
   )
 })
