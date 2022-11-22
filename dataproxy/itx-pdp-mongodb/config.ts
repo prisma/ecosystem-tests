@@ -1,6 +1,6 @@
 export const config = {
   'lots-of-activities': {
-    amount: 1000, // Amount of read and writes inside a transaction
+    amount: 500, // Amount of read and writes inside a transaction
   },
   'long-running': {
     transactionDelay: 12000, // How long to delay the transaction
