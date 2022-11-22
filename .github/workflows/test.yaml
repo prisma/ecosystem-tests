@@ -820,6 +820,7 @@ jobs:
           - itx-pdp-postgresql
           - itx-pdp-mysql
           - itx-pdp-mongodb
+          - itx-pdp-cockroachdb
         clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -838,6 +839,8 @@ jobs:
       ITX_PDP_MYSQL: ${{ secrets.ITX_PDP_MYSQL }}
       ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
       ITX_PDP_POSTGRESQL: ${{ secrets.ITX_PDP_POSTGRESQL }}
+      ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+      ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
 
     steps:
       - uses: actions/checkout@v3
