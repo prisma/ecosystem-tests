@@ -4,4 +4,5 @@ module.exports = {
   testEnvironment: 'node',
   testTimeout: 90000,
   globalSetup: './jestGlobalSetup.js',
+  maxWorkers: 1,
 }
