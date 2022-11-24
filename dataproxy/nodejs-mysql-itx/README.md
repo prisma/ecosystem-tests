@@ -1,11 +1,11 @@
-# ITX PDP MYSQL
+# ITX Data Proxy MySQL
 
-Test's ITX PDP on mysql
+Tests ITX on Data Proxy with MySQL
 
 ## Environment
 
-1. ITX_PDP_MYSQL_DATABASE_URL - Migrate URL
-2. ITX_PDP_MYSQL - PDP URL
+1. `ITX_PDP_MYSQL_DATABASE_URL` - Migrate URL
+2. `ITX_PDP_MYSQL` - Data Proxy URL
 
 ## Config
 

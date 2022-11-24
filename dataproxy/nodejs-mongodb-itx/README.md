@@ -1,11 +1,11 @@
-# ITX PDP Mongodb
+# ITX Data Proxy MongoDB
 
-Test's ITX PDP on mongodb
+Tests ITX on Data Proxy with MongoDB
 
 ## Environment
 
-1. ITX_PDP_MONGODB_DATABASE_URL - Migrate URL
-2. ITX_PDP_MONGODB - PDP URL
+1. `ITX_PDP_MONGODB_DATABASE_URL` - Migrate URL
+2. `ITX_PDP_MONGODB` - Data Proxy URL
 
 ## Config
 

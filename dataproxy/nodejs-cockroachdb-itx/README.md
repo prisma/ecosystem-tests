@@ -1,11 +1,11 @@
-# ITX PDP Cockroachdb
+# ITX Data Proxy CockroachDB
 
-Test's ITX PDP on cockroachdb
+Tests ITX on Data Proxy with CockroachDB
 
 ## Environment
 
-1. ITX_PDP_COCKROACHDB_DATABASE_URL - Migrate URL
-2. ITX_PDP_COCKROACHDB - PDP URL
+1. `ITX_PDP_COCKROACHDB_DATABASE_URL` - Migrate URL
+2. `ITX_PDP_COCKROACHDB` - Data Proxy URL
 
 ## Config
 

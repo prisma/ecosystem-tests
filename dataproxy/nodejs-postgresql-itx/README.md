@@ -1,11 +1,11 @@
-# ITX PDP Postgresql
+# ITX Data Proxy PostgreSQL
 
-Test's ITX PDP on postgresql
+Tests ITX on Data Proxy with PostgreSQL
 
 ## Environment
 
-1. ITX_PDP_POSTGRESQL_DATABASE_URL - Migrate URL
-2. ITX_PDP_POSTGRESQL - PDP URL
+1. `ITX_PDP_POSTGRESQL_DATABASE_URL` - Migrate URL
+2. `ITX_PDP_POSTGRESQL` - Data Proxy URL
 
 ## Config
 
