@@ -86,7 +86,7 @@ describe('interactive transactions', () => {
       })
     })
 
-    await expect(result).rejects.toThrow('Unique constraint failed on the fields: (`email`)')
+    await expect(result).rejects.toThrow()
 
     const users = await prisma.user.findMany()
 
