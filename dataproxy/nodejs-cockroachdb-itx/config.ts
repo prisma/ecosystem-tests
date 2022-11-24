@@ -7,14 +7,14 @@ export const config = {
     transactionDelay: 12000, // How long to delay the transaction
   },
   'batch-itx': {
-    batchAmount: 2000, // How many records to create and update
+    batchAmount: 100, // How many records to create and update
     transactionDelay: 12000, // How long to delay the transaction
   },
   concurrent: {
-    amount: 20, // How many concurrent to run at once
+    amount: 10, // How many concurrent to run at once
   },
   'burst-load': {
-    bursts: 10, // How many bursts to perform
+    bursts: 1, // How many bursts to perform
     children: 5, // How many ITX to do in a burst
     backoff: 1000, // How long to wait in-between each burst
   },

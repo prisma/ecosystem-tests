@@ -12,18 +12,17 @@ describe('burst-load', () => {
     `should not fail when burst loading ${children} itx, ${bursts} times, with ${backoff} ms backoff`,
     async () => {
       async function* burstGenerator() {
-        let i = 0
-
-        while (i < bursts) {
-          i++
-
+        for (let i = 0; i < bursts; i++) {
           yield (async () => {
             const list = new Array(children).fill(null)
 
             await Promise.all(
               list.map((): Promise<void> => {
                 return new Promise((resolve, reject) => {
-                  child_process.exec(`node ${__dirname}/burst-load.js`, (error) => {
+                  child_process.exec(`node ${__dirname}/burst-load.js`, (error, stdout, stderr) => {
+                    console.log(stdout)
+                    console.error(stderr)
+
                     if (error) {
                       reject(error)
                     }

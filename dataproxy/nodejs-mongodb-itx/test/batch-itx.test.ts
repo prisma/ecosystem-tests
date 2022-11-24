@@ -16,29 +16,29 @@ describe('batch-itx', () => {
   })
 
   test(
-    'should perform a batch write and update inside a itx with timeout',
+    'should perform a batch write and update inside an itx with timeout',
     async () => {
       const emails = new Array(batchAmount)
         .fill(null)
         .map(() => `${faker.random.alphaNumeric(10)}@${faker.random.alphaNumeric(10)}.com`)
 
-      const randomValu = Number(faker.random.numeric(5))
+      const randomValue = Number(faker.random.numeric(5))
 
-      await prisma.$transaction(
+      const users = await prisma.$transaction(
         async (tx) => {
           await tx.user.createMany({
             data: emails.map((e) => ({
               email: e,
-              val: randomValu,
+              val: randomValue,
             })),
           })
 
           await delay(transactionDelay)
 
           await tx.user.updateMany({
-            where: { val: randomValu },
+            where: { val: randomValue },
             data: {
-              val: randomValu + 1,
+              val: randomValue + 1,
             },
           })
 
@@ -51,7 +51,7 @@ describe('batch-itx', () => {
           })
 
           users.forEach((user) => {
-            expect(user.val).toEqual(randomValu + 1)
+            expect(user.val).toEqual(randomValue + 1)
           })
 
           return users
@@ -61,6 +61,8 @@ describe('batch-itx', () => {
           timeout: transactionDelay + buffer,
         },
       )
+
+      expect(users.length).toBe(batchAmount)
     },
     config.globalTimeout,
   )
