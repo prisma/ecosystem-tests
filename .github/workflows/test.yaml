@@ -817,10 +817,10 @@ jobs:
           - cloudflare-workers
           - vercel-edge-functions
           - vercel-cli-serverless-functions
-          - itx-pdp-postgresql
-          - itx-pdp-mysql
-          - itx-pdp-mongodb
-          - itx-pdp-cockroachdb
+          - nodejs-postgresql-itx
+          - nodejs-mysql-itx
+          - nodejs-mongodb-itx
+          - nodejs-cockroachdb-itx
         clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
