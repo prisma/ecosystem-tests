@@ -15,6 +15,10 @@ describe('batch-itx', () => {
     prisma = new PrismaClient()
   })
 
+  afterAll(async () => {
+    await prisma.user.deleteMany()
+  })
+
   test(
     'should perform a batch write and update inside an itx with timeout',
     async () => {
