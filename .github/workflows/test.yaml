@@ -817,6 +817,10 @@ jobs:
           - cloudflare-workers
           - vercel-edge-functions
           - vercel-cli-serverless-functions
+          - nodejs-postgresql-itx
+          - nodejs-mysql-itx
+          - nodejs-mongodb-itx
+          - nodejs-cockroachdb-itx
         clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-latest] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -829,6 +833,14 @@ jobs:
       AES_256_PASS: ${{ secrets.AES_256_PASS }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      ITX_PDP_MONGODB_DATABASE_URL: '${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}'
+      ITX_PDP_MONGODB: '${{ secrets.ITX_PDP_MONGODB }}'
+      ITX_PDP_MYSQL_DATABASE_URL: '${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}'
+      ITX_PDP_MYSQL: '${{ secrets.ITX_PDP_MYSQL }}'
+      ITX_PDP_POSTGRESQL_DATABASE_URL: '${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}'
+      ITX_PDP_POSTGRESQL: '${{ secrets.ITX_PDP_POSTGRESQL }}'
+      ITX_PDP_COCKROACHDB_DATABASE_URL: '${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}'
+      ITX_PDP_COCKROACHDB: '${{ secrets.ITX_PDP_COCKROACHDB }}'
 
     steps:
       - uses: actions/checkout@v3
