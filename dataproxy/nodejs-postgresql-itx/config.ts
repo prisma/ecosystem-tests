@@ -14,8 +14,8 @@ export const config = {
     amount: 20, // How many concurrent to run at once
   },
   'burst-load': {
-    bursts: 1, // How many bursts to perform
-    children: 10, // How many ITX to do in a burst
+    bursts: 2, // How many bursts to perform
+    children: 5, // How many ITX to do in a burst
     backoff: 1000, // How long to wait in-between each burst
   },
 }
