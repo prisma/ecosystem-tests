@@ -13,7 +13,7 @@ env:
 
 jobs:
   check-for-latest-update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -29,7 +29,7 @@ jobs:
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   check-for-dev-update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -45,7 +45,7 @@ jobs:
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   check-for-patch-dev-update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -61,7 +61,7 @@ jobs:
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   check-for-integration-update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -77,7 +77,7 @@ jobs:
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   report-to-slack-failure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - check-for-latest-update
       - check-for-dev-update
