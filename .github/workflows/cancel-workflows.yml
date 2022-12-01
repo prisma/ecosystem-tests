@@ -1,11 +1,11 @@
 name: Cancel Workflows
 on:
   workflow_dispatch:
-        
+
 jobs:
   cancel:
     name: 'Cancel Previous Workflow Runs'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 3
     steps:
       # https://github.com/marketplace/actions/cancel-workflow-action
