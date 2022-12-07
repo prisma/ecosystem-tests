@@ -299,10 +299,35 @@
     validate-npm-package-name "^4.0.0"
     yargs "^17.6.0"
 
-"@netlify/edge-bundler@5.0.0", "@netlify/edge-bundler@^5.0.0":
+"@netlify/edge-bundler@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@netlify/edge-bundler/-/edge-bundler-5.0.0.tgz#31275dc9e17158366aafa5fa1f72b8ce66a876b4"
   integrity sha512-6kTOzuBhdYO5/puBU87hbl5b15DMCUHynVbJMRb2AAnxB0/ggWbQpOVogQSeLF7pOO+4r5TmRGS/U30xC2CA2A==
+  dependencies:
+    "@import-maps/resolve" "^1.0.1"
+    ajv "^8.11.2"
+    ajv-errors "^3.0.0"
+    better-ajv-errors "^1.2.0"
+    common-path-prefix "^3.0.0"
+    del "^7.0.0"
+    env-paths "^3.0.0"
+    execa "^6.0.0"
+    find-up "^6.3.0"
+    get-port "^6.1.2"
+    glob-to-regexp "^0.4.1"
+    node-fetch "^3.1.1"
+    node-stream-zip "^1.15.0"
+    p-retry "^5.1.1"
+    p-wait-for "^4.1.0"
+    path-key "^4.0.0"
+    semver "^7.3.5"
+    tmp-promise "^3.0.3"
+    uuid "^9.0.0"
+
+"@netlify/edge-bundler@^5.3.1":
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/@netlify/edge-bundler/-/edge-bundler-5.3.2.tgz#ca31cd89cf065067428c94393eabb006595a9983"
+  integrity sha512-CrRvIAoSfzbgLsNXOtF7s6eTBhCnbapIcTvnEy2M9/kGBYF9go3XNothQuHsh8raJa1STIs01Autw+Pt2rnOJg==
   dependencies:
     "@import-maps/resolve" "^1.0.1"
     ajv "^8.11.2"
@@ -5515,14 +5540,14 @@ nested-error-stacks@^2.1.1:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.1.tgz#26c8a3cee6cc05fbcf1e333cd2fc3e003326c0b5"
   integrity sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==
 
-netlify-cli@12.2.8:
-  version "12.2.8"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-12.2.8.tgz#c65dddf0cb919d426649dafdd0e7ee49bbfd8e4d"
-  integrity sha512-OmZoqPazXLv6cofp01cvTKPq0DB13X1XgCL520pOLcpg6a/QwUqpe/4nM43sU+KPV3l9OHlPjS0hHrwA0ka28w==
+netlify-cli@12.2.9:
+  version "12.2.9"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-12.2.9.tgz#221cd7e93313ca89ae7a3326974252cdd2062ba3"
+  integrity sha512-Y9WjkLql2gTdNHK2Bo7omqI1Er5inxTYFIi0+1vSvWzypmH/PjsNGXpYu2L0AfYoSbVNUFtIjjo7r7mnB6qFvA==
   dependencies:
     "@netlify/build" "^28.4.5"
     "@netlify/config" "^20.0.2"
-    "@netlify/edge-bundler" "^5.0.0"
+    "@netlify/edge-bundler" "^5.3.1"
     "@netlify/framework-info" "^9.5.2"
     "@netlify/local-functions-proxy" "^1.1.1"
     "@netlify/zip-it-and-ship-it" "^8.1.0"
