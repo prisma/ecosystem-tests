@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:15
+    hostname: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=prisma
+      - POSTGRES_PASSWORD=prisma
+    ports:
+      - '5432:5432'
+    networks:
+      - prisma-network
+
+  # docker buildx build --load -f Dockerfile --platform=linux/amd64 . -t prisma-linux-alpine-3.16-x64-openssl-1.1.x --progress plain
+  prismacmd:
+    image: prisma-linux-alpine-3.16-x64-openssl-1.1.x
+    stdin_open: true
+    environment:
+      - DATABASE_URL=postgresql://prisma:prisma@postgres_db:5432/postgres
+    depends_on:
+      - postgres
+    networks:
+      - prisma-network
+
+networks:
+  prisma-network:
+    name: prisma-network
