@@ -9,7 +9,7 @@ on:
         required: true
       prismaVersion:
         description: What version of Prisma to upgrade to? (Not used yet!) TODO
-        default: 
+        default:
         required: true
 
 env:
@@ -17,7 +17,7 @@ env:
 
 jobs:
   upgrade-branch-to-version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -33,7 +33,7 @@ jobs:
           SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   report-to-slack-failure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - upgrade-branch-to-version
     if: failure()

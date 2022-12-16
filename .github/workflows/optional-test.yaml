@@ -19,7 +19,7 @@ on:
     paths-ignore:
       - '*.md'
       - 'renovate.json'
-      
+
 env:
   PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
@@ -41,14 +41,14 @@ jobs:
   # Depending on the output we will run some or all tests as fallback
   detect_jobs_to_run:
     name: Detect jobs to run
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       jobs: ${{ steps.detect.outputs.jobs }}
     steps:
       - id: checkout
         uses: actions/checkout@v3
       - id: files
-        uses: Ana06/get-changed-files@v2.1.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
+        uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
       - uses: actions/setup-node@v3
@@ -61,7 +61,7 @@ jobs:
         run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
   report-to-slack-success:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - community-generators
       - databases
@@ -76,11 +76,11 @@ jobs:
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
   report-to-slack-failure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - community-generators
       - databases
-      
+
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
@@ -97,15 +97,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        generator:
-          [
-            prisma-dbml-generator,
-            typegraphql-prisma,
-            prisma-json-schema-generator,
-            prisma-nestjs-graphql,
-          ]
+        generator: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator, prisma-nestjs-graphql]
         clientEngine: ['library', 'binary']
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
@@ -137,7 +131,6 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
 
-
   databases:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
@@ -148,7 +141,7 @@ jobs:
         database:
           - mongodb-azure-cosmosdb
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
