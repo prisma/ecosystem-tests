@@ -180,7 +180,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [alpine]
+        feature: [alpine-3.16, alpine-3.17-openssl1.1-compat, alpine-latest]
         clientEngine: [library, binary]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
