@@ -18,6 +18,6 @@ if [ $PRISMA_TARGET_PLATFORM = $EXPECTED_PRISMA_TARGET_PLATFORM ]; then
 else
   # Fail if the target platform does not match the expected platform.
   # This may be the case if e.g. the base Docker image has started shipping a new openssl version.
-  echo "Current platform \"${EXPECTED_PRISMA_TARGET_PLATFORM}\" differs from expected platform \"${EXPECTED_PRISMA_TARGET_PLATFORM}\""
+  echo "Current platform \"${PRISMA_TARGET_PLATFORM}\" differs from expected platform \"${EXPECTED_PRISMA_TARGET_PLATFORM}\""
   (exit 2)
 fi

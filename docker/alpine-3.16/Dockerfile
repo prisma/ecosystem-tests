@@ -9,7 +9,7 @@ RUN if [ ! -e /lib/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 not found in /lib/lib
 RUN if [ -e /lib/libssl.so.3 ]; then echo 'OpenSSL 3 must not be installed (found in /lib/libssl.so.3)'; exit 1; fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
-ARG EXPECTED_PRISMA_TARGET_PLATFORM="linux-musl-openssl-1.1.x"
+ARG EXPECTED_PRISMA_TARGET_PLATFORM="linux-musl"
 ARG PRISMA_CLIENT_ENGINE_TYPE
 ARG PRISMA_CLI_QUERY_ENGINE_TYPE
 ARG CI
