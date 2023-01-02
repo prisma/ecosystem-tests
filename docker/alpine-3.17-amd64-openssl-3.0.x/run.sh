@@ -6,7 +6,7 @@ export DEBUG="*"
 yarn install
 
 DOCKER_PLATFORM_ARCH="linux/amd64"
-PRISMA_DOCKER_IMAGE_NAME="prisma-alpine"
+PRISMA_DOCKER_IMAGE_NAME="prisma-alpine-3.17-amd64-openssl-3.0.x"
 
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \
