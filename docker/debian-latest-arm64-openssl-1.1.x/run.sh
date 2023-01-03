@@ -5,7 +5,7 @@ export DEBUG="*"
 
 yarn install
 
-DOCKER_PLATFORM_ARCH="linux/amd64"
+DOCKER_PLATFORM_ARCH="linux/arm64"
 PRISMA_DOCKER_IMAGE_NAME="prisma-debian-latest-arm64-openssl-1.1.x"
 
 docker buildx build --load \
