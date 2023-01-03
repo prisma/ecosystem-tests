@@ -6,4 +6,10 @@
 - OpenSSL location: not found
 - Binary target: `debian-openssl-1.1.x`
 
-This Docker image doesn't come with any `openssl` version installed, so we installed OpenSSL 1.1.x via the `openssl` package.
+This Docker image doesn't come with any `openssl` version installed.
+Running `prisma` -v will fail with:
+
+```sh
+Error: Unable to require(`/usr/src/app/node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node`)
+  libssl.so.1.1: cannot open shared object file: No such file or directory
+```
