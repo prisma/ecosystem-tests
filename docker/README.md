@@ -20,3 +20,4 @@ The `_utils` folder contains Bourne shell scripts that are shared across all doc
 
 - [`_utils/build.sh`](./_utils/build.sh) prints the Prisma version information (from `prisma -v`) and compares the actual "binaryTarget" platform with the expected one, which is defined via the `EXPECTED_PRISMA_TARGET_PLATFORM` build argument in the system Dockerfiles.
 Failure to match the expected platform exactly will cause the build to fail with status code `2`. This allows Prisma developers to be alerted when updates to the systems' base Docker images cause the Prisma binary target platform to change unexpectedly.
+- [`_utils/uname.sh`](./_utils/uname.sh) prints the system's architecture via `uname -m`, which is used to verify that the system's architecture is the expected one, which is defined via the `EXPECTED_UNAME_ARCH` build argument in the system Dockerfiles.
