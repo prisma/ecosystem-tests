@@ -4,8 +4,10 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
-# Update system dependencies
-RUN apt-get update -y
+# Update system dependencies.
+# OpenSSL is missing in the base image, so we install it
+RUN apt-get update -y \
+  && apt-get install -y openssl
 
 # expected target architecture, retrieved by `uname -m`
 ARG EXPECTED_UNAME_ARCH="x86_64"
@@ -13,7 +15,7 @@ ENV EXPECTED_UNAME_ARCH=$EXPECTED_UNAME_ARCH
 RUN ./uname.sh
 
 # Only OpenSSL 1.1 is expected to be on this system
-RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
+RUN ldconfig -p | grep ssl
 RUN if [ ! -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1* ]; then echo "OpenSSL 1.1 not found in /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1*"; exit 1; fi
 RUN if [ -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3* ]; then echo "OpenSSL 3 must not be installed (found in /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3*)"; exit 1; fi
 
