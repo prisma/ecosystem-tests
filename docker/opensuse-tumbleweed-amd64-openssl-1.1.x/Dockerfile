@@ -19,7 +19,7 @@ RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${N
   && npm i -g yarn
 
 # Only OpenSSL 1.1 is expected to be on this system
-RUN ldconfig -p | grep ssl
+RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
 RUN if [ ! -e /lib64/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 not found in /lib64/libssl.so.1.1'; exit 1; fi
 RUN if [ -e /lib64/libssl.so.3 ]; then echo 'OpenSSL 3 must not be installed (found in /lib64/libssl.so.3)'; exit 1; fi
 

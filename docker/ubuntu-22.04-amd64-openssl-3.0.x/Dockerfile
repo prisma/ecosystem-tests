@@ -25,7 +25,7 @@ ENV EXPECTED_UNAME_ARCH=$EXPECTED_UNAME_ARCH
 RUN ./uname.sh
 
 # Only OpenSSL 3 is expected to be on this system
-RUN ldconfig -p | grep ssl
+RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
 RUN if [ ! -e /lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3* ]; then echo "OpenSSL 3 not found in /lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3*"; exit 1; fi
 RUN if [ -e /lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1* ]; then echo "OpenSSL 1.1 must not be installed (found in /lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1*)"; exit 1; fi
 
