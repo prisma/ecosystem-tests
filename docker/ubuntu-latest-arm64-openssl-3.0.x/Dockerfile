@@ -19,8 +19,8 @@ RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${N
 
 # Only OpenSSL 1.1 is expected to be on this system
 RUN ldconfig -p | grep ssl
-RUN if [ ! -e /lib/aarch64-linux-gnu/libssl.so.3* ]; then echo 'OpenSSL 3 not found in /usr/lib/aarch64-linux-gnu/libssl.so.3*'; exit 1; fi
-RUN if [ -e /lib/aarch64-linux-gnu/libssl.so.1.1* ]; then echo 'OpenSSL 1.1 must not be installed (found in /usr/lib/aarch64-linux-gnu/libssl.so.1.1*)'; exit 1; fi
+RUN if [ ! -e /lib/aarch64-linux-gnu/libssl.so.3* ]; then echo 'OpenSSL 3 not found in /lib/aarch64-linux-gnu/libssl.so.3*'; exit 1; fi
+RUN if [ -e /lib/aarch64-linux-gnu/libssl.so.1.1* ]; then echo 'OpenSSL 1.1 must not be installed (found in /lib/aarch64-linux-gnu/libssl.so.1.1*)'; exit 1; fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
 ARG EXPECTED_PRISMA_TARGET_PLATFORM="linux-arm64-openssl-3.0.x"
