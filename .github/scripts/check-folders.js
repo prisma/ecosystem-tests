@@ -24,7 +24,6 @@ async function main() {
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
     'docker/_fail-debian-buster-amd64-openssl-1.1.x', // docker/_fail-* is test that fails once run
-    'docker/debian-latest-arm64-openssl-1.1.x', // see https://github.com/prisma/prisma-private/issues/205
   ]
   
   // Jobs in the workflow files that are not relevant and can be skipped
