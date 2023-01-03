@@ -180,13 +180,37 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [alpine-3.16, alpine-3.17-openssl1.1-compat, alpine-latest]
+        feature:
+          - alpine-3.16-amd64-openssl-1.1.x
+          - alpine-3.17-amd64-openssl-3.0.x
+          - alpine-latest-amd64-openssl-3.0.x
+          - debian-bullseye-amd64-openssl-1.1.x
+          - debian-buster-amd64-openssl-1.1.x
+          - debian-latest-amd64-openssl-1.1.x
+          
+          # Add back once we solve https://github.com/prisma/prisma-private/issues/205
+          # - debian-latest-arm64-openssl-1.1.x
+          
+          - opensuse-tumbleweed-amd64-openssl-1.1.x
+          - ubuntu-20.04-amd64-openssl-1.1.x
+          - ubuntu-22.04-amd64-openssl-3.0.x
+          - ubuntu-latest-amd64-openssl-3.0.x
+          - ubuntu-latest-arm64-openssl-3.0.x
         clientEngine: [library, binary]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: "arm64"
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
