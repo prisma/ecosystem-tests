@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM arm64v8/ubuntu:latest
 
 ARG NODE_VERSION="18.12.1"
 ARG ARCH="arm64"
