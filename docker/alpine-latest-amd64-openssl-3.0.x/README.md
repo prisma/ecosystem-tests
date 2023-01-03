@@ -1,3 +1,7 @@
-# Docker Alpine
+# OS support: alpine-latest-amd64-openssl-3.0.x
 
-This example runs a simple express server via Docker on latest Alpine Linux used by the official Node.js images.
+- Base Docker image: `node:current-alpine`
+- OS: Linux Alpine (latest)
+- Arch: amd64 (x86_64)
+- OpenSSL location: `/lib/libssl.so.3`
+- Binary target: `linux-musl-openssl-3.0.x`

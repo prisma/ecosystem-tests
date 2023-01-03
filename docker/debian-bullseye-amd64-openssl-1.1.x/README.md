@@ -1,3 +1,7 @@
-# Docker Alpine
+# OS support: debian-bullseye-amd64-openssl-1.1.x
 
-This example runs a simple express server via Docker on latest Alpine Linux used by the official Node.js images.
+- Base Docker image: `node:lts-bullseye-slim`
+- OS: Linux Debian Bullseye
+- Arch: amd64 (x86_64)
+- OpenSSL location: `/usr/lib/x86_64-linux-gnu/libssl.so.1.1`
+- Binary target: `debian-openssl-1.1.x`
