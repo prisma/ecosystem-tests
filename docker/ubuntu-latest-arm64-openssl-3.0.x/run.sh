@@ -28,3 +28,5 @@ docker run -p 3000:3000 \
   "${PRISMA_DOCKER_IMAGE_NAME}" &
 
 sleep 15
+
+yarn install
