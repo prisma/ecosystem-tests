@@ -241,6 +241,46 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
+  docker-failing:
+    needs: [detect_jobs_to_run, docker]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        failingFeature:
+          - _fail/debian-buster-amd64-openssl-1.1.x
+        clientEngine: [library, binary]
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: "arm64"
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_fail_${{ matrix.failingFeature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test failingFeature - ${{ matrix.failingFeature }} - ${{ matrix.clientEngine }}
+        run: |
+          bash .github/scripts/test-project.sh docker ${{ matrix.failingFeature }}
+
   core-features:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['core-features'] == true }}
