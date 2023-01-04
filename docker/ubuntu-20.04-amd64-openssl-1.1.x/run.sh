@@ -3,8 +3,6 @@
 set -eux
 export DEBUG="*"
 
-yarn install
-
 DOCKER_PLATFORM_ARCH="linux/amd64"
 PRISMA_DOCKER_IMAGE_NAME="prisma-ubuntu-20.04-amd64-openssl-1.1.x"
 
