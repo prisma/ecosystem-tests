@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
+# install libc6 (Alpine uses musl by default)
 RUN apk update \
   && apk add libc6-compat
 
