@@ -14,7 +14,7 @@ where:
 - `ARCHITECTURE` is the architecture of the Linux distribution (e.g. `amd64`, `arm64`)
 - `OPENSSL_VERSION` is the main version of OpenSSL used by the system (e.g. `1.1.x`, `3.0.x`)
 
-Tests that are expected to fail are stored in the [`fail-`](./_fail/) folder.
+Tests that are expected to fail are stored in the [`_fail`](./_fail/) folder.
 
 ## Shared scripts
 
