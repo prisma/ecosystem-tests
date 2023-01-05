@@ -249,18 +249,18 @@ jobs:
   # Meaning a successfull run actually shows a non zero exit code in the logs
   docker-failing:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-failing'] == true }}
 
     strategy:
       fail-fast: false
       matrix:
-        failingFeature:
-          - _fail/alpine-3.16-arm64-openssl-1.1.x
-          - _fail/alpine-3.16-arm64-openssl-1.1.x-with-libc
-          - _fail/alpine-3.17-arm64-openssl-3.0.x
-          - _fail/alpine-3.17-arm64-openssl-3.0.x-with-libc
-          - _fail/debian-buster-amd64-openssl-1.1.x
-          # - _fail/distroless-bullseye-amd64-openssl-1.1.x
+        feature:
+          - alpine-3.16-arm64-openssl-1.1.x
+          - alpine-3.16-arm64-openssl-1.1.x-with-libc
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
+          - debian-buster-amd64-openssl-1.1.x
+          # - distroless-bullseye-amd64-openssl-1.1.x
         clientEngine: [library, binary]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -284,13 +284,13 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_fail_${{ matrix.failingFeature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test failingFeature - ${{ matrix.failingFeature }} - ${{ matrix.clientEngine }}
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         run: |
-          bash .github/scripts/test-project.sh docker ${{ matrix.failingFeature }}
+          bash .github/scripts/test-project.sh docker-failing ${{ matrix.feature }}
 
   core-features:
     needs: [detect_jobs_to_run]
