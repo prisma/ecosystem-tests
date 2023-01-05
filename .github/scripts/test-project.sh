@@ -72,7 +72,31 @@ bash run.sh
 code=$?
 set -e
 
-if [ $code -eq 0 ]; then
+# if we're running docker/_fail/*, we expect run.sh to fail
+if [[ $dir == "docker" ]] && [[ $project == _fail* ]]; then 
+
+  if [ $code -neq 0 ]; then
+    echo "-----------------------------"
+    echo ""
+    echo "run.sh failed as expected (code $code), stopping docker..."
+    echo ""
+    set +e
+    docker stop $(docker ps -a -q)
+    set -e
+    code=0
+  else
+    echo "-----------------------------"
+    echo ""
+    echo "run.sh was successful (code $code), but we expected it to fail!"
+    echo ""
+    set +e
+    docker stop $(docker ps -a -q)
+    set -e
+    code=1
+  fi
+
+# otherwise, we expect run.sh to succeed
+elif [ $code -eq 0 ]; then
   echo "-----------------------------"
   echo ""
   echo "run.sh was successful (code $code), running $dir/$project/test.sh..."
