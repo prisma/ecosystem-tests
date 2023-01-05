@@ -75,7 +75,7 @@ set -e
 # if we're running docker/_fail/*, we expect run.sh to fail
 if [[ $dir == "docker" ]] && [[ $project == _fail* ]]; then 
 
-  if [ $code -neq 0 ]; then
+  if [ $code -ne 0 ]; then
     echo "-----------------------------"
     echo ""
     echo "run.sh failed as expected (code $code), stopping docker..."
