@@ -3,5 +3,5 @@
 set -eu
 
 pnpm install
-pnpx prisma generate
-pnpx prisma -v
+pnpm exec prisma generate
+pnpm exec prisma -v
