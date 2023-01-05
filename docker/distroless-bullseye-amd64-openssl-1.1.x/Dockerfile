@@ -48,6 +48,10 @@ FROM gcr.io/distroless/nodejs18-debian11:debug as runtime
 WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/ ./
 
+# Copy Bash (and its dependencies) from Debian
+COPY --from=deps /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/libtinfo.so.6
+COPY --from=deps /bin/bash /bin/bash
+
 # Use zlib from Debian, which is needed by Prisma
 COPY --from=deps /lib/x86_64-linux-gnu/libz.so.1 /lib/x86_64-linux-gnu/libz.so.1
 
