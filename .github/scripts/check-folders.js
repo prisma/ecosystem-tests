@@ -49,7 +49,7 @@ async function main() {
   // Get all relevant folders that _should_ appear in workflows
   const folders = glob
     .sync('**/package.json', {
-      ignore: ['**/node_modules/**', '**/custom-engines/**', 'docker/_fail/**'],
+      ignore: ['**/node_modules/**', '**/custom-engines/**'],
     })
     .map((file) => file.replace('/package.json', ''))
     .filter((file) => {
