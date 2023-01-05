@@ -1,0 +1,57 @@
+# Install dependencies on Debian Bullseye
+#
+FROM node:18-bullseye-slim as deps
+
+WORKDIR /usr/src/app
+COPY --from=app . ./
+COPY --from=utils . ./
+
+# Update system dependencies
+RUN apt-get update -y
+
+# expected target architecture, retrieved by `uname -m`
+ARG EXPECTED_UNAME_ARCH="x86_64"
+ENV EXPECTED_UNAME_ARCH=$EXPECTED_UNAME_ARCH
+RUN ./uname.sh
+
+# Only OpenSSL 1.1 is expected to be on this system
+RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
+RUN if [ ! -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1* ]; then echo "OpenSSL 1.1 not found in /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1*"; exit 1; fi
+RUN if [ -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3* ]; then echo "OpenSSL 3 must not be installed (found in /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3*)"; exit 1; fi
+
+# expected target platform for Prisma, retrieved by `prisma -v`
+ARG EXPECTED_PRISMA_TARGET_PLATFORM="debian-openssl-1.1.x"
+ARG PRISMA_CLIENT_ENGINE_TYPE
+ARG PRISMA_CLI_QUERY_ENGINE_TYPE
+ARG CI
+ARG DEBUG
+ARG PRISMA_TELEMETRY_INFORMATION
+
+ENV PRISMA_CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
+ENV PRISMA_CLI_QUERY_ENGINE_TYPE=$PRISMA_CLI_QUERY_ENGINE_TYPE
+ENV CI=$CI
+ENV DEBUG=$DEBUG
+ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
+ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
+
+RUN yarn install
+RUN ./version.sh
+RUN npx prisma generate
+
+# Use dependencies on distroless (which maintains libc compatibility with the Node.js version installed).
+# Distroless for Node.js is built on top of distroless/cc:
+# https://github.com/GoogleContainerTools/distroless/tree/85195d47ee5bd393f2f8634ea4fcfdc51cdda3c1/cc
+# It contains glibc and libssl
+#
+FROM gcr.io/distroless/nodejs18-debian11:debug as runtime
+
+WORKDIR /usr/src/app
+COPY --from=deps /usr/src/app/ ./
+
+# Use zlib from Debian, which is needed by Prisma
+COPY --from=deps /lib/x86_64-linux-gnu/libz.so.1 /lib/x86_64-linux-gnu/libz.so.1
+
+# the distroless' image entrypoint is /nodejs/bin/node, so we just need to pass the js file
+# we want to execute as a CMD argument
+CMD server.js
+EXPOSE 3000
