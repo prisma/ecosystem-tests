@@ -116,10 +116,8 @@ elif [ $code -eq 0 ]; then
   echo "finished test.sh (code $code)"
   echo ""
   echo "-----------------------------"
-fi
 
-# confirm existence of correct engine
-if [ $code -eq 0 ]; then
+  # confirm existence of correct engine
   echo "-------------- Checking Engines ----------------"
   bash ../../.github/scripts/check-engines-client.sh $dir $project
   bash ../../.github/scripts/check-engines-cli.sh $dir $project
