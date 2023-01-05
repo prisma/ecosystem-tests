@@ -16,3 +16,4 @@ yarn config set nodeLinker node-modules
 YARN_ENABLE_IMMUTABLE_INSTALLS=0 yarn install
 
 yarn prisma generate
+yarn prisma -v
