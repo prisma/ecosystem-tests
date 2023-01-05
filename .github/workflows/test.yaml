@@ -245,6 +245,8 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
+  # These tests are expected to fail
+  # Meaning a successfull run actually shows a non zero exit code in the logs
   docker-failing:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
