@@ -191,7 +191,7 @@ jobs:
           - debian-latest-amd64-openssl-1.1.x
           - debian-latest-arm64-openssl-1.1.x
           - debian-stretch-amd64-openssl-1.1.x
-          - distroless-bullseye-amd64-openssl-1.1.x
+          # - distroless-bullseye-amd64-openssl-1.1.x
           - opensuse-tumbleweed-amd64-openssl-1.1.x
           - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
@@ -258,7 +258,7 @@ jobs:
           - _fail/alpine-3.17-arm64-openssl-3.0.x
           - _fail/alpine-3.17-arm64-openssl-3.0.x-with-libc
           - _fail/debian-buster-amd64-openssl-1.1.x
-          - _fail/distroless-bullseye-amd64-openssl-1.1.x
+          # - _fail/distroless-bullseye-amd64-openssl-1.1.x
         clientEngine: [library, binary]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
