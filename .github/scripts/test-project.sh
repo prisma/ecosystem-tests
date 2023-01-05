@@ -72,8 +72,8 @@ bash run.sh
 code=$?
 set -e
 
-# if we're running docker-failing/*, we expect run.sh to fail
-if [[ $dir == "docker-failing" ]]; then 
+# if we're running docker-unsupported/*, we expect run.sh to fail
+if [[ $dir == "docker-unsupported" ]]; then 
 
   if [ $code -ne 0 ]; then
     echo "-----------------------------"

@@ -1,4 +1,4 @@
-# Docker: OS Support (failing tests)
+# Docker: OS Support (unsupported scenarios)
 
 This folder builds and run Prisma on a series of different unsupported system configurations and architectures, described by `Dockerfile`s.
 
@@ -14,7 +14,7 @@ where:
 - `ARCHITECTURE` is the architecture of the Linux distribution (e.g. `amd64`, `arm64`)
 - `OPENSSL_VERSION` is the main version of OpenSSL used by the system (e.g. `1.1.x`, `3.0.x`)
 
-All the tests defined in this folder are expected to fail.
+All the tests defined in this folder are expected to fail with a non-0 error code.
 
 ## Shared scripts
 

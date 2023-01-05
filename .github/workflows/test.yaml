@@ -247,9 +247,9 @@ jobs:
 
   # These tests are expected to fail
   # Meaning a successfull run actually shows a non zero exit code in the logs
-  docker-failing:
+  docker-unsupported:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-failing'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-unsupported'] == true }}
 
     strategy:
       fail-fast: false
@@ -290,7 +290,7 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         run: |
-          bash .github/scripts/test-project.sh docker-failing ${{ matrix.feature }}
+          bash .github/scripts/test-project.sh docker-unsupported ${{ matrix.feature }}
 
   core-features:
     needs: [detect_jobs_to_run]

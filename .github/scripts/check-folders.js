@@ -26,7 +26,7 @@ async function main() {
     
     // ignoring docker distroless to let https://github.com/prisma/ecosystem-tests/pull/3343 succeed,
     // lowish-priority to fix
-    'docker-failing/distroless-bullseye-amd64-openssl-1.1.x',
+    'docker-unsupported/distroless-bullseye-amd64-openssl-1.1.x',
     'docker/distroless-bullseye-amd64-openssl-1.1.x',
   ]
   
