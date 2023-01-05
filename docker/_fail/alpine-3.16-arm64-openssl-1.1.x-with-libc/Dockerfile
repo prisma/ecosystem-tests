@@ -4,7 +4,9 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
-RUN apk update
+# install libc6 (Alpine uses musl by default)
+RUN apk update \
+  && apk add libc6-compat
 
 # Only OpenSSL 1.1 is expected to be on this system
 RUN if [ -e /lib/libssl.so.3 ]; then echo 'OpenSSL 3 must not be installed (found in /lib/libssl.so.3)'; exit 1; fi
@@ -28,6 +30,8 @@ ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 RUN yarn install
 
 # This will fail with:
+# Error: Unable to require(`/usr/src/app/node_modules/@prisma/engines/libquery_engine-linux-arm64-openssl-1.1.x.so.node`)
+#   Error relocating /usr/src/app/node_modules/@prisma/engines/libquery_engine-linux-arm64-openssl-1.1.x.so.node: __register_atfork: symbol not found
 RUN ./version.sh
 RUN npx prisma generate
 
