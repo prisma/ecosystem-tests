@@ -6,7 +6,7 @@ os=""
 filename="./prisma"
 
 case $OS in
-"ubuntu-latest")
+"ubuntu-20.04")
   os="linux"
   ;;
 "macos-latest")

@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": ["config:base", ":noUnscheduledUpdates"],
   "reviewers": ["@Jolg42", "@millsp", "@aqrln", "@SevInf", "@danstarns", "@jkomyno"],
   "automerge": true,
   "major": {
@@ -9,15 +9,15 @@
   "dependencyDashboard": true,
   "prConcurrentLimit": 10,
   "schedule": [
-    "after 9pm",
-    "before 8am"
+    "before 7am every weekday",
+    "every weekend"
   ],
   "rebaseWhen": "auto",
   "ignoreDeps": ["prisma", "@prisma/client"],
   "packageRules": [
     {
-      "matchPackagePatterns": "^@redwoodjs",
-      "groupName": ["@redwoodjs packages"]
+      "groupName": ["@redwoodjs packages"],
+      "matchPackagePatterns": "^@redwoodjs"
     },
     {
       "groupName": "aws-sdk",
@@ -29,22 +29,22 @@
       "packageNames": ["jest", "@types/jest", "ts-jest"]
     },
     {
+      "groupName": "Webpack 4 - Cloudflare Workers",
       "matchPaths": ["dataproxy/cloudflare-workers/**"],
       "matchPackageNames": ["webpack"],
-      "allowedVersions": "<5",
-      "groupName": "Webpack 4 - Cloudflare Workers"
+      "allowedVersions": "<5"
     },
     {
+      "groupName": "ts-loader 8 - Cloudflare Workers",
       "matchPaths": ["dataproxy/cloudflare-workers/**"],
       "matchPackageNames": ["ts-loader"],
-      "allowedVersions": "<9",
-      "groupName": "ts-loader 8 - Cloudflare Workers"
+      "allowedVersions": "<9"
     },
     {
+      "groupName": "GraphQL 15 - TypeGraphQL",
       "matchPaths": ["libraries/type-graphql/**", "community-generators/typegraphql-prisma/**"],
       "matchPackageNames": ["graphql"],
-      "allowedVersions": "<16",
-      "groupName": "GraphQL 15 - TypeGraphQL"
+      "allowedVersions": "<16"
     }
   ]
 }

@@ -3,6 +3,7 @@ const yaml = require('yaml')
 
 const fs = require('fs')
 const path = require('path')
+const { exit } = require('process')
 
 /**
  * This script checks if there are folders (= tests) that are not "run" via test.yaml and test.yaml
@@ -22,6 +23,7 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
+    'docker/_fail-debian-buster-amd64-openssl-1.1.x', // docker/_fail-* is test that fails once run
   ]
   
   // Jobs in the workflow files that are not relevant and can be skipped
@@ -70,19 +72,30 @@ async function main() {
     .filter((key) => {
       return !jobsToIgnore.includes(key)
     })
-  
+
   // Create an array of job names, from reading the `jobs` keys of the .yml file
   const jobs = jobKeys
     .map((key) => {
-      const job = testYaml['jobs'][key] || optionalTestYaml['jobs'][key]
-      const matrix =
-        Boolean(job) && Boolean(job.strategy) ? job.strategy.matrix : {}
+      
+      // jobs
+      const job = testYaml['jobs'][key]
+      const matrix = Boolean(job) && Boolean(job.strategy) ? job.strategy.matrix : {}
       const folders = Object.keys(matrix)
         .filter((key) => {
           return !keysToIgnore.includes(key)
         })
         .reduce((acc, key) => acc.concat(...matrix[key]), [])
-      return folders.map((folder) => `${key}/${folder}`)
+
+      // optional jobs
+      const job_optional = optionalTestYaml['jobs'][key]
+      const matrix_optional = Boolean(job_optional) && Boolean(job_optional.strategy) ? job_optional.strategy.matrix : {}
+      const folders_optional = Object.keys(matrix_optional)
+        .filter((key) => {
+          return !keysToIgnore.includes(key)
+        })
+        .reduce((acc, key) => acc.concat(...matrix_optional[key]), [])
+
+      return folders.concat(folders_optional).map((folder) => `${key}/${folder}`)
     })
     .reduce((acc, folders) => {
       return acc.concat([...folders])
@@ -103,6 +116,7 @@ async function main() {
   const remainingFolders = Object.keys(foldersObj)
 
   if (remainingFolders.length === 0) {
+    //console.log("all good")
     process.exit(0)
   } else {
     console.log(

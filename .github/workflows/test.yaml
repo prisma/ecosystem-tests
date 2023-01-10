@@ -1,6 +1,8 @@
 name: test
 
 on:
+  # Manual UI in GitHub https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
+  workflow_dispatch:
   # Note about push & pull_request
   # when creating a new branch for a PR, push will be triggered immediately before the PR gets created
   # The GitHub API / GitHub context base commit is then 0000000000000000000000000000000000000000
@@ -40,7 +42,7 @@ jobs:
   # # which is a common feature in most CI systems but currently not possible with GitHub actions.
   # cleanup-runs:
   #   continue-on-error: true
-  #   runs-on: ubuntu-latest
+  #   runs-on: ubuntu-20.04
   # contains(github.actor, 'renovate')
   #   if: (!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/integration' && github.ref != 'refs/heads/patch-dev' && github.ref != 'refs/heads/latest')
   #   steps:
@@ -49,14 +51,14 @@ jobs:
   # Depending on the output we will run some or all tests as fallback
   detect_jobs_to_run:
     name: Detect jobs to run
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       jobs: ${{ steps.detect.outputs.jobs }}
     steps:
       - id: checkout
         uses: actions/checkout@v3
       - id: files
-        uses: Ana06/get-changed-files@v2.1.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
+        uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
       - uses: actions/setup-node@v3
@@ -69,7 +71,7 @@ jobs:
         run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
   report-to-slack-success:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - dataproxy
       - core-features
@@ -97,7 +99,7 @@ jobs:
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
 
   report-to-slack-failure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - dataproxy
       - core-features
@@ -136,7 +138,7 @@ jobs:
       matrix:
         feature: [pm2]
         clientEngine: [library] # ['library', 'binary']
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -180,13 +182,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [alpine]
+        feature:
+          - alpine-3.16-amd64-openssl-1.1.x
+          - alpine-3.17-amd64-openssl-3.0.x
+          - alpine-latest-amd64-openssl-3.0.x
+          - debian-bullseye-amd64-openssl-1.1.x
+          - debian-buster-amd64-openssl-1.1.x
+          - debian-latest-amd64-openssl-1.1.x
+          - debian-latest-arm64-openssl-1.1.x
+          - opensuse-tumbleweed-amd64-openssl-1.1.x
+          - ubuntu-20.04-amd64-openssl-1.1.x
+          - ubuntu-22.04-amd64-openssl-3.0.x
+          - ubuntu-latest-amd64-openssl-3.0.x
+          - ubuntu-latest-arm64-openssl-3.0.x
         clientEngine: [library, binary]
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: "arm64"
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -236,7 +259,7 @@ jobs:
             generate-client-install-on-sub-project,
           ]
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -282,7 +305,7 @@ jobs:
       matrix:
         feature: [db-seed-commonjs-pkg, db-seed-esm-pkg]
         clientEngine: ['library']
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -327,7 +350,7 @@ jobs:
       fail-fast: false
       matrix:
         feature: [engine-types]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -363,7 +386,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-20.04, macos-latest, windows-latest]
         clientEngine: ['library', 'binary']
     runs-on: ${{ matrix.os }}
 
@@ -415,8 +438,9 @@ jobs:
           - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
           - 17
           - 18
+          - 19
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -459,7 +483,7 @@ jobs:
       matrix:
         binary: [pkg]
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -513,7 +537,7 @@ jobs:
           - yarn3-without-pnp
           - yarn3-workspaces-pnp
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -558,7 +582,7 @@ jobs:
           - nextjs
           - sveltekit
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -605,7 +629,7 @@ jobs:
           - codesandbox
           - m1-macstadium
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
 
@@ -673,7 +697,7 @@ jobs:
           - azure-functions-windows
           - serverless-framework-lambda
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
         exclude:
           # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
           - clientEngine: library
@@ -748,7 +772,7 @@ jobs:
           - vercel-with-redwood
           - vercel-with-nextjs
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-${{ github.job }}-${{ matrix.platform }}
     env:
@@ -812,11 +836,16 @@ jobs:
       matrix:
         platform:
           - nodejs
+          - deno
           - cloudflare-workers
           - vercel-edge-functions
           - vercel-cli-serverless-functions
+          - nodejs-postgresql-itx
+          - nodejs-mysql-itx
+          - nodejs-mongodb-itx
+          - nodejs-cockroachdb-itx
         clientEngine: ['<dataproxy>'] # value for script logic
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.run_id }}-dataproxy-${{ matrix.platform }}
     env:
@@ -827,6 +856,14 @@ jobs:
       AES_256_PASS: ${{ secrets.AES_256_PASS }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      ITX_PDP_MONGODB_DATABASE_URL: '${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}'
+      ITX_PDP_MONGODB: '${{ secrets.ITX_PDP_MONGODB }}'
+      ITX_PDP_MYSQL_DATABASE_URL: '${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}'
+      ITX_PDP_MYSQL: '${{ secrets.ITX_PDP_MYSQL }}'
+      ITX_PDP_POSTGRESQL_DATABASE_URL: '${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}'
+      ITX_PDP_POSTGRESQL: '${{ secrets.ITX_PDP_POSTGRESQL }}'
+      ITX_PDP_COCKROACHDB_DATABASE_URL: '${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}'
+      ITX_PDP_COCKROACHDB: '${{ secrets.ITX_PDP_COCKROACHDB }}'
 
     steps:
       - uses: actions/checkout@v3
@@ -835,6 +872,11 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+
+      - name: use deno v1.x
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -869,7 +911,7 @@ jobs:
           - parcel
           - rollup
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -915,7 +957,7 @@ jobs:
           - type-graphql
           - nexus-schema
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -968,13 +1010,13 @@ jobs:
           - mongodb-atlas-sharded
           - mongodb-atlas-serverless
           - mongodb-digitalocean
-          - mongodb-azure-cosmosdb
+          #- mongodb-azure-cosmosdb
           - supabase
           - supabase-pool
           - planetscale
           - cockroach-cloud
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -997,7 +1039,7 @@ jobs:
       DATABASE_URL_DB_MONGODB_ATLAS_SHARDED: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SHARDED }}
       DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS }}
       DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
-      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+      #DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
       MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
       DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
@@ -1081,7 +1123,7 @@ jobs:
         test-runner:
           - jest-with-multiple-generators
         clientEngine: ['library', 'binary']
-        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
