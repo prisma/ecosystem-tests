@@ -24,8 +24,7 @@ async function main() {
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
     
-    // ignoring docker distroless to let https://github.com/prisma/ecosystem-tests/pull/3343 succeed,
-    // lowish-priority to fix
+    // ignoring docker distroless as those are not actually run yet
     'docker-unsupported/distroless-bullseye-amd64-openssl-1.1.x',
     'docker/distroless-bullseye-amd64-openssl-1.1.x',
   ]
