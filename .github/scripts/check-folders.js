@@ -23,10 +23,6 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
-    
-    // ignoring docker distroless as those are not actually run yet
-    'docker-unsupported/distroless-bullseye-amd64-openssl-1.1.x',
-    'docker/distroless-bullseye-amd64-openssl-1.1.x',
   ]
   
   // Jobs in the workflow files that are not relevant and can be skipped
