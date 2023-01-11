@@ -6,7 +6,7 @@
 - OpenSSL location: `/lib/libssl.so.3`
 - Binary target: `linux-arm64-openssl-3.0.x`
 
-Prisma doesn't support the `arm64` architecture for Linux Alpine.
+Prisma doesn't support the `arm64` architecture for Linux Alpine (see https://github.com/prisma/prisma/issues/8478).
 Prisma will download the `linux-arm64-openssl-3.0.x` binary target, which depends on `libc`, which is not supported on Alpine.
 Running `prisma -v` will fail with:
 
