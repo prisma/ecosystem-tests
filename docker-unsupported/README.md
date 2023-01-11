@@ -1,6 +1,6 @@
 # Docker: OS Support (unsupported scenarios)
 
-This folder builds and run Prisma on a series of different unsupported system configurations and architectures, described by `Dockerfile`s.
+This folder builds and runs Prisma on a series of different unsupported system configurations and architectures, described by `Dockerfile`s.
 
 These systems are named following the convention
   
