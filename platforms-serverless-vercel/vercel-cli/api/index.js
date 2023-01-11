@@ -1,5 +1,5 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
-const os = require('os')
+const cp = require('child_process')
 const { promisify } = require('util')
 const exec = promisify(cp.exec)
 
@@ -10,7 +10,7 @@ async function execWithoutError(cmd) {
   } catch (e) {
     console.log('error while executing', cmd)
     console.error(e)
-    return undefined
+    return 'EXEC_ERROR'
   }
 }
 
@@ -36,7 +36,7 @@ export default async (req, res) => {
   } catch (e) {
     console.error(e)
   }
-  
+
   await client.user.deleteMany({})
 
   const id = '12345'
