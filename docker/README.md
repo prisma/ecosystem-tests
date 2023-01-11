@@ -5,11 +5,10 @@ This folder builds and run Prisma on a series of different system configurations
 These systems are named following the convention
   
 ```
-<MAYBE_FAIL><LINUX_DISTRO>-<VERSION>-<ARCHITECTURE>-openssl-<OPENSSL_VERSION>
+<LINUX_DISTRO>-<VERSION>-<ARCHITECTURE>-openssl-<OPENSSL_VERSION>
 ```
   
 where:
-- `MAYBE_FAIL` is either `fail-` (when running the image would result in an error) or `` otherwise
 - `LINUX_DISTRO` is the name of the Linux distribution (e.g. `ubuntu`, `debian`, `alpine`)
 - `VERSION` is the version of the Linux distribution (e.g. `22.04`, `bullseye`, `latest`)
 - `ARCHITECTURE` is the architecture of the Linux distribution (e.g. `amd64`, `arm64`)

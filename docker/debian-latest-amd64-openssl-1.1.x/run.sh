@@ -3,8 +3,6 @@
 set -eux
 export DEBUG="*"
 
-yarn install
-
 DOCKER_PLATFORM_ARCH="linux/amd64"
 PRISMA_DOCKER_IMAGE_NAME="prisma-debian-buster-amd64-openssl-1.1.x"
 
@@ -30,3 +28,5 @@ docker run -p 3000:3000 \
   "${PRISMA_DOCKER_IMAGE_NAME}" &
 
 sleep 15
+
+yarn install

@@ -190,7 +190,9 @@ jobs:
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-amd64-openssl-1.1.x
           - debian-latest-arm64-openssl-1.1.x
+          - debian-stretch-amd64-openssl-1.1.x
           - opensuse-tumbleweed-amd64-openssl-1.1.x
+          - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
           - ubuntu-22.04-amd64-openssl-3.0.x
           - ubuntu-latest-amd64-openssl-3.0.x
@@ -241,6 +243,52 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # These tests are expected to fail
+  # Meaning a successfull run actually shows a non zero exit code in the logs
+  docker-unsupported:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-unsupported'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature:
+          - alpine-3.16-arm64-openssl-1.1.x
+          - alpine-3.16-arm64-openssl-1.1.x-with-libc
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
+          - debian-buster-amd64-openssl-1.1.x
+        clientEngine: [library, binary]
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: "arm64"
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+        run: |
+          bash .github/scripts/test-project.sh docker-unsupported ${{ matrix.feature }}
 
   core-features:
     needs: [detect_jobs_to_run]

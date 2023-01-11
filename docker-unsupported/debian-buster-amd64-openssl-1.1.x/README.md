@@ -1,4 +1,4 @@
-# OS support: _fail-debian-buster-amd64-openssl-1.1.x
+# OS support: fail-debian-buster-amd64-openssl-1.1.x
 
 - Base Docker image: `node:lts-buster-slim`
 - OS: Linux Debian Buster
