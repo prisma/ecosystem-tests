@@ -28,7 +28,11 @@ function getFetch(expectedData: string) {
       })
 
       if (error !== null || r.status != 200 || JSON.stringify(rdata) !== JSON.stringify(expectedData)) {
-        console.log(`retrying, attempt number ${attempt + 1}`)
+        console.log('fetch-retry failed!')
+        console.log('  error:', error)
+        console.log('  status:', r.status)
+        console.log('  rdata:', rdata)
+        console.log(`retrying, attempt number ${attempt + 1}\n`)
         return true
       } else {
         return false

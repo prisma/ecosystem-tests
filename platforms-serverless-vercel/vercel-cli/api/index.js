@@ -1,7 +1,42 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
+const os = require('os')
+const { promisify } = require('util')
+const exec = promisify(cp.exec)
+
+async function execWithoutError(cmd) {
+  try {
+    const { stdout } = await exec(cmd)
+    return stdout
+  } catch (e) {
+    console.log('error while executing', cmd)
+    console.error(e)
+    return undefined
+  }
+}
+
 const client = new PrismaClient()
 
 export default async (req, res) => {
+  // this is a subset of commands run in prisma/prisma by getPlatform.ts
+  try {
+    const uname = await execWithoutError('uname -m')
+    console.log('uname:', uname)
+
+    const libsslSpecific1 = await execWithoutError('ls -r /lib64 | grep libssl.so')
+    console.log('libsslSpecific1:', libsslSpecific1)
+
+    const libsslSpecific2 = await execWithoutError('ls -r /usr/lib64 | grep libssl.so')
+    console.log('libsslSpecific2:', libsslSpecific2)
+
+    const ldconfig = await execWithoutError('ldconfig -p | sed "s/.*=>s*//" | sed "s/.*///" | grep ssl | sort -r')
+    console.log('ldconfig:', ldconfig)
+
+    const openssl = await execWithoutError('openssl version -v')
+    console.log('openssl:', openssl)
+  } catch (e) {
+    console.error(e)
+  }
+  
   await client.user.deleteMany({})
 
   const id = '12345'
