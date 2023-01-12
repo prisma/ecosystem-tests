@@ -12,14 +12,14 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID
   echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 
-  yarn -s vercel --token=$VERCEL_TOKEN --build-env DEBUG="prisma:" --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
 
 else
  echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
   echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 
-  yarn -s vercel --token=$VERCEL_TOKEN --build-env DEBUG="prisma:" --build-env PRISMA_CLIENT_ENGINE_TYPE="library" --prod --scope=$VERCEL_ORG_ID --force --confirm 1> deployment-url.txt
+  yarn -s vercel --token=$VERCEL_TOKEN --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE="library" --prod --scope=$VERCEL_ORG_ID --force --confirm 1> deployment-url.txt
 fi
 
 echo ''
