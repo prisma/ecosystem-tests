@@ -2,6 +2,9 @@ const { PrismaClient, Prisma } = require('@prisma/client')
 const client = new PrismaClient()
 
 export default async (req, res) => {
+  console.log('process.env.VERCEL in Vercel runtime', process.env.VERCEL)
+  console.log('process.env in Vercel runtime', process.env)
+
   await client.user.deleteMany({})
 
   const id = '12345'
