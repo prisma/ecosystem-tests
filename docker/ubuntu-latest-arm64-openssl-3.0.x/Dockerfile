@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM arm64v8/ubuntu:latest
 
 ARG NODE_VERSION="18.12.1"

@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM opensuse/tumbleweed:latest
 
 ARG NODE_VERSION="18.12.1"

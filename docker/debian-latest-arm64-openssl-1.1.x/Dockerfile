@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM arm64v8/node:lts-slim
 
 WORKDIR /usr/src/app
