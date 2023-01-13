@@ -10,8 +10,12 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
-# Install system dependencies for Node.js
-RUN yum update -y
+# Install system dependencies and avoid "repo downloading" errors
+# https://stackoverflow.com/a/60585660/6174476
+RUN dnf clean all \
+  && rm -r /var/cache/dnf \
+  && dnf upgrade -y \
+  && dnf update -y
 
 # Install Node.js
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
