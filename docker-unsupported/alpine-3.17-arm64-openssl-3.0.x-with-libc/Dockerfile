@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM node:lts-alpine3.17
 
 WORKDIR /usr/src/app

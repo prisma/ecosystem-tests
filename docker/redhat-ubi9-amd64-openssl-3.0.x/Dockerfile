@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM registry.access.redhat.com/ubi9/nodejs-18:latest
 
 WORKDIR /usr/src/app

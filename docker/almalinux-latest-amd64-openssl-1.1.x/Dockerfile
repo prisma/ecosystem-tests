@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # substitute for centos
 FROM almalinux:latest
 
