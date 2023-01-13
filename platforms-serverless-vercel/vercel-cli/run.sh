@@ -8,8 +8,6 @@ yarn
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 
-yarn -s vercel --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID --confirm env ls 
-
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
   export VERCEL_PROJECT_ID=$VERCEL_API_BINARY_PROJECT_ID
