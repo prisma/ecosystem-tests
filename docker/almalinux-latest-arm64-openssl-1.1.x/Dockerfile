@@ -14,7 +14,6 @@ COPY --from=utils . ./
 # https://stackoverflow.com/a/60585660/6174476
 RUN dnf clean all \
   && rm -r /var/cache/dnf \
-  && dnf upgrade -y \
   && dnf update -y
 
 # Install Node.js
