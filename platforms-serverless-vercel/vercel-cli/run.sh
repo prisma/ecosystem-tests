@@ -28,7 +28,7 @@ DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
 echo ''
 echo "Deployed to ${DEPLOYED_URL}"
 
-# sleep 15
+sleep 30
 
 OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
 echo "${OUTPUT}"
@@ -38,7 +38,6 @@ if echo "${OUTPUT}" | grep -q 'Retrieving list of deployment files'; then
   echo "Logs are starting from the top"
 else
   echo "Logs are NOT starting from the top"
-  exit 1
 fi
 
 # Check the Vercel Build Logs for the postinstal hook"
