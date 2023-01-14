@@ -28,18 +28,13 @@ DEPLOYED_URL=$( tail -n 1 deployment-url.txt )
 echo ''
 echo "Deployed to ${DEPLOYED_URL}"
 
-sleep 30
+sleep 15
 
-yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID > /tmp/vercel-cli.txt
-OUTPUT=$(cat /tmp/vercel-cli.txt)
-
+OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
 echo "${OUTPUT}"
 
-echo "Showing first 15 lines of Vercel Build Logs:"
-head -n 15 /tmp/vercel-cli.txt
-
 # Check the Vercel Build Logs for the postinstal hook"
-if cat /tmp/vercel-cli.txt | grep -q 'prisma generate || true'; then
+if echo "${OUTPUT}" | grep -q 'prisma generate || true'; then
   echo 'Postinstall hook was added'
 else
   echo "Postinstall hook was NOT ADDED"
@@ -47,7 +42,7 @@ else
 fi
 
 # Check the Vercel Build Logs for "Generated Prisma Client"
-if cat /tmp/vercel-cli.txt | grep -q 'Generated Prisma Client'; then
+if echo "${OUTPUT}" | grep -q 'Generated Prisma Client'; then
   echo 'Prisma Client Was Successfully Generated'
 else
   echo "Prisma Client Was NOT GENERATED"
