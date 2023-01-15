@@ -191,6 +191,7 @@ jobs:
           - debian-bullseye-amd64-openssl-1.1.x
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-amd64-openssl-1.1.x
+          - debian-latest-arm-openssl-1.1.x
           - debian-latest-arm64-openssl-1.1.x
           - debian-stretch-amd64-openssl-1.1.x
           - opensuse-tumbleweed-amd64-openssl-1.1.x
@@ -209,7 +210,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: "arm64"
+          platforms: "arm64,arm"
 
       - name: Set up Docker Buildx
         id: buildx
