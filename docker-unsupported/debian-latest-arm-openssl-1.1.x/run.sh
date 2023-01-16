@@ -4,7 +4,7 @@ set -eux
 export DEBUG="*"
 
 DOCKER_PLATFORM_ARCH="linux/arm"
-PRISMA_DOCKER_IMAGE_NAME="prisma-debian-latest-arm-openssl-1.1.x"
+PRISMA_DOCKER_IMAGE_NAME="prisma-fail-debian-latest-arm-openssl-1.1.x"
 
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \
