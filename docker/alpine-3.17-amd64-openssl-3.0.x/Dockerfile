@@ -6,11 +6,11 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
-RUN apk update && apk add openssl1.1-compat
+RUN apk update
 
-# Both OpenSSL 1.1 and OpenSSL 3 must be present after installing openssl1.1-compat
-RUN if [ ! -e /lib/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 not found in /lib/libssl.so.1.1'; exit 1; fi
+# Only OpenSSL 3 is expected to be on this system
 RUN if [ ! -e /lib/libssl.so.3 ]; then echo 'OpenSSL 3 not found in /lib/libssl.so.3'; exit 1; fi
+RUN if [ -e /lib/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 must not be installed (found in /lib/libssl.so.1.1)'; exit 1; fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
 ARG EXPECTED_PRISMA_TARGET_PLATFORM="linux-musl-openssl-3.0.x"
