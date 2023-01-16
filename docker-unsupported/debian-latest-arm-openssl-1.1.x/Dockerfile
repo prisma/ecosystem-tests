@@ -39,7 +39,15 @@ ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
 RUN yarn install
+
+# This will fail because we don't support linux-arm binaries:
+# Error: Not Found https://binaries.prisma.sh/all_commits/df61b5f5ab3f27359e273f1cba4e5a9c7cb8485a/linux-arm-openssl-1.1.x/migration-engine.gz
+#
+# See:
+# - https://github.com/prisma/prisma/issues/5379
+# - https://github.com/prisma/engines-wrapper/pull/173
 RUN ./version.sh
+
 RUN npx prisma generate
 
 CMD node server.js
