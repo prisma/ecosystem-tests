@@ -3,8 +3,8 @@
 set -eux
 export DEBUG="*"
 
-DOCKER_PLATFORM_ARCH="linux/arm64"
-PRISMA_DOCKER_IMAGE_NAME="prisma-amazonlinux-latest-arm64-openssl-1.0.x"
+DOCKER_PLATFORM_ARCH="linux/amd64"
+PRISMA_DOCKER_IMAGE_NAME="prisma-amazonlinux-2-amd64-openssl-1.0.x"
 
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \
