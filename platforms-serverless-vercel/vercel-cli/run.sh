@@ -24,7 +24,7 @@ else
 fi
 
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
-yarn -s vercel --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
+yarn -s vercel deploy --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
