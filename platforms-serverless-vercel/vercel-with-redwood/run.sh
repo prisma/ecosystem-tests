@@ -11,14 +11,6 @@ yarn policies set-version 1.18.0
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwood build'
 
 node patch-package-json.js
-yarn
-
-export VERCEL_ORG_ID=$VERCEL_ORG_ID
-export FORCE_RUNTIME_TAG=canary
-echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
-echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
-
-yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
@@ -27,8 +19,17 @@ else
   echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_PROJECT_ID
   # Set `libray` as default engine type, no matter what might be set already (except `binary`)
-  PRISMA_CLIENT_ENGINE_TYPE=library
+  export PRISMA_CLIENT_ENGINE_TYPE=library
 fi
+
+yarn
+
+export VERCEL_ORG_ID=$VERCEL_ORG_ID
+export FORCE_RUNTIME_TAG=canary
+echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
+echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
+
+yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
