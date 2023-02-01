@@ -11,7 +11,7 @@ else
   echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
   # Set `libray` as default engine type, no matter what might be set already (except `binary`)
-  PRISMA_CLIENT_ENGINE_TYPE=library
+  export PRISMA_CLIENT_ENGINE_TYPE=library
 fi
 
 yarn
