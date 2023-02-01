@@ -20,10 +20,11 @@ else
  echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
   # Set `libray` as default engine type, no matter what might be set already (except `binary`)
-  export PRISMA_CLIENT_ENGINE_TYPE=library
+  PRISMA_CLIENT_ENGINE_TYPE=library
 fi
 
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
+echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
 yarn -s vercel deploy --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
