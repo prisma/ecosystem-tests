@@ -854,7 +854,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          cache: 'yarn'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
