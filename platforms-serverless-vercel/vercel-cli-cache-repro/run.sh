@@ -6,6 +6,8 @@ set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-cli-cache-repro build'
 
+yarn
+
 # Note: be aware that Vercel truncates logs, so if you add something like `--build-env DEBUG="prisma:*"` plenty of logs will be missing.
 # That will likely influence the "Postinstall hook" check below, which will result in the CI failing with error code `1`.
 
@@ -19,8 +21,6 @@ else
   # Set `libray` as default engine type, no matter what might be set already (except `binary`)
   export PRISMA_CLIENT_ENGINE_TYPE=library
 fi
-
-yarn
 
 # Make sure schema1 is the current schema
 cp ./prisma/schema1.prisma ./prisma/schema.prisma

@@ -12,6 +12,8 @@ export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwo
 
 node patch-package-json.js
 
+yarn
+
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
   export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID
@@ -21,8 +23,6 @@ else
   # Set `libray` as default engine type, no matter what might be set already (except `binary`)
   export PRISMA_CLIENT_ENGINE_TYPE=library
 fi
-
-yarn
 
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 export FORCE_RUNTIME_TAG=canary
