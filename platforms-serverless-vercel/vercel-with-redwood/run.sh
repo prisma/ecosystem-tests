@@ -33,7 +33,7 @@ yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
-yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE='$PRISMA_CLIENT_ENGINE_TYPE' --scope=$VERCEL_ORG_ID 1> deployment-url.txt
+yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
