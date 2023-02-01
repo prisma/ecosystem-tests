@@ -1,0 +1,16 @@
+// Like, postgresql://user:password@localhost:5432/database/schema
+datasource db {
+  provider = "postgresql"
+  url      = env("VERCEL_API_CACHE_REPRO_PG_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+  // It will be removed in the next run
+  name  String
+}
