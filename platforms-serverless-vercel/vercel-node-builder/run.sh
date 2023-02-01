@@ -14,7 +14,7 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
 else
   echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_NODE_BUILDER_PROJECT_ID
-  # Set `libray` as default engine type
+  # Set `libray` as default engine type, no matter what might be set already (except `binary`)
   export PRISMA_CLIENT_ENGINE_TYPE=library
 fi
 
