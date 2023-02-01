@@ -215,7 +215,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: "arm64"
+          platforms: 'arm64'
 
       - name: Set up Docker Buildx
         id: buildx
@@ -278,7 +278,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: "arm64,arm"
+          platforms: 'arm64,arm'
 
       - name: Set up Docker Buildx
         id: buildx
@@ -826,6 +826,7 @@ jobs:
         platform:
           - vercel-node-builder
           - vercel-cli
+          - vercel-cli-cache-repro
           - vercel-with-redwood
           - vercel-with-nextjs
         clientEngine: ['library', 'binary']
