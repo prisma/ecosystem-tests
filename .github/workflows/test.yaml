@@ -875,8 +875,6 @@ jobs:
           cache: 'yarn'
           # Only cache the root node_modules
           cache-dependency-path: 'yarn.lock'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
