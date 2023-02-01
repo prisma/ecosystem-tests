@@ -6,6 +6,8 @@ set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-cli build'
 
+yarn
+
 # Note: be aware that Vercel truncates logs, so if you add something like `--build-env DEBUG="prisma:*"` plenty of logs will be missing.
 # That will likely influence the "Postinstall hook" check below, which will result in the CI failing with error code `1`.
 
@@ -19,13 +21,11 @@ else
   PRISMA_CLIENT_ENGINE_TYPE=library
 fi
 
-yarn
-
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
-yarn -s vercel deploy --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
+yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
