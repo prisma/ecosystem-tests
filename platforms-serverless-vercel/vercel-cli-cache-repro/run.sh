@@ -33,6 +33,10 @@ export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
+
+# -------- first deployment --------
+
+# -------- first deployment using --force (= no cache) --------
 yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
@@ -63,11 +67,11 @@ else
   # exit 1
 fi
 
-echo '\nIt should succeed:'
+echo '\nFirst deployment using --force (= no cache) - It should succeed:'
 curl -H "Accept: application/json" "$DEPLOYED_URL_API"
 echo ''
 
-# ----
+# -------- second deployment --------
 
 # Modify the Prisma schema and comment `name  String?`
 echo ''
@@ -77,8 +81,8 @@ cat ./prisma/schema.prisma
 # Sync the Prisma schema with the db
 yarn prisma db push --accept-data-loss
 
-# Without --force this time!
 echo ''
+# -------- second deployment without --force (= with cache) --------
 yarn -s vercel deploy --prod --yes --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 
@@ -111,6 +115,6 @@ else
   # exit 1
 fi
 
-echo 'An error is expected:'
+echo '\nSecond deployment without --force (= with cache) - An error is expected:'
 curl -H "Accept: application/json" "$DEPLOYED_URL_API"
 echo ''
