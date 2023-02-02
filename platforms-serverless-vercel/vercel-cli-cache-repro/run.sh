@@ -17,7 +17,7 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   exit 0
 else
  echo "Library (Default)"
-  export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
+  export VERCEL_PROJECT_ID=$VERCEL_API_CACHE_REPRO_PROJECT_ID
   # Set local var to `library` for the `vercel deploy` command below
   PRISMA_CLIENT_ENGINE_TYPE=library
 fi
