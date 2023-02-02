@@ -16,7 +16,7 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Deployment does not exist yet"
   exit 0
 else
- echo "Library (Default)"
+  echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_API_CACHE_REPRO_PROJECT_ID
   # Set local var to `library` for the `vercel deploy` command below
   PRISMA_CLIENT_ENGINE_TYPE=library
@@ -73,7 +73,7 @@ echo ''
 
 # -------- second deployment --------
 
-# Modify the Prisma schema and comment `name  String?`
+# Modify the Prisma schema by commenting out `name  String?`
 echo ''
 cp ./prisma/schema2.prisma ./prisma/schema.prisma
 cat ./prisma/schema.prisma

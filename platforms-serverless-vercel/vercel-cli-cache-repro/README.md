@@ -1,4 +1,4 @@
-# Vercel API
+# Vercel API - special variant for "Prisma Client is not regenerated problem"
 
 Prisma and Vercel's integration using the API folder configuration. This works without any configuration.
 
