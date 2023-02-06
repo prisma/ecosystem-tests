@@ -65,6 +65,8 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
       - name: Install Dependencies
         run: yarn install
       - id: detect
@@ -151,6 +153,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -186,8 +190,12 @@ jobs:
           - almalinux-latest-amd64-openssl-1.1.x
           - almalinux-latest-arm64-openssl-1.1.x
           - alpine-3.16-amd64-openssl-1.1.x
+          - alpine-3.16-arm64-openssl-1.1.x
+          - alpine-3.16-arm64-openssl-1.1.x-with-libc
           - alpine-3.17-amd64-openssl-1.1.x
           - alpine-3.17-amd64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - alpine-latest-amd64-openssl-3.0.x
           - amazonlinux-2-amd64-openssl-1.0.x
           - amazonlinux-2-arm64-openssl-1.0.x
@@ -200,7 +208,7 @@ jobs:
           - debian-latest-arm64-openssl-1.1.x
           - debian-stretch-amd64-openssl-1.1.x
           - distroless-bullseye-amd64-openssl-1.1.x
-          - opensuse-tumbleweed-amd64-openssl-1.1.x
+          - opensuse-tumbleweed-amd64-openssl-3.0.x
           - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
           - ubuntu-22.04-amd64-openssl-3.0.x
@@ -216,7 +224,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: "arm64"
+          platforms: 'arm64'
 
       - name: Set up Docker Buildx
         id: buildx
@@ -229,6 +237,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -263,10 +273,6 @@ jobs:
       fail-fast: false
       matrix:
         feature:
-          - alpine-3.16-arm64-openssl-1.1.x
-          - alpine-3.16-arm64-openssl-1.1.x-with-libc
-          - alpine-3.17-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-arm-openssl-1.1.x
           - distroless-bullseye-amd64-openssl-1.1.x-without-zlib
@@ -280,7 +286,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: "arm64,arm"
+          platforms: 'arm64,arm'
 
       - name: Set up Docker Buildx
         id: buildx
@@ -331,6 +337,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -377,6 +385,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -419,6 +429,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -459,6 +471,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -690,7 +704,7 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-platforms-${{ matrix.platform }}
+    concurrency: platforms-${{ matrix.platform }}-${{ matrix.clientEngine }}
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -704,6 +718,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -762,7 +778,7 @@ jobs:
           - clientEngine: library
             platform: azure-functions-windows
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-platforms-serverless-${{ matrix.platform }}
+    concurrency: platforms-serverless-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
@@ -790,6 +806,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -833,7 +851,7 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-${{ github.job }}-${{ matrix.platform }}
+    concurrency: platforms-serverless-vercel-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
@@ -857,6 +875,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -906,7 +926,7 @@ jobs:
         clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.run_id }}-dataproxy-${{ matrix.platform }}
+    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
@@ -931,6 +951,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: use deno v1.x
         uses: denoland/setup-deno@v1
@@ -1114,6 +1136,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install
@@ -1156,6 +1180,8 @@ jobs:
         with:
           node-version: 14
           cache: 'yarn'
+          # Only cache the root node_modules
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install Dependencies
         run: yarn install

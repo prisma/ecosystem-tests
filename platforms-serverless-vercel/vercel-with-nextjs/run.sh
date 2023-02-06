@@ -3,24 +3,24 @@
 set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-nextjs build'
-yarn
-export VERCEL_ORG_ID=$VERCEL_ORG_ID
-echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
   export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID
-  echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
-
-  yarn -s vercel --token=$VERCEL_TOKEN --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE="binary" --prod --scope=$VERCEL_ORG_ID --confirm --force 1> deployment-url.txt
-
 else
- echo "Library (Default)"
+  echo "Library (Default)"
   export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
-  echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
-
-  yarn -s vercel --token=$VERCEL_TOKEN --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE="library" --prod --scope=$VERCEL_ORG_ID --force --confirm 1> deployment-url.txt
+  # Set local var to `library` for the `vercel deploy` command below
+  PRISMA_CLIENT_ENGINE_TYPE=library
 fi
+
+yarn
+
+export VERCEL_ORG_ID=$VERCEL_ORG_ID
+echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
+echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
+echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
+yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --build-env DEBUG="prisma:*" --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt

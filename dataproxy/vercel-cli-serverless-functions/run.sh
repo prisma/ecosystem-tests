@@ -4,13 +4,14 @@ set -eu
 
 yarn
 
-yarn -s vercel \
+yarn -s vercel deploy \
 --prod \
+--yes \
+--force \
 --token=$VERCEL_TOKEN \
 --scope=$VERCEL_ORG_ID \
 --build-env PRISMA_GENERATE_DATAPROXY="true" \
 --env DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_DB_URL="$DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_DB_URL" \
---confirm --force \
 1> deployment-url.txt
 
 echo ''
