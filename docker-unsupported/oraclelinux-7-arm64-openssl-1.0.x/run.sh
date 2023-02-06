@@ -3,8 +3,8 @@
 set -eux
 export DEBUG="*"
 
-DOCKER_PLATFORM_ARCH="linux/arm"
-PRISMA_DOCKER_IMAGE_NAME="prisma-fail-debian-latest-arm-openssl-1.1.x"
+DOCKER_PLATFORM_ARCH="linux/arm64"
+PRISMA_DOCKER_IMAGE_NAME="prisma-fail-oraclelinux-7-arm64-openssl-1.0.x"
 
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \

@@ -3,13 +3,13 @@
 set -eux
 export DEBUG="*"
 
-DOCKER_PLATFORM_ARCH="linux/arm"
-PRISMA_DOCKER_IMAGE_NAME="prisma-fail-debian-latest-arm-openssl-1.1.x"
+DOCKER_PLATFORM_ARCH="linux/amd64"
+PRISMA_DOCKER_IMAGE_NAME="prisma-oraclelinux-7-amd64-openssl-1.0.x"
 
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \
   --build-context app=. \
-  --build-context utils=../../docker/_utils \
+  --build-context utils=../_utils \
   --build-arg DEBUG=${DEBUG} \
   --build-arg PRISMA_TELEMETRY_INFORMATION="${PRISMA_TELEMETRY_INFORMATION}" \
   --build-arg PRISMA_CLIENT_ENGINE_TYPE=${PRISMA_CLIENT_ENGINE_TYPE} \
