@@ -22,13 +22,25 @@ If you have a root login and you're on a local system where a browser can be ope
 az login
 ```
 
-If not, you can use a service principal. The Prisma service principal details can be found in our internal 1Password. You can also create a service principal from the CI with `sh rbac.sh`.
+#### Service Principal 
 
-Note: Client secret lifetime is limited (docs say: two years or less.)
+Without login for Azure, you can use a service principal.
+
+(It was initially created with `sh rbac.sh`.)
 
 ```shell script
 az login --service-principal -u "$AZURE_SP_NAME" -p "$AZURE_SP_PASSWORD" --tenant "$AZURE_SP_TENANT"
 ```
+
+AZURE_SP_NAME = the name of the service principal  
+AZURE_SP_PASSWORD = the secret
+AZURE_SP_TENANT = An Azure internal ID, visible in Azure Portal
+
+Note: Client secret lifetime is limited (docs say: two years or less.)
+
+##### Maintining the Service Principal
+
+You can create new secrets for the service principal in Azure Portal under "App regristrations": https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Overview/appId/e6204f1a-d757-465f-9ddd-8d50a05c09c2/isMSAApp~/false
 
 ### Prepare
 
