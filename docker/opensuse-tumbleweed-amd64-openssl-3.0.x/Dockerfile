@@ -11,7 +11,7 @@ COPY --from=utils . ./
 
 # Install system dependencies for Node.js
 RUN zypper refresh \
-  && zypper update \
+  && zypper --non-interactive dup \
   && zypper --non-interactive install curl tar
 
 # Install Node.js
@@ -25,7 +25,7 @@ RUN if [ ! -e /lib64/libssl.so.3 ]; then echo 'OpenSSL 3 not found in /lib64/lib
 RUN if [ -e /lib64/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 must not be installed (found in /lib64/libssl.so.1.1)'; exit 1; fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
-ARG EXPECTED_PRISMA_TARGET_PLATFORM="debian-openssl-3.0.x"
+ARG EXPECTED_PRISMA_TARGET_PLATFORM="rhel-openssl-3.0.x"
 ARG PRISMA_CLIENT_ENGINE_TYPE
 ARG PRISMA_CLI_QUERY_ENGINE_TYPE
 ARG CI
