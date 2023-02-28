@@ -22,7 +22,7 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   esac
 
  # do not update packages that don't use prisma
-  if ! grep -q "@prisma/client\|prisma" "$item"; then
+  if ! grep -q '"@prisma/client"\|"prisma"' "$item"; then
     echo "ignoring $item"
     continue
   fi
