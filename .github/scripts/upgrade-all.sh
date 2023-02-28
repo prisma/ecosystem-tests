@@ -26,7 +26,10 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   echo "> df -h"
   df -h
 
-  du -ah --max-depth=20 /* | sort -rh | head -n 50
+  echo ""
+  echo "=========================="
+  echo "> find . -type f -print0 | xargs -r0 du -ah | sort -rh | head -n 500"
+  find . -type f -print0 | xargs -r0 du -ah | sort -rh | head -n 500
 
   echo "=========================="
   echo "running $item"
@@ -68,6 +71,11 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 
   fi
   ## END
+
+  # if we can switch to yarn3, we can do renovate-like updates easily
+  # because that would give us a speedup via `--mode update-lockfile`
+  # so for now, we are deleleting `node_modules` which bloat the CI
+  find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
 
   echo "$item done"
   cd "$dir"
