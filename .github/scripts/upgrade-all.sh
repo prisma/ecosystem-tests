@@ -26,6 +26,10 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   echo "> df -h"
   df -h
 
+  echo ""
+  echo "=========================="
+  echo "> find . -type f -print0 | xargs -r0 du -ah | sort -rh | head -n 500"
+  find . -type f -print0 | xargs -r0 du -ah | sort -rh | head -n 500
 
   echo "=========================="
   echo "running $item"
