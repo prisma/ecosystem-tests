@@ -85,11 +85,6 @@ while [ $i -le $count ]; do
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
   echo "$packages" | tr ' ' '\n' | while read -r item; do
-    echo ""
-    echo "=========================="
-    echo "> df -h -B M"
-    df -h -B M
-
     echo "=========================="
     echo "checking $item"
  
@@ -104,7 +99,7 @@ while [ $i -le $count ]; do
 
     vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'])")"
 
-    if [ "$vCLI" != "" ]; then
+    if [ "$vCLI" != "undefined" ]; then
       if [ "$v" != "$vCLI" ]; then
         echo "$item: prisma expected $v, actual $vCLI"
 
