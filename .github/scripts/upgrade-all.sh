@@ -66,8 +66,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   elif [ "$valid" = "true" ]; then
     case "$item" in
     *"yarn3"*)
-      yarn add "prisma@$version" --dev
-      yarn add "@prisma/client@$version"
+      yarn add "prisma@$version" --dev --mode update-lockfile
+      yarn add "@prisma/client@$version" --mode update-lockfile
       ;;
     *)
       yarn add "prisma@$version" --dev --ignore-scripts --ignore-workspace-root-check
