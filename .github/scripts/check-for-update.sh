@@ -97,9 +97,9 @@ while [ $i -le $count ]; do
 
     cd "$(dirname "$item")/"
 
-    vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'])")"
+    vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'] || '')")"
 
-    if [ "$vCLI" != "undefined" ]; then
+    if [ "$vCLI" != "" ]; then
       if [ "$v" != "$vCLI" ]; then
         echo "$item: prisma expected $v, actual $vCLI"
 
