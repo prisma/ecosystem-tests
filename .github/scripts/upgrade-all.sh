@@ -15,17 +15,22 @@ dir=$(pwd)
 
 echo "$packages" | tr ' ' '\n' | while read -r item; do
   case "$item" in
-  *"./package.json"* | *".github"* | *"yarn-workspaces/package.json"* | *"yarn3-workspaces-pnp/package.json"* | *"functions/generated/client"*)
+  *"./package.json"* | *".github"* | *"functions/generated/client"*)
     echo "ignoring $item"
     continue
     ;;
   esac
 
+ # do not update packages that don't use prisma
+  if ! grep -q '"@prisma/client"\|"prisma"' "$item"; then
+    echo "ignoring $item"
+    continue
+  fi
+
   echo ""
   echo "=========================="
   echo "> df -h"
   df -h
-
 
   echo "=========================="
   echo "running $item"
@@ -56,8 +61,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
   elif [ "$valid" = "true" ]; then
     case "$item" in
     *"yarn3"*)
-      yarn add "prisma@$version" --dev
-      yarn add "@prisma/client@$version"
+      yarn add "prisma@$version" --dev --mode update-lockfile
+      yarn add "@prisma/client@$version" --mode update-lockfile
       ;;
     *)
       yarn add "prisma@$version" --dev --ignore-scripts --ignore-workspace-root-check
@@ -67,6 +72,11 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
 
   fi
   ## END
+
+  # if we can switch to yarn3, we can do renovate-like updates easily
+  # because that would give us a speedup via `--mode update-lockfile`
+  # so for now, we are deleleting `node_modules` which bloat the CI
+  find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
 
   echo "$item done"
   cd "$dir"

@@ -85,11 +85,6 @@ while [ $i -le $count ]; do
   
   packages=$(find . -not -path "*/node_modules/*" -type f -name "package.json")
   echo "$packages" | tr ' ' '\n' | while read -r item; do
-    echo ""
-    echo "=========================="
-    echo "> df -h -B M"
-    df -h -B M
-
     echo "=========================="
     echo "checking $item"
  
@@ -102,89 +97,24 @@ while [ $i -le $count ]; do
 
     cd "$(dirname "$item")/"
 
-    hasResolutions="$(node -e "$pkg;console.log(!!pkg.resolutions)")"
+    vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'] || '')")"
 
-    if [ "$hasResolutions" = "true" ]; then
-      echo "note: project uses `resolutions`"
-      vCLI="$(node -e "$pkg;console.log(pkg.resolutions['prisma'])")"
+    if [ "$vCLI" != "" ]; then
+      if [ "$v" != "$vCLI" ]; then
+        echo "$item: prisma expected $v, actual $vCLI"
 
-      if [ "$vCLI" != "" ]; then
-        if [ "$v" != "$vCLI" ]; then
-          if [ "$branch" != "dev" ]; then
-            run_sync "$dir" "$branch"
-          fi
+        run_sync "$dir" "$branch"
+      fi
 
-          echo "$item: prisma expected $v, actual $vCLI"
-          json -I -f package.json -e "this.resolutions['prisma']='$v'"
-        fi
+      vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
 
-        vPrismaClient="$(node -e "$pkg;console.log(pkg.resolutions['@prisma/client'])")"
+      if [ "$v" != "$vPrismaClient" ]; then
+        echo "$item: @prisma/client expected $v, actual $vPrismaClient"
 
-        if [ "$v" != "$vPrismaClient" ]; then
-          if [ "$branch" != "dev" ]; then
-            run_sync "$dir" "$branch"
-          fi
-
-          echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-          json -I -f package.json -e "this.resolutions['@prisma/client']='$v'"
-        fi
+        run_sync "$dir" "$branch"
       fi
     else
-      vCLI="$(node -e "$pkg;console.log(pkg.devDependencies['prisma'])")"
-
-      if [ "$vCLI" != "" ]; then
-        if [ "$v" != "$vCLI" ]; then
-          if [ "$branch" != "dev" ]; then
-            run_sync "$dir" "$branch"
-          fi
-
-          echo "$item: prisma expected $v, actual $vCLI"
-          
-          case "$item" in
-          *"yarn3"*)
-            echo "> yarn add prisma@$v --dev"
-            yarn add "prisma@$v" --dev
-            ;;
-          *)
-            echo "> yarn add prisma@$v --dev --ignore-scripts"
-            yarn add "prisma@$v" --dev --ignore-scripts 
-            ;;
-          esac
-          
-          echo ""
-          echo "=========================="
-          echo "> df -h -B M"
-          df -h -B M
-        fi
-
-        vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
-
-        if [ "$v" != "$vPrismaClient" ]; then
-          if [ "$branch" != "dev" ]; then
-            run_sync "$dir" "$branch"
-          fi
-
-          echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-          
-          case "$item" in
-          *"yarn3"*)
-            echo "> yarn add @prisma/client@$v" 
-            yarn add "@prisma/client@$v"
-            ;;
-          *)
-            echo "> yarn add @prisma/client@$v --ignore-scripts" 
-            yarn add "@prisma/client@$v" --ignore-scripts
-            ;;
-          esac
-          
-          echo ""
-          echo "=========================="
-          echo "> df -h -B M"
-          df -h -B M
-        fi
-      else
-        echo "Dependency not found"
-      fi
+      echo "Dependency not found"
     fi
 
     cd "$dir"
