@@ -22,7 +22,7 @@ mv index.zip ../functions-build/index.zip
 cd ..
 
 # deploy content of `functions-build` to Netlify
-yarn netlify deploy --dir=. --prod --functions=functions-build
+yarn netlify deploy --dir=. --functions=functions-build
 # TODO Use individual deployment URL and store
 
 # TODO Why is this done?
