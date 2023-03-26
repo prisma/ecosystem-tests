@@ -36,7 +36,7 @@ git config --global user.name "Prismo"
 
 # push project to Netlify
 git init
-git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
+git remote add origin "git@github.com:prisma/prisma-ecosystem-tests-netlify-ci.git"
 git add .
 git commit -m "push to netlify: $ID, engine = $PRISMA_CLIENT_ENGINE_TYPE"
 # TODO Do not force push so history is available
