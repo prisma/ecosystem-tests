@@ -1,6 +1,6 @@
-# Netlify CI
+# Netlify via GitHub
 
-Prisma and Netlify integration via Git (via another separate Git repository that is pushed to during deployment)
+Prisma and Netlify integration via GitHub (via another separate Git repository that is pushed to during deployment)
 
 ## How to run this locally
 

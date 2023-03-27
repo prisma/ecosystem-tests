@@ -17,7 +17,8 @@ fi
 
 
 # Modify package.json to bust cache
-sed -i "s/netlify-ci-to-be-replace-on-build/$(date +%s%N)/" package.json
+# TODO Is this still needed?
+sed -i "s/netlify-github-to-be-replaced-on-build/$(date +%s%N)/" package.json
 
 # Set up project
 rm -rf node_modules/
@@ -36,7 +37,7 @@ git config --global user.name "Prismo"
 
 # push project to Netlify
 git init
-git remote add origin "git@github.com:prisma/prisma2-e2e-tests-netlify.git"
+git remote add origin "git@github.com:prisma/prisma-ecosystem-tests-netlify-github.git"
 git add .
 git commit -m "push to netlify: $ID, engine = $PRISMA_CLIENT_ENGINE_TYPE"
 # TODO Do not force push so history is available

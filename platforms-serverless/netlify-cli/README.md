@@ -1,4 +1,4 @@
-# Netlify CLI
+# Netlify via CLI
 
 Prisma and Netlify (deploy via netlify CLI) integration.
 
