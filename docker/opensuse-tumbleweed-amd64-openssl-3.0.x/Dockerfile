@@ -17,8 +17,7 @@ RUN zypper refresh \
 # Install Node.js
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
   && tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
-  && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
-  && npm i -g pnpm@7
+  && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz"
 
 # Only OpenSSL 3 is expected to be on this system
 RUN if [ ! -e /lib64/libssl.so.3 ]; then echo 'OpenSSL 3 not found in /lib64/libssl.so.3'; exit 1; fi
@@ -39,6 +38,7 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
+RUN npm i -g pnpm@7
 RUN pnpm install
 RUN ./version.sh
 RUN npx prisma generate
