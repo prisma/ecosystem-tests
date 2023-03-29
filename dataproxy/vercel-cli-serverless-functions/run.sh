@@ -2,9 +2,9 @@
 
 set -eu
 
-yarn
+pnpm install
 
-yarn -s vercel deploy \
+pnpm vercel deploy \
 --prod \
 --yes \
 --force \

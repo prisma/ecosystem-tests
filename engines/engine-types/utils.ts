@@ -70,7 +70,7 @@ async function generate(
   projectDir: string,
   env?: Record<string, string | undefined>,
 ) {
-  await execa('yarn', ['prisma', 'generate'], {
+  await execa('pnpm', ['prisma', 'generate'], {
     ...defaultExecaOptions,
     env,
     cwd: projectDir,
@@ -85,7 +85,7 @@ export async function install(
   projectPath: string,
   env?: Record<string, string | undefined>,
 ) {
-  await execa('yarn', ['install', '--force'], {
+  await execa('pnpm', ['install', '--force'], {
     ...defaultExecaOptions,
     env,
     cwd: projectPath,
@@ -96,7 +96,7 @@ export async function version(
   projectPath: string,
   env?: Record<string, string | undefined>,
 ) {
-  const result = await execa('yarn', ['-s', 'prisma', '-v'], {
+  const result = await execa('pnpm', ['prisma', '-v'], {
     ...defaultExecaOptions,
     stdio: 'pipe',
     env,

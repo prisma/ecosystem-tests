@@ -2,6 +2,6 @@
 
 set -eux
 
-yarn
+pnpm install
 pnpm deploy
 echo https://`cat sandbox_id`.sse.codesandbox.io/

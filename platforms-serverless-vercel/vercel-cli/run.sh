@@ -6,7 +6,7 @@ set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-cli build'
 
-yarn
+pnpm install
 
 # Note: be aware that Vercel truncates logs, so if you add something like `--build-env DEBUG="prisma:*"` plenty of logs will be missing.
 # That will likely influence the "Postinstall hook" check below, which will result in the CI failing with error code `1`.
