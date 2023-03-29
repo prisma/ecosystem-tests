@@ -2,6 +2,6 @@
 
 set -eux
 
-yarn install
-# yarn generate
-# yarn build
+pnpm install
+# pnpm generate
+# pnpm build

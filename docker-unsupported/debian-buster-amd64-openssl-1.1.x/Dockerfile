@@ -34,7 +34,7 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
-RUN yarn install
+RUN pnpm install
 
 # This will fail with:
 # Error: Unable to require(`/usr/src/app/node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node`)

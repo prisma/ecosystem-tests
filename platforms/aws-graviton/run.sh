@@ -11,8 +11,8 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       export PRISMA_CLIENT_ENGINE_TYPE=\"binary\"
       rm -rf ./node_modules;
       yarn;
-      yarn prisma generate;
-      yarn prisma -v;
+      pnpm prisma generate;
+      pnpm prisma -v;
   "
 else
   echo "Node-API: Enabled"
@@ -21,8 +21,8 @@ else
       export PRISMA_CLIENT_ENGINE_TYPE=\"library\"
       rm -rf ./node_modules;
       yarn;
-      yarn prisma generate;
-      yarn prisma -v;
+      pnpm prisma generate;
+      pnpm prisma -v;
   "
 fi
 

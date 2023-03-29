@@ -2,5 +2,5 @@
 
 set -eux
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate

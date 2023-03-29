@@ -17,7 +17,7 @@ RUN apt-get update -y \
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
   && tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
   && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
-  && npm i -g yarn
+  && npm i -g pnpm
 
 # expected target architecture, retrieved by `uname -m`
 ARG EXPECTED_UNAME_ARCH="x86_64"
@@ -44,7 +44,7 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
-RUN yarn install
+RUN pnpm install
 RUN ./version.sh
 RUN npx prisma generate
 

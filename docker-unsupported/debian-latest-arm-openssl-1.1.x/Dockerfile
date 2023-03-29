@@ -38,7 +38,7 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
-RUN yarn install
+RUN pnpm install
 
 # This will fail because we don't support linux-arm binaries:
 # Error: Not Found https://binaries.prisma.sh/all_commits/df61b5f5ab3f27359e273f1cba4e5a9c7cb8485a/linux-arm-openssl-1.1.x/migration-engine.gz

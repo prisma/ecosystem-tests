@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "postinstall": "CI=1 && PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms/firebase-functions postinstall' && yarn prisma generate"
+    "postinstall": "CI=1 && PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms/firebase-functions postinstall' && pnpm prisma generate"
   },
   "dependencies": {
     "@prisma/client": "4.13.0-dev.5",

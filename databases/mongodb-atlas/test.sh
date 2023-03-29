@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn cmd
+pnpm cmd

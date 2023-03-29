@@ -2,7 +2,7 @@
 
 set -eu
 
-yarn install
-yarn prisma generate
+pnpminstall
+pnpm prisma generate
 rm -rf dist/
-yarn webpack
+pnpm webpack

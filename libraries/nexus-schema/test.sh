@@ -7,7 +7,7 @@ exit 0
 
 id="$RANDOM"
 
-yarn start &
+pnpm start &
 pid=$!
 
 sleep 10

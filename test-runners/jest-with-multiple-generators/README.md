@@ -6,5 +6,5 @@ An attempt to reproduce https://github.com/prisma/prisma/issues/4048
 
 ```bash
 yarn
-yarn test
+pnpm test
 ```

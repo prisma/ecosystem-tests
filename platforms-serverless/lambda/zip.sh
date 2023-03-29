@@ -3,7 +3,7 @@
 set -eux
 
 rm -rf node_modules
-yarn install --production
+pnpm install --production
 
 rm -rf lambda.zip
 

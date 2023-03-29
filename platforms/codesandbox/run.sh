@@ -3,5 +3,5 @@
 set -eux
 
 yarn
-yarn deploy
+pnpm deploy
 echo https://`cat sandbox_id`.sse.codesandbox.io/

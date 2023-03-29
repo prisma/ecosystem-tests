@@ -315,7 +315,7 @@ export async function runTest(options: TestOptions) {
     await setupTmpProject(projectDir)
     buildSchemaFile(projectDir, options.schema)
 
-    // yarn install
+    // pnpm install
     await install(projectDir, options.env)
     // snapshotDirectory(projectDir, './node_modules/@prisma/engines')
     // snapshotDirectory(projectDir, './node_modules/prisma')

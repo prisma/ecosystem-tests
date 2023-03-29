@@ -22,8 +22,8 @@ sed -i "s/netlify-github-to-be-replaced-on-build/$(date +%s%N)/" package.json
 
 # Set up project
 rm -rf node_modules/
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 
 # create ssh key
 mkdir -p ~/.ssh

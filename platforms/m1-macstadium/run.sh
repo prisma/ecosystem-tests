@@ -14,8 +14,8 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       export PATH=/Users/administrator/.nvm/versions/node/v16.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/administrator/.cargo/bin
 
       yarn;
-      yarn prisma generate;
-      yarn prisma -v;
+      pnpm prisma generate;
+      pnpm prisma -v;
   "
 else
   echo "N-API: Enabled"
@@ -27,7 +27,7 @@ else
       export PATH=/Users/administrator/.nvm/versions/node/v16.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/administrator/.cargo/bin
 
       yarn;
-      yarn prisma generate;
-      yarn prisma -v;
+      pnpm prisma generate;
+      pnpm prisma -v;
   "
 fi

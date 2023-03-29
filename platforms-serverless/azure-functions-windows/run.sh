@@ -2,9 +2,9 @@
 
 set -eux
 
-yarn install
-yarn prisma generate
-yarn tsc
+pnpm install
+pnpm prisma generate
+pnpm tsc
 
 # Note that it needs to be maximum 32 chars
 # Azure docs: Currently when generating a default host ID we use the host name (slot host name) and we would truncate it to 32 characters max.
@@ -28,4 +28,4 @@ sleep 30
 # give function folder our new app name
 mv "func-placeholder" "$app"
 
-yarn func azure functionapp publish "$app" --force
+pnpm func azure functionapp publish "$app" --force

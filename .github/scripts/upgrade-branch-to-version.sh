@@ -4,7 +4,7 @@ set -eu
 shopt -s inherit_errexit || true
 
 cd .github/slack/
-yarn install
+pnpm install
 cd ../..
 
 npm i -g json
@@ -111,8 +111,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
         fi
 
         echo "$item: prisma expected $v, actual $vCLI"
-        echo "> yarn add \"prisma@$v\" --dev"
-        yarn add "prisma@$v" --dev
+        echo "> pnpm install --dev \"prisma@$v\""
+        pnpm install --dev "prisma@$v"
       fi
 
       vPrismaClient="$(node -e "$pkg;console.log(pkg.dependencies['@prisma/client'])")"
@@ -123,8 +123,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
         fi
 
         echo "$item: @prisma/client expected $v, actual $vPrismaClient"
-        echo "> yarn add \"@prisma/client@$v\""
-        yarn add "@prisma/client@$v"
+        echo "> pnpm install \"@prisma/client@$v\""
+        pnpm install "@prisma/client@$v"
       fi
     else
       echo "Dependency not found"

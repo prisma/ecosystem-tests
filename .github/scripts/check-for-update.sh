@@ -9,7 +9,7 @@ set -eu
 shopt -s inherit_errexit || true
 
 cd .github/slack/
-yarn install
+pnpm install
 cd ../..
 
 npm i -g json

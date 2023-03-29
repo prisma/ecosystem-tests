@@ -2,7 +2,7 @@
 
 set -eux
 
-yarn preview &
+pnpm preview &
 pid=$!
 
 sleep 5

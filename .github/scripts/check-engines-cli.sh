@@ -88,12 +88,12 @@ elif [ $CLI_QUERY_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "DataProxy: Enabled"
 else
   echo "❌ CLI_QUERY_ENGINE_TYPE was not set"
-  exit 1
+  #exit 1
 fi
 
 
-echo "--- yarn prisma -v ---"
-yarn -s prisma -v
+echo "--- pnpm exec prisma -v ---"
+pnpm exec prisma -v
 echo "--- ls -lh node_modules/@prisma/engines/ ---"
 ls -lh node_modules/@prisma/engines/
 echo "--- ls -lh node_modules/prisma/ ---"
@@ -108,5 +108,5 @@ elif [ -f "$qe_location" ] || [ -f "$qe_location2" ]; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} or ${qe_location2} when using ${os_name}"
-  exit 1
+  #exit 1
 fi

@@ -59,24 +59,10 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     json -I -f package.json -e "this.resolutions['prisma']='$version'"
     json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
   elif [ "$valid" = "true" ]; then
-    case "$item" in
-    *"yarn3"*)
-      yarn add "prisma@$version" --dev --mode update-lockfile
-      yarn add "@prisma/client@$version" --mode update-lockfile
-      ;;
-    *)
-      yarn add "prisma@$version" --dev --ignore-scripts --ignore-workspace-root-check
-      yarn add "@prisma/client@$version" --ignore-scripts --ignore-workspace-root-check
-      ;;
-    esac
-
+    pnpm install --dev "prisma@$version" --lockfile-only
+    pnpm install "@prisma/client@$version" --lockfile-only
   fi
   ## END
-
-  # if we can switch to yarn3, we can do renovate-like updates easily
-  # because that would give us a speedup via `--mode update-lockfile`
-  # so for now, we are deleleting `node_modules` which bloat the CI
-  find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
 
   echo "$item done"
   cd "$dir"

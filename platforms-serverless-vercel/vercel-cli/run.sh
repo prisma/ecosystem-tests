@@ -25,7 +25,7 @@ export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
-yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
+pnpm -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
@@ -35,7 +35,7 @@ echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
+OUTPUT=$(pnpm -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
 echo "${OUTPUT}"
 
 # Check the Vercel Build Logs for the postinstal hook"

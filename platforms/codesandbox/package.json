@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "prestart": "yarn prisma db push --preview-feature --accept-data-loss; yarn prisma generate;",
+    "prestart": "pnpm prisma db push --preview-feature --accept-data-loss; pnpm prisma generate;",
     "start": "node src/index.js",
-    "deploy": "yarn ts-node deploy.ts"
+    "deploy": "pnpm ts-node deploy.ts"
   },
   "dependencies": {
     "@prisma/client": "4.13.0-dev.5",
