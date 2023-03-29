@@ -17,7 +17,7 @@ RUN yum update -y \
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
   && tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
   && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
-  && npm i -g pnpm
+  && npm i -g pnpm@7
 
 # Only OpenSSL 3 is expected to be on this system
 RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"

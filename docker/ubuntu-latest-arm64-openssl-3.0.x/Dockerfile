@@ -17,7 +17,7 @@ RUN apt-get update -y \
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
   && tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
   && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
-  && npm i -g pnpm
+  && npm i -g pnpm@7
 
 # expected target architecture, retrieved by `uname -m`
 ARG EXPECTED_UNAME_ARCH="aarch64"

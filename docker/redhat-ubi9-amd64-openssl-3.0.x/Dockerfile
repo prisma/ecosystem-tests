@@ -7,7 +7,7 @@ COPY --from=app . ./
 COPY --from=utils . ./
 
 # Install Node.js
-RUN npm i -g pnpm
+RUN npm i -g pnpm@7
 
 # Only OpenSSL 3 is expected to be on this system
 RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
