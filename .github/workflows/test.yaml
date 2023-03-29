@@ -530,6 +530,10 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
@@ -574,6 +578,10 @@ jobs:
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - uses: actions/setup-node@v3
         with:
@@ -626,6 +634,10 @@ jobs:
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - uses: actions/setup-node@v3
         with:
@@ -1017,6 +1029,10 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
@@ -1062,6 +1078,10 @@ jobs:
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - uses: actions/setup-node@v3
         with:
@@ -1236,6 +1256,10 @@ jobs:
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - uses: actions/setup-node@v3
         with:
