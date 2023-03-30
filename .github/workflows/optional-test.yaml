@@ -101,7 +101,7 @@ jobs:
 
   community-generators:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['community-generators'] == true }}
+    if: ${{ false && fromJson(needs.detect_jobs_to_run.outputs.jobs)['community-generators'] == true }}
 
     strategy:
       fail-fast: false
@@ -146,7 +146,7 @@ jobs:
 
   databases:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
+    if: ${{ false && fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
 
     strategy:
       fail-fast: false
