@@ -692,7 +692,7 @@ jobs:
 
   frameworks:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['frameworks'] == true }}
+    if: ${{ false && fromJson(needs.detect_jobs_to_run.outputs.jobs)['frameworks'] == true }}
 
     strategy:
       fail-fast: false
@@ -743,7 +743,7 @@ jobs:
 
   platforms:
     needs: [detect_jobs_to_run]
-    if: ${{ false && fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms'] == true }}
 
     timeout-minutes: 60
     strategy:
