@@ -94,11 +94,11 @@ fi
 
 echo "--- pnpm exec prisma -v ---"
 pnpm exec prisma -v
-echo "--- ls -lh node_modules/@prisma/engines/ ---"
-ls -lh node_modules/@prisma/engines/
-echo "--- ls -lh node_modules/prisma/ ---"
-ls -lh node_modules/prisma/
-echo "---"
+# echo "--- ls -lh node_modules/@prisma/engines/ ---"
+# ls -lh node_modules/@prisma/engines/
+# echo "--- ls -lh node_modules/prisma/ ---"
+# ls -lh node_modules/prisma/
+# echo "---"
 
 # TODO Add test that makes sure not _wrong_ files are present as well
 # Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)

@@ -100,8 +100,8 @@ else
   #exit 1
 fi
 
-echo "--- ls -lh node_modules/.prisma/client/ ---"
-ls -lh node_modules/.prisma/client/
+# echo "--- ls -lh node_modules/.prisma/client/ ---"
+# ls -lh node_modules/.prisma/client/
 echo "---"
 if [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
