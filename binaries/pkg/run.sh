@@ -8,7 +8,7 @@ pnpm install
 CLI_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('prisma/package.json')).replace('/\\/g', '/'))")
 echo "CLI_PACKAGE: $CLI_PACKAGE"
 
-ENGINES_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('@prisma/engines/package.json', {paths: [path.dirname(require.resolve('prisma/package.json')]})))")
+ENGINES_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('@prisma/engines/package.json', {paths: [path.dirname(require.resolve('prisma/package.json'))]})))")
 
 echo "ENGINES_PACKAGE: $ENGINES_PACKAGE"
 
