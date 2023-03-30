@@ -283,6 +283,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -683,6 +695,10 @@ jobs:
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - uses: actions/setup-node@v3
         with:

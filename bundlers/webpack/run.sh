@@ -2,7 +2,7 @@
 
 set -eu
 
-pnpminstall
+pnpm install
 pnpm prisma generate
 rm -rf dist/
 pnpm webpack
