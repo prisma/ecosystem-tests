@@ -158,6 +158,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -243,6 +244,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -294,6 +296,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -356,6 +359,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -406,6 +410,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -452,6 +457,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -496,6 +502,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.os }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -554,6 +561,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.node }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -603,6 +611,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
 
       # no database used in existing binaries tests
       # - name: Set test specific DATABASE_URL
@@ -660,6 +669,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -710,6 +720,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -765,6 +776,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -855,6 +867,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -925,7 +938,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -1004,6 +1017,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: use deno v1.x
         uses: denoland/setup-deno@v1
@@ -1060,6 +1074,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -1111,6 +1126,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -1201,6 +1217,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -1247,6 +1264,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -1290,6 +1308,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
