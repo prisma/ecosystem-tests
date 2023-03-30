@@ -5,10 +5,10 @@ set -eu
 pnpm install
 
 # This is a hack to work around a problem that pkg would otherwise have with the Engines binaries missing in the package
-CLI_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('prisma/package.json')).replace('/\\\/g', '/'))")
+CLI_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('prisma/package.json')).replace('/\\/g', '/'))")
 echo "CLI_PACKAGE: $CLI_PACKAGE"
 
-ENGINES_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('@prisma/engines/package.json', {paths: ['$CLI_PACKAGE']})))")
+ENGINES_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('@prisma/engines/package.json', {paths: [path.dirname(require.resolve('prisma/package.json')]})))")
 
 echo "ENGINES_PACKAGE: $ENGINES_PACKAGE"
 
