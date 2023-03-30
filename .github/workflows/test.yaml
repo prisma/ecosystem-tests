@@ -938,6 +938,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: Define Client Engine Type to test
