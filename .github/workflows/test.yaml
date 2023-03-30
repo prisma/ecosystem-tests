@@ -669,7 +669,6 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
