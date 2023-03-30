@@ -39,8 +39,8 @@ else
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
-    echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
-    npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
+    echo "pnpm prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
+    pnpm prisma db push --accept-data-loss --skip-generate --schema=$schema_path
     echo ""
   fi 
 fi
@@ -124,7 +124,7 @@ elif [ $code -eq 0 ]; then
   echo "------------------------------------------------"
 fi
 
-# TODO parse output of npx prisma -v --json for correct file/path
+# TODO parse output of pnpm prisma -v --json for correct file/path
 
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"

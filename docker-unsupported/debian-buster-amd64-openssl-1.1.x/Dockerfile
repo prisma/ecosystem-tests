@@ -42,7 +42,7 @@ RUN pnpm install
 #   libssl.so.1.1: cannot open shared object file: No such file or directory
 RUN ./version.sh
 
-RUN npx prisma generate
+RUN pnpm prisma generate
 
 CMD node server.js
 EXPOSE 3000

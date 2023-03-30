@@ -48,7 +48,7 @@ RUN pnpm install
 # - https://github.com/prisma/engines-wrapper/pull/173
 RUN ./version.sh
 
-RUN npx prisma generate
+RUN pnpm prisma generate
 
 CMD node server.js
 EXPOSE 3000

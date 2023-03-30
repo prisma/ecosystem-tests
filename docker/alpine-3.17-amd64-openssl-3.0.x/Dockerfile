@@ -30,7 +30,7 @@ ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 RUN npm i -g pnpm@7
 RUN pnpm install
 RUN ./version.sh
-RUN npx prisma generate
+RUN pnpm prisma generate
 
 CMD node server.js
 EXPOSE 3000
