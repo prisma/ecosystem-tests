@@ -80,6 +80,20 @@ function getEnginesPackagePath() {
   return enginesPackagePath
 }
 
+let generatedClientPath: string
+function getGeneratedClientPath() {
+  if (generatedClientPath) {
+    return generatedClientPath
+  }
+
+  const clientPackage = path.dirname(require.resolve('@prisma/client/package.json'))
+  generatedClientPath = path.dirname(require.resolve('.prisma/client/package.json', {
+    paths: [clientPackage]
+  }))
+
+  return generatedClientPath
+}
+
 async function generate(
   projectDir: string,
   env?: Record<string, string | undefined>,
@@ -297,12 +311,7 @@ function checkClientForExpectedEngine(
   options: TestOptions,
   expected: Expected,
 ) {
-  const generatedClientDir = path.join(
-    projectDir,
-    'node_modules',
-    '.prisma',
-    'client',
-  )
+  const generatedClientDir = getGeneratedClientPath()
   const clientFiles = fs.readdirSync(generatedClientDir)
   if (expected.clientEngineType === EngineType.Binary) {
     // Binary
