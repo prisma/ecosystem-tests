@@ -13,6 +13,8 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 # workaround for an error with sourcing
 TS_NODE="$(pnpm bin ts-node)/ts-node"
 
+eval "ls $(pnpm bin ts-node)"
+
 # execute what ts-node has printed out
 eval $($TS_NODE $DIR/setEnv.ts "$@")
 
