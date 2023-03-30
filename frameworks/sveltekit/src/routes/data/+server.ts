@@ -1,6 +1,7 @@
 import { Role } from '@prisma/client'
 import { prisma } from "../../prisma";
-/** @type {import('./data.json').RequestHandler} */
+
+/** @type {import('./$types').RequestHandler} */
 export async function GET({ }) {
   const enumValue = Role.ADMIN;
 
@@ -44,8 +45,5 @@ export async function GET({ }) {
     enumValue
   };
 
-  return {
-    status: 404,
-    body: JSON.stringify(result)
-  };
+  return new Response(JSON.stringify(result))
 }
