@@ -66,6 +66,20 @@ model Post {
   })
 }
 
+let enginesPackagePath: string
+function getEnginesPackagePath() {
+  if (enginesPackagePath) {
+    return enginesPackagePath
+  }
+
+  const cliPackage = path.dirname(require.resolve('prisma/package.json'))
+  enginesPackagePath = path.dirname(require.resolve('@prisma/engines/package.json', {
+    paths: [cliPackage]
+  }))
+
+  return enginesPackagePath
+}
+
 async function generate(
   projectDir: string,
   env?: Record<string, string | undefined>,
@@ -399,8 +413,9 @@ export async function getCustomEngines() {
     }
     await install(process.cwd(), env)
     await version(process.cwd(), env)
-    fs.copySync('./node_modules/@prisma/engines', binaryFolder)
-    fs.rmdirSync('./node_modules/@prisma/engines', { recursive: true })
+
+    fs.copySync(getEnginesPackagePath(), binaryFolder)
+    fs.rmdirSync(getEnginesPackagePath(), { recursive: true })
   }
   const libraryFolder = './custom-engines/library/' + os.type()
   if (!fs.existsSync(libraryFolder)) {
@@ -410,7 +425,7 @@ export async function getCustomEngines() {
 
     await install(process.cwd(), env)
     await version(process.cwd(), env)
-    fs.copySync('./node_modules/@prisma/engines', libraryFolder, {})
+    fs.copySync(getEnginesPackagePath(), libraryFolder, {})
   }
 }
 export function getExpectedEngineTypes(options: TestOptions): Expected {
