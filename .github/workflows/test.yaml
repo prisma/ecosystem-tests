@@ -787,6 +787,8 @@ jobs:
       - name: Install Puppeteer
         if: ${{ matrix.platform == 'codesandbox' }}
         uses: ianwalter/puppeteer-container@v4.0.0
+        with:
+          args: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
