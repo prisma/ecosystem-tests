@@ -67,25 +67,25 @@ model Post {
 }
 
 function getClientPackageDir(projectDir: string) {
-  return path.dirname(require.resolve('@prisma/client/package.json', {
+  return path.dirname(require.resolve('@prisma/client', {
     paths: [projectDir],
   }))
 }
 
 function getCliPackageDir(projectDir: string) {
-  return path.dirname(require.resolve('prisma/package.json', {
+  return path.dirname(require.resolve('prisma', {
     paths: [projectDir],
   }))
 }
 
 function getEnginesPackageDir(projectDir: string) {
-  return path.dirname(require.resolve('@prisma/engines/package.json', {
+  return path.dirname(require.resolve('@prisma/engines', {
     paths: [getCliPackageDir(projectDir)]
   }))
 }
 
 function getGeneratedClientDir(projectDir: string) {
-  return path.dirname(require.resolve('.prisma/client/package.json', {
+  return path.dirname(require.resolve('.prisma/client', {
     paths: [getClientPackageDir(projectDir)]
   }))
 }
