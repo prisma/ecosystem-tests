@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "postinstall": "npm i -g pnpm",
     "prestart": "pnpm prisma db push --preview-feature --accept-data-loss; pnpm prisma generate;",
     "start": "node src/index.js",
     "deploy": "pnpm ts-node deploy.ts"
