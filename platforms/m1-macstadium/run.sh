@@ -13,6 +13,7 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
       export PATH=/Users/administrator/.nvm/versions/node/v16.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/administrator/.cargo/bin
 
+      npm i -g pnpm@7;
       pnpm install;
       pnpm prisma generate;
       pnpm prisma -v;
@@ -26,6 +27,7 @@ else
       # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
       export PATH=/Users/administrator/.nvm/versions/node/v16.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/administrator/.cargo/bin
 
+      npm i -g pnpm@7;
       pnpm install;
       pnpm prisma generate;
       pnpm prisma -v;
