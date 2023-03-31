@@ -65,7 +65,7 @@ let attempts = 0
 async function ensureSandbox(endpoint) {
   attempts += 1
   console.log(`Attempt: ${attempts}`)
-  if (attempts > 60) {
+  if (attempts > 10) {
     return false
   }
   try {
