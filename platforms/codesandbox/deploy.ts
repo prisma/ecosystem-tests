@@ -121,6 +121,7 @@ async function main() {
   const json = await data.json()
   fs.writeFileSync('sandbox_id', json.sandbox_id)
   const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
+  console.log(`Endpoint: ${endpoint}`)
   try {
     const r = await ensureSandbox(endpoint)
     if (!Boolean(r)) {
