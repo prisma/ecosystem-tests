@@ -1,6 +1,7 @@
 // @ts-check
 const { PrismaClient, Prisma } = require('@prisma/client')
 const client = new PrismaClient()
+const path = require('path')
 
 export default async (req, res) => {
   await client.user.deleteMany({})
@@ -42,7 +43,10 @@ export default async (req, res) => {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + '/node_modules/.prisma/client')
+  const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
+    paths: [path.dirname(require.resolve('@prisma/client'))]
+  }))
+  const files = fs.readdirSync(generatedClientDir)
 
   const payload = {
     version: Prisma.prismaVersion.client,
