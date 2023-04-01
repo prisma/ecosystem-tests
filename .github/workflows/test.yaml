@@ -935,8 +935,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          cache: ${{ matrix.platform == 'vercel-with-redwood' && 'yarn' || 'pnpm'  }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ matrix.platform == 'vercel-with-redwood' && 'yarn.lock' || 'pnpm-lock.yaml'  }}
+          cache: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm'  }}
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'redwood') && 'yarn.lock' || 'pnpm-lock.yaml'  }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
