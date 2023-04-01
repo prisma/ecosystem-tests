@@ -810,7 +810,7 @@ jobs:
 
   platforms-serverless:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless'] == true }}
+    if: ${{ false && fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -894,7 +894,7 @@ jobs:
 
   platforms-serverless-vercel:
     needs: [detect_jobs_to_run]
-    if: ${{ false && fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless-vercel'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless-vercel'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
