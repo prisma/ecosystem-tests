@@ -156,7 +156,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -242,7 +242,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -294,7 +294,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -357,7 +357,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -408,7 +408,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -455,7 +455,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -500,9 +500,9 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/generic/pnpm-lock.yaml
+          cache-dependency-path: generic/basic/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -561,7 +561,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/generic/pnpm-lock.yaml
+          cache-dependency-path: generic/basic/pnpm-lock.yaml
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -609,7 +609,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
 
@@ -667,7 +667,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm' || 'pnpm'  }}
           cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/${{ contains(matrix.packager, 'yarn') && 'yarn.lock' || contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' || 'package-lock.json' }}
 
@@ -935,7 +935,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm'  }}
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'redwood') && 'yarn.lock' || 'pnpm-lock.yaml'  }}
 
@@ -1014,7 +1014,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
@@ -1071,7 +1071,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
 
@@ -1123,7 +1123,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
 
@@ -1214,7 +1214,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
@@ -1261,7 +1261,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
@@ -1305,7 +1305,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
 
