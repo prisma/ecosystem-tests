@@ -43,11 +43,7 @@ export async function handler() {
  
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
-    paths: [path.dirname(require.resolve('@prisma/client'))]
-  }))
-
-  const files = fs.readdirSync(generatedClientDir)
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/prisma/client")
 
   return {
     version: Prisma.prismaVersion.client,
