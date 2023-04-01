@@ -669,7 +669,7 @@ jobs:
         with:
           node-version: 14
           cache: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm' || 'pnpm'  }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/${{ contains(matrix.packager, 'yarn') && 'yarn.lock' || contains(matrix.packager, 'npm') && 'package-lock.json' || 'pnpm-lock.yaml' }}
+          cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/${{ contains(matrix.packager, 'yarn') && 'yarn.lock' || contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' || 'package-lock.json' }}
 
       - name: Set test specific DATABASE_URL
         run: |
