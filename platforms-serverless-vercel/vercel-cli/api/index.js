@@ -3,6 +3,8 @@ const { PrismaClient, Prisma } = require('@prisma/client')
 const client = new PrismaClient()
 const path = require('path')
 
+const include = eval('require')
+
 export default async (req, res) => {
   await client.user.deleteMany({})
 
@@ -43,8 +45,8 @@ export default async (req, res) => {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
-    paths: [path.dirname(require.resolve('@prisma/client'))]
+  const generatedClientDir = path.dirname(include.resolve('.prisma/client', {
+    paths: [path.dirname(include.resolve('@prisma/client'))]
   }))
   const files = fs.readdirSync(generatedClientDir)
 
