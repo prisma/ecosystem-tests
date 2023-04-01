@@ -4,9 +4,10 @@ export default async (req, res) => {
   const fs = require('fs')
   let files
   try {
-    files = fs.readdirSync(
-      process.env.LAMBDA_TASK_ROOT + '/node_modules/.prisma/client',
-    )
+    const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
+      paths: [path.dirname(require.resolve('@prisma/client'))]
+    }))
+    files = fs.readdirSync(generatedClientDir)
   } catch (e) {
     files = e.message
   }
