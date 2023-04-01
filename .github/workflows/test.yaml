@@ -668,7 +668,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          cache: 'pnpm'
+          cache: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm' || 'pnpm'  }}
+          cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/${{ contains(matrix.packager, 'yarn') && 'yarn.lock' || contains(matrix.packager, 'npm') && 'package-lock.json' || 'pnpm-lock.yaml' }}
 
       - name: Set test specific DATABASE_URL
         run: |
