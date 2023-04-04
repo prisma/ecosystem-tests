@@ -76,7 +76,7 @@ async function ensureSandbox(endpoint) {
     const sleepTime = 5
     console.log(`Sleeping for ${sleepTime} sec`)
     await sleep(sleepTime)
-    console.log(`Retrying`)
+    console.log(`Retrying for endpoint: ${endpoint}}`)
     return ensureSandbox(endpoint)
   }
 }
@@ -120,7 +120,7 @@ async function main() {
   const data = await r
   const json = await data.json()
   fs.writeFileSync('sandbox_id', json.sandbox_id)
-  const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
+  const endpoint = `https://${json.sandbox_id}.csb.app/`
   console.log(`Endpoint: ${endpoint}`)
   try {
     const r = await ensureSandbox(endpoint)
