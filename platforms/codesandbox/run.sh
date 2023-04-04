@@ -2,6 +2,6 @@
 
 set -eux
 
-npm install
-npm run deploy
+yarn install
+yarn run deploy
 echo https://`cat sandbox_id`.sse.codesandbox.io/

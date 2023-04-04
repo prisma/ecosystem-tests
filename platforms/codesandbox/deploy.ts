@@ -82,7 +82,7 @@ async function ensureSandbox(endpoint) {
 }
 
 async function main() {
-  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'package-lock.json']
+  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'yarn.lock']
 
   const files: CSBFiles = relevantFilePaths
     .map((filePath) => {
@@ -120,7 +120,7 @@ async function main() {
   const data = await r
   const json = await data.json()
   fs.writeFileSync('sandbox_id', json.sandbox_id)
-  const endpoint = `https://${json.sandbox_id}.csb.app/`
+  const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
   console.log(`Endpoint: ${endpoint}`)
   try {
     const r = await ensureSandbox(endpoint)

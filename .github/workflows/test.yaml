@@ -778,14 +778,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: ${{ contains(matrix.platform, 'codesandbox') && 'npm' || 'pnpm' }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'codesandbox') && 'package-lock.json' || 'pnpm-lock.yaml' }}
+          cache: ${{ contains(matrix.platform, 'codesandbox') && 'yarn' || 'pnpm' }}
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'codesandbox') && 'yarn.lock' || 'pnpm-lock.yaml' }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: ${{ contains(matrix.platform, 'codesandbox') && 'npm install' || 'pnpm install' }}
+        run: ${{ contains(matrix.platform, 'codesandbox') && 'yarn' || 'pnpm install' }}
 
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
