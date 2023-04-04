@@ -2,6 +2,6 @@
 
 set -eux
 
-pnpm install
-pnpm run deploy
+npm install
+npm run deploy
 echo https://`cat sandbox_id`.sse.codesandbox.io/

@@ -2,9 +2,9 @@
 
 set -eux
 
-pnpm install
-pnpm prisma generate
-pnpm tsc
+npm install
+npm prisma generate
+npm tsc
 
 # Note that it needs to be maximum 32 chars
 # Azure docs: Currently when generating a default host ID we use the host name (slot host name) and we would truncate it to 32 characters max.
@@ -21,11 +21,11 @@ az functionapp config appsettings set --name "$app" --resource-group "$group" --
 # Runtime versions details at https://docs.microsoft.com/en-us/azure/azure-functions/functions-versions?tabs=in-process%2Cazure-cli%2Cv4&pivots=programming-language-javascript#languages
 # 4 = Is the "Recommended runtime version for functions in all languages." and has GA Node.js 14 & 16
 az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "FUNCTIONS_EXTENSION_VERSION=~4"
-az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "WEBSITE_NODE_DEFAULT_VERSION=~14"
+az functionapp config appsettings set --name "$app" --resource-group "$group" --settings "WEBSITE_NODE_DEFAULT_VERSION=~16"
 
 sleep 30
 
 # give function folder our new app name
 mv "func-placeholder" "$app"
 
-pnpm func azure functionapp publish "$app" --force
+npm func azure functionapp publish "$app" --force
