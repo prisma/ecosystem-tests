@@ -59,8 +59,8 @@ echo "$packages" | tr ' ' '\n' | while read -r item; do
     json -I -f package.json -e "this.resolutions['prisma']='$version'"
     json -I -f package.json -e "this.resolutions['@prisma/client']='$version'"
   elif [ "$valid" = "true" ]; then
-    pnpm install --dev "prisma@$version" --lockfile-only
-    pnpm install "@prisma/client@$version" --lockfile-only
+    pnpm install --dev "prisma@$version" --ignore-scripts
+    pnpm install "@prisma/client@$version" --ignore-scripts
   fi
   ## END
 
