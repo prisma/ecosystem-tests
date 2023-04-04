@@ -779,7 +779,7 @@ jobs:
         with:
           node-version: 16
           cache: ${{ contains(matrix.platform, 'codesandbox') && 'npm' || 'pnpm' }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'codesandbox') && 'package-lock.yaml' || 'pnpm-lock.yaml' }}
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'codesandbox') && 'package-lock.json' || 'pnpm-lock.yaml' }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
