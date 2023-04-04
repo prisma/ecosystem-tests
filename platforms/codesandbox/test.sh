@@ -3,7 +3,7 @@
 set -eux
 
 sandbox_id=$(cat sandbox_id)
-url="https://$sandbox_id.sse.codesandbox.io"
+url="https://$sandbox_id.csb.app"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
