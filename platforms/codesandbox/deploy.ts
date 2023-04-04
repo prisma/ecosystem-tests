@@ -82,7 +82,7 @@ async function ensureSandbox(endpoint) {
 }
 
 async function main() {
-  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'pnpm-lock.yaml']
+  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'package-lock.json']
 
   const files: CSBFiles = relevantFilePaths
     .map((filePath) => {
