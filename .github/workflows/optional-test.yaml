@@ -128,6 +128,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -175,7 +176,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
-          
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
