@@ -1,23 +1,24 @@
 #! /bin/sh
 
-HAS_PRISMA=$(node -e "console.log('$(cat package.json)'.includes('\"prisma\": '))")
-HAS_CLIENT=$(node -e "console.log(fs.readFileSync('package.json').includes('\"@prisma\\/client\": '))")
+IS_YARN_SUBPROJECT=$(node -e "console.log('$(pwd)'.includes('yarn') || '$(pwd)'.includes('redwood'))")
+PRISMA_VERSION=$(node -e "console.log(require('./package.json')?.devDependencies?.['prisma'] || require('./package.json')?.dependencies?.['prisma']) || ''")
+CLIENT_VERSION=$(node -e "console.log(require('./package.json')?.devDependencies?.['@prisma/client'] || require('./package.json')?.dependencies?.['@prisma/client']) | ''")
 
-if [ -f "yarn.lock" ]; then
-    if [ "$HAS_PRISMA" = "true" ]; then yarn add prisma@$1 --dev --ignore-scripts; fi
-    if [ "$HAS_CLIENT" = "true" ]; then yarn add @prisma/client@$1 --ignore-scripts; fi
+if [ -n "$PRISMA_VERSION" ]; then sed -i "s/$PRISMA_VERSION/$1/g" package.json; fi
+if [ -n "$CLIENT_VERSION" ]; then sed -i "s/$CLIENT_VERSION/$1/g" package.json; fi
+
+if [ -f "yarn.lock" ] || [ "$IS_YARN_SUBPROJECT" = "true" ]; then
+    yarn
     exit 0
 fi
 
 if [ -f "package-lock.json" ]; then
-    if [ "$HAS_PRISMA" = "true" ]; then npm install -D prisma@$1 --ignore-scripts --save-exact; fi
-    if [ "$HAS_CLIENT" = "true" ]; then npm install @prisma/client@$1 --ignore-scripts --save-exact; fi
+    npm install
     exit 0
 fi
 
 if [ -f "pnpm-lock.yaml" ]; then
-    if [ "$HAS_PRISMA" = "true" ]; then pnpm install -D prisma@$1 --lockfile-only; fi
-    if [ "$HAS_CLIENT" = "true" ]; then pnpm install @prisma/client@$1 --lockfile-only; fi
+    pnpm install --lockfile-only
     exit 0
 fi
 

@@ -1,5 +1,6 @@
 #! /bin/sh
 
-echo "$1" > .github/prisma-version.txt
+NEW_VERSION=$(npm show prisma@$1 version)
+echo "$NEW_VERSION" > .github/prisma-version.txt
 
-pnpm -rc --parallel exec "$(pwd)/scripts/update-project.sh $1"
+pnpm -rc --parallel exec "$(pwd)/scripts/update-project.sh $NEW_VERSION"
