@@ -38,6 +38,7 @@ skipped_projects=(
   m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
   yarn3-workspaces-pnp                    # Client is generated into a subfolder
+  serverless-framework-lambda             # Client is generated into a subfolder
 )
 
 case "${skipped_projects[@]}" in  *$2*)
@@ -64,30 +65,32 @@ esac
 echo "Assumed OS: $os_name"
 echo "CLIENT_ENGINE_TYPE == $CLIENT_ENGINE_TYPE"
 
+GENERATED_CLIENT=$(node -e "console.log(path.dirname(require.resolve('.prisma/client/package.json', {paths: [path.dirname(require.resolve('@prisma/client/package.json'))]})))")
+
 if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
   echo "Binary: Enabled"
   case $os_name in
     linux)
-      qe_location="node_modules/.prisma/client/query-engine-debian-openssl-1.1.x"
+      qe_location="$GENERATED_CLIENT/query-engine-debian-openssl-1.1.x"
       ;;
     osx)
-      qe_location="node_modules/.prisma/client/query-engine-darwin"
+      qe_location="$GENERATED_CLIENT/query-engine-darwin"
       ;;
     windows)
-      qe_location="node_modules\.prisma\client\query-engine-windows.exe"
+      qe_location="$GENERATED_CLIENT\query-engine-windows.exe"
       ;;
   esac
 elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
   echo "Library: Enabled"
   case $os_name in
     linux)
-      qe_location="node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node"
+      qe_location="$GENERATED_CLIENT/libquery_engine-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      qe_location="node_modules/.prisma/client/libquery_engine-darwin.dylib.node"
+      qe_location="$GENERATED_CLIENT/libquery_engine-darwin.dylib.node"
       ;;
     windows*)
-      qe_location="node_modules\.prisma\client\query_engine-windows.dll.node"
+      qe_location="$GENERATED_CLIENT\query_engine-windows.dll.node"
       ;;
     *)
       os_name=notset
@@ -97,17 +100,14 @@ elif [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "DataProxy: Enabled"
 else
   echo "❌ CLIENT_ENGINE_TYPE was not set"
-  #exit 1
+  exit 1
 fi
 
-# echo "--- ls -lh node_modules/.prisma/client/ ---"
-# ls -lh node_modules/.prisma/client/
-echo "---"
 if [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
 elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
-  #exit 1
+  exit 1
 fi
