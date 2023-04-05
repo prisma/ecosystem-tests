@@ -221,6 +221,7 @@ jobs:
           - amazonlinux-2022-arm64-openssl-3.0.x
           - archlinux-latest-amd64-openssl-3.0.x
           - debian-bullseye-amd64-openssl-1.1.x
+          - debian-bullseye-amd64-openssl-1.1.x-tls
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-amd64-openssl-1.1.x
           - debian-latest-arm64-openssl-1.1.x
@@ -234,6 +235,12 @@ jobs:
         clientEngine: [library, binary]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
+
+    env:
+      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
+      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
+      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
+      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
 
     steps:
       - uses: actions/checkout@v3
