@@ -29,7 +29,7 @@ Test are then triggered via `test.sh`.
 
 Any clean up or logging work can then be done in `finally.sh` which is executed in all cases, even when the tests fail.
 
-**Note:** You need to use [yarn](https://yarnpkg.com) as it's used for bumping dependencies; i.e. run `pnpm install` as a first step in your `run.sh` script.
+**Note:** You need to use `pnpm` as it's used for bumping dependencies; i.e. run `pnpm install` as a first step in your `run.sh` script.
 
 **Note:** It's important to add `prisma` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
 
