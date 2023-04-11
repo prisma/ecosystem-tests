@@ -21,6 +21,7 @@ TIME_START=$(date +%s)
 
 while [ "$NEW_VERSION" = "$OLD_VERSION" ]
 do
+  # GitHub Actions workflow runs every 5 minutes, exit after 4 minutes
   if [ $(($(date +%s) - $TIME_START)) -gt 240 ]
   then
     echo "Exited after no new version was found after 4 minutes."
