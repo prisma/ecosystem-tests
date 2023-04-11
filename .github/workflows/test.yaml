@@ -668,8 +668,18 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm' || 'pnpm' }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.packager }}/${{ contains(matrix.packager, 'yarn') && 'yarn.lock' || contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' || 'package-lock.json' }}
+          cache: |
+            ${{
+              || contains(matrix.packager, 'yarn') && 'yarn'
+              || contains(matrix.packager, 'npm') && 'npm'
+              || 'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.packager }}/${{
+              || contains(matrix.packager, 'yarn') && 'yarn.lock'
+              || contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml'
+              || 'package-lock.json'
+            }}
 
       - name: Install Dependencies
         run: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm install' || 'pnpm install' }}
@@ -778,8 +788,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: ${{ contains(matrix.platform, 'codesandbox') && 'npm' || 'pnpm' }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'codesandbox') && 'package-lock.json' || 'pnpm-lock.yaml' }}
+          cache: | 
+            ${{
+              || contains(matrix.platform, 'codesandbox') && 'npm'
+              || 'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              || contains(matrix.platform, 'codesandbox') && 'package-lock.json'
+              || 'pnpm-lock.yaml'
+            }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -949,8 +967,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm' }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'redwood') && 'yarn.lock' || 'pnpm-lock.yaml' }}
+          cache: |
+            ${{
+              || contains(matrix.platform, 'redwood') && 'yarn'
+              || 'pnpm'
+            }}
+          cache-dependency-path: | 
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              || contains(matrix.platform, 'redwood') && 'yarn.lock'
+              || 'pnpm-lock.yaml'
+            }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
