@@ -1,6 +1,11 @@
 #! /bin/sh
 
 IS_YARN_SUBPROJECT=$(node -e "console.log('$(pwd)'.includes('yarn') || '$(pwd)'.includes('redwood'))")
+IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === '.prisma/client')")
+
+if [ "$IS_GENERATED_CLIENT" = "true" ]; then
+    exit 0
+fi
 
 if [ ! -f "yarn.lock" ] && [ "$IS_YARN_SUBPROJECT" = "true" ]; then
     exit 0
