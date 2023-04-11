@@ -1,4 +1,4 @@
-service: e2e-tests-serverless-lambda
+service: e2e-tests-serverless-lambda-pnpm
 
 provider:
   name: aws
@@ -12,7 +12,7 @@ provider:
 functions:
   hello:
     handler: index.handler
-    name: e2e-tests-serverless-lambda
+    name: e2e-tests-serverless-lambda-pnpm
     environment:
       DATABASE_URL: ${env:DATABASE_URL}
 

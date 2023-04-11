@@ -38,7 +38,7 @@ skipped_projects=(
   m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
   yarn3-workspaces-pnp                    # Client is generated into a subfolder
-  serverless-framework-lambda             # Client is generated into a subfolder
+  serverless-framework-lambda-pnpm        # Client is generated into a subfolder
 )
 
 case "${skipped_projects[@]}" in  *$2*)
