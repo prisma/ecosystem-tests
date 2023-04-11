@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from './prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import path from 'path'
 
 const client = new PrismaClient()

@@ -828,8 +828,7 @@ jobs:
           - firebase-functions
           - azure-functions-linux
           - azure-functions-windows
-          - serverless-framework-lambda-npm
-          - serverless-framework-lambda-pnpm
+          - serverless-framework-lambda
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
         exclude:
@@ -868,8 +867,18 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: ${{ contains(matrix.platform, 'azure') && 'npm' || 'pnpm' }}
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/${{ contains(matrix.platform, 'azure') && 'package-lock.json' || 'pnpm-lock.yaml' }}
+          cache: |
+            ${{
+              || contains(matrix.platform, 'azure') && 'npm'
+              || contains(matrix.platform, 'serverless-framework') && 'npm'
+              || 'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              || contains(matrix.platform, 'azure') && 'package-lock.json'
+              || contains(matrix.platform, 'serverless-framework') && 'package-lock.json'
+              || 'pnpm-lock.yaml'
+            }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
