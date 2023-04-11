@@ -2,6 +2,8 @@
 
 set -eux
 
+pnpm install
+
 func="e2e_firebase_test_$(date "+%Y_%m_%d_%H%M%S")" # note weird naming here
 echo "$func" > func-tmp.txt
 

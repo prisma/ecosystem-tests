@@ -2,8 +2,6 @@
 
 set -eux
 
-pnpm install
-
 func="$(cat func-tmp.txt)"
 url="https://us-central1-prisma-e2e-tests-265911.cloudfunctions.net/$func"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
