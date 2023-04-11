@@ -31,12 +31,12 @@ do
   NEW_VERSION=$(npm show prisma@$1 version)
 done
 
-echo "New version was found and will be used for the update."
+echo "New version $NEW_VERSION was found and will be used for the update."
 
 git fetch github "dev"
 git reset --hard "github/dev"
 
 pnpm run update-all "$NEW_VERSION"
 
-git commit -am "chore: sync, use $version"
+git commit -am "chore: update to prisma@$NEW_VERSION"
 git push github "HEAD:refs/heads/$1" --force
