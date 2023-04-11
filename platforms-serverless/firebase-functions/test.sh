@@ -16,7 +16,7 @@ expected='{"version":"'$prisma_version'","createUser":{"id":"12345","email":"ali
 actual=$(curl "$url")
 
 # TODO Why is this here?
-firebase functions:log --only "$func"
+pnpm exec firebase functions:log --only "$func"
 
 if [ "$expected" != "$actual" ]; then
   echo "expected '$expected'"
