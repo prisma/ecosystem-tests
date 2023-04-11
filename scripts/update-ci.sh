@@ -1,6 +1,6 @@
 #! /bin/sh
 
-set -eu
+set -eux
 
 mkdir -p ~/.ssh
 echo "$SSH_KEY" > ~/.ssh/id_rsa
@@ -39,4 +39,19 @@ git reset --hard "github/dev"
 pnpm run update-all "$NEW_VERSION"
 
 git commit -am "chore: update to prisma@$NEW_VERSION"
-git push github "HEAD:refs/heads/$1" --force
+
+set +e; git pull github "$1" --rebase; code=$?; set -e;
+
+if [ $code -ne 0 ]; then
+  export webhook="$SLACK_WEBHOOK_URL_FAILING"
+  node .github/slack/notify.js ":warning: Merge conflict for upgrading to $NEW_VERSION (via $1)"
+  exit 0
+fi
+
+set +e; git push github "HEAD:refs/heads/$1"; code=$?; set -e;
+
+if [ $code -eq 0 ]; then
+  export webhook="$SLACK_WEBHOOK_URL"
+  node .github/slack/notify.js "Prisma version $NEW_VERSION sucessfully upgraded (via $1)"
+  exit 0
+fi
