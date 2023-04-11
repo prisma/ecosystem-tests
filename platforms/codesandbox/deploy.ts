@@ -1,5 +1,6 @@
 import fs from 'fs'
 import fetch from 'node-fetch'
+import puppeteer from 'puppeteer'
 
 interface CSBFile {
   content: object | string
@@ -24,6 +25,34 @@ function isBinary(file: string) {
   return binaries.includes(file)
 }
 
+async function fetchWithPuppeteer(sandboxId: string) {
+  const options = {
+    ...(process.env.CI === '1' && {
+      executablePath: 'google-chrome-unstable',
+    }),
+  }
+  console.log(options)
+  const browser = await puppeteer.launch(options)
+  const page = await browser.newPage()
+  await page.setDefaultNavigationTimeout(0)
+  await page.goto(`https://codesandbox.io/p/sandbox/${sandboxId}`)
+  await page.waitForTimeout(20_000)
+  const screenshot = await page.screenshot()
+  fs.writeFileSync('image.png', screenshot as Buffer)
+  await browser.close()
+
+  const r = await fetch(`https://${sandboxId}-3000.csb.app/`)
+  const body = await r.text()
+  try {
+    const bodyAsJSON = JSON.parse(body)
+    console.debug(bodyAsJSON)
+    return true
+  } catch (e) {
+    console.error('body as text:', body)
+    throw new Error(e)
+  }
+}
+
 async function sleep(seconds: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -40,8 +69,7 @@ async function ensureSandbox(sandboxId : string) {
     return false
   }
   try {
-    const res = await fetch(`https://${sandboxId}-3000.csb.app/`)
-    await res.json()
+    await fetchWithPuppeteer(sandboxId)
     return true
   } catch (e) {
     console.log(e)

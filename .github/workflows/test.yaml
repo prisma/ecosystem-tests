@@ -787,6 +787,11 @@ jobs:
       - name: Install Dependencies
         run: ${{ contains(matrix.platform, 'codesandbox') && 'npm install' || 'pnpm install' }}
 
+      # Install Puppeteer for Codesandbox test only
+      - name: Install Puppeteer
+        if: ${{ matrix.platform == 'codesandbox' }}
+        uses: ianwalter/puppeteer-container@v4.0.0
+
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
