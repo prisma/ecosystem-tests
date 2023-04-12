@@ -670,15 +670,15 @@ jobs:
           node-version: 16
           cache: |
             ${{
-              || contains(matrix.packager, 'yarn') && 'yarn'
-              || contains(matrix.packager, 'npm') && 'npm'
-              || 'pnpm'
+              contains(matrix.packager, 'yarn') && 'yarn' ||
+              contains(matrix.packager, 'npm') && 'npm' ||
+              'pnpm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.packager }}/${{
-              || contains(matrix.packager, 'yarn') && 'yarn.lock'
-              || contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml'
-              || 'package-lock.json'
+              contains(matrix.packager, 'yarn') && 'yarn.lock' ||
+              contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
+              'package-lock.json'
             }}
 
       - name: Install Dependencies
@@ -790,13 +790,13 @@ jobs:
           node-version: 16
           cache: | 
             ${{
-              || contains(matrix.platform, 'codesandbox') && 'npm'
-              || 'pnpm'
+              contains(matrix.platform, 'codesandbox') && 'npm' ||
+              'pnpm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
-              || contains(matrix.platform, 'codesandbox') && 'package-lock.json'
-              || 'pnpm-lock.yaml'
+              contains(matrix.platform, 'codesandbox') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
             }}
 
       - name: Define Client Engine Type to test
@@ -887,15 +887,15 @@ jobs:
           node-version: 16
           cache: |
             ${{
-              || contains(matrix.platform, 'azure') && 'npm'
-              || contains(matrix.platform, 'serverless-framework') && 'npm'
-              || 'pnpm'
+              contains(matrix.platform, 'azure') && 'npm' ||
+              contains(matrix.platform, 'serverless-framework') && 'npm' ||
+              'pnpm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
-              || contains(matrix.platform, 'azure') && 'package-lock.json'
-              || contains(matrix.platform, 'serverless-framework') && 'package-lock.json'
-              || 'pnpm-lock.yaml'
+              contains(matrix.platform, 'azure') && 'package-lock.json' || 
+              contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
             }}
 
       - name: Define Client Engine Type to test
@@ -969,13 +969,13 @@ jobs:
           node-version: 16
           cache: |
             ${{
-              || contains(matrix.platform, 'redwood') && 'yarn'
-              || 'pnpm'
+              contains(matrix.platform, 'redwood') && 'yarn' ||
+              'pnpm'
             }}
           cache-dependency-path: | 
             ${{ github.job }}/${{ matrix.platform }}/${{
-              || contains(matrix.platform, 'redwood') && 'yarn.lock'
-              || 'pnpm-lock.yaml'
+              contains(matrix.platform, 'redwood') && 'yarn.lock' ||
+              'pnpm-lock.yaml'
             }}
 
       - name: Define Client Engine Type to test
