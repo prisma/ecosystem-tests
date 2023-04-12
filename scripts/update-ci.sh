@@ -40,6 +40,8 @@ pnpm run update-all "$NEW_VERSION"
 
 git commit -am "chore: update to prisma@$NEW_VERSION"
 
+code=0
+
 if [ "$1" = "dev" ]; then # check merge conflicts
   set +e; git pull github "$1" --rebase; code=$?; set -e;
 fi
