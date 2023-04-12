@@ -4,6 +4,8 @@ set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-node-builder build'
 
+yarn
+
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
   export VERCEL_PROJECT_ID=$VERCEL_NODE_BUILDER_BINARY_PROJECT_ID
@@ -13,8 +15,6 @@ else
   # Set local var to `library` for the `vercel deploy` command below
   PRISMA_CLIENT_ENGINE_TYPE=library
 fi
-
-yarn
 
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
