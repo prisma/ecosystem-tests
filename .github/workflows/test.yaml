@@ -749,6 +749,9 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
 
+      - name: Install Dependencies
+        run: pnpm install
+
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
@@ -1128,6 +1131,9 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
 
+      - name: Install Dependencies
+        run: pnpm install
+
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
@@ -1179,6 +1185,9 @@ jobs:
           node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
