@@ -23,7 +23,10 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: check latest update
         run: pnpm run update-ci latest
@@ -43,7 +46,10 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: check dev update
         run: pnpm run update-ci dev
@@ -63,7 +69,10 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: check patch-dev update
         run: pnpm run update-ci patch-dev
@@ -83,7 +92,10 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: check integration update
         run: pnpm run update-ci integration
@@ -103,9 +115,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "check-for-update :x:"
