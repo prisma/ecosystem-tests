@@ -17,12 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: check latest update
-        run: bash .github/scripts/check-for-update.sh latest
+        run: pnpm run update-ci latest
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -33,12 +37,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: check dev update
-        run: bash .github/scripts/check-for-update.sh dev
+        run: pnpm run update-ci dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -49,12 +57,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: check patch-dev update
-        run: bash .github/scripts/check-for-update.sh patch-dev
+        run: pnpm run update-ci patch-dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -65,12 +77,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: check integration update
-        run: bash .github/scripts/check-for-update.sh integration
+        run: pnpm run update-ci integration
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

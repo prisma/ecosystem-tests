@@ -19,8 +19,7 @@ RUN dnf clean all \
 # Install Node.js
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
   && tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
-  && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" \
-  && npm i -g yarn
+  && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz"
 
 # Only OpenSSL 1.1 is expected to be on this system
 RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
@@ -42,9 +41,10 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
-RUN yarn install
+RUN npm i -g pnpm@7
+RUN pnpm install
 RUN ./version.sh
-RUN npx prisma generate
+RUN pnpm prisma generate
 
 CMD node server.js
 EXPOSE 3000

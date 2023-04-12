@@ -2,7 +2,7 @@
 
 set -eu
 
-yarn install
+pnpm install
 
-ITX_PDP_MYSQL=$ITX_PDP_MYSQL_DATABASE_URL yarn migrate-deploy
-yarn generate-client
+ITX_PDP_MYSQL=$ITX_PDP_MYSQL_DATABASE_URL pnpm migrate-deploy
+pnpm generate-client

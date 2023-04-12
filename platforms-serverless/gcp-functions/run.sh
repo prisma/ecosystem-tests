@@ -15,13 +15,13 @@ else
   cp ./prisma/schema-with-node-api.prisma ./prisma/schema.prisma
 fi
 
-yarn install
+pnpm install
 
-yarn prisma generate
+pnpm prisma generate
 
-yarn tsc
+pnpm tsc
 
 func="e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$func" > func-tmp.txt
 
-gcloud functions deploy "$func" --runtime nodejs14 --trigger-http --entry-point=handler --allow-unauthenticated --verbosity debug --set-env-vars DATABASE_URL=$DATABASE_URL,PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms azure functions linux gcp functions env'
+gcloud functions deploy "$func" --runtime nodejs16 --trigger-http --entry-point=handler --allow-unauthenticated --verbosity debug --set-env-vars DATABASE_URL=$DATABASE_URL,PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms azure functions linux gcp functions env'

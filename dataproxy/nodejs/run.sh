@@ -2,6 +2,6 @@
 
 set -eu
 
-yarn install
+pnpm install
 
-yarn prisma generate --data-proxy
+pnpm prisma generate --data-proxy

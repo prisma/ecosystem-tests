@@ -2,8 +2,8 @@
 
 set -eu
 
-yarn install
+pnpm install
 
-yarn prisma generate --data-proxy
+pnpm prisma generate --data-proxy
 
-yarn wrangler publish 2> deployment-url.txt
+pnpm wrangler publish 2> deployment-url.txt

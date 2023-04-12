@@ -22,13 +22,13 @@ describe('Prisma', () => {
   it('should use the correct engine files', async () => {
     const fs = require('fs')
     const path = require('path')
-    const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+    const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
+      paths: [path.dirname(require.resolve('@prisma/client'))],
+    }))
+    const files = fs.readdirSync(generatedClientDir)
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
       expect(files).toMatchInlineSnapshot(`
 Array [
-  "deno",
-  "edge.d.ts",
-  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
@@ -40,9 +40,6 @@ Array [
     } else {
       expect(files).toMatchInlineSnapshot(`
 Array [
-  "deno",
-  "edge.d.ts",
-  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",

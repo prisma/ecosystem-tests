@@ -2,7 +2,7 @@
 
 set -eux
 
-yarn install
+pnpm install
 
 cp -r node_modules sub-project
 cp package.json sub-project

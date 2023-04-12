@@ -2,8 +2,8 @@
 
 set -eu
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 
 # Start database and import data
 docker-compose up -d

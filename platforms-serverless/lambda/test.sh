@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn ts-node test.ts
+pnpm ts-node test.ts
