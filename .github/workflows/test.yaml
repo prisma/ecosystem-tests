@@ -98,6 +98,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
 
@@ -126,6 +130,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
@@ -563,6 +571,9 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: generic/basic/pnpm-lock.yaml
 
+      - name: Install Dependencies
+        run: pnpm install
+
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
@@ -612,6 +623,9 @@ jobs:
           node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       # no database used in existing binaries tests
       # - name: Set test specific DATABASE_URL
@@ -1347,6 +1361,9 @@ jobs:
           node-version: 16
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |

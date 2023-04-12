@@ -78,6 +78,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
@@ -96,6 +98,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
