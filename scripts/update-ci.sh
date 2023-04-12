@@ -40,7 +40,9 @@ pnpm run update-all "$NEW_VERSION"
 
 git commit -am "chore: update to prisma@$NEW_VERSION"
 
-set +e; git pull github "$1" --rebase; code=$?; set -e;
+if [ "$1" = "dev" ]; then # check merge conflicts
+  set +e; git pull github "$1" --rebase; code=$?; set -e;
+fi
 
 if [ $code -ne 0 ]; then
   export webhook="$SLACK_WEBHOOK_URL_FAILING"
@@ -48,7 +50,12 @@ if [ $code -ne 0 ]; then
   exit 0
 fi
 
-set +e; git push github "HEAD:refs/heads/$1"; code=$?; set -e;
+if [ "$1" = "dev" ]
+  then # always salefy push to the main dev branch
+    set +e; git push github "HEAD:refs/heads/$1"; code=$?; set -e;
+  else # other branches can get reset based on dev
+    set +e; git push github "HEAD:refs/heads/$1" --force; code=$?; set -e;
+fi
 
 if [ $code -eq 0 ]; then
   export webhook="$SLACK_WEBHOOK_URL"
