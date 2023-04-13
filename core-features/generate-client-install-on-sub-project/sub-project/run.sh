@@ -2,7 +2,7 @@
 
 set -eux
 
-yarn install
-yarn remove @prisma/client
+pnpm install
+pnpm remove @prisma/client
 
-env DEBUG="prisma:generator" yarn prisma generate
+env DEBUG="prisma:generator" pnpm prisma generate

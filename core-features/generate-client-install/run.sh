@@ -2,7 +2,7 @@
 
 set -eux
 
-yarn install
-yarn remove @prisma/client
+pnpm install
+pnpm remove @prisma/client
 
-yarn prisma generate
+pnpm prisma generate
