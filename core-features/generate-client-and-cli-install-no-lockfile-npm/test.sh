@@ -8,4 +8,4 @@ if [ ! -f "package-lock.json" ]; then
 fi
 
 npm install
-jest
+npm test

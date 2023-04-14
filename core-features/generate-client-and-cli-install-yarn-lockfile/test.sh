@@ -8,4 +8,4 @@ if [ -f "pnpm-lock.yaml" ] || [ -f "package-lock.json" ]; then
 fi
 
 yarn
-jest
+yarn test

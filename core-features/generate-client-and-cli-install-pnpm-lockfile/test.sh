@@ -8,4 +8,4 @@ if [ -f "package-lock.json" ] || [ -f "yarn.lock" ]; then
 fi
 
 pnpm install
-jest
+pnpm test

@@ -8,4 +8,4 @@ if [ -f "pnpm-lock.yaml" ] || [ -f "yarn.lock" ]; then
 fi
 
 npm install
-jest
+npm test
