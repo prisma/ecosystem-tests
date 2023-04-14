@@ -383,8 +383,8 @@ jobs:
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.feature }}/${{
               contains(matrix.feature, '-yarn') && 'yarn.lock' ||
-              contains(matrix.feature, '-npm') && 'pnpm-lock.yaml' ||
-              'package-lock.json'
+              contains(matrix.feature, '-npm') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
             }}
 
       - name: Install Dependencies
@@ -703,8 +703,8 @@ jobs:
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
-              contains(matrix.packager, 'npm') && 'npm' ||
-              'pnpm'
+              contains(matrix.packager, 'pnpm') && 'pnpm' ||
+              'npm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.packager }}/${{
