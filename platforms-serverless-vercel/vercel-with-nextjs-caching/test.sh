@@ -37,8 +37,8 @@ else
   OUTPUT=yarn vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
 fi
 
-# Check the Vercel Build Logs for "We detected that your project"
-if echo "${OUTPUT}" | grep -q 'We detected that your project'; then
+# Check the Vercel Build Logs for "We have detected that..."
+if echo "${OUTPUT}" | grep -q "We have detected that you've built your project on Vercel, which caches dependencies."; then
   echo "Prisma Client caching error was NOT THROWN 🛑"
   exit 1
 else
@@ -81,8 +81,8 @@ else
   OUTPUT=yarn vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
 fi
 
-# Check the Vercel Build Logs for "We detected that your project"
-if echo "${OUTPUT}" | grep -q 'We detected that your project'; then
+# Check the Vercel Build Logs for "We have detected that..."
+if echo "${OUTPUT}" | grep -q "We have detected that you've built your project on Vercel, which caches dependencies."; then
   echo "Prisma Client caching error was THROWN 🛑"
   exit 1
 else
