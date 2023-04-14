@@ -2,7 +2,7 @@
 
 set -eux
 
-cp ../_common/generate-client-install/* .
+cp -r ../_common/generate-client-install/* .
 
 npm install
 npm remove @prisma/client

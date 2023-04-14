@@ -2,7 +2,7 @@
 
 set -eux
 
-cp ../_common/generate-client-install/* .
+cp -r ../_common/generate-client-install/* .
 
 pnpm install
 pnpm remove @prisma/client

@@ -4,7 +4,7 @@ set -eux
 
 pnpm install
 
-cp ../_common/generate-client-install-on-sub-project/* .
+cp -r ../_common/generate-client-install-on-sub-project/* .
 
 cp package.json sub-project
 
