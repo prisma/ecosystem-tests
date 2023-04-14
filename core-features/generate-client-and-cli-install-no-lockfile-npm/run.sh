@@ -12,6 +12,6 @@ cp -r ../_common/generate-client-and-cli-install/* .
 rm ../../pnpm-lock.yaml
 rm package-lock.json
 
-# global instead instead
+# install prisma globally to test that it can install the client & cli
 npm install -g prisma@$VERSION
 prisma generate
