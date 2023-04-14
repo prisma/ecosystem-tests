@@ -14,7 +14,7 @@ else
   export PRISMA_CLIENT_ENGINE_TYPE=library
 fi
 
-yarn
+pnpm install
 
 export VERCEL_ORG_ID="$VERCEL_ORG_ID"
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"

@@ -8,9 +8,9 @@ cp script1.sh script.sh
 cp index1.test.js index.test.js
 cp pages/api/index1.js pages/api/index.js
 cp prisma/schema1.prisma prisma/schema.prisma
-yarn prisma db push --force-reset # clean it
+pnpm prisma db push --force-reset # clean it
 
-yarn -s vercel deploy \
+pnpm vercel deploy \
 --prod \
 --yes \
 --force \
@@ -27,14 +27,14 @@ echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-yarn test index.test
+pnpm test index.test
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
-  OUTPUT=yarn vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
 else
   echo "Library (Default)"
-  OUTPUT=yarn vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
 fi
 
 # Check the Vercel Build Logs for "We have detected that..."
@@ -52,10 +52,10 @@ cp script2.sh script.sh
 cp index2.test.js index.test.js
 cp pages/api/index2.js pages/api/index.js
 cp prisma/schema2.prisma prisma/schema.prisma
-yarn prisma db push # don't reset the db
+pnpm prisma db push # don't reset the db
 
 # don't force deploy, we want to test the caching
-yarn -s vercel deploy \
+pnpm vercel deploy \
 --prod \
 --yes \
 --token="$VERCEL_TOKEN" \
@@ -71,14 +71,14 @@ echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-yarn test index.test
+pnpm test index.test
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
-  OUTPUT=yarn vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
 else
   echo "Library (Default)"
-  OUTPUT=yarn vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
 fi
 
 # Check the Vercel Build Logs for "We have detected that..."
