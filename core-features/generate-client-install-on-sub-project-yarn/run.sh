@@ -4,7 +4,14 @@ set -eux
 
 yarn install
 
+cp ../_common/generate-client-install-on-sub-project/* .
+
 cp package.json sub-project
 
 cd sub-project
-bash run.sh
+
+yarn install
+yarn remove @prisma/client
+
+env DEBUG="prisma:generator" yarn prisma generate
+

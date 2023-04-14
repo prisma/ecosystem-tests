@@ -4,7 +4,14 @@ set -eux
 
 pnpm install
 
+cp ../_common/generate-client-install-on-sub-project/* .
+
 cp package.json sub-project
 
 cd sub-project
-bash run.sh
+
+pnpm install
+pnpm remove @prisma/client
+
+env DEBUG="prisma:generator" pnpm prisma generate
+

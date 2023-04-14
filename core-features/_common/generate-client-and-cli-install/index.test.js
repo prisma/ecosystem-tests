@@ -1,0 +1,1 @@
+../_common/generate-client-and-cli-install/index.test.js
