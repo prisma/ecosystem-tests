@@ -376,14 +376,14 @@ jobs:
           node-version: 16
           cache: |
             ${{
-              contains(matrix.packager, 'yarn') && 'yarn' ||
-              contains(matrix.packager, 'npm') && 'npm' ||
+              contains(matrix.feature, 'yarn') && 'yarn' ||
+              contains(matrix.feature, 'npm') && 'npm' ||
               'pnpm'
             }}
           cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.packager }}/${{
-              contains(matrix.packager, 'yarn') && 'yarn.lock' ||
-              contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
+            ${{ github.job }}/${{ matrix.feature }}/${{
+              contains(matrix.feature, 'yarn') && 'yarn.lock' ||
+              contains(matrix.feature, 'pnpm') && 'pnpm-lock.yaml' ||
               'package-lock.json'
             }}
 
