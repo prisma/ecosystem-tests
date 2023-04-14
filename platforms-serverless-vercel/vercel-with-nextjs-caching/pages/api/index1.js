@@ -15,10 +15,8 @@ export default async (req, res) => {
       },
     })  
   } catch (e) {
-    console.log(e.message)
-
-    return res.status(500).json({ error: e.message })
+    return res.status(500).json({ value: e.message })
   }
 
-  return res.status(200).json({ ok: true })
+  return res.status(200).json({ value: true })
 }

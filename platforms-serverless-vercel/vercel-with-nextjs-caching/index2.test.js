@@ -17,7 +17,7 @@ test('simple query', async () => {
   const r = await fetch(endpoint + '/api')
   const data = await r.json()
   expect(data).toMatchObject({
-    ok: true,
+    value: true,
   })
 })
 

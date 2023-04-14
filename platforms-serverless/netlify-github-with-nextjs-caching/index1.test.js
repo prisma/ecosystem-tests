@@ -18,7 +18,7 @@ test('simple query', async () => {
   const data = await r.json().catch((e) => e)
 
   expect(data).toMatchObject({
-    error: expect.stringContaining(`We have detected that you've built your project on Netlify CI, which caches dependencies.`),
+    value: expect.stringContaining(`We have detected that you've built your project on Netlify CI, which caches dependencies.`),
   })
 })
 
