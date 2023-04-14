@@ -1,30 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Vercel via CLI with Next.js to test handling of dependency caching
 
-## Getting Started
+Prisma and Next.js deployed via Vercel CLI. We use this to check that we can
+properly handle dependency caching issues and help our users.
 
-First, run the development server:
+## Reminder of the problem scenario
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+On the first publication to eg. Vercel, the client will auto-generate and it
+will get cached. Then we change the schema, and on the second publication, the
+client will not auto-generate. Because @prisma/client is cached already, the
+auto-generate won't trigger again. We then have a caching problem, and queries
+or validation fail because of the de-sync.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+https://www.notion.so/prismaio/Research-Vercel-Netlify-caching-behavior-4ca3e950d7bb43e081a1a2f5a5149518
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## How to run this locally
 
-## Learn More
+Not meant to be ran locally, you will need to adapt the scripts to your own.
 
-To learn more about Next.js, take a look at the following resources:
+### Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The environment variable `DATABASE_URL` should point to a postgres database.
