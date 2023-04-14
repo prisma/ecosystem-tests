@@ -2,4 +2,4 @@
 
 set -eux
 
-# yarn test skip for now
+yarn test skip for now
