@@ -29,13 +29,7 @@ sleep 15
 
 pnpm test index.test
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "Binary"
-  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
-else
-  echo "Library (Default)"
-  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
-fi
+OUTPUT=$(pnpm vercel logs "$DEPLOYED_URL" --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 
 # Check the Vercel Build Logs for "We have detected that..."
 if echo "${OUTPUT}" | grep -q "We have detected that you've built your project on Vercel, which caches dependencies."; then
@@ -73,13 +67,7 @@ sleep 15
 
 pnpm test index.test
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "Binary"
-  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
-else
-  echo "Library (Default)"
-  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
-fi
+OUTPUT=$(pnpm vercel logs "$DEPLOYED_URL" --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 
 # Check the Vercel Build Logs for "We have detected that..."
 if echo "${OUTPUT}" | grep -q "We have detected that you've built your project on Vercel, which caches dependencies."; then
