@@ -31,10 +31,10 @@ pnpm test index.test
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
-  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 else
   echo "Library (Default)"
-  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 fi
 
 # Check the Vercel Build Logs for "We have detected that..."
@@ -75,10 +75,10 @@ pnpm test index.test
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
   echo "Binary"
-  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching-binary.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 else
   echo "Library (Default)"
-  OUTPUT=pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID"
+  OUTPUT=$(pnpm vercel logs e2e-vercel-with-nextjs-caching.vercel.app --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 fi
 
 # Check the Vercel Build Logs for "We have detected that..."
