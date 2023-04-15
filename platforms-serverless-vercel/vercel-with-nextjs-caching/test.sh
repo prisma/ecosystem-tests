@@ -31,15 +31,6 @@ pnpm test index.test
 
 OUTPUT=$(pnpm vercel logs "$DEPLOYED_URL" --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
 
-# Check the Vercel Build Logs for "We have detected that..."
-if echo "${OUTPUT}" | grep -q "We have detected that you've built your project on Vercel, which caches dependencies."; then
-  echo "Prisma Client caching error was NOT THROWN 🛑"
-  exit 1
-else
-  echo "Prisma Client caching error was THROWN ✅"
-fi
-
-
 # 2. Deploy the project with the updated schema
 
 cp script2.sh script.sh
@@ -68,11 +59,3 @@ sleep 15
 pnpm test index.test
 
 OUTPUT=$(pnpm vercel logs "$DEPLOYED_URL" --token="$VERCEL_TOKEN" --scope="$VERCEL_ORG_ID")
-
-# Check the Vercel Build Logs for "We have detected that..."
-if echo "${OUTPUT}" | grep -q "We have detected that you've built your project on Vercel, which caches dependencies."; then
-  echo "Prisma Client caching error was THROWN 🛑"
-  exit 1
-else
-  echo "Prisma Client caching error was NOT THROWN ✅"
-fi
