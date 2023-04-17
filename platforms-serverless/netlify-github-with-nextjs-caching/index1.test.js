@@ -18,7 +18,7 @@ test('simple query', async () => {
   const data = await r.json().catch((e) => e)
 
   expect(data).toMatchObject({
-    value: expect.stringContaining(`We have detected that you've built your project on Netlify CI, which caches dependencies.`),
+    value: expect.stringContaining(`Prisma has detected that this project was built on Netlify CI, which caches dependencies.`),
   })
 })
 
