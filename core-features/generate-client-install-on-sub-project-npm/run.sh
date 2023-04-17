@@ -4,6 +4,7 @@ set -eux
 
 npm install
 
+# 
 cp -r ../_common/generate-client-install-on-sub-project/* .
 
 cp package.json sub-project
