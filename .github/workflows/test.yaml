@@ -351,9 +351,16 @@ jobs:
             auto-reconnect,
             browser-build,
             studio,
-            generate-client-and-cli-install,
-            generate-client-install,
-            generate-client-install-on-sub-project,
+            generate-client-and-cli-install-via-global-cli-no-lockfile-npm,
+            generate-client-and-cli-install-via-global-cli-npm-lockfile,
+            generate-client-and-cli-install-via-global-cli-yarn-lockfile,
+            generate-client-and-cli-install-via-global-cli-pnpm-lockfile,
+            generate-client-install-npm,
+            generate-client-install-yarn,
+            generate-client-install-pnpm,
+            generate-client-install-on-sub-project-npm,
+            generate-client-install-on-sub-project-pnpm,
+            generate-client-install-on-sub-project-yarn,
           ]
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
@@ -372,8 +379,18 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+          cache: |
+            ${{
+              contains(matrix.feature, '-yarn') && 'yarn' ||
+              contains(matrix.feature, '-npm') && 'npm' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.feature }}/${{
+              contains(matrix.feature, '-yarn') && 'yarn.lock' ||
+              contains(matrix.feature, '-npm') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
+            }}
 
       - name: Install Dependencies
         run: pnpm install
@@ -691,8 +708,8 @@ jobs:
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
-              contains(matrix.packager, 'npm') && 'npm' ||
-              'pnpm'
+              contains(matrix.packager, 'pnpm') && 'pnpm' ||
+              'npm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.packager }}/${{
