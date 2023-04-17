@@ -4,7 +4,7 @@ set -eux
 
 VERSION=$(cat ../../.github/prisma-version.txt)
 
-cp -r ../_common/generate-client-and-cli-install/* .
+cp -r ../_common/generate-client-and-cli-install-via-global-cli/* .
 
 # we remove the lockfile to make sure that the install works without it
 # when no lockfile is found in a project, we will use npm for installs

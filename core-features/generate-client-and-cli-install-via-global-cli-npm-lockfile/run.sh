@@ -4,7 +4,7 @@ set -eux
 
 VERSION=$(cat ../../.github/prisma-version.txt)
 
-cp -r ../_common/generate-client-and-cli-install/* .
+cp -r ../_common/generate-client-and-cli-install-via-global-cli/* .
 
 # install prisma globally to test that it can install the client & cli
 npm install -g prisma@$VERSION
