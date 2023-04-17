@@ -882,6 +882,7 @@ jobs:
           - lambda
           - netlify-cli
           - netlify-github
+          - netlify-github-with-nextjs-caching
           - gcp-functions
           - firebase-functions
           - azure-functions-linux
@@ -901,6 +902,7 @@ jobs:
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
       SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
       GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
       GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
       GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
@@ -977,6 +979,7 @@ jobs:
           - vercel-cli
           - vercel-with-redwood
           - vercel-with-nextjs
+          - vercel-with-nextjs-caching
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -996,6 +999,8 @@ jobs:
       VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v3
