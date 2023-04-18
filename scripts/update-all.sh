@@ -1,5 +1,7 @@
 #! /bin/sh
 
+set -eux
+
 # for when runnig update-all.sh locally, we resolve the prisma version
 NEW_VERSION=$(npm show prisma@$1 version)
 echo "$NEW_VERSION" > .github/prisma-version.txt
