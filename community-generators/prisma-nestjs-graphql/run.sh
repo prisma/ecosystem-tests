@@ -2,6 +2,6 @@
 
 set -eux
 
-yarn install
+pnpm install
 rm -r ./prisma-nestjs-graphql
-yarn prisma generate
+pnpm prisma generate

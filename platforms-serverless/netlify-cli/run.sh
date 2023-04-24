@@ -2,10 +2,10 @@
 
 set -eux
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests platforms netlify-cli build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms netlify-cli build'
 
 
 # create empty `functions-build` folder
@@ -22,7 +22,7 @@ mv index.zip ../functions-build/index.zip
 cd ..
 
 # deploy content of `functions-build` to Netlify
-yarn netlify deploy --dir=. --prod --functions=functions-build
+pnpm netlify deploy --dir=. --prod --functions=functions-build
 # TODO Use individual deployment URL and store
 
 # TODO Why is this done?

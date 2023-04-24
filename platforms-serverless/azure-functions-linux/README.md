@@ -22,25 +22,26 @@ If you have a root login and you're on a local system where a browser can be ope
 az login
 ```
 
-If not, you can use a service principal. The Prisma service principal details can be found in our internal 1Password. You can also create a service principal from the CI with `sh rbac.sh`.
+#### Service Principal 
+
+Without login for Azure, you can use a service principal.
+
+(It was initially created with `sh rbac.sh`.)
 
 ```shell script
 az login --service-principal -u "$AZURE_SP_NAME" -p "$AZURE_SP_PASSWORD" --tenant "$AZURE_SP_TENANT"
 ```
 
-### Environment variables
+AZURE_SP_NAME = the name of the service principal  
+AZURE_SP_PASSWORD = the secret
+AZURE_SP_TENANT = An Azure internal ID, visible in Azure Portal
 
-The environment variable `AZURE_FUNCTIONS_LINUX_PG_URL` should point to a postgres database.
-In CI, it uses our internal e2e test database using `platform-azure-functions-linux` as database URL.
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
+Note: Client secret lifetime is limited (docs say: two years or less.)
+
+##### Maintining the Service Principal
+
+You can create new secrets for the service principal in Azure Portal under "App regristrations": https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Overview/appId/e6204f1a-d757-465f-9ddd-8d50a05c09c2/isMSAApp~/false
 
 ### Prepare
 
 To create a function on your own account, run `sh create.sh` first.
-
-### Run tests
-
-```shell script
-sh run.sh
-```

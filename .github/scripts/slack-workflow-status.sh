@@ -3,7 +3,7 @@
 set -eu
 shopt -s inherit_errexit || true
 
-(cd .github/slack/ && yarn install --silent)
+(cd .github/slack/ && pnpm install --reporter silent)
 
 emoji="$1"
 
@@ -14,7 +14,7 @@ sha="$(git rev-parse HEAD)"
 short_sha="$(echo "$sha" | cut -c -7)"
 message="$(git log -1 --pretty=%B | head -n 1)"
 
-commit_link="\`<https://github.com/prisma/e2e-tests/commit/$sha|$branch@$short_sha>\`"
-workflow_link="<https://github.com/prisma/e2e-tests/actions/runs/$GITHUB_RUN_ID|$message>"
+commit_link="\`<https://github.com/prisma/ecosystem-tests/commit/$sha|$branch@$short_sha>\`"
+workflow_link="<https://github.com/prisma/ecosystem-tests/actions/runs/$GITHUB_RUN_ID|$message>"
 
 node .github/slack/notify.js "prisma@$version: $emoji $workflow_link (via $commit_link)"

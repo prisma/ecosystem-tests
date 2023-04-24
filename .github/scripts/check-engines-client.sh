@@ -16,7 +16,7 @@ else
   CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
 fi
 
-# These are skipping for a variaty of reasons like:
+# These are skipping for a variety of reasons like:
 # - Custom project structure
 # - Custom output location
 # - They do not generate a client
@@ -31,11 +31,16 @@ skipped_projects=(
   studio                                  # TODO: No generated Client in `node_modules/.prisma/client/`
   netlify-cli                             # Client is generated into `../functions/generated/client` via use of `output`
   jest-with-multiple-generators           # No generated Client locally in default path, both Clients have custom `output`
-  generate-client-install-on-sub-project  # Client is generated into a subfolder
+  generate-client-install-on-sub-project-npm  # Client is generated into a subfolder
+  generate-client-install-on-sub-project-pnpm # Client is generated into a subfolder
+  generate-client-install-on-sub-project-yarn # Client is generated into a subfolder
   pnpm-workspaces-custom-output           # Client is generated into a subfolder
   pnpm-workspaces-default-output          # Client is generated into a subfolder
+  webpack-browser-custom-output           # Client is generated into a subfolder
   m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
+  yarn3-workspaces-pnp                    # Client is generated into a subfolder
+  serverless-framework-lambda-pnpm        # Client is generated into a subfolder
 )
 
 case "${skipped_projects[@]}" in  *$2*)
@@ -62,44 +67,47 @@ esac
 echo "Assumed OS: $os_name"
 echo "CLIENT_ENGINE_TYPE == $CLIENT_ENGINE_TYPE"
 
+GENERATED_CLIENT=$(node -e "console.log(path.dirname(require.resolve('.prisma/client/package.json', {paths: [path.dirname(require.resolve('@prisma/client/package.json'))]})))")
+
 if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
-  echo "Node-API: Disabled"
+  echo "Binary: Enabled"
   case $os_name in
     linux)
-      qe_location="node_modules/.prisma/client/query-engine-debian-openssl-1.1.x"
+      qe_location="$GENERATED_CLIENT/query-engine-debian-openssl-1.1.x"
       ;;
     osx)
-      qe_location="node_modules/.prisma/client/query-engine-darwin"
+      qe_location="$GENERATED_CLIENT/query-engine-darwin"
       ;;
     windows)
-      qe_location="node_modules\.prisma\client\query-engine-windows.exe"
+      qe_location="$GENERATED_CLIENT\query-engine-windows.exe"
       ;;
   esac
 elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
-  echo "Node-API: Enabled"
+  echo "Library: Enabled"
   case $os_name in
     linux)
-      qe_location="node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node"
+      qe_location="$GENERATED_CLIENT/libquery_engine-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      qe_location="node_modules/.prisma/client/libquery_engine-darwin.dylib.node"
+      qe_location="$GENERATED_CLIENT/libquery_engine-darwin.dylib.node"
       ;;
     windows*)
-      qe_location="node_modules\.prisma\client\query_engine-windows.dll.node"
+      qe_location="$GENERATED_CLIENT\query_engine-windows.dll.node"
       ;;
     *)
       os_name=notset
       ;;
   esac
+elif [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
+  echo "DataProxy: Enabled"
 else
   echo "❌ CLIENT_ENGINE_TYPE was not set"
   exit 1
 fi
 
-echo "--- ls -lh node_modules/.prisma/client/ ---"
-ls -lh node_modules/.prisma/client/
-echo "---"
-if [ -f "$qe_location" ] ; then
+if [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
+  echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
+elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"

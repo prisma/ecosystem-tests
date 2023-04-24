@@ -2,9 +2,6 @@
 
 set -eu
 
-# TODO Why do we do this?
-cp ./code/package.json ./package.json
-
 echo "Disabling StrictHostKeyChecking"
 mkdir -p ~/.ssh
 ssh-keyscan 54.72.209.131 >> ~/.ssh/known_hosts

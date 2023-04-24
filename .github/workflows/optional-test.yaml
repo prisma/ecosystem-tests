@@ -1,13 +1,27 @@
 name: optional-test
 
 on:
+  # Note about push & pull_request
+  # when creating a new branch for a PR, push will be triggered immediately before the PR gets created
+  # The GitHub API / GitHub context base commit is then 0000000000000000000000000000000000000000
+  #
+  # The get-changed-files action used in the detect_jobs_to_run needs to have a non 0 base commit to ba able to diff
+  # Defining both push (and specify the branches) and pull_request solves the problem
   push:
+    branches:
+      # Push events our default branch
+      - dev
+      # Push events on our special branches
+      - patch-dev
+      - latest
+      - integration
+  pull_request:
     paths-ignore:
       - '*.md'
       - 'renovate.json'
 
 env:
-  PRISMA_TELEMETRY_INFORMATION: 'e2e-tests optional-test.yaml'
+  PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
   CI: 1
   # TODO: Consolidate these env vars. They shouldn't be required for slack notification
@@ -24,67 +38,103 @@ defaults:
     shell: bash
 
 jobs:
-  start-time:
-    runs-on: ubuntu-latest
+  # Depending on the output we will run some or all tests as fallback
+  detect_jobs_to_run:
+    name: Detect jobs to run
+    runs-on: ubuntu-20.04
     outputs:
-      start-time: ${{ steps.start-time-output.outputs.start-time }}
+      jobs: ${{ steps.detect.outputs.jobs }}
     steps:
-      - id: start-time-output
-        run: echo "::set-output name=start-time::$(date)"
+      - id: checkout
+        uses: actions/checkout@v3
+      - id: files
+        uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
+        with:
+          format: 'json'
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
+      - id: detect
+        run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
   report-to-slack-success:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - community-generators
+      - databases
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
   report-to-slack-failure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - community-generators
+      - databases
+
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
   community-generators:
-    needs: start-time
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['community-generators'] == true }}
+
     strategy:
       fail-fast: false
       matrix:
-        generator:
-          [
-            prisma-dbml-generator,
-            typegraphql-prisma,
-            prisma-json-schema-generator,
-            prisma-nestjs-graphql,
-          ]
+        generator: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator, prisma-nestjs-graphql]
         clientEngine: ['library', 'binary']
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+
     env:
-      START_TIME: ${{ needs.start-time.outputs.start-time }}
-      SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: yarn install
-
-      - uses: actions/setup-node@v2
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: 12
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
@@ -92,8 +142,56 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh community-generators ${{ matrix.generator }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh community-generators ${{ matrix.generator }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
+
+  databases:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - mongodb-azure-cosmosdb
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}

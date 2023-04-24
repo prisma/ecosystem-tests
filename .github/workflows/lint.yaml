@@ -1,28 +1,36 @@
-name: lint test suite
+name: test and lint test suite
 
 on:
   push:
     paths-ignore:
       - '*.md'
       - 'renovate.json'
-  
+
 jobs:
   check-test-suite-coverage:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-20.04
+
     # Ignore if renovate (dependency update) or if triggerred by auto update
     # Needs to be in a string because the colon after chore breaks yaml
     if: "${{ !contains(github.actor, 'renovate') && !contains(github.event.head_commit.message, 'chore: sync, use') }}"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: yarn install
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
+        run: pnpm install
 
       - name: lint test suite coverage
-        run: node .github/scripts/check-folders.js 
+        run: node .github/scripts/check-folders.js
+
+      - name: run detect-jobs-to-run tests
+        run: pnpm exec jest detect-jobs-to-run

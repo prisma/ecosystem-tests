@@ -1,8 +1,8 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
-yarn start &
+pnpm start &
 pid=$!
 
 sleep 30

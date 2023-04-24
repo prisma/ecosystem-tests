@@ -7,6 +7,7 @@ import { Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class AffectedRows {
+
     @Field(() => Int, {nullable:false})
     count!: number;
 }
@@ -15,40 +16,22 @@ export class AffectedRows {
 
 exports[`test generator should produce same user ts file for same Prisma schema 1`] = `
 "import { Field } from '@nestjs/graphql';
-import { ArgsType } from '@nestjs/graphql';
-import { UserWhereInput } from './user-where.input';
-import { UserOrderByWithRelationInput } from './user-order-by-with-relation.input';
-import { UserWhereUniqueInput } from './user-where-unique.input';
-import { Int } from '@nestjs/graphql';
-import { UserCountAggregateInput } from './user-count-aggregate.input';
-import { UserMinAggregateInput } from './user-min-aggregate.input';
-import { UserMaxAggregateInput } from './user-max-aggregate.input';
+import { ObjectType } from '@nestjs/graphql';
+import { UserCountAggregate } from './user-count-aggregate.output';
+import { UserMinAggregate } from './user-min-aggregate.output';
+import { UserMaxAggregate } from './user-max-aggregate.output';
 
-@ArgsType()
-export class AggregateUserArgs {
-    @Field(() => UserWhereInput, {nullable:true})
-    where?: UserWhereInput;
+@ObjectType()
+export class AggregateUser {
 
-    @Field(() => [UserOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<UserOrderByWithRelationInput>;
+    @Field(() => UserCountAggregate, {nullable:true})
+    _count?: UserCountAggregate;
 
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    cursor?: UserWhereUniqueInput;
+    @Field(() => UserMinAggregate, {nullable:true})
+    _min?: UserMinAggregate;
 
-    @Field(() => Int, {nullable:true})
-    take?: number;
-
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-
-    @Field(() => UserCountAggregateInput, {nullable:true})
-    count?: UserCountAggregateInput;
-
-    @Field(() => UserMinAggregateInput, {nullable:true})
-    min?: UserMinAggregateInput;
-
-    @Field(() => UserMaxAggregateInput, {nullable:true})
-    max?: UserMaxAggregateInput;
+    @Field(() => UserMaxAggregate, {nullable:true})
+    _max?: UserMaxAggregate;
 }
 "
 `;

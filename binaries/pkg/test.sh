@@ -6,7 +6,7 @@ os=""
 filename="./prisma"
 
 case $OS in
-"ubuntu-latest")
+"ubuntu-20.04")
   os="linux"
   ;;
 "macos-latest")
@@ -22,6 +22,6 @@ case $OS in
   ;;
 esac
 
-yarn pkg node_modules/prisma -t node12-$os
+pnpm exec pkg node_modules/prisma -t node14-$os
 
 ./$filename --version

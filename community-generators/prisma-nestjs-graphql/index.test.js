@@ -9,7 +9,7 @@ describe('test generator', () => {
   })
 
   it('should produce same user ts file for same Prisma schema', () => {
-    const content = fs.readFileSync('./prisma-nestjs-graphql/user/aggregate-user.args.ts', {
+    const content = fs.readFileSync('./prisma-nestjs-graphql/user/aggregate-user.output.ts', {
       encoding: 'utf8',
     })
     expect(content).toMatchSnapshot()

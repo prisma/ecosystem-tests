@@ -2,7 +2,7 @@
 
 set -eu
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 rm -rf dist/
-NODE_ENV=production yarn parcel src/index.js --target node
+NODE_ENV=production pnpm parcel src/index.js --target node

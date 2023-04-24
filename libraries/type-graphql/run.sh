@@ -2,6 +2,6 @@
 
 set -eu
 
-yarn install
-yarn prisma generate
-yarn tsc
+pnpm install
+pnpm prisma generate
+pnpm tsc

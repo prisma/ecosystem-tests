@@ -2,6 +2,6 @@
 
 set -eux
 
-yarn install
-rm ./json-schema/json-schema.json
-yarn prisma generate
+pnpm install
+rm ./json-schema/json-schema.json || true
+pnpm prisma generate

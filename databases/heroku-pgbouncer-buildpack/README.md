@@ -1,18 +1,9 @@
 # Heroku PgBouncer Buildpack
 
-[Heroku buildpack: pgbouncer](https://github.com/heroku/heroku-buildpack-pgbouncer) allows one to run pgbouncer in a dyno alongside application code. This is different from PgBouncer hosted as a separate infrastructure components (that test is covered in [databases/heroku-pgbouncer](https://github.com/prisma/e2e-tests/tree/dev/databases/heroku-pgbouncer))
+[Heroku buildpack: pgbouncer](https://github.com/heroku/heroku-buildpack-pgbouncer) allows one to run pgbouncer in a dyno alongside application code. This is different from PgBouncer hosted as a separate infrastructure components (that test is covered in [databases/heroku-pgbouncer](https://github.com/prisma/ecosystem-tests/tree/dev/databases/heroku-pgbouncer))
 
 ## How to run this locally
 
 ### Environment variables
 
 The environment variable `DATABASE_URL_PGBOUNCER` should point to a postgres database.
-
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
-
-### Run tests
-
-```shell script
-sh run.sh
-```

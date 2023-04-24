@@ -4,9 +4,9 @@ set -eux
 
 func="$1"
 
-yarn install
-yarn tsc
-yarn prisma generate
+npm install
+npx tsc
+npx prisma generate
 
 # use a new function name in index.js since Google reads function names from js files
 # however, we need to use different functions for each deploy to prevent clashes

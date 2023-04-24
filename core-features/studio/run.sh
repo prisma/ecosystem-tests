@@ -2,4 +2,4 @@
 
 set -eu
 
-yarn
+pnpm install

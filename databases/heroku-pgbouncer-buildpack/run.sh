@@ -2,9 +2,9 @@
 
 set -eux
 
-export PRISMA_TELEMETRY_INFORMATION='e2e-tests databases heroku-pgbouncer-buildpack build'
-yarn install
-yarn prisma generate
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests databases heroku-pgbouncer-buildpack build'
+pnpm install
+pnpm prisma generate
 
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"

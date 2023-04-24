@@ -1,0 +1,137 @@
+#!/usr/bin/env node
+// @ts-check
+
+// This was originally done in prisma/prisma repository and adapted to ecosystem
+// https://github.com/prisma/prisma/blob/main/.github/workflows/detect-jobs-to-run.js
+
+const yaml = require('yaml')
+const fs = require('fs')
+const path = require('path')
+const { stdin } = process
+
+// From https://github.com/sindresorhus/get-stdin/blob/main/index.js
+async function getStdin() {
+  let result = ''
+
+  if (stdin.isTTY) {
+    return result
+  }
+
+  stdin.setEncoding('utf8')
+
+  for await (const chunk of stdin) {
+    result += chunk
+  }
+
+  return result
+}
+
+async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
+  const testYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/test.yaml'), { encoding: 'utf8' })
+  const testYaml = yaml.parse(testYamlString)
+  const optionalTestYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/optional-test.yaml'), {
+    encoding: 'utf8',
+  })
+  const optionalTestYaml = yaml.parse(optionalTestYamlString)
+  const allJobs = { ...testYaml['jobs'], ...optionalTestYaml['jobs'] }
+
+  // ['process-managers', 'docker', 'core-features', ...]
+  const testDirectories = Object.keys(allJobs).filter((key) => {
+    const jobsToIgnore = [
+      'report-to-slack-success', // Not a test but a job that posts to slack
+      'report-to-slack-failure', // Not a test but a job that posts to slack
+      'detect_jobs_to_run', // Not a test but a job that decides which tests should run
+      'cleanup-runs', // Not a test but a job that cancels previous runs
+    ]
+    return !jobsToIgnore.includes(key)
+  })
+  console.debug(testDirectories)
+
+  // Object used as output
+  const jobsToRun = {}
+
+  // creates an object with all values set to true to be used a fallback to run all tests
+  const fallbackRunAllJobs = testDirectories.reduce((acc, curr) => ((acc[curr] = true), acc), {})
+
+  // If we are in one of our special branches we always run all tests
+  if (['refs/heads/dev', 'refs/heads/patch-dev', 'refs/heads/latest', 'refs/heads/integration'].includes(GITHUB_REF)) {
+    console.debug(`GITHUB_REF=${GITHUB_REF} - special branch detected`)
+    console.debug('Fallback to run all tests.')
+    return fallbackRunAllJobs
+  }
+
+  // If no files changed let's fallback and run all tests
+  if (filesChanged.length === 0) {
+    console.debug(`filesChanged = 0, no change detected`)
+    console.debug('Fallback to run all tests.')
+    return fallbackRunAllJobs
+  }
+
+  // Used to know if files outside the directories have changed if so we will fallback to all
+  let totalNumberOfFilesChangedInsideDirectories = 0
+
+  /**
+   * @type string[]
+   **/
+  for (const directoryName of testDirectories) {
+    // If changes are located only in one of the directories
+    const filesChangedInsideDirectory = filesChanged.filter((fileChanged) =>
+      fileChanged.startsWith(`${directoryName}/`),
+    )
+    console.debug({ directoryName })
+    console.debug({ filesChangedInsideDirectory })
+
+    if (filesChangedInsideDirectory.length > 0) {
+      // Add to total
+      totalNumberOfFilesChangedInsideDirectories += filesChangedInsideDirectory.length
+
+      // we need to run the test
+      jobsToRun[directoryName] = true
+    } else {
+      // we don't need to run the test
+      jobsToRun[directoryName] = false
+    }
+  }
+
+  console.debug({ jobsToRun })
+  console.debug('filesChanged.length', filesChanged.length)
+  console.debug({ totalNumberOfFilesChangedInsideDirectories })
+
+  if (totalNumberOfFilesChangedInsideDirectories != filesChanged.length) {
+    console.debug('totalNumberOfFilesChangedInsideDirectories != filesChanged.length')
+    console.debug('Fallback to run all tests.')
+    return fallbackRunAllJobs
+  } else {
+    console.log('Only the following directory/ies will be tested:')
+    console.log(jobsToRun)
+    return jobsToRun
+  }
+}
+
+async function main() {
+  // Get which files changed from the action via stdin
+  const stdinData = await getStdin()
+  console.debug('stdin:', stdinData)
+
+  const filesChanged = JSON.parse(stdinData)
+  console.debug('filesChanged:', filesChanged)
+
+  const { GITHUB_REF } = process.env
+
+  const jobsToRun = await detectJobsTorun({
+    filesChanged,
+    GITHUB_REF,
+  })
+  console.log('::set-output name=jobs::' + JSON.stringify(jobsToRun))
+}
+
+// Only run if from command line
+if (require.main === module) {
+  main().then(function () {
+    console.log('Done!')
+  })
+}
+
+module.exports = {
+  detectJobsTorun,
+}

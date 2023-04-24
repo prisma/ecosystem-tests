@@ -1,4 +1,4 @@
-# Netlify CLI
+# Netlify via CLI
 
 Prisma and Netlify (deploy via netlify CLI) integration.
 
@@ -16,11 +16,7 @@ The environment variable `NETLIFY_PG_URL` should point to a postgres database.
 Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
 set up your own database and set the environment variable accordingly.
 
-### Run tests
-
-```shell script
-sh run.sh
-```
+### Alternative to scripts
 
 Alternatively, you can also try deploying locally, but note that you might that the CI behaviour is not tested which might be relevant:
 
