@@ -19,8 +19,8 @@ else
   git remote add heroku "https://ignored_user:`heroku auth:token`@git.heroku.com/e2e-platforms-heroku.git" || git remote set-url heroku "https://ignored_user:`heroku auth:token`@git.heroku.com/e2e-platforms-heroku.git" || true
 fi
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 
 git add .
 git commit -m "push to heroku"

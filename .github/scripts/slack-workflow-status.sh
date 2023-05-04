@@ -3,7 +3,7 @@
 set -eu
 shopt -s inherit_errexit || true
 
-(cd .github/slack/ && yarn install --silent)
+(cd .github/slack/ && pnpm install --reporter silent)
 
 emoji="$1"
 

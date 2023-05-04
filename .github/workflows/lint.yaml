@@ -17,16 +17,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: lint test suite coverage
         run: node .github/scripts/check-folders.js
 
       - name: run detect-jobs-to-run tests
-        run: yarn jest detect-jobs-to-run
+        run: pnpm exec jest detect-jobs-to-run

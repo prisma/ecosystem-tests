@@ -17,7 +17,7 @@ bash .github/scripts/print-version.sh $pjson_path
 
 echo "cd .github/slack/"
 cd .github/slack/
-yarn install
+pnpm install
 echo "cd ../.."
 cd ../..
 
@@ -124,7 +124,7 @@ elif [ $code -eq 0 ]; then
   echo "------------------------------------------------"
 fi
 
-# TODO parse output of npx prisma -v --json for correct file/path
+# TODO parse output of pnpm prisma -v --json for correct file/path
 
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
@@ -145,7 +145,7 @@ echo "$dir/$project done"
 cd "$root"
 
 if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integration" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
-  (cd .github/slack/ && yarn install --silent)
+  (cd .github/slack/ && pnpm install --reporter silent)
 
   branch="${GITHUB_REF##*/}"
   sha="$(git rev-parse HEAD | cut -c -7)"

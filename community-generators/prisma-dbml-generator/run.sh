@@ -2,6 +2,6 @@
 
 set -eux
 
-yarn install
+pnpm install
 rm ./dbml/schema.dbml || true
-yarn prisma generate
+pnpm prisma generate

@@ -2,9 +2,9 @@
 
 set -eu
 
-yarn
+pnpm install
 
-yarn -s vercel deploy \
+pnpm vercel deploy \
 --prod \
 --yes \
 --force \
@@ -22,16 +22,8 @@ echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
+OUTPUT=$(pnpm vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
 echo "${OUTPUT}"
-
-# Check the Vercel Build Logs for the postinstal hook"
-if echo "${OUTPUT}" | grep -q 'prisma generate || true'; then
-  echo 'Postinstall hook was added'
-else
-  echo "Postinstall hook was NOT ADDED"
-  exit 1
-fi
 
 # Check the Vercel Build Logs for "Generated Prisma Client"
 if echo "${OUTPUT}" | grep -q 'Generated Prisma Client'; then

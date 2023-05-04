@@ -61,14 +61,15 @@ jobs:
         uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          cache: 'pnpm'
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
       - id: detect
         run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
@@ -96,7 +97,14 @@ jobs:
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
 
@@ -124,7 +132,14 @@ jobs:
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
@@ -149,15 +164,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -206,7 +224,6 @@ jobs:
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-amd64-openssl-1.1.x
           - debian-latest-arm64-openssl-1.1.x
-          - debian-stretch-amd64-openssl-1.1.x
           - opensuse-tumbleweed-amd64-openssl-3.0.x
           - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
@@ -232,15 +249,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -281,6 +301,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -317,9 +350,16 @@ jobs:
             auto-reconnect,
             browser-build,
             studio,
-            generate-client-and-cli-install,
-            generate-client-install,
-            generate-client-install-on-sub-project,
+            generate-client-and-cli-install-via-global-cli-no-lockfile-npm,
+            generate-client-and-cli-install-via-global-cli-npm-lockfile,
+            generate-client-and-cli-install-via-global-cli-yarn-lockfile,
+            generate-client-and-cli-install-via-global-cli-pnpm-lockfile,
+            generate-client-install-npm,
+            generate-client-install-yarn,
+            generate-client-install-pnpm,
+            generate-client-install-on-sub-project-npm,
+            generate-client-install-on-sub-project-pnpm,
+            generate-client-install-on-sub-project-yarn,
           ]
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
@@ -331,15 +371,28 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: |
+            ${{
+              contains(matrix.feature, '-yarn') && 'yarn' ||
+              contains(matrix.feature, '-npm') && 'npm' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.feature }}/${{
+              contains(matrix.feature, '-yarn') && 'yarn.lock' ||
+              contains(matrix.feature, '-npm') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
+            }}
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -379,15 +432,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -423,15 +479,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -465,15 +524,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: generic/basic/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -503,13 +565,14 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 14 # latest minor+patch oh GH Actions
-          - 15 # latest minor+patch oh GH Actions
-          - 16 # latest minor+patch oh GH Actions
+          - 14 # latest minor+patch on GH Actions
           - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+          - 15 # latest minor+patch on GH Actions
+          - 16 # latest minor+patch on GH Actions
           - 17
           - 18
           - 19
+          - 20
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -520,10 +583,19 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+          cache-dependency-path: generic/basic/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -565,9 +637,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       # no database used in existing binaries tests
       # - name: Set test specific DATABASE_URL
@@ -617,9 +698,28 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: |
+            ${{
+              contains(matrix.packager, 'yarn') && 'yarn' ||
+              contains(matrix.packager, 'pnpm') && 'pnpm' ||
+              'npm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.packager }}/${{
+              contains(matrix.packager, 'yarn') && 'yarn.lock' ||
+              contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
+              'package-lock.json'
+            }}
+
+      - name: Install Dependencies
+        run: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm install' || 'pnpm install' }}
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -662,9 +762,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -712,25 +821,34 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: | 
+            ${{
+              contains(matrix.platform, 'codesandbox') && 'npm' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              contains(matrix.platform, 'codesandbox') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
+            }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn install
+        run: ${{ contains(matrix.platform, 'codesandbox') && 'npm install' || 'pnpm install' }}
 
       # Install Puppeteer for Codesandbox test only
       - name: Install Puppeteer
         if: ${{ matrix.platform == 'codesandbox' }}
         uses: ianwalter/puppeteer-container@v4.0.0
-        with:
-          args: yarn --ignore-engines
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -764,6 +882,7 @@ jobs:
           - lambda
           - netlify-cli
           - netlify-github
+          - netlify-github-with-nextjs-caching
           - gcp-functions
           - firebase-functions
           - azure-functions-linux
@@ -783,6 +902,7 @@ jobs:
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
       SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
       GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
       GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
       GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
@@ -800,18 +920,31 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: |
+            ${{
+              contains(matrix.platform, 'azure') && 'npm' ||
+              contains(matrix.platform, 'serverless-framework') && 'npm' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              contains(matrix.platform, 'azure') && 'package-lock.json' || 
+              contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
+            }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -846,6 +979,7 @@ jobs:
           - vercel-cli
           - vercel-with-redwood
           - vercel-with-nextjs
+          - vercel-with-nextjs-caching
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -865,22 +999,35 @@ jobs:
       VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: |
+            ${{
+              contains(matrix.platform, 'redwood') && 'yarn' ||
+              'pnpm'
+            }}
+          cache-dependency-path: | 
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              contains(matrix.platform, 'redwood') && 'yarn.lock' ||
+              'pnpm-lock.yaml'
+            }}
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn install
+        run: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm install' }}
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -946,12 +1093,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: use deno v1.x
         uses: denoland/setup-deno@v1
@@ -962,7 +1112,7 @@ jobs:
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: test ${{ matrix.platform }}
         id: run-test
@@ -1000,9 +1150,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -1046,9 +1205,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
@@ -1131,15 +1299,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1175,15 +1346,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
@@ -1216,9 +1390,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |

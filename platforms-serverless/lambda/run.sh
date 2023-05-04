@@ -8,10 +8,10 @@ x="$AWS_ACCESS_KEY_ID"
 x="$AWS_SECRET_ACCESS_KEY"
 x="$AWS_ROLE"
 
-yarn install
+pnpm install
 
-yarn prisma generate
+pnpm prisma generate
 
-yarn tsc
+pnpm tsc
 
 sh update-code.sh

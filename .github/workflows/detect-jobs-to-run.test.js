@@ -5,8 +5,8 @@ const { detectJobsTorun } = require('./detect-jobs-to-run')
 // This is running automatically with the `test and lint test suite` job
 //
 // To run manually this file:
-// `npx jest detect-jobs-to-run`
-// `npx jest detect-jobs-to-run -u` to update snapshots
+// `pnpm jest detect-jobs-to-run`
+// `pnpm jest detect-jobs-to-run -u` to update snapshots
 //
 
 describe('detect-jobs-to-run', () => {

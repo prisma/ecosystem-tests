@@ -1,7 +1,8 @@
 import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 
-const name = 'e2e-tests-serverless-lambda' // TODO rename to match project name again in AWS account
+// TODO rename to match project name again in AWS account
+const name = `e2e-tests-serverless-lambda`
 
 async function main() {
   console.log('testing function', name)

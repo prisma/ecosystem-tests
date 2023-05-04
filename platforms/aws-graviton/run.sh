@@ -10,9 +10,10 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       cd /home/ec2-user/aws-graviton/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
       export PRISMA_CLIENT_ENGINE_TYPE=\"binary\"
       rm -rf ./node_modules;
-      yarn;
-      yarn prisma generate;
-      yarn prisma -v;
+      npm i -g pnpm@7;
+      pnpm install;
+      pnpm prisma generate;
+      pnpm prisma -v;
   "
 else
   echo "Node-API: Enabled"
@@ -20,9 +21,10 @@ else
       cd /home/ec2-user/aws-graviton/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
       export PRISMA_CLIENT_ENGINE_TYPE=\"library\"
       rm -rf ./node_modules;
-      yarn;
-      yarn prisma generate;
-      yarn prisma -v;
+      npm i -g pnpm@7;
+      pnpm install;
+      pnpm prisma generate;
+      pnpm prisma -v;
   "
 fi
 

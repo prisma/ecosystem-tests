@@ -25,7 +25,7 @@ function isBinary(file: string) {
   return binaries.includes(file)
 }
 
-async function fetchWithPuppeteer(endpoint) {
+async function fetchWithPuppeteer(sandboxId: string) {
   const options = {
     ...(process.env.CI === '1' && {
       executablePath: 'google-chrome-unstable',
@@ -35,13 +35,13 @@ async function fetchWithPuppeteer(endpoint) {
   const browser = await puppeteer.launch(options)
   const page = await browser.newPage()
   await page.setDefaultNavigationTimeout(0)
-  await page.goto(endpoint)
+  await page.goto(`https://codesandbox.io/p/sandbox/${sandboxId}`)
   await page.waitForTimeout(20_000)
   const screenshot = await page.screenshot()
   fs.writeFileSync('image.png', screenshot as Buffer)
   await browser.close()
 
-  const r = await fetch(endpoint)
+  const r = await fetch(`https://${sandboxId}-3000.csb.app/`)
   const body = await r.text()
   try {
     const bodyAsJSON = JSON.parse(body)
@@ -53,7 +53,7 @@ async function fetchWithPuppeteer(endpoint) {
   }
 }
 
-async function sleep(seconds) {
+async function sleep(seconds: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(false)
@@ -62,27 +62,27 @@ async function sleep(seconds) {
 }
 
 let attempts = 0
-async function ensureSandbox(endpoint) {
+async function ensureSandbox(sandboxId : string) {
   attempts += 1
   console.log(`Attempt: ${attempts}`)
-  if (attempts > 60) {
+  if (attempts > 10) {
     return false
   }
   try {
-    await fetchWithPuppeteer(endpoint)
+    await fetchWithPuppeteer(sandboxId)
     return true
   } catch (e) {
     console.log(e)
     const sleepTime = 5
     console.log(`Sleeping for ${sleepTime} sec`)
     await sleep(sleepTime)
-    console.log(`Retrying`)
-    return ensureSandbox(endpoint)
+    console.log(`Retrying sandbox ${sandboxId}}`)
+    return ensureSandbox(sandboxId)
   }
 }
 
 async function main() {
-  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'yarn.lock']
+  const relevantFilePaths = ['src/index.js', 'prisma/schema.prisma', 'prisma/.env', 'package.json', 'package-lock.json']
 
   const files: CSBFiles = relevantFilePaths
     .map((filePath) => {
@@ -120,16 +120,15 @@ async function main() {
   const data = await r
   const json = await data.json()
   fs.writeFileSync('sandbox_id', json.sandbox_id)
-  const endpoint = `https://${json.sandbox_id}.sse.codesandbox.io/`
   try {
-    const r = await ensureSandbox(endpoint)
+    const r = await ensureSandbox(json.sandbox_id)
     if (!Boolean(r)) {
       // Log is fine, no need for an exit code as sh test.sh will fail anyways.
       console.log('Failed to ensure sandbox')
     }
   } catch (e) {
     console.error(`Something went wrong`)
-    console.error(`You can debug this here: https://codesandbox.io/s/${json.sandbox_id}`)
+    console.error(`You can debug this here: https://codesandbox.io/p/sandbox/${json.sandbox_id}`)
     throw new Error(e)
   }
 }
