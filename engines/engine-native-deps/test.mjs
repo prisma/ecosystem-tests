@@ -37,7 +37,7 @@ for (const platform of platforms) {
     await $`gunzip -f ${engine}.gz`
     await $`chmod +x ${engine}`
 
-    const deps = await $`readelf -d ${engine} | grep NEEDED | grep -oP '(?<=\\[)[^]]+' | sort`
+    const deps = await $`readelf -d ${engine} | grep NEEDED | grep -oP '(?<=\\[)[^]]+' | sort -d`
     const snapshotPath = `snapshots/${platform}/${engine}.txt`
 
     if (update) {
