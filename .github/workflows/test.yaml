@@ -472,8 +472,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [engine-types]
+        feature: [engine-types, engine-native-deps]
         os: [ubuntu-20.04, windows-latest, macos-latest]
+        exclude:
+          - feature: engine-native-deps
+            os: windows-latest
+          - feature: engine-native-deps
+            os: macos-latest
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -828,7 +833,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: | 
+          cache: |
             ${{
               contains(matrix.platform, 'codesandbox') && 'npm' ||
               'pnpm'
@@ -935,7 +940,7 @@ jobs:
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'azure') && 'package-lock.json' || 
+              contains(matrix.platform, 'azure') && 'package-lock.json' ||
               contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
               'pnpm-lock.yaml'
             }}
@@ -1017,7 +1022,7 @@ jobs:
               contains(matrix.platform, 'redwood') && 'yarn' ||
               'pnpm'
             }}
-          cache-dependency-path: | 
+          cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
               contains(matrix.platform, 'redwood') && 'yarn.lock' ||
               'pnpm-lock.yaml'
