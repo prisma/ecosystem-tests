@@ -119,7 +119,7 @@ elif [ $code -eq 0 ]; then
 
   # confirm existence of correct engine
   echo "-------------- Checking Engines ----------------"
-  if [ -z "$SKIP_ENGINE_CHECK" ]; then
+  if [ -z "${SKIP_ENGINE_CHECK+x}" ]; then
     bash ../../.github/scripts/check-engines-client.sh $dir $project
     bash ../../.github/scripts/check-engines-cli.sh $dir $project
   else
