@@ -42,7 +42,7 @@ else
     echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
     npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
     echo ""
-  fi 
+  fi
 fi
 
 echo "cd $dir/$project"
@@ -73,7 +73,7 @@ code=$?
 set -e
 
 # if we're running docker-unsupported/*, we expect run.sh to fail
-if [[ $dir == "docker-unsupported" ]]; then 
+if [[ $dir == "docker-unsupported" ]]; then
 
   if [ $code -ne 0 ]; then
     echo "-----------------------------"
@@ -119,8 +119,12 @@ elif [ $code -eq 0 ]; then
 
   # confirm existence of correct engine
   echo "-------------- Checking Engines ----------------"
-  bash ../../.github/scripts/check-engines-client.sh $dir $project
-  bash ../../.github/scripts/check-engines-cli.sh $dir $project
+  if [ -z "$SKIP_ENGINE_CHECK" ]; then
+    bash ../../.github/scripts/check-engines-client.sh $dir $project
+    bash ../../.github/scripts/check-engines-cli.sh $dir $project
+  else
+    echo "SKIP_ENGINE_CHECK=$SKIP_ENGINE_CHECK, skipping"
+  fi
   echo "------------------------------------------------"
 fi
 
