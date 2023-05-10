@@ -70,7 +70,7 @@ function cleanSpansForSnapshot(spans: ReadableSpan[]) {
   )
 }
 
-test('dataproxy logs with postgres', async () => {
+test('dataproxy tracing with postgres', async () => {
   const prisma = new PrismaClient()
 
   await prisma.user.findMany()
