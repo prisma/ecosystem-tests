@@ -66,8 +66,8 @@ jobs:
   report-to-slack-success:
     runs-on: ubuntu-20.04
     needs:
-      # - community-generators
-      # - databases
+      - community-generators
+      - databases
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
@@ -86,8 +86,8 @@ jobs:
   report-to-slack-failure:
     runs-on: ubuntu-20.04
     needs:
-      # - community-generators
-      # - databases
+      - community-generators
+      - databases
 
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
@@ -103,95 +103,95 @@ jobs:
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
-  # community-generators:
-  #   needs: [detect_jobs_to_run]
-  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['community-generators'] == true }}
+  community-generators:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['community-generators'] == true }}
 
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       generator: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator, prisma-nestjs-graphql]
-  #       clientEngine: ['library', 'binary']
-  #   runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        generator: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator, prisma-nestjs-graphql]
+        clientEngine: ['library', 'binary']
+    runs-on: ubuntu-20.04
 
-  #   env:
-  #     DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
+    env:
+      DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Define Client Engine Type to test
-  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-  #     - uses: pnpm/action-setup@v2.2.4
-  #       with:
-  #         version: 7
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 14
-  #         cache: 'pnpm'
-  #         cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
 
-  #     - name: Install Dependencies
-  #       run: pnpm install
+      - name: Install Dependencies
+        run: pnpm install
 
-  #     - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
-  #       id: run-test
-  #       uses: nick-invision/retry@v2
-  #       with:
-  #         timeout_minutes: 10
-  #         max_attempts: 3
-  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
+      - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
 
-  #     - name: notify-slack
-  #       if: failure()
-  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
 
-  # databases:
-  #   needs: [detect_jobs_to_run]
-  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
+  databases:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
 
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       database:
-  #         - mongodb-azure-cosmosdb
-  #       clientEngine: ['library', 'binary']
-  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - mongodb-azure-cosmosdb
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
 
-  #   runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-  #   env:
-  #     DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+    env:
+      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Define Client Engine Type to test
-  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-  #     - uses: pnpm/action-setup@v2.2.4
-  #       with:
-  #         version: 7
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 14
-  #         cache: 'pnpm'
-  #         cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
-  #     - name: Install Dependencies
-  #       run: pnpm install
+      - name: Install Dependencies
+        run: pnpm install
 
-  #     - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
-  #       id: run-test
-  #       uses: nick-invision/retry@v2
-  #       with:
-  #         timeout_minutes: 10
-  #         max_attempts: 3
-  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
-  #     - name: notify-slack
-  #       if: failure()
-  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
