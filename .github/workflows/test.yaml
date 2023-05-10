@@ -77,23 +77,23 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
       - dataproxy
-      - core-features
-      - migrate
-      - os
-      - node
-      - binaries
-      - packagers
-      - frameworks
-      - platforms
-      - platforms-serverless
-      - engines
-      - bundlers
-      - libraries
-      - databases
-      - databases-macos
-      - process-managers
-      - test-runners
-      - docker
+      # - core-features
+      # - migrate
+      # - os
+      # - node
+      # - binaries
+      # - packagers
+      # - frameworks
+      # - platforms
+      # - platforms-serverless
+      # - engines
+      # - bundlers
+      # - libraries
+      # - databases
+      # - databases-macos
+      # - process-managers
+      # - test-runners
+      # - docker
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
@@ -112,23 +112,23 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
       - dataproxy
-      - core-features
-      - migrate
-      - os
-      - node
-      - binaries
-      - packagers
-      - frameworks
-      - platforms
-      - platforms-serverless
-      - engines
-      - bundlers
-      - libraries
-      - databases
-      - databases-macos
-      - process-managers
-      - test-runners
-      - docker
+      # - core-features
+      # - migrate
+      # - os
+      # - node
+      # - binaries
+      # - packagers
+      # - frameworks
+      # - platforms
+      # - platforms-serverless
+      # - engines
+      # - bundlers
+      # - libraries
+      # - databases
+      # - databases-macos
+      # - process-managers
+      # - test-runners
+      # - docker
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
@@ -146,919 +146,919 @@ jobs:
   ####################################################
   ### real jobs after this
 
-  process-managers:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['process-managers'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature: [pm2]
-        clientEngine: [library] # ['library', 'binary']
-        os: [ubuntu-20.04, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
-  docker:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature:
-          - almalinux-latest-amd64-openssl-1.1.x
-          - almalinux-latest-arm64-openssl-1.1.x
-          - alpine-3.16-amd64-openssl-1.1.x
-          - alpine-3.16-arm64-openssl-1.1.x
-          - alpine-3.16-arm64-openssl-1.1.x-with-libc
-          - alpine-3.17-amd64-openssl-1.1.x
-          - alpine-3.17-amd64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x-with-libc
-          - alpine-latest-amd64-openssl-3.0.x
-          - amazonlinux-2-amd64-openssl-1.0.x
-          - amazonlinux-2-arm64-openssl-1.0.x
-          - amazonlinux-2022-amd64-openssl-3.0.x
-          - amazonlinux-2022-arm64-openssl-3.0.x
-          - archlinux-latest-amd64-openssl-3.0.x
-          - debian-bullseye-amd64-openssl-1.1.x
-          - debian-buster-amd64-openssl-1.1.x
-          - debian-latest-amd64-openssl-1.1.x
-          - debian-latest-arm64-openssl-1.1.x
-          - debian-stretch-amd64-openssl-1.1.x
-          - opensuse-tumbleweed-amd64-openssl-3.0.x
-          - redhat-ubi9-amd64-openssl-3.0.x
-          - ubuntu-20.04-amd64-openssl-1.1.x
-          - ubuntu-22.04-amd64-openssl-3.0.x
-          - ubuntu-latest-amd64-openssl-3.0.x
-          - ubuntu-latest-arm64-openssl-3.0.x
-        clientEngine: [library, binary]
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: 'arm64'
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 20
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
-  # These tests are expected to fail
-  # Meaning a successfull run actually shows a non zero exit code in the logs
-  docker-unsupported:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-unsupported'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature:
-          - debian-buster-amd64-openssl-1.1.x
-          - debian-latest-arm-openssl-1.1.x
-        clientEngine: [library, binary]
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: 'arm64,arm'
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        run: |
-          bash .github/scripts/test-project.sh docker-unsupported ${{ matrix.feature }}
-
-  core-features:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['core-features'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature:
-          [
-            auto-reconnect,
-            browser-build,
-            studio,
-            generate-client-and-cli-install-via-global-cli-no-lockfile-npm,
-            generate-client-and-cli-install-via-global-cli-npm-lockfile,
-            generate-client-and-cli-install-via-global-cli-yarn-lockfile,
-            generate-client-and-cli-install-via-global-cli-pnpm-lockfile,
-            generate-client-install-npm,
-            generate-client-install-yarn,
-            generate-client-install-pnpm,
-            generate-client-install-on-sub-project-npm,
-            generate-client-install-on-sub-project-pnpm,
-            generate-client-install-on-sub-project-yarn,
-          ]
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.feature, '-yarn') && 'yarn' ||
-              contains(matrix.feature, '-npm') && 'npm' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.feature }}/${{
-              contains(matrix.feature, '-yarn') && 'yarn.lock' ||
-              contains(matrix.feature, '-npm') && 'package-lock.json' ||
-              'pnpm-lock.yaml'
-            }}
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
-  migrate:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['migrate'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature: [db-seed-commonjs-pkg, db-seed-esm-pkg]
-        clientEngine: ['library']
-        os: [ubuntu-20.04, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
-  engines:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['engines'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature: [engine-types, engine-native-deps]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
-        exclude:
-          - feature: engine-native-deps
-            os: windows-latest
-          - feature: engine-native-deps
-            os: macos-latest
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test engines - ${{ matrix.feature }}
-        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
-  os:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['os'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-20.04, macos-latest, windows-latest]
-        clientEngine: ['library', 'binary']
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: generic/basic/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
-
-  node:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - 14 # latest minor+patch on GH Actions
-          - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
-          - 15 # latest minor+patch on GH Actions
-          - 16 # latest minor+patch on GH Actions
-          - 17
-          - 18
-          - 19
-          - 20
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - name: use node ${{ matrix.node }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'pnpm'
-          cache-dependency-path: generic/basic/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
-
-  binaries:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['binaries'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        binary: [pkg]
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-
-    env:
-      OS: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      # no database used in existing binaries tests
-      # - name: Set test specific DATABASE_URL
-      #   run: |
-      #     string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-      #     search=database
-      #     replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-      #     replaced=${string/$search/$replace}
-      #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
-
-  packagers:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['packagers'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        packager:
-          - npm
-          - npm-global
-          - pnpm
-          - pnpm-workspaces-custom-output
-          - pnpm-workspaces-default-output
-          - yarn
-          - yarn-workspaces
-          - yarn3-without-pnp
-          - yarn3-workspaces-pnp
-        clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.packager, 'yarn') && 'yarn' ||
-              contains(matrix.packager, 'pnpm') && 'pnpm' ||
-              'npm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.packager }}/${{
-              contains(matrix.packager, 'yarn') && 'yarn.lock' ||
-              contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
-              'package-lock.json'
-            }}
-
-      - name: Install Dependencies
-        run: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm install' || 'pnpm install' }}
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
-
-  frameworks:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['frameworks'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        framework:
-          - nestjs
-          - nextjs
-          - sveltekit
-        clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
-
-  platforms:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms'] == true }}
-
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - heroku
-          - aws-graviton
-          - codesandbox
-          - m1-macstadium
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    concurrency: platforms-${{ matrix.platform }}-${{ matrix.clientEngine }}
-
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.platform, 'codesandbox') && 'npm' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'codesandbox') && 'package-lock.json' ||
-              'pnpm-lock.yaml'
-            }}
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: ${{ contains(matrix.platform, 'codesandbox') && 'npm install' || 'pnpm install' }}
-
-      # Install Puppeteer for Codesandbox test only
-      - name: Install Puppeteer
-        if: ${{ matrix.platform == 'codesandbox' }}
-        uses: ianwalter/puppeteer-container@v4.0.0
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
-  platforms-serverless:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless'] == true }}
-
-    timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - lambda
-          - netlify-cli
-          - netlify-github
-          - netlify-github-with-nextjs-caching
-          - gcp-functions
-          - firebase-functions
-          - azure-functions-linux
-          - azure-functions-windows
-          - serverless-framework-lambda
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-        exclude:
-          # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
-          - clientEngine: library
-            platform: azure-functions-windows
-    runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    env:
-      NPM_CONFIG_LOGLEVEL: error
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
-      GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ROLE: ${{ secrets.AWS_ROLE }}
-      AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
-      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
-      AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.platform, 'azure') && 'npm' ||
-              contains(matrix.platform, 'serverless-framework') && 'npm' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'azure') && 'package-lock.json' ||
-              contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
-              'pnpm-lock.yaml'
-            }}
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
-  platforms-serverless-vercel:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless-vercel'] == true }}
-
-    timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - vercel-node-builder
-          - vercel-cli
-          - vercel-with-redwood
-          - vercel-with-nextjs
-          - vercel-with-nextjs-caching
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-vercel-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    env:
-      NPM_CONFIG_LOGLEVEL: error
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
-      VERCEL_API_BINARY_PROJECT_ID: ${{ secrets.VERCEL_API_BINARY_PROJECT_ID }}
-      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
-      VERCEL_NODE_BUILDER_BINARY_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_BINARY_PROJECT_ID }}
-      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
-      VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.platform, 'redwood') && 'yarn' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'redwood') && 'yarn.lock' ||
-              'pnpm-lock.yaml'
-            }}
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm install' }}
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          # default is 10s
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+  # process-managers:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['process-managers'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       feature: [pm2]
+  #       clientEngine: [library] # ['library', 'binary']
+  #       os: [ubuntu-20.04, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # docker:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       feature:
+  #         - almalinux-latest-amd64-openssl-1.1.x
+  #         - almalinux-latest-arm64-openssl-1.1.x
+  #         - alpine-3.16-amd64-openssl-1.1.x
+  #         - alpine-3.16-arm64-openssl-1.1.x
+  #         - alpine-3.16-arm64-openssl-1.1.x-with-libc
+  #         - alpine-3.17-amd64-openssl-1.1.x
+  #         - alpine-3.17-amd64-openssl-3.0.x
+  #         - alpine-3.17-arm64-openssl-3.0.x
+  #         - alpine-3.17-arm64-openssl-3.0.x-with-libc
+  #         - alpine-latest-amd64-openssl-3.0.x
+  #         - amazonlinux-2-amd64-openssl-1.0.x
+  #         - amazonlinux-2-arm64-openssl-1.0.x
+  #         - amazonlinux-2022-amd64-openssl-3.0.x
+  #         - amazonlinux-2022-arm64-openssl-3.0.x
+  #         - archlinux-latest-amd64-openssl-3.0.x
+  #         - debian-bullseye-amd64-openssl-1.1.x
+  #         - debian-buster-amd64-openssl-1.1.x
+  #         - debian-latest-amd64-openssl-1.1.x
+  #         - debian-latest-arm64-openssl-1.1.x
+  #         - debian-stretch-amd64-openssl-1.1.x
+  #         - opensuse-tumbleweed-amd64-openssl-3.0.x
+  #         - redhat-ubi9-amd64-openssl-3.0.x
+  #         - ubuntu-20.04-amd64-openssl-1.1.x
+  #         - ubuntu-22.04-amd64-openssl-3.0.x
+  #         - ubuntu-latest-amd64-openssl-3.0.x
+  #         - ubuntu-latest-arm64-openssl-3.0.x
+  #       clientEngine: [library, binary]
+  #       os: [ubuntu-20.04]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #       with:
+  #         platforms: 'arm64'
+
+  #     - name: Set up Docker Buildx
+  #       id: buildx
+  #       uses: docker/setup-buildx-action@v2
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 20
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # # These tests are expected to fail
+  # # Meaning a successfull run actually shows a non zero exit code in the logs
+  # docker-unsupported:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-unsupported'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       feature:
+  #         - debian-buster-amd64-openssl-1.1.x
+  #         - debian-latest-arm-openssl-1.1.x
+  #       clientEngine: [library, binary]
+  #       os: [ubuntu-20.04]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #       with:
+  #         platforms: 'arm64,arm'
+
+  #     - name: Set up Docker Buildx
+  #       id: buildx
+  #       uses: docker/setup-buildx-action@v2
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+  #       run: |
+  #         bash .github/scripts/test-project.sh docker-unsupported ${{ matrix.feature }}
+
+  # core-features:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['core-features'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       feature:
+  #         [
+  #           auto-reconnect,
+  #           browser-build,
+  #           studio,
+  #           generate-client-and-cli-install-via-global-cli-no-lockfile-npm,
+  #           generate-client-and-cli-install-via-global-cli-npm-lockfile,
+  #           generate-client-and-cli-install-via-global-cli-yarn-lockfile,
+  #           generate-client-and-cli-install-via-global-cli-pnpm-lockfile,
+  #           generate-client-install-npm,
+  #           generate-client-install-yarn,
+  #           generate-client-install-pnpm,
+  #           generate-client-install-on-sub-project-npm,
+  #           generate-client-install-on-sub-project-pnpm,
+  #           generate-client-install-on-sub-project-yarn,
+  #         ]
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: |
+  #           ${{
+  #             contains(matrix.feature, '-yarn') && 'yarn' ||
+  #             contains(matrix.feature, '-npm') && 'npm' ||
+  #             'pnpm'
+  #           }}
+  #         cache-dependency-path: |
+  #           ${{ github.job }}/${{ matrix.feature }}/${{
+  #             contains(matrix.feature, '-yarn') && 'yarn.lock' ||
+  #             contains(matrix.feature, '-npm') && 'package-lock.json' ||
+  #             'pnpm-lock.yaml'
+  #           }}
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # migrate:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['migrate'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       feature: [db-seed-commonjs-pkg, db-seed-esm-pkg]
+  #       clientEngine: ['library']
+  #       os: [ubuntu-20.04, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # engines:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['engines'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       feature: [engine-types, engine-native-deps]
+  #       os: [ubuntu-20.04, windows-latest, macos-latest]
+  #       exclude:
+  #         - feature: engine-native-deps
+  #           os: windows-latest
+  #         - feature: engine-native-deps
+  #           os: macos-latest
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test engines - ${{ matrix.feature }}
+  #       run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # os:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['os'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-20.04, macos-latest, windows-latest]
+  #       clientEngine: ['library', 'binary']
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: generic/basic/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
+
+  # node:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       node:
+  #         - 14 # latest minor+patch on GH Actions
+  #         - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+  #         - 15 # latest minor+patch on GH Actions
+  #         - 16 # latest minor+patch on GH Actions
+  #         - 17
+  #         - 18
+  #         - 19
+  #         - 20
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - name: use node ${{ matrix.node }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node }}
+  #         cache: 'pnpm'
+  #         cache-dependency-path: generic/basic/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+
+  # binaries:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['binaries'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       binary: [pkg]
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04, macos-latest, windows-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   env:
+  #     OS: ${{ matrix.os }}
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     # no database used in existing binaries tests
+  #     # - name: Set test specific DATABASE_URL
+  #     #   run: |
+  #     #     string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #     #     search=database
+  #     #     replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #     #     replaced=${string/$search/$replace}
+  #     #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
+
+  # packagers:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['packagers'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       packager:
+  #         - npm
+  #         - npm-global
+  #         - pnpm
+  #         - pnpm-workspaces-custom-output
+  #         - pnpm-workspaces-default-output
+  #         - yarn
+  #         - yarn-workspaces
+  #         - yarn3-without-pnp
+  #         - yarn3-workspaces-pnp
+  #       clientEngine: [library] #['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: |
+  #           ${{
+  #             contains(matrix.packager, 'yarn') && 'yarn' ||
+  #             contains(matrix.packager, 'pnpm') && 'pnpm' ||
+  #             'npm'
+  #           }}
+  #         cache-dependency-path: |
+  #           ${{ github.job }}/${{ matrix.packager }}/${{
+  #             contains(matrix.packager, 'yarn') && 'yarn.lock' ||
+  #             contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
+  #             'package-lock.json'
+  #           }}
+
+  #     - name: Install Dependencies
+  #       run: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm install' || 'pnpm install' }}
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
+
+  # frameworks:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['frameworks'] == true }}
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       framework:
+  #         - nestjs
+  #         - nextjs
+  #         - sveltekit
+  #       clientEngine: [library] #['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
+
+  # platforms:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms'] == true }}
+
+  #   timeout-minutes: 60
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       platform:
+  #         - heroku
+  #         - aws-graviton
+  #         - codesandbox
+  #         - m1-macstadium
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   concurrency: platforms-${{ matrix.platform }}-${{ matrix.clientEngine }}
+
+  #   env:
+  #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #     SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+  #     SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: |
+  #           ${{
+  #             contains(matrix.platform, 'codesandbox') && 'npm' ||
+  #             'pnpm'
+  #           }}
+  #         cache-dependency-path: |
+  #           ${{ github.job }}/${{ matrix.platform }}/${{
+  #             contains(matrix.platform, 'codesandbox') && 'package-lock.json' ||
+  #             'pnpm-lock.yaml'
+  #           }}
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - name: Install Dependencies
+  #       run: ${{ contains(matrix.platform, 'codesandbox') && 'npm install' || 'pnpm install' }}
+
+  #     # Install Puppeteer for Codesandbox test only
+  #     - name: Install Puppeteer
+  #       if: ${{ matrix.platform == 'codesandbox' }}
+  #       uses: ianwalter/puppeteer-container@v4.0.0
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 60
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  # platforms-serverless:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless'] == true }}
+
+  #   timeout-minutes: 60 # can take longer if platforms are down, so better protect
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       platform:
+  #         - lambda
+  #         - netlify-cli
+  #         - netlify-github
+  #         - netlify-github-with-nextjs-caching
+  #         - gcp-functions
+  #         - firebase-functions
+  #         - azure-functions-linux
+  #         - azure-functions-windows
+  #         - serverless-framework-lambda
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #       exclude:
+  #         # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
+  #         - clientEngine: library
+  #           platform: azure-functions-windows
+  #   runs-on: ${{ matrix.os }}
+  #   concurrency: platforms-serverless-${{ matrix.platform }}-${{ matrix.clientEngine }}
+  #   env:
+  #     NPM_CONFIG_LOGLEVEL: error
+  #     NODE_ENV: development
+  #     NODE_MODULES_CACHE: false
+  #     NODE_VERBOSE: true
+  #     SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+  #     SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
+  #     GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
+  #     GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+  #     GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+  #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  #     AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     AWS_ROLE: ${{ secrets.AWS_ROLE }}
+  #     AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+  #     AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+  #     AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+  #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: |
+  #           ${{
+  #             contains(matrix.platform, 'azure') && 'npm' ||
+  #             contains(matrix.platform, 'serverless-framework') && 'npm' ||
+  #             'pnpm'
+  #           }}
+  #         cache-dependency-path: |
+  #           ${{ github.job }}/${{ matrix.platform }}/${{
+  #             contains(matrix.platform, 'azure') && 'package-lock.json' ||
+  #             contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
+  #             'pnpm-lock.yaml'
+  #           }}
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - name: Install Dependencies
+  #       run: pnpm install
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 60
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  # platforms-serverless-vercel:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['platforms-serverless-vercel'] == true }}
+
+  #   timeout-minutes: 60 # can take longer if platforms are down, so better protect
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       platform:
+  #         - vercel-node-builder
+  #         - vercel-cli
+  #         - vercel-with-redwood
+  #         - vercel-with-nextjs
+  #         - vercel-with-nextjs-caching
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   concurrency: platforms-serverless-vercel-${{ matrix.platform }}-${{ matrix.clientEngine }}
+  #   env:
+  #     NPM_CONFIG_LOGLEVEL: error
+  #     NODE_ENV: development
+  #     NODE_MODULES_CACHE: false
+  #     NODE_VERBOSE: true
+  #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  #     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  #     VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+  #     VERCEL_API_BINARY_PROJECT_ID: ${{ secrets.VERCEL_API_BINARY_PROJECT_ID }}
+  #     VERCEL_NODE_BUILDER_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_PROJECT_ID }}
+  #     VERCEL_NODE_BUILDER_BINARY_PROJECT_ID: ${{ secrets.VERCEL_NODE_BUILDER_BINARY_PROJECT_ID }}
+  #     VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+  #     VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
+  #     VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+  #     VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
+  #     VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
+  #     VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
+
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: |
+  #           ${{
+  #             contains(matrix.platform, 'redwood') && 'yarn' ||
+  #             'pnpm'
+  #           }}
+  #         cache-dependency-path: |
+  #           ${{ github.job }}/${{ matrix.platform }}/${{
+  #             contains(matrix.platform, 'redwood') && 'yarn.lock' ||
+  #             'pnpm-lock.yaml'
+  #           }}
+
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+  #     - name: Install Dependencies
+  #       run: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm install' }}
+
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+  #     - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 60
+  #         max_attempts: 1
+  #         # default is 10s
+  #         retry_wait_seconds: 30
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
   dataproxy:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['dataproxy'] == true }}
+    # needs: [detect_jobs_to_run]
+    # if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['dataproxy'] == true }}
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -1134,297 +1134,297 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
-  bundlers:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['bundlers'] == true }}
+  # bundlers:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['bundlers'] == true }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        bundler:
-          - webpack
-          - webpack-browser-custom-output
-          - parcel
-          - rollup
-        clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       bundler:
+  #         - webpack
+  #         - webpack-browser-custom-output
+  #         - parcel
+  #         - rollup
+  #       clientEngine: [library] #['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
 
-      - name: Install Dependencies
-        run: pnpm install
+  #     - name: Install Dependencies
+  #       run: pnpm install
 
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.bundler }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.bundler }}_${{ matrix.os }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.bundler }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.bundler }}
+  #     - name: test ${{ matrix.bundler }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.bundler }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.bundler }}
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.bundler }}
 
-  libraries:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['libraries'] == true }}
+  # libraries:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['libraries'] == true }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        library:
-          - express
-          - apollo-server
-          - type-graphql
-          - nexus-schema
-        clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       library:
+  #         - express
+  #         - apollo-server
+  #         - type-graphql
+  #         - nexus-schema
+  #       clientEngine: [library] #['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
 
-      - name: Install Dependencies
-        run: pnpm install
+  #     - name: Install Dependencies
+  #       run: pnpm install
 
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.library }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.library }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.library }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.library }}
+  #     - name: test ${{ matrix.library }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.library }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
 
-  databases:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
+  # databases:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        database:
-          - digitalocean-pgbouncer
-          - docker-pgbouncer
-          - heroku-pgbouncer
-          - heroku-pgbouncer-buildpack
-          - sqlserver-aws-rds
-          - sqlserver-azure-sql
-          - gcp-postgresql-ssl
-          - gcp-mysql-ssl
-          - mongodb-atlas
-          - mongodb-atlas-sharded
-          - mongodb-atlas-serverless
-          - mongodb-digitalocean
-          #- mongodb-azure-cosmosdb
-          - supabase
-          - supabase-pool
-          - planetscale
-          - cockroach-cloud
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       database:
+  #         - digitalocean-pgbouncer
+  #         - docker-pgbouncer
+  #         - heroku-pgbouncer
+  #         - heroku-pgbouncer-buildpack
+  #         - sqlserver-aws-rds
+  #         - sqlserver-azure-sql
+  #         - gcp-postgresql-ssl
+  #         - gcp-mysql-ssl
+  #         - mongodb-atlas
+  #         - mongodb-atlas-sharded
+  #         - mongodb-atlas-serverless
+  #         - mongodb-digitalocean
+  #         #- mongodb-azure-cosmosdb
+  #         - supabase
+  #         - supabase-pool
+  #         - planetscale
+  #         - cockroach-cloud
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
 
-    runs-on: ${{ matrix.os }}
+  #   runs-on: ${{ matrix.os }}
 
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
-      DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
-      DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
-      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
-      DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
-      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
-      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
-      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
-      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
-      GCP_MYSQL_SSL_CLIENT_CERT: ${{ secrets.GCP_MYSQL_SSL_CLIENT_CERT }}
-      GCP_MYSQL_SSL_CLIENT_KEY: ${{ secrets.GCP_MYSQL_SSL_CLIENT_KEY }}
-      GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
-      GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
-      DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
-      DATABASE_URL_DB_MONGODB_ATLAS_SHARDED: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SHARDED }}
-      DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS }}
-      DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
-      #DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
-      MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
-      DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
-      DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
-      DATABASE_URL_COACKROACH_CLOUD: ${{ secrets.DATABASE_URL_COACKROACH_CLOUD }}
+  #   env:
+  #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #     DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
+  #     DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
+  #     DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
+  #     DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+  #     DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
+  #     GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
+  #     GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
+  #     GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
+  #     GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
+  #     GCP_MYSQL_SSL_CLIENT_CERT: ${{ secrets.GCP_MYSQL_SSL_CLIENT_CERT }}
+  #     GCP_MYSQL_SSL_CLIENT_KEY: ${{ secrets.GCP_MYSQL_SSL_CLIENT_KEY }}
+  #     GCP_MYSQL_SSL_DB_URL: ${{ secrets.GCP_MYSQL_SSL_DB_URL }}
+  #     GCP_MYSQL_SSL_SERVER_CA: ${{ secrets.GCP_MYSQL_SSL_SERVER_CA }}
+  #     DATABASE_URL_DB_MONGODB_ATLAS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS }}
+  #     DATABASE_URL_DB_MONGODB_ATLAS_SHARDED: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SHARDED }}
+  #     DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS: ${{ secrets.DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS }}
+  #     DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
+  #     #DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+  #     MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
+  #     DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
+  #     DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+  #     DATABASE_URL_COACKROACH_CLOUD: ${{ secrets.DATABASE_URL_COACKROACH_CLOUD }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
-      - name: Install Dependencies
-        run: pnpm install
+  #     - name: Install Dependencies
+  #       run: pnpm install
 
-      - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+  #     - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
-  databases-macos:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases-macos'] == true }}
+  # databases-macos:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases-macos'] == true }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        clientEngine: [library] # ['library', 'binary']
-        database:
-          - sqlserver-azure-sql
-        os: [macos-latest]
-    runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       clientEngine: [library] # ['library', 'binary']
+  #       database:
+  #         - sqlserver-azure-sql
+  #       os: [macos-latest]
+  #   runs-on: ${{ matrix.os }}
 
-    env:
-      DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
+  #   env:
+  #     DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
-      - name: Install Dependencies
-        run: pnpm install
+  #     - name: Install Dependencies
+  #       run: pnpm install
 
-      - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+  #     - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
-  test-runners:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['test-runners'] == true }}
+  # test-runners:
+  #   needs: [detect_jobs_to_run]
+  #   if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['test-runners'] == true }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        test-runner:
-          - jest-with-multiple-generators
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-runner:
+  #         - jest-with-multiple-generators
+  #       clientEngine: ['library', 'binary']
+  #       os: [ubuntu-20.04] #, windows-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+  #     - name: Define Client Engine Type to test
+  #       run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 7
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'pnpm'
+  #         cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
 
-      - name: Install Dependencies
-        run: pnpm install
+  #     - name: Install Dependencies
+  #       run: pnpm install
 
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.test-runner }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+  #     - name: Set test specific DATABASE_URL
+  #       run: |
+  #         string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+  #         search=database
+  #         replace=${{ github.job }}_${{ matrix.test-runner }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+  #         replaced=${string/$search/$replace}
+  #         echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.test-runner }} - ${{ matrix.clientEngine }}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.test-runner }}
+  #     - name: test ${{ matrix.test-runner }} - ${{ matrix.clientEngine }}
+  #       id: run-test
+  #       uses: nick-invision/retry@v2
+  #       with:
+  #         timeout_minutes: 10
+  #         max_attempts: 3
+  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.test-runner }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
+  #     - name: notify-slack
+  #       if: failure()
+  #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
