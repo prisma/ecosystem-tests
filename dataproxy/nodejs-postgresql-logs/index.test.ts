@@ -1,12 +1,12 @@
-import { test, expect, vi } from 'vitest'
-import { PrismaClient } from '@prisma/client'
+import { test, expect, jest } from '@jest/globals'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 test('dataproxy logs with postgres', async () => {
   const prisma = new PrismaClient({
     log: [{ emit: 'event', level: 'query' }],
   })
 
-  const onQuery = vi.fn()
+  const onQuery = jest.fn<(event: Prisma.QueryEvent) => void>()
   prisma.$on('query', onQuery)
 
   await prisma.user.findMany()
