@@ -8,8 +8,8 @@ async function post(url, message, retries = 0) {
       icon_emoji: ':microscope:',
     })
   } catch (err) {
-    if (retries <= 3) {
-      await new Promise((r) => setTimeout(r, retries ** 2 * 1000))
+    if (retries <= 4) {
+      await new Promise((r) => setTimeout(r, retries ** 3 * 1000))
       await post(url, message, retries + 1)
     } else {
       throw err
