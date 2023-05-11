@@ -6,4 +6,4 @@ pnpm install
 
 pnpm prisma generate --data-proxy
 
-pnpm wrangler publish 2> deployment-url.txt
+pnpm wrangler publish | tee deployment-url.txt
