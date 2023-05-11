@@ -166,9 +166,6 @@ if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integra
     emoji=":white_check_mark:"
   fi
 
-  echo "notifying slack channel"
-  node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
-
   if [ $code -ne 0 ]; then
     export webhook="$SLACK_WEBHOOK_URL_FAILING"
     echo "notifying failing slack channel"
