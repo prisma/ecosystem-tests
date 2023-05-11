@@ -50,8 +50,14 @@ async function waitForSpans(): Promise<ReadableSpan[]> {
 }
 
 function cleanSpansForSnapshot(spans: ReadableSpan[]) {
+  // Sort the spans by name to ensure stable order in a snapshot
+  const sortedSpans = spans.sort((a, b) => a.name.localeCompare(b.name, 'en-US'))
+
+  // Remove spans about "SELECT 1" query which is sometimes issued and sometimes isn't
+  const filteredSpans = sortedSpans.filter((span) => span.attributes?.['db.statement'] !== 'SELECT 1')
+
   return JSON.parse(
-    JSON.stringify(spans, (key, value) => {
+    JSON.stringify(filteredSpans, (key, value) => {
       const removedKeys = ['endTime', 'startTime', 'resource', 'status', 'events', 'instrumentationLibrary']
 
       if (removedKeys.includes(key)) {
@@ -77,57 +83,57 @@ test('dataproxy tracing with postgres', async () => {
   const spans = await waitForSpans()
 
   expect(cleanSpansForSnapshot(spans)).toMatchInlineSnapshot(`
-    [
-      {
-        "attributes": {},
-        "kind": 0,
-        "links": [],
-        "name": "prisma:client:serialize",
-        "parentSpanId": "<parentSpanId>",
-      },
-      {
-        "attributes": {
-          "method": "findMany",
-          "model": "User",
-          "name": "User.findMany",
-        },
-        "kind": 0,
-        "links": [],
-        "name": "prisma:client:operation",
-        "parentSpanId": "<parentSpanId>",
-      },
-      {
-        "attributes": {
-          "db.type": "postgres",
-        },
-        "kind": 0,
-        "links": [],
-        "name": "prisma:engine:connection",
-        "parentSpanId": "<parentSpanId>",
-      },
-      {
-        "attributes": {
-          "db.statement": "<dbStatement>",
-        },
-        "kind": 0,
-        "links": [],
-        "name": "prisma:engine:db_query",
-        "parentSpanId": "<parentSpanId>",
-      },
-      {
-        "attributes": {},
-        "kind": 0,
-        "links": [],
-        "name": "prisma:engine:serialize",
-        "parentSpanId": "<parentSpanId>",
-      },
-      {
-        "attributes": {},
-        "kind": 0,
-        "links": [],
-        "name": "prisma:engine",
-        "parentSpanId": "<parentSpanId>",
-      },
-    ]
-  `)
+[
+  {
+    "attributes": {
+      "method": "findMany",
+      "model": "User",
+      "name": "User.findMany",
+    },
+    "kind": 0,
+    "links": [],
+    "name": "prisma:client:operation",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {},
+    "kind": 0,
+    "links": [],
+    "name": "prisma:client:serialize",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {},
+    "kind": 0,
+    "links": [],
+    "name": "prisma:engine",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {
+      "db.type": "postgres",
+    },
+    "kind": 0,
+    "links": [],
+    "name": "prisma:engine:connection",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {
+      "db.statement": "<dbStatement>",
+    },
+    "kind": 0,
+    "links": [],
+    "name": "prisma:engine:db_query",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {},
+    "kind": 0,
+    "links": [],
+    "name": "prisma:engine:serialize",
+    "parentSpanId": "<parentSpanId>",
+  },
+]
+`)
 })
