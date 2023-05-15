@@ -4,7 +4,7 @@
 FROM almalinux:latest
 
 ARG NODE_VERSION="18.12.1"
-ARG ARCH="x64"
+ARG ARCH="arm64"
 
 WORKDIR /usr/src/app
 COPY --from=app . ./
@@ -21,13 +21,13 @@ RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${N
   && tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
   && rm "node-v${NODE_VERSION}-linux-${ARCH}.tar.xz"
 
-# Only OpenSSL 1.1 is expected to be on this system
+# Only OpenSSL 3 is expected to be on this system
 RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
-RUN if [ ! -e /lib64/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 not found in /lib64/libssl.so.1.1'; exit 1; fi
-RUN if [ -e /lib64/libssl.so.3 ]; then echo 'OpenSSL 3 must not be installed (found in /lib64/libssl.so.3)'; exit 1; fi
+RUN if [ ! -e /lib64/libssl.so.3 ]; then echo 'OpenSSL 3 not found in /lib64/libssl.so.3'; exit 1; fi
+RUN if [ -e /lib64/libssl.so.1.1 ]; then echo 'OpenSSL 1.1 must not be installed (found in /lib64/libssl.so.1.1)'; exit 1; fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
-ARG EXPECTED_PRISMA_TARGET_PLATFORM="rhel-openssl-1.1.x"
+ARG EXPECTED_PRISMA_TARGET_PLATFORM="linux-arm64-openssl-3.0.x"
 ARG PRISMA_CLIENT_ENGINE_TYPE
 ARG PRISMA_CLI_QUERY_ENGINE_TYPE
 ARG CI
