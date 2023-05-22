@@ -113,8 +113,18 @@ async function main() {
   const stdinData = await getStdin()
   console.debug('stdin:', stdinData)
 
-  const filesChanged = JSON.parse(stdinData)
-  console.debug('filesChanged:', filesChanged)
+  let filesChanged = []
+
+  if (stdinData) {
+    try {
+      filesChanged = JSON.parse(stdinData)
+      console.debug('filesChanged:', filesChanged)
+    } catch (e) {
+      console.warn(`We will fallback to run all tests because there was an error while parsing stdinData: ${e}`)
+    }
+  } else {
+    console.log(`We will fallback to run all tests because stdinData is empty.`)
+  }
 
   const { GITHUB_REF } = process.env
 
