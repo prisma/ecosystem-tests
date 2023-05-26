@@ -1,4 +1,4 @@
-# OS support: almalinux-latest-arm64-openssl-1.1.x
+# OS support: almalinux-8-amd64-openssl-1.1.x
 
 - Base Docker image: `almalinux`
 - OS: Almalinux Stone Smilodon
