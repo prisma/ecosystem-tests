@@ -30,7 +30,7 @@ describe('Prisma', () => {
       expect(files).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
-  "index-browser.mjs"
+  "index-browser.mjs",
   "index.d.ts",
   "index.js",
   "index.mjs",
@@ -43,8 +43,10 @@ Array [
       expect(files).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
+  "index-browser.mjs",
   "index.d.ts",
   "index.js",
+  "index.mjs",
   "package.json",
   "query-engine-linux-arm64-openssl-1.0.x",
   "schema.prisma",
