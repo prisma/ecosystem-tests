@@ -36,8 +36,10 @@ describe('Prisma in jest with multiple generators', () => {
       expect(filesA).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
+  "index-browser.mjs",
   "index.d.ts",
   "index.js",
+  "index.mjs",
   "package.json",
   "query-engine-debian-openssl-1.1.x",
   "runtime",
@@ -47,8 +49,10 @@ Array [
       expect(filesB).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
+  "index-browser.mjs",
   "index.d.ts",
   "index.js",
+  "index.mjs",
   "package.json",
   "query-engine-debian-openssl-1.1.x",
   "runtime",
