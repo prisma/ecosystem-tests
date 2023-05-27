@@ -63,8 +63,10 @@ Array [
       expect(filesA).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
+  "index-browser.mjs",
   "index.d.ts",
   "index.js",
+  "index.mjs",
   "libquery_engine-debian-openssl-1.1.x.so.node",
   "package.json",
   "runtime",
@@ -74,8 +76,10 @@ Array [
       expect(filesB).toMatchInlineSnapshot(`
 Array [
   "index-browser.js",
+  "index-browser.mjs",
   "index.d.ts",
   "index.js",
+  "index.mjs",
   "libquery_engine-debian-openssl-1.1.x.so.node",
   "package.json",
   "runtime",
