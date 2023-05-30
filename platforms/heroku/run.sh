@@ -20,9 +20,17 @@ else
 fi
 
 pnpm install
+
+# Remove all files from git
+# So we don't keep deleted filed
+git rm -r '*'
+
 pnpm prisma generate
 
+# Add files to git
 git add .
+
 git commit -m "push to heroku"
 git push heroku master --force
+
 rm -rf .git
