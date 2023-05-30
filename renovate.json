@@ -8,13 +8,14 @@
   },
   "dependencyDashboard": true,
   "prConcurrentLimit": 17,
-  "schedule": [
-    "before 7am every weekday",
-    "every weekend"
-  ],
+  "schedule": ["before 7am every weekday", "every weekend"],
   "rebaseWhen": "auto",
   "ignoreDeps": ["prisma", "@prisma/client"],
   "packageRules": [
+    {
+      "matchPackageNames": ["@prisma/instrumentation"],
+      "followTag": "dev"
+    },
     {
       "groupName": ["svelte packages"],
       "matchPackagePatterns": "svelte"
@@ -31,6 +32,10 @@
     {
       "groupName": "jest",
       "packageNames": ["jest", "@types/jest", "ts-jest"]
+    },
+    {
+      "groupName": "Firebase",
+      "matchPackageNames": ["firebase"]
     },
     {
       "groupName": "Webpack 4 - Cloudflare Workers",
