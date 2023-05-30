@@ -21,6 +21,7 @@ fi
 
 pnpm install
 
+git pull
 # Remove all files from git
 # So we don't keep deleted filed
 git rm -r '*'
