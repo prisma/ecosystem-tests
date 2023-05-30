@@ -21,7 +21,7 @@ fi
 
 pnpm install
 
-git pull origin master
+git pull heroku master
 # Remove all files from git
 # So we don't keep deleted filed
 git rm -r '*'
