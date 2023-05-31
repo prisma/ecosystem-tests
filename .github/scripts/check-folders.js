@@ -21,7 +21,7 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
-    'databases/mongodb-azure-cosmosdb', // expected to fail in failing-weekly.yaml
+    'databases/mongodb-azure-cosmosdb', // expected to fail, so moved to failing-weekly.yaml
   ]
 
   // Jobs in the workflow files that are not relevant and can be skipped
