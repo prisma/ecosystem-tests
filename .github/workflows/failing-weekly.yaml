@@ -1,0 +1,60 @@
+name: failing-weekly
+
+on:
+  workflow_dispatch:
+  schedule:
+    # at 3am weekly on Sunday
+    - cron: '0 3 * * 0'
+
+env:
+  PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests failing-weekly.yaml'
+  CI: 1
+
+defaults:
+  run:
+    # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
+    shell: bash
+
+jobs:
+  databases:
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          # It fails, see https://github.com/prisma/prisma/issues/15083
+          - mongodb-azure-cosmosdb
+        # Since it fails, we can test only library
+        clientEngine: ['library']
+        os: [ubuntu-20.04]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
