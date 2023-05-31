@@ -3,14 +3,12 @@ const yaml = require('yaml')
 
 const fs = require('fs')
 const path = require('path')
-const { exit } = require('process')
 
 /**
  * This script checks if there are folders (= tests) that are not "run" via test.yaml and test.yaml
- *  It gets all relevant folders, then all the jobs from both workflows, and extract those from the list of folder and checks if nothing is left 
+ *  It gets all relevant folders, then all the jobs from both workflows, and extract those from the list of folder and checks if nothing is left
  */
 async function main() {
-  
   // Files and folders to skip during checking
   const ignoreFiles = [
     'package.json', // package.json at root
@@ -23,8 +21,9 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
+    'databases/mongodb-azure-cosmosdb', // expected to fail in failing-weekly.yaml
   ]
-  
+
   // Jobs in the workflow files that are not relevant and can be skipped
   const jobsToIgnore = [
     'start-time', // Not a test but a job that fills an env var with the job start time
@@ -33,14 +32,14 @@ async function main() {
     'detect_jobs_to_run', // Not a test but a job that decides which tests should run
     'cleanup-runs', // Not a test but a job that cancels previous runs
   ]
-  
+
   // Keys to ignore
   // TODO better description what this actually means
   const keysToIgnore = [
-    'os', // We want to count folders vs references in the yaml file not when something is run across differnt OSes
-    'node', // We want to count folders vs references in the yaml file not when something is run across differnt node versions
+    'os', // We want to count folders vs references in the yaml file not when something is run across different OSes
+    'node', // We want to count folders vs references in the yaml file not when something is run across different node versions
   ]
-  
+
   // Get all relevant folders that _should_ appear in workflows
   const folders = glob
     .sync('**/package.json', {
@@ -52,17 +51,13 @@ async function main() {
     })
 
   // get optional tests workflow
-  const optionalTestYamlString = fs.readFileSync(
-    path.join(process.cwd(), '.github/workflows/optional-test.yaml'),
-    { encoding: 'utf8' },
-  )
+  const optionalTestYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/optional-test.yaml'), {
+    encoding: 'utf8',
+  })
   const optionalTestYaml = yaml.parse(optionalTestYamlString)
 
   // get tests workflow
-  const testYamlString = fs.readFileSync(
-    path.join(process.cwd(), '.github/workflows/test.yaml'),
-    { encoding: 'utf8' },
-  )
+  const testYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/test.yaml'), { encoding: 'utf8' })
   const testYaml = yaml.parse(testYamlString)
 
   // get job keys from workflow files
@@ -75,7 +70,6 @@ async function main() {
   // Create an array of job names, from reading the `jobs` keys of the .yml file
   const jobs = jobKeys
     .map((key) => {
-      
       // jobs
       const job = testYaml['jobs'][key]
       const matrix = Boolean(job) && Boolean(job.strategy) ? job.strategy.matrix : {}
@@ -87,7 +81,8 @@ async function main() {
 
       // optional jobs
       const job_optional = optionalTestYaml['jobs'][key]
-      const matrix_optional = Boolean(job_optional) && Boolean(job_optional.strategy) ? job_optional.strategy.matrix : {}
+      const matrix_optional =
+        Boolean(job_optional) && Boolean(job_optional.strategy) ? job_optional.strategy.matrix : {}
       const folders_optional = Object.keys(matrix_optional)
         .filter((key) => {
           return !keysToIgnore.includes(key)
