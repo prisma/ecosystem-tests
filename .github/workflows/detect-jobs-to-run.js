@@ -132,7 +132,12 @@ async function main() {
     filesChanged,
     GITHUB_REF,
   })
-  console.log('::set-output name=jobs::' + JSON.stringify(jobsToRun))
+
+  console.log('jobsToRun:', jobsToRun)
+  if (typeof process.env.GITHUB_OUTPUT == 'string' && process.env.GITHUB_OUTPUT.length > 0) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `jobs=${JSON.stringify(jobsToRun)}\n`)
+    console.debug('jobsToRun added to GITHUB_OUTPUT')
+  }
 }
 
 // Only run if from command line
