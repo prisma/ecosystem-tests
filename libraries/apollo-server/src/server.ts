@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer } from '@apollo/server'
+import { gql } from '@apollo/client'
 import { createContext } from './context'
 
 const client = new PrismaClient();
