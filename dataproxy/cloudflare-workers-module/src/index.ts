@@ -1,6 +1,5 @@
 // Note: see wrangler.toml and https://www.npmjs.com/package/@cloudflare/workers-types for the version
-/// <reference types="@cloudflare/workers-types/2022-08-04" />
-// import { Env } from '@cloudflare/workers-types/2022-08-04'
+/// <reference types="@cloudflare/workers-types" />
 import { PrismaClient } from '@prisma/client/edge'
 
 export interface Env {
