@@ -1,5 +1,5 @@
 // Note: see wrangler.toml and https://www.npmjs.com/package/@cloudflare/workers-types for the version
-import { FetchEvent, Response } from '@cloudflare/workers-types/2022-08-04'
+/// <reference types="@cloudflare/workers-types/2022-08-04" />
 import { PrismaClient } from '@prisma/client/edge'
 
 const prisma = new PrismaClient({})
