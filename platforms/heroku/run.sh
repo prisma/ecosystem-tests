@@ -23,7 +23,7 @@ git clone "https://ignored_user:`heroku auth:token`@git.heroku.com/e2e-platforms
 cd heroku_clone
 # Remove all files from git, so we don't keep deleted files
 git rm -r '*'
-cp ../prisma .gitignore ../index.js ../package.json ../pnpm-lock.yaml ./
+cp -r ../prisma .gitignore ../index.js ../package.json ../pnpm-lock.yaml ./
 # Add files to git
 git add .
 git commit -m "push to heroku"
