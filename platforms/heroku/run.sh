@@ -27,7 +27,7 @@ cp -r ../prisma ../.gitignore ../index.js ../package.json ../pnpm-lock.yaml ./
 # Add files to git
 git add .
 git commit -m "push to heroku"
-git push heroku master --force
+git push master --force
 cd ../
 
 rm -rf heroku_clone
