@@ -16,8 +16,8 @@ RUN ./uname.sh
 
 # Only OpenSSL 1.1 is expected to be on this system
 RUN ldconfig -p | grep ssl | sed "s/.*=>\s*//"
-RUN if [ ! -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1* ]; then echo "OpenSSL 1.1 not found in /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1*"; exit 1; fi
-RUN if [ -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3* ]; then echo "OpenSSL 3 must not be installed (found in /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3*)"; exit 1; fi
+RUN if [ ! -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3* ]; then echo "OpenSSL 3 not found in /lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3*"; exit 1; fi
+RUN if [ -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1* ]; then echo "OpenSSL 1.1 must not be installed (found in /lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.1.1*)"; exit 1; fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
 ARG EXPECTED_PRISMA_TARGET_PLATFORM="debian-openssl-1.1.x"
