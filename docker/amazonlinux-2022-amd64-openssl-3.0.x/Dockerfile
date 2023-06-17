@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM public.ecr.aws/amazonlinux/amazonlinux:2022
+FROM public.ecr.aws/amazonlinux/amazonlinux:2023
 
 ARG NODE_VERSION="18.12.1"
 ARG ARCH="x64"
