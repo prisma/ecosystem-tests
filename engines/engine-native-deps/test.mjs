@@ -9,35 +9,39 @@ const { enginesVersion } = await import(versionPath)
 
 const update = process.argv.includes('--update')
 
-const engineFiles = ['query-engine', 'migration-engine', `libquery_engine.so.node`]
+const allEngines = ['query-engine', 'migration-engine', 'libquery_engine.so.node']
+const onlyBinaries = ['query-engine', 'migration-engine']
 
-const platforms = [
-  'rhel-openssl-1.0.x',
-  'rhel-openssl-1.1.x',
-  'rhel-openssl-3.0.x',
-  'debian-openssl-1.0.x',
-  'debian-openssl-1.1.x',
-  'debian-openssl-3.0.x',
-  'linux-musl',
-  'linux-musl-openssl-3.0.x',
-  'linux-arm64-openssl-1.0.x',
-  'linux-arm64-openssl-1.1.x',
-  'linux-arm64-openssl-3.0.x',
-  'linux-musl-arm64-openssl-1.1.x',
-  'linux-musl-arm64-openssl-3.0.x',
-]
+const platforms = {
+  'rhel-openssl-1.0.x': allEngines,
+  'rhel-openssl-1.1.x': allEngines,
+  'rhel-openssl-3.0.x': allEngines,
+  'debian-openssl-1.0.x': allEngines,
+  'debian-openssl-1.1.x': allEngines,
+  'debian-openssl-3.0.x': allEngines,
+  'linux-musl': allEngines,
+  'linux-musl-openssl-3.0.x': allEngines,
+  'linux-arm64-openssl-1.0.x': allEngines,
+  'linux-arm64-openssl-1.1.x': allEngines,
+  'linux-arm64-openssl-3.0.x': allEngines,
+  'linux-musl-arm64-openssl-1.1.x': allEngines,
+  'linux-musl-arm64-openssl-3.0.x': allEngines,
+  'linux-static-x64': onlyBinaries,
+  'linux-static-arm64': onlyBinaries,
+}
 
 if (update) {
   await $`rm -rf snapshots`
 }
 
-for (const platform of platforms) {
+for (const [platform, engineFiles] of Object.entries(platforms)) {
   for (const engine of engineFiles) {
     await $`curl -fO "https://binaries.prisma.sh/all_commits/${enginesVersion}/${platform}/${engine}.gz"`
     await $`gunzip -f ${engine}.gz`
     await $`chmod +x ${engine}`
 
-    const deps = await $`readelf -d ${engine} | grep NEEDED | grep -oP '(?<=\\[)[^]]+' | sort -d`
+    // grep exits with code 1 when it can't find anything, hence `nothrow()` to support static binaries
+    const deps = await $`readelf -d ${engine} | grep NEEDED | grep -oP '(?<=\\[)[^]]+' | sort -d`.nothrow()
     const snapshotPath = `snapshots/${platform}/${engine}.txt`
 
     if (update) {
