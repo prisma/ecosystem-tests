@@ -17,6 +17,4 @@ Note: using an A1 Instance Type (a1.medium) results in a kernel panic.
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # Install Node 16
 nvm install v16
-# Install pnpm
-npm install -g pnpm
 ```
