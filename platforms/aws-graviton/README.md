@@ -12,6 +12,14 @@ Note: using an A1 Instance Type (a1.medium) results in a kernel panic.
 
 ### One time setup
 
+### GitHub Actions
+
+Set up the `SSH_KEY_GRAVITON` env var: Copy & paste the `.pem` private ssh key file contents without any modification into GitHub's UI.
+
+### Remote machine
+
+SSH in and execute the following:
+
 ```sh
 # Install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
