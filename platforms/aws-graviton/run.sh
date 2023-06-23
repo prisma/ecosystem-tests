@@ -10,8 +10,8 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       cd /home/ec2-user/aws-graviton/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
       export PRISMA_CLIENT_ENGINE_TYPE=\"binary\"
       rm -rf ./node_modules;
-      npm i -g pnpm@7;
-      pnpm install;
+      npm i -g pnpm@8;
+      pnpm install --reporter=append-only;
       pnpm prisma generate;
       pnpm prisma -v;
   "
@@ -21,8 +21,8 @@ else
       cd /home/ec2-user/aws-graviton/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
       export PRISMA_CLIENT_ENGINE_TYPE=\"library\"
       rm -rf ./node_modules;
-      npm i -g pnpm@7;
-      pnpm install;
+      npm i -g pnpm@8;
+      pnpm install --reporter=append-only;
       pnpm prisma generate;
       pnpm prisma -v;
   "
