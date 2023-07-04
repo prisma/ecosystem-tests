@@ -574,14 +574,21 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 14 # latest minor+patch on GH Actions
-          - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
-          - 15 # latest minor+patch on GH Actions
+          - 16.0
+          - 16.1
+          - 16.2
+          - 16.3
+          - 16.4
+          - 16.5
+          - 16.6
+          - 16.7
+          - 16.8
+          - 16.9
+          - 16.10
+          - 16.11
+          - 16.12
+          - 16.13
           - 16 # latest minor+patch on GH Actions
-          - 17
-          - 18
-          - 19
-          - 20
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
