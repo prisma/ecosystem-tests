@@ -9,7 +9,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   const email = faker.internet.email()
-  const title = faker.random.word()
+  const title = faker.lorem.word()
 
   const user = await prisma.$transaction(
     async (tx) => {
