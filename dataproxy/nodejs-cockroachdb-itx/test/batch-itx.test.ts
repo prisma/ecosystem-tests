@@ -24,9 +24,9 @@ describe('batch-itx', () => {
     async () => {
       const emails = new Array(batchAmount)
         .fill(null)
-        .map(() => `${faker.random.alphaNumeric(10)}@${faker.random.alphaNumeric(10)}.com`)
+        .map(() => `${faker.string.alphanumeric(10)}@${faker.string.alphanumeric(10)}.com`)
 
-      const randomValue = Number(faker.random.numeric(5))
+      const randomValue = Number(faker.string.numeric(5))
 
       const users = await prisma.$transaction(
         async (tx) => {
