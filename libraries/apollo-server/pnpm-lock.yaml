@@ -40,8 +40,8 @@ devDependencies:
 
 packages:
 
-  /@apollo/cache-control-types@1.0.2(graphql@16.7.1):
-    resolution: {integrity: sha512-Por80co1eUm4ATsvjCOoS/tIR8PHxqVjsA6z76I6Vw0rFn4cgyVElQcmQDIZiYsy41k8e5xkrMRECkM2WR8pNw==}
+  /@apollo/cache-control-types@1.0.3(graphql@16.7.1):
+    resolution: {integrity: sha512-F17/vCp7QVwom9eG7ToauIKdAxpSoadsJnqIfyryLFSkLSOEqu+eC5Z3N8OXcUVStuOMcNHlyraRsA6rRICu4g==}
     peerDependencies:
       graphql: 14.x || 15.x || 16.x
     dependencies:
@@ -101,12 +101,12 @@ packages:
       long: 4.0.0
     dev: false
 
-  /@apollo/server-gateway-interface@1.1.0(graphql@16.7.1):
-    resolution: {integrity: sha512-0rhG++QtGfr4YhhIHgxZ9BdMFthaPY6LbhI9Au90osbfLMiZ7f8dmZsEX1mp7O1h8MJwCu6Dp0I/KcGbSvfUGA==}
+  /@apollo/server-gateway-interface@1.1.1(graphql@16.7.1):
+    resolution: {integrity: sha512-pGwCl/po6+rxRmDMFgozKQo2pbsSwE91TpsDBAOgf74CRDPXHHtM88wbwjab0wMMZh95QfR45GGyDIdhY24bkQ==}
     peerDependencies:
       graphql: 14.x || 15.x || 16.x
     dependencies:
-      '@apollo/usage-reporting-protobuf': 4.1.0
+      '@apollo/usage-reporting-protobuf': 4.1.1
       '@apollo/utils.fetcher': 2.0.1
       '@apollo/utils.keyvaluecache': 2.1.1
       '@apollo/utils.logger': 2.0.1
@@ -119,8 +119,8 @@ packages:
     peerDependencies:
       graphql: ^16.6.0
     dependencies:
-      '@apollo/cache-control-types': 1.0.2(graphql@16.7.1)
-      '@apollo/server-gateway-interface': 1.1.0(graphql@16.7.1)
+      '@apollo/cache-control-types': 1.0.3(graphql@16.7.1)
+      '@apollo/server-gateway-interface': 1.1.1(graphql@16.7.1)
       '@apollo/usage-reporting-protobuf': 4.1.0
       '@apollo/utils.createhash': 2.0.1
       '@apollo/utils.fetcher': 2.0.1
@@ -140,7 +140,7 @@ packages:
       express: 4.18.2
       graphql: 16.7.1
       loglevel: 1.8.1
-      lru-cache: 7.18.3
+      lru-cache: 7.13.1
       negotiator: 0.6.3
       node-abort-controller: 3.1.1
       node-fetch: 2.6.9
@@ -153,6 +153,12 @@ packages:
 
   /@apollo/usage-reporting-protobuf@4.1.0:
     resolution: {integrity: sha512-hXouMuw5pQVkzi8dgMybmr6Y11+eRmMQVoB5TF0HyTwAg9SOq/v3OCuiYqcVUKdBcskU9Msp+XvjAk0GKpWCwQ==}
+    dependencies:
+      '@apollo/protobufjs': 1.2.7
+    dev: false
+
+  /@apollo/usage-reporting-protobuf@4.1.1:
+    resolution: {integrity: sha512-u40dIUePHaSKVshcedO7Wp+mPiZsaU6xjv9J+VyxpoU/zL6Jle+9zWeG98tr/+SZ0nZ4OXhrbb8SNr0rAPpIDA==}
     dependencies:
       '@apollo/protobufjs': 1.2.7
     dev: false
@@ -977,6 +983,11 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+    dev: false
+
+  /lru-cache@7.13.1:
+    resolution: {integrity: sha512-CHqbAq7NFlW3RSnoWXLJBxCWaZVBrfa9UEHId2M3AW8iEBurbqduNexEUCGc3SHc6iCYXNJCDi903LajSVAEPQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /lru-cache@7.18.3:
