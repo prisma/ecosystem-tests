@@ -15,3 +15,10 @@
 node_modules/
 *.zip
 *.env
+
+# TODO remove once we switched to pnpm v8
+# Temporary workaround for the following error: 
+# ERR_PNPM_FROZEN_LOCKFILE_WITH_OUTDATED_LOCKFILE  Cannot perform a frozen installation because the version of the lockfile is incompatible with this version of pnpm
+# We need to use pnpm v7 in ecosystem-tests for now (because it's the last version running on Node.js 14)
+# Google Cloud added pnpm v8 support very recently: https://github.com/GoogleCloudPlatform/buildpacks/commit/38fa92d0d789080ecfff2afa4068b28915294960
+pnpm-lock.yaml

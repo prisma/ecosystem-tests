@@ -7,14 +7,23 @@
     "automerge": false
   },
   "dependencyDashboard": true,
-  "prConcurrentLimit": 10,
-  "schedule": [
-    "before 7am every weekday",
-    "every weekend"
-  ],
+  "prConcurrentLimit": 17,
+  "schedule": ["before 7am every weekday", "every weekend"],
   "rebaseWhen": "auto",
   "ignoreDeps": ["prisma", "@prisma/client"],
   "packageRules": [
+    {
+      "matchPackageNames": ["@prisma/instrumentation"],
+      "followTag": "dev"
+    },
+    {
+      "groupName": ["svelte packages"],
+      "matchPackagePatterns": "svelte"
+    },
+    {
+      "groupName": ["sveltekit directory"],
+      "matchPaths": ["frameworks/sveltekit/**"]
+    },
     {
       "groupName": ["@redwoodjs packages"],
       "matchPackagePatterns": "^@redwoodjs"
@@ -29,16 +38,13 @@
       "packageNames": ["jest", "@types/jest", "ts-jest"]
     },
     {
-      "groupName": "Webpack 4 - Cloudflare Workers",
-      "matchPaths": ["dataproxy/cloudflare-workers/**"],
-      "matchPackageNames": ["webpack"],
-      "allowedVersions": "<5"
+      "groupName": "Firebase",
+      "matchPackageNames": ["firebase"]
     },
     {
-      "groupName": "ts-loader 8 - Cloudflare Workers",
-      "matchPaths": ["dataproxy/cloudflare-workers/**"],
-      "matchPackageNames": ["ts-loader"],
-      "allowedVersions": "<9"
+      "groupName": "TypeScript < 4.9.5 - typegraphql-prisma & firebase",
+      "matchPaths": ["community-generators/typegraphql-prisma/**", "platforms-serverless/firebase-functions/**"],
+      "matchPackageNames": ["typescript"]
     },
     {
       "groupName": "GraphQL 15 - TypeGraphQL",

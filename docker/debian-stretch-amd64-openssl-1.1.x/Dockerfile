@@ -6,6 +6,9 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
+RUN echo 'deb http://archive.debian.org/debian stretch main' > /etc/apt/sources.list
+RUN echo 'deb http://archive.debian.org/debian-security stretch/updates main' >> /etc/apt/sources.list
+
 # Update system dependencies.
 # OpenSSL is missing in the base image, so we install it
 RUN apt-get update -y \

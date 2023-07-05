@@ -16,7 +16,7 @@ describe('lots-of-activities', () => {
     async () => {
       const emails = new Array(activities)
         .fill(null)
-        .map(() => `${faker.random.alphaNumeric(10)}@${faker.random.alphaNumeric(10)}.com`)
+        .map(() => `${faker.string.alphanumeric(10)}@${faker.string.alphanumeric(10)}.com`)
 
       await prisma.$transaction(async (tx) => {
         await Promise.all(

@@ -113,8 +113,18 @@ async function main() {
   const stdinData = await getStdin()
   console.debug('stdin:', stdinData)
 
-  const filesChanged = JSON.parse(stdinData)
-  console.debug('filesChanged:', filesChanged)
+  let filesChanged = []
+
+  if (stdinData) {
+    try {
+      filesChanged = JSON.parse(stdinData)
+      console.debug('filesChanged:', filesChanged)
+    } catch (e) {
+      console.warn(`We will fallback to run all tests because there was an error while parsing stdinData: ${e}`)
+    }
+  } else {
+    console.log(`We will fallback to run all tests because stdinData is empty.`)
+  }
 
   const { GITHUB_REF } = process.env
 
@@ -122,7 +132,11 @@ async function main() {
     filesChanged,
     GITHUB_REF,
   })
-  console.log('::set-output name=jobs::' + JSON.stringify(jobsToRun))
+
+  if (typeof process.env.GITHUB_OUTPUT == 'string' && process.env.GITHUB_OUTPUT.length > 0) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `jobs=${JSON.stringify(jobsToRun)}\n`)
+    console.debug('jobsToRun added to GITHUB_OUTPUT')
+  }
 }
 
 // Only run if from command line

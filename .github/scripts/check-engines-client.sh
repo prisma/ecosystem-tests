@@ -31,7 +31,9 @@ skipped_projects=(
   studio                                  # TODO: No generated Client in `node_modules/.prisma/client/`
   netlify-cli                             # Client is generated into `../functions/generated/client` via use of `output`
   jest-with-multiple-generators           # No generated Client locally in default path, both Clients have custom `output`
-  generate-client-install-on-sub-project  # Client is generated into a subfolder
+  generate-client-install-on-sub-project-npm  # Client is generated into a subfolder
+  generate-client-install-on-sub-project-pnpm # Client is generated into a subfolder
+  generate-client-install-on-sub-project-yarn # Client is generated into a subfolder
   pnpm-workspaces-custom-output           # Client is generated into a subfolder
   pnpm-workspaces-default-output          # Client is generated into a subfolder
   webpack-browser-custom-output           # Client is generated into a subfolder

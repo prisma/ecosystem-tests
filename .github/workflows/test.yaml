@@ -58,6 +58,7 @@ jobs:
       - id: checkout
         uses: actions/checkout@v3
       - id: files
+        continue-on-error: true
         uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
@@ -205,8 +206,10 @@ jobs:
       fail-fast: false
       matrix:
         feature:
-          - almalinux-latest-amd64-openssl-1.1.x
-          - almalinux-latest-arm64-openssl-1.1.x
+          - almalinux-8-amd64-openssl-1.1.x
+          - almalinux-8-arm64-openssl-1.1.x
+          - almalinux-latest-amd64-openssl-3.0.x
+          - almalinux-latest-arm64-openssl-3.0.x
           - alpine-3.16-amd64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x-with-libc
@@ -223,8 +226,8 @@ jobs:
           - debian-bullseye-amd64-openssl-1.1.x
           - debian-bullseye-amd64-openssl-1.1.x-tls
           - debian-buster-amd64-openssl-1.1.x
-          - debian-latest-amd64-openssl-1.1.x
-          - debian-latest-arm64-openssl-1.1.x
+          - debian-latest-amd64-openssl-3.0.x
+          - debian-latest-arm64-openssl-3.0.x
           - debian-stretch-amd64-openssl-1.1.x
           - opensuse-tumbleweed-amd64-openssl-3.0.x
           - redhat-ubi9-amd64-openssl-3.0.x
@@ -358,9 +361,16 @@ jobs:
             auto-reconnect,
             browser-build,
             studio,
-            generate-client-and-cli-install,
-            generate-client-install,
-            generate-client-install-on-sub-project,
+            generate-client-and-cli-install-via-global-cli-no-lockfile-npm,
+            generate-client-and-cli-install-via-global-cli-npm-lockfile,
+            generate-client-and-cli-install-via-global-cli-yarn-lockfile,
+            generate-client-and-cli-install-via-global-cli-pnpm-lockfile,
+            generate-client-install-npm,
+            generate-client-install-yarn,
+            generate-client-install-pnpm,
+            generate-client-install-on-sub-project-npm,
+            generate-client-install-on-sub-project-pnpm,
+            generate-client-install-on-sub-project-yarn,
           ]
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
@@ -379,8 +389,18 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+          cache: |
+            ${{
+              contains(matrix.feature, '-yarn') && 'yarn' ||
+              contains(matrix.feature, '-npm') && 'npm' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.feature }}/${{
+              contains(matrix.feature, '-yarn') && 'yarn.lock' ||
+              contains(matrix.feature, '-npm') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
+            }}
 
       - name: Install Dependencies
         run: pnpm install
@@ -463,8 +483,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: [engine-types]
+        feature: [engine-types, engine-native-deps]
         os: [ubuntu-20.04, windows-latest, macos-latest]
+        exclude:
+          - feature: engine-native-deps
+            os: windows-latest
+          - feature: engine-native-deps
+            os: macos-latest
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -556,13 +581,14 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 14 # latest minor+patch oh GH Actions
-          - 15 # latest minor+patch oh GH Actions
-          - 16 # latest minor+patch oh GH Actions
+          - 14 # latest minor+patch on GH Actions
           - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
+          - 15 # latest minor+patch on GH Actions
+          - 16 # latest minor+patch on GH Actions
           - 17
           - 18
           - 19
+          - 20
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -698,8 +724,8 @@ jobs:
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
-              contains(matrix.packager, 'npm') && 'npm' ||
-              'pnpm'
+              contains(matrix.packager, 'pnpm') && 'pnpm' ||
+              'npm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.packager }}/${{
@@ -818,7 +844,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: | 
+          cache: |
             ${{
               contains(matrix.platform, 'codesandbox') && 'npm' ||
               'pnpm'
@@ -872,6 +898,7 @@ jobs:
           - lambda
           - netlify-cli
           - netlify-github
+          - netlify-github-with-nextjs-caching
           - gcp-functions
           - firebase-functions
           - azure-functions-linux
@@ -891,6 +918,7 @@ jobs:
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
       SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
       GCP_FUNCTIONS_PROJECT: ${{ secrets.GCP_FUNCTIONS_PROJECT }}
       GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
       GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
@@ -923,7 +951,7 @@ jobs:
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'azure') && 'package-lock.json' || 
+              contains(matrix.platform, 'azure') && 'package-lock.json' ||
               contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
               'pnpm-lock.yaml'
             }}
@@ -967,6 +995,7 @@ jobs:
           - vercel-cli
           - vercel-with-redwood
           - vercel-with-nextjs
+          - vercel-with-nextjs-caching
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -986,6 +1015,8 @@ jobs:
       VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ secrets.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v3
@@ -1002,7 +1033,7 @@ jobs:
               contains(matrix.platform, 'redwood') && 'yarn' ||
               'pnpm'
             }}
-          cache-dependency-path: | 
+          cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
               contains(matrix.platform, 'redwood') && 'yarn.lock' ||
               'pnpm-lock.yaml'
@@ -1046,13 +1077,17 @@ jobs:
         platform:
           - nodejs
           - deno
-          - cloudflare-workers
+          - cloudflare-workers-service
+          - cloudflare-workers-module
           - vercel-edge-functions
           - vercel-cli-serverless-functions
           - nodejs-postgresql-itx
           - nodejs-mysql-itx
           - nodejs-mongodb-itx
           - nodejs-cockroachdb-itx
+          - nodejs-postgresql-logs
+          - nodejs-mongodb-logs
+          - nodejs-tracing
         clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -1242,6 +1277,8 @@ jobs:
           - mongodb-atlas-sharded
           - mongodb-atlas-serverless
           - mongodb-digitalocean
+          # It fails, see https://github.com/prisma/prisma/issues/15083
+          # It's tested in failing-weekly.yaml
           #- mongodb-azure-cosmosdb
           - supabase
           - supabase-pool
