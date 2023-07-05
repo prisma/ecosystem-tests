@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@prisma/client':
-    specifier: 4.17.0-dev.60
-    version: 4.17.0-dev.60(prisma@4.17.0-dev.60)
+    specifier: 4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2
+    version: 4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2(prisma@4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2)
   next:
     specifier: 13.4.7
     version: 13.4.7(@babel/core@7.22.6)(react-dom@18.2.0)(react@18.2.0)
@@ -26,8 +26,8 @@ devDependencies:
     specifier: 28.1.3
     version: 28.1.3(@types/node@14.18.33)
   prisma:
-    specifier: 4.17.0-dev.60
-    version: 4.17.0-dev.60
+    specifier: 4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2
+    version: 4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2
   vercel:
     specifier: 30.2.3
     version: 30.2.3(@types/node@14.18.33)
@@ -127,13 +127,6 @@ packages:
       '@jridgewell/trace-mapping': 0.3.18
       jsesc: 2.5.2
 
-  /@babel/helper-annotate-as-pure@7.18.6:
-    resolution: {integrity: sha512-duORpUiYrEpzKIop6iNbjnwKLAKnJ47csTyRACyEmWj0QdUrm5aqNJGHSSEQSUAvNW0ojX0dOmK9dZduvkfeXA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/types': 7.22.5
-    dev: true
-
   /@babel/helper-annotate-as-pure@7.22.5:
     resolution: {integrity: sha512-LvBTxu8bQSQkcyKOU+a1btnNFQ1dMAd0R6PyW3arXes06F6QLWLIrd681bxRPIXlrMGR3XYnW9JyML7dP3qgxg==}
     engines: {node: '>=6.9.0'}
@@ -193,17 +186,6 @@ packages:
       '@nicolo-ribaudo/semver-v6': 6.3.3
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@babel/helper-create-regexp-features-plugin@7.21.4(@babel/core@7.22.6):
-    resolution: {integrity: sha512-M00OuhU+0GyZ5iBBN9czjugzWrEq2vDpf/zCYHxxf93ul/Q5rv+a5h+/+0WnI1AebHNVtl5bFV0qsJoH23DbfA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': 7.22.6
-      '@babel/helper-annotate-as-pure': 7.18.6
-      regexpu-core: 5.3.2
     dev: true
 
   /@babel/helper-create-regexp-features-plugin@7.22.6(@babel/core@7.22.6):
@@ -530,7 +512,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.6
-      '@babel/helper-create-regexp-features-plugin': 7.21.4(@babel/core@7.22.6)
+      '@babel/helper-create-regexp-features-plugin': 7.22.6(@babel/core@7.22.6)
       '@babel/helper-plugin-utils': 7.22.5
     dev: true
 
@@ -656,16 +638,6 @@ packages:
 
   /@babel/plugin-syntax-json-strings@7.8.3(@babel/core@7.22.6):
     resolution: {integrity: sha512-lY6kdGpWHvjoe2vk4WrAapEuBR69EMxZl+RoGRhrFGNYVK8mOPAW8VfbT/ZgrFbXlDNiiaxQnAtgVCZ6jv30EA==}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.22.6
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: true
-
-  /@babel/plugin-syntax-jsx@7.21.4(@babel/core@7.22.6):
-    resolution: {integrity: sha512-5hewiLct5OKyh6PLKEYaFclcqtIgCb6bmELouxjF6up5q3Sov7rOayW4RwhbaBL0dit8rA80GNfY+UuDp2mBbQ==}
-    engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -831,16 +803,6 @@ packages:
       '@babel/helper-plugin-utils': 7.20.2
     dev: true
 
-  /@babel/plugin-syntax-typescript@7.21.4(@babel/core@7.22.6):
-    resolution: {integrity: sha512-xz0D39NvhQn4t4RNsHmDnnsaQizIlUkdtYvLs8La1BlfjQ6JEwxkJGeqJMW2tAXx+q6H+WFuUTXNdYVpEya0YA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.22.6
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: true
-
   /@babel/plugin-syntax-typescript@7.22.5(@babel/core@7.22.6):
     resolution: {integrity: sha512-1mS2o03i7t1c6VzH6fdQ3OA8tcEIxwG18zIPRp+UY1Ihv6W+XZzBCVxExF9upussPXJ0xE9XRHwMoNs1ep/nRQ==}
     engines: {node: '>=6.9.0'}
@@ -858,7 +820,7 @@ packages:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/core': 7.22.6
-      '@babel/helper-create-regexp-features-plugin': 7.21.4(@babel/core@7.22.6)
+      '@babel/helper-create-regexp-features-plugin': 7.22.6(@babel/core@7.22.6)
       '@babel/helper-plugin-utils': 7.22.5
     dev: true
 
@@ -2320,8 +2282,8 @@ packages:
       json-parse-even-better-errors: 2.3.1
     dev: true
 
-  /@prisma/client@4.17.0-dev.60(prisma@4.17.0-dev.60):
-    resolution: {integrity: sha512-sJwlOJ6B2WvkfjztBCPYTEnbuX7UpG3tsNpTqpFYiD/YyFIJsAXfUpCltauGOyhPjg53dUh8gKVgNh9UG2HIRQ==}
+  /@prisma/client@4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2(prisma@4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2):
+    resolution: {integrity: sha512-SpCrUP4i/Hz75dxUsCG+eETSnGJWnIwn/ns7nVnMtSDctpJfB6R2vPPU7YKxIBi+ap7BojMxglG5o+f/EQR5Qw==}
     engines: {node: '>=14.17'}
     requiresBuild: true
     peerDependencies:
@@ -2330,16 +2292,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 4.17.0-21.a6324410622b51700b1f574eeca057c71b1a3c5a
-      prisma: 4.17.0-dev.60
+      '@prisma/engines-version': 4.17.0-16.27eb2449f178cd9fe1a4b892d732cc4795f75085
+      prisma: 4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2
     dev: false
 
-  /@prisma/engines-version@4.17.0-21.a6324410622b51700b1f574eeca057c71b1a3c5a:
-    resolution: {integrity: sha512-p1dHyubJlDBTmLpUHCwYIanvmj/viGT1aRhSLLz4tEcYszwvWmpVrUNT7YgRRIDi/PGE/c7QHr/knhNIa/SeaA==}
+  /@prisma/engines-version@4.17.0-16.27eb2449f178cd9fe1a4b892d732cc4795f75085:
+    resolution: {integrity: sha512-NRLbC7+JiJEXGFGoV+KKIeygtZ3HFdNGpnpubODQAF60sd36B18kw9fSYvyuQlFoBcAg9hNWLUrgPKXgKCG2EA==}
     dev: false
 
-  /@prisma/engines@4.17.0-dev.60:
-    resolution: {integrity: sha512-GMoiLRadU0WFU0ylcmLboyck04emRi7AqYod3ItOvt658DlRJfAUu0a2O0MZIZbdTLo54d1BylXMSugm2KXEmQ==}
+  /@prisma/engines@4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2:
+    resolution: {integrity: sha512-wU0RxTc8zl3cEjPVwxYzk2NDMi1wbv+sqkBw9/IYsMD0VMpoqYosjYix0tYXKoHpy5nQjYE3G4jNV0r6gLLCOw==}
     requiresBuild: true
 
   /@remix-run/router@1.6.3:
@@ -2638,7 +2600,7 @@ packages:
     resolution: {integrity: sha512-+xYJz07G7TFAMZGrOqArOsURG+xcYvqctujEkANjw2McCBvGEK505RxQqOuNiA9Mi9hgGdNp2JedSa94f3eoLg==}
     dependencies:
       '@babel/core': 7.22.6
-      '@babel/plugin-syntax-typescript': 7.21.4(@babel/core@7.22.6)
+      '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.22.6)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.2
       '@vanilla-extract/css': 1.11.0
       esbuild: 0.17.6
@@ -2808,8 +2770,8 @@ packages:
       '@babel/core': 7.22.6
       '@babel/generator': 7.22.5
       '@babel/parser': 7.22.6
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.6)
-      '@babel/plugin-syntax-typescript': 7.21.4(@babel/core@7.22.6)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.6)
+      '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.22.6)
       '@babel/preset-env': 7.22.6(@babel/core@7.22.6)
       '@babel/preset-typescript': 7.22.5(@babel/core@7.22.6)
       '@babel/traverse': 7.22.6
@@ -3618,7 +3580,7 @@ packages:
   /core-js-compat@3.31.0:
     resolution: {integrity: sha512-hM7YCu1cU6Opx7MXNu0NuumM0ezNeAeRKadixyiQELWY3vT3De9S4J5ZBMraWV2vZnrE1Cirl0GtFtDtMUXzPw==}
     dependencies:
-      browserslist: 4.21.5
+      browserslist: 4.21.9
     dev: true
 
   /core-util-is@1.0.3:
@@ -6811,13 +6773,13 @@ packages:
       parse-ms: 2.1.0
     dev: true
 
-  /prisma@4.17.0-dev.60:
-    resolution: {integrity: sha512-yUzYVERhQ0UJPNTwFxvZR3pQlWIa0Zxa6X9QeXUcbYO37vVZaRBGyWJtpu1CB1+CbbCsv//msgJbpKECdKzmbQ==}
+  /prisma@4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2:
+    resolution: {integrity: sha512-QfKe61/muyAfImAkIUUlooaztIlU5Vwb/zqrbuLtHh5k4/2eMcoKzXe4Yd6wd1oxfmtD3zcuYKhiJvsR3GfpiQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 4.17.0-dev.60
+      '@prisma/engines': 4.17.0-integration-fix-internals-vercel-pkg-win-resolve-binary.2
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
