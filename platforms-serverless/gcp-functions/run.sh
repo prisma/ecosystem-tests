@@ -16,8 +16,8 @@ else
 fi
 
 npm install
-npm prisma generate
-npm tsc
+npx prisma generate
+npx tsc
 
 func="e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$func" > func-tmp.txt
