@@ -937,12 +937,14 @@ jobs:
             ${{
               contains(matrix.platform, 'azure') && 'npm' ||
               contains(matrix.platform, 'serverless-framework') && 'npm' ||
+              contains(matrix.platform, 'gcp-functions') && 'npm' ||
               'pnpm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
               contains(matrix.platform, 'azure') && 'package-lock.json' ||
               contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
+              contains(matrix.platform, 'gcp-functions') && 'package-lock.json' ||
               'pnpm-lock.yaml'
             }}
 
