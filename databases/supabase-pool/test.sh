@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn test
+pnpm test

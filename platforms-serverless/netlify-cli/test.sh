@@ -9,4 +9,4 @@ else
 fi
 
 # TODO Use individual deployment URL
-npx ts-node ../../utils/fetch-retry-and-confirm-version.ts --url https://prisma-ecosystem-tests-netlify-cli.netlify.app/.netlify/functions/index --prisma-version $(sh ../../utils/prisma_version.sh) --binary-string $BINARY_STRING
+pnpm ts-node ../../utils/fetch-retry-and-confirm-version.ts --url https://prisma-ecosystem-tests-netlify-cli.netlify.app/.netlify/functions/index --prisma-version $(sh ../../utils/prisma_version.sh) --binary-string $BINARY_STRING

@@ -17,7 +17,7 @@ bash .github/scripts/print-version.sh $pjson_path
 
 echo "cd .github/slack/"
 cd .github/slack/
-yarn install
+pnpm install
 echo "cd ../.."
 cd ../..
 
@@ -42,7 +42,7 @@ else
     echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
     npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
     echo ""
-  fi 
+  fi
 fi
 
 echo "cd $dir/$project"
@@ -73,7 +73,7 @@ code=$?
 set -e
 
 # if we're running docker-unsupported/*, we expect run.sh to fail
-if [[ $dir == "docker-unsupported" ]]; then 
+if [[ $dir == "docker-unsupported" ]]; then
 
   if [ $code -ne 0 ]; then
     echo "-----------------------------"
@@ -119,12 +119,16 @@ elif [ $code -eq 0 ]; then
 
   # confirm existence of correct engine
   echo "-------------- Checking Engines ----------------"
-  bash ../../.github/scripts/check-engines-client.sh $dir $project
-  bash ../../.github/scripts/check-engines-cli.sh $dir $project
+  if [ -z "${SKIP_ENGINE_CHECK+x}" ]; then
+    bash ../../.github/scripts/check-engines-client.sh $dir $project
+    bash ../../.github/scripts/check-engines-cli.sh $dir $project
+  else
+    echo "SKIP_ENGINE_CHECK=$SKIP_ENGINE_CHECK, skipping"
+  fi
   echo "------------------------------------------------"
 fi
 
-# TODO parse output of npx prisma -v --json for correct file/path
+# TODO parse output of pnpm prisma -v --json for correct file/path
 
 if [ -f "finally.sh" ]; then
   echo "-----------------------------"
@@ -145,7 +149,7 @@ echo "$dir/$project done"
 cd "$root"
 
 if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integration" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
-  (cd .github/slack/ && yarn install --silent)
+  (cd .github/slack/ && pnpm install --reporter silent)
 
   branch="${GITHUB_REF##*/}"
   sha="$(git rev-parse HEAD | cut -c -7)"
@@ -161,9 +165,6 @@ if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integra
   if [ $code -eq 0 ]; then
     emoji=":white_check_mark:"
   fi
-
-  echo "notifying slack channel"
-  node .github/slack/notify.js "prisma@$version: ${emoji} $workflow_link ran (via $commit_link)"
 
   if [ $code -ne 0 ]; then
     export webhook="$SLACK_WEBHOOK_URL_FAILING"

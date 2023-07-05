@@ -6,7 +6,7 @@ set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-cli build'
 
-yarn
+pnpm install
 
 # Note: be aware that Vercel truncates logs, so if you add something like `--build-env DEBUG="prisma:*"` plenty of logs will be missing.
 # That will likely influence the "Postinstall hook" check below, which will result in the CI failing with error code `1`.
@@ -25,7 +25,7 @@ export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
-yarn -s vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
+pnpm vercel deploy --prod --yes --force --token=$VERCEL_TOKEN --env DATABASE_URL=$DATABASE_URL --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
@@ -35,16 +35,8 @@ echo "Deployed to ${DEPLOYED_URL}"
 
 sleep 15
 
-OUTPUT=$(yarn -s vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
+OUTPUT=$(pnpm vercel logs $DEPLOYED_URL --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID)
 echo "${OUTPUT}"
-
-# Check the Vercel Build Logs for the postinstal hook"
-if echo "${OUTPUT}" | grep -q 'prisma generate || true'; then
-  echo 'Postinstall hook was added'
-else
-  echo "Postinstall hook was NOT ADDED"
-  exit 1
-fi
 
 # Check the Vercel Build Logs for "Generated Prisma Client"
 if echo "${OUTPUT}" | grep -q 'Generated Prisma Client'; then

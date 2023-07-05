@@ -9,6 +9,6 @@ Prisma Client with MongoDB Atlas Serverless.
 Set the env var (`DATABASE_URL_DB_MONGODB_ATLAS_SERVERLESS`). The data should match the snapshot.
 
 ```shell script
-yarn install
+pnpm install
 sh run.sh
 ```

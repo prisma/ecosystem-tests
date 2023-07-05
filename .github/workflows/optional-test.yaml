@@ -51,14 +51,15 @@ jobs:
         uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          cache: 'pnpm'
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
       - id: detect
         run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
@@ -66,16 +67,18 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
       - community-generators
-      - databases
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report success to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
@@ -83,16 +86,18 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
       - community-generators
-      - databases
 
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: report failure to slack
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
@@ -108,7 +113,6 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      SKIP_PRISMA_VERSION_CHECK: true # see https://github.com/MichalLytek/typegraphql-prisma/issues/31
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
 
     steps:
@@ -117,15 +121,18 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
@@ -138,48 +145,3 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
-
-  databases:
-    needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        database:
-          - mongodb-azure-cosmosdb
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
-
-    env:
-      DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          cache: 'yarn'
-          # Only cache the root node_modules
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
-        id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}

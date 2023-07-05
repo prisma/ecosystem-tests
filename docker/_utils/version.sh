@@ -7,8 +7,8 @@
 set -eu
 
 # capture and print Prisma version information
-PRISMA_VERSION=$(npx prisma -v)
-echo "npx prisma -v\n${PRISMA_VERSION}\n"
+PRISMA_VERSION=$(pnpm prisma -v)
+echo "pnpm prisma -v\n${PRISMA_VERSION}\n"
 
 # extract the target platform from the version string, e.g., "debian-openssl-1.1.x"
 PRISMA_TARGET_PLATFORM=$(echo "${PRISMA_VERSION}" | sed --quiet '/Current platform/p' | sed "s/.*:\s*//")

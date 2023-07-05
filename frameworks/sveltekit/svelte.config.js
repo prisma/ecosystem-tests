@@ -1,13 +1,15 @@
-import adapter from '@sveltejs/adapter-vercel';
-import preprocess from 'svelte-preprocess';
+import { vitePreprocess } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-auto';
+import path from 'path';
+import url from 'url';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
-	preprocess: preprocess(),
-
+	preprocess: vitePreprocess(),
 	kit: {
+		files: {
+			routes: path.join(path.dirname(url.fileURLToPath(import.meta.url)), 'src', 'routes')
+		},
 		adapter: adapter()
 	}
 };

@@ -34,14 +34,15 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
-RUN yarn install
+RUN npm i -g pnpm@7
+RUN pnpm install
 
 # This will fail with:
 # Error: Unable to require(`/usr/src/app/node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node`)
 #   libssl.so.1.1: cannot open shared object file: No such file or directory
 RUN ./version.sh
 
-RUN npx prisma generate
+RUN pnpm prisma generate
 
 CMD node server.js
 EXPOSE 3000

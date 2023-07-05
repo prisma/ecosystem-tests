@@ -15,11 +15,11 @@ else
   cp ./prisma/schema-with-node-api.prisma ./prisma/schema.prisma
 fi
 
-yarn install
+pnpm install
 
-yarn prisma generate
+pnpm prisma generate
 
-yarn tsc
+pnpm tsc
 
 func="e2e-test-$(date "+%Y-%m-%d-%H%M%S")"
 echo "$func" > func-tmp.txt

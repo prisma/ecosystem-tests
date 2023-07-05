@@ -5,14 +5,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "16.18.16",
-    "prisma": "4.13.0-dev.1",
+    "prisma": "4.17.0-dev.52",
     "ts-node": "10.9.1"
   },
   "scripts": {
-    "dev": "npx netlify dev",
-    "build": "PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platform netlify-github build' && yarn prisma generate"
+    "dev": "pnpm netlify dev",
+    "build": "PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platform netlify-github build' && pnpm prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "4.13.0-dev.1"
+    "@prisma/client": "4.17.0-dev.52"
   }
 }

@@ -18,9 +18,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install Dependencies
-        run: yarn install
-      - run: yarn ts-node test.ts
+        run: pnpm install
+      - run: pnpm exec ts-node test.ts

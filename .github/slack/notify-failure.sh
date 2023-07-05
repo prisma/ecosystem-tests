@@ -9,7 +9,7 @@ matrix=$3
 set -u
 
 if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integration" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
-  (cd .github/slack/ && yarn install --silent)
+  (cd .github/slack/ && pnpm install --reporter silent)
 
   branch="${GITHUB_REF##*/}"
   sha="$(git rev-parse HEAD | cut -c -7)"

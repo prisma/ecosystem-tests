@@ -1,0 +1,14 @@
+{
+  "name": "engine-native-deps",
+  "private": true,
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "node --experimental-import-meta-resolve test.mjs",
+    "update-snapshots": "pnpm test -- --update"
+  },
+  "dependencies": {
+    "@prisma/client": "4.17.0-dev.52",
+    "zx": "7.2.2"
+  }
+}

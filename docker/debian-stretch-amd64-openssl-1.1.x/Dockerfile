@@ -6,6 +6,9 @@ WORKDIR /usr/src/app
 COPY --from=app . ./
 COPY --from=utils . ./
 
+RUN echo 'deb http://archive.debian.org/debian stretch main' > /etc/apt/sources.list
+RUN echo 'deb http://archive.debian.org/debian-security stretch/updates main' >> /etc/apt/sources.list
+
 # Update system dependencies.
 # OpenSSL is missing in the base image, so we install it
 RUN apt-get update -y \
@@ -36,9 +39,10 @@ ENV DEBUG=$DEBUG
 ENV PRISMA_TELEMETRY_INFORMATION=$PRISMA_TELEMETRY_INFORMATION
 ENV EXPECTED_PRISMA_TARGET_PLATFORM=$EXPECTED_PRISMA_TARGET_PLATFORM
 
-RUN yarn install
+RUN npm i -g pnpm@7
+RUN pnpm install
 RUN ./version.sh
-RUN npx prisma generate
+RUN pnpm prisma generate
 
 CMD node server.js
 EXPOSE 3000
