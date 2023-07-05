@@ -9,8 +9,8 @@ const { enginesVersion } = await import(versionPath)
 
 const update = process.argv.includes('--update')
 
-const allEngines = ['query-engine', 'migration-engine', 'libquery_engine.so.node']
-const onlyBinaries = ['query-engine', 'migration-engine']
+const allEngines = ['query-engine', 'schema-engine', 'libquery_engine.so.node']
+const onlyBinaries = ['query-engine', 'schema-engine']
 
 const platforms = {
   'rhel-openssl-1.0.x': allEngines,
