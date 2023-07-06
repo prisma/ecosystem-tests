@@ -1073,6 +1073,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        flavor: [DP1, DP2]
         platform:
           - nodejs
           - deno
@@ -1090,9 +1091,8 @@ jobs:
           - nodejs-tracing
         clientEngine: [<dataproxy>] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
-        flavor: [dataproxy, accelerate]
     runs-on: ${{ matrix.os }}
-    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}-${{ matrix.flavor }}
+    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       FLAVOR: ${{ matrix.flavor }}
       NPM_CONFIG_LOGLEVEL: error
@@ -1103,17 +1103,17 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      DATAPROXY_COMMON_URL: ${{ matrix.flavor == 'dataproxy' && secrets.DATAPROXY_COMMON_URL || '' }}
-      DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ matrix.flavor == 'dataproxy' && secrets.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID || '' }}
-      DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ matrix.flavor == 'dataproxy' && secrets.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID || '' }}
-      ITX_PDP_MONGODB_DATABASE_URL: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_MONGODB_DATABASE_URL || '' }}
-      ITX_PDP_MONGODB: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_MONGODB || '' }}
-      ITX_PDP_MYSQL_DATABASE_URL: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_MYSQL_DATABASE_URL || '' }}
-      ITX_PDP_MYSQL: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_MYSQL || '' }}
-      ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_POSTGRESQL_DATABASE_URL || '' }}
-      ITX_PDP_POSTGRESQL: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_POSTGRESQL || '' }}'
-      ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_COCKROACHDB_DATABASE_URL || '' }}
-      ITX_PDP_COCKROACHDB: ${{ matrix.flavor == 'dataproxy' && secrets.ITX_PDP_COCKROACHDB || '' }}
+      DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ secrets.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID  }}
+      DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ secrets.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID  }}
+      DATAPROXY_COMMON_URL: ${{ matrix.flavor == 'DP1' && secrets.DATAPROXY_COMMON_URL || secrets.DP2_DATAPROXY_COMMON_URL }}
+      ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
+      ITX_PDP_MONGODB: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_MONGODB }} # MongoDB is not yet supported in DP2
+      ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
+      ITX_PDP_MYSQL: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_MYSQL || secrets.DP2_ITX_PDP_MYSQL }}
+      ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
+      ITX_PDP_POSTGRESQL: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_POSTGRESQL || secrets.DP2_ITX_PDP_POSTGRESQL }}'
+      ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+      ITX_PDP_COCKROACHDB: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_COCKROACHDB || secrets.DP2_ITX_PDP_COCKROACHDB }}
 
     steps:
       - uses: actions/checkout@v3
