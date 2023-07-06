@@ -3,7 +3,7 @@
 import { PrismaClient } from '@prisma/client/edge'
 
 export interface Env {
-  CLOUDFLARE_DATA_PROXY_URL: string
+  DATAPROXY_COMMON_URL: string
 }
 
 let prisma: PrismaClient
@@ -13,7 +13,7 @@ export default {
     prisma = new PrismaClient({
       datasources: {
         db: {
-          url: env.CLOUDFLARE_DATA_PROXY_URL,
+          url: env.DATAPROXY_COMMON_URL,
         },
       },
     })

@@ -1076,6 +1076,7 @@ jobs:
         platform:
           - nodejs
           - deno
+          - accelerate-extension
           - cloudflare-workers-service
           - cloudflare-workers-module
           - vercel-edge-functions
@@ -1089,24 +1090,30 @@ jobs:
           - nodejs-tracing
         clientEngine: ['<dataproxy>'] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        flavor: ['dataproxy', 'accelerate']
     runs-on: ${{ matrix.os }}
-    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}-${{ matrix.flavor }}
     env:
+      FLAVOR: ${{ matrix.flavor }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
-      AES_256_PASS: ${{ secrets.AES_256_PASS }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      ITX_PDP_MONGODB_DATABASE_URL: '${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}'
-      ITX_PDP_MONGODB: '${{ secrets.ITX_PDP_MONGODB }}'
-      ITX_PDP_MYSQL_DATABASE_URL: '${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}'
-      ITX_PDP_MYSQL: '${{ secrets.ITX_PDP_MYSQL }}'
-      ITX_PDP_POSTGRESQL_DATABASE_URL: '${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}'
-      ITX_PDP_POSTGRESQL: '${{ secrets.ITX_PDP_POSTGRESQL }}'
-      ITX_PDP_COCKROACHDB_DATABASE_URL: '${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}'
-      ITX_PDP_COCKROACHDB: '${{ secrets.ITX_PDP_COCKROACHDB }}'
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      DATAPROXY_COMMON_URL: ${{ matrix.flavor == "dataproxy" && secrets.DATAPROXY_COMMON_URL || '' }}
+      DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ matrix.flavor == "dataproxy" && secrets.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID || '' }}
+      DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ matrix.flavor == "dataproxy" && secrets.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID || '' }}
+      ITX_PDP_MONGODB_DATABASE_URL: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_MONGODB_DATABASE_URL || '' }}
+      ITX_PDP_MONGODB: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_MONGODB || '' }}
+      ITX_PDP_MYSQL_DATABASE_URL: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_MYSQL_DATABASE_URL || '' }}
+      ITX_PDP_MYSQL: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_MYSQL || '' }}
+      ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_POSTGRESQL_DATABASE_URL || '' }}
+      ITX_PDP_POSTGRESQL: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_POSTGRESQL || '' }}'
+      ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_COCKROACHDB_DATABASE_URL || '' }}
+      ITX_PDP_COCKROACHDB: ${{ matrix.flavor == "dataproxy" && secrets.ITX_PDP_COCKROACHDB || '' }}
 
     steps:
       - uses: actions/checkout@v3
