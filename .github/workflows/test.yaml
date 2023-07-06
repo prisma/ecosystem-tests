@@ -581,10 +581,7 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 14 # latest minor+patch on GH Actions
-          - 14.17.0 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node 14 via https://www.prisma.io/docs/reference/system-requirements
-          - 15 # latest minor+patch on GH Actions
-          - 16 # latest minor+patch on GH Actions
+          - 16
           - 17
           - 18
           - 19
@@ -947,12 +944,14 @@ jobs:
             ${{
               contains(matrix.platform, 'azure') && 'npm' ||
               contains(matrix.platform, 'serverless-framework') && 'npm' ||
+              contains(matrix.platform, 'gcp-functions') && 'npm' ||
               'pnpm'
             }}
           cache-dependency-path: |
             ${{ github.job }}/${{ matrix.platform }}/${{
               contains(matrix.platform, 'azure') && 'package-lock.json' ||
               contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
+              contains(matrix.platform, 'gcp-functions') && 'package-lock.json' ||
               'pnpm-lock.yaml'
             }}
 
