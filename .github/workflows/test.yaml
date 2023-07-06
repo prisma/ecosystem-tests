@@ -1111,7 +1111,7 @@ jobs:
       ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
       ITX_PDP_MYSQL: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_MYSQL || secrets.DP2_ITX_PDP_MYSQL }}
       ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
-      ITX_PDP_POSTGRESQL: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_POSTGRESQL || secrets.DP2_ITX_PDP_POSTGRESQL }}'
+      ITX_PDP_POSTGRESQL: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_POSTGRESQL || secrets.DP2_ITX_PDP_POSTGRESQL }}
       ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
       ITX_PDP_COCKROACHDB: ${{ matrix.flavor == 'DP1' && secrets.ITX_PDP_COCKROACHDB || secrets.DP2_ITX_PDP_COCKROACHDB }}
 
