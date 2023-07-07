@@ -4,7 +4,7 @@
   "scripts": {
     "test": "jest",
     "dev": "next dev",
-    "build": "prisma generate --data-proxy && next build",
+    "build": "prisma generate $PRISMA_GENERATE_FLAG && next build",
     "start": "next start"
   },
   "dependencies": {
