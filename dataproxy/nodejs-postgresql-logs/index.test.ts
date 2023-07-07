@@ -14,7 +14,7 @@ test('dataproxy logs with postgres', async () => {
   }
 
   const onQuery = jest.fn<(event: Prisma.QueryEvent) => void>()
-  xprisma.$on('query', onQuery)
+  prisma.$on('query', onQuery)
 
   await xprisma.user.findMany()
 
