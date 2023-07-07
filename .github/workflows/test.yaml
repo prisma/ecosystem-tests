@@ -1128,7 +1128,6 @@ jobs:
         run: pnpm install
 
       - name: test DP1 ${{ matrix.platform }}
-        id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
@@ -1149,7 +1148,6 @@ jobs:
           ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
 
       - name: test DP2 ${{ matrix.platform }}
-        id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
@@ -1170,7 +1168,6 @@ jobs:
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
 
       - name: test DP2 with Extension ${{ matrix.platform }}
-        id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
