@@ -1094,6 +1094,7 @@ jobs:
     concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       FLAVOR: ${{ matrix.flavor }}
+      PRISMA_GENERATE_FLAG: ${{ matrix.flavor == 'DP1' && '--data-proxy' || '--accelerate' }}
       NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
