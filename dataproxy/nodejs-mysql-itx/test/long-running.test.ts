@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
 import util from 'util'
 import { prismaClientVersion } from './utils'
 import { config } from '../config'
@@ -13,7 +14,11 @@ describe('long-running', () => {
   let prisma: PrismaClient
 
   beforeAll(() => {
-    prisma = new PrismaClient()
+    let prisma = new PrismaClient()
+
+    if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+      prisma = prisma.$extends(withAccelerate()) as any
+    }
   })
 
   test('should throw error on long-running itx', async () => {

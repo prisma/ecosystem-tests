@@ -12,6 +12,7 @@ import {
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { PrismaInstrumentation } from '@prisma/instrumentation'
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 let inMemorySpanExporter: InMemorySpanExporter
 
@@ -77,7 +78,11 @@ function cleanSpansForSnapshot(spans: ReadableSpan[]) {
 }
 
 test('dataproxy tracing with postgres', async () => {
-  const prisma = new PrismaClient()
+  let prisma = new PrismaClient()
+
+  if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+    prisma = prisma.$extends(withAccelerate()) as any
+  }
 
   await prisma.user.findMany()
   const spans = await waitForSpans()

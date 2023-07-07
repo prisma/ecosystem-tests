@@ -1138,7 +1138,7 @@ jobs:
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
-          FLAVOR: 'DP1'
+          DATAPROXY_FLAVOR: 'DP1'
           PRISMA_GENERATE_FLAG: '--data-proxy'
           DATAPROXY_COMMON_URL: ${{ secrets.DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
@@ -1158,7 +1158,7 @@ jobs:
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
-          FLAVOR: 'DP2'
+          DATAPROXY_FLAVOR: 'DP2'
           PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
@@ -1178,7 +1178,7 @@ jobs:
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
-          FLAVOR: 'DP2+Extension'
+          DATAPROXY_FLAVOR: 'DP2+Extension'
           PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}

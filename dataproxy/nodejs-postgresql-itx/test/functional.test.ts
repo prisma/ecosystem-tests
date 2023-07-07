@@ -1,7 +1,13 @@
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
 import util from 'util'
 
-const prisma = new PrismaClient()
+let prisma = new PrismaClient()
+
+if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+  prisma = prisma.$extends(withAccelerate()) as any
+}
+
 const sleep = util.promisify(setTimeout)
 
 describe('interactive transactions', () => {

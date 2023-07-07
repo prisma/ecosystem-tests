@@ -1,11 +1,16 @@
 const { faker } = require('@faker-js/faker')
 const { PrismaClient } = require('@prisma/client')
+const { withAccelerate } = require('@prisma/extension-accelerate')
 const { equal } = require('node:assert')
 const util = require('util')
 const sleep = util.promisify(setTimeout)
 const twoMin = 120000
 
-const prisma = new PrismaClient()
+let prisma = new PrismaClient()
+
+if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+  prisma = prisma.$extends(withAccelerate())
+}
 
 async function main() {
   const email = faker.internet.email()

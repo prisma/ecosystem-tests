@@ -1,8 +1,13 @@
 // Note: see wrangler.toml and https://www.npmjs.com/package/@cloudflare/workers-types for the version
 /// <reference types="@cloudflare/workers-types" />
 import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
-const prisma = new PrismaClient({})
+let prisma = new PrismaClient({})
+
+if ((globalThis as any)['DATAPROXY_FLAVOR'] === 'DP2+Extension') {
+  prisma = prisma.$extends(withAccelerate()) as any
+}
 
 async function getUsers() {
   console.debug(new Date(), 'Start await prisma.$transaction')

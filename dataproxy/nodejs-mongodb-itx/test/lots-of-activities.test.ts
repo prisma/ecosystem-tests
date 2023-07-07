@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
 import { config } from '../config'
 
 const activities = config['lots-of-activities'].amount
@@ -8,7 +9,11 @@ describe('lots-of-activities', () => {
   let prisma: PrismaClient
 
   beforeAll(() => {
-    prisma = new PrismaClient()
+    let prisma = new PrismaClient()
+
+    if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+      prisma = prisma.$extends(withAccelerate()) as any
+    }
   })
 
   test(
