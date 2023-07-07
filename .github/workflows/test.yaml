@@ -1072,6 +1072,7 @@ jobs:
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
+      fail-fast: false
       matrix:
         platform:
           - nodejs
