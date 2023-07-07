@@ -9,7 +9,7 @@ describe('lots-of-activities', () => {
   let prisma: PrismaClient
 
   beforeAll(() => {
-    let prisma = new PrismaClient()
+    prisma = new PrismaClient()
 
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
       prisma = prisma.$extends(withAccelerate()) as any
