@@ -1073,11 +1073,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flavor: [DP1, DP2]
+        flavor: [DP1, DP2] # DP2+Accelerate
         platform:
           - nodejs
           - deno
-          - accelerate-extension
           - cloudflare-workers-service
           - cloudflare-workers-module
           - vercel-edge-functions
@@ -1105,7 +1104,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ secrets.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID  }}
       DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ secrets.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID  }}
-      DATAPROXY_COMMON_URL: ${{ secrets.DATAPROXY_COMMON_URL }} # TODO
+      DATAPROXY_COMMON_URL: ${{ matrix.flavor == 'DP1' && secrets.DATAPROXY_COMMON_URL || secrets.DP2_DATAPROXY_COMMON_URL }}
       ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
       ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }} # MongoDB is not yet supported in DP2
       ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
