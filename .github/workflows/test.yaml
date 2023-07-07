@@ -1090,7 +1090,9 @@ jobs:
         clientEngine: [<dataproxy>] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency:
+      group: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
+      cancel-in-progress: false
     env:
       FLAVOR: ${{ matrix.flavor }}
       PRISMA_GENERATE_FLAG: ${{ matrix.flavor == 'DP1' && '--data-proxy' || '--accelerate' }}
