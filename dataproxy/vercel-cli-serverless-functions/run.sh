@@ -12,6 +12,8 @@ pnpm vercel deploy \
 --scope=$VERCEL_ORG_ID \
 --build-env PRISMA_GENERATE_DATAPROXY="true" \
 --env DATAPROXY_COMMON_URL="$DATAPROXY_COMMON_URL" \
+--build-env DATAPROXY_FLAVOR="$DATAPROXY_FLAVOR" \
+--env DATAPROXY_FLAVOR="$DATAPROXY_FLAVOR" \
 1> deployment-url.txt
 
 echo ''
