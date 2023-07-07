@@ -1071,7 +1071,6 @@ jobs:
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
-      fail-fast: false
       matrix:
         flavor: [DP1, DP2, DP2+Extension]
         platform:
@@ -1091,7 +1090,7 @@ jobs:
         clientEngine: [<dataproxy>] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}-${{ matrix.flavor }}
+    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       FLAVOR: ${{ matrix.flavor }}
       PRISMA_GENERATE_FLAG: ${{ matrix.flavor == 'DP1' && '--data-proxy' || '--accelerate' }}
