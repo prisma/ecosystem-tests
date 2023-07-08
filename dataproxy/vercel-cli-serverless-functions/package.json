@@ -7,6 +7,7 @@
     "@types/jest": "28.1.8",
     "@types/node": "16.18.38",
     "@types/node-fetch": "2.6.4",
+    "esbuild-register": "^3.4.2",
     "jest": "28.1.3",
     "node-fetch": "2.6.11",
     "prisma": "4.17.0-dev.77",
@@ -24,6 +25,6 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest",
-    "postinstall": "prisma generate"
+    "build": "prisma generate --data-proxy"
   }
 }
