@@ -3,9 +3,11 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import util from 'util'
 
 let prisma = new PrismaClient()
+let timeouts = { maxWait: 2_000, timeout: 5_000 }
 
 if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
   prisma = prisma.$extends(withAccelerate()) as any
+  timeouts = { maxWait: 30_000, timeout: 50_000 }
 }
 
 const sleep = util.promisify(setTimeout)
@@ -30,7 +32,7 @@ describe('interactive transactions', () => {
       })
 
       return prisma.user.findMany()
-    })
+    }, timeouts)
 
     expect(result.length).toBe(2)
   })
@@ -68,7 +70,7 @@ describe('interactive transactions', () => {
       })
 
       throw new Error('you better rollback now')
-    })
+    }, timeouts)
 
     await expect(result).rejects.toThrow()
 
@@ -90,7 +92,7 @@ describe('interactive transactions', () => {
           email: 'user_1@website.com',
         },
       })
-    })
+    }, timeouts)
 
     await expect(result).rejects.toThrow()
 
@@ -104,7 +106,7 @@ describe('interactive transactions', () => {
     await prisma.$transaction((prisma) => {
       transactionBoundPrisma = prisma
       return Promise.resolve()
-    })
+    }, timeouts)
 
     const result = prisma.$transaction(async () => {
       await transactionBoundPrisma.user.create({
@@ -112,7 +114,7 @@ describe('interactive transactions', () => {
           email: 'user_1@website.com',
         },
       })
-    })
+    }, timeouts)
 
     await expect(result).rejects.toMatchObject({
       code: 'P2028',
