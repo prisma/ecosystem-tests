@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client'
-import { withAccelerate } from '@prisma/extension-accelerate'
+const { PrismaClient } = require('@prisma/client')
+const { withAccelerate } = require('@prisma/extension-accelerate')
 
 let prisma = new PrismaClient()
 
