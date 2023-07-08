@@ -1178,7 +1178,7 @@ jobs:
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
-          DATAPROXY_FLAVOR: contains(matrix.platform, 'mongodb') && 'DP2' || 'DP2+Extension' # MongoDB is not yet supported in DP2
+          DATAPROXY_FLAVOR: ${{ contains(matrix.platform, 'mongodb') && 'DP2' || 'DP2+Extension' }} # MongoDB is not yet supported in DP2
           PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
