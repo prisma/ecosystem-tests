@@ -7,7 +7,7 @@ if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
   prisma = prisma.$extends(withAccelerate())
 }
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   console.debug(new Date(), "Start await prisma.$transaction")
   console.time('transactionTook');
   const data = await prisma.$transaction([
