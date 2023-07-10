@@ -3,7 +3,7 @@
 set -eux
 
 # for when runnig update-all.sh locally, we resolve the prisma version
-NEW_VERSION=$(npm show prisma@$1 version)
+NEW_VERSION=4.16.2
 echo "$NEW_VERSION" > .github/prisma-version.txt
 
 # first update all the versions in all the projects for perf gains
