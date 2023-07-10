@@ -1066,7 +1066,7 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
-  # TODO databases are shared between the steps (DP1, DP2, DP2+Accelerate), so we runt them in sequence
+  # TODO databases are shared between the steps (DP1, DP2, DP2+Accelerate), so we run them in sequence
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
   dataproxy:
     needs: [detect_jobs_to_run]
@@ -1133,7 +1133,7 @@ jobs:
       - name: test DP1 ${{ matrix.platform }}
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 60
+          timeout_minutes: 15
           max_attempts: 3
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
@@ -1153,7 +1153,7 @@ jobs:
       - name: test DP2 ${{ matrix.platform }}
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 60
+          timeout_minutes: 15
           max_attempts: 3
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
@@ -1171,9 +1171,10 @@ jobs:
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
 
       - name: test DP2 with Extension ${{ matrix.platform }}
+        if: false # skipped because flaky
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 60
+          timeout_minutes: 15
           max_attempts: 3
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}

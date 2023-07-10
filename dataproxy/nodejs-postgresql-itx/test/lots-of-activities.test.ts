@@ -10,8 +10,6 @@ if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension' || process.env.DATAPROXY_FL
   timeouts = { maxWait: 30_000, timeout: 50_000 }
 }
 
-console.log('timeouts', timeouts)
-
 describe('lots-of-activities', () => {
   let prisma: PrismaClient
 
