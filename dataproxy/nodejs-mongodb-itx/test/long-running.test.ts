@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import util from 'util'
 import { prismaClientVersion } from './utils'
 import { config } from '../config'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 const delay = util.promisify(setTimeout)
 const buffer = 12000
@@ -14,6 +15,10 @@ describe('long-running', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient()
+
+    if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+      prisma = prisma.$extends(withAccelerate()) as any
+    }
   })
 
   test('should throw error on long-running itx', async () => {

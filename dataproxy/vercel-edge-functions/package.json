@@ -4,11 +4,12 @@
   "scripts": {
     "test": "jest",
     "dev": "next dev",
-    "build": "prisma generate --data-proxy && next build",
+    "build": "prisma generate $PRISMA_GENERATE_FLAG && next build",
     "start": "next start"
   },
   "dependencies": {
     "@prisma/client": "4.17.0-dev.86",
+    "@prisma/extension-accelerate": "0.3.1",
     "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0"

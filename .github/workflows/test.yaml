@@ -1065,6 +1065,9 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  # TODO databases are shared between the steps (DP1, DP2, DP2+Accelerate), so we run them in sequence
+  # it would be great if we could run them in parallel by letting them use the db provided by E2E
   dataproxy:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['dataproxy'] == true }}
@@ -1087,7 +1090,7 @@ jobs:
           - nodejs-postgresql-logs
           - nodejs-mongodb-logs
           - nodejs-tracing
-        clientEngine: ['<dataproxy>'] # value for script logic
+        clientEngine: [<dataproxy>] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
@@ -1096,17 +1099,12 @@ jobs:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
-      AES_256_PASS: ${{ secrets.AES_256_PASS }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      ITX_PDP_MONGODB_DATABASE_URL: '${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}'
-      ITX_PDP_MONGODB: '${{ secrets.ITX_PDP_MONGODB }}'
-      ITX_PDP_MYSQL_DATABASE_URL: '${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}'
-      ITX_PDP_MYSQL: '${{ secrets.ITX_PDP_MYSQL }}'
-      ITX_PDP_POSTGRESQL_DATABASE_URL: '${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}'
-      ITX_PDP_POSTGRESQL: '${{ secrets.ITX_PDP_POSTGRESQL }}'
-      ITX_PDP_COCKROACHDB_DATABASE_URL: '${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}'
-      ITX_PDP_COCKROACHDB: '${{ secrets.ITX_PDP_COCKROACHDB }}'
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ secrets.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID  }}
+      DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ secrets.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID  }}
 
     steps:
       - uses: actions/checkout@v3
@@ -1132,15 +1130,66 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: test ${{ matrix.platform }}
-        id: run-test
+      - name: test DP1 ${{ matrix.platform }}
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 60
+          timeout_minutes: 15
           max_attempts: 3
-          # default is 10s
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        env:
+          DATAPROXY_FLAVOR: 'DP1'
+          PRISMA_GENERATE_FLAG: '--data-proxy'
+          DATAPROXY_COMMON_URL: ${{ secrets.DATAPROXY_COMMON_URL }}
+          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
+          ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }}
+          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
+          ITX_PDP_MYSQL: ${{ secrets.ITX_PDP_MYSQL }}
+          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
+          ITX_PDP_POSTGRESQL: ${{ secrets.ITX_PDP_POSTGRESQL }}
+          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+          ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
+
+      - name: test DP2 ${{ matrix.platform }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        env:
+          DATAPROXY_FLAVOR: 'DP2'
+          PRISMA_GENERATE_FLAG: '--accelerate'
+          DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
+          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
+          ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }} # MongoDB is not yet supported in DP2
+          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
+          ITX_PDP_MYSQL: ${{ secrets.DP2_ITX_PDP_MYSQL }}
+          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
+          ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
+          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+          ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
+
+      - name: test DP2 with Extension ${{ matrix.platform }}
+        if: ${{ false }} # skipped because flaky
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        env:
+          DATAPROXY_FLAVOR: ${{ contains(matrix.platform, 'mongodb') && 'DP2' || 'DP2+Extension' }} # MongoDB is not yet supported in DP2
+          PRISMA_GENERATE_FLAG: '--accelerate'
+          DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
+          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
+          ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }} # MongoDB is not yet supported in DP2
+          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
+          ITX_PDP_MYSQL: ${{ secrets.DP2_ITX_PDP_MYSQL }}
+          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
+          ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
+          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+          ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
 
       - name: notify-slack
         if: failure()

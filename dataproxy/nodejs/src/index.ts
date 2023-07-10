@@ -1,6 +1,11 @@
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate';
 
-const prisma = new PrismaClient({})
+let prisma = new PrismaClient({})
+
+if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+  prisma = prisma.$extends(withAccelerate()) as any
+}
 
 export async function getUsers() {
   // Do a query and disconnect

@@ -4,6 +4,6 @@ set -eu
 
 pnpm install
 
-pnpm prisma generate --data-proxy
+pnpm prisma generate $PRISMA_GENERATE_FLAG
 
 pnpm wrangler deploy | tee deployment-url.txt

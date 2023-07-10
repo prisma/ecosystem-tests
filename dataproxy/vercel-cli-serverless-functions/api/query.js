@@ -1,8 +1,13 @@
-import { PrismaClient } from '@prisma/client'
+const { PrismaClient } = require('@prisma/client')
+const { withAccelerate } = require('@prisma/extension-accelerate')
 
-const prisma = new PrismaClient({})
+let prisma = new PrismaClient()
 
-export default async (req, res) => {
+if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+  prisma = prisma.$extends(withAccelerate())
+}
+
+module.exports = async (req, res) => {
   console.debug(new Date(), "Start await prisma.$transaction")
   console.time('transactionTook');
   const data = await prisma.$transaction([

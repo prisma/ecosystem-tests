@@ -7,7 +7,7 @@ https://developers.cloudflare.com/workers/learning/migrating-to-module-workers/
 
 ## How to run this
 
-Set the crypto env var via `export AES_256_PASS=<value>`
+Set the necessary env vars first.
 
 ```sh
 source ./prepare.sh && ./run.sh && ./test.sh && ./finally.sh
@@ -38,7 +38,7 @@ This fails with the following error by default (when instantiating the Prisma Cl
     notes: [
       {
         text: 'Uncaught Error: InvalidDatasourceError: Datasource "db" references an environment
-  variable "CLOUDFLARE_DATA_PROXY_URL" that is not set\n' +
+  variable "DATAPROXY_COMMON_URL" that is not set\n' +
           '  at index.js:5610:19 in resolveDatasourceURL\n' +
           '  at index.js:5579:94 in extractHostAndApiKey\n' +
           '  at index.js:5477:27 in zr\n' +
@@ -60,7 +60,7 @@ How to fix it? By passing the datasource connection string manually, see index.t
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: env.CLOUDFLARE_DATA_PROXY_URL,
+      url: env.DATAPROXY_COMMON_URL,
     },
   },
 })

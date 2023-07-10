@@ -1,9 +1,11 @@
 // Note: see wrangler.toml and https://www.npmjs.com/package/@cloudflare/workers-types for the version
 /// <reference types="@cloudflare/workers-types" />
 import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 export interface Env {
-  CLOUDFLARE_DATA_PROXY_URL: string
+  DATAPROXY_COMMON_URL: string
+  DATAPROXY_FLAVOR: string
 }
 
 let prisma: PrismaClient
@@ -13,10 +15,14 @@ export default {
     prisma = new PrismaClient({
       datasources: {
         db: {
-          url: env.CLOUDFLARE_DATA_PROXY_URL,
+          url: env.DATAPROXY_COMMON_URL,
         },
       },
     })
+
+    if (env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+      prisma = prisma.$extends(withAccelerate()) as any
+    }
 
     return getUsers()
   },

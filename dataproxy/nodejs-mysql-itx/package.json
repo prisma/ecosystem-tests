@@ -5,11 +5,12 @@
   "scripts": {
     "prisma": "prisma",
     "test": "jest --runInBand",
-    "generate-client": "prisma generate --data-proxy",
+    "generate-client": "prisma generate $PRISMA_GENERATE_FLAG",
     "migrate-deploy": "prisma migrate deploy"
   },
   "dependencies": {
-    "@prisma/client": "4.17.0-dev.86"
+    "@prisma/client": "4.17.0-dev.86",
+    "@prisma/extension-accelerate": "0.3.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.0",

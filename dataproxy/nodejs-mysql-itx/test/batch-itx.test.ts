@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from "@prisma/extension-accelerate"
 import util from 'util'
 import { config } from '../config'
 
@@ -13,6 +14,10 @@ describe('batch-itx', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient()
+
+    if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+      prisma = prisma.$extends(withAccelerate()) as any
+    }
   })
 
   test(

@@ -1,14 +1,24 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
 import { config } from '../config'
 
 const activities = config['lots-of-activities'].amount
+let timeouts = { maxWait: 2_000, timeout: 5_000 }
+
+if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension' || process.env.DATAPROXY_FLAVOR === 'DP2') {
+  timeouts = { maxWait: 30_000, timeout: 50_000 }
+}
 
 describe('lots-of-activities', () => {
   let prisma: PrismaClient
 
   beforeAll(() => {
     prisma = new PrismaClient()
+
+    if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
+      prisma = prisma.$extends(withAccelerate()) as any
+    }
   })
 
   test(
@@ -38,7 +48,7 @@ describe('lots-of-activities', () => {
             expect(found).toBeTruthy()
           }),
         )
-      })
+      }, timeouts)
 
       const found = await prisma.user.findMany({
         where: { email: { in: emails } },
