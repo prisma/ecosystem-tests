@@ -53,8 +53,5 @@ jobs:
 
       - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}

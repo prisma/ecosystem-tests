@@ -188,11 +188,8 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
@@ -283,11 +280,8 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 20
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+        timeout-minutes: 20
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
@@ -415,11 +409,8 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
@@ -466,11 +457,8 @@ jobs:
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
       - name: notify-slack
         if: failure()
@@ -563,11 +551,8 @@ jobs:
 
       - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
 
       - name: notify-slack
         if: failure()
@@ -620,11 +605,8 @@ jobs:
 
       - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
 
       - name: notify-slack
         if: failure()
@@ -674,11 +656,8 @@ jobs:
 
       - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
       - name: notify-slack
         if: failure()
@@ -744,11 +723,8 @@ jobs:
 
       - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
 
       - name: notify-slack
         if: failure()
@@ -798,11 +774,8 @@ jobs:
 
       - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
 
       - name: notify-slack
         if: failure()
@@ -873,11 +846,8 @@ jobs:
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        timeout-minutes: 60
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
@@ -971,11 +941,8 @@ jobs:
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        timeout-minutes: 60
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
@@ -1054,13 +1021,8 @@ jobs:
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          # default is 10s
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        timeout-minutes: 60
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
       - name: notify-slack
         if: failure()
@@ -1131,12 +1093,8 @@ jobs:
         run: pnpm install
 
       - name: test DP1 ${{ matrix.platform }}
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        timeout-minutes: 15
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP1'
           PRISMA_GENERATE_FLAG: '--data-proxy'
@@ -1151,12 +1109,8 @@ jobs:
           ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
 
       - name: test DP2 ${{ matrix.platform }}
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        timeout-minutes: 15
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2'
           PRISMA_GENERATE_FLAG: '--accelerate'
@@ -1172,12 +1126,8 @@ jobs:
 
       - name: test DP2 with Extension ${{ matrix.platform }}
         if: ${{ false }} # skipped because flaky
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        timeout-minutes: 15
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: ${{ contains(matrix.platform, 'mongodb') && 'DP2' || 'DP2+Extension' }} # MongoDB is not yet supported in DP2
           PRISMA_GENERATE_FLAG: '--accelerate'
@@ -1240,11 +1190,8 @@ jobs:
 
       - name: test ${{ matrix.bundler }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.bundler }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.bundler }}
 
       - name: notify-slack
         if: failure()
@@ -1295,11 +1242,8 @@ jobs:
 
       - name: test ${{ matrix.library }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.library }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.library }}
 
       - name: notify-slack
         if: failure()
@@ -1383,11 +1327,8 @@ jobs:
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
@@ -1430,11 +1371,8 @@ jobs:
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
       - name: notify-slack
         if: failure()
@@ -1482,11 +1420,8 @@ jobs:
 
       - name: test ${{ matrix.test-runner }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.test-runner }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.test-runner }}
 
       - name: notify-slack
         if: failure()

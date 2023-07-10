@@ -136,11 +136,8 @@ jobs:
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
+        timeout-minutes: 10
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
 
       - name: notify-slack
         if: failure()
