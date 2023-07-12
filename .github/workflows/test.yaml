@@ -599,6 +599,10 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - name: Install Dependencies
         run: npm install
 
