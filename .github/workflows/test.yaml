@@ -602,8 +602,7 @@ jobs:
       # This version of the pnpm CLI is packaged with Node.js into an executable.
       # see https://www.npmjs.com/package/@pnpm/exe
       - name: Install pnpm v8
-        shell: bash
-        run: curl -fsSL https://get.pnpm.io/install.sh | sh -
+        run: npm install -g @pnpm/exe@8
 
       - name: Install Dependencies
         run: pnpm install
