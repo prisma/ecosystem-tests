@@ -573,6 +573,55 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
+  # pnpm requires Node.js v 16.14 or higher
+  # so as a workaround we test this version with npm
+  node16dot13:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 16.13
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+
   node:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
@@ -581,7 +630,6 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 16.14 # Prisma's minimum is 16.13 but pnpm 8 minimum is 16.14 
           - 16
           - 17
           - 18
