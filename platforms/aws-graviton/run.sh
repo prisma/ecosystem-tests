@@ -11,7 +11,7 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       export CI=\"true\"
       export PRISMA_CLIENT_ENGINE_TYPE=\"binary\"
       rm -rf ./node_modules;
-      npm i -g pnpm@7;
+      npm i -g pnpm@8;
       pnpm install;
       pnpm prisma generate;
       pnpm prisma -v;
@@ -23,7 +23,7 @@ else
       export CI=\"true\"
       export PRISMA_CLIENT_ENGINE_TYPE=\"library\"
       rm -rf ./node_modules;
-      npm i -g pnpm@7;
+      npm i -g pnpm@8;
       pnpm install;
       pnpm prisma generate;
       pnpm prisma -v;
