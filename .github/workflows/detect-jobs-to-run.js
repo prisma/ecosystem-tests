@@ -38,6 +38,7 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
   // ['process-managers', 'docker', 'core-features', ...]
   const testDirectories = Object.keys(allJobs).filter((key) => {
     const jobsToIgnore = [
+      'node16dot13',
       'report-to-slack-success', // Not a test but a job that posts to slack
       'report-to-slack-failure', // Not a test but a job that posts to slack
       'detect_jobs_to_run', // Not a test but a job that decides which tests should run
