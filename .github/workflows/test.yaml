@@ -599,12 +599,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
+      # This version of the pnpm CLI is packaged with Node.js into an executable.
+      # see https://www.npmjs.com/package/@pnpm/exe
+      - name: Install pnpm v8
+        run: curl -fsSL https://get.pnpm.io/install.sh | sh -
 
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
