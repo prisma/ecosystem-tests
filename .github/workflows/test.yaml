@@ -635,8 +635,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 16.13 # Prisma's minimum is 16.13 but pnpm 8 requires Node.js 16.14, so we test it separately, see `node16dot13` 
-          - 16
+          # Prisma's minimum is 16.13 but pnpm 8 requires Node.js 16.14, so we test it separately, see `node16dot13` - which is why the next line is commented out
+          # - 16.13 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node via https://www.prisma.io/docs/reference/system-requirements
+          - 16 # latest minor+patch on GH Actions
           - 17
           - 18
           - 19
