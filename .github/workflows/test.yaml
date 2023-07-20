@@ -64,7 +64,7 @@ jobs:
           format: 'json'
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -100,7 +100,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
       - uses: actions/setup-node@v3
         with:
           cache: 'pnpm'
@@ -135,7 +135,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
       - uses: actions/setup-node@v3
         with:
           cache: 'pnpm'
@@ -167,7 +167,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -259,7 +259,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -308,7 +308,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -378,7 +378,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -436,7 +436,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -485,7 +485,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -530,7 +530,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -558,6 +558,60 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
+  # pnpm requires Node.js v 16.14 or higher
+  # so as a workaround we test this version with npm
+  node16dot13:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 16.13
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      # This version of the pnpm CLI is packaged with Node.js into an executable.
+      # see https://www.npmjs.com/package/@pnpm/exe
+      - name: Install pnpm v8
+        run: npm install -g @pnpm/exe@8
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.node }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+
   node:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['node'] == true }}
@@ -566,7 +620,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 16
+          # Prisma's minimum is 16.13 but pnpm 8 requires Node.js 16.14, so we test it separately, see `node16dot13` - which is why the next line is commented out
+          # - 16.13 # minimal node version via https://github.com/prisma/prisma/blob/main/packages/client/package.json and minimal minor+patch version of node via https://www.prisma.io/docs/reference/system-requirements
+          - 16 # latest minor+patch on GH Actions
           - 17
           - 18
           - 19
@@ -583,7 +639,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v3
@@ -634,7 +690,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -692,7 +748,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -753,7 +809,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -809,7 +865,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -905,7 +961,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -989,7 +1045,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -1073,7 +1129,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -1169,7 +1225,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -1221,7 +1277,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -1314,7 +1370,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -1358,7 +1414,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:
@@ -1399,7 +1455,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 8
 
       - uses: actions/setup-node@v3
         with:

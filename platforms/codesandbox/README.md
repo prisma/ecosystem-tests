@@ -7,4 +7,4 @@
 
 ## Codesandbox authentication
 
-Codesandboxes are created publicly, so there's no authentication needed.
+Codesandboxes are created publicly, so there's no account/authentication needed.
