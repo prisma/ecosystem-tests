@@ -36,7 +36,7 @@ async function fetchWithPuppeteer(sandboxId: string) {
   const page = await browser.newPage()
   await page.setDefaultNavigationTimeout(0)
   await page.goto(`https://codesandbox.io/p/sandbox/${sandboxId}`)
-  await page.waitForTimeout(20_000)
+  await sleep(20)
   const screenshot = await page.screenshot()
   fs.writeFileSync('image.png', screenshot as Buffer)
   await browser.close()
@@ -54,6 +54,7 @@ async function fetchWithPuppeteer(sandboxId: string) {
 }
 
 async function sleep(seconds: number) {
+  console.log(`Sleeping for ${seconds} sec`)
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(false)
@@ -62,7 +63,7 @@ async function sleep(seconds: number) {
 }
 
 let attempts = 0
-async function ensureSandbox(sandboxId : string) {
+async function ensureSandbox(sandboxId: string) {
   attempts += 1
   console.log(`Attempt: ${attempts}`)
   if (attempts > 10) {
@@ -73,10 +74,8 @@ async function ensureSandbox(sandboxId : string) {
     return true
   } catch (e) {
     console.log(e)
-    const sleepTime = 5
-    console.log(`Sleeping for ${sleepTime} sec`)
-    await sleep(sleepTime)
-    console.log(`Retrying sandbox ${sandboxId}}`)
+    await sleep(5)
+    console.log(`Retrying sandbox ${sandboxId}`)
     return ensureSandbox(sandboxId)
   }
 }
