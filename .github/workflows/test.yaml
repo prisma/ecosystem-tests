@@ -989,9 +989,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Install pnpm v8
+        if: ${{ matrix.platform != 'netlify-github' }}
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 8
+
+      - name: Install pnpm v7
+        if: ${{ matrix.platform == 'netlify-github' }}
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - uses: actions/setup-node@v3
         with:
