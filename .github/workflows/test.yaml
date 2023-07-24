@@ -1227,7 +1227,7 @@ jobs:
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
 
       - name: test DP2 with Extension ${{ matrix.platform }}
-        if: ${{ false }} # skipped because flaky
+        # if: ${{ false }} # skipped because flaky
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 15
