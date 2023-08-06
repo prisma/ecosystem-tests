@@ -26,13 +26,9 @@ function isBinary(file: string) {
 }
 
 async function fetchWithPuppeteer(sandboxId: string) {
-  const options = {
-    ...(process.env.CI === '1' && {
-      executablePath: 'google-chrome-unstable',
-    }),
-  }
-  console.log(options)
-  const browser = await puppeteer.launch(options)
+  const browser = await puppeteer.launch({
+    headless: 'new',
+  })
   const page = await browser.newPage()
   await page.setDefaultNavigationTimeout(0)
   await page.goto(`https://codesandbox.io/p/sandbox/${sandboxId}`)
