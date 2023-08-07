@@ -15,8 +15,8 @@ describe('concurrent', () => {
         list.map((): Promise<void> => {
           return new Promise((resolve, reject) => {
             child_process.exec(`node ${__dirname}/concurrent.js`, (error, stdout, stderr) => {
-              console.log(stdout)
-              console.error(stderr)
+              if (stdout) console.log(stdout)
+              if (stderr) console.error(stderr)
 
               if (error) {
                 reject(error)
