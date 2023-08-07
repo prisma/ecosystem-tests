@@ -10,12 +10,8 @@
   "prConcurrentLimit": 17,
   "schedule": ["before 7am every weekday", "every weekend"],
   "rebaseWhen": "auto",
-  "ignoreDeps": ["prisma", "@prisma/client"],
+  "ignoreDeps": ["prisma", "@prisma/client", "@prisma/instrumentation"],
   "packageRules": [
-    {
-      "matchPackageNames": ["@prisma/instrumentation"],
-      "followTag": "dev"
-    },
     {
       "groupName": ["svelte packages"],
       "matchPackagePatterns": "svelte"
