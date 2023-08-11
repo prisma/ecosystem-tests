@@ -17,8 +17,8 @@ devDependencies:
     specifier: 16.18.40
     version: 16.18.40
   netlify-cli:
-    specifier: 15.11.0
-    version: 15.11.0(@types/node@16.18.40)
+    specifier: 16.0.1
+    version: 16.0.1(@types/node@16.18.40)
   prisma:
     specifier: 5.2.0-dev.34
     version: 5.2.0-dev.34
@@ -309,22 +309,22 @@ packages:
       yargs: 17.7.2
     dev: true
 
-  /@netlify/build@29.17.3(@types/node@16.18.40)(debug@4.3.4):
-    resolution: {integrity: sha512-8itNAX+3USSZ6I4vx/XwMLJXiliGMVhaKcIVtcD9Wc1AQsSBFiNyDOi7V/8ZYe1iPsKP0bpDCHCQtOPGoheAfQ==}
+  /@netlify/build@29.20.0(@types/node@16.18.40)(debug@4.3.4):
+    resolution: {integrity: sha512-R2gOkJQYOeitIZtCfQkn1D75ltUsOVuAzbr1fOpvoAqH8xc3Vlw/bmOX2OkF5pGtbvakHay4KvME6q3m2Xxo9g==}
     engines: {node: ^14.16.0 || >=16.0.0}
     hasBin: true
     dependencies:
       '@bugsnag/js': 7.20.2
       '@honeycombio/opentelemetry-node': 0.4.0(debug@4.3.4)(supports-color@9.3.1)
       '@netlify/cache-utils': 5.1.5
-      '@netlify/config': 20.6.4
+      '@netlify/config': 20.8.0
       '@netlify/edge-bundler': 8.17.1
       '@netlify/framework-info': 9.8.10
-      '@netlify/functions-utils': 5.2.19(supports-color@9.3.1)
+      '@netlify/functions-utils': 5.2.22(supports-color@9.3.1)
       '@netlify/git-utils': 5.1.1
-      '@netlify/plugins-list': 6.68.0
+      '@netlify/plugins-list': 6.71.0
       '@netlify/run-utils': 5.1.1
-      '@netlify/zip-it-and-ship-it': 9.13.1(supports-color@9.3.1)
+      '@netlify/zip-it-and-ship-it': 9.15.0(supports-color@9.3.1)
       '@opentelemetry/api': 1.4.1
       '@sindresorhus/slugify': 2.2.0
       ansi-escapes: 6.2.0
@@ -392,8 +392,8 @@ packages:
       readdirp: 3.6.0
     dev: true
 
-  /@netlify/config@20.6.4:
-    resolution: {integrity: sha512-pJTWziboUevmK6cbItbAq05+TFU6YaygDJKTXdHLxLeJ0JAJGw0xxkgXckf+AcxAQDIJeJ+6Pwo5UFzJfPgm9w==}
+  /@netlify/config@20.8.0:
+    resolution: {integrity: sha512-jzklg2Kj9D/2h+QO2MNbbc7oz9Wo56Zp1ob/kaG9P7DJLZSgc0h6G2GQSybqKqvApLju+8iqPB2rMAp02QSjpA==}
     engines: {node: ^14.16.0 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -412,7 +412,7 @@ packages:
       map-obj: 5.0.2
       netlify: 13.1.10
       netlify-headers-parser: 7.1.2
-      netlify-redirect-parser: 14.1.3
+      netlify-redirect-parser: 14.2.0
       node-fetch: 3.3.1
       omit.js: 2.0.2
       p-locate: 6.0.0
@@ -460,8 +460,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-android-64@0.14.39-1:
+    resolution: {integrity: sha512-/rZn0xVfTLVjx0SLvToydTTpvNwrlFqxW++Lqen7CXubTJNFnZQH0hP/qMCILac41zvSipxyU5/Di9mWHoLv9Q==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-android-arm64@0.14.39:
     resolution: {integrity: sha512-WhIP7ePq4qMC1sxoaeB9SsJqSW6uzW7XDj/IuWl1l9r94nwxywU1sYdVLaF2mZr15njviazYjVr8x1d+ipwL3w==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-android-arm64@0.14.39-1:
+    resolution: {integrity: sha512-Wnjsv5djKQ2NwKaDj2P5DpvNAFhQIQBer2IqVCQ8u0ykdyr+y+u5CmM1ZnrzBnDUULk5TYwPlUNt3p2NctSnLQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [android]
@@ -478,8 +496,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-darwin-64@0.14.39-1:
+    resolution: {integrity: sha512-rHQmZcS+1qC9bL1EwFQ8SGqiKrIUQLam9ty2bcsEH78525NoAW8f/ENollQlso1K8lSkcn+KzX7i09FdRL0TLQ==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-darwin-arm64@0.14.39:
     resolution: {integrity: sha512-b7rtnX/VtYwNbUCxs3eulrCWJ+u2YvqDcXiIV1ka+od+N0fTx+4RrVkVp1lha9L0wEJYK9J7UWZOMLMyd1ynRg==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-darwin-arm64@0.14.39-1:
+    resolution: {integrity: sha512-Ytz9SY7BjtBnrZL4qCsKJ/xyjJyH2LFLV3kv3DhY5X+eUUBsjdCAq2VVY9zLnvkNf5Sef/U35Jie2O0sl+3E1g==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
@@ -496,8 +532,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-freebsd-64@0.14.39-1:
+    resolution: {integrity: sha512-TsOZCldbxEOB4Rv5tudYCkPkfHklmOWQgRPoz3wsmJDUpLwljOQFru4J0uCRqKKGLALo1qBBQvzofQi+5dvTzQ==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-freebsd-arm64@0.14.39:
     resolution: {integrity: sha512-A9XZKai+k6kfndCtN6Dh2usT28V0+OGxzFdZsANONPQiEUTrGZCgwcHWiVlVn7SeAwPR1tKZreTnvrfj8cj7hA==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-freebsd-arm64@0.14.39-1:
+    resolution: {integrity: sha512-wJbKm1eijTiots/RgDOZjbqcZaCVElPjegRit0LkbAQnqfBc2B8F6j7CkUgbWg1hU2+YJFiMGhaRMljN9jpCVQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
@@ -514,8 +568,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-linux-32@0.14.39-1:
+    resolution: {integrity: sha512-rSCpXot5p3zUpwnC9ttKtP+vWf3gT1CkzJwEBHqqIr0GmgTLoADMaZ1AZqq125DyCvPf2s9f98XtSWaHmIqN8w==}
+    engines: {node: '>=12'}
+    cpu: [ia32]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-linux-64@0.14.39:
     resolution: {integrity: sha512-IQtswVw7GAKNX/3yV390wSfSXvMWy0d5cw8csAffwBk9gupftY2lzepK4Cn6uD/aqLt3Iku33FbHop/2nPGfQA==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-linux-64@0.14.39-1:
+    resolution: {integrity: sha512-lx+tQR7OW9Sq8WrP+zJ20lpJFHe4jvO56czUjJe7iSYtu0mpbApnJc2p4KqakU4xdjMdlqsUDG6L7GqE4+dNxQ==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -532,8 +604,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-linux-arm64@0.14.39-1:
+    resolution: {integrity: sha512-e1gEB3+1WWsvBNDrPIq43hkUmWx9CkN5DVfcHa9Ar55DY8G9DRl5MyCFVpYVPctoWLRMlt1VRwPuc5YfSTXZbw==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-linux-arm@0.14.39:
     resolution: {integrity: sha512-QdOzQniOed0Bz1cTC9TMMwvtAqKayYv66H4edJlbvElC81yJZF/c9XhmYWJ6P5g4nkChZubQ5RcQwTLmrFGexg==}
+    engines: {node: '>=12'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-linux-arm@0.14.39-1:
+    resolution: {integrity: sha512-O2w4oRYNoavKyednlkCnxr7VnfizpWurCxKraRyKQ4XIQbv3bqtgK/VSt1cJMwm+7+BdGNsqux4wAKmwsdW+Zw==}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
@@ -550,8 +640,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-linux-mips64le@0.14.39-1:
+    resolution: {integrity: sha512-SKDBxNiJmTD1HYlmq6GWbz7dBtz1lYg28Y8RLo2Yj/jZtkVzZbMS0sVhB05FAzQhGT+m1bFLSrbLJkfmbzoQXg==}
+    engines: {node: '>=12'}
+    cpu: [mips64el]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-linux-ppc64le@0.14.39:
     resolution: {integrity: sha512-tFy0ufWIdjeuk1rPHee00TZlhr9OSF00Ufb4ROFyt2ArKuMSkWRJuDgx6MtZcAnCIN4cybo/xWl3MKTM+scnww==}
+    engines: {node: '>=12'}
+    cpu: [ppc64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-linux-ppc64le@0.14.39-1:
+    resolution: {integrity: sha512-cKIoVrHn6qJf1cTKCaOQvXKpcpSwCShzNkEQNtWCEFvlHJ817lsVaWqQm01qDQ9pGrDbhZRsUAIOkwsjLrKDmA==}
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [linux]
@@ -568,8 +676,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-linux-riscv64@0.14.39-1:
+    resolution: {integrity: sha512-W6gQyJc52lFoPj0w6AoQCfa8/fmwsC6CrT80JKe+fF4mYwBUnySbRVldMDb/cb6qCqHt5m3X+w7HFS5soPGT5Q==}
+    engines: {node: '>=12'}
+    cpu: [riscv64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-linux-s390x@0.14.39:
     resolution: {integrity: sha512-yjC0mFwnuMRoh0WcF0h71MF71ytZBFEQQTRdgiGT0+gbC4UApBqnTkJdLx32RscBKi9skbMChiJ748hDJou6FA==}
+    engines: {node: '>=12'}
+    cpu: [s390x]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-linux-s390x@0.14.39-1:
+    resolution: {integrity: sha512-IN4agxUutc0BbcAMDDVuz60bDKFEGlq+vZlPzeLnketkVs/5BZj1vfoS8hJJelvR/mB99G9YjyOm08EthqoyHw==}
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
@@ -586,8 +712,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-netbsd-64@0.14.39-1:
+    resolution: {integrity: sha512-cnvcQ6u7QtjnxFcMYtEUqOYg8wTfLOSoc6nFPhjIE4074Tw/H48LFqFq0v2Gtgvc5neUZtxBF2+6QMX4Q91vwQ==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [netbsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-openbsd-64@0.14.39:
     resolution: {integrity: sha512-+t6QdzJCngH19hV7ClpFAeFDI2ko/HNcFbiNwaXTMVLB3hWi1sJtn+fzZck5HfzN4qsajAVqZq4nwX69SSt25A==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [openbsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-openbsd-64@0.14.39-1:
+    resolution: {integrity: sha512-14fDX08hM0rWzUO7uf7Wxg9uL5SK5AqSDe+vXviIL+gWGN2vHoakRbzZoLVHFwoTLT5/1oIUYDJfcmcrFm1rjw==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [openbsd]
@@ -604,8 +748,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-sunos-64@0.14.39-1:
+    resolution: {integrity: sha512-TDUJGI077mAM3qotUfN/DcKaBq3nLeAdNwjsWulKgdC3UwC/iqyrYrnmZipEbiHO2jt4+wRFUz/s/x+HeDiblg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [sunos]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-windows-32@0.14.39:
     resolution: {integrity: sha512-ZpSQcKbVSCU3ln7mHpsL/5dWsUqCNdTnC5YAArnaOwdrlIunrsbo5j4MOZRRcGExb2uvTc/rb+D3mlGb8j1rkA==}
+    engines: {node: '>=12'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-windows-32@0.14.39-1:
+    resolution: {integrity: sha512-Jyf5OUm+Guo7+SoIURTfmzqri10xj18qdgxwy3NNsQG/Eg1XLETDORWH0cKy6YTiRDuqeCsZeXDoAQABOs30gQ==}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [win32]
@@ -622,8 +784,26 @@ packages:
     dev: true
     optional: true
 
+  /@netlify/esbuild-windows-64@0.14.39-1:
+    resolution: {integrity: sha512-D41xhwJN90qeLebZrb853zhGJahIlCf+HPKwxVZx+Nk8BNV09jQyJ2GYqmmwRxNOrbzqD80+pgvoYkq4a4OV0g==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@netlify/esbuild-windows-arm64@0.14.39:
     resolution: {integrity: sha512-WX52W8U1lsfWcz6NWoSpDs57lgiiMHN23seq8G2bvxzGS/tvYD3dxVLLW5UPoKSnFDyVQT7b6Zkt6AkBten1yQ==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@netlify/esbuild-windows-arm64@0.14.39-1:
+    resolution: {integrity: sha512-EGzYwc+MoKhWnz+6iUbXQKcQKV8FbPovDJkmY9YWGkgSwZALPo4DpjSaMLW6hv42YRyoBRM1NP/v/qmVtgeJjQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
@@ -659,6 +839,34 @@ packages:
       '@netlify/esbuild-windows-arm64': 0.14.39
     dev: true
 
+  /@netlify/esbuild@0.14.39-1:
+    resolution: {integrity: sha512-FkS9R3aeD1JvPhEZh9r4GfXGLHoqzAsS3haqIeFfQ907irkGzCg1w5r5OWuSqPtLNyaGklVWz/HU0IsM8thyZw==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      '@netlify/esbuild-android-64': 0.14.39-1
+      '@netlify/esbuild-android-arm64': 0.14.39-1
+      '@netlify/esbuild-darwin-64': 0.14.39-1
+      '@netlify/esbuild-darwin-arm64': 0.14.39-1
+      '@netlify/esbuild-freebsd-64': 0.14.39-1
+      '@netlify/esbuild-freebsd-arm64': 0.14.39-1
+      '@netlify/esbuild-linux-32': 0.14.39-1
+      '@netlify/esbuild-linux-64': 0.14.39-1
+      '@netlify/esbuild-linux-arm': 0.14.39-1
+      '@netlify/esbuild-linux-arm64': 0.14.39-1
+      '@netlify/esbuild-linux-mips64le': 0.14.39-1
+      '@netlify/esbuild-linux-ppc64le': 0.14.39-1
+      '@netlify/esbuild-linux-riscv64': 0.14.39-1
+      '@netlify/esbuild-linux-s390x': 0.14.39-1
+      '@netlify/esbuild-netbsd-64': 0.14.39-1
+      '@netlify/esbuild-openbsd-64': 0.14.39-1
+      '@netlify/esbuild-sunos-64': 0.14.39-1
+      '@netlify/esbuild-windows-32': 0.14.39-1
+      '@netlify/esbuild-windows-64': 0.14.39-1
+      '@netlify/esbuild-windows-arm64': 0.14.39-1
+    dev: true
+
   /@netlify/framework-info@9.8.10:
     resolution: {integrity: sha512-VT8ejAaB/XU2xRpdpQinHUO1YL3+BMx6LJ49wJk2u9Yq/VI1/gYCi5VqbqTHBQXJUlOi84YuiRlrDBsLpPr8eg==}
     engines: {node: ^14.14.0 || >=16.0.0}
@@ -675,11 +883,11 @@ packages:
       semver: 7.5.4
     dev: true
 
-  /@netlify/functions-utils@5.2.19(supports-color@9.3.1):
-    resolution: {integrity: sha512-VHVNA7atuKCGHmx6OLUnBy6i+ZKxbE7OoTGNRXWFkkoJKAWU0Y9/R4BWj1eTL+w1Tp0rtQ5vlkgnTA2miOLwCg==}
+  /@netlify/functions-utils@5.2.22(supports-color@9.3.1):
+    resolution: {integrity: sha512-XflsfLLTqPILpurLuQ7vXPoB2OYOZP14kn9fpUZLcLfsOMa85+dPpLX3ADAspnHVCCrnNfvbvW0z0nXod+aO/g==}
     engines: {node: ^14.16.0 || >=16.0.0}
     dependencies:
-      '@netlify/zip-it-and-ship-it': 9.13.1(supports-color@9.3.1)
+      '@netlify/zip-it-and-ship-it': 9.15.1(supports-color@9.3.1)
       cpy: 9.0.1
       path-exists: 5.0.0
     transitivePeerDependencies:
@@ -827,8 +1035,8 @@ packages:
     resolution: {integrity: sha512-RkucRf8o0vYhCDXCRHWU/EdhkVE3JhkqKmZFvMW6qCPD206GV2Cfo9JGSKb0NdN+nmHSNaYmd+9dvT6I9MP4pw==}
     dev: true
 
-  /@netlify/plugins-list@6.68.0:
-    resolution: {integrity: sha512-OIW7oDTXFKEyzG2DQr6ndLWjYfNnSZAKbldD2dquH3V8Q6DrbGk8Dhv6LkuGOJBgrKS25SyabYOyHIVASQjrFw==}
+  /@netlify/plugins-list@6.71.0:
+    resolution: {integrity: sha512-sKMRRAzDHG+UeFYkcxAvrAxcYKPJasksGfZ5jegEpBGsHi8F4Ilkadfm9gIvq2V1dl+6El+QupPlw2YTeVRdvA==}
     engines: {node: ^14.14.0 || >=16.0.0}
     dev: true
 
@@ -844,7 +1052,12 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     dev: true
 
-  /@netlify/zip-it-and-ship-it@9.13.1(supports-color@9.3.1):
+  /@netlify/serverless-functions-api@1.6.0:
+    resolution: {integrity: sha512-Lr5mxLAvSZyJhigSc0zhvAuusNR6VdJNvOmsDkxIN6f9xzmRpWyAEecCGtBc+hoSZlIeLzI7oFcKhaTzXcO2JA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    dev: true
+
+  /@netlify/zip-it-and-ship-it@9.13.1:
     resolution: {integrity: sha512-Cn1wOhko5HslamEdalnXwxi+p2tw3saYD68zAyC78MbQulPCQK4t8LtPB5qicHqqgfht6fte5L8QJW6RL27/fg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -861,6 +1074,88 @@ packages:
       execa: 6.1.0
       filter-obj: 5.1.0
       find-up: 6.3.0
+      glob: 8.1.0
+      is-builtin-module: 3.2.1
+      is-path-inside: 4.0.0
+      junk: 4.0.0
+      locate-path: 7.2.0
+      merge-options: 3.0.4
+      minimatch: 9.0.2
+      normalize-path: 3.0.0
+      p-map: 5.5.0
+      path-exists: 5.0.0
+      precinct: 11.0.5(supports-color@9.3.1)
+      require-package-name: 2.0.1
+      resolve: 2.0.0-next.4
+      semver: 7.5.4
+      tmp-promise: 3.0.3
+      toml: 3.0.0
+      unixify: 1.0.0
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: true
+
+  /@netlify/zip-it-and-ship-it@9.15.0(supports-color@9.3.1):
+    resolution: {integrity: sha512-xUihGc8X8GM+TnXzpo6Wd5Ak+2wD0AaM9h6KZuFLqFYV21NWmILw61bRqs94LLJxorLTh/KToe2Wf+UATDhv7g==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      '@babel/parser': 7.22.7
+      '@netlify/binary-info': 1.0.0
+      '@netlify/esbuild': 0.14.39
+      '@netlify/serverless-functions-api': 1.6.0
+      '@vercel/nft': 0.23.0(supports-color@9.3.1)
+      archiver: 5.3.1
+      common-path-prefix: 3.0.0
+      cp-file: 10.0.0
+      es-module-lexer: 1.2.1
+      execa: 6.1.0
+      filter-obj: 5.1.0
+      find-up: 6.3.0
+      get-tsconfig: 4.7.0
+      glob: 8.1.0
+      is-builtin-module: 3.2.1
+      is-path-inside: 4.0.0
+      junk: 4.0.0
+      locate-path: 7.2.0
+      merge-options: 3.0.4
+      minimatch: 9.0.2
+      normalize-path: 3.0.0
+      p-map: 5.5.0
+      path-exists: 5.0.0
+      precinct: 11.0.5(supports-color@9.3.1)
+      require-package-name: 2.0.1
+      resolve: 2.0.0-next.4
+      semver: 7.5.4
+      tmp-promise: 3.0.3
+      toml: 3.0.0
+      unixify: 1.0.0
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: true
+
+  /@netlify/zip-it-and-ship-it@9.15.1(supports-color@9.3.1):
+    resolution: {integrity: sha512-gYEZ8Rrl9dtME3syR3Uj+JabEWvEiFUKO0/84joriVIfWGrYPzu9WKBqOjy+huWIAYEWPbEJRmxFEJrYOmhDgw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      '@babel/parser': 7.22.7
+      '@netlify/binary-info': 1.0.0
+      '@netlify/esbuild': 0.14.39-1
+      '@netlify/serverless-functions-api': 1.6.0
+      '@vercel/nft': 0.23.0(supports-color@9.3.1)
+      archiver: 5.3.1
+      common-path-prefix: 3.0.0
+      cp-file: 10.0.0
+      es-module-lexer: 1.2.1
+      execa: 6.1.0
+      filter-obj: 5.1.0
+      find-up: 6.3.0
+      get-tsconfig: 4.7.0
       glob: 8.1.0
       is-builtin-module: 3.2.1
       is-path-inside: 4.0.0
@@ -3844,6 +4139,12 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /get-tsconfig@4.7.0:
+    resolution: {integrity: sha512-pmjiZ7xtB8URYm74PlGJozDNyhvsVLUcpBa8DZBG3bWHwaHa9bPiRpiSfovw+fjhwONSCWKRyk+JQHEGZmMrzw==}
+    dependencies:
+      resolve-pkg-maps: 1.0.0
+    dev: true
+
   /get-value@2.0.6:
     resolution: {integrity: sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==}
     engines: {node: '>=0.10.0'}
@@ -5291,22 +5592,21 @@ packages:
     resolution: {integrity: sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==}
     dev: true
 
-  /netlify-cli@15.11.0(@types/node@16.18.40):
-    resolution: {integrity: sha512-GKw1sHJ8kgI+7EWnSuKclwDejIlaFZkgFlLYke7UdwRFrHzFWliD4MqkhCHkMlhPu5SU4QCO2ML+UnfG+okZbA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
+  /netlify-cli@16.0.1(@types/node@16.18.40):
+    resolution: {integrity: sha512-pUOZYwZinGrdU3OjVUCDcpMsN+jNp7Zf3Wn5alHauKjIjOwQSLDXrv0EOZzw79GCLtmeXWuMR42MvxqagqUf5A==}
+    engines: {node: '>=16.16.0'}
     hasBin: true
     requiresBuild: true
     dependencies:
       '@bugsnag/js': 7.20.2
       '@fastify/static': 6.10.2
-      '@netlify/build': 29.17.3(@types/node@16.18.40)(debug@4.3.4)
+      '@netlify/build': 29.20.0(@types/node@16.18.40)(debug@4.3.4)
       '@netlify/build-info': 7.7.3
-      '@netlify/config': 20.6.4
+      '@netlify/config': 20.8.0
       '@netlify/edge-bundler': 8.17.1
-      '@netlify/framework-info': 9.8.10
       '@netlify/local-functions-proxy': 1.1.1
       '@netlify/serverless-functions-api': 1.5.2
-      '@netlify/zip-it-and-ship-it': 9.13.1(supports-color@9.3.1)
+      '@netlify/zip-it-and-ship-it': 9.13.1
       '@octokit/rest': 19.0.13
       ansi-escapes: 6.2.0
       ansi-styles: 6.2.1
@@ -5431,6 +5731,17 @@ packages:
 
   /netlify-redirect-parser@14.1.3:
     resolution: {integrity: sha512-23svKHdO2QUEJHo3knQV1EpAh8UX/+8zQmwxVMSby4/NRj5vPS+u/yKesY/uHAgcw/28HwvEUGQdbXsPPe7J/Q==}
+    engines: {node: ^14.16.0 || >=16.0.0}
+    dependencies:
+      fast-safe-stringify: 2.1.1
+      filter-obj: 5.1.0
+      is-plain-obj: 4.1.0
+      path-exists: 5.0.0
+      toml: 3.0.0
+    dev: true
+
+  /netlify-redirect-parser@14.2.0:
+    resolution: {integrity: sha512-3Mi7sMH7XXZhjvXx/5RtJ/rU/E6zKkE4etcYQbEu8B3r872D0opoYyGdPW/MvaYQyVdfg23XEFaEI4zzQTupaw==}
     engines: {node: ^14.16.0 || >=16.0.0}
     dependencies:
       fast-safe-stringify: 2.1.1
@@ -6406,6 +6717,10 @@ packages:
   /resolve-from@5.0.0:
     resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
     engines: {node: '>=8'}
+    dev: true
+
+  /resolve-pkg-maps@1.0.0:
+    resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
     dev: true
 
   /resolve-url@0.2.1:
