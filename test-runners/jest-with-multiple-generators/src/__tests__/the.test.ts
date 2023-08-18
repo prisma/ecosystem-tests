@@ -35,6 +35,8 @@ describe('Prisma in jest with multiple generators', () => {
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
       expect(filesA).toMatchInlineSnapshot(`
 Array [
+  "edge.d.ts",
+  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
@@ -46,6 +48,8 @@ Array [
 `)
       expect(filesB).toMatchInlineSnapshot(`
 Array [
+  "edge.d.ts",
+  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
