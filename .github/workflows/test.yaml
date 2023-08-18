@@ -92,6 +92,7 @@ jobs:
       - libraries
       - databases
       - databases-macos
+      - databases-windows
       - process-managers
       - test-runners
       - docker
@@ -127,6 +128,7 @@ jobs:
       - libraries
       - databases
       - databases-macos
+      - databases-windows
       - process-managers
       - test-runners
       - docker
@@ -1482,6 +1484,56 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install
+
+      - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
+
+  databases-windows:
+    needs: [start-time, detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases-windows'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        clientEngine: [library] # ['library', 'binary']
+        database:
+          - mongodb-azure-cosmosdb-emulator
+        os: [windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      START_TIME: ${{ needs.start-time.outputs.start-time }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: janpio/azure-cosmos-db-emulator-github-action@main
+        with:
+          parameter_string: "-EnableMongoDb 4.0"
+
+      # Run a simple MongoDB query to create entry in database and collection (as other non-create queries [like the initial deleteMany in the test script] will otherwise get an error message)
+      - run: yarn install && node mongoclient.js
+        working-directory: ${{ github.job }}/${{ matrix.database }}
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: use node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
         id: run-test
