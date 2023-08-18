@@ -62,6 +62,8 @@ Array [
     } else {
       expect(filesA).toMatchInlineSnapshot(`
 Array [
+  "edge.d.ts",
+  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
@@ -73,6 +75,8 @@ Array [
 `)
       expect(filesB).toMatchInlineSnapshot(`
 Array [
+  "edge.d.ts",
+  "edge.js",
   "index-browser.js",
   "index.d.ts",
   "index.js",
