@@ -35,8 +35,8 @@ else
   exit 1
 fi
 
-# Check the Vercel Build Logs for "| dataproxy" in generate
-if echo "${OUTPUT}" | grep -q '| dataproxy'; then
+# Check the Vercel Build Logs for "engine=none" in generate
+if echo "${OUTPUT}" | grep -q 'engine=none'; then
   echo 'Data Proxy was successfully enabled'
 else
   echo "Data Proxy was NOT ENABLED"
