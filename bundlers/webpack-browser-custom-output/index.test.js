@@ -1,6 +1,8 @@
 const { PrismaClient } = require('./dist/prismaTest')
 
 test('correctly generates browser bundle for prisma at custom path', async () => {
+  expect.assertions(1)
+
   try {
     await new PrismaClient().user.findFirst()
   } catch (e) {
