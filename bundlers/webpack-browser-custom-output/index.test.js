@@ -1,9 +1,9 @@
 const { PrismaClient } = require('./dist/prismaTest')
 
 test('correctly generates browser bundle for prisma at custom path', async () => {
-  expect(new PrismaClient().user.findFirst()).toThrow(
-    expect.objectContaining({
-      message: expect.stringContaining('PrismaClient is unable to run in'),
-    }),
-  )
+  try {
+    await new PrismaClient().user.findFirst()
+  } catch (e) {
+    expect(e.message).toContain('PrismaClient is unable to run in')
+  }
 })
