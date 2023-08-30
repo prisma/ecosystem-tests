@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { createPlanetScaleConnector } from '@jkomyno/'
+import { createPlanetScaleConnector } from '@jkomyno/prisma-planetscale-js-connector'
 
 const connectionString = process.env.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL
 
