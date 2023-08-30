@@ -122,6 +122,11 @@ export default async (req, res) => {
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
       where: {
         email: "test-2@prisma.io"
+      },
+      select: {
+        age: true,
+        email: true,
+        name: true,
       }
     }),
     upsert: await prisma.user.upsert({

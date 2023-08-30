@@ -104,7 +104,6 @@ Object {
 Object {
   "age": 29,
   "email": "test-2@prisma.io",
-  "id": "clly7gz310001jfp6eqroauel",
   "name": "Test 2",
 }
 `)
