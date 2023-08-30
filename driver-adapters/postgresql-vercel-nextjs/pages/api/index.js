@@ -1,9 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { createPlanetScaleConnector } from '@jkomyno/prisma-pg-js-connector'
+import { createPgConnector } from '@jkomyno/prisma-pg-js-connector'
 
 const connectionString = process.env.DATABASE_URL
 
-const jsConnector = createPlanetScaleConnector({
+const jsConnector = createPgConnector({
   url: connectionString,
 })
 
