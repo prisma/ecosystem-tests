@@ -264,11 +264,11 @@ jobs:
         with:
           version: 8
 
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-      #     cache: 'pnpm'
-      #     cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
