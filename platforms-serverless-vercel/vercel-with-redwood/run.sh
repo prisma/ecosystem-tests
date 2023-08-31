@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwood build'
 
