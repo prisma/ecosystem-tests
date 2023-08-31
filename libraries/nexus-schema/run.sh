@@ -3,5 +3,6 @@
 set -eux
 
 pnpm install
-pnpm generate
-pnpm build
+pnpm prisma generate
+# pnpm generate
+# pnpm build
