@@ -17,11 +17,7 @@ fi
 yarn
 
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
-export FORCE_RUNTIME_TAG=canary
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
-echo "FORCE_RUNTIME_TAG $FORCE_RUNTIME_TAG"
-
-yarn redwood deploy vercel --no-data-migrate --no-prisma
 
 echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 echo "PRISMA_CLIENT_ENGINE_TYPE: $PRISMA_CLIENT_ENGINE_TYPE"
