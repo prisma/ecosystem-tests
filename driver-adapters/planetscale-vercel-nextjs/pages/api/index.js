@@ -1,5 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client'
-import { createPlanetScaleConnector } from '@jkomyno/prisma-planetscale-js-connector'
+const { Prisma, PrismaClient } = require('@prisma/client')
+const { createPlanetScaleConnector } = require('@jkomyno/prisma-planetscale-js-connector')
 
 const connectionString = process.env.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL
 
@@ -9,11 +9,11 @@ const jsConnector = createPlanetScaleConnector({
 
 const prisma = new PrismaClient({ jsConnector })
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   res.statusCode = 200
   res.setHeader('Content-Type', 'application/json')
   
-  const result = {
+  const getResult = async (prisma) => ({
     prismaVersion: Prisma.prismaVersion.client,
     deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0})),
     create: await prisma.user.create({
@@ -145,7 +145,11 @@ export default async (req, res) => {
         name: true,
       }
     }),
-  }
+  })
+
+  const regResult = await getResult(prisma)
+  const itxResult = await prisma.$transaction(getResult)
+  const result = { itxResult, regResult }
 
   res.status(200).json(result)
 }

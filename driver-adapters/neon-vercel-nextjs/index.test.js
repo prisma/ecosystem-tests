@@ -17,19 +17,20 @@ jest.setTimeout(30000)
 
 test('prisma version and output', async () => {
   const response = await fetch(getDeploymentURL() + '/api')
-  const data = await response.json()
+  const { regResult, itxResult } = await response.json()
 
-  expect(data.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
-  expect(data.deleteMany.count).toBe(0)
-  expect(data.create).toMatchInlineSnapshot(`
+  expect(regResult).toEqual(itxResult)
+  expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
+  expect(regResult.deleteMany.count).toBe(0)
+  expect(regResult.create).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(data.createMany.count).toBe(2)
-  expect(data.findMany).toMatchInlineSnapshot(`
+  expect(regResult.createMany.count).toBe(2)
+  expect(regResult.findMany).toMatchInlineSnapshot(`
 Array [
   Object {
     "age": 27,
@@ -48,42 +49,42 @@ Array [
   },
 ]
 `)
-  expect(data.findUnique).toMatchInlineSnapshot(`
+  expect(regResult.findUnique).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(data.update).toMatchInlineSnapshot(`
+  expect(regResult.update).toMatchInlineSnapshot(`
 Object {
   "age": 26,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(data.updateMany.count).toBe(1)
-  expect(data.findFirst).toMatchInlineSnapshot(`
+  expect(regResult.updateMany.count).toBe(1)
+  expect(regResult.findFirst).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(data.delete).toMatchInlineSnapshot(`
+  expect(regResult.delete).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(data.count).toBe(2)
-  expect(data.aggregate).toMatchInlineSnapshot(`
+  expect(regResult.count).toBe(2)
+  expect(regResult.aggregate).toMatchInlineSnapshot(`
 Object {
   "age": 29,
 }
 `)
-  expect(data.groupBy).toMatchInlineSnapshot(`
+  expect(regResult.groupBy).toMatchInlineSnapshot(`
 Array [
   Object {
     "_count": Object {
@@ -93,21 +94,21 @@ Array [
   },
 ]
 `)
-  expect(data.findFirstOrThrow).toMatchInlineSnapshot(`
+  expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
 Object {
   "age": 29,
   "email": "test-2@prisma.io",
   "name": "Test 2",
 }
 `)
-  expect(data.findUniqueOrThrow).toMatchInlineSnapshot(`
+  expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
 Object {
   "age": 29,
   "email": "test-2@prisma.io",
   "name": "Test 2",
 }
 `)
-  expect(data.upsert).toMatchInlineSnapshot(`
+  expect(regResult.upsert).toMatchInlineSnapshot(`
 Object {
   "age": 30,
   "email": "test-4@prisma.io",
