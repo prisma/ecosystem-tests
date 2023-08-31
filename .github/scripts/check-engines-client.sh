@@ -41,6 +41,7 @@ skipped_projects=(
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
   yarn3-workspaces-pnp                    # Client is generated into a subfolder
   serverless-framework-lambda-pnpm        # Client is generated into a subfolder
+  docker
 )
 
 case "${skipped_projects[@]}" in  *$2*)
@@ -67,7 +68,13 @@ esac
 echo "Assumed OS: $os_name"
 echo "CLIENT_ENGINE_TYPE == $CLIENT_ENGINE_TYPE"
 
-GENERATED_CLIENT=$(node -e "console.log(path.dirname(require.resolve('.prisma/client/package.json', {paths: [path.dirname(require.resolve('@prisma/client/package.json'))]})))")
+GENERATED_CLIENT=$(node -e "
+  console.log(
+    path.dirname(require.resolve('.prisma/client/package.json', {
+      paths: [path.dirname(require.resolve('@prisma/client/package.json'))]
+    }))
+  )
+")
 
 if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
   echo "Binary: Enabled"

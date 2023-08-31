@@ -3,8 +3,6 @@
 set -eu
 shopt -s inherit_errexit || true
 
-(cd .github/slack/ && pnpm install --reporter silent)
-
 emoji="$1"
 
 export webhook="$SLACK_WEBHOOK_URL_WORKFLOWS"

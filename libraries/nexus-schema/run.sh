@@ -3,5 +3,5 @@
 set -eux
 
 pnpm install
-# pnpm generate
-# pnpm build
+pnpm generate
+pnpm build
