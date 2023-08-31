@@ -41,7 +41,6 @@ skipped_projects=(
   vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
   yarn3-workspaces-pnp                    # Client is generated into a subfolder
   serverless-framework-lambda-pnpm        # Client is generated into a subfolder
-  docker
 )
 
 case "${skipped_projects[@]}" in  *$2*)
