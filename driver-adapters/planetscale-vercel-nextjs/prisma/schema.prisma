@@ -4,8 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  // fake url to ensure the driver adapter is used
-  url      = "mysql://prisma:prisma@localhost:3306/db"
+  url      = env("DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL")
 }
 
 model User {
