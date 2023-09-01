@@ -14,9 +14,7 @@ test('prisma version and output', async () => {
     Payload: '""',
   })
 
-  console.log(new TextDecoder().decode(response.Payload))
-
-  const { regResult, itxResult } = JSON.parse(JSON.parse(response.Payload.toString('utf-8')).body)
+  const { regResult, itxResult } = JSON.parse(JSON.parse(new TextDecoder().decode(response.Payload)).body)
 
   expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
