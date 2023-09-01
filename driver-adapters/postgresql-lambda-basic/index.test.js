@@ -13,14 +13,7 @@ test('prisma version and output', async () => {
     Payload: '""',
   }).promise()
 
-  console.log('response', response)
-  console.log('payload', response.Payload.toString('utf-8'))
-  console.log('$response', response.$response.data)
-
-  console.log(JSON.parse(response.Payload.toString('utf-8')).body)
-  console.log(JSON.parse(JSON.parse(response.Payload.toString('utf-8')).body))
-
-  const { regResult, itxResult } = JSON.parse(response.Payload.toString('utf-8')).body
+  const { regResult, itxResult } = JSON.parse(JSON.parse(response.Payload.toString('utf-8')).body)
 
   expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
