@@ -966,7 +966,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     concurrency: platforms-serverless-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
-      NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
@@ -1056,7 +1055,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     concurrency: platforms-serverless-vercel-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
-      NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
@@ -1126,7 +1124,7 @@ jobs:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['driver-adapters'] == true }}
 
-    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -1139,7 +1137,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     concurrency: driver-adapters-${{ matrix.combo }}-${{ matrix.clientEngine }}
     env:
-      NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
@@ -1220,7 +1217,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
-      NPM_CONFIG_LOGLEVEL: error
       NODE_ENV: development
       NODE_MODULES_CACHE: false
       NODE_VERBOSE: true
