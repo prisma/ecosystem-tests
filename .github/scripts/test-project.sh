@@ -149,8 +149,6 @@ echo "$dir/$project done"
 cd "$root"
 
 if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integration" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
-  (cd .github/slack/ && pnpm install --reporter silent)
-
   branch="${GITHUB_REF##*/}"
   sha="$(git rev-parse HEAD | cut -c -7)"
   short_sha="$(echo "$sha" | cut -c -7)"

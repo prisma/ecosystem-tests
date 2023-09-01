@@ -46,3 +46,4 @@ docker run -p 3000:3000 \
 sleep 15
 
 pnpm install
+pnpm prisma generate

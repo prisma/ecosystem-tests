@@ -12,7 +12,8 @@ import { Router, Route } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
-      <Route notfound page={NotFoundPage} />
+      <Route path="/welcome" page={WelcomePage} name="welcome" />
+      <Route notfound page={NotFoundPage} prerender />
     </Router>
   )
 }
