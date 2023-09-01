@@ -1,7 +1,7 @@
-const aws = require('aws-sdk')
+const { Lambda } = require("@aws-sdk/client-lambda")
 const { dependencies } = require('./package.json')
 
-const lambda = new aws.Lambda({
+const lambda = new Lambda({
   region: process.env.AWS_DEFAULT_REGION,
 })
 
@@ -12,7 +12,7 @@ test('prisma version and output', async () => {
     FunctionName: 'driver-adapters-postgresql-lambda-basic',
     InvocationType: 'RequestResponse',
     Payload: '""',
-  }).promise()
+  })
 
   const { regResult, itxResult } = JSON.parse(JSON.parse(response.Payload.toString('utf-8')).body)
 
