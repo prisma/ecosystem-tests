@@ -30,7 +30,7 @@ Object {
 }
 `)
   expect(regResult.createMany.count).toBe(2)
-  expect(regResult.findMany).toMatchInlineSnapshot(`
+  expect(regResult.findMany.sort((a, b) => a.email > b.email ? 1 : -1)).toMatchInlineSnapshot(`
 Array [
   Object {
     "age": 27,
