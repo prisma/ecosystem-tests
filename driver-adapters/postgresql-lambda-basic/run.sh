@@ -6,7 +6,19 @@ pnpm install
 pnpm prisma generate
 
 rm -rf lambda.zip
-zip --symlinks -r lambda.zip index.js prisma/schema.prisma node_modules/@prisma/client node_modules/@jkomyno* node_modules/.pnpm/@prisma+client* node_modules/.pnpm/@jkomyno*
+
+GENERATED_CLIENT=$(node -e "
+  console.log(
+    path.dirname(require.resolve('.prisma/client/package.json', {
+      paths: [path.dirname(require.resolve('@prisma/client/package.json'))]
+    }))
+  )
+")
+
+pnpm esbuild index.js --bundle --platform=node --target=node18 --outfile=dist/index.js --format=cjs
+cp "$GENERATED_CLIENT"/libquery_engine-rhel-openssl-1.0.x.so.node dist
+cp "$GENERATED_CLIENT"/schema.prisma dist
+zip -rj lambda.zip dist
 
 aws lambda update-function-configuration --function-name driver-adapters-postgresql-lambda-basic --runtime nodejs18.x --environment "Variables={DATABASE_URL=$DATABASE_URL}" --timeout 10
 aws lambda update-function-code --function-name driver-adapters-postgresql-lambda-basic --zip-file "fileb://lambda.zip"
