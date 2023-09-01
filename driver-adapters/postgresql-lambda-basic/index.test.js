@@ -1,4 +1,5 @@
 const aws = require('aws-sdk')
+const { dependencies } = require('./package.json')
 
 const lambda = new aws.Lambda({
   region: process.env.AWS_DEFAULT_REGION,
@@ -16,7 +17,7 @@ test('prisma version and output', async () => {
   const { regResult, itxResult } = JSON.parse(JSON.parse(response.Payload.toString('utf-8')).body)
 
   expect(regResult).toEqual(itxResult)
-  expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
+  expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
   expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
 Object {
