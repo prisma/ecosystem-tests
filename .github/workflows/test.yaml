@@ -1129,10 +1129,11 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - neon-lambda-basic
           - neon-vercel-nextjs
           - planetscale-vercel-nextjs
-          - postgresql-vercel-nextjs
           - postgresql-lambda-basic
+          - postgresql-vercel-nextjs
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
