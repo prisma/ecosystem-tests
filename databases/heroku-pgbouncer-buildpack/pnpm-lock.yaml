@@ -14,8 +14,8 @@ dependencies:
 
 devDependencies:
   heroku:
-    specifier: 8.4.1
-    version: 8.4.1(@oclif/config@1.18.8)(@types/node@18.15.11)(typescript@5.1.6)
+    specifier: 8.4.2
+    version: 8.4.2(@oclif/config@1.18.8)(@types/node@18.15.11)(typescript@5.1.6)
   prisma:
     specifier: 5.3.0-dev.32
     version: 5.3.0-dev.32
@@ -227,8 +227,8 @@ packages:
       - supports-color
     dev: true
 
-  /@heroku-cli/plugin-pg-v5@8.4.1:
-    resolution: {integrity: sha512-wabgPCzZWSdX56/awPOZlQAqvo37ID7tK8f3oBVwbQXRSexguqfhZkCeTrEE1ozUd8rHJyJwdogtg2wH9+dOBQ==}
+  /@heroku-cli/plugin-pg-v5@8.4.2:
+    resolution: {integrity: sha512-DNm+XxMwKctIWXC9Euibk4iYJawKLELyNtf1L+/yC6mbYwkdT4bwGHsERt2kuZQR3TfIY8VMfeiSkd70peIQXg==}
     dependencies:
       '@heroku-cli/plugin-addons': 1.2.31
       bytes: 3.1.2
@@ -289,6 +289,22 @@ packages:
       heroku-cli-util: 8.0.12
       http-call: 5.3.0
       shellwords: 0.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@heroku-cli/plugin-run@8.1.4:
+    resolution: {integrity: sha512-ht4ekGolHXwH0tCGsZNLoqh/Nvr2grLeSY7yqfWBcAnCm4iuPGJWA5Rnz+I79xZGiBtRUE7f/A14kF2JpqW0Pw==}
+    engines: {node: '>=14'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+    dependencies:
+      '@heroku-cli/color': 1.1.14
+      '@heroku-cli/command': 9.0.2
+      '@heroku-cli/notifications': 1.2.3
+      '@heroku/eventsource': 1.0.7
+      '@oclif/core': 1.26.2
+      debug: 4.3.4(supports-color@8.1.1)
+      tslib: 1.14.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2184,13 +2200,14 @@ packages:
     resolution: {integrity: sha512-bfnA2ZfydOonhdJDdk4AyH90+ln/O2gva+t2tx7YIM7tny6ExPwEyfqPeklwVM6zTraimSGNQfyE2DNRpLa/KA==}
     dev: true
 
-  /heroku@8.4.1(@oclif/config@1.18.8)(@types/node@18.15.11)(typescript@5.1.6):
-    resolution: {integrity: sha512-L1eIV9I3cQjklzIj62kO7IpJ2gjktWJx5sB47MF+L70HILunOGABooI3GNUW/Tg1TfIG4utm/QnV+xw2qG0+1g==}
+  /heroku@8.4.2(@oclif/config@1.18.8)(@types/node@18.15.11)(typescript@5.1.6):
+    resolution: {integrity: sha512-Wdp0OehtT9kdt/OkRRATJDbdCFk5QPjJiaocVGkrhBEkcCtHbVJOYO6eTChF3+ZctlMvtduh6Z8ksT+wpON78g==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@heroku-cli/color': 1.1.14
       '@heroku-cli/command': 10.0.0(@types/node@18.15.11)(typescript@5.1.6)
+      '@heroku-cli/command-v9': /@heroku-cli/command@9.0.2
       '@heroku-cli/notifications': 1.2.3
       '@heroku-cli/plugin-addons-v5': 8.4.0
       '@heroku-cli/plugin-apps-v5': 8.4.0
@@ -2198,15 +2215,17 @@ packages:
       '@heroku-cli/plugin-ci-v5': 8.2.0
       '@heroku-cli/plugin-container-registry-v5': 8.2.0
       '@heroku-cli/plugin-orgs-v5': 8.2.0
-      '@heroku-cli/plugin-pg-v5': 8.4.1
+      '@heroku-cli/plugin-pg-v5': 8.4.2
       '@heroku-cli/plugin-ps': 8.1.7
       '@heroku-cli/plugin-ps-exec': 2.4.0
       '@heroku-cli/plugin-redis-v5': 8.2.0
+      '@heroku-cli/plugin-run': 8.1.4
       '@heroku-cli/plugin-spaces': 8.4.0
       '@heroku-cli/schema': 1.0.25
       '@heroku/buildpack-registry': 1.0.1
       '@heroku/eventsource': 1.0.7
       '@oclif/core': 2.8.11(@types/node@18.15.11)(typescript@5.1.6)
+      '@oclif/core-v1': /@oclif/core@1.26.2
       '@oclif/plugin-commands': 2.2.2
       '@oclif/plugin-help': 5.2.11(@types/node@18.15.11)(typescript@5.1.6)
       '@oclif/plugin-legacy': 1.3.0(@oclif/config@1.18.8)
