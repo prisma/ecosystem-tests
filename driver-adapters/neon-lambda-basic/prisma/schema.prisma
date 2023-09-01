@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // fake url to ensure the driver adapter is used
+  url      = "postgresql://prisma:prisma@localhost:5432/db?schema=public"
+}
+
+model User {
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
+}
