@@ -1132,6 +1132,7 @@ jobs:
           - neon-vercel-nextjs
           - planetscale-vercel-nextjs
           - postgresql-vercel-nextjs
+          - postgresql-lambda-basic
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -1142,6 +1143,10 @@ jobs:
       NODE_VERBOSE: true
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ secrets.AWS_ROLE }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL }}
