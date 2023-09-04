@@ -1,18 +1,15 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createNeonConnector } = require('@jkomyno/prisma-neon-js-connector')
+const { createPgConnector } = require('@jkomyno/prisma-pg-js-connector')
 
-const connectionString = process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL
+const connectionString = process.env.DATABASE_URL
 
-const jsConnector = createNeonConnector({
+const jsConnector = createPgConnector({
   url: connectionString,
 })
 
 const prisma = new PrismaClient({ jsConnector })
 
-module.exports = async (req, res) => {
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'application/json')
-  
+exports.handler = async () => {
   const getResult = async (prisma) => {
     const result = {
       prismaVersion: Prisma.prismaVersion.client,
@@ -158,5 +155,9 @@ module.exports = async (req, res) => {
   const itxResult = await prisma.$transaction(getResult)
   const result = { itxResult, regResult }
 
-  res.status(200).json(result)
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(result),
+  }
 }
