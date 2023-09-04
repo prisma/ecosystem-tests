@@ -1,4 +1,5 @@
 const { handler } = require('./index')
+const { dependencies } = require('./package.json')
 
 jest.setTimeout(30000)
 
