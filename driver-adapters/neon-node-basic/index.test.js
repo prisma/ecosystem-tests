@@ -1,9 +1,9 @@
-const { getResult } = require('./index')
+const { handler } = require('./index')
 
 jest.setTimeout(30000)
 
 test('prisma version and output', async () => {
-  const { regResult, itxResult } = await getResult()
+  const { regResult, itxResult } = await handler()
 
   expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
