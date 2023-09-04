@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   // fake url to ensure the driver adapter is used
-  url      = "postgresql://prisma:prisma@localhost:5432/db?schema=public"
+  url      = env("DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL")
 }
 
 model User {
