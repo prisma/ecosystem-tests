@@ -15,7 +15,7 @@ jobs:
   check-for-latest-update:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2.4.0
         with:
@@ -40,7 +40,7 @@ jobs:
   check-for-dev-update:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2.4.0
         with:
@@ -65,7 +65,7 @@ jobs:
   check-for-patch-dev-update:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2.4.0
         with:
@@ -90,7 +90,7 @@ jobs:
   check-for-integration-update:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2.4.0
         with:
@@ -121,7 +121,7 @@ jobs:
       - check-for-integration-update
     if: failure()
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2.4.0
         with:
