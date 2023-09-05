@@ -1,9 +1,9 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createPlanetscaleConnector } = require('@jkomyno/prisma-planetscale-js-connector')
+const { createPlanetScaleConnector } = require('@jkomyno/prisma-planetscale-js-connector')
 
 const connectionString = process.env.DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL
 
-const jsConnector = createPlanetscaleConnector({
+const jsConnector = createPlanetScaleConnector({
   url: connectionString,
 })
 
