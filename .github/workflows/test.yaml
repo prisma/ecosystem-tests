@@ -1185,7 +1185,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
