@@ -11,8 +11,8 @@ fi
 
 if [ "$PROJECT_PACKAGE_MANAGER" = "yarn" ] || [ "$PROJECT_PACKAGE_MANAGER" = "yarn@berry" ]; then
     export YARN_ENABLE_SCRIPTS=0
-    # we try yarn 3 times because when running in parallel, yarn can fail to work
-    for i in $(seq 1 3); do echo "yarn try n°$i" && yarn && break || sleep 15; done
+    # we try yarn 10 times because it can happen that something goes wrong along the way
+    for i in $(seq 1 10); do echo "yarn try n°$i" && yarn && break || sleep $((2*$i)); done
     exit 0
 fi
 
