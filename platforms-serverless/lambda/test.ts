@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 const process = require('process')
 
-const name = 'prisma2-e2e-tests'
+const name = `platforms-serverless-lambda-${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
 
 async function main() {
   console.log('testing function', name)
