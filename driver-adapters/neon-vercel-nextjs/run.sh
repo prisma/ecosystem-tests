@@ -2,7 +2,7 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters neon-vercel-nextjs build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters neon-vercel-nextjs'
 
 pnpm install
 

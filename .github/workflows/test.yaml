@@ -1124,16 +1124,19 @@ jobs:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['driver-adapters'] == true }}
 
-    timeout-minutes: 20
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         combo:
           - neon-lambda-basic
+          - neon-node-basic
           - neon-vercel-nextjs
           - planetscale-lambda-basic
+          - planetscale-node-basic
           - planetscale-vercel-nextjs
           - postgresql-lambda-basic
+          - postgresql-node-basic
           - postgresql-vercel-nextjs
         clientEngine: ['library']
         os: [ubuntu-20.04]
@@ -1150,12 +1153,15 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ROLE: ${{ secrets.AWS_ROLE }}
       DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID }}
       DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID }}
       DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ secrets.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
+      DEBUG: 'prisma:js-connector*'
 
     steps:
       - uses: actions/checkout@v4
@@ -1166,7 +1172,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
 
@@ -1180,7 +1186,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 

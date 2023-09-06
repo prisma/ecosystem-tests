@@ -1,12 +1,11 @@
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
   provider = "mysql"
   // TODO: needs to be changed to a fake url to ensure the driver adapter is used
-  url      = env("DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL")
+  url      = env("DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL")
 }
 
 model User {
