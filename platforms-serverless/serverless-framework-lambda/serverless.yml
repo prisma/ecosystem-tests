@@ -1,4 +1,4 @@
-service: eco-serverless-framework-lambda-${env:PRISMA_CLIENT_ENGINE_TYPE}
+service: platforms-serverless-serverless-framework-lambda-${env:PRISMA_CLIENT_ENGINE_TYPE}
 
 provider:
   name: aws
@@ -12,7 +12,7 @@ provider:
 functions:
   hello:
     handler: index.handler
-    name: platforms-serverless-serverless-framework-lambda-${env:PRISMA_CLIENT_ENGINE_TYPE}
+    name: serverless-framework-lambda-${env:PRISMA_CLIENT_ENGINE_TYPE}
     environment:
       DATABASE_URL: ${env:DATABASE_URL}
 
