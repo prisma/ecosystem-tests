@@ -6,7 +6,7 @@ import { prismaClientVersion } from './utils'
 import { config } from '../config'
 
 const delay = util.promisify(setTimeout)
-const buffer = 12000
+const buffer = 2000
 
 const transactionDelay = config['long-running'].transactionDelay
 

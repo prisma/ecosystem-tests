@@ -4,11 +4,11 @@ export const config = {
     amount: 100, // Amount of read and writes inside a transaction
   },
   'long-running': {
-    transactionDelay: 12000, // How long to delay the transaction
+    transactionDelay: 2000, // How long to delay the transaction
   },
   'batch-itx': {
     batchAmount: 200, // How many records to create and update
-    transactionDelay: 12000, // How long to delay the transaction
+    transactionDelay: 2000, // How long to delay the transaction
   },
   concurrent: {
     amount: 20, // How many concurrent to run at once
