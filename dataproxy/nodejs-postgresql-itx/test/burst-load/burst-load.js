@@ -4,7 +4,7 @@ const { withAccelerate } = require('@prisma/extension-accelerate')
 const { equal } = require('node:assert')
 const util = require('util')
 const sleep = util.promisify(setTimeout)
-const accelerateItxMac = 15_000
+const accelerateItxMax = 15_000
 
 let prisma = new PrismaClient()
 
@@ -42,8 +42,8 @@ async function main() {
       return user
     },
     {
-      maxWait: accelerateItxMac,
-      timeout: accelerateItxMac,
+      maxWait: accelerateItxMax,
+      timeout: accelerateItxMax,
     },
   )
 
