@@ -9,7 +9,7 @@ export const config = {
     transactionDelay: 2_000, // How long to delay the transaction
   },
   concurrent: {
-    amount: 20, // How many concurrent to run at once
+    amount: 2, // How many concurrent to run at once
   },
   'burst-load': {
     bursts: 2, // How many bursts to perform

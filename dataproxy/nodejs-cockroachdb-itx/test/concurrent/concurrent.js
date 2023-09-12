@@ -24,8 +24,6 @@ async function main() {
         },
       })
 
-      await sleep(1_000)
-
       await tx.post.create({
         data: {
           title,
