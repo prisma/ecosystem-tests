@@ -18,7 +18,7 @@ async function main() {
 
   const user = await prisma.$transaction(
     async (tx) => {
-      sleep(5000)
+      sleep(5_000)
 
       const user = await tx.user.create({
         data: {
@@ -26,7 +26,7 @@ async function main() {
         },
       })
 
-      sleep(5000)
+      sleep(5_000)
 
       await tx.post.create({
         data: {
