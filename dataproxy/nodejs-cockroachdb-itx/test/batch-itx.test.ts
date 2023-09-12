@@ -5,7 +5,7 @@ import util from 'util'
 import { config } from '../config'
 
 const delay = util.promisify(setTimeout)
-const buffer = 2000
+const buffer = 4_000
 
 const { batchAmount, transactionDelay } = config['batch-itx']
 
@@ -14,7 +14,7 @@ describe('batch-itx', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient()
-    
+
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
       prisma = prisma.$extends(withAccelerate()) as any
     }

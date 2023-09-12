@@ -6,7 +6,7 @@ import { config } from '../config'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
 const delay = util.promisify(setTimeout)
-const buffer = 2000
+const buffer = 4_000
 
 const transactionDelay = config['long-running'].transactionDelay
 
