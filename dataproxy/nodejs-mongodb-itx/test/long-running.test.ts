@@ -5,7 +5,7 @@ import { prismaClientVersion } from './utils'
 import { config } from '../config'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-const delay = util.promisify(setTimeout)
+const sleep = util.promisify(setTimeout)
 const buffer = 4_000
 
 const transactionDelay = config['long-running'].transactionDelay
@@ -25,7 +25,7 @@ describe('long-running', () => {
     const result = prisma.$transaction(async (tx) => {
       await tx.user.findMany({})
 
-      await delay(6000)
+      await sleep(6_000)
     })
 
     await expect(result).rejects.toMatchObject({
@@ -42,7 +42,7 @@ describe('long-running', () => {
 
       const user = await prisma.$transaction(
         async (tx) => {
-          await delay(transactionDelay)
+          await sleep(transactionDelay)
 
           return tx.user.create({
             data: {
