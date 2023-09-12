@@ -1,13 +1,12 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createPgConnector } = require('@jkomyno/prisma-pg-js-connector')
+const { Pool } = require('pg')
+const { PrismaPg } = require('@jkomyno/prisma-adapter-pg')
 
 const connectionString = process.env.DATABASE_URL
 
-const jsConnector = createPgConnector({
-  url: connectionString,
-})
-
-const prisma = new PrismaClient({ jsConnector })
+const pool = new Pool({ connectionString })
+const adapter = new PrismaPg(pool)
+const prisma = new PrismaClient({ adapter })
 
 exports.handler = async () => {
   const getResult = async (prisma) => ({

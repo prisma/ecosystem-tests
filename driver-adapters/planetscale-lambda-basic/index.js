@@ -1,13 +1,12 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createPlanetScaleConnector } = require('@jkomyno/prisma-planetscale-js-connector')
+const { connect } = require('@planetscale/database')
+const { PrismaPlanetScale } = require('@jkomyno/prisma-adapter-planetscale')
 
 const connectionString = process.env.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL
 
-const jsConnector = createPlanetScaleConnector({
-  url: connectionString,
-})
-
-const prisma = new PrismaClient({ jsConnector })
+const connection = connect({ url: connectionString })
+const adapter = new PrismaPlanetScale(connection)
+const prisma = new PrismaClient({ adapter })
 
 exports.handler = async () => {
   const getResult = async (prisma) => {
