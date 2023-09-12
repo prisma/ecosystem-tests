@@ -31,7 +31,7 @@ echo "running $dir/$project"
 echo "cd $dir/$project"
 cd "$dir/$project"
 
-PM=$(node -e "require('@antfu/ni').detect({ autoInstall: false, cwd, programmatic: true }).then(console.log)")
+PM=$(node -e "require('@antfu/ni').detect({ autoInstall: false, programmatic: true }).then(console.log)")
 INSTALL_CMD=$(node -e "require('@antfu/ni').getCommand('$PM', 'install', []).then(console.log)")
 
 sh -c "$INSTALL_CMD"
