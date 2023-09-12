@@ -9,6 +9,7 @@ const testIf = (condition: boolean) => (condition ? test : test.skip)
 const sleep = util.promisify(setTimeout)
 const accelerateItxMax = 15_000
 const dp1ItxTimeout = 120_000
+const isDP1 = process.env.DATAPROXY_FLAVOR === 'DP1'
 
 describe('long-running', () => {
   let prisma: PrismaClient
@@ -35,7 +36,7 @@ describe('long-running', () => {
     })
   })
 
-  testIf(process.env.DATAPROXY_FLAVOR !== 'DP1')(
+  testIf(!isDP1)(
     'accelerate only: should throw an error on long-running itx that sets a timeout limit over the limit',
     async () => {
       const email = faker.internet.email()
@@ -67,7 +68,7 @@ describe('long-running', () => {
     config.globalTimeout,
   )
 
-  testIf(process.env.DATAPROXY_FLAVOR !== 'DP1')(
+  testIf(!isDP1)(
     'accelerate only: should run a transaction for ~+13s and then still succeed',
     async () => {
       const email = faker.internet.email()
@@ -99,7 +100,7 @@ describe('long-running', () => {
     config.globalTimeout,
   )
 
-  testIf(process.env.DATAPROXY_FLAVOR === 'DP1')(
+  testIf(isDP1)(
     'DP1 only: should run a transaction for 1 min and then still succeed',
     async () => {
       const email = faker.internet.email()
