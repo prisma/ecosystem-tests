@@ -1,5 +1,5 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-import { connect } from '@planetscale/database'
+const { connect } = require('@planetscale/database')
 const { PrismaPlanetScale } = require('@jkomyno/prisma-adapter-planetscale')
 
 const connectionString = process.env.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL
