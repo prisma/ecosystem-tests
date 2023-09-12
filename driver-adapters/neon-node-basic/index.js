@@ -1,4 +1,5 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
+const { WebSocket } = require('undici')
 const { Pool, neonConfig } = require('@neondatabase/serverless')
 const { PrismaNeon } = require('@jkomyno/prisma-adapter-neon')
 
