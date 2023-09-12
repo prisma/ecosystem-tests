@@ -10,4 +10,5 @@ npx tsc
 # Useful for debugging aws permissions errors (and probably more)
 export SLS_DEBUG=*
 
+# npx serverless remove --region "$AWS_DEFAULT_REGION"
 npx serverless deploy --region "$AWS_DEFAULT_REGION"
