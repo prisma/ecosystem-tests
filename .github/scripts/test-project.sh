@@ -35,7 +35,7 @@ then
   true
   # if a project needs to be skipped for any reason, replace `foobar` with its folder name or add additional conditions
 else
-  default_version=$(cat ../prisma-version.txt)
+  default_version=$(cat .github/prisma-version.txt)
   cli_version_dev=$(node -e "console.log(require('./$dir/$project/package.json').devDependencies.prisma ?? '')")
   cli_version_dep=$(node -e "console.log(require('./$dir/$project/package.json').dependencies.prisma ?? '')")
   version=$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")
