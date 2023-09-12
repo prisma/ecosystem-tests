@@ -46,8 +46,8 @@ else
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
-    DBPUSH_CMD=$(node -e "console.log(require('@antfu/ni').getCommand('$PM', 'execute', ['prisma', 'db', 'push', '--accept-data-loss', '--skip-generate', '--schema=$schema_path']))")
-    sh -c "$DBPUSH_CMD"
+    echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
+    sh -c "$(node -e "console.log(require('@antfu/ni').getCommand('$PM', 'execute', ['prisma', 'db', 'push', '--accept-data-loss', '--skip-generate', '--schema=$schema_path']))")"
     echo ""
   fi
 fi
