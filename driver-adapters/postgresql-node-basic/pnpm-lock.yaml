@@ -5,20 +5,26 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@jkomyno/prisma-pg-js-connector':
-    specifier: 0.0.9
-    version: 0.0.9
+  '@jkomyno/prisma-adapter-pg':
+    specifier: 0.2.1
+    version: 0.2.1(pg@8.11.3)
   '@prisma/client':
-    specifier: 5.3.0-integration-feat-js-connectors-in-client.13
-    version: 5.3.0-integration-feat-js-connectors-in-client.13(prisma@5.3.0-integration-feat-js-connectors-in-client.13)
+    specifier: 5.3.0-integration-feat-driver-adapters-in-client.3
+    version: 5.3.0-integration-feat-driver-adapters-in-client.3(prisma@5.3.0-integration-feat-driver-adapters-in-client.3)
+  pg:
+    specifier: ^8.11.3
+    version: 8.11.3
 
 devDependencies:
+  '@types/pg':
+    specifier: ^8.10.2
+    version: 8.10.2
   jest:
     specifier: 28.1.3
     version: 28.1.3
   prisma:
-    specifier: 5.3.0-integration-feat-js-connectors-in-client.13
-    version: 5.3.0-integration-feat-js-connectors-in-client.13
+    specifier: 5.3.0-integration-feat-driver-adapters-in-client.3
+    version: 5.3.0-integration-feat-driver-adapters-in-client.3
 
 packages:
 
@@ -583,21 +589,22 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@jkomyno/prisma-js-connector-utils@0.0.9:
-    resolution: {integrity: sha512-zgetylwOdGqy/BqhTHg66uH9FF1qDZDayy9ECiujmxlKjyY+3v//YjXOagC8nEBZ76JusWzBA1+AZYGbUCoqEA==}
+  /@jkomyno/prisma-adapter-pg@0.2.1(pg@8.11.3):
+    resolution: {integrity: sha512-4UEEpmzjCGInvjsJTw7Us5n6J3iDaht/oYGtJrqpbSv+tjhB/yDHzZ3KSwmbNfl2nDL20rQUJC3+te5ADoSf6g==}
+    peerDependencies:
+      pg: ^8.11.3
     dependencies:
-      debug: 4.3.4
+      '@jkomyno/prisma-driver-adapter-utils': 0.2.1
+      pg: 8.11.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@jkomyno/prisma-pg-js-connector@0.0.9:
-    resolution: {integrity: sha512-l9yjQdVQBrEYEr6af4SrsOouAiHn8wxpqnHXggYYtbCpNKFFCEmTqf88B9NO3Yz4TWo7Bf6SkZWsMyPYWCDy4Q==}
+  /@jkomyno/prisma-driver-adapter-utils@0.2.1:
+    resolution: {integrity: sha512-wijRWfwLVIs/hJi4Plrc3JHBW3I4bVvgWM6uLvybQUWTtz4LwzdcPt3inZsPXr6qLkwqkjVe9q+XbeHCMPsLdg==}
     dependencies:
-      '@jkomyno/prisma-js-connector-utils': 0.0.9
-      pg: 8.11.3
+      debug: 4.3.4
     transitivePeerDependencies:
-      - pg-native
       - supports-color
     dev: false
 
@@ -640,8 +647,8 @@ packages:
     hasBin: true
     dev: true
 
-  /@prisma/client@5.3.0-integration-feat-js-connectors-in-client.13(prisma@5.3.0-integration-feat-js-connectors-in-client.13):
-    resolution: {integrity: sha512-jGfBWy89/dWm9crA4BxK6ET4oh49DZ1lpOrpRSAv3oGPm7hpISoUcW6GZ8dDhluIANQqSTA8NfIJyN6jSMm1DQ==}
+  /@prisma/client@5.3.0-integration-feat-driver-adapters-in-client.3(prisma@5.3.0-integration-feat-driver-adapters-in-client.3):
+    resolution: {integrity: sha512-L/y90JbrWyJGXiXvtKfRKDgqTjTEQ2rkzdb0tlf4Uu9jIyBxiKr5qmDl7vRagN1JXeOkYqinsi+598MtJ7pGFA==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -650,16 +657,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 5.3.0-22.6473dadba8a7fff9689b35ad2ca9f9e5aff4d0d0
-      prisma: 5.3.0-integration-feat-js-connectors-in-client.13
+      '@prisma/engines-version': 5.3.0-28.3457e5de04da1741c969a80068702ad103e99553
+      prisma: 5.3.0-integration-feat-driver-adapters-in-client.3
     dev: false
 
-  /@prisma/engines-version@5.3.0-22.6473dadba8a7fff9689b35ad2ca9f9e5aff4d0d0:
-    resolution: {integrity: sha512-Osd1JsYW04EyLalEJemXArlSrmVo/Lod0xndl5yvB0D/aw36M0+wjbJFZSlOn5BnN8FyM5/yIIJGsXlx+LxEMg==}
+  /@prisma/engines-version@5.3.0-28.3457e5de04da1741c969a80068702ad103e99553:
+    resolution: {integrity: sha512-eb+8hgURyTu1qAWmTxgZCgBjf0UV6REC525fa1XnPpL6hxMZ7cEtFCX0f9GDopa/piCM9pq5H2ttthGOKQyVLA==}
     dev: false
 
-  /@prisma/engines@5.3.0-integration-feat-js-connectors-in-client.13:
-    resolution: {integrity: sha512-L9S4tBjlQvn92XNxK2W4ZMe3dN2kfKP/iWQ+h5TqYBHcOXFHBHCH2H8bLoN05h7+ba9tE7kBxPHLSCDkhxHayQ==}
+  /@prisma/engines@5.3.0-integration-feat-driver-adapters-in-client.3:
+    resolution: {integrity: sha512-Nt+lbsiE4jj4GGIyhLrcNy8fVwBjsZeQqNI2oMbgoCyMSZwkcUmMRuK7OJdzbxHBKpivnneF0WMhbv/fZTRGig==}
     requiresBuild: true
 
   /@sinclair/typebox@0.24.51:
@@ -731,6 +738,14 @@ packages:
 
   /@types/node@20.4.1:
     resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
+    dev: true
+
+  /@types/pg@8.10.2:
+    resolution: {integrity: sha512-MKFs9P6nJ+LAeHLU3V0cODEOgyThJ3OAnmOlsZsxux6sfQs3HRXR5bBn7xG5DjckEFhTAxsXi7k7cd0pCMxpJw==}
+    dependencies:
+      '@types/node': 20.4.1
+      pg-protocol: 1.6.0
+      pg-types: 4.0.1
     dev: true
 
   /@types/prettier@2.7.3:
@@ -1862,6 +1877,10 @@ packages:
       path-key: 3.1.1
     dev: true
 
+  /obuf@1.1.2:
+    resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
+    dev: true
+
   /once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
@@ -1947,7 +1966,11 @@ packages:
   /pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
-    dev: false
+
+  /pg-numeric@1.0.2:
+    resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
+    engines: {node: '>=4'}
+    dev: true
 
   /pg-pool@3.6.1(pg@8.11.3):
     resolution: {integrity: sha512-jizsIzhkIitxCGfPRzJn1ZdcosIt3pz9Sh3V01fm1vZnbnCMgmGl5wvGGdNN2EL9Rmb0EcFoCkixH4Pu+sP9Og==}
@@ -1959,7 +1982,6 @@ packages:
 
   /pg-protocol@1.6.0:
     resolution: {integrity: sha512-M+PDm637OY5WM307051+bsDia5Xej6d9IR4GwJse1qA1DIhiKlksvrneZOYQq42OM+spubpcNYEo2FcKQrDk+Q==}
-    dev: false
 
   /pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -1971,6 +1993,19 @@ packages:
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
     dev: false
+
+  /pg-types@4.0.1:
+    resolution: {integrity: sha512-hRCSDuLII9/LE3smys1hRHcu5QGcLs9ggT7I/TCs0IE+2Eesxi9+9RWAAwZ0yaGjxoWICF/YHLOEjydGujoJ+g==}
+    engines: {node: '>=10'}
+    dependencies:
+      pg-int8: 1.0.1
+      pg-numeric: 1.0.2
+      postgres-array: 3.0.2
+      postgres-bytea: 3.0.0
+      postgres-date: 2.0.1
+      postgres-interval: 3.0.0
+      postgres-range: 1.1.3
+    dev: true
 
   /pg@8.11.3:
     resolution: {integrity: sha512-+9iuvG8QfaaUrrph+kpF24cXkH1YOOUeArRNYIxq1viYHZagBxrTno7cecY1Fa44tJeZvaoG+Djpkc3JwehN5g==}
@@ -2024,15 +2059,32 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /postgres-array@3.0.2:
+    resolution: {integrity: sha512-6faShkdFugNQCLwucjPcY5ARoW1SlbnrZjmGl0IrrqewpvxvhSLHimCVzqeuULCbG0fQv7Dtk1yDbG3xv7Veog==}
+    engines: {node: '>=12'}
+    dev: true
+
   /postgres-bytea@1.0.0:
     resolution: {integrity: sha512-xy3pmLuQqRBZBXDULy7KbaitYqLcmxigw14Q5sj8QBVLqEwXfeybIKVWiqAXTlcvdvb0+xkOtDbfQMOf4lST1w==}
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /postgres-bytea@3.0.0:
+    resolution: {integrity: sha512-CNd4jim9RFPkObHSjVHlVrxoVQXz7quwNFpz7RY1okNNme49+sVyiTvTRobiLV548Hx/hb1BG+iE7h9493WzFw==}
+    engines: {node: '>= 6'}
+    dependencies:
+      obuf: 1.1.2
+    dev: true
+
   /postgres-date@1.0.7:
     resolution: {integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==}
     engines: {node: '>=0.10.0'}
     dev: false
+
+  /postgres-date@2.0.1:
+    resolution: {integrity: sha512-YtMKdsDt5Ojv1wQRvUhnyDJNSr2dGIC96mQVKz7xufp07nfuFONzdaowrMHjlAzY6GDLd4f+LUHHAAM1h4MdUw==}
+    engines: {node: '>=12'}
+    dev: true
 
   /postgres-interval@1.2.0:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
@@ -2040,6 +2092,15 @@ packages:
     dependencies:
       xtend: 4.0.2
     dev: false
+
+  /postgres-interval@3.0.0:
+    resolution: {integrity: sha512-BSNDnbyZCXSxgA+1f5UU2GmwhoI0aU5yMxRGO8CdFEcY2BQF9xm/7MqKnYoM1nJDk8nONNWDk9WeSmePFhQdlw==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /postgres-range@1.1.3:
+    resolution: {integrity: sha512-VdlZoocy5lCP0c/t66xAfclglEapXPCIVhqqJRncYpvbCgImF0w67aPKfbqUMr72tO2k5q0TdTZwCLjPTI6C9g==}
+    dev: true
 
   /pretty-format@28.1.3:
     resolution: {integrity: sha512-8gFb/To0OmxHR9+ZTb14Df2vNxdGCX8g1xWGUTqUw5TiZvcQf5sHKObd5UcPyLLyowNwDAMTF3XWOG1B6mxl1Q==}
@@ -2051,13 +2112,13 @@ packages:
       react-is: 18.2.0
     dev: true
 
-  /prisma@5.3.0-integration-feat-js-connectors-in-client.13:
-    resolution: {integrity: sha512-X8s/HoMYv4WnK1w1Ce5ybplj5jWUmIUFBspoyGwpoJW3YUH7Z19f1/3UriSiQIZgnLI5PdpxWxTD42Z8pONUzQ==}
+  /prisma@5.3.0-integration-feat-driver-adapters-in-client.3:
+    resolution: {integrity: sha512-M9FQjLmJL7g4GnHwcsuf2WPqE3/B3k/laBkaq5XCxJcBMjoipNIGW0ZlZKY9t+TdJ14asGrv4+7o7mAmKLZqrw==}
     engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 5.3.0-integration-feat-js-connectors-in-client.13
+      '@prisma/engines': 5.3.0-integration-feat-driver-adapters-in-client.3
 
   /prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}

@@ -1,13 +1,14 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createNeonConnector } = require('@jkomyno/prisma-neon-js-connector')
+const { Pool, neonConfig } = require('@neondatabase/serverless')
+const { PrismaNeon } = require('@jkomyno/prisma-adapter-neon')
+
+neonConfig.webSocketConstructor = WebSocket
 
 const connectionString = process.env.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL
 
-const jsConnector = createNeonConnector({
-  url: connectionString,
-})
-
-const prisma = new PrismaClient({ jsConnector })
+const pool = new Pool({ connectionString })
+const adapter = new PrismaNeon(pool)
+const prisma = new PrismaClient({ adapter })
 
 exports.handler = async () => {
   const getResult = async (prisma) => ({
