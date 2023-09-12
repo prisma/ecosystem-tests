@@ -28,6 +28,13 @@ echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
 
+echo "cd $dir/$project"
+cd "$dir/$project"
+
+PM=$(node -e "require('@antfu/ni').detect({ autoInstall: false, cwd, programmatic: true }).then(console.log)")
+INSTALL_CMD=$(node -e "require('@antfu/ni').getCommand('$PM', 'install', []).then(console.log)")
+
+sh -c "$INSTALL_CMD"
 
 # Find schema, if it contains `env("DATABASE_URL")`, db push that schema to database
 if [[ "$project" = "foobar" ]]
@@ -39,14 +46,11 @@ else
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
-    echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
-    npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path
+    DBPUSH_CMD=$(node -e "console.log(require('@antfu/ni').getCommand('$PM', 'execute', ['prisma', 'db', 'push', '--accept-data-loss', '--skip-generate', '--schema=$schema_path']))")
+    sh -c "$DBPUSH_CMD"
     echo ""
   fi
 fi
-
-echo "cd $dir/$project"
-cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
   echo "-----------------------------"
