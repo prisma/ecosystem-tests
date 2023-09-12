@@ -3,9 +3,7 @@ export const config = {
   'lots-of-activities': {
     amount: 10, // Amount of read and writes inside a transaction
   },
-  'long-running': {
-    transactionDelay: 6000, // How long to delay the transaction
-  },
+  'long-running': {},
   'batch-itx': {
     batchAmount: 100, // How many records to create and update
     transactionDelay: 200, // How long to delay the transaction
