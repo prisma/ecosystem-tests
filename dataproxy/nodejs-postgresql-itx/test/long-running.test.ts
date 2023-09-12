@@ -5,8 +5,10 @@ import util from 'util'
 import { prismaClientVersion } from './utils'
 import { config } from '../config'
 
+const testIf = (condition: boolean) => (condition ? test : test.skip)
 const sleep = util.promisify(setTimeout)
 const accelerateItxMax = 15_000
+const dp1ItxTimeout = 60_000
 
 describe('long-running', () => {
   let prisma: PrismaClient
@@ -33,8 +35,8 @@ describe('long-running', () => {
     })
   })
 
-  test(
-    'should throw error on long-running itx that sets a timeout limit over the limit',
+  testIf(process.env.DATAPROXY_FLAVOR !== 'DP1')(
+    'accelerate only: should throw an error on long-running itx that sets a timeout limit over the limit',
     async () => {
       const email = faker.internet.email()
 
@@ -65,8 +67,8 @@ describe('long-running', () => {
     config.globalTimeout,
   )
 
-  test(
-    'should run a transaction for ~+13s and then still succeed',
+  testIf(process.env.DATAPROXY_FLAVOR !== 'DP1')(
+    'accelerate only: should run a transaction for ~+13s and then still succeed',
     async () => {
       const email = faker.internet.email()
 
@@ -83,6 +85,38 @@ describe('long-running', () => {
         {
           maxWait: 20_000,
           timeout: accelerateItxMax,
+        },
+      )
+
+      const found = await prisma.user.findFirst({
+        where: {
+          id: user.id,
+        },
+      })
+
+      expect(found?.email).toEqual(email)
+    },
+    config.globalTimeout,
+  )
+
+  testIf(process.env.DATAPROXY_FLAVOR === 'DP1')(
+    'DP1 only: should run a transaction for 1 min and then still succeed',
+    async () => {
+      const email = faker.internet.email()
+
+      const user = await prisma.$transaction(
+        async (tx) => {
+          await sleep(dp1ItxTimeout - 5_000)
+
+          return tx.user.create({
+            data: {
+              email,
+            },
+          })
+        },
+        {
+          maxWait: 20_000,
+          timeout: dp1ItxTimeout,
         },
       )
 
