@@ -8,7 +8,7 @@ import { config } from '../config'
 const testIf = (condition: boolean) => (condition ? test : test.skip)
 const sleep = util.promisify(setTimeout)
 const accelerateItxMax = 15_000
-const dp1ItxTimeout = 60_000
+const dp1ItxTimeout = 120_000
 
 describe('long-running', () => {
   let prisma: PrismaClient

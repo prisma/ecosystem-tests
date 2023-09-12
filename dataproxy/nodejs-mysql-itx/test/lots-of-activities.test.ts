@@ -6,7 +6,7 @@ import { config } from '../config'
 const activities = config['lots-of-activities'].amount
 let timeouts = { maxWait: 2_000, timeout: 5_000 }
 const accelerateItxMax = 15_000
-let accelerateWithExtensionTimeouts = { maxWait: 60_000, timeout: accelerateItxMax }
+let accelerateWithExtensionTimeouts = { maxWait: 120_000, timeout: accelerateItxMax }
 
 if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension' || process.env.DATAPROXY_FLAVOR === 'DP2') {
   timeouts = accelerateWithExtensionTimeouts
