@@ -5,7 +5,7 @@ import util from 'util'
 import { config } from '../config'
 
 const sleep = util.promisify(setTimeout)
-const buffer = 4_000
+const buffer = 6_000
 
 const { batchAmount, transactionDelay } = config['batch-itx']
 
