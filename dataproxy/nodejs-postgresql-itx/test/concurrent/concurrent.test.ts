@@ -4,7 +4,7 @@ import { config } from '../../config'
 const amount = config.concurrent.amount
 
 describe('concurrent', () => {
-  jest.setTimeout(900000)
+  jest.setTimeout(900_000)
 
   test(
     `should not fail when running ${amount} concurrent itx`,
