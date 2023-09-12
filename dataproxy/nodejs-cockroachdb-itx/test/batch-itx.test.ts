@@ -4,8 +4,8 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import util from 'util'
 import { config } from '../config'
 
-const delay = util.promisify(setTimeout)
-const buffer = 6000
+const sleep = util.promisify(setTimeout)
+const buffer = 6_000
 
 const { batchAmount, transactionDelay } = config['batch-itx']
 
@@ -14,7 +14,7 @@ describe('batch-itx', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient()
-    
+
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
       prisma = prisma.$extends(withAccelerate()) as any
     }
@@ -42,7 +42,7 @@ describe('batch-itx', () => {
             })),
           })
 
-          await delay(transactionDelay)
+          await sleep(transactionDelay)
 
           await tx.user.updateMany({
             where: { val: randomValue },

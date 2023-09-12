@@ -5,10 +5,11 @@ import util from 'util'
 import { prismaClientVersion } from './utils'
 import { config } from '../config'
 
-const delay = util.promisify(setTimeout)
-const buffer = 12000
-
-const transactionDelay = config['long-running'].transactionDelay
+const testIf = (condition: boolean) => (condition ? test : test.skip)
+const sleep = util.promisify(setTimeout)
+const accelerateItxMax = 15_000
+const dp1ItxTimeout = 120_000
+const isDP1 = process.env.DATAPROXY_FLAVOR === 'DP1'
 
 describe('long-running', () => {
   let prisma: PrismaClient
@@ -21,11 +22,11 @@ describe('long-running', () => {
     }
   })
 
-  test('should throw error on long-running itx', async () => {
+  test('should throw error on long-running itx for default 5s timeout', async () => {
     const result = prisma.$transaction(async (tx) => {
       await tx.user.findMany({})
 
-      await delay(6000)
+      await sleep(6_000)
     })
 
     await expect(result).rejects.toMatchObject({
@@ -35,14 +36,46 @@ describe('long-running', () => {
     })
   })
 
-  test(
-    'should run a transaction for 2 mins and then still succeed',
+  testIf(!isDP1)(
+    'accelerate only: should throw an error on long-running itx that sets a timeout limit over the limit',
+    async () => {
+      const email = faker.internet.email()
+
+      const result = prisma.$transaction(
+        async (tx) => {
+          return tx.user.create({
+            data: {
+              email,
+            },
+          })
+        },
+        {
+          maxWait: 20_000,
+          timeout: accelerateItxMax + 54_321, // this should trigger an error
+        },
+      )
+
+      // Example error:
+      // [BadRequestError: This request could not be understood by the server: {"type":"UnknownJsonError","body":{"code":"P6005","message":"An invalid parameter was provided. Interactive transactions running through Accelerate are limited to a max timeout of 15000ms"}} (The request id was: 8057295d4d232681)]`)
+      await expect(result).rejects.toMatchObject({
+        message: expect.stringContaining(
+          'This request could not be understood by the server: {"type":"UnknownJsonError","body":{"code":"P6005","message":"An invalid parameter was provided. Interactive transactions running through Accelerate are limited to a max timeout of 15000ms"}} (The request id was:',
+        ),
+        code: 'P5000',
+        clientVersion: prismaClientVersion,
+      })
+    },
+    config.globalTimeout,
+  )
+
+  testIf(!isDP1)(
+    'accelerate only: should run a transaction for ~+13s and then still succeed',
     async () => {
       const email = faker.internet.email()
 
       const user = await prisma.$transaction(
         async (tx) => {
-          await delay(transactionDelay)
+          await sleep(13_000)
 
           return tx.user.create({
             data: {
@@ -51,8 +84,40 @@ describe('long-running', () => {
           })
         },
         {
-          maxWait: transactionDelay + buffer,
-          timeout: transactionDelay + buffer,
+          maxWait: 20_000,
+          timeout: accelerateItxMax,
+        },
+      )
+
+      const found = await prisma.user.findFirst({
+        where: {
+          id: user.id,
+        },
+      })
+
+      expect(found?.email).toEqual(email)
+    },
+    config.globalTimeout,
+  )
+
+  testIf(isDP1)(
+    'DP1 only: should run a transaction for 1 min and then still succeed',
+    async () => {
+      const email = faker.internet.email()
+
+      const user = await prisma.$transaction(
+        async (tx) => {
+          await sleep(dp1ItxTimeout - 5_000)
+
+          return tx.user.create({
+            data: {
+              email,
+            },
+          })
+        },
+        {
+          maxWait: 20_000,
+          timeout: dp1ItxTimeout,
         },
       )
 
