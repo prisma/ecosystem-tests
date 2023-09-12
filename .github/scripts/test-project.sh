@@ -38,7 +38,7 @@ else
   default_version="$(cat .github/prisma-version.txt)"
   cli_version_dev="$(node -e "console.log(require('./$dir/$project/package.json').devDependencies.prisma ?? '')")"
   cli_version_dep="$(node -e "console.log(require('./$dir/$project/package.json').dependencies.prisma ?? '')")"
-  version=$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")
+  version=e$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")"
 
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
