@@ -1266,7 +1266,50 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: test DP1 ${{ matrix.platform }}
+      # see above why this is not a matrix for each DP variant
+      - name: test Accelerate (DP2) with extension ${{ matrix.platform }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        env:
+          DATAPROXY_FLAVOR: 'DP2+Extension'
+          PRISMA_GENERATE_FLAG: '--accelerate'
+          DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
+          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.DP2_ITX_PDP_MONGODB_DATABASE_URL }}
+          ITX_PDP_MONGODB: ${{ secrets.DP2_ITX_PDP_MONGODB }}
+          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
+          ITX_PDP_MYSQL: ${{ secrets.DP2_ITX_PDP_MYSQL }}
+          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
+          ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
+          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+          ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
+          
+      # see above why this is not a matrix for each DP variant
+      - name: test Accelerate (DP2) without extension ${{ matrix.platform }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        env:
+          DATAPROXY_FLAVOR: 'DP2'
+          PRISMA_GENERATE_FLAG: '--accelerate'
+          DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
+          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.DP2_ITX_PDP_MONGODB_DATABASE_URL }}
+          ITX_PDP_MONGODB: ${{ secrets.DP2_ITX_PDP_MONGODB }}
+          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
+          ITX_PDP_MYSQL: ${{ secrets.DP2_ITX_PDP_MYSQL }}
+          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
+          ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
+          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
+          ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
+
+      # see above why this is not a matrix for each DP variant
+      - name: test legacy Data Proxy (DP1) ${{ matrix.platform }}
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 15
@@ -1285,46 +1328,6 @@ jobs:
           ITX_PDP_POSTGRESQL: ${{ secrets.ITX_PDP_POSTGRESQL }}
           ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
           ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
-
-      - name: test DP2 ${{ matrix.platform }}
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-        env:
-          DATAPROXY_FLAVOR: 'DP2'
-          PRISMA_GENERATE_FLAG: '--accelerate'
-          DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
-          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
-          ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }} # MongoDB is not yet supported in DP2
-          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
-          ITX_PDP_MYSQL: ${{ secrets.DP2_ITX_PDP_MYSQL }}
-          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
-          ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
-          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
-          ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
-
-      - name: test DP2 with Extension ${{ matrix.platform }}
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-        env:
-          DATAPROXY_FLAVOR: ${{ contains(matrix.platform, 'mongodb') && 'DP2' || 'DP2+Extension' }} # MongoDB is not yet supported in DP2
-          PRISMA_GENERATE_FLAG: '--accelerate'
-          DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
-          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
-          ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }} # MongoDB is not yet supported in DP2
-          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
-          ITX_PDP_MYSQL: ${{ secrets.DP2_ITX_PDP_MYSQL }}
-          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
-          ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
-          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
-          ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
 
       - name: notify-slack
         if: failure()
