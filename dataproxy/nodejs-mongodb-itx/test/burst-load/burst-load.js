@@ -38,7 +38,7 @@ async function main() {
       return user
     },
     {
-      maxWait: 120_000,
+      maxWait: 20_000,
       timeout: accelerateItxMax,
     },
   )
