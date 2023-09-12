@@ -28,13 +28,6 @@ echo ""
 echo "-----------------------------"
 echo "running $dir/$project"
 
-echo "cd $dir/$project"
-cd "$dir/$project"
-
-PM=$(node -e "require('@antfu/ni').detect({ autoInstall: false, programmatic: true }).then(console.log)")
-INSTALL_CMD=$(node -e "console.log(require('@antfu/ni').getCommand('$PM', 'install', []))")
-
-sh -c "$INSTALL_CMD"
 
 # Find schema, if it contains `env("DATABASE_URL")`, db push that schema to database
 if [[ "$project" = "foobar" ]]
@@ -42,15 +35,23 @@ then
   true
   # if a project needs to be skipped for any reason, replace `foobar` with its folder name or add additional conditions
 else
+  default_version=$(cat ../prisma-version.txt)
+  cli_version_dev=$(node -e "console.log(require('$dir/$project/package.json').devDependencies.prisma ?? '')")
+  cli_version_dep=$(node -e "console.log(require('$dir/$project/package.json').dependencies.prisma ?? '')")
+  version=$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")
+
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "env(\"DATABASE_URL\")" "$schema_path"; then
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
-    echo "npx prisma db push --accept-data-loss --skip-generate --schema=$schema_path"
-    sh -c "$(node -e "console.log(require('@antfu/ni').getCommand('$PM', 'execute', ['prisma', 'db', 'push', '--accept-data-loss', '--skip-generate', '--schema=$schema_path']))")"
+    echo "pnpm dlx prisma@$version db push --accept-data-loss --skip-generate --schema=$schema_path"
+    pnpm dlx prisma@$version db push --accept-data-loss --skip-generate --schema=$schema_path
     echo ""
   fi
 fi
+
+echo "cd $dir/$project"
+cd "$dir/$project"
 
 if [ -f "prepare.sh" ]; then
   echo "-----------------------------"
