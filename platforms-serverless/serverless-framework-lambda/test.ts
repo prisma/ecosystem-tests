@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 
-// TODO rename to match project name again in AWS account
-const name = `platforms-serverless-serverless-framework-lambda-${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
+// name cannot be too long, otherwise it will fail
+const name = `platforms-serverless-slsf-${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
 
 async function main() {
   console.log('testing function', name)
