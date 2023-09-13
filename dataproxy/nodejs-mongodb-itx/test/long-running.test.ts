@@ -36,11 +36,7 @@ describe('long-running', () => {
     })
   })
 
-  // While testing we figure out that MongoDB is using DP1
-  // So we made the test a `test.failing` test
-  // TODO: Remove this once we have DP2/accelerate implementation for MongoDB
-  // testIf(!isDP1)(
-  test.failing(
+  testIf(!isDP1)(
     'accelerate only: should throw an error on long-running itx that sets a timeout limit over the limit',
     async () => {
       const email = faker.internet.email()
