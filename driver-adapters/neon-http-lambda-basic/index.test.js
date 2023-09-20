@@ -114,8 +114,8 @@ test('prisma version and output', async () => {
   }
   `)
   } catch(e) {
-    console.log({ e })
-    console.log(response.Payload)
+    console.log(new TextDecoder().decode(response.Payload))
+    throw e
   }
 
 })
