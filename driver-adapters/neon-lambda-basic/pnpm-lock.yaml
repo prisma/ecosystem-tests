@@ -5,15 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@jkomyno/prisma-adapter-neon':
-    specifier: 0.2.1
-    version: 0.2.1(@neondatabase/serverless@0.6.0)
   '@neondatabase/serverless':
     specifier: 0.6.0
     version: 0.6.0
+  '@prisma/adapter-neon':
+    specifier: 0.3.1
+    version: 0.3.1(@neondatabase/serverless@0.6.0)
   '@prisma/client':
-    specifier: 5.3.0-integration-feat-driver-adapters-in-client.4
-    version: 5.3.0-integration-feat-driver-adapters-in-client.4(prisma@5.3.0-integration-feat-driver-adapters-in-client.4)
+    specifier: 5.4.0-dev.23
+    version: 5.4.0-dev.23(prisma@5.4.0-dev.23)
   undici:
     specifier: 5.24.0
     version: 5.24.0
@@ -29,8 +29,8 @@ devDependencies:
     specifier: 28.1.3
     version: 28.1.3
   prisma:
-    specifier: 5.3.0-integration-feat-driver-adapters-in-client.4
-    version: 5.3.0-integration-feat-driver-adapters-in-client.4
+    specifier: 5.4.0-dev.23
+    version: 5.4.0-dev.23
 
 packages:
 
@@ -1233,25 +1233,6 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@jkomyno/prisma-adapter-neon@0.2.1(@neondatabase/serverless@0.6.0):
-    resolution: {integrity: sha512-YgIe5dv12sMzW8ToIfuyonDTUCwrM0mDiQ/f6hF/0vuZ7u10E189yP04oibn0fb1KpbV+Bj+a1iX0+vJ600fag==}
-    peerDependencies:
-      '@neondatabase/serverless': ^0.6.0
-    dependencies:
-      '@jkomyno/prisma-driver-adapter-utils': 0.2.1
-      '@neondatabase/serverless': 0.6.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@jkomyno/prisma-driver-adapter-utils@0.2.1:
-    resolution: {integrity: sha512-wijRWfwLVIs/hJi4Plrc3JHBW3I4bVvgWM6uLvybQUWTtz4LwzdcPt3inZsPXr6qLkwqkjVe9q+XbeHCMPsLdg==}
-    dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
     engines: {node: '>=6.0.0'}
@@ -1297,8 +1278,19 @@ packages:
     hasBin: true
     dev: true
 
-  /@prisma/client@5.3.0-integration-feat-driver-adapters-in-client.4(prisma@5.3.0-integration-feat-driver-adapters-in-client.4):
-    resolution: {integrity: sha512-sdMbM6c/otscHOf+5PfP2k/3NCy2SYr+EGUGGcED1nyzJEbHKE7r/YU1G6SFPks30dKTkbpLUMRJbAt8R6UqXQ==}
+  /@prisma/adapter-neon@0.3.1(@neondatabase/serverless@0.6.0):
+    resolution: {integrity: sha512-8A2IM7cy5TsbRuINiZw9YiodEDYpv63ZND3ykOOvUUpdYEC87bdTsTOsPRTLCujDsy8nKFptFaJsNnZYlSy6gg==}
+    peerDependencies:
+      '@neondatabase/serverless': ^0.6.0
+    dependencies:
+      '@neondatabase/serverless': 0.6.0
+      '@prisma/driver-adapter-utils': 0.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@prisma/client@5.4.0-dev.23(prisma@5.4.0-dev.23):
+    resolution: {integrity: sha512-6GQyAX9DirTwJcYirfFhe4hV+qd5AKFiGWmMUjBZv0Yn15Zt79yfFNZ7/uZsEc4KX/UPA5Mbj8GSGSdw7vS6Aw==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -1307,16 +1299,24 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 5.3.0-35.ae074a73c82cffe83fa074ac12510c28a868b69d
-      prisma: 5.3.0-integration-feat-driver-adapters-in-client.4
+      '@prisma/engines-version': 5.4.0-9.984fef8f242a28b1705c046815aa1184cf5b9186
+      prisma: 5.4.0-dev.23
     dev: false
 
-  /@prisma/engines-version@5.3.0-35.ae074a73c82cffe83fa074ac12510c28a868b69d:
-    resolution: {integrity: sha512-FRyVT+0vjcxnmBj455AJfoElD4EZDdHIw9r6GNk6LyMZEOSI3onD8eTxPUYwxllGaAx2yc0mFuv584z1OnAphA==}
+  /@prisma/driver-adapter-utils@0.3.1:
+    resolution: {integrity: sha512-23vFQ/GXmXzi7j8SdbMVqhAitdzSBuoQMgi564HyRzu/rB7U5en7cJ2x7uVWVp033jGZX2dTFy557pAe1mYxew==}
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
-  /@prisma/engines@5.3.0-integration-feat-driver-adapters-in-client.4:
-    resolution: {integrity: sha512-fkeaBkFWKP+ecKmt8kAnJuA5WK4H5pWnsKyJm0ntbyLLL9EviimV+up+vgjMX7iW2O00Qtcm5XJtKz/ohelS8g==}
+  /@prisma/engines-version@5.4.0-9.984fef8f242a28b1705c046815aa1184cf5b9186:
+    resolution: {integrity: sha512-l4LbfmQTMUiK4SKYJouZqDw8Di7jEze/5oW/sCU5LrUo02lKxltzp8esKaTZTETGIejm+BlwyvXvi903yLDUlA==}
+    dev: false
+
+  /@prisma/engines@5.4.0-dev.23:
+    resolution: {integrity: sha512-5h8yE2ZZIrM6jDaq6YFBh5pKQRCIlZbQ2hxdgAF/1bHx2g+v4kVgLejDlJaypBHKYODFaUvmBkD1qPq28T0Khw==}
     requiresBuild: true
 
   /@sinclair/typebox@0.24.51:
@@ -3091,13 +3091,13 @@ packages:
       react-is: 18.2.0
     dev: true
 
-  /prisma@5.3.0-integration-feat-driver-adapters-in-client.4:
-    resolution: {integrity: sha512-onCmmdQd7e9RE0Bia12lxvcBxJM2T6gKe8mVM6WA9ZyB2GVRVWcqDjFQgUikRnb5IoVUqB6sAvsYYmBf9aQYew==}
+  /prisma@5.4.0-dev.23:
+    resolution: {integrity: sha512-UFy9kzIISaPmsccMhuiqIQ8y4AukbMIgQbYh5AYuGDelYsDJkA9MOckT9cyLAEvVSscjvV7Nccf5G3ZtrpWmEA==}
     engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 5.3.0-integration-feat-driver-adapters-in-client.4
+      '@prisma/engines': 5.4.0-dev.23
 
   /prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
