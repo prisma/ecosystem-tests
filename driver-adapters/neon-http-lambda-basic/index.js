@@ -4,10 +4,7 @@ const { PrismaNeonHTTP } = require('@prisma/adapter-neon')
 
 const connectionString = process.env.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL
 
-const sql = neon({ connectionString }, {
-  arrayMode: false,
-  fullResults: true,
-})
+const sql = neon(connectionString)
 const adapter = new PrismaNeonHTTP(sql)
 const prisma = new PrismaClient({ adapter })
 
