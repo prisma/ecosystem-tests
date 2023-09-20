@@ -9,7 +9,7 @@ jest.setTimeout(30000)
 
 test('prisma version and output', async () => {
   const response = await lambda.invoke({
-    FunctionName: 'driver-adapters-neon-lambda-basic',
+    FunctionName: 'driver-adapters-neon-http-lambda-basic',
     InvocationType: 'RequestResponse',
     Payload: '""',
   })
