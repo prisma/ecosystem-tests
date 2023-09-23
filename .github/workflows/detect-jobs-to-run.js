@@ -43,6 +43,7 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
       'report-to-slack-failure', // Not a test but a job that posts to slack
       'detect_jobs_to_run', // Not a test but a job that decides which tests should run
       'cleanup-runs', // Not a test but a job that cancels previous runs
+      'confirm_all_jobs_have_run', // Not a test but a job that confirms all tests have run (for Renovate)
     ]
     return !jobsToIgnore.includes(key)
   })
