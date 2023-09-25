@@ -275,7 +275,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: 'arm64'
 
@@ -352,7 +352,7 @@ jobs:
         run: pnpm install
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: 'arm64,arm'
 
