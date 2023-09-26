@@ -50,6 +50,11 @@ module.exports = async (req, res) => {
           age: 29,
           name: 'Test 2',
         },
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        }
       }),
       create3: await prisma.user.create({
         data:
@@ -58,6 +63,11 @@ module.exports = async (req, res) => {
           age: 29,
           name: 'Test 3',
         },
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        }
       }),
       findMany: await prisma.user.findMany({
         select: {
