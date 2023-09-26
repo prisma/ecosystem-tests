@@ -19,19 +19,14 @@ You can check out the latest test runs by checking the ["test" workflow results]
 
 The tests are defined in `.github/workflows/test.yaml` and `.github/workflows/optional-test.yaml`, and the test projects live in folder of form `foo/bar` in this repository. Each `foo` has one or multiple jobs in the GitHub Actions Workflows, and the `bar`s are part of the matrix per job.
 
-All of the jobs run `.github/scripts/test-project.sh`, which then executes the test project.
+- All of the jobs run `.github/scripts/test-project.sh`, which then executes the test project.
+- The test project can install additional dependencies such as CLIs in the optional `prepare.sh`. 
+- The standard entrypoint to set up your projects is `run.sh`. This includes installing dependencies, deploying etc.
+- Test are then triggered via `test.sh`.
+- Any clean up or logging work can then be done in `finally.sh` which is executed in all cases, even when the tests fail.
 
-The test project can install additional dependencies such as CLIs in the optional `prepare.sh`. 
-
-The standard entrypoint to set up your projects is `run.sh`. This includes installing dependencies, deploying etc.
-
-Test are then triggered via `test.sh`.
-
-Any clean up or logging work can then be done in `finally.sh` which is executed in all cases, even when the tests fail.
-
-**Note:** You need to use `pnpm` as it's used for bumping dependencies; i.e. run `pnpm install` as a first step in your `run.sh` script.
-
-**Note:** It's important to add `prisma` as a devDependency and `@prisma/client` as a normal dependency in each project's `package.json`.
+**Note:** You need to use `pnpm` as it's used for bumping dependencies; i.e. run `pnpm install` as a first step in your `run.sh` script.   
+**Note:** It's important to add `prisma` as a `devDependency` and `@prisma/client` as a normal `dependency` in each project's `package.json`.
 
 ### Database 
 
