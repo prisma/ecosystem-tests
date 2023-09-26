@@ -2,4 +2,4 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters neon-lambda-basic'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters turso-lambda-basic'
