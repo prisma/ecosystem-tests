@@ -25,19 +25,35 @@ exports.handler = async () => {
         name: true,
       }
     }),
-    createMany: await prisma.user.createMany({
-      data: [
-        {
-          email: `test-2@prisma.io`,
-          age: 29,
-          name: 'Test 2',
-        },
-        {
-          email: `test-3@prisma.io`,
-          age: 29,
-          name: 'Test 3',
-        },
-      ],
+    // createMany: await prisma.user.createMany({
+    //   data: [
+    //     {
+    //       email: `test-2@prisma.io`,
+    //       age: 29,
+    //       name: 'Test 2',
+    //     },
+    //     {
+    //       email: `test-3@prisma.io`,
+    //       age: 29,
+    //       name: 'Test 3',
+    //     },
+    //   ],
+    // }),
+    create2: await prisma.user.create({
+      data:
+      {
+        email: `test-2@prisma.io`,
+        age: 29,
+        name: 'Test 2',
+      },
+    }),
+    create3: await prisma.user.create({
+      data:
+      {
+        email: `test-3@prisma.io`,
+        age: 29,
+        name: 'Test 3',
+      },
     }),
     findMany: await prisma.user.findMany({
       select: {

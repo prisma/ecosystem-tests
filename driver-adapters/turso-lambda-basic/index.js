@@ -1,6 +1,6 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
 const { createClient } = require('@libsql/client')
-const { PrismaLibSQL }  = require('@prisma/adapter-libsql')
+const { PrismaLibSQL } = require('@prisma/adapter-libsql')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL
 const authToken = process.env.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN
@@ -12,7 +12,7 @@ const prisma = new PrismaClient({ adapter })
 exports.handler = async () => {
   const getResult = async (prisma) => ({
     prismaVersion: Prisma.prismaVersion.client,
-    deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0})),
+    deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
     create: await prisma.user.create({
       data: {
         email: `test-1@prisma.io`,
@@ -25,19 +25,35 @@ exports.handler = async () => {
         name: true,
       }
     }),
-    createMany: await prisma.user.createMany({
-      data: [
-        {
-          email: `test-2@prisma.io`,
-          age: 29,
-          name: 'Test 2',
-        },
-        {
-          email: `test-3@prisma.io`,
-          age: 29,
-          name: 'Test 3',
-        },
-      ],
+    // createMany: await prisma.user.createMany({
+    //   data: [
+    //     {
+    //       email: `test-2@prisma.io`,
+    //       age: 29,
+    //       name: 'Test 2',
+    //     },
+    //     {
+    //       email: `test-3@prisma.io`,
+    //       age: 29,
+    //       name: 'Test 3',
+    //     },
+    //   ],
+    // }),
+    create2: await prisma.user.create({
+      data:
+      {
+        email: `test-2@prisma.io`,
+        age: 29,
+        name: 'Test 2',
+      },
+    }),
+    create3: await prisma.user.create({
+      data:
+      {
+        email: `test-3@prisma.io`,
+        age: 29,
+        name: 'Test 3',
+      },
     }),
     findMany: await prisma.user.findMany({
       select: {
