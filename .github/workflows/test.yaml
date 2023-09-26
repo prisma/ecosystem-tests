@@ -1167,6 +1167,9 @@ jobs:
           - postgresql-lambda-basic
           - postgresql-node-basic
           - postgresql-vercel-nextjs
+          - turso-lambda-basic
+          - turso-node-basic
+          - turso-vercel-nextjs
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -1200,6 +1203,11 @@ jobs:
       DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
       DEBUG: 'prisma:js-connector*'
       PRISMA_DISABLE_QUAINT_EXECUTORS: true
+      # Turso
+      DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v4
@@ -1220,13 +1228,13 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+      # - name: Set test specific DATABASE_URL
+      #   run: |
+      #     string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+      #     search=database
+      #     replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
+      #     replaced=${string/$search/$replace}
+      #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }}
         id: run-test
