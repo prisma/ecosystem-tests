@@ -29,7 +29,7 @@ Object {
   "name": "Test 1",
 }
 `)
-  // expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createMany.count).toBe(2)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 Array [
   Object {
