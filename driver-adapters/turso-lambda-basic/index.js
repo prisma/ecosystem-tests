@@ -1,5 +1,5 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createClient } = require('@libsql/client')
+const { createClient } = require('@libsql/client/web')
 const { PrismaLibSQL } = require('@prisma/adapter-libsql')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL
