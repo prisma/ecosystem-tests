@@ -1,9 +1,6 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { WebSocket } = require('undici')
 const { Pool, neonConfig } = require('@neondatabase/serverless')
 const { PrismaNeon } = require('@prisma/adapter-neon')
-
-neonConfig.webSocketConstructor = WebSocket
 
 const connectionString = process.env.DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL
 
