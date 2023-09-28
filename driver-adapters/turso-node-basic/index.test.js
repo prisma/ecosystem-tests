@@ -1,7 +1,7 @@
 const { handler } = require('./index')
 const { dependencies } = require('./package.json')
 
-jest.setTimeout(10000)
+jest.setTimeout(15_000)
 
 test('prisma version and output', async () => {
   const { regResult, itxResult } = await handler()
