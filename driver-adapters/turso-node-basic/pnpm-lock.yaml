@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.3.5
     version: 0.3.5
   '@prisma/adapter-libsql':
-    specifier: 0.2.3
-    version: 0.2.3(@libsql/client@0.3.5)
+    specifier: 0.4.1
+    version: 0.4.1(@libsql/client@0.3.5)
   '@prisma/client':
     specifier: 5.4.0-dev.54
     version: 5.4.0-dev.54(prisma@5.4.0-dev.54)
@@ -700,13 +700,14 @@ packages:
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
     dev: false
 
-  /@prisma/adapter-libsql@0.2.3(@libsql/client@0.3.5):
-    resolution: {integrity: sha512-hA1a7C7s9p+THyK1AoKRtEv+afSyDKSR/zC+ZSHgpTPT86r0M5kSSQGR87tPHvLFpprdTJc96PBb2iRpUKmk2g==}
+  /@prisma/adapter-libsql@0.4.1(@libsql/client@0.3.5):
+    resolution: {integrity: sha512-yaiifJNfOkxMk8V/SbxUH6lAKJkcEP9qFBxFwKcDgCjggI7GAAmL0932h9H4KhREOe859UEmT9eX6mLWTs1hyg==}
     peerDependencies:
       '@libsql/client': ^0.3.5
     dependencies:
       '@libsql/client': 0.3.5
-      '@prisma/driver-adapter-utils': 0.4.0
+      '@prisma/driver-adapter-utils': 0.7.0
+      async-mutex: 0.4.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -725,8 +726,8 @@ packages:
       prisma: 5.4.0-dev.54
     dev: false
 
-  /@prisma/driver-adapter-utils@0.4.0:
-    resolution: {integrity: sha512-ZX9LIbFiWEkA21Gcw8WdClzbY90Yhp6sUfV1Lgv8nAXieoH274ju+ON4EhUpXMSQqATPaO9NCjcoUhncEms4Dg==}
+  /@prisma/driver-adapter-utils@0.7.0:
+    resolution: {integrity: sha512-rx/1LYPn8AzJxMLqoAIfnoKdr06YxXKYh2sE9XP9iLjyvy6z+GOH+abRcRzXoEZ0zfUM+YHaaO4VFwKtq6Yk3g==}
     dependencies:
       debug: 4.3.4
     transitivePeerDependencies:
@@ -886,6 +887,12 @@ packages:
     dependencies:
       sprintf-js: 1.0.3
     dev: true
+
+  /async-mutex@0.4.0:
+    resolution: {integrity: sha512-eJFZ1YhRR8UN8eBLoNzcDPcy/jqjsg6I1AP+KvWQX80BqOSW1oJPJXDylPUEeMr2ZQvHgnQ//Lp6f3RQ1zI7HA==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
@@ -2385,6 +2392,10 @@ packages:
 
   /tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+    dev: false
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: false
 
   /type-detect@4.0.8:
