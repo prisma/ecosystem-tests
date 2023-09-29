@@ -3,4 +3,4 @@
 set -eu
 
 pnpm install
-pnpm prisma generate
+pnpm prisma db push
