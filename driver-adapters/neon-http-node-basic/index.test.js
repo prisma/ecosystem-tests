@@ -15,7 +15,7 @@ test('prisma version and output', async () => {
 
   // expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
-  // expect(regResult.deleteMany.count).toBe(0)
+  expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
 Object {
   "age": 27,
@@ -32,17 +32,7 @@ Array [
     "name": "Test 1",
   },
 ]
-`
-
-
-
-
-
-
-
-
-
-)
+`)
   expect(regResult.findUnique).toMatchInlineSnapshot(`
 Object {
   "age": 27,
@@ -58,13 +48,7 @@ Object {
 }
 `)
   // expect(regResult.updateMany.count).toBe(1)
-  expect(regResult.findFirst).toMatchInlineSnapshot(`null`
-
-
-
-
-
-)
+  expect(regResult.findFirst).toMatchInlineSnapshot(`null`)
   //   expect(regResult.delete).toMatchInlineSnapshot(`
   // Object {
   //   "age": 27,

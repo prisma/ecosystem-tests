@@ -11,7 +11,8 @@ const prisma = new PrismaClient({ adapter })
 exports.handler = async () => {
   const getResult = async (prisma) => ({
     prismaVersion: Prisma.prismaVersion.client,
-    // deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
+    // Only works since 5.4.0 optimization of the query (because it does not need a transaction anymore)
+    deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
     create: await prisma.user.create({
       data: {
         email: `test-1@prisma.io`,
@@ -146,6 +147,23 @@ exports.handler = async () => {
   })
 
   const regResult = await getResult(prisma)
+
+  // test the error message when the transaction fails
+  try {
+    await prisma.user.delete({
+      where: {
+        email: 'test-1@prisma.io',
+      },
+      select: {
+        email: true,
+        age: true,
+        name: true,
+      },
+    })
+  } catch (e) {
+    console.debug(e.code)
+    console.debug(e)
+  }
 
   // Transactions are expected to fail in HTTP mode
   try {
