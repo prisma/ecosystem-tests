@@ -50,7 +50,10 @@ module.exports = async (req, res) => {
           email: true,
           age: true,
           name: true,
-        }
+        },
+        orderBy: {
+          updatedAt: { email: 'asc' },
+        },
       }),
       findUnique: await prisma.user.findUnique({
         where: {
