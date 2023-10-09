@@ -7,8 +7,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   // fake url to ensure the driver adapter is used
-  // url      = "postgresql://foo"
-  url      = env("DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL")
+  url      = "postgresql://foo"
 }
 
 model User {

@@ -1,5 +1,8 @@
+// @ts-check
+import { test, expect, jest } from '@jest/globals'
 const fetch = require('node-fetch')
 const fs = require('fs')
+const { dependencies } = require('./package.json')
 
 let endpoint
 function getDeploymentURL() {

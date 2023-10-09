@@ -154,15 +154,12 @@ exports.handler = async () => {
       where: {
         email: 'test-1@prisma.io',
       },
-      select: {
-        email: true,
-        age: true,
-        name: true,
-      },
     })
   } catch (e) {
-    console.debug(e.code)
-    console.debug(e)
+    if (e.code !== undefined && e.message !== 'Error: Transactions are not supported in HTTP mode') {
+      console.error('The expectation changed and needs to be updated in the test, see new error below:')
+      throw e
+    }
   }
 
   // Transactions are expected to fail in HTTP mode
@@ -170,7 +167,7 @@ exports.handler = async () => {
     const itxResult = await prisma.$transaction(getResult)
   } catch (e) {
     if (e.code !== 'P2036' && e.message !== 'PrismaClientKnownRequestError: Error in external connector (id 0)') {
-      console.error('The expectation changed and needs to be updated in the test.')
+      console.error('The expectation changed and needs to be updated in the test, see new error below:')
       throw e
     }
   }
