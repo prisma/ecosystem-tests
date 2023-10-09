@@ -5,6 +5,8 @@ set -eu
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters neon-http-vercel-nextjs'
 
 pnpm install
+pnpm prisma db push
+# pnpm prisma generate
 
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 export VERCEL_PROJECT_ID=$DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID
