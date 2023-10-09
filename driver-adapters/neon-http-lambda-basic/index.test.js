@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect, jest } from '@jest/globals'
+const { test, expect, jest } = require('@jest/globals')
 const { Lambda } = require('@aws-sdk/client-lambda')
 const { dependencies } = require('./package.json')
 

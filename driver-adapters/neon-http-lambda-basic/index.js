@@ -1,3 +1,4 @@
+// @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
 const { neon } = require('@neondatabase/serverless')
 const { PrismaNeonHTTP } = require('@prisma/adapter-neon')
