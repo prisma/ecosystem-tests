@@ -15,12 +15,13 @@
   "packageRules": [
     {
       "groupName": ["Prisma Driver Adapters"],
-      "matchPackagePatterns": "@prisma/*adapter*",
+      "matchPackageNames": ["@prisma/driver-adapter-utils"],
+      "matchPackagePatterns": ["@prisma/adapter*"],
       "schedule": ["at any time"]
     },
     {
       "groupName": ["svelte packages"],
-      "matchPackagePatterns": "svelte"
+      "matchPackagePatterns": ["svelte"]
     },
     {
       "groupName": ["sveltekit directory"],
@@ -28,7 +29,7 @@
     },
     {
       "groupName": ["@redwoodjs packages"],
-      "matchPackagePatterns": "^@redwoodjs"
+      "matchPackagePatterns": ["^@redwoodjs"]
     },
     {
       "groupName": "aws-sdk",
