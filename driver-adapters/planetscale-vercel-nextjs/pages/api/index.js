@@ -9,7 +9,7 @@ const connection = connect({ url: connectionString })
 const adapter = new PrismaPlanetScale(connection)
 const prisma = new PrismaClient({ adapter })
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   res.statusCode = 200
   res.setHeader('Content-Type', 'application/json')
 
