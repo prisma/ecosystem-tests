@@ -9,7 +9,7 @@ const sql = neon(connectionString)
 const adapter = new PrismaNeonHTTP(sql)
 const prisma = new PrismaClient({ adapter })
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   res.statusCode = 200
   res.setHeader('Content-Type', 'application/json')
 
