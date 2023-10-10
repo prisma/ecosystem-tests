@@ -3,6 +3,7 @@
 set -eu
 
 pnpm install
+pnpm prisma generate
 
 rm -rf lambda.zip
 
