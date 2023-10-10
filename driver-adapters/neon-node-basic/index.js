@@ -46,7 +46,10 @@ exports.handler = async () => {
         email: true,
         age: true,
         name: true,
-      }
+      },
+      orderBy: {
+        email: 'asc',
+      },
     }),
     findUnique: await prisma.user.findUnique({
       where: {
