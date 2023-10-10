@@ -1,11 +1,13 @@
-const { Lambda } = require("@aws-sdk/client-lambda")
+// @ts-check
+const { test, expect } = require('@jest/globals')
+const { Lambda } = require('@aws-sdk/client-lambda')
 const { dependencies } = require('./package.json')
 
 const lambda = new Lambda({
   region: process.env.AWS_DEFAULT_REGION,
 })
 
-jest.setTimeout(30000)
+jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
   const response = await lambda.invoke({
@@ -14,7 +16,15 @@ test('prisma version and output', async () => {
     Payload: '""',
   })
 
-  const { regResult, itxResult } = JSON.parse(JSON.parse(new TextDecoder().decode(response.Payload)).body)
+  let regResult, itxResult
+  try {
+    const parsed = JSON.parse(JSON.parse(new TextDecoder().decode(response.Payload)).body)
+    regResult = parsed.regResult
+    itxResult = parsed.itxResult
+  } catch (e) {
+    console.log('new TextDecoder().decode(response.Payload)', new TextDecoder().decode(response.Payload))
+    throw e
+  }
 
   expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])

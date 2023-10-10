@@ -1,3 +1,5 @@
+// @ts-check
+const { test, expect } = require('@jest/globals')
 const { handler } = require('./index')
 const { dependencies } = require('./package.json')
 
