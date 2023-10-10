@@ -1,11 +1,13 @@
-const { Lambda } = require("@aws-sdk/client-lambda")
+// @ts-check
+const { test, expect } = require('@jest/globals')
+const { Lambda } = require('@aws-sdk/client-lambda')
 const { dependencies } = require('./package.json')
 
 const lambda = new Lambda({
   region: process.env.AWS_DEFAULT_REGION,
 })
 
-jest.setTimeout(30000)
+jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
   const response = await lambda.invoke({

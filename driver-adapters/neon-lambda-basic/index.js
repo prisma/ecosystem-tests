@@ -1,3 +1,4 @@
+// @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
 const { WebSocket } = require('undici')
 const { Pool, neonConfig } = require('@neondatabase/serverless')
@@ -14,7 +15,7 @@ const prisma = new PrismaClient({ adapter })
 exports.handler = async () => {
   const getResult = async (prisma) => ({
     prismaVersion: Prisma.prismaVersion.client,
-    deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0})),
+    deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
     create: await prisma.user.create({
       data: {
         email: `test-1@prisma.io`,
@@ -25,7 +26,7 @@ exports.handler = async () => {
         email: true,
         age: true,
         name: true,
-      }
+      },
     }),
     createMany: await prisma.user.createMany({
       data: [
@@ -53,65 +54,67 @@ exports.handler = async () => {
     }),
     findUnique: await prisma.user.findUnique({
       where: {
-        email: "test-1@prisma.io"
+        email: 'test-1@prisma.io',
       },
       select: {
         email: true,
         age: true,
         name: true,
-      }
+      },
     }),
     update: await prisma.user.update({
       where: {
-        email: "test-1@prisma.io"
+        email: 'test-1@prisma.io',
       },
       data: {
-        age: 26
+        age: 26,
       },
       select: {
         email: true,
         age: true,
         name: true,
-      }
+      },
     }),
     updateMany: await prisma.user.updateMany({
       where: {
-        age: 26
+        age: 26,
       },
       data: {
-        age: 27
+        age: 27,
       },
     }),
     findFirst: await prisma.user.findFirst({
       where: {
-        age: 27
+        age: 27,
       },
       select: {
         email: true,
         age: true,
         name: true,
-      }
+      },
     }),
     delete: await prisma.user.delete({
       where: {
-        email: "test-1@prisma.io"
+        email: 'test-1@prisma.io',
       },
       select: {
         email: true,
         age: true,
         name: true,
-      }
+      },
     }),
     count: await prisma.user.count(),
-    aggregate: await prisma.user.aggregate({
-      _avg: {
-        age: true
-      },
-    }).then(({ _avg }) => ({ age: Math.trunc(_avg?.age ?? 0) })),
+    aggregate: await prisma.user
+      .aggregate({
+        _avg: {
+          age: true,
+        },
+      })
+      .then(({ _avg }) => ({ age: Math.trunc(_avg?.age ?? 0) })),
     groupBy: await prisma.user.groupBy({
       by: ['age'],
       _count: {
-        age: true
+        age: true,
       },
     }),
     findFirstOrThrow: await prisma.user.findFirstOrThrow({
@@ -119,24 +122,24 @@ exports.handler = async () => {
         age: true,
         email: true,
         name: true,
-      }
+      },
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
       where: {
-        email: "test-2@prisma.io"
+        email: 'test-2@prisma.io',
       },
       select: {
         age: true,
         email: true,
         name: true,
-      }
+      },
     }),
     upsert: await prisma.user.upsert({
       where: {
-        email: "test-4@prisma.io"
+        email: 'test-4@prisma.io',
       },
       create: {
-        email: "test-4@prisma.io",
+        email: 'test-4@prisma.io',
         age: 30,
         name: 'Test 4',
       },
@@ -145,7 +148,7 @@ exports.handler = async () => {
         email: true,
         age: true,
         name: true,
-      }
+      },
     }),
   })
 
