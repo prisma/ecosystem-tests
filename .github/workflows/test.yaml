@@ -1170,6 +1170,7 @@ jobs:
           - turso-lambda-basic
           - turso-node-basic
           - turso-vercel-nextjs
+          - tidb-node-basic
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -1211,6 +1212,8 @@ jobs:
       DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN }}
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN }}
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID }}
+      # TiDB Cloud
+      DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v4
