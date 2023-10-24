@@ -5,7 +5,7 @@ set -eux
 # YARN_IGNORE_NODE=1 is needed to ignore the Node.js version 
 # since the latest version needs v18+
 # TODO: remove once we switched to v18
-YARN_IGNORE_NODE=1 
+export YARN_IGNORE_NODE=1 
 
 # We must set yarn to berry first
 # if not this error will show up later
