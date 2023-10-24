@@ -9,8 +9,8 @@ dependencies:
     specifier: 0.6.0
     version: 0.6.0
   '@prisma/adapter-neon':
-    specifier: 5.4.3
-    version: 5.4.3(@neondatabase/serverless@0.6.0)
+    specifier: 5.5.0
+    version: 5.5.0(@neondatabase/serverless@0.6.0)
   '@prisma/client':
     specifier: 5.6.0-dev.5
     version: 5.6.0-dev.5(prisma@5.6.0-dev.5)
@@ -732,13 +732,14 @@ packages:
       '@types/pg': 8.6.6
     dev: false
 
-  /@prisma/adapter-neon@5.4.3(@neondatabase/serverless@0.6.0):
-    resolution: {integrity: sha512-wTBMxUrdXMLapvwn+rhC9l1IE+NafLvgP2/MFXFS4iVp5Zsb05Vp+JmG0vojn8QsjVRqDEn1pZC8SDZo5RoEIw==}
+  /@prisma/adapter-neon@5.5.0(@neondatabase/serverless@0.6.0):
+    resolution: {integrity: sha512-40GvoXaafaZ5wMmpRPiwLU8WjVe0DluevmlPv87oUD5wfipcCLnxq9UBmdMDsKXn1eIuLzd0cu9BoEiC/Og0KQ==}
     peerDependencies:
       '@neondatabase/serverless': ^0.6.0
     dependencies:
       '@neondatabase/serverless': 0.6.0
-      '@prisma/driver-adapter-utils': 5.4.3
+      '@prisma/driver-adapter-utils': 5.5.0
+      postgres-array: 3.0.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -757,8 +758,8 @@ packages:
       prisma: 5.6.0-dev.5
     dev: false
 
-  /@prisma/driver-adapter-utils@5.4.3:
-    resolution: {integrity: sha512-qNWKVQBSAkgaOT4KGZ7+W6W/tw6Jts20QsihOn2/Msn32F/zATv/Q6614LNNI9OMn0t2nMECWrKtK5yuZ8I2GA==}
+  /@prisma/driver-adapter-utils@5.5.0:
+    resolution: {integrity: sha512-2H8Vr8L968h0Fgsf4vvp6VNBNc0wvkynzXAVzNq4kqBBL6sbohaQGtpke7X5GU0kQ1hMVm5zxhW46Ju8xnDJlg==}
     dependencies:
       debug: 4.3.4
     transitivePeerDependencies:
@@ -2246,6 +2247,11 @@ packages:
   /postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
     engines: {node: '>=4'}
+    dev: false
+
+  /postgres-array@3.0.2:
+    resolution: {integrity: sha512-6faShkdFugNQCLwucjPcY5ARoW1SlbnrZjmGl0IrrqewpvxvhSLHimCVzqeuULCbG0fQv7Dtk1yDbG3xv7Veog==}
+    engines: {node: '>=12'}
     dev: false
 
   /postgres-bytea@1.0.0:
