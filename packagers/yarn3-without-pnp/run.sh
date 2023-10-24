@@ -2,6 +2,13 @@
 
 set -eux
 
+# We must set yarn to berry first
+# if not this error will show up later
+# error An unexpected error occurred: "Release not found: 3.x".
+# YARN_IGNORE_NODE=1 is needed to ignore the Node.js version 
+# since the latest version needs v18+
+YARN_IGNORE_NODE=1 yarn set version berry
+
 # To set Yarn to 3.x
 yarn set version 3.x
 
