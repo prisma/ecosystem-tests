@@ -1,36 +1,42 @@
 version: "3.1"
 
 services:
-  # pgadmin4 for pgbouncer.
-  pgadmin4-master:
-    image: fenglc/pgadmin4
-    ports:
-      - 5050:5050
-    links:
-      - postgres:postgres
-    environment:
-      DEFAULT_USER: pgbouncer_database
-      DEFAULT_PASSWORD: 12345678
-  # Postgres database.
+  # Postgres database
   postgres:
-    image: postgres:9.6.24
+    image: postgres:14
+    command: ['postgres', '-c', 'log_statement=all', '-c', 'log_min_duration_statement=0']
     environment:
-      POSTGRES_USER: postgres # define credentials
-      POSTGRES_PASSWORD: postgres # define credentials
-      POSTGRES_DB: postgres # define database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres 
+      POSTGRES_DB: postgres
     ports:
       - 5433:5432 # Postgres port
-  # Postgres database.
+
+  # PgBouncer
   pgbouncer:
-    image: brainsam/pgbouncer:1.12.0
+    image: bitnami/pgbouncer:1.20.1
     environment:
-      DB_HOST: postgres
-      DB_USER: postgres # define credentials
-      DB_PASSWORD: postgres # define credentials
-      DB_port: 5433 # define database
-      POOL_MODE: "transaction"
-      MAX_CLIENT_CONN: "1000"
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_USERNAME: postgres 
+      POSTGRESQL_PASSWORD: postgres 
+      POSTGRESQL_DATABASE: blog
+      POSTGRESQL_PORT: 5432 
+      PGBOUNCER_DATABASE: blog
+      PGBOUNCER_POOL_MODE: "transaction"
+      PGBOUNCER_MAX_CLIENT_CONN: "1000"
+      PGBOUNCER_MAX_PREPARED_STATEMENTS: 0
     links:
       - postgres:postgres
     ports:
       - 6433:6432 # PgBouncer port
+
+  # pgadmin4 for pgbouncer
+  # pgadmin4-master:
+  #   image: fenglc/pgadmin4
+  #   ports:
+  #     - 5050:5050
+  #   links:
+  #     - postgres:postgres
+  #   environment:
+  #     DEFAULT_USER: pgbouncer_database
+  #     DEFAULT_PASSWORD: 12345678
