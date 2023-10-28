@@ -2,6 +2,7 @@ const {
   clientWithoutQueryStringParamCall,
   clientWithQueryStringParamCall,
   client,
+  pgBouncerMetaClient,
   clientWithQueryStringParam,
 } = require('.')
 
@@ -12,9 +13,11 @@ describe('should test Prisma client and PgBouncer', () => {
     return
   })
 
-  it.skip('should fail with docker pgbouncer without the pgbouncer query string param', async () => {
-    try {
-      await clientWithoutQueryStringParamCall()
+    await pgBouncerMetaClient.connect()
+    let query0 = await pgBouncerMetaClient.query('SHOW VERSION')
+    console.log({ query0 })
+    pgBouncerMetaClient.end()
+    
 
       /*
        * Query engine instance names prepared statements serially s0, s1 and so on. Without the `pgbouncer=true` flag,
@@ -33,6 +36,11 @@ describe('should test Prisma client and PgBouncer', () => {
   })
 
   it('should work with docker pgbouncer with the pgbouncer query string param', async () => {
+    await pgBouncerMetaClient.connect()
+    let query0 = await pgBouncerMetaClient.query('SHOW VERSION')
+    console.log({ query0 })
+    pgBouncerMetaClient.end()
+    
     const data = await clientWithQueryStringParamCall()
     expect(data).toMatchSnapshot()
 

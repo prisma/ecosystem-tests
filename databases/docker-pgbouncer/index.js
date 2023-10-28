@@ -1,4 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
+const { Client } = require('pg')
+
+const pgBouncerMetaClient = new Client("postgresql://postgres:postgres@127.0.0.1:6433/pgbouncer")
 
 const client = new PrismaClient({
   errorFormat: 'colorless',
@@ -30,6 +33,11 @@ async function clientWithQueryStringParamCall() {
 }
 
 async function main() {
+  await pgBouncerMetaClient.connect()
+  let query0 = await pgBouncerMetaClient.query('SHOW VERSION;')
+  console.log(query0.rows)
+  pgBouncerMetaClient.end()
+
   try {
     // try-catch because this is expected to fail
     const data1 = await client.user.findMany()
@@ -73,5 +81,6 @@ module.exports = {
   clientWithoutQueryStringParamCall,
   clientWithQueryStringParamCall,
   client,
+  pgBouncerMetaClient,
   clientWithQueryStringParam,
 }
