@@ -7,9 +7,10 @@ const client = new PrismaClient({
   errorFormat: 'colorless',
   datasources: {
     db: {
-      url: 'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public',
+      url: 'postgresql://postgres:postgres@127.0.0.1:6433/blog',
     },
   },
+  log: ['query', 'info', 'warn', 'error'],
 })
 
 const clientWithQueryStringParam = new PrismaClient({
@@ -17,9 +18,10 @@ const clientWithQueryStringParam = new PrismaClient({
   datasources: {
     db: {
       url:
-        'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true',
+        'postgresql://postgres:postgres@127.0.0.1:6433/blog?pgbouncer=true',
     },
   },
+  log: ['query', 'info', 'warn', 'error'],
 })
 
 async function clientWithoutQueryStringParamCall() {
@@ -52,7 +54,7 @@ async function main() {
     await client.$disconnect()
     await client.$connect()
 
-    const data2 = await client.user.findMany()
+    const data2 = await client.user.findMany({ where: { name: "after reconnect" }})
     console.log({ data2 })
   } catch (e) {
     console.log(e)
@@ -60,6 +62,9 @@ async function main() {
 
   const data3 = await clientWithQueryStringParam.user.findMany()
   console.log({ data3 })
+
+  await clientWithQueryStringParam.$disconnect()
+  await clientWithQueryStringParam.$connect()
 
   const data4 = await clientWithQueryStringParam.user.findMany()
   console.log({ data4 })
