@@ -1,12 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should test Prisma client and PgBouncer should fail with docker pgbouncer without the pgbouncer query string param 1`] = `
-"Error: 
-Invalid \`prisma.user.findMany()\` invocation:
+"PrismaClientUnknownRequestError: 
+Invalid \`client2WithoutQueryStringParam.user.findMany()\` invocation in
+/workspace/ecosystem-tests/databases/docker-pgbouncer/index.js:51:58
 
-
-  Error occurred during query execution:
-ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(Error { kind: Db, cause: Some(DbError { severity: \\"ERROR\\", parsed_severity: Some(Error), code: SqlState(\\"42P05\\"), message: \\"prepared statement \\\\\\"s0\\\\\\" already exists\\", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some(\\"prepare.c\\"), line: Some(466), routine: Some(\\"StorePreparedStatement\\") }) }) })"
+  48   return data
+  49 }
+  50 async function client2WithoutQueryStringParamCall() {
+→ 51   const data = await client2WithoutQueryStringParam.user.findMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: \\"42P05\\", message: \\"prepared statement \\\\\\"s0\\\\\\" already exists\\", severity: \\"ERROR\\", detail: None, column: None, hint: None }), transient: false })"
 `;
 
 exports[`should test Prisma client and PgBouncer should work with docker pgbouncer with the pgbouncer query string param 1`] = `
