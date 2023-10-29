@@ -48,7 +48,7 @@ async function client1WithoutQueryStringParamCall() {
   return data
 }
 async function client2WithoutQueryStringParamCall() {
-  const data = await client2WithoutQueryStringParam.user.findMany()
+  const data = await client2WithoutQueryStringParam.user.findMany({ where: { name: "second query" }})
   return data
 }
 
