@@ -40,7 +40,7 @@ async function fetchWithPuppeteer(sandboxId: string) {
   const codesandboxUrl = `https://${sandboxId}.sse.codesandbox.io/`
   console.debug({ codesandboxUrl })
   const responseFromCodesandbox = await fetch(codesandboxUrl)
-  const body = await r.text()
+  const body = await responseFromCodesandbox.text()
   try {
     const bodyAsJSON = JSON.parse(body)
     console.debug(bodyAsJSON)
