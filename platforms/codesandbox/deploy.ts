@@ -37,7 +37,9 @@ async function fetchWithPuppeteer(sandboxId: string) {
   fs.writeFileSync('image.png', screenshot as Buffer)
   await browser.close()
 
-  const r = await fetch(`https://${sandboxId}-3000.csb.app/`)
+  const codesandboxUrl = `https://${sandboxId}.sse.codesandbox.io/`
+  console.debug({ codesandboxUrl })
+  const responseFromCodesandbox = await fetch(codesandboxUrl)
   const body = await r.text()
   try {
     const bodyAsJSON = JSON.parse(body)
