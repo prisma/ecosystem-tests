@@ -98,7 +98,7 @@ jobs:
     if: always()
     steps:
       - run: echo "Ok"
-  
+
   report-to-slack-success:
     runs-on: ubuntu-20.04
     needs:
@@ -413,7 +413,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          # browser-build uses Next.js
+          # Since Next.js v14, Node.js v18+ is required
+          node-version: |
+            ${{
+              matrix.feature == 'browser-build' && 18 || 16
+            }}
           cache: |
             ${{
               contains(matrix.feature, '-yarn') && 'yarn' ||
@@ -1335,7 +1340,7 @@ jobs:
           ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
           ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
-          
+
       # see above why this is not a matrix for each DP variant
       - name: test Accelerate (DP2) without extension ${{ matrix.platform }}
         uses: nick-invision/retry@v2
