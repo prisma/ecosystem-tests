@@ -1,11 +1,11 @@
 const { client } = require('.')
 
-describe('should test Prisma client and PgBouncer', () => {
+describe('Prisma Client', () => {
   afterAll(async () => {
     await client.$disconnect()
   })
 
-  it('should test auto-reconnect', async () => {
+  it('should auto-reconnect after $disconnect', async () => {
     const data = await client.user.findMany({
       where: {
         id: 'x',

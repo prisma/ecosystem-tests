@@ -65,9 +65,8 @@ jobs:
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
           cache: 'pnpm'
       - name: Install Dependencies
         run: pnpm install
@@ -99,7 +98,7 @@ jobs:
     if: always()
     steps:
       - run: echo "Ok"
-  
+
   report-to-slack-success:
     runs-on: ubuntu-20.04
     needs:
@@ -127,7 +126,7 @@ jobs:
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
       - name: Install Dependencies
@@ -162,7 +161,7 @@ jobs:
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
       - name: Install Dependencies
@@ -195,7 +194,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -290,7 +289,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -342,7 +341,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -412,9 +411,14 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          # browser-build uses Next.js
+          # Since Next.js v14, Node.js v18+ is required
+          node-version: |
+            ${{
+              matrix.feature == 'browser-build' && 18 || 16
+            }}
           cache: |
             ${{
               contains(matrix.feature, '-yarn') && 'yarn' ||
@@ -473,7 +477,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -525,7 +529,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -570,7 +574,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -621,7 +625,7 @@ jobs:
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: use node ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
@@ -683,7 +687,7 @@ jobs:
           version: 8
 
       - name: use node ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
@@ -736,7 +740,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -797,7 +801,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: |
@@ -861,9 +865,9 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
 
@@ -920,7 +924,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: |
@@ -1018,7 +1022,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: |
@@ -1104,7 +1108,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: |
@@ -1222,7 +1226,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
@@ -1302,7 +1306,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -1339,7 +1343,7 @@ jobs:
           ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
           ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
-          
+
       # see above why this is not a matrix for each DP variant
       - name: test Accelerate (DP2) without extension ${{ matrix.platform }}
         uses: nick-invision/retry@v2
@@ -1412,7 +1416,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -1466,7 +1470,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -1562,7 +1566,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -1609,7 +1613,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'
@@ -1653,7 +1657,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: 'pnpm'

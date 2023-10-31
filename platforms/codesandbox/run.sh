@@ -4,4 +4,4 @@ set -eux
 
 npm install
 npm run deploy
-echo "https://$(cat sandbox_id)-3000.csb.app"
+echo "https://$(cat sandbox_id).sse.codesandbox.io/"
