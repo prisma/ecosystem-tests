@@ -5,8 +5,9 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  // TODO: needs to be changed to a fake url to ensure the driver adapter is used
-  url      = env("DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL")
+  // fake url to ensure the driver adapter is used
+  url      = "mysql://foo"
+  directUrl = env("DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL")
 }
 
 model User {
