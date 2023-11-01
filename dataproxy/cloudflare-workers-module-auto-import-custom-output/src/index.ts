@@ -1,6 +1,6 @@
 // Note: see wrangler.toml and https://www.npmjs.com/package/@cloudflare/workers-types for the version
 /// <reference types="@cloudflare/workers-types" />
-import { PrismaClient } from './prisma/client'
+import { PrismaClient } from '../prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
 export interface Env {
