@@ -173,7 +173,7 @@ export default async (req, res) => {
   try {
     const itxResult = await prisma.$transaction(getResult)
   } catch (e) {
-    if (e.code !== 'P2036' && e.message !== 'PrismaClientKnownRequestError: Error in external connector (id 0)') {
+    if (e.code !== 'P2036' && e.message !== 'Transactions are not supported in HTTP mode') {
       console.error('The expectation changed and needs to be updated in the test, see new error below:')
       throw e
     }
