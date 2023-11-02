@@ -17,8 +17,8 @@ devDependencies:
     specifier: 16.18.60
     version: 16.18.60
   netlify-cli:
-    specifier: 16.9.3
-    version: 16.9.3(@types/node@16.18.60)
+    specifier: 17.0.0
+    version: 17.0.0(@types/node@16.18.60)
   prisma:
     specifier: 5.6.0-dev.56
     version: 5.6.0-dev.56
@@ -500,6 +500,11 @@ packages:
 
   /@netlify/binary-info@1.0.0:
     resolution: {integrity: sha512-4wMPu9iN3/HL97QblBsBay3E1etIciR84izI3U+4iALY+JHCrI+a2jO0qbAZ/nxKoegypYEaiiqWXylm+/zfrw==}
+    dev: true
+
+  /@netlify/blobs@4.0.0:
+    resolution: {integrity: sha512-jjAzsH5WCceUz8ubVlYppfhUKuTR4E6OBNherIdH7tYHWy4NnLQ5FQgVP9kR7Ps5HOxl3aPsr5ygu1KQY0mdTQ==}
+    engines: {node: ^14.16.0 || >=16.0.0}
     dev: true
 
   /@netlify/build-info@7.10.1:
@@ -5494,14 +5499,15 @@ packages:
     resolution: {integrity: sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==}
     dev: true
 
-  /netlify-cli@16.9.3(@types/node@16.18.60):
-    resolution: {integrity: sha512-BsdDMUSzURdAwvda5+tETWFZc+eBTV8h4a9Vto92f5JN8x2nky5WRvniajMm2S2zq+tXlSYUHi98jwIC4B5kTw==}
-    engines: {node: '>=16.16.0'}
+  /netlify-cli@17.0.0(@types/node@16.18.60):
+    resolution: {integrity: sha512-Z/1BBgZVcn16tsFXh96/CepFoXWbfftqMxV+oma7vptyha5MIAXkIRobD87dntZabGCErpjy4SlyueNDzP4oFQ==}
+    engines: {node: '>=18.18.2'}
     hasBin: true
     requiresBuild: true
     dependencies:
       '@bugsnag/js': 7.20.2
       '@fastify/static': 6.10.2
+      '@netlify/blobs': 4.0.0
       '@netlify/build': 29.23.4(@types/node@16.18.60)(debug@4.3.4)
       '@netlify/build-info': 7.10.1
       '@netlify/config': 20.9.0
