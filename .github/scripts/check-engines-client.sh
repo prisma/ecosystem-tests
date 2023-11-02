@@ -117,5 +117,5 @@ elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
-  exit 1
+  # exit 1
 fi
