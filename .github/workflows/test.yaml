@@ -1492,6 +1492,62 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
 
+  connection-poolers:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['connection-poolers'] == true }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pooler:
+          - digitalocean-pgbouncer
+          - docker-pgbouncer
+          - heroku-pgbouncer
+          - heroku-pgbouncer-buildpack
+          - supabase-pool
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
+      DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
+      DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
+      DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.pooler }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.pooler }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.pooler }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.pooler }}
+
   databases:
     needs: [detect_jobs_to_run]
     if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['databases'] == true }}
@@ -1500,10 +1556,6 @@ jobs:
       fail-fast: false
       matrix:
         database:
-          - digitalocean-pgbouncer
-          - docker-pgbouncer
-          - heroku-pgbouncer
-          - heroku-pgbouncer-buildpack
           - sqlserver-aws-rds
           - sqlserver-azure-sql
           - gcp-postgresql-ssl
@@ -1516,7 +1568,6 @@ jobs:
           # It's tested in failing-weekly.yaml
           #- mongodb-azure-cosmosdb
           - supabase
-          - supabase-pool
           - planetscale
           - cockroach-cloud
         clientEngine: ['library', 'binary']
@@ -1525,9 +1576,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
-      DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
       DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
       DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
@@ -1545,7 +1593,6 @@ jobs:
       DATABASE_URL_DB_MONGODB_DIGITALOCEAN: ${{ secrets.DATABASE_URL_DB_MONGODB_DIGITALOCEAN }}
       #DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB: ${{ secrets.DATABASE_URL_DB_MONGODB_AZURE_COSMOSDB }}
       MONGODB_DIGITALOCEAN_CERT: ${{ secrets.MONGODB_DIGITALOCEAN_CERT }}
-      DATABASE_URL_SUPAPABASE_CONNECTION_POOL: ${{ secrets.DATABASE_URL_SUPAPABASE_CONNECTION_POOL }}
       DATABASE_URL_SUPAPABASE: ${{ secrets.DATABASE_URL_SUPAPABASE }}
       DATABASE_URL_COACKROACH_CLOUD: ${{ secrets.DATABASE_URL_COACKROACH_CLOUD }}
 
