@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const { Client } = require('pg')
 
 const pgBouncerMetaClient = new Client("postgresql://postgres:postgres@127.0.0.1:6433/pgbouncer")
+const postgresMetaClient = new Client("postgresql://postgres:postgres@127.0.0.1:5433/postgres")
 
 const client1WithoutQueryStringParam = new PrismaClient({
   errorFormat: 'colorless',
@@ -117,4 +118,5 @@ module.exports = {
   client1WithQueryStringParam,
   client2WithQueryStringParam,
   pgBouncerMetaClient,
+  postgresMetaClient,
 }
