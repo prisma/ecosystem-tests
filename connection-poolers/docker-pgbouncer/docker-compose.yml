@@ -4,7 +4,7 @@ services:
   # Postgres database
   postgres:
     image: postgres:14
-    command: ['postgres', '-c', 'log_statement=all', '-c', 'log_min_duration_statement=0']
+    command: ['postgres', '-c', 'max_connections=10', '-c', 'superuser_reserved_connections=0', '-c', 'log_statement=all', '-c', 'log_min_duration_statement=0']
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres 
@@ -21,9 +21,9 @@ services:
       POSTGRESQL_PASSWORD: postgres 
       POSTGRESQL_DATABASE: blog
       POSTGRESQL_PORT: 5432 
-      PGBOUNCER_DATABASE: blog
+      PGBOUNCER_DATABASE: "*"
       PGBOUNCER_POOL_MODE: "transaction"
-      PGBOUNCER_MAX_CLIENT_CONN: "1000"
+      PGBOUNCER_MAX_CLIENT_CONN: 1000
       PGBOUNCER_MAX_PREPARED_STATEMENTS: 0
     links:
       - postgres:postgres
