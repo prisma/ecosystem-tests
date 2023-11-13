@@ -12,14 +12,8 @@
   "prConcurrentLimit": 17,
   "rebaseWhen": "auto",
   "configMigration": true,
-  "ignoreDeps": ["prisma", "@prisma/client", "@prisma/instrumentation"],
+  "ignoreDeps": ["prisma", "@prisma/client", "@prisma/instrumentation", "@prisma/adapter-planetscale", "@prisma/adapter-pg", "@prisma/adapter-neon", "@prisma/adapter-libsql"],
   "packageRules": [
-    {
-      "groupName": "Prisma Driver Adapters",
-      "matchPackageNames": ["@prisma/driver-adapter-utils"],
-      "matchPackagePatterns": ["@prisma/adapter*"],
-      "schedule": ["at any time"]
-    },
     {
       "groupName": "svelte packages",
       "matchPackagePatterns": ["svelte"]
