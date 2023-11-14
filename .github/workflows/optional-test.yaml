@@ -22,6 +22,8 @@ on:
 
 env:
   PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
+  # To hide "Update available x.y.z -> x.y.z"
+  PRISMA_HIDE_UPDATE_MESSAGE: true
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
   CI: 1
   # TODO: Consolidate these env vars. They shouldn't be required for slack notification

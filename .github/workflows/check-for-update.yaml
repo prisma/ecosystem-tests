@@ -10,6 +10,8 @@ concurrency: check-for-update
 
 env:
   PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests check-for-update.yaml'
+  # To hide "Update available x.y.z -> x.y.z"
+  PRISMA_HIDE_UPDATE_MESSAGE: true
 
 jobs:
   check-for-latest-update:
