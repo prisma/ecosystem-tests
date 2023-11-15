@@ -2,4 +2,4 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters postgresql-node-basic'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters postgresql-node-basic-esm'
