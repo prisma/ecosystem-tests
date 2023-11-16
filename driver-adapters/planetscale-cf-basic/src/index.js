@@ -1,10 +1,10 @@
 import { Prisma, PrismaClient } from '@prisma/client/edge'
-import { connect } from '@planetscale/database'
+import { Client } from '@planetscale/database'
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = connect({
+    const client = new Client({
       url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
       // taken from planetscale's docs
       fetch(url, init) {
