@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client/edge'
-const { connect } = require('@planetscale/database')
-const { PrismaPlanetScale } = require('@prisma/adapter-planetscale')
+import { connect } from '@planetscale/database'
+import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 export default {
   async fetch(request, env, ctx) {
@@ -8,7 +8,7 @@ export default {
       url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
       // taken from planetscale's docs
       fetch(url, init) {
-        return delete init["cache"];
+        delete init["cache"];
         return fetch(url, init);
     }
     })
