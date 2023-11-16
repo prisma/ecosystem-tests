@@ -104,6 +104,22 @@ elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
       os_name=notset
       ;;
   esac
+elif [ $CLIENT_ENGINE_TYPE == "wasm" ]; then
+  echo "WasmEngine: Enabled"
+  case $os_name in
+    linux)
+      qe_location="$GENERATED_CLIENT/query-engine.wasm"
+      ;;
+    osx)
+      qe_location="$GENERATED_CLIENT/query-engine.wasm"
+      ;;
+    windows*)
+      qe_location="$GENERATED_CLIENT\query-engine.wasm"
+      ;;
+    *)
+      os_name=notset
+      ;;
+  esac
 elif [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "DataProxy: Enabled"
 else
