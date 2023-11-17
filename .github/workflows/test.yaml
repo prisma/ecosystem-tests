@@ -1162,10 +1162,11 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - neon-cf-basic
+          - neon-http-cf-basic
           - neon-http-lambda-basic
           - neon-http-node-basic
           - neon-http-vercel-nextjs
+          - neon-cf-basic
           - neon-lambda-basic
           - neon-node-basic
           - neon-node-basic-esm
@@ -1201,6 +1202,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       # neon http
+      DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL }}
