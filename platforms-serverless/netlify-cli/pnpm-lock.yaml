@@ -17,8 +17,8 @@ devDependencies:
     specifier: 16.18.61
     version: 16.18.61
   netlify-cli:
-    specifier: 17.4.0
-    version: 17.4.0(@types/node@16.18.61)
+    specifier: 17.5.1
+    version: 17.5.1(@types/node@16.18.61)
   prisma:
     specifier: 5.7.0-dev.25
     version: 5.7.0-dev.25
@@ -5800,8 +5800,8 @@ packages:
     resolution: {integrity: sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==}
     dev: true
 
-  /netlify-cli@17.4.0(@types/node@16.18.61):
-    resolution: {integrity: sha512-6FDal2yH1F7L4ix/Fb6f9cBq3G1xmTa+53t08u9AN5CQgsgAxxI7hF4ljLEpixOru46McIKzLoPjFh5I7iKJOw==}
+  /netlify-cli@17.5.1(@types/node@16.18.61):
+    resolution: {integrity: sha512-dTCVsihMUMWJk22ZpAp0STMb5p2t9fM1jFVKG6jh+CMYAgVQwsgupnGd4AxcYfhxg26j6HVRd02Gj+6NOpqgxw==}
     engines: {node: '>=18.14.0'}
     hasBin: true
     requiresBuild: true
@@ -5915,6 +5915,7 @@ packages:
       uuid: 9.0.0
       wait-port: 1.0.4
       write-file-atomic: 5.0.1
+      ws: 8.14.2
       zod: 3.22.4
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -5931,10 +5932,12 @@ packages:
       - '@types/node'
       - '@upstash/redis'
       - '@vercel/kv'
+      - bufferutil
       - encoding
       - idb-keyval
       - picomatch
       - supports-color
+      - utf-8-validate
     dev: true
 
   /netlify-headers-parser@7.1.2:
@@ -8370,6 +8373,19 @@ packages:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 4.0.2
+    dev: true
+
+  /ws@8.14.2:
+    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
     dev: true
 
   /xdg-basedir@5.1.0:
