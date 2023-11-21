@@ -793,7 +793,14 @@ jobs:
         clientEngine: [library] #['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
+    
+    env:
+    # We set this env var to avoid the following error in `actions/setup-node`
+    # error This project's package.json defines "packageManager": "yarn@3.7.0". However the current global version of Yarn is 1.22.21.
+    # it was added in https://github.com/yarnpkg/yarn/releases/tag/v1.22.20
+    # and the env var is available since https://github.com/yarnpkg/yarn/releases/tag/v1.22.21
+      SKIP_YARN_COREPACK_CHECK: 1
+      
     steps:
       - uses: actions/checkout@v4
 
