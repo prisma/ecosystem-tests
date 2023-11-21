@@ -2,7 +2,7 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters postgresql-vercel-nextjs'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters pg-vercel-nextjs'
 
 pnpm install
 

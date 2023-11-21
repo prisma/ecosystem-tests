@@ -11,7 +11,7 @@ jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
   const response = await lambda.invoke({
-    FunctionName: 'driver-adapters-postgresql-lambda-basic',
+    FunctionName: 'driver-adapters-pg-lambda-basic',
     InvocationType: 'RequestResponse',
     Payload: '""',
   })
