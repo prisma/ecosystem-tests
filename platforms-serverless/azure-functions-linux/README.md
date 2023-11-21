@@ -45,3 +45,28 @@ You can create new secrets for the service principal in Azure Portal under "App 
 ### Prepare
 
 To create a function on your own account, run `sh create.sh` first.
+
+### Cleaning up 
+
+If you see an error like `ERROR: Number of sites in server farm 'WestEuropeLinuxDynamicPlan' exceeds the maximum allowed for 'Dynamic' SKU.`
+You will need to delete old functions that failed and were not automatically cleaned up.
+
+This is a very entertaining thing to do, you will meet a 🦥 API and party of rate limits 😉
+
+```sh
+az login
+
+# List all functions ids
+az functionapp list --resource-group prisma-e2e-linux --query "[].id" --output tsv
+
+# Note that the following command will work in `fish` terminal specifically
+fish
+
+# This is a all-in-one command
+# 1. It will find the ids of all functions
+# 2. It will try to delete them and probably fail with a rate-limit error
+# 3. This will be repeated every 1000 seconds until you stop it.
+#
+# Make sure to change the query year accordingly
+watch -n 1000 az functionapp delete --verbose --ids (az functionapp list --resource-group prisma-e2e-linux --output tsv --query "[?contains(@.name, '-2023-')==`true`].id")
+```
