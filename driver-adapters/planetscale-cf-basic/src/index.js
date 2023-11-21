@@ -6,7 +6,7 @@ export default {
   async fetch(request, env, ctx) {
     const client = new Client({
       url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
-      // taken from planetscale's docs
+      // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
       fetch(url, init) {
         delete init["cache"];
         return fetch(url, init);

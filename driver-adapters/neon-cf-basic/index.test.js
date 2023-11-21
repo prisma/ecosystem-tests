@@ -5,7 +5,7 @@ const fs = require('fs')
 
 const pjson = require('./package.json')
 
-jest.setTimeout(30000)
+jest.setTimeout(30_000)
 
 test.skip('prisma version and output', async () => {
   const response = await fetch(process.env.DEPLOYMENT_URL + '/')
