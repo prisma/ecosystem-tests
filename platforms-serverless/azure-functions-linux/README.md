@@ -48,8 +48,7 @@ To create a function on your own account, run `sh create.sh` first.
 
 ### Cleaning up 
 
-If you see an error like `ERROR: Number of sites in server farm 'WestEuropeLinuxDynamicPlan' exceeds the maximum allowed for 'Dynamic' SKU.`
-You will need to delete old functions that failed and were not automatically cleaned up.
+If you see an error like `ERROR: Number of sites in server farm 'WestEuropeLinuxDynamicPlan' exceeds the maximum allowed for 'Dynamic' SKU.`, you will need to delete old functions that failed and were not automatically cleaned up.
 
 This is a very entertaining thing to do, you will meet a 🦥 API and party of rate limits 😉
 
