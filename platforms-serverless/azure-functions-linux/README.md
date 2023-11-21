@@ -52,13 +52,22 @@ If you see an error like `ERROR: Number of sites in server farm 'WestEuropeLinux
 
 This is a very entertaining thing to do, you will meet a 🦥 API and a party of rate limits 😉
 
+There is one command that requires to have the `fish` shell installed. You can find instructions at https://fishshell.com/.
+For macOS: `brew install fish`
+For Ubuntu:
+```
+sudo apt-add-repository ppa:fish-shell/release-3
+sudo apt update
+sudo apt install fish
+```
 ```sh
 az login
 
 # List all functions ids and count them
 E2E_AZ_LINUX=$(az functionapp list --resource-group prisma-e2e-linux --query "[].id" --output tsv) && echo $E2E_AZ_LINUX && echo $E2E_AZ_LINUX | wc -l
 
-# Note that the following command will work in `fish` terminal specifically
+# Note that the next command will work in `fish` shell specifically
+# So we need to start the fish shell now
 fish
 
 # This is a all-in-one command
