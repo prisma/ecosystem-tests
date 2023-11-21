@@ -1183,11 +1183,11 @@ jobs:
           - planetscale-node-basic
           - planetscale-node-basic-esm
           - planetscale-vercel-nextjs
-          - postgresql-cf-basic
-          - postgresql-lambda-basic
-          - postgresql-node-basic
-          - postgresql-node-basic-esm
-          - postgresql-vercel-nextjs
+          - pg-cf-basic
+          - pg-lambda-basic
+          - pg-node-basic
+          - pg-node-basic-esm
+          - pg-vercel-nextjs
           - turso-cf-basic
           - turso-lambda-basic
           - turso-node-basic
@@ -1207,7 +1207,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ROLE: ${{ vars.AWS_ROLE }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       # neon http
       DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL }}
@@ -1317,7 +1317,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
       # TODO change to vars below
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ vars.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID  }}
       DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ vars.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID  }}
