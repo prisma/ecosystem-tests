@@ -55,8 +55,8 @@ This is a very entertaining thing to do, you will meet a 🦥 API and a party of
 ```sh
 az login
 
-# List all functions ids
-az functionapp list --resource-group prisma-e2e-linux --query "[].id" --output tsv
+# List all functions ids and count them
+E2E_AZ_LINUX=$(az functionapp list --resource-group prisma-e2e-linux --query "[].id" --output tsv) && echo $E2E_AZ_LINUX && echo $E2E_AZ_LINUX | wc -l
 
 # Note that the following command will work in `fish` terminal specifically
 fish
