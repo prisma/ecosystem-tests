@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { Prisma, PrismaClient } from '@prisma/client/edge'
+// @ts-check
+import { NextResponse } from 'next/server'
+import { Prisma, PrismaClient } from './prisma/client/edge'
 import { neon } from '@neondatabase/serverless'
 import { PrismaNeonHTTP } from '@prisma/adapter-neon'
 
@@ -161,8 +162,8 @@ async function getResponse() {
   return JSON.stringify({ result })
 }
 
-export async function middleware(request: NextRequest) {
+export async function middleware(request) {
   if (request.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL(`/api?res=${await getResponse()}`, request.url));
+    return NextResponse.json(await getResponse())
   }
 }
