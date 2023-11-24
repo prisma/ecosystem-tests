@@ -1,13 +1,17 @@
-const { Prisma, PrismaClient } = require('@prisma/client/edge')
-const { Client } = require('pg')
-const { PrismaPg } = require('@prisma/adapter-pg')
+// @ts-check
+import { NextResponse } from 'next/server'
+import { Prisma, PrismaClient } from '@prisma/client/edge'
+import { Client } from 'pg'
+import { PrismaPg } from '@prisma/adapter-pg'
 
 async function getResponse() {
-  const client = new Client(env.DATABASE_URL)
+  const client = new Client(process.env.DATABASE_URL)
   const adapter = new PrismaPg(client)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {
+    await client.connect()
+
     const result = {
       prismaVersion: Prisma.prismaVersion.client,
       deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
