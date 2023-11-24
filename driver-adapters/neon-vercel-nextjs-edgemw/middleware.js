@@ -159,11 +159,9 @@ async function getResponse() {
   const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
   const result = JSON.stringify({ itxResult, regResult })
 
-  return JSON.stringify({ result })
+  return result
 }
 
 export async function middleware(request) {
-  if (request.nextUrl.pathname === '/') {
-    return NextResponse.json(await getResponse())
-  }
+  return NextResponse.json(await getResponse())
 }
