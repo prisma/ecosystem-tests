@@ -1,12 +1,10 @@
-// @ts-check
-import { NextResponse } from 'next/server'
-import { Prisma, PrismaClient } from '@prisma/client/edge'
-import { Client } from '@neondatabase/serverless'
-import { PrismaNeonHTTP } from '@prisma/adapter-neon'
+const { Prisma, PrismaClient } = require('@prisma/client/edge')
+const { Client } = require('pg')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
 async function getResponse() {
-  const client = new Client(process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL)
-  const adapter = new PrismaNeonHTTP(client)
+  const client = new Client(env.DATABASE_URL)
+  const adapter = new PrismaPg(client)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {
