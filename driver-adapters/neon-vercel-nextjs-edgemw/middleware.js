@@ -157,9 +157,8 @@ async function getResponse() {
 
   const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
   const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
-  const result = JSON.stringify({ itxResult, regResult })
-
-  return result
+  
+  return { itxResult, regResult }
 }
 
 export async function middleware(request) {
