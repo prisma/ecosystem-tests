@@ -18,7 +18,7 @@ const pjson = require('./package.json')
 jest.setTimeout(30000)
 
 test('prisma version and output', async () => {
-  const response = await fetch(getDeploymentURL() + '/api')
+  const response = await fetch(getDeploymentURL() + '/')
   const { regResult, itxResult } = await response.json()
 
   expect(regResult).toEqual(itxResult)
