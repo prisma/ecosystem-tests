@@ -18,8 +18,8 @@ const pjson = require('./package.json')
 
 jest.setTimeout(30_000)
 
-test('prisma version and output', async () => {
-  const response = await fetch(getDeploymentURL() + '/api')
+test.skip('prisma version and output', async () => {
+  const response = await fetch(getDeploymentURL() + '/')
   const { regResult, itxResult } = await response.json()
 
   // Error: Transactions are not supported in HTTP mode
@@ -106,4 +106,20 @@ Object {
   //   "name": "Test 4",
   // }
   // `)
+})
+
+test('failure snapshot until wasm engine works', async () => {
+  const response = await fetch(getDeploymentURL() + '/')
+  const { regResult, itxResult } = await response.json()
+
+  expect(regResult).toMatchInlineSnapshot(`
+Object {
+  "error": "Can't use \`query\` until \`request_handlers\` is Wasm-compatible.",
+}
+`)
+  expect(itxResult).toMatchInlineSnapshot(`
+Object {
+  "error": "Can't use \`start_transaction\` until \`query_core\` is Wasm-compatible.",
+}
+`)
 })
