@@ -98,6 +98,7 @@ jobs:
       - process-managers
       - test-runners
       - docker
+      - driver-adapters-wasm
     if: always()
     steps:
       - run: echo "Ok"
@@ -123,6 +124,7 @@ jobs:
       - process-managers
       - test-runners
       - docker
+      - driver-adapters-wasm
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -158,6 +160,7 @@ jobs:
       - process-managers
       - test-runners
       - docker
+      - driver-adapters-wasm
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -920,7 +923,7 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -1004,7 +1007,7 @@ jobs:
           - clientEngine: library
             platform: azure-functions-windows
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -1093,7 +1096,7 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: platforms-serverless-vercel-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -1169,28 +1172,21 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - neon-http-cf-basic
           - neon-http-lambda-basic
           - neon-http-node-basic
           - neon-http-vercel-nextjs
-          - neon-cf-basic
           - neon-lambda-basic
           - neon-node-basic
           - neon-node-basic-esm
           - neon-vercel-nextjs
-          - planetscale-cf-basic
           - planetscale-lambda-basic
           - planetscale-node-basic
           - planetscale-node-basic-esm
           - planetscale-vercel-nextjs
-          - pg-cf-basic
           - pg-lambda-basic
           - pg-node-basic
-          - pg-node-basic-wasm
-          - pg-node-basic-wasm-edge-import
           - pg-node-basic-esm
           - pg-vercel-nextjs
-          - turso-cf-basic
           - turso-lambda-basic
           - turso-node-basic
           - turso-node-basic-esm
@@ -1198,7 +1194,7 @@ jobs:
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-    concurrency: driver-adapters-${{ matrix.combo }}-${{ matrix.clientEngine }}
+    concurrency: ${{ github.job }}-${{ matrix.combo }}-${{ matrix.clientEngine }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -1211,31 +1207,26 @@ jobs:
       AWS_ROLE: ${{ vars.AWS_ROLE }}
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      DEBUG: 'prisma:js-connector*'
+      PRISMA_DISABLE_QUAINT_EXECUTORS: true
       # neon http
-      DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID }}
       # neon
-      DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID }}
       # planetscale
-      DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID }}
       # PostgreSQL
       DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
-      DEBUG: 'prisma:js-connector*'
-      PRISMA_DISABLE_QUAINT_EXECUTORS: true
       # Turso
-      DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN }}
       DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN }}
       DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL }}
@@ -1243,6 +1234,86 @@ jobs:
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN }}
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 1
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
+
+  driver-adapters-wasm:
+    needs: [detect_jobs_to_run]
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['driver-adapters-wasm'] == true }}
+
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        combo:
+          - neon-http-cf-basic
+          - neon-cf-basic
+          - planetscale-cf-basic
+          - pg-cf-basic
+          - pg-node-basic-wasm
+          - pg-node-basic-wasm-edge-import
+          - turso-cf-basic
+        clientEngine: ['library']
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.job }}-${{ matrix.combo }}-${{ matrix.clientEngine }}
+    env:
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      DEBUG: 'prisma:js-connector*'
+      PRISMA_DISABLE_QUAINT_EXECUTORS: true
+      # neon http
+      DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL }}
+      # neon
+      DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL }}
+      # planetscale
+      DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL }}
+      # Turso
+      DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN }}
+      # PostgreSQL
+      DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v4
@@ -1311,7 +1382,7 @@ jobs:
         clientEngine: [<dataproxy>] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: dataproxy-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
