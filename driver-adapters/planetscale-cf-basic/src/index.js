@@ -10,7 +10,7 @@ export default {
       fetch(url, init) {
         delete init["cache"];
         return fetch(url, init);
-    }
+      }
     })
     const adapter = new PrismaPlanetScale(client)
     const prisma = new PrismaClient({ adapter })
