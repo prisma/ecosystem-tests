@@ -6,7 +6,7 @@ import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 async function getResponse() {
   const client = new Client({
-    url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
+    url: process.env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
     // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
     fetch(url, init) {
       delete init["cache"];
