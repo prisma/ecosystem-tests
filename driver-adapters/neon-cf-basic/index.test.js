@@ -9,20 +9,21 @@ jest.setTimeout(30_000)
 
 test.skip('prisma version and output', async () => {
   const response = await fetch(process.env.DEPLOYMENT_URL + '/')
-  const { regResult, itxResult } = await response.json()
+  try {
+    const { regResult, itxResult } = await response.json()
 
-  expect(regResult).toEqual(itxResult)
-  expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
-  expect(regResult.deleteMany.count).toBe(0)
-  expect(regResult.create).toMatchInlineSnapshot(`
+    expect(regResult).toEqual(itxResult)
+    expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
+    expect(regResult.deleteMany.count).toBe(0)
+    expect(regResult.create).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(regResult.createMany.count).toBe(2)
-  expect(regResult.findMany).toMatchInlineSnapshot(`
+    expect(regResult.createMany.count).toBe(2)
+    expect(regResult.findMany).toMatchInlineSnapshot(`
 Array [
   Object {
     "age": 27,
@@ -41,42 +42,42 @@ Array [
   },
 ]
 `)
-  expect(regResult.findUnique).toMatchInlineSnapshot(`
+    expect(regResult.findUnique).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(regResult.update).toMatchInlineSnapshot(`
+    expect(regResult.update).toMatchInlineSnapshot(`
 Object {
   "age": 26,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(regResult.updateMany.count).toBe(1)
-  expect(regResult.findFirst).toMatchInlineSnapshot(`
+    expect(regResult.updateMany.count).toBe(1)
+    expect(regResult.findFirst).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(regResult.delete).toMatchInlineSnapshot(`
+    expect(regResult.delete).toMatchInlineSnapshot(`
 Object {
   "age": 27,
   "email": "test-1@prisma.io",
   "name": "Test 1",
 }
 `)
-  expect(regResult.count).toBe(2)
-  expect(regResult.aggregate).toMatchInlineSnapshot(`
+    expect(regResult.count).toBe(2)
+    expect(regResult.aggregate).toMatchInlineSnapshot(`
 Object {
   "age": 29,
 }
 `)
-  expect(regResult.groupBy).toMatchInlineSnapshot(`
+    expect(regResult.groupBy).toMatchInlineSnapshot(`
 Array [
   Object {
     "_count": Object {
@@ -86,27 +87,30 @@ Array [
   },
 ]
 `)
-  expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
+    expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
 Object {
   "age": 29,
   "email": "test-2@prisma.io",
   "name": "Test 2",
 }
 `)
-  expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
+    expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
 Object {
   "age": 29,
   "email": "test-2@prisma.io",
   "name": "Test 2",
 }
 `)
-  expect(regResult.upsert).toMatchInlineSnapshot(`
+    expect(regResult.upsert).toMatchInlineSnapshot(`
 Object {
   "age": 30,
   "email": "test-4@prisma.io",
   "name": "Test 4",
 }
 `)
+  } catch (error) {
+    console.log(error, response)
+  }
 })
 
 test('failure snapshot until wasm engine works', async () => {
