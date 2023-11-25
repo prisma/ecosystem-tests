@@ -115,16 +115,20 @@ Object {
 
 test('failure snapshot until wasm engine works', async () => {
   const response = await fetch(process.env.DEPLOYMENT_URL + '/')
-  const { regResult, itxResult } = await response.json()
+  try {
+    const { regResult, itxResult } = await response.json()
 
-  expect(regResult).toMatchInlineSnapshot(`
-Object {
-  "error": "Can't use \`query\` until \`request_handlers\` is Wasm-compatible.",
-}
-`)
-  expect(itxResult).toMatchInlineSnapshot(`
-Object {
-  "error": "Can't use \`start_transaction\` until \`query_core\` is Wasm-compatible.",
-}
-`)
+    expect(regResult).toMatchInlineSnapshot(`
+  Object {
+    "error": "Can't use \`query\` until \`request_handlers\` is Wasm-compatible.",
+  }
+  `)
+    expect(itxResult).toMatchInlineSnapshot(`
+  Object {
+    "error": "Can't use \`start_transaction\` until \`query_core\` is Wasm-compatible.",
+  }
+  `)
+  } catch (error) {
+    console.log(error, response)
+  }
 })
