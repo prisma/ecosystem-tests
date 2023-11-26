@@ -76,21 +76,6 @@ jobs:
       - id: detect
         run: ./.github/workflows/scripts/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
-  debug_detect_jobs_to_run:
-    needs: [detect_jobs_to_run]
-    name: Debug detected jobs to run  
-    if: ${{ contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'debug_detect_jobs_to_run') }}
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Job name
-        run: echo ${{ github.job }}
-      - name: Jobs as Json string
-        run: echo ${{ needs.detect_jobs_to_run.outputs.jobs }}
-      - name: Jobs as Json array
-        run: echo ${{ fromJSON(needs.detect_jobs_to_run.outputs.jobs) }}
-      - name: contains result
-        run: echo ${{ contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), github.job) }}
-
   confirm_all_jobs_have_run:
     name: Confirm all jobs have run
     runs-on: ubuntu-20.04
