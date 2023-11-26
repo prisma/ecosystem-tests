@@ -142,5 +142,5 @@ else
   exit 1
 fi
 
-echo "ls ${qe_location}"
+echo "$ ls ${qe_location}"
 ls $GENERATED_CLIENT
