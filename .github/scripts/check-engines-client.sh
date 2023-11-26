@@ -5,12 +5,10 @@ echo "-------------- Checking Generated Client QE Engine --------------"
 dir=$1
 project=$2
 
-DEFAULT_CLIENT_ENGINE_TYPE='library'
-
-# Check to see if the env var "PRISMA_CLIENT_ENGINE_TYPE" is set if not then using the default
+# Check to see if the env var "PRISMA_CLIENT_ENGINE_TYPE" is set if not then exit
 if [ -z "$PRISMA_CLIENT_ENGINE_TYPE" ]; then
-  echo "Using default client engine: $DEFAULT_CLIENT_ENGINE_TYPE"
-  CLIENT_ENGINE_TYPE=$DEFAULT_CLIENT_ENGINE_TYPE
+  echo "No PRISMA_CLIENT_ENGINE_TYPE set, so exiting."
+  exit 1
 else
   echo "Using env(PRISMA_CLIENT_ENGINE_TYPE): $PRISMA_CLIENT_ENGINE_TYPE"
   CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
@@ -49,6 +47,7 @@ case "${skipped_projects[@]}" in  *$2*)
   ;;
 esac
 
+# Identify OS
 case $(uname | tr '[:upper:]' '[:lower:]') in
   linux*)
     os_name=linux
@@ -127,11 +126,15 @@ else
   exit 1
 fi
 
+# Actually check for file
 if [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
 elif [ -f "$qe_location" ]; then
-  echo "✔ Correct Query Engine exists"
+  echo "✔ Correct Query Engine exists at ${qe_location}"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
   exit 1
 fi
+
+echo "ls ${qe_location}"
+ls $GENERATED_CLIENT

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+## !!!!!!!!!!!!
+## Only relevant and used for tests that _explicitly_ set the CLI engine type. 
+## This is only the case for explicit tests for this in engines/engine-types.
+## All the other tests just work with the default QE in CLI.
+## !!!!!!!!!!!!
+
 echo "-------------- Checking CLI/Engines QE Engine --------------"
 
 DIR=$1
