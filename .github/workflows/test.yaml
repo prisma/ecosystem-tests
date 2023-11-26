@@ -1284,14 +1284,14 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - pg-node-basic-wasm
+          - pg-node-basic-wasm-edge-import
+          - pg-cf-basic
           - neon-http-cf-basic
           - neon-cf-basic
           - planetscale-cf-basic
-          - pg-cf-basic
-          - pg-node-basic-wasm
-          - pg-node-basic-wasm-edge-import
           - turso-cf-basic
-        clientEngine: ['library']
+        clientEngine: ['wasm']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.combo }}-${{ matrix.clientEngine }}
