@@ -1,7 +1,8 @@
 // @ts-check
-const { Prisma, PrismaClient } = require('@prisma/client/edge')
-const { Pool } = require('pg')
-const { PrismaPg } = require('@prisma/adapter-pg')
+import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import pkg from 'pg'
+const { Pool } = pkg
 
 const connectionString = process.env.DATABASE_URL
 
@@ -9,7 +10,7 @@ const pool = new Pool({ connectionString })
 const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 
-exports.handler = async () => {
+export async function handler() {
   const getResult = async (prisma) => ({
     prismaVersion: Prisma.prismaVersion.client,
     deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
@@ -155,3 +156,5 @@ exports.handler = async () => {
 
   return result
 }
+
+//console.log(await handler())

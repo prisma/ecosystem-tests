@@ -1,7 +1,8 @@
 // @ts-check
-const { test, expect } = require('@jest/globals')
-const { handler } = require('./index')
-const pjson = require('./package.json')
+import { test, expect, jest } from '@jest/globals'
+import { handler } from './index.mjs'
+
+// const pjson = require('./package.json')
 
 jest.setTimeout(10_000)
 
