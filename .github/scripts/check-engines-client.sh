@@ -5,7 +5,7 @@ echo "-------------- Checking Generated Client QE file --------------"
 dir=$1
 project=$2
 
-# These are beinf skipped for a variety of reasons like:
+# These are being skipped for a variety of reasons like:
 # - Custom project structure
 # - Custom output location
 # - They do not generate a client
