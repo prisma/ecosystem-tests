@@ -6,7 +6,7 @@
 ## All the other tests just work with the default QE in CLI.
 ## !!!!!!!!!!!!
 
-echo "-------------- Checking CLI/Engines QE Engine --------------"
+echo "-------------- Checking CLI/Engines QE file --------------"
 
 DIR=$1
 PROJECT=$2
