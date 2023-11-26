@@ -27,6 +27,7 @@ async function getStdin() {
 }
 
 async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
+  console.debug("filesChanged", filesChanged)
   const testYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/test.yaml'), { encoding: 'utf8' })
   const testYaml = yaml.parse(testYamlString)
   const optionalTestYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/optional-test.yaml'), {
@@ -38,22 +39,22 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
   // ['process-managers', 'docker', 'core-features', ...]
   const testDirectories = Object.keys(allJobs).filter((key) => {
     const jobsToIgnore = [
-      'node16dot13',
-      'report-to-slack-success', // Not a test but a job that posts to slack
-      'report-to-slack-failure', // Not a test but a job that posts to slack
-      'detect_jobs_to_run', // Not a test but a job that decides which tests should run
-      'cleanup-runs', // Not a test but a job that cancels previous runs
-      'confirm_all_jobs_have_run', // Not a test but a job that confirms all tests have run (for Renovate)
+      'detect_jobs_to_run',         // Not a test but a job that decides which tests should run
+      'report-to-slack-success',    // Not a test but a job that posts to slack
+      'report-to-slack-failure',    // Not a test but a job that posts to slack
+      'cleanup-runs',               // Not a test but a job that cancels previous runs
+      'confirm_all_jobs_have_run',  // Not a test but a job that confirms all tests have run (for Renovate)
+      'node16dot13',                // TODO
     ]
     return !jobsToIgnore.includes(key)
   })
-  console.debug(testDirectories)
+  console.debug("testDirectories", testDirectories)
 
-  // Object used as output
-  const jobsToRun = {}
+  // Array used as output
+  const jobsToRun = []
 
-  // creates an object with all values set to true to be used a fallback to run all tests
-  const fallbackRunAllJobs = testDirectories.reduce((acc, curr) => ((acc[curr] = true), acc), {})
+  // fallback is to test all testDirectories
+  const fallbackRunAllJobs = testDirectories
 
   // If we are in one of our special branches we always run all tests
   if (['refs/heads/dev', 'refs/heads/patch-dev', 'refs/heads/latest', 'refs/heads/integration'].includes(GITHUB_REF)) {
@@ -88,10 +89,9 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
       totalNumberOfFilesChangedInsideDirectories += filesChangedInsideDirectory.length
 
       // we need to run the test
-      jobsToRun[directoryName] = true
+      jobsToRun.push(directoryName)
     } else {
       // we don't need to run the test
-      jobsToRun[directoryName] = false
     }
   }
 
