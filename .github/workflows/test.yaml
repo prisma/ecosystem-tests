@@ -81,10 +81,14 @@ jobs:
     name: Debug detected jobs to run  
     runs-on: ubuntu-20.04
     steps:
-      - run: echo ${{ github.job }}
-      - run: echo ${{ needs.detect_jobs_to_run.outputs.jobs }}
-      - run: echo ${{ fromJSON(needs.detect_jobs_to_run.outputs.jobs) }}
-      - run: echo ${{ contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), github.job) }}
+      - name: Job name
+        run: echo ${{ github.job }}
+      - name: Jobs as Json string
+        run: echo ${{ needs.detect_jobs_to_run.outputs.jobs }}
+      - name: Jobs as Json array
+        run: echo ${{ fromJSON(needs.detect_jobs_to_run.outputs.jobs) }}
+      - name: contains result
+        run: echo ${{ contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), github.job) }}
 
   confirm_all_jobs_have_run:
     name: Confirm all jobs have run
