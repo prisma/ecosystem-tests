@@ -79,7 +79,7 @@ jobs:
   debug_detect_jobs_to_run:
     needs: [detect_jobs_to_run]
     name: Debug detected jobs to run  
-    if: ${{ contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'detect_jobs_to_run') }}
+    if: ${{ contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'debug_detect_jobs_to_run') }}
     runs-on: ubuntu-20.04
     steps:
       - name: Job name
