@@ -177,7 +177,7 @@ jobs:
 
   process-managers:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['process-managers'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
 
     strategy:
       fail-fast: false
@@ -228,7 +228,7 @@ jobs:
 
   docker:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
 
     strategy:
       fail-fast: false
@@ -325,7 +325,7 @@ jobs:
   # Meaning a successfull run actually shows a non zero exit code in the logs
   docker-unsupported:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['docker-unsupported'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
 
     strategy:
       fail-fast: false
@@ -379,7 +379,7 @@ jobs:
 
   core-features:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['core-features'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
 
     strategy:
       fail-fast: false
@@ -460,7 +460,7 @@ jobs:
 
   migrate:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['migrate'] == true }}
+    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)[github.job] == true }}
 
     strategy:
       fail-fast: false
