@@ -79,50 +79,62 @@ jobs:
   confirm_all_jobs_have_run:
     name: Confirm all jobs have run
     runs-on: ubuntu-20.04
+    # One-liner to extract updated list to update this:
+    # python -c "import yaml; print('\n'.join(['      - ' + job for job in yaml.safe_load(open('test.yaml'))['jobs'] if job not in ['confirm_all_jobs_have_run', 'report-to-slack-success', 'report-to-slack-failure', 'detect_jobs_to_run']]))"
     needs:
-      - dataproxy
+      - process-managers
+      - docker
+      - docker-unsupported
       - core-features
       - migrate
+      - engines
       - os
+      - node16dot13
       - node
       - binaries
       - packagers
       - frameworks
       - platforms
       - platforms-serverless
-      - engines
+      - platforms-serverless-vercel
+      - driver-adapters
+      - dataproxy
       - bundlers
       - libraries
       - databases
       - databases-macos
-      - process-managers
       - test-runners
-      - docker
     if: always()
     steps:
       - run: echo "Ok"
 
   report-to-slack-success:
     runs-on: ubuntu-20.04
+    # One-liner to extract updated list to update this:
+    # python -c "import yaml; print('\n'.join(['      - ' + job for job in yaml.safe_load(open('test.yaml'))['jobs'] if job not in ['confirm_all_jobs_have_run', 'report-to-slack-success', 'report-to-slack-failure', 'detect_jobs_to_run']]))"
     needs:
-      - dataproxy
+      - process-managers
+      - docker
+      - docker-unsupported
       - core-features
       - migrate
+      - engines
       - os
+      - node16dot13
       - node
       - binaries
       - packagers
       - frameworks
       - platforms
       - platforms-serverless
-      - engines
+      - platforms-serverless-vercel
+      - driver-adapters
+      - dataproxy
       - bundlers
       - libraries
       - databases
       - databases-macos
-      - process-managers
       - test-runners
-      - docker
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -139,25 +151,31 @@ jobs:
 
   report-to-slack-failure:
     runs-on: ubuntu-20.04
+    # One-liner to extract updated list to update this:
+    # python -c "import yaml; print('\n'.join(['      - ' + job for job in yaml.safe_load(open('test.yaml'))['jobs'] if job not in ['confirm_all_jobs_have_run', 'report-to-slack-success', 'report-to-slack-failure', 'detect_jobs_to_run']]))"
     needs:
-      - dataproxy
+      - process-managers
+      - docker
+      - docker-unsupported
       - core-features
       - migrate
+      - engines
       - os
+      - node16dot13
       - node
       - binaries
       - packagers
       - frameworks
       - platforms
       - platforms-serverless
-      - engines
+      - platforms-serverless-vercel
+      - driver-adapters
+      - dataproxy
       - bundlers
       - libraries
       - databases
       - databases-macos
-      - process-managers
       - test-runners
-      - docker
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
