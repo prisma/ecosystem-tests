@@ -1,0 +1,15 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("HEROKU_PG_URL")
+}
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+model User {
+  id    String  @id @default(cuid())
+  email String  @unique
+  name  String?
+}

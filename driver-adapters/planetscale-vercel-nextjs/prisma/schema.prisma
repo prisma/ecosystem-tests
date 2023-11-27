@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "mysql"
+  // TODO: needs to be changed to a fake url to ensure the driver adapter is used
+  url      = env("DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL")
+}
+
+model User {
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
+}

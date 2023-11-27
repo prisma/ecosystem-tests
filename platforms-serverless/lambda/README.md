@@ -23,21 +23,8 @@ The AWS v1 CLI is already pre-installed in GitHub Actions.
 - `AWS_SECRET_ACCESS_KEY`: The AWS secret.
 - `AWS_ACCESS_KEY_ID`: The AWS access key id.
 
-Check 1Password for the values for our e2e account.
-
-### Environment variables
-
-The environment variable `LAMBDA_PG_URL` should point to a postgres database.
-In CI, it uses our internal e2e test database using `platform-lambda` as database URL.
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
+Check 1Password for the values for our ecosystem-tests account.
 
 ### Prepare
 
 To create a function on your own account, run `sh create.sh` first.
-
-### Run rests
-
-```shell script
-sh run.sh
-```

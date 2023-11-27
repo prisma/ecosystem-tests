@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn ts-node test.ts
+npx ts-node test.ts

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
-yarn
-yarn deploy
-echo https://`cat sandbox_id`.sse.codesandbox.io/
+npm install
+npm run deploy
+echo "https://$(cat sandbox_id).sse.codesandbox.io/"

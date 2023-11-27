@@ -22,25 +22,59 @@ If you have a root login and you're on a local system where a browser can be ope
 az login
 ```
 
-If not, you can use a service principal. The Prisma service principal details can be found in our internal 1Password. You can also create a service principal from the CI with `sh rbac.sh`.
+#### Service Principal 
+
+Without login for Azure, you can use a service principal.
+
+(It was initially created with `sh rbac.sh`.)
 
 ```shell script
 az login --service-principal -u "$AZURE_SP_NAME" -p "$AZURE_SP_PASSWORD" --tenant "$AZURE_SP_TENANT"
 ```
 
-### Environment variables
+AZURE_SP_NAME = the name of the service principal  
+AZURE_SP_PASSWORD = the secret
+AZURE_SP_TENANT = An Azure internal ID, visible in Azure Portal
 
-The environment variable `AZURE_FUNCTIONS_LINUX_PG_URL` should point to a postgres database.
-In CI, it uses our internal e2e test database using `platform-azure-functions-linux` as database URL.
-Please check our internal 1Password E2E vault for a ready-to-use environment variable or  
-set up your own database and set the environment variable accordingly.
+Note: Client secret lifetime is limited (docs say: two years or less.)
+
+##### Maintining the Service Principal
+
+You can create new secrets for the service principal in Azure Portal under "App regristrations": https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Overview/appId/e6204f1a-d757-465f-9ddd-8d50a05c09c2/isMSAApp~/false
 
 ### Prepare
 
 To create a function on your own account, run `sh create.sh` first.
 
-### Run tests
+### Cleaning up 
 
-```shell script
-sh run.sh
+If you see an error like `ERROR: Number of sites in server farm 'WestEuropeLinuxDynamicPlan' exceeds the maximum allowed for 'Dynamic' SKU.`, you will need to delete old functions that failed and were not automatically cleaned up.
+
+This is a very entertaining thing to do, you will meet a 🦥 API and a party of rate limits 😉
+
+There is one command that requires to have the `fish` shell installed. You can find instructions at https://fishshell.com/.
+For macOS: `brew install fish`
+For Ubuntu:
+```
+sudo apt-add-repository ppa:fish-shell/release-3
+sudo apt update
+sudo apt install fish
+```
+```sh
+az login
+
+# List all functions ids and count them
+E2E_AZ_LINUX=$(az functionapp list --resource-group prisma-e2e-linux --query "[].id" --output tsv) && echo $E2E_AZ_LINUX && echo $E2E_AZ_LINUX | wc -l
+
+# Note that the next command will work in `fish` shell specifically
+# So we need to start the fish shell now
+fish
+
+# This is a all-in-one command
+# 1. It will find the ids of all functions
+# 2. It will try to delete them and probably fail with a rate-limit error
+# 3. This will be repeated every 1000 seconds until you stop it.
+#
+# Make sure to change the query year accordingly
+watch -n 1000 az functionapp delete --verbose --ids (az functionapp list --resource-group prisma-e2e-linux --output tsv --query "[?contains(@.name, '-2023-')==`true`].id")
 ```

@@ -1,15 +1,16 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
-yarn start &
+pnpm start &
 pid=$!
 
 sleep 30
 
 prismaVersion=$(sh ../../utils/prisma_version.sh)
 
-expected="{\"prismaVersion\":\"$prismaVersion\",\"createUser\":{\"name\":\"Alice\"},\"updateUser\":{\"name\":\"Bob\"},\"deleteUser\":{\"name\":\"Bob\"}}"
+# TODO check for engine files
+expected="{\"prismaVersion\":\"$prismaVersion\",\"createUser\":{\"name\":\"Alice\"},\"updateUser\":{\"name\":\"Bob\"},\"deleteUser\":{\"name\":\"Bob\"},\"files\":\"TODO\"}"
 actual=$(curl localhost:3000)
 
 if [ "$expected" != "$actual" ]; then

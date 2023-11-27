@@ -3,16 +3,18 @@
 set -eux
 
 # this just verifies environment variables are set
-x="$LAMBDA_PG_URL"
 x="$AWS_DEFAULT_REGION"
 x="$AWS_ACCESS_KEY_ID"
 x="$AWS_SECRET_ACCESS_KEY"
 x="$AWS_ROLE"
 
-yarn install
+pnpm install
+pnpm prisma generate
+pnpm tsc
 
-yarn prisma generate
+rm -rf lambda.zip
+zip --symlinks -r lambda.zip index.js prisma/schema.prisma node_modules/@prisma/client node_modules/.pnpm/@prisma+client*
+du -b ./lambda.zip
 
-yarn tsc
-
-sh update-code.sh
+aws lambda update-function-configuration --function-name "platforms-serverless-lambda-$PRISMA_CLIENT_ENGINE_TYPE" --runtime nodejs16.x --environment "Variables={DATABASE_URL=$DATABASE_URL}" --timeout 10
+aws lambda update-function-code --function-name "platforms-serverless-lambda-$PRISMA_CLIENT_ENGINE_TYPE" --zip-file "fileb://lambda.zip"

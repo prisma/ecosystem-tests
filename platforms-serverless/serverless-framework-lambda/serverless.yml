@@ -1,8 +1,8 @@
-service: e2e-tests-serverless-lambda
+service: platforms-serverless-slsf-${env:PRISMA_CLIENT_ENGINE_TYPE}
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   memorySize: 512
   timeout: 10
   versionFunctions: false
@@ -12,14 +12,14 @@ provider:
 functions:
   hello:
     handler: index.handler
-    name: e2e-tests-serverless-lambda
+    name: platforms-serverless-slsf-${env:PRISMA_CLIENT_ENGINE_TYPE}
     environment:
-      SERVERLESS_LAMBDA_PG_URL: ${env:SERVERLESS_LAMBDA_PG_URL}
+      DATABASE_URL: ${env:DATABASE_URL}
 
 # only include the Prisma binary required on AWS Lambda while packaging
 package:
   patterns:
     - '!node_modules/.prisma/client/query-engine-*'
-    - '!node_modules/.prisma/client/libquery_engine_napi-*'
-    - 'node_modules/.prisma/client/libquery_engine_napi-rhel-openssl-1.0.x.so.node'
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-openssl-1.0.x.so.node'
     - 'node_modules/.prisma/client/query-engine-rhel-openssl-1.0.x'

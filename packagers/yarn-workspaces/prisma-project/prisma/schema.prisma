@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("PACKAGERS_YARN_WORKSPACES_PG_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {

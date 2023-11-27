@@ -1,18 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Studio can make queries 1`] = `
+exports[`Studio can create records 1`] = `
 Object {
   "action": "clientRequest",
   "channel": "-prisma",
   "payload": Object {
     "data": Object {
-      "params": Object {
-        "action": "findMany",
-        "dataPath": Array [],
-        "model": "User",
-        "runInTransaction": false,
+      "email": "email3@test.com",
+      "id": 3,
+      "name": "Name 3",
+    },
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
+
+exports[`Studio can create records 2`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "email": "email3@test.com",
+      "id": 3,
+      "name": "Name 3",
+    },
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
+
+exports[`Studio can delete records 1`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "email": "email2@test.com",
+      "id": 2,
+      "name": "Name 2",
+    },
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
+
+exports[`Studio can delete records 2`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": null,
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
+
+exports[`Studio can make queries 1`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Array [
+      Object {
+        "email": "email1@test.com",
+        "id": 1,
+        "name": "Name 1",
       },
-      "response": Array [],
+      Object {
+        "email": "email2@test.com",
+        "id": 2,
+        "name": "Name 2",
+      },
+    ],
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
+
+exports[`Studio can update records 1`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "email": "email1@test.com",
+      "id": 1,
+      "name": "Updated Name 1",
+    },
+    "error": null,
+  },
+  "requestId": 1,
+}
+`;
+
+exports[`Studio can update records 2`] = `
+Object {
+  "action": "clientRequest",
+  "channel": "-prisma",
+  "payload": Object {
+    "data": Object {
+      "email": "email1@test.com",
+      "id": 1,
+      "name": "Updated Name 1",
     },
     "error": null,
   },

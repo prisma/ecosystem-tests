@@ -5,7 +5,7 @@ generator db {
 
 datasource db {
   provider = "postgresql"
-  url      = env("AZURE_FUNCTIONS_WINDOWS_PG_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {

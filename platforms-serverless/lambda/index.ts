@@ -11,7 +11,10 @@ const measure_client = process.hrtime.bigint()
 export async function handler() {
   const fs = require('fs')
   const path = require('path')
-  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+  const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
+    paths: [require.resolve('@prisma/client')]
+  }))
+  const files = fs.readdirSync(generatedClientDir)
 
   const measure_handler = process.hrtime.bigint()
 
