@@ -5,6 +5,8 @@ set -eux
 pnpm start &
 pid=$!
 
+# test
+
 sleep 10
 
 curl "http://localhost:3000/ensure-user"
