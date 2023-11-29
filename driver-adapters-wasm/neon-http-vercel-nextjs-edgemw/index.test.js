@@ -18,7 +18,7 @@ const pjson = require('./package.json')
 
 jest.setTimeout(30_000)
 
-test.skip('prisma version and output', async () => {
+test('prisma version and output', async () => {
   const response = await fetch(getDeploymentURL() + '/')
   const { regResult, itxResult } = await response.json()
 
@@ -106,20 +106,4 @@ Object {
   //   "name": "Test 4",
   // }
   // `)
-})
-
-test('failure snapshot until wasm engine works', async () => {
-  const response = await fetch(getDeploymentURL() + '/')
-  const { regResult, itxResult } = await response.json()
-
-  expect(regResult).toMatchInlineSnapshot(`
-Object {
-  "error": "Can't use \`query\` until \`request_handlers\` is Wasm-compatible.",
-}
-`)
-//   expect(itxResult).toMatchInlineSnapshot(`
-// Object {
-//   "error": "Can't use \`start_transaction\` until \`query_core\` is Wasm-compatible.",
-// }
-// `)
 })
