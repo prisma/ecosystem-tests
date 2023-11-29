@@ -14,8 +14,6 @@ function getDeploymentURL() {
   return endpoint
 }
 
-const pjson = require('./package.json')
-
 jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
