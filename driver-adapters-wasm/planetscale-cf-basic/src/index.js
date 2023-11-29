@@ -2,27 +2,28 @@ import { Prisma, PrismaClient } from '@prisma/client/edge'
 import { Client } from '@planetscale/database'
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
-// very cheap implementation of a mutex to pipeline requests
+// warning: very cheap implementation of a fetch rate limiter
 // this is because this test exceeds the outbound cfw limits
-let lock = false
+let pendingFetch = 0
 async function waitToUnlock() {
-  await new Promise((resolve) => setTimeout(resolve, 20))
-
-  if (lock) await waitToUnlock()
+  if (pendingFetch > 5){
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    await waitToUnlock()
+  }
 }
 
 export default {
   async fetch(request, env, ctx) {
     const client = new Client({
-      url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
+      url: "mysql://h3h6l92rv0l6w0kvyapn:pscale_pw_yIbDKiZGvBygZgqLNpvR4ryZPvFMCUbR37dCxg0pGRL@aws.connect.psdb.cloud/eco-driver-adapters-planetscale-cf-basic?sslaccept=strict",
       // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
       async fetch(url, init) {
         await waitToUnlock()
 
-        lock = true
+        pendingFetch++
         delete init["cache"];
         const res = await fetch(url, init);
-        lock = false
+        pendingFetch--
 
         return res
       }
