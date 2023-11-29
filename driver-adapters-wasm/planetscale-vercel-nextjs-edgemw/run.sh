@@ -2,7 +2,7 @@
 
 set -eu
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters planetscale-vercel-nextjs-edgemw'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters-wasm planetscale-vercel-nextjs-edgemw'
 
 pnpm install
 
