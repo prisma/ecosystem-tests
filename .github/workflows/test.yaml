@@ -98,13 +98,13 @@ jobs:
       - platforms-serverless
       - platforms-serverless-vercel
       - driver-adapters
+      - driver-adapters-wasm
       - dataproxy
       - bundlers
       - libraries
       - databases
       - databases-macos
       - test-runners
-      - driver-adapters-wasm
     if: always()
     steps:
       - run: echo "Ok"
@@ -130,13 +130,13 @@ jobs:
       - platforms-serverless
       - platforms-serverless-vercel
       - driver-adapters
+      - driver-adapters-wasm
       - dataproxy
       - bundlers
       - libraries
       - databases
       - databases-macos
       - test-runners
-      - driver-adapters-wasm
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -172,13 +172,13 @@ jobs:
       - platforms-serverless
       - platforms-serverless-vercel
       - driver-adapters
+      - driver-adapters-wasm
       - dataproxy
       - bundlers
       - libraries
       - databases
       - databases-macos
       - test-runners
-      - driver-adapters-wasm
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -1302,8 +1302,8 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - pg-node-basic-wasm
-          - pg-node-basic-wasm-edge-import
+          - pg-node-basic
+          - pg-node-basic-esm
           - pg-cf-basic
           - neon-http-cf-basic
           - neon-http-vercel-nextjs-edgemw
