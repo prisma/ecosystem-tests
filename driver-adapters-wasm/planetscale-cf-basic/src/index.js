@@ -15,7 +15,7 @@ async function waitToUnlock() {
 export default {
   async fetch(request, env, ctx) {
     const client = new Client({
-      url: "mysql://h3h6l92rv0l6w0kvyapn:pscale_pw_yIbDKiZGvBygZgqLNpvR4ryZPvFMCUbR37dCxg0pGRL@aws.connect.psdb.cloud/eco-driver-adapters-planetscale-cf-basic?sslaccept=strict",
+      url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
       // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
       async fetch(url, init) {
         await waitToUnlock()
@@ -177,8 +177,8 @@ export default {
       return result
     }
   
-    const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
-    const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
+    const regResult = await getResult(prisma)
+    const itxResult = await prisma.$transaction(getResult)
     const result = JSON.stringify({ itxResult, regResult })
 
     return new Response(result);
