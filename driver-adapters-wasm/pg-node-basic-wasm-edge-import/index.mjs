@@ -1,8 +1,7 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
-import pkg from 'pg'
-const { Pool } = pkg
+import { Pool } from 'pg'
 
 const connectionString = process.env.DATABASE_URL
 
@@ -156,5 +155,3 @@ export async function handler() {
 
   return result
 }
-
-//console.log(await handler())
