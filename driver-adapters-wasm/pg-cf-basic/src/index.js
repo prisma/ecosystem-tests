@@ -1,11 +1,11 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client/edge'
-import { Client } from 'pg'
+import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Client(env.DATABASE_URL)
+    const client = new Pool({ connectionString: env.DATABASE_URL})
     const adapter = new PrismaPg(client)
     const prisma = new PrismaClient({ adapter })
 
