@@ -1,46 +1,41 @@
 #!/bin/bash
 
-echo "-------------- Checking Generated Client QE Engine --------------"
+echo "-------------- Checking Generated Client QE file --------------"
 
 dir=$1
 project=$2
 
-DEFAULT_CLIENT_ENGINE_TYPE='library'
-
-# Check to see if the env var "PRISMA_CLIENT_ENGINE_TYPE" is set if not then using the default
-if [ -z "$PRISMA_CLIENT_ENGINE_TYPE" ]; then
-  echo "Using default client engine: $DEFAULT_CLIENT_ENGINE_TYPE"
-  CLIENT_ENGINE_TYPE=$DEFAULT_CLIENT_ENGINE_TYPE
-else
-  echo "Using env(PRISMA_CLIENT_ENGINE_TYPE): $PRISMA_CLIENT_ENGINE_TYPE"
-  CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
-fi
-
-# These are skipping for a variety of reasons like:
+# These are being skipped for a variety of reasons like:
 # - Custom project structure
 # - Custom output location
 # - They do not generate a client
+# - They do not set an PRISMA_CLIENT_ENGINE_TYPE
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
-  prisma-dbml-generator                   # No generated Client, so only Client stub with no engine included
-  prisma-json-schema-generator            # No generated Client, so only Client stub with no engine included
-  engine-types                            #
-  pkg                                     # No generated Client, so only Client stub with no engine included
-  aws-graviton                            # No local project at all (everything happens on server), so no `prisma` or `node_modules
-  firebase-functions                      # No local project at expected location (but in `functions` subfolder)
-  studio                                  # TODO: No generated Client in `node_modules/.prisma/client/`
-  netlify-cli                             # Client is generated into `../functions/generated/client` via use of `output`
-  jest-with-multiple-generators           # No generated Client locally in default path, both Clients have custom `output`
+  engine-types                                # No PRISMA_CLIENT_ENGINE_TYPE
+  # no client
+  prisma-dbml-generator                       # No generated Client, so only Client stub with no engine included
+  prisma-json-schema-generator                # No generated Client, so only Client stub with no engine included
+  pkg                                         # No generated Client, so only Client stub with no engine included
+  # no local project
+  aws-graviton                                # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  m1-macstadium                               # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  # subfolder
   generate-client-install-on-sub-project-npm  # Client is generated into a subfolder
   generate-client-install-on-sub-project-pnpm # Client is generated into a subfolder
   generate-client-install-on-sub-project-yarn # Client is generated into a subfolder
-  pnpm-workspaces-custom-output           # Client is generated into a subfolder
-  pnpm-workspaces-default-output          # Client is generated into a subfolder
-  webpack-browser-custom-output           # Client is generated into a subfolder
-  m1-macstadium                           # No local project at all (everything happens on server), so no `prisma` or `node_modules
-  vercel-with-redwood                     # Yarn workspace with prisma generated in ./api
-  yarn3-workspaces-pnp                    # Client is generated into a subfolder
-  serverless-framework-lambda-pnpm        # Client is generated into a subfolder
+  pnpm-workspaces-custom-output               # Client is generated into a subfolder
+  pnpm-workspaces-default-output              # Client is generated into a subfolder
+  webpack-browser-custom-output               # Client is generated into a subfolder
+  yarn3-workspaces-pnp                        # Client is generated into a subfolder
+  serverless-framework-lambda-pnpm            # Client is generated into a subfolder
+  # custom output
+  jest-with-multiple-generators               # No generated Client locally in default path, both Clients have custom `output`
+  netlify-cli                                 # Client is generated into `../functions/generated/client` via use of `output`
+  # other
+  vercel-with-redwood                         # Yarn workspace with prisma generated in ./api
+  firebase-functions                          # No local project at expected location (but in `functions` subfolder)
+  studio                                      # TODO: No generated Client in `node_modules/.prisma/client/`
 )
 
 case "${skipped_projects[@]}" in  *$2*)
@@ -49,6 +44,16 @@ case "${skipped_projects[@]}" in  *$2*)
   ;;
 esac
 
+# Check to see if the env var "PRISMA_CLIENT_ENGINE_TYPE" is set if not then exit
+if [ -z "$PRISMA_CLIENT_ENGINE_TYPE" ]; then
+  echo "No PRISMA_CLIENT_ENGINE_TYPE set, so exiting."
+  exit 1
+else
+  echo "Using env(PRISMA_CLIENT_ENGINE_TYPE): $PRISMA_CLIENT_ENGINE_TYPE"
+  CLIENT_ENGINE_TYPE=$PRISMA_CLIENT_ENGINE_TYPE
+fi
+
+# Identify OS
 case $(uname | tr '[:upper:]' '[:lower:]') in
   linux*)
     os_name=linux
@@ -127,11 +132,15 @@ else
   exit 1
 fi
 
+# Actually check for file
 if [ $CLIENT_ENGINE_TYPE == "<dataproxy>" ]; then
   echo "✔ Data Proxy has no Query Engine" # TODO: actually check that there isn't one
 elif [ -f "$qe_location" ]; then
-  echo "✔ Correct Query Engine exists"
+  echo "✔ Correct Query Engine exists at ${qe_location}"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
   exit 1
 fi
+
+echo "$ ls $GENERATED_CLIENT"
+ls $GENERATED_CLIENT
