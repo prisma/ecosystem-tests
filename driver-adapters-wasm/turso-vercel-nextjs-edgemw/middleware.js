@@ -184,8 +184,8 @@ async function getResponse() {
     return result
   }
 
-  const regResult = await getResult(prisma)
-  const itxResult = await prisma.$transaction(getResult)
+  const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
+  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
   
   return { itxResult, regResult }
 }
