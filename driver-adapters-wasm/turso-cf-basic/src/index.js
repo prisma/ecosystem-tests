@@ -160,22 +160,24 @@ export default {
         //     name: true,
         //   },
         // }),
-        upsert: await prisma.user.upsert({
-          where: {
-            email: 'test-4@prisma.io',
-          },
-          create: {
-            email: 'test-4@prisma.io',
-            age: 30,
-            name: 'Test 4',
-          },
-          update: {},
-          select: {
-            email: true,
-            age: true,
-            name: true,
-          },
-        }),
+        // Skipping this because of too many sub-requests (limit is 50 per fetch call)
+
+        // upsert: await prisma.user.upsert({
+        //   where: {
+        //     email: 'test-4@prisma.io',
+        //   },
+        //   create: {
+        //     email: 'test-4@prisma.io',
+        //     age: 30,
+        //     name: 'Test 4',
+        //   },
+        //   update: {},
+        //   select: {
+        //     email: true,
+        //     age: true,
+        //     name: true,
+        //   },
+        // }),
       }
   
       // sort results by email to make the order deterministic
