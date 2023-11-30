@@ -5,8 +5,7 @@ import { PrismaNeonHTTP } from '@prisma/adapter-neon'
 
 export default {
   async fetch(request, env, ctx) {
-    const connectionString = env.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL
-    const client = neon(connectionString)
+    const client = neon(env.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL)
     const adapter = new PrismaNeonHTTP(client)
     const prisma = new PrismaClient({ adapter })
 

@@ -1,9 +1,7 @@
 // @ts-check
-const { test, expect } = require('@jest/globals')
-const fetch = require('node-fetch')
-const fs = require('fs')
-
-const pjson = require('./package.json')
+const { test, expect, jest } = require('@jest/globals')
+const { dependencies } = require('./package.json')
+const fetch = require('node-fetch').default
 
 jest.setTimeout(30_000)
 
@@ -12,7 +10,7 @@ test('prisma version and output', async () => {
   const { regResult, itxResult } = await response.json()
 
   expect(regResult).toEqual(itxResult)
-  expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
+  expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
   expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
 Object {

@@ -1,7 +1,7 @@
 // @ts-check
 import { test, expect, jest } from '@jest/globals'
 import { handler } from './index.mjs'
-import pjson from './package.json'
+import { dependencies } from './package.json'
 
 jest.setTimeout(10_000)
 
@@ -9,7 +9,7 @@ test('prisma version and output', async () => {
   const { regResult, itxResult } = await handler()
 
   expect(regResult).toEqual(itxResult)
-  expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
+  expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
   expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
 Object {
