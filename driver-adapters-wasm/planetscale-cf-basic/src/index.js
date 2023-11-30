@@ -6,9 +6,8 @@ import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 // this is because this test exceeds the outbound cfw limits
 let pendingFetch = 0
 async function waitToUnlock() {
-  if (pendingFetch > 4){
-    await new Promise((resolve) => setTimeout(resolve, 20))
-    await waitToUnlock()
+  while (pendingFetch > 5){
+    await new Promise((resolve) => setTimeout(resolve, 1))
   }
 }
 
