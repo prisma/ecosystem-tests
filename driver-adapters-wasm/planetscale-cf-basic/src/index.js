@@ -18,9 +18,8 @@ export default {
       url: env.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL,
       // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
       async fetch(url, init) {
-        await waitToUnlock()
-
         pendingFetch++
+        await waitToUnlock()
         delete init["cache"];
         const res = await fetch(url, init);
         pendingFetch--
