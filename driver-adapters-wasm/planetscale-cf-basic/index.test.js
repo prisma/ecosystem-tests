@@ -1,5 +1,5 @@
 // @ts-check
-const { test, expect, jest } = require('@jest/globals')
+const { test, expect } = require('@jest/globals')
 const { dependencies } = require('./package.json')
 const fetch = require('node-fetch').default
 
