@@ -1,11 +1,12 @@
 // @ts-check
 import { test, expect, jest } from '@jest/globals'
 import { handler } from './index.mjs'
-import { dependencies } from './package.json'
+import packageJson from './package.json'
 
 jest.setTimeout(10_000)
 
 test('prisma version and output', async () => {
+  const { dependencies } = packageJson
   const { regResult, itxResult } = await handler()
 
   expect(regResult).toEqual(itxResult)
