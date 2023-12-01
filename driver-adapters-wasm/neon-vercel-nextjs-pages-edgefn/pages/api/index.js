@@ -4,6 +4,10 @@ import { Prisma, PrismaClient } from '@prisma/client/edge'
 import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
+export const config = {
+  runtime: 'edge',
+}
+
 async function getResponse() {
   const client = new Pool({ connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL })
   const adapter = new PrismaNeon(client)
