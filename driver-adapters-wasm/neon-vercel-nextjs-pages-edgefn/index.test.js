@@ -16,7 +16,7 @@ function getDeploymentURL() {
 jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
-  const response = await fetch(await getDeploymentURL() + '/')
+  const response = await fetch(await getDeploymentURL() + '/api')
   const { regResult, itxResult } = await response.json()
 
   expect(regResult).toEqual(itxResult)
