@@ -1,4 +1,4 @@
-# neon-vercel-nextjs-pages-edgefn
+# neon-vercel-nextjs-app-edgefn
 
 Deploys a Prisma Client using the Neon Adapter on Vercel Edge Function (via app router).
 
