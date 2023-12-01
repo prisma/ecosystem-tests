@@ -164,7 +164,9 @@ async function getResponse() {
   return { itxResult, regResult }
 }
 
-export default async function handler(req, res) {
-  res.setHeader('Content-Type', 'application/json')
-  res.status(200).end(await getResponse())
+export default async function handler() {
+  return new Response(
+    JSON.stringify(await getResponse()),
+    { status: 200, headers: { 'content-type': 'application/json' } },
+  )
 }
