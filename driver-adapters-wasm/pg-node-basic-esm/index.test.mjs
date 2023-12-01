@@ -1,15 +1,16 @@
 // @ts-check
 import { test, expect, jest } from '@jest/globals'
 import { handler } from './index.mjs'
-import pjson from './package.json'
+import packageJson from './package.json'
 
 jest.setTimeout(10_000)
 
-test.skip('prisma version and output', async () => {
+test('prisma version and output', async () => {
+  const { dependencies } = packageJson
   const { regResult, itxResult } = await handler()
 
   expect(regResult).toEqual(itxResult)
-  expect(regResult.prismaVersion).toMatch(pjson.dependencies['@prisma/client'])
+  expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
   expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
 Object {
@@ -102,21 +103,6 @@ Object {
   "age": 30,
   "email": "test-4@prisma.io",
   "name": "Test 4",
-}
-`)
-})
-
-test('failure snapshot until wasm engine works', async () => {
-  const { regResult, itxResult } = await handler()
-
-  expect(regResult).toMatchInlineSnapshot(`
-Object {
-  "error": "Can't use \`query\` until \`request_handlers\` is Wasm-compatible.",
-}
-`)
-    expect(itxResult).toMatchInlineSnapshot(`
-Object {
-  "error": "Can't use \`start_transaction\` until \`query_core\` is Wasm-compatible.",
 }
 `)
 })
