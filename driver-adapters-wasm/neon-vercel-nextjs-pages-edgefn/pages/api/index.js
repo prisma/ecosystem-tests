@@ -1,5 +1,4 @@
 // @ts-check
-import { NextResponse } from 'next/server'
 import { Prisma, PrismaClient } from '@prisma/client/edge'
 import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
