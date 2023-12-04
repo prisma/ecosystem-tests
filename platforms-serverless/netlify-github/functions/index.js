@@ -49,6 +49,7 @@ exports.handler = async function (event, context, callback) {
     statusCode: 200,
     body: JSON.stringify({
       version: Prisma.prismaVersion.client,
+      nodeVersion: process.versions.node,
       createUser,
       updateUser,
       users,
