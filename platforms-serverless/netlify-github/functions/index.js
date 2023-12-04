@@ -3,35 +3,35 @@ const { PrismaClient, Prisma } = require('@prisma/client')
 const client = new PrismaClient()
 
 exports.handler = async function (event, context, callback) {
-  await client.user.deleteMany({})
+  // await client.user.deleteMany({})
 
-  const id = '12345'
+  // const id = '12345'
 
-  const createUser = await client.user.create({
-    data: {
-      id,
-      email: 'alice@prisma.io',
-      name: 'Alice',
-    },
-  })
+  // const createUser = await client.user.create({
+  //   data: {
+  //     id,
+  //     email: 'alice@prisma.io',
+  //     name: 'Alice',
+  //   },
+  // })
 
-  const updateUser = await client.user.update({
-    where: {
-      id,
-    },
-    data: {
-      email: 'bob@prisma.io',
-      name: 'Bob',
-    },
-  })
+  // const updateUser = await client.user.update({
+  //   where: {
+  //     id,
+  //   },
+  //   data: {
+  //     email: 'bob@prisma.io',
+  //     name: 'Bob',
+  //   },
+  // })
 
-  const users = await client.user.findUnique({
-    where: {
-      id,
-    },
-  })
+  // const users = await client.user.findUnique({
+  //   where: {
+  //     id,
+  //   },
+  // })
 
-  const deleteManyUsers = await client.user.deleteMany()
+  // const deleteManyUsers = await client.user.deleteMany()
 
   /*
   // list all files deployed in Lambda to debug when tests are failing
@@ -50,10 +50,10 @@ exports.handler = async function (event, context, callback) {
     body: JSON.stringify({
       version: Prisma.prismaVersion.client,
       nodeVersion: process.versions.node,
-      createUser,
-      updateUser,
-      users,
-      deleteManyUsers,
+      // createUser,
+      // updateUser,
+      // users,
+      // deleteManyUsers,
       files,
     }),
     headers: {
