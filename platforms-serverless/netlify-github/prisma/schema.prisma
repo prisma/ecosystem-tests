@@ -1,12 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = "rhel-openssl-3.0.x"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("NETLIFY_BETA_PG_URL")
 }
-
 
 model User {
   id    String  @id @default(cuid())
