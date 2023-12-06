@@ -24,7 +24,7 @@ aws lambda create-function \
     --function-name "platforms-serverless-lambda-node-$AWS_RUNTIME_VERSION-$PRISMA_CLIENT_ENGINE_TYPE" \
     --runtime $AWS_RUNTIME \
     --zip-file "fileb://lambda.zip" \
-    --role arn:aws:iam::123456789012:role/service-role/MyTestFunction-role-tges6bf4
+    --role arn:aws:iam::275927176912:role/prisma-e2e-all
 
 aws lambda update-function-configuration \
     --function-name "platforms-serverless-lambda-node-$AWS_RUNTIME_VERSION-$PRISMA_CLIENT_ENGINE_TYPE" \
