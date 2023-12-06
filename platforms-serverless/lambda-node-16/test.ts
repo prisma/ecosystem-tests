@@ -2,17 +2,14 @@ import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 const process = require('process')
 
-const name = `platforms-serverless-lambda-${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
+const name = `platforms-serverless-lambda-node-16-${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
 
 async function main() {
   console.log('testing function', name)
   const measure_start = process.hrtime.bigint()
   const data = await invokeLambdaSync(name, '')
   const measure_end = process.hrtime.bigint()
-  console.log(
-    'function invocation duration:',
-    Number(measure_end - measure_start) / 1000000000,
-  )
+  console.log('function invocation duration:', Number(measure_end - measure_start) / 1000000000)
 
   console.log({ data: data.$response.data })
 
