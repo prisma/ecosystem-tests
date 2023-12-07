@@ -1,0 +1,18 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+  engineType      = "wasm"
+}
+
+datasource db {
+  provider = "mysql"
+  // TODO this url should not contain the db name
+  url      = "mysql://foo:bar@baz/eco-driver-adapters-planetscale-vercel-nextjs-edgemw?sslaccept=strict"
+}
+
+model User {
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
+}
