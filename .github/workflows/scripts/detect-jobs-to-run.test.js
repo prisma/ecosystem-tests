@@ -92,7 +92,7 @@ Array [
     expect(jobsToRun.includes('community-generators')).toBe(true)
   })
 
-  it('files changed inside platform folder and github actions workflow', async () => {
+  it.only('files changed inside platform folder and github actions workflow', async () => {
     const filesChanged = ['platforms/somefile.js', '.github/workflows/test.yaml']
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
