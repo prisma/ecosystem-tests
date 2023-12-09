@@ -1,4 +1,4 @@
-# Cloudflare Page + Neon Driver Adapter
+# Cloudflare Pages + Neon Driver Adapter
 
 Deploys a Prisma Client using Neon Driver Adapter on Cloudflare Pages.
 

@@ -26,8 +26,6 @@ skipped_projects=(
   pnpm-workspaces-custom-output   # Current logic does not work with pnpm hoisitng
   pnpm-workspaces-default-output  # Current logic does not work with pnpm hoisitng
   yarn3-workspaces-pnp            # Current logic does not work with pnp hoisitng
-  # does not use Prisma
-  demo-cfpages-basic    # just a project to show we can deploy to cfpages
 )
 
 case "${skipped_projects[@]}" in  *$2*)

@@ -36,8 +36,6 @@ skipped_projects=(
   vercel-with-redwood                         # Yarn workspace with prisma generated in ./api
   firebase-functions                          # No local project at expected location (but in `functions` subfolder)
   studio                                      # TODO: No generated Client in `node_modules/.prisma/client/`
-  # does not use Prisma
-  demo-cfpages-basic    # just a project to show we can deploy to cfpages
 )
 
 case "${skipped_projects[@]}" in  *$2*)
