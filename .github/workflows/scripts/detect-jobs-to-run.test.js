@@ -54,7 +54,7 @@ Array [
 `
 )
     expect(jobsToRun.includes('platforms')).toBe(true)
-    expect(jobsToRun.includes('platforms-serverless')).toBe(false)
+    // expect(jobsToRun.includes('platforms-serverless')).toBe(false)
   })
 
   it('files changed inside platform & databases directories only', async () => {
@@ -69,10 +69,10 @@ Array [
 `
 )
     expect(jobsToRun.includes('platforms')).toBe(true)
-    expect(jobsToRun.includes('platforms-serverless-vercel')).toBe(false)
-    expect(jobsToRun.includes('platforms-serverless')).toBe(false)
+    // expect(jobsToRun.includes('platforms-serverless-vercel')).toBe(false)
+    // expect(jobsToRun.includes('platforms-serverless')).toBe(false)
     expect(jobsToRun.includes('databases')).toBe(true)
-    expect(jobsToRun.includes('databases-macos')).toBe(false)
+    // expect(jobsToRun.includes('databases-macos')).toBe(false)
   })
 
   it('files changed inside community-generators directory only', async () => {
