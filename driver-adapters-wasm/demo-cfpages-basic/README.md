@@ -1,1 +1,0 @@
-# Demo for Cloudflare Pages Deployment (without Prisma)
