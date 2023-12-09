@@ -6,4 +6,4 @@ pnpm install
 
 # pnpm prisma generate
 
-pnpm wrangler pages deploy . | tee deployment-logs.txt
+pnpm wrangler pages deploy . --project-name demo-cfpages-basic | tee deployment-logs.txt
