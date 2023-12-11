@@ -1306,16 +1306,20 @@ jobs:
           - pg-node-basic
           - pg-node-basic-esm
           - pg-cf-basic
+          - pg-cfpages-basic
           - neon-http-cf-basic
           - neon-http-vercel-nextjs-edgemw
           - neon-cf-basic
+          - neon-cfpages-basic
           - neon-node-nextjs-edgemw
           - neon-vercel-nextjs-edgemw
           - neon-vercel-nextjs-pages-edgefn
           - neon-vercel-nextjs-app-edgefn
           - planetscale-cf-basic
+          - planetscale-cfpages-basic
           - planetscale-vercel-nextjs-edgemw
           - turso-cf-basic
+          - turso-cfpages-basic
           - turso-vercel-nextjs-edgemw
         clientEngine: ['wasm']
         os: [ubuntu-20.04]
@@ -1335,6 +1339,7 @@ jobs:
       DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
       # neon
       DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL }}
+      # DRIVER_ADAPTERS_NEON_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL }}
@@ -1344,11 +1349,14 @@ jobs:
       DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL }}
       # planetscale
       DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_PLANETSCALE_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
       # Turso
       DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN }}
+      # DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
+      # DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_TOKEN: only configured via UI, as cloudflare pages can not upload env var values per deployment
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN }}
       DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
