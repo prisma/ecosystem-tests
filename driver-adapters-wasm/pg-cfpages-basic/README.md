@@ -1,4 +1,4 @@
-# Cloudflare Pages + `pg`
+# Cloudflare Pages + PG Driver Adapter
 
 Deploys a Prisma Client using PG Driver Adapter on Cloudflare Pages.
 

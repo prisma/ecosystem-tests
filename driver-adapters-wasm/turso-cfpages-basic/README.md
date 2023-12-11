@@ -1,4 +1,4 @@
-# Cloudflare Pages + Turso
+# Cloudflare Pages + Turso Driver Adapter
 
 Deploys a Prisma Client using Turso Driver Adapter on Cloudflare Pages.
 

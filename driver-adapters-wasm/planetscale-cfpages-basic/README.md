@@ -1,4 +1,4 @@
-# PlanetScale Driver Adapter + Cloudflare Pages
+# Cloudflare Pages + PlanetScale Driver Adapter
 
 Deploys a Prisma Client using PlanetScale Driver Adapter on Cloudflare Pages.
 
