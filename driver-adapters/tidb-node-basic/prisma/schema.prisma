@@ -5,8 +5,8 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  // fake url to ensure the driver adapter is used
-  url      = "mysql://foo"
+  // fake url to ensure the driver adapter is used // TODO remove hardcoded database name here that currently is needed because of https://github.com/prisma/team-orm/issues/662
+  url      = "mysql://foo/test"
   directUrl = env("DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL")
 }
 
