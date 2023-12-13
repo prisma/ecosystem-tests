@@ -9,7 +9,7 @@ datasource db {
   // not used by the client, just to setup the db
   directUrl = env("DATABASE_URL")
   // fake url to ensure the driver adapter is used
-  url      = "postgresql://foo/bar"
+  url      = env("INVALID_ENV_VAR")
 }
 
 model User {

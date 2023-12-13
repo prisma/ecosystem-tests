@@ -6,7 +6,7 @@ generator client {
 datasource db {
   provider = "sqlite"
   // fake url to ensure the driver adapter is used
-  url      = "file:./dev.db"
+  url      = env("INVALID_ENV_VAR")
 }
 
 model User {
