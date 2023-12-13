@@ -697,7 +697,25 @@ jobs:
           - 19
           - 20
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        architecture: [x64]
+        os: [ubuntu-latest] #, windows-latest, macos-latest]
+        include: # include additional combinations for explicit x64 (64 bit Node) and x86 (32 bit Node) on Windows
+          - node: 14
+            clientEngine: library
+            architecture: x86
+            os: windows-latest
+          - node: 14
+            clientEngine: binary
+            architecture: x86
+            os: windows-latest
+          - node: 14
+            clientEngine: library
+            architecture: x64
+            os: windows-latest
+          - node: 14
+            clientEngine: binary
+            architecture: x64
+            os: windows-latest
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -714,6 +732,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.architecture }}
           cache: 'pnpm'
           cache-dependency-path: generic/basic/pnpm-lock.yaml
 
@@ -728,17 +747,17 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
+      - name: test on node ${{ matrix.node }} (${{ matrix.architecture }}) - ${{matrix.clientEngine}}
         id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
+          command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node-version }} (${{ matrix.architecture }})"
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
+        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node-version }} (${{ matrix.architecture }})"
 
   binaries:
     needs: [detect_jobs_to_run]
