@@ -2,11 +2,11 @@
 
 set -eu
 
-# MACHINE_IP=207.254.29.83
+MACHINE_IP=192.168.1.192
 
-# echo "Disabling StrictHostKeyChecking"
-# mkdir -p ~/.ssh
-# ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
+echo "Disabling StrictHostKeyChecking"
+mkdir -p ~/.ssh
+ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
 # echo "$SSH_KEY_M1_MACSTADIUM" > ./server-key.pem
 
 # if test -f "./server-key.pem"; then
