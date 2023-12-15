@@ -2,7 +2,7 @@
 
 set -eux
 
-ssh -tt github@$MACHINE_IP "echo 'hello world' && uname"
+sshpass -p$MACHINE_SECRET ssh -tt github@$MACHINE_IP "echo 'hello world' && uname"
 
 # echo "Sync: Removing local node_modules"
 # rm -rf ./code/node_modules
