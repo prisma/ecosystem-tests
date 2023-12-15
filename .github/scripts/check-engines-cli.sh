@@ -21,6 +21,7 @@ fi
 skipped_projects=(
   aws-graviton                    # No local project at all (everything happens on server), so no `prisma` or `node_modules
   firebase-functions              # No local project at expected location (but in `functions` subfolder)
+  m1-office                       # No local project at all (everything happens on server), so no `prisma` or `node_modules
   m1-macstadium                   # No local project at all (everything happens on server), so no `prisma` or `node_modules
   pnpm                            # Current logic does not work with pnpm hoisitng
   pnpm-workspaces-custom-output   # Current logic does not work with pnpm hoisitng

@@ -20,6 +20,7 @@ skipped_projects=(
   # no local project
   aws-graviton                                # No local project at all (everything happens on server), so no `prisma` or `node_modules
   m1-macstadium                               # No local project at all (everything happens on server), so no `prisma` or `node_modules
+  m1-office                                   # No local project at all (everything happens on server), so no `prisma` or `node_modules
   # subfolder
   generate-client-install-on-sub-project-npm  # Client is generated into a subfolder
   generate-client-install-on-sub-project-pnpm # Client is generated into a subfolder
