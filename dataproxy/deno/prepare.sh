@@ -6,4 +6,4 @@ export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests dataproxy deno build'
 # curl -fsSL https://deno.land/x/install/install.sh | sh
 # alias deno='/home/gitpod/.deno/bin/deno'
 
-deno -v
+deno --version
