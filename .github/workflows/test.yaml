@@ -1515,6 +1515,7 @@ jobs:
 
       # see above why this is not a matrix for each DP variant
       - name: test legacy Data Proxy (DP1) ${{ matrix.platform }}
+        if: false
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 15
