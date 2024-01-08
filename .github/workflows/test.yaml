@@ -1407,7 +1407,7 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
 
-  # TODO databases are shared between the steps (DP1, DP2, DP2+Accelerate), so we run them in sequence
+  # TODO databases are shared between the steps (DP2, DP2+Accelerate), so we run them in sequence
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
   dataproxy:
     needs: [detect_jobs_to_run]
@@ -1512,28 +1512,6 @@ jobs:
           ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
           ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
-
-      # see above why this is not a matrix for each DP variant
-      - name: test legacy Data Proxy (DP1) ${{ matrix.platform }}
-        if: false
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-        env:
-          DATAPROXY_FLAVOR: 'DP1'
-          PRISMA_GENERATE_FLAG: '--data-proxy'
-          DATAPROXY_COMMON_URL: ${{ secrets.DATAPROXY_COMMON_URL }}
-          ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
-          ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }}
-          ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
-          ITX_PDP_MYSQL: ${{ secrets.ITX_PDP_MYSQL }}
-          ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
-          ITX_PDP_POSTGRESQL: ${{ secrets.ITX_PDP_POSTGRESQL }}
-          ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
-          ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
 
       - name: notify-slack
         if: failure()
