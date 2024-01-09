@@ -7,9 +7,9 @@ rm -rf ./code/node_modules
 
 
 sshpass -p$MACHINE_SECRET ssh -tt github@$MACHINE_IP "
-  echo 'Hello from: ' && uname && echo ' - ' && hostname && echo ' - Node.js:' && node -v
+  echo 'Hello from: ' && uname && hostname;
 
-  # Print macOS versions
+  # Print macOS version
   sw_vers
 
   echo "Sync: Create remote folder"
