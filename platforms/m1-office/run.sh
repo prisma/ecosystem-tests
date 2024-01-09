@@ -14,7 +14,22 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       export CI=\"true\";
 
       # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
-      export PATH=/Users/github/.nvm/versions/node/v16.20.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
+      export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
+
+      if which node > /dev/null
+      then
+          echo 'Node.js is already installed';
+          nvm -v;
+          nvm ls;
+          node -v;
+          npm -v;
+      else
+          echo 'Node.js will be isntalled...';
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;
+          nvm install 20;
+          nvm alias default 20;
+          nvm ls;
+      fi
 
       npm i -g pnpm@8;
       pnpm install;
@@ -29,11 +44,21 @@ else
       export CI=\"true\";
 
       # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
-      export PATH=/Users/github/.nvm/versions/node/v16.20.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
+      export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
 
-      npm i -g pnpm@8;
-      pnpm install;
-      pnpm prisma generate;
-      pnpm prisma -v;
+      if which node > /dev/null
+      then
+          echo 'Node.js is already installed';
+          nvm -v;
+          nvm ls;
+          node -v;
+          npm -v;
+      else
+          echo 'Node.js will be isntalled...';
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;
+          nvm install 20;
+          nvm alias default 20;
+          nvm ls;
+      fi
   "
 fi
