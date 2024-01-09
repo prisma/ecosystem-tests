@@ -1233,6 +1233,7 @@ jobs:
   #         - turso-node-basic
   #         - turso-node-basic-esm
   #         - turso-vercel-nextjs
+  #         - tidb-node-basic
   #       clientEngine: ['library']
   #       os: [ubuntu-20.04]
   #   runs-on: ${{ matrix.os }}
@@ -1274,6 +1275,8 @@ jobs:
   #     DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL }}
   #     DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN }}
   #     DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID }}
+  #     # TiDB Cloud
+  #     DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL }}
   #     # pg
   #     DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
 
@@ -1427,7 +1430,7 @@ jobs:
   #       if: failure()
   #       run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
 
-  # # TODO databases are shared between the steps (DP1, DP2, DP2+Accelerate), so we run them in sequence
+  # # TODO databases are shared between the steps (DP2, DP2+Accelerate), so we run them in sequence
   # # it would be great if we could run them in parallel by letting them use the db provided by E2E
   # dataproxy:
   #   needs: [detect_jobs_to_run]
@@ -1532,27 +1535,6 @@ jobs:
   #         ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
   #         ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
   #         ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
-
-  #     # see above why this is not a matrix for each DP variant
-  #     - name: test legacy Data Proxy (DP1) ${{ matrix.platform }}
-  #       uses: nick-invision/retry@v2
-  #       with:
-  #         timeout_minutes: 15
-  #         max_attempts: 3
-  #         retry_wait_seconds: 30
-  #         command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-  #       env:
-  #         DATAPROXY_FLAVOR: 'DP1'
-  #         PRISMA_GENERATE_FLAG: '--data-proxy'
-  #         DATAPROXY_COMMON_URL: ${{ secrets.DATAPROXY_COMMON_URL }}
-  #         ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.ITX_PDP_MONGODB_DATABASE_URL }}
-  #         ITX_PDP_MONGODB: ${{ secrets.ITX_PDP_MONGODB }}
-  #         ITX_PDP_MYSQL_DATABASE_URL: ${{ secrets.ITX_PDP_MYSQL_DATABASE_URL }}
-  #         ITX_PDP_MYSQL: ${{ secrets.ITX_PDP_MYSQL }}
-  #         ITX_PDP_POSTGRESQL_DATABASE_URL: ${{ secrets.ITX_PDP_POSTGRESQL_DATABASE_URL }}
-  #         ITX_PDP_POSTGRESQL: ${{ secrets.ITX_PDP_POSTGRESQL }}
-  #         ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
-  #         ITX_PDP_COCKROACHDB: ${{ secrets.ITX_PDP_COCKROACHDB }}
 
   #     - name: notify-slack
   #       if: failure()
