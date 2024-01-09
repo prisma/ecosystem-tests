@@ -18,7 +18,6 @@ if [ "$TEST_EXIT_CODE" -eq "0" ]; then
 
     az config set extension.use_dynamic_install=yes_without_prompt
     az monitor app-insights component delete --app "$app" --resource-group "$group"
-
 else
     # If tests failed
     echo "To view Logs visit"
@@ -27,4 +26,8 @@ else
     # move function code back to placeholder location, so we can try again
     mv "$app" "func-placeholder"
 
+    # stop the function
+    # Note that re-running the test will create a new function from scratch
+    # so this does not have negative effect on any re-run
+    az functionapp stop --name "$app" --resource-group "$group"
 fi
