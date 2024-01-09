@@ -943,7 +943,7 @@ jobs:
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     # concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    concurrency: ${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ matrix.platform }}
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
