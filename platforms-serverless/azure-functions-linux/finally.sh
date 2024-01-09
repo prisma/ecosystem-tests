@@ -28,5 +28,6 @@ else
 
     # stop the function
     # Note that re-running the test will create a new function from scratch
+    # so this does not have negative effect on any re-run
     az functionapp stop --name "$app" --resource-group "$group"
 fi
