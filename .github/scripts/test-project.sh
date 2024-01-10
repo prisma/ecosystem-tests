@@ -6,6 +6,12 @@ shopt -s inherit_errexit || true
 export CI=true
 
 dir=$1
+
+if [[ "$dir" = "platforms-codesandbox" || "$dir" = "platforms-m1-office" ]]
+then
+  dir="platforms"
+fi
+
 project=$2
 # allow matrix being undefined
 set +u
