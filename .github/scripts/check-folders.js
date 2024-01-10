@@ -84,17 +84,27 @@ async function main() {
       const job_optional = optionalTestYaml['jobs'][key]
       const matrix_optional =
         Boolean(job_optional) && Boolean(job_optional.strategy) ? job_optional.strategy.matrix : {}
+
       const folders_optional = Object.keys(matrix_optional)
         .filter((key) => {
+          // These are in optional-test.yaml, under the `platforms` directory
           return !keysToIgnore.includes(key)
         })
-        .reduce((acc, key) => acc.concat(...matrix_optional[key]), [])
+        .reduce((acc, key) => {
+          return acc.concat(...matrix_optional[key])
+        }, [])
+
+      // These are in optional-test.yaml, under the `platforms` directory
+      // But the names don't match the directory name
+      // Example `platforms-m1-office` is in `platforms` directory
+      // So this renames the key so it's correctly processed
+      if (key === 'platforms-m1-office' || key === 'platforms-codesandbox') {
+        key = 'platforms'
+      }
 
       return folders.concat(folders_optional).map((folder) => `${key}/${folder}`)
     })
-    .reduce((acc, folders) => {
-      return acc.concat([...folders])
-    }, [])
+    .reduce((acc, folders) => acc.concat([...folders]), [])
 
   // Transform the shape to return something that can be easy to use from GitHub Actions if conditionals
   const foldersObj = folders.reduce((acc, folder) => {

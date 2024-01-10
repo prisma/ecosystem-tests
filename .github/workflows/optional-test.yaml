@@ -147,3 +147,161 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}
+
+  platforms-codesandbox:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms')
+
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - codesandbox
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/package-lock.json
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Install Puppeteer
+        uses: ianwalter/puppeteer-container@v4.0.0
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+        env:
+          DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
+
+      - name: 'Set up WireGuard ...'
+        if: ${{ matrix.platform == 'm1-office' }}
+        run: |
+          echo "🔒 Install WireGuard & friends..."
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends wireguard-tools openresolv
+
+          echo "🔐 Configure WireGuard tunnel..."
+          printf "${{ secrets.WG_CONFIG_FILE }}" | sudo tee /etc/wireguard/wg0.conf
+          sudo chmod 600 /etc/wireguard/wg0.conf
+          sudo ls -la /etc/wireguard/wg0.conf
+
+          echo "wg-quick up..."
+          sudo wg-quick up wg0
+
+          echo "🩻 Check IPv4 routes..."
+          sudo ip -4 route list
+
+          echo "🩻 Check DNS resolution..."
+          sudo resolvconf -v
+
+      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 45
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  platforms-m1-office:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms')
+
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - m1-office
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ matrix.platform }}
+
+    env:
+      MACHINE_SECRET: ${{ secrets.OFFICE_STUDIO_SSH_SECRET }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+        env:
+          DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
+
+      - name: 'Set up WireGuard ...'
+        if: ${{ matrix.platform == 'm1-office' }}
+        run: |
+          echo "🔒 Install WireGuard & friends..."
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends wireguard-tools openresolv
+
+          echo "🔐 Configure WireGuard tunnel..."
+          printf "${{ secrets.WG_CONFIG_FILE }}" | sudo tee /etc/wireguard/wg0.conf
+          sudo chmod 600 /etc/wireguard/wg0.conf
+          sudo ls -la /etc/wireguard/wg0.conf
+
+          echo "wg-quick up..."
+          sudo wg-quick up wg0
+
+          echo "🩻 Check IPv4 routes..."
+          sudo ip -4 route list
+
+          echo "🩻 Check DNS resolution..."
+          sudo resolvconf -v
+
+      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 45
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}

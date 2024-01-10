@@ -6,89 +6,39 @@ export MACHINE_IP=192.168.1.192
 
 sh sync-to-remote.sh
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "N-API: Disabled"
-  sshpass -p$MACHINE_SECRET ssh github@$MACHINE_IP -tt "
-      cd /Users/github/e2e-tests/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
-      export PRISMA_CLIENT_ENGINE_TYPE=\"binary\";
-      export CI=\"true\";
+echo "PRISMA_CLIENT_ENGINE_TYPE = $PRISMA_CLIENT_ENGINE_TYPE"
 
-      eval echo \"\${PATH}\"
+sshpass -p$MACHINE_SECRET ssh github@$MACHINE_IP -tt "
+    cd /Users/github/e2e-tests/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
 
-      which node;
-      which nvm;
-      which pnpm;
+    export PRISMA_CLIENT_ENGINE_TYPE=\"$PRISMA_CLIENT_ENGINE_TYPE\";
+    export CI=\"true\";
 
-      # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
-      export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
+    # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
+    export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
+    eval echo \"\${PATH}\"
 
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    which node;
+    which pnpm;
 
-      eval echo \"\${PATH}\"
-      which node;
-      which nvm;
-      which pnpm;
+    if which node > /dev/null
+    then
+        echo 'Node.js is already installed';
+        nvm -v;
+        node -v;
+        npm -v;
+    else
+        echo 'Node.js will be isntalled...';
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;
+        nvm install 20;
+        nvm alias default 20;
+        nvm ls;
+    fi
 
-      if which node > /dev/null
-      then
-          echo 'Node.js is already installed';
-          nvm -v;
-          nvm ls;
-          node -v;
-          npm -v;
-      else
-          echo 'Node.js will be isntalled...';
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;
-          nvm install 20;
-          nvm alias default 20;
-          nvm ls;
-      fi
+    npm i -g pnpm@8;
+    pnpm -v;
 
-      npm i -g pnpm@8;
-      pnpm install;
-      pnpm prisma generate;
-      pnpm prisma -v;
-  "
-else
-  echo "N-API: Enabled"
-  sshpass -p$MACHINE_SECRET ssh github@$MACHINE_IP -tt "
-      cd /Users/github/e2e-tests/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
-      export PRISMA_CLIENT_ENGINE_TYPE=\"library\";
-      export CI=\"true\";
-
-      eval echo \"\${PATH}\"
-
-      which node;
-      which nvm;
-      which pnpm;
-
-      # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
-      export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
-
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-      eval echo \"\${PATH}\"
-      which node;
-      which nvm;
-      which pnpm;
-
-      if which node > /dev/null
-      then
-          echo 'Node.js is already installed';
-          nvm -v;
-          nvm ls;
-          node -v;
-          npm -v;
-      else
-          echo 'Node.js will be isntalled...';
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;
-          nvm install 20;
-          nvm alias default 20;
-          nvm ls;
-      fi
-  "
-fi
+    pnpm install;
+    pnpm prisma generate;
+    pnpm prisma -v;
+"

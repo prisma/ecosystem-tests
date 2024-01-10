@@ -4,6 +4,8 @@ set -eux
 
 MACHINE_IP=207.254.29.83
 
+echo "PRISMA_CLIENT_ENGINE_TYPE = $PRISMA_CLIENT_ENGINE_TYPE"
+
 ssh -i ./server-key.pem administrator@$MACHINE_IP -tt "
     cd /Users/administrator/e2e-tests/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE;
 
@@ -11,6 +13,8 @@ ssh -i ./server-key.pem administrator@$MACHINE_IP -tt "
     export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/administrator/.cargo/bin
 
     npm i -g pnpm@8;
+    pnpm -v;
+
     pnpm m1;
     pnpm test;
 "
