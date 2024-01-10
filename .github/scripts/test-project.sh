@@ -7,6 +7,10 @@ export CI=true
 
 dir=$1
 
+# These are in optional-test.yaml, under the `platforms` directory
+# But the names don't match the directory name
+# Example `platforms-m1-office` is in `platforms` directory
+# So this renames the key so it's correctly processed
 if [[ "$dir" = "platforms-codesandbox" || "$dir" = "platforms-m1-office" ]]
 then
   dir="platforms"
