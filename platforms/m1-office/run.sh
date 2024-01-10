@@ -22,6 +22,10 @@ if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
       # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
       export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
 
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
       eval echo \"\${PATH}\"
       which node;
       which nvm;
@@ -54,7 +58,8 @@ else
       export PRISMA_CLIENT_ENGINE_TYPE=\"library\";
       export CI=\"true\";
 
-      echo $PATH;
+      eval echo \"\${PATH}\"
+
       which node;
       which nvm;
       which pnpm;
@@ -62,7 +67,11 @@ else
       # to get around https://serverfault.com/questions/351731/why-does-the-path-of-an-ssh-remote-command-differ-from-that-of-an-interactive-s
       export PATH=/Users/github/.nvm/versions/node/v20.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/github/.cargo/bin
 
-      echo $PATH;
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+      eval echo \"\${PATH}\"
       which node;
       which nvm;
       which pnpm;
