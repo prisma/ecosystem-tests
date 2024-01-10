@@ -131,7 +131,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
+          cache-dependency-path: platforms/${{ matrix.generator }}/pnpm-lock.yaml
 
       - name: Install Dependencies
         run: pnpm install
@@ -174,7 +174,7 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/package-lock.json
+          cache-dependency-path: platforms/${{ matrix.platform }}/package-lock.json
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
