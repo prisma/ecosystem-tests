@@ -96,6 +96,17 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
   }
 
   console.debug({ jobsToRun })
+
+  // remove github workflow files if they only change things in a job that will be run
+  /*
+  
+    get content or line numbers of changed files
+    focus on ones we did not "handle" above yet
+    see in which "block" the changed lines are
+    eliminate all the lines that are in blocks that we already handled
+  */
+
+  // do we have a mismatch?
   console.debug('filesChanged.length', filesChanged.length)
   console.debug({ totalNumberOfFilesChangedInsideDirectories })
 

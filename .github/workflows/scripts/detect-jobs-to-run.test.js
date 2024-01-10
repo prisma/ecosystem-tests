@@ -92,6 +92,20 @@ Array [
     expect(jobsToRun.includes('community-generators')).toBe(true)
   })
 
+  it.only('files changed inside platform folder and github actions workflow', async () => {
+    const filesChanged = ['platforms/somefile.js', '.github/workflows/test.yaml']
+    const jobsToRun = await detectJobsTorun({ filesChanged })
+
+    expect(jobsToRun).toMatchInlineSnapshot(`
+Array [
+  "platforms",
+]
+`
+)
+    expect(jobsToRun.includes('platforms')).toBe(true)
+    expect(jobsToRun.includes('platforms-serverless')).toBe(false)
+  })
+
   it('should fallback: no change', async () => {
     const filesChanged = []
     const jobsToRun = await detectJobsTorun({ filesChanged })
