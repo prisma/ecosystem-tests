@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests dataproxy cloudflare-workers build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests accelerate cloudflare-workers build'
 
 # we add the data proxy URL into the configuration file directly
 cp -fr wrangler.base.toml wrangler.toml # needed for retries

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests dataproxy nodejs-mysql-itx build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests accelerate nodejs-mysql-itx build'

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests dataproxy vercel-cli-serverless-functions build'
+export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests accelerate vercel-cli-serverless-functions build'
 
 # we set the vercel project & organization environment variables
 export VERCEL_PROJECT_ID=$DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID

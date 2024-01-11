@@ -99,7 +99,7 @@ jobs:
       - platforms-serverless-vercel
       - driver-adapters
       - driver-adapters-wasm
-      - dataproxy
+      - accelerate
       - bundlers
       - libraries
       - databases
@@ -131,7 +131,7 @@ jobs:
       - platforms-serverless-vercel
       - driver-adapters
       - driver-adapters-wasm
-      - dataproxy
+      - accelerate
       - bundlers
       - libraries
       - databases
@@ -173,7 +173,7 @@ jobs:
       - platforms-serverless-vercel
       - driver-adapters
       - driver-adapters-wasm
-      - dataproxy
+      - accelerate
       - bundlers
       - libraries
       - databases
@@ -1410,9 +1410,9 @@ jobs:
 
   # TODO databases are shared between the steps (DP2, DP2+Accelerate), so we run them in sequence
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
-  dataproxy:
+  accelerate:
     needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'dataproxy')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'accelerate')
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -1432,7 +1432,7 @@ jobs:
           - nodejs-postgresql-logs
           - nodejs-mongodb-logs
           - nodejs-tracing
-        clientEngine: [<dataproxy>] # value for script logic
+        clientEngine: [<accelerate>] # value for script logic
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
