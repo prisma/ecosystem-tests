@@ -195,26 +195,6 @@ jobs:
         env:
           DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
 
-      - name: 'Set up WireGuard ...'
-        if: ${{ matrix.platform == 'm1-office' }}
-        run: |
-          echo "🔒 Install WireGuard & friends..."
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends wireguard-tools openresolv
-
-          echo "🔐 Configure WireGuard tunnel..."
-          printf "${{ secrets.WG_CONFIG_FILE }}" | sudo tee /etc/wireguard/wg0.conf
-          sudo chmod 600 /etc/wireguard/wg0.conf
-          sudo ls -la /etc/wireguard/wg0.conf
-
-          echo "wg-quick up..."
-          sudo wg-quick up wg0
-
-          echo "🩻 Check IPv4 routes..."
-          sudo ip -4 route list
-
-          echo "🩻 Check DNS resolution..."
-          sudo resolvconf -v
-
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
         id: run-test
         uses: nick-invision/retry@v2
@@ -275,7 +255,6 @@ jobs:
           DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
 
       - name: 'Set up WireGuard ...'
-        if: ${{ matrix.platform == 'm1-office' }}
         run: |
           echo "🔒 Install WireGuard & friends..."
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends wireguard-tools openresolv
