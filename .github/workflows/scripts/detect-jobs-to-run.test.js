@@ -39,6 +39,8 @@ Array [
   "databases-macos",
   "test-runners",
   "community-generators",
+  "platforms-codesandbox",
+  "platforms-m1-office",
 ]
 `)
   })
@@ -121,6 +123,8 @@ Array [
   "databases-macos",
   "test-runners",
   "community-generators",
+  "platforms-codesandbox",
+  "platforms-m1-office",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
@@ -156,6 +160,8 @@ Array [
   "databases-macos",
   "test-runners",
   "community-generators",
+  "platforms-codesandbox",
+  "platforms-m1-office",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
@@ -191,6 +197,8 @@ Array [
   "databases-macos",
   "test-runners",
   "community-generators",
+  "platforms-codesandbox",
+  "platforms-m1-office",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
