@@ -2,7 +2,7 @@ import { test, expect, jest } from '@jest/globals'
 import { PrismaClient, Prisma } from '@prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-test('dataproxy logs with mongodb', async () => {
+test('accelerate logs with mongodb', async () => {
   const prisma = new PrismaClient({
     log: [{ emit: 'event', level: 'query' }],
   })
