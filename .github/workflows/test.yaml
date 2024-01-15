@@ -937,12 +937,12 @@ jobs:
         platform:
           - heroku
           - aws-graviton
-          - codesandbox
           - m1-macstadium
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04] #, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    # concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ matrix.platform }}
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -959,27 +959,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-          cache: |
-            ${{
-              contains(matrix.platform, 'codesandbox') && 'npm' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'codesandbox') && 'package-lock.json' ||
-              'pnpm-lock.yaml'
-            }}
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: ${{ contains(matrix.platform, 'codesandbox') && 'npm install' || 'pnpm install' }}
-
-      # Install Puppeteer for Codesandbox test only
-      - name: Install Puppeteer
-        if: ${{ matrix.platform == 'codesandbox' }}
-        uses: ianwalter/puppeteer-container@v4.0.0
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
