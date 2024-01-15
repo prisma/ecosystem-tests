@@ -28,7 +28,7 @@ sshpass -p$MACHINE_SECRET ssh github@$MACHINE_IP -tt "
         node -v;
         npm -v;
     else
-        echo 'Node.js will be isntalled...';
+        echo 'Node.js will be installed...';
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;
         nvm install 20;
         nvm alias default 20;
