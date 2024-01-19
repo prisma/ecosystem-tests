@@ -29,12 +29,14 @@ test('generated client files', async () => {
   const files =
     process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
       ? [
+        'default.js',
         'index.js',
         'package.json',
         'query-engine-rhel-openssl-1.0.x',
         'schema.prisma',
       ]
       : [
+        'default.js',
         'index.js',
         'libquery_engine-rhel-openssl-1.0.x.so.node',
         'package.json',

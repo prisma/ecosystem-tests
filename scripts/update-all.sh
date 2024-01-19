@@ -6,6 +6,8 @@ set -eux
 NEW_VERSION=$(npm show prisma@$1 version)
 echo "$NEW_VERSION" > .github/prisma-version.txt
 
+corepack enable # auto install correct yarn versions automatically
+
 # first update all the versions in all the projects for perf gains
 pnpm -rc --parallel exec "$(pwd)/scripts/update-version.sh $NEW_VERSION"
 # then update all the lockfiles by running the package managers
