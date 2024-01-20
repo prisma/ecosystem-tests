@@ -17,8 +17,8 @@ devDependencies:
     specifier: 16.18.70
     version: 16.18.70
   pm2:
-    specifier: 5.3.0
-    version: 5.3.0
+    specifier: 5.3.1
+    version: 5.3.1
   prisma:
     specifier: 5.9.0-dev.25
     version: 5.9.0-dev.25
@@ -124,14 +124,14 @@ packages:
       - supports-color
     dev: true
 
-  /@pm2/js-api@0.6.7:
-    resolution: {integrity: sha512-jiJUhbdsK+5C4zhPZNnyA3wRI01dEc6a2GhcQ9qI38DyIk+S+C8iC3fGjcjUbt/viLYKPjlAaE+hcT2/JMQPXw==}
+  /@pm2/js-api@0.8.0:
+    resolution: {integrity: sha512-nmWzrA/BQZik3VBz+npRcNIu01kdBhWL0mxKmP1ciF/gTcujPTQqt027N9fc1pK9ERM8RipFhymw7RcmCyOEYA==}
     engines: {node: '>=4.0'}
     dependencies:
       async: 2.6.4
-      axios: 0.21.4(debug@4.3.4)
       debug: 4.3.4
       eventemitter2: 6.4.9
+      extrareqp2: 1.0.0(debug@4.3.4)
       ws: 7.5.9
     transitivePeerDependencies:
       - bufferutil
@@ -307,14 +307,6 @@ packages:
 
   /async@3.2.4:
     resolution: {integrity: sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==}
-    dev: true
-
-  /axios@0.21.4(debug@4.3.4):
-    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
-    dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
-    transitivePeerDependencies:
-      - debug
     dev: true
 
   /balanced-match@1.0.2:
@@ -672,6 +664,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
+
+  /extrareqp2@1.0.0(debug@4.3.4):
+    resolution: {integrity: sha512-Gum0g1QYb6wpPJCVypWP3bbIuaibcFiJcpuPM10YSXp/tzqi84x9PJageob+eN4xVRIOto4wjSGNLyMD54D2xA==}
+    dependencies:
+      follow-redirects: 1.15.2(debug@4.3.4)
+    transitivePeerDependencies:
+      - debug
+    dev: true
 
   /fast-json-patch@3.1.1:
     resolution: {integrity: sha512-vf6IHUX2SBcA+5/+4883dsIjpBTqmfBjmYiWK1savxQmFk4JfBMLa7ynTYOs1Rolp/T1betJxHiGD3g1Mn8lUQ==}
@@ -1244,14 +1244,14 @@ packages:
     dev: true
     optional: true
 
-  /pm2@5.3.0:
-    resolution: {integrity: sha512-xscmQiAAf6ArVmKhjKTeeN8+Td7ZKnuZFFPw1DGkdFPR/0Iyx+m+1+OpCdf9+HQopX3VPc9/wqPQHqVOfHum9w==}
+  /pm2@5.3.1:
+    resolution: {integrity: sha512-DLVQHpSR1EegaTaRH3KbRXxpPVaqYwAp3uHSCtCsS++LSErvk07WSxuUnntFblBRqNU/w2KQyqs12mSq5wurkg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
       '@pm2/agent': 2.0.1
       '@pm2/io': 5.0.0
-      '@pm2/js-api': 0.6.7
+      '@pm2/js-api': 0.8.0
       '@pm2/pm2-version-check': 1.0.4
       async: 3.2.4
       blessed: 0.1.81
@@ -1697,6 +1697,7 @@ packages:
   /vm2@3.9.14:
     resolution: {integrity: sha512-HgvPHYHeQy8+QhzlFryvSteA4uQLBCOub02mgqdR+0bN/akRZ48TGB1v0aCv7ksyc0HXx16AZtMHKS38alc6TA==}
     engines: {node: '>=6.0'}
+    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
       acorn: 8.8.2
