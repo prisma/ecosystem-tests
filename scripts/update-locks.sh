@@ -1,6 +1,6 @@
 #! /bin/sh
 
-rm -f .pnp.cjs # remove pnp file to prevent nodejs from using it
+corepack enable
 
 PROJECT_PACKAGE_MANAGER=$(node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
 IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === '.prisma/client')")

@@ -10,7 +10,6 @@ ADAPTER_PG_VERSION=$(node -e "const pkg = require('./package.json'); console.log
 ADAPTER_NEON_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/adapter-neon'] || pkg?.dependencies?.['@prisma/adapter-neon'] || pkg?.resolutions?.['@prisma/adapter-neon'] || '')")
 ADAPTER_LIBSQL_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/adapter-libsql'] || pkg?.dependencies?.['@prisma/adapter-libsql'] || pkg?.resolutions?.['@prisma/adapter-libsql'] || '')")
 
-
 CURRENT_DIR=$(pwd)
 
 if [ -n "$CLI_PKG_VERSION" ]; then sed -i "s/$CLI_PKG_VERSION/$1/g" package.json; fi
