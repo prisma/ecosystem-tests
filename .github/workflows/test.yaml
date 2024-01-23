@@ -1382,7 +1382,7 @@ jobs:
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }}
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} - (default output)
         id: run-test
         uses: nick-invision/retry@v2
         with:
@@ -1390,6 +1390,19 @@ jobs:
           max_attempts: 1
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
+
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} - (custom output)
+        id: run-test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 1
+          retry_wait_seconds: 30
+          command: |
+            find . -name "*.js" | grep -v node_modules | grep -v test | xargs sed -i "s/@prisma\/client/db/g"
+            find . -name "*.prisma" | grep -v node_modules | xargs sed -i '/generator client {/a output = "client"'
+            find . -name "package.json" | grep -v node_modules | xargs sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
+            bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: notify-slack
         if: failure()
