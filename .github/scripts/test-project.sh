@@ -68,7 +68,7 @@ echo "$ cd $dir/$project"
 cd "$dir/$project"
 
 # if FORCE_CUSTOM_OUTPUT is set, we execute 3 commands that will turn the project into a custom output project
-if [ -n "$FORCE_CUSTOM_OUTPUT" ]; then
+if [ -n "${FORCE_CUSTOM_OUTPUT+x}" ]; then
   echo "-----------------------------"
   echo ""
   echo "FORCE_CUSTOM_OUTPUT=$FORCE_CUSTOM_OUTPUT, executing 3 commands to turn the project into a custom output project"
