@@ -2,7 +2,7 @@
 
 corepack enable
 
-PROJECT_PACKAGE_MANAGER=$(node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
+PROJECT_PACKAGE_MANAGER=$(NODE_OPTIONS="" node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
 IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === 'prisma-client')")
 
 if [ "$IS_GENERATED_CLIENT" = "true" ]; then
@@ -10,8 +10,8 @@ if [ "$IS_GENERATED_CLIENT" = "true" ]; then
 fi
 
 if [ "$PROJECT_PACKAGE_MANAGER" = "yarn" ] || [ "$PROJECT_PACKAGE_MANAGER" = "yarn@berry" ]; then
-    export YARN_ENABLE_SCRIPTS=false
-    export YARN_ENABLE_IMMUTABLE_INSTALLS=false
+    export YARN_ENABLE_SCRIPTS=0
+    export YARN_ENABLE_IMMUTABLE_INSTALLS=0
     # we try yarn 10 times max because it can happen that something goes wrong along the way
     for i in $(seq 1 10); do echo "yarn try n°$i" && yarn && break || sleep $((2*$i)); done
     exit 0
