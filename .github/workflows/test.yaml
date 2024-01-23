@@ -1383,7 +1383,6 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} - (default output)
-        id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
@@ -1392,7 +1391,6 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} - (custom output)
-        id: run-test
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 60
