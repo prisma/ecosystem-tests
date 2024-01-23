@@ -67,15 +67,16 @@ fi
 echo "$ cd $dir/$project"
 cd "$dir/$project"
 
-# if FORCE_CUSTOM_OUTPUT is set, we execute 3 commands that will turn the project into a custom output project
+# if FORCE_CUSTOM_OUTPUT is set, we execute commands that will turn the project into a custom output project
 if [ -n "${FORCE_CUSTOM_OUTPUT+x}" ]; then
   echo "-----------------------------"
   echo ""
-  echo "FORCE_CUSTOM_OUTPUT=$FORCE_CUSTOM_OUTPUT, executing 3 commands to turn the project into a custom output project"
+  echo "FORCE_CUSTOM_OUTPUT=$FORCE_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
   echo ""
-  find . -name "*.js" | grep -v node_modules | grep -v test | xargs sed -i "s/@prisma\/client/db/g"
-  find . -name "*.prisma" | grep -v node_modules | xargs sed -i '/generator client {/a output = "client"'
-  find . -name "package.json" | grep -v node_modules | xargs sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
+  find . -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 sed -i "s/@prisma\/client/db/g"
+  find . -name "*.prisma" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/generator client {/a output = "client"'
+  find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
+  bash ../../update-locks.sh
 fi
 
 if [ -f "prepare.sh" ]; then
