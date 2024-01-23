@@ -2,10 +2,8 @@
 
 corepack enable
 
-rm -f .pnp.cjs # remove pnp file to prevent nodejs from using it
-
 PROJECT_PACKAGE_MANAGER=$(node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
-IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === '.prisma/client')")
+IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === 'prisma-client')")
 
 if [ "$IS_GENERATED_CLIENT" = "true" ]; then
     exit 0
