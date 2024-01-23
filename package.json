@@ -23,7 +23,7 @@
     "update-ci": "scripts/update-ci.sh",
     "update-all": "scripts/update-all.sh",
     "update-project": "scripts/update-project.sh",
-    "reset-lockfiles": "git restore --source=origin/dev '*.yaml' && git restore --source=origin/dev '*.lock' && git restore --source=origin/dev 'package-lock.json'",
-    "reset-json-and-lockfiles": "pnpm reset-lockfiles && git restore --source=origin/dev '*.json'"
+    "reset-lockfiles": "git restore --source=origin/dev 'pnpm-lock.yaml'; git restore --source=origin/dev 'yarn.lock'; git restore --source=origin/dev 'package-lock.json'; git restore --source=origin/dev 'prisma-version.txt'",
+    "reset-json-and-lockfiles": "pnpm reset-lockfiles; git restore --source=origin/dev '*.json'"
   }
 }
