@@ -76,7 +76,7 @@ if [ -n "${FORCE_CUSTOM_OUTPUT+x}" ]; then
   find . -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 sed -i "s/@prisma\/client/db/g"
   find . -name "*.prisma" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/generator client {/a output = "client"'
   find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
-  bash ../../update-locks.sh
+  bash ../../scripts/update-locks.sh
 fi
 
 if [ -f "prepare.sh" ]; then
