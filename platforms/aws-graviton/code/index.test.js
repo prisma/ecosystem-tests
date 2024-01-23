@@ -29,6 +29,8 @@ describe('Prisma', () => {
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
       expect(files).toMatchInlineSnapshot(`
 Array [
+  "default.d.ts",
+  "default.js",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -37,11 +39,15 @@ Array [
   "libquery_engine-linux-arm64-openssl-3.0.x.so.node",
   "package.json",
   "schema.prisma",
+  "wasm.d.ts",
+  "wasm.js",
 ]
 `)
     } else {
       expect(files).toMatchInlineSnapshot(`
 Array [
+  "default.d.ts",
+  "default.js",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -50,6 +56,8 @@ Array [
   "package.json",
   "query-engine-linux-arm64-openssl-3.0.x",
   "schema.prisma",
+  "wasm.d.ts",
+  "wasm.js",
 ]
 `)
     }
