@@ -1159,7 +1159,7 @@ jobs:
 
   driver-adapters:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters')
 
     timeout-minutes: 30
     strategy:
