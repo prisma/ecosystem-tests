@@ -1383,9 +1383,7 @@ jobs:
           max_attempts: 1
           retry_wait_seconds: 30
           command: |
-            find . -name "*.js" | grep -v node_modules | grep -v test | xargs sed -i "s/@prisma\/client/db/g"
-            find . -name "*.prisma" | grep -v node_modules | xargs sed -i '/generator client {/a output = "client"'
-            find . -name "package.json" | grep -v node_modules | xargs sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
+            export FORCE_CUSTOM_OUTPUT=1
             bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: notify-slack

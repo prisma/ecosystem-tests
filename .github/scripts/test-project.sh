@@ -67,6 +67,17 @@ fi
 echo "$ cd $dir/$project"
 cd "$dir/$project"
 
+# if FORCE_CUSTOM_OUTPUT is set, we execute 3 commands that will turn the project into a custom output project
+if [ -n "$FORCE_CUSTOM_OUTPUT" ]; then
+  echo "-----------------------------"
+  echo ""
+  echo "FORCE_CUSTOM_OUTPUT=$FORCE_CUSTOM_OUTPUT, executing 3 commands to turn the project into a custom output project"
+  echo ""
+  find . -name "*.js" | grep -v node_modules | grep -v test | xargs sed -i "s/@prisma\/client/db/g"
+  find . -name "*.prisma" | grep -v node_modules | xargs sed -i '/generator client {/a output = "client"'
+  find . -name "package.json" | grep -v node_modules | xargs sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
+fi
+
 if [ -f "prepare.sh" ]; then
   echo "-----------------------------"
   echo ""
