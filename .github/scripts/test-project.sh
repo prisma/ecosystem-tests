@@ -67,11 +67,11 @@ fi
 echo "$ cd $dir/$project"
 cd "$dir/$project"
 
-# if FORCE_CUSTOM_OUTPUT is set, we execute commands that will turn the project into a custom output project
-if [ -n "${FORCE_CUSTOM_OUTPUT+x}" ]; then
+# if FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT is set, we execute commands that will turn the project into a custom output project
+if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   echo "-----------------------------"
   echo ""
-  echo "FORCE_CUSTOM_OUTPUT=$FORCE_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
+  echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
   echo ""
   find . -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 sed -i "s/@prisma\/client/db/g"
   find . -name "*.prisma" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/generator client {/a output = "client"'

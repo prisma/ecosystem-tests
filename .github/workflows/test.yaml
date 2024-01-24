@@ -1274,7 +1274,7 @@ jobs:
           max_attempts: 1
           retry_wait_seconds: 30
           command: |
-            export FORCE_CUSTOM_OUTPUT=1
+            export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
             bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: notify-slack
@@ -1393,7 +1393,7 @@ jobs:
           max_attempts: 1
           retry_wait_seconds: 30
           command: |
-            export FORCE_CUSTOM_OUTPUT=1
+            export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
             bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: notify-slack
