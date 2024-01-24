@@ -74,9 +74,18 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
   echo ""
   find . -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 sed -i "s/@prisma\/client/db/g"
-  find . -name "*.prisma" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/generator client {/a output = "client"'
-  find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i '/"dependencies": {/a "db": "link:./prisma/client",'
+  find . -name "*.prisma" | grep -v node_modules | xargs sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
+  find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 sed -i 's/"dependencies": {/&\n"db": "link:.\/prisma\/client",/g'
   bash ../../scripts/update-locks.sh
+  
+  # this adds some level of safety to ensure that js files were at least modified as one would expect
+  if [[ $(git status --porcelain | grep "$dir/$project" | grep -c ".js$") -gt 0 ]];
+  then
+    echo "javascript files were correctly modified for the custom output project"
+  else
+    echo "javascript files were not correctly modified for the custom output project"
+    exit 1
+  fi
 fi
 
 if [ -f "prepare.sh" ]; then
