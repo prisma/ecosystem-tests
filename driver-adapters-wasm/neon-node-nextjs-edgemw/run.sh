@@ -12,5 +12,6 @@ wait_for_host() {
 
 pnpm install
 pnpm next dev --port 3000 &
+echo $! > server.pid
 echo "http://localhost:3000" > deployment-url.txt
 wait_for_host localhost 3000
