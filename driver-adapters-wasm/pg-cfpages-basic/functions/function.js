@@ -2,9 +2,11 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
+import { DATABASE_URL } from './dbUrl.js'
 
 export async function onRequest(context) {
-  const client = new Pool({ connectionString: context.env.DATABASE_URL })
+	// `DATABASE_URL` comes from `dbUrl.js` and its value is set by `prepare.sh`
+  const client = new Pool({ connectionString: DATABASE_URL })
   const adapter = new PrismaPg(client)
   const prisma = new PrismaClient({ adapter })
 
