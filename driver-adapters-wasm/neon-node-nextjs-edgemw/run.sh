@@ -12,6 +12,7 @@ wait_for_host() {
 
 pnpm install
 pnpm next dev --port 3000 &
+# create a `server.pid` file, which will be used in `finally.sh` to kill the process
 echo $! > server.pid
 echo "http://localhost:3000" > deployment-url.txt
 wait_for_host localhost 3000
