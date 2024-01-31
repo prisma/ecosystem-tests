@@ -20,8 +20,6 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
-    'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
-    'platforms/m1-office/code', // m1-office doesn't have package.json at root but is included
     'databases/mongodb-azure-cosmosdb', // expected to fail, so moved to failing-weekly.yaml
   ]
 
@@ -96,9 +94,9 @@ async function main() {
 
       // These are in optional-test.yaml, under the `platforms` directory
       // But the names don't match the directory name
-      // Example `platforms-m1-office` is in `platforms` directory
+      // Example `platforms-codesandbox` is in `platforms` directory
       // So this renames the key so it's correctly processed
-      if (key === 'platforms-m1-office' || key === 'platforms-codesandbox') {
+      if (key === 'platforms-codesandbox') {
         key = 'platforms'
       }
 
