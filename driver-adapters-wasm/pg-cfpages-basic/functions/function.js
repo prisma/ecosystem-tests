@@ -1,6 +1,6 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { Pool } from 'pg'
+import { Pool } from '@prisma/pg-worker'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { DATABASE_URL } from './dbUrl.js'
 
