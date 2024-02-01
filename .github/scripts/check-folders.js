@@ -13,6 +13,7 @@ async function main() {
   const ignoreFiles = [
     'package.json', // package.json at root
     'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
+    'generic/basic-m1', // generic/basic-m1 doesn't use Github action matrix feature which we parse to find out the differences
     'platforms-serverless-vercel/vercel-with-redwood/api', // Redwood uses workspaces but is included
     'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
@@ -37,6 +38,7 @@ async function main() {
   const keysToIgnore = [
     'os', // We want to count folders vs references in the yaml file not when something is run across different OSes
     'node', // We want to count folders vs references in the yaml file not when something is run across different node versions
+    'm1', // it's almost a copy of `os` but running on M1
   ]
 
   // Get all relevant folders that _should_ appear in workflows

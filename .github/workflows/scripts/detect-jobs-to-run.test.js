@@ -175,6 +175,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1"
   "node",
   "binaries",
   "packagers",
