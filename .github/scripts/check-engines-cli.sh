@@ -65,9 +65,9 @@ if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
     osx)
       if [ "$os_architecture" = "arm64" ]
       then
-        qe_location="$GENERATED_CLIENT/query-engine-darwin-arm64"
+        qe_location="$ENGINES_PACKAGE/query-engine-darwin-arm64"
       else
-        qe_location="$GENERATED_CLIENT/query-engine-darwin"
+        qe_location="$ENGINES_PACKAGE/query-engine-darwin"
       fi
       ;;
     windows)
@@ -83,9 +83,9 @@ elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
     osx)
       if [ "$os_architecture" = "arm64" ]
       then
-        qe_location="$GENERATED_CLIENT/libquery_engine-darwin-arm64.dylib.node"
+        qe_location="$ENGINES_PACKAGE/libquery_engine-darwin-arm64.dylib.node"
       else
-        qe_location="$GENERATED_CLIENT/libquery_engine-darwin.dylib.node"
+        qe_location="$ENGINES_PACKAGE/libquery_engine-darwin.dylib.node"
       fi
       ;;
     windows*)
