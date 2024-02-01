@@ -6,5 +6,7 @@ pnpm install
 
 pnpm prisma generate
 
-pnpm wrangler pages deploy . --project-name pg-cfpages-basic --node-compat | tee deployment-logs.txt
+pnpm wrangler pages functions build --node-compat --outdir build/
+pnpm wrangler publish build/index.js --project-name pg-cfpages-basic public
+
 sleep 15
