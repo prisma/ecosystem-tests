@@ -23,6 +23,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1,"
   "node",
   "binaries",
   "packagers",
@@ -103,6 +104,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1,"
   "node",
   "binaries",
   "packagers",
@@ -139,6 +141,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1,"
   "node",
   "binaries",
   "packagers",
