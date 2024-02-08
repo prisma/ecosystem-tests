@@ -151,8 +151,7 @@ elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists at ${qe_location}"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
+  echo "$ ls $GENERATED_CLIENT"
+  ls $GENERATED_CLIENT
   exit 1
 fi
-
-echo "$ ls $GENERATED_CLIENT"
-ls $GENERATED_CLIENT
