@@ -236,7 +236,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -330,7 +330,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 20
           max_attempts: 3
@@ -466,7 +466,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -516,7 +516,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -612,7 +612,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -660,7 +660,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -713,7 +713,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -772,7 +772,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test on node ${{ matrix.node }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -825,7 +825,7 @@ jobs:
       #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -901,7 +901,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -954,7 +954,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -1013,7 +1013,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 3
@@ -1110,7 +1110,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 3
@@ -1191,7 +1191,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 1
@@ -1306,7 +1306,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 1
@@ -1314,7 +1314,7 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 1
@@ -1425,7 +1425,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 1
@@ -1433,7 +1433,7 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 60
           max_attempts: 1
@@ -1512,7 +1512,7 @@ jobs:
 
       # see above why this is not a matrix for each DP variant
       - name: test Accelerate (DP2) with extension ${{ matrix.platform }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 15
           max_attempts: 3
@@ -1533,7 +1533,7 @@ jobs:
 
       # see above why this is not a matrix for each DP variant
       - name: test Accelerate (DP2) without extension ${{ matrix.platform }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 15
           max_attempts: 3
@@ -1600,7 +1600,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.bundler }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -1653,7 +1653,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.library }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -1740,7 +1740,7 @@ jobs:
         run: pnpm install
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -1786,7 +1786,7 @@ jobs:
         run: pnpm install
 
       - name: test ${{ matrix.database }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -1837,7 +1837,7 @@ jobs:
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
       - name: test ${{ matrix.test-runner }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
