@@ -138,7 +138,7 @@ jobs:
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -197,7 +197,7 @@ jobs:
 
       - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
         id: run-test
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 45
           max_attempts: 3

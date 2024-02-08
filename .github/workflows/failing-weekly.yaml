@@ -55,7 +55,7 @@ jobs:
 
       - name: test ${{ matrix.database }} - ${{matrix.clientEngine}}
         id: run-test
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
