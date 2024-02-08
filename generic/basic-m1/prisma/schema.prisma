@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./keep.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id    String  @id @default(cuid())
+  id    String  @default(cuid()) @id
   email String  @unique
   name  String?
 }

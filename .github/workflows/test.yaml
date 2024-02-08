@@ -204,7 +204,7 @@ jobs:
       fail-fast: false
       matrix:
         feature: [pm2]
-        clientEngine: [library] # ['library', 'binary']
+        clientEngine: [library]
         os: [ubuntu-20.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -420,7 +420,7 @@ jobs:
             generate-client-install-on-sub-project-yarn,
           ]
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -622,6 +622,54 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
 
+  m1:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'm1')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        clientEngine: ['library', 'binary']
+    runs-on: [macos-14]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: generic/basic-m1/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh generic basic-m1
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh generic basic-m1
+
   # pnpm requires Node.js v 16.14 or higher
   # so as a workaround we test this version with npm
   node16dot13:
@@ -634,7 +682,7 @@ jobs:
         node:
           - 16.13
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -692,7 +740,7 @@ jobs:
           - 20
           - 21
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -805,7 +853,7 @@ jobs:
           - yarn3-without-pnp
           - yarn3-workspaces-pnp
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -875,7 +923,7 @@ jobs:
           - nextjs
           - sveltekit
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -927,9 +975,8 @@ jobs:
         platform:
           - heroku
           - aws-graviton
-          - m1-macstadium
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     # concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     concurrency: ${{ matrix.platform }}
@@ -937,7 +984,6 @@ jobs:
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-      SSH_KEY_M1_MACSTADIUM: ${{ secrets.SSH_KEY_M1_MACSTADIUM }}
 
     steps:
       - uses: actions/checkout@v4
@@ -997,7 +1043,7 @@ jobs:
           - azure-functions-windows
           - serverless-framework-lambda
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
         exclude:
           # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
           - clientEngine: library
@@ -1089,7 +1135,7 @@ jobs:
           - vercel-with-nextjs
           - vercel-with-nextjs-caching
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -1427,7 +1473,7 @@ jobs:
           - nodejs-mongodb-logs
           - nodejs-tracing
         clientEngine: [<accelerate>] # value for script logic
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -1525,7 +1571,7 @@ jobs:
           - parcel
           - rollup
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1578,7 +1624,7 @@ jobs:
           - apollo-server
           - type-graphql
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1647,7 +1693,7 @@ jobs:
           - planetscale
           - cockroach-cloud
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
 
     runs-on: ${{ matrix.os }}
 
@@ -1713,7 +1759,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        clientEngine: [library] # ['library', 'binary']
+        clientEngine: [library]
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -1762,7 +1808,7 @@ jobs:
         test-runner:
           - jest-with-multiple-generators
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04] #, windows-latest, macos-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:

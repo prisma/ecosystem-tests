@@ -23,6 +23,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1",
   "node",
   "binaries",
   "packagers",
@@ -40,7 +41,6 @@ Array [
   "test-runners",
   "community-generators",
   "platforms-codesandbox",
-  "platforms-m1-office",
 ]
 `)
   })
@@ -53,8 +53,7 @@ Array [
 Array [
   "platforms",
 ]
-`
-)
+`)
     expect(jobsToRun.includes('platforms')).toBe(true)
     expect(jobsToRun.includes('platforms-serverless')).toBe(false)
   })
@@ -68,8 +67,7 @@ Array [
   "platforms",
   "databases",
 ]
-`
-)
+`)
     expect(jobsToRun.includes('platforms')).toBe(true)
     expect(jobsToRun.includes('platforms-serverless-vercel')).toBe(false)
     expect(jobsToRun.includes('platforms-serverless')).toBe(false)
@@ -88,8 +86,7 @@ Array [
 Array [
   "community-generators",
 ]
-`
-)
+`)
 
     expect(jobsToRun.includes('community-generators')).toBe(true)
   })
@@ -107,6 +104,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1",
   "node",
   "binaries",
   "packagers",
@@ -124,7 +122,6 @@ Array [
   "test-runners",
   "community-generators",
   "platforms-codesandbox",
-  "platforms-m1-office",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
@@ -144,6 +141,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1",
   "node",
   "binaries",
   "packagers",
@@ -161,7 +159,6 @@ Array [
   "test-runners",
   "community-generators",
   "platforms-codesandbox",
-  "platforms-m1-office",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
@@ -181,6 +178,7 @@ Array [
   "migrate",
   "engines",
   "os",
+  "m1",
   "node",
   "binaries",
   "packagers",
@@ -198,7 +196,6 @@ Array [
   "test-runners",
   "community-generators",
   "platforms-codesandbox",
-  "platforms-m1-office",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
