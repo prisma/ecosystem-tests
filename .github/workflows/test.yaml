@@ -277,6 +277,7 @@ jobs:
           - debian-latest-amd64-openssl-3.0.x
           - debian-latest-arm64-openssl-3.0.x
           - debian-stretch-amd64-openssl-1.1.x
+          - distroless-bullseye-amd64-openssl-1.1.x
           - opensuse-tumbleweed-amd64-openssl-3.0.x
           - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
@@ -352,6 +353,7 @@ jobs:
         feature:
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-arm-openssl-1.1.x
+          - distroless-bullseye-amd64-openssl-1.1.x-without-zlib
         clientEngine: [library, binary]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
