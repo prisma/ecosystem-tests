@@ -9,11 +9,11 @@ dependencies:
     specifier: 0.8.1
     version: 0.8.1
   '@prisma/adapter-neon':
-    specifier: 5.10.0-dev.67
-    version: 5.10.0-dev.67(@neondatabase/serverless@0.8.1)
+    specifier: 5.10.0-dev.95
+    version: 5.10.0-dev.95(@neondatabase/serverless@0.8.1)
   '@prisma/client':
-    specifier: 5.10.0-dev.67
-    version: 5.10.0-dev.67(prisma@5.10.0-dev.67)
+    specifier: 5.10.0-dev.95
+    version: 5.10.0-dev.95(prisma@5.10.0-dev.95)
   next:
     specifier: 14.1.0
     version: 14.1.0(@babel/core@7.22.8)(react-dom@18.2.0)(react@18.2.0)
@@ -38,11 +38,11 @@ devDependencies:
     specifier: 28.1.3
     version: 28.1.3(@types/node@14.18.33)
   prisma:
-    specifier: 5.10.0-dev.67
-    version: 5.10.0-dev.67
+    specifier: 5.10.0-dev.95
+    version: 5.10.0-dev.95
   vercel:
-    specifier: 32.7.2
-    version: 32.7.2
+    specifier: 33.5.0
+    version: 33.5.0
 
 packages:
 
@@ -907,20 +907,18 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@prisma/adapter-neon@5.10.0-dev.67(@neondatabase/serverless@0.8.1):
-    resolution: {integrity: sha512-OF1UjRRMGFgvpGy0YkIZ2hGGafcze4sy4WrNj43QC71+Hh4aWeh0eE+cSF3HKtizMkDJQiS6c20Jt/dx/NvjVA==}
+  /@prisma/adapter-neon@5.10.0-dev.95(@neondatabase/serverless@0.8.1):
+    resolution: {integrity: sha512-3KXDttYr8rd50L3CAbVCM043YE678Vv0F71yCgWggCum+sIzdfzp9r3sdd/rsLAmGDV29IdrkmUFUZx3IccFQw==}
     peerDependencies:
       '@neondatabase/serverless': ^0.6.0 || ^0.7.0 || ^0.8.0
     dependencies:
       '@neondatabase/serverless': 0.8.1
-      '@prisma/driver-adapter-utils': 5.10.0-dev.67
+      '@prisma/driver-adapter-utils': 5.10.0-dev.95
       postgres-array: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
-  /@prisma/client@5.10.0-dev.67(prisma@5.10.0-dev.67):
-    resolution: {integrity: sha512-EOX8avI317UKDmHZep2autuLEiJWXP7EPmoFeAwl1NEBqFgi0yKMROjpEvJ2I8TjgRSeAn0GYmON0yYbp6OPkw==}
+  /@prisma/client@5.10.0-dev.95(prisma@5.10.0-dev.95):
+    resolution: {integrity: sha512-H1zrMSj4ThrSbx1nZlhhgDZXLgMLj3gc3fJ1P1C70vXmDYwHcYncOuOtkOE1scxWQC/PnfNcE1ZTwPOZ6FWskA==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -929,43 +927,41 @@ packages:
       prisma:
         optional: true
     dependencies:
-      prisma: 5.10.0-dev.67
+      prisma: 5.10.0-dev.95
     dev: false
 
-  /@prisma/debug@5.10.0-dev.67:
-    resolution: {integrity: sha512-T4Y+IUfQeTAhWgXX+GZQ/bXldy9IsOt5N+kEJZTxmNW7xm6dlWHvt/MobUR496G9Wvcx5QKzZO9QPS/8ln8sUA==}
+  /@prisma/debug@5.10.0-dev.95:
+    resolution: {integrity: sha512-eXU4f5EAVazAUjWfP3sPCBaFps0ftTLccyNfQ1ifyOzivCA+/3kDrjnJjlB1V4wCOJ/b21d98NTnKIeTIXIIwg==}
 
-  /@prisma/driver-adapter-utils@5.10.0-dev.67:
-    resolution: {integrity: sha512-YdByff03qIl2Lap7+Wg0tkwn4Yt6ftjFV2BuaMgAWIq8QLp8t6enXnqtGqdef/YEgEjX0bXq51BGUE2A2/TNMg==}
+  /@prisma/driver-adapter-utils@5.10.0-dev.95:
+    resolution: {integrity: sha512-88IYGFkctrFHiHhB4i3qOuVgxbOU6XjYOBJL6csEXn3T8SRATTF4d9yaFxAC+UH7Pgn3kHx8gJJnsnOXaf0L1g==}
     dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
+      '@prisma/debug': 5.10.0-dev.95
     dev: false
 
-  /@prisma/engines-version@5.10.0-15.32c59b72145367c5396f346069c130c2a03b3421:
-    resolution: {integrity: sha512-Pir8elbvo9e/KJatNuNYCKd6HXsRG2Xfmg39QtNisyB/IoQhbjbYbxhmHVZo1KsgRVbyEYSX/1nWq5hpll8FMw==}
+  /@prisma/engines-version@5.10.0-27.ced8cab49ce5e2ce1c7376d852b5cf8c5846bc9f:
+    resolution: {integrity: sha512-lE7dxcibDHzS6kEPkcvMOVUIypZ1dYTfr3AXN6gJT1O1W61AYSYG509SqjwbHAjm65fVYyXul7rgiT6XrKWHpw==}
 
-  /@prisma/engines@5.10.0-dev.67:
-    resolution: {integrity: sha512-aqgNRF+WgTDXwMfJelh+l3tTmxhjqBnSP3ulyU5Npz3jfvGL7s1nmjkPqGyEb+t8Agno/eT2BXwH/A+h45yQHw==}
+  /@prisma/engines@5.10.0-dev.95:
+    resolution: {integrity: sha512-rpYn5D6ZFwM0YpMcAOGJxqJ8ONOlK9TUk7osPSFEym5i59VBq9hKGe9O1HodN8848IPMp2k9hKOQBMV+VPMObg==}
     requiresBuild: true
     dependencies:
-      '@prisma/debug': 5.10.0-dev.67
-      '@prisma/engines-version': 5.10.0-15.32c59b72145367c5396f346069c130c2a03b3421
-      '@prisma/fetch-engine': 5.10.0-dev.67
-      '@prisma/get-platform': 5.10.0-dev.67
+      '@prisma/debug': 5.10.0-dev.95
+      '@prisma/engines-version': 5.10.0-27.ced8cab49ce5e2ce1c7376d852b5cf8c5846bc9f
+      '@prisma/fetch-engine': 5.10.0-dev.95
+      '@prisma/get-platform': 5.10.0-dev.95
 
-  /@prisma/fetch-engine@5.10.0-dev.67:
-    resolution: {integrity: sha512-0EesHNLqsQ7h64ESDoya26RjnHrg4rpEwhYtceV4s4DY+smnep1ulZkWt75RXltEkipzoICZIbvrjfWqeSZDUQ==}
+  /@prisma/fetch-engine@5.10.0-dev.95:
+    resolution: {integrity: sha512-bPFX1YkSWUmnMFW6Tpiss7Nke94HnN4UCQOM+dJSxhl2uKVArY964hN6y6HejlalcGF909w4N31gBnc+8CoTCw==}
     dependencies:
-      '@prisma/debug': 5.10.0-dev.67
-      '@prisma/engines-version': 5.10.0-15.32c59b72145367c5396f346069c130c2a03b3421
-      '@prisma/get-platform': 5.10.0-dev.67
+      '@prisma/debug': 5.10.0-dev.95
+      '@prisma/engines-version': 5.10.0-27.ced8cab49ce5e2ce1c7376d852b5cf8c5846bc9f
+      '@prisma/get-platform': 5.10.0-dev.95
 
-  /@prisma/get-platform@5.10.0-dev.67:
-    resolution: {integrity: sha512-FkmTvnDU+hfUksqmXUbUSANNmaPobImsj/BVY+R/a8DgDJIFHyhoREH51GJfYPglh2fIEHoUauBGYmhXpInbeA==}
+  /@prisma/get-platform@5.10.0-dev.95:
+    resolution: {integrity: sha512-SnhpmqZviHZIjPbXwI4aDdZoW5BHpztXUriKZWiKRrJ+7PsKtHm/kfWcuK6dUvl/UDAu8x663hjeDL3fdVByIw==}
     dependencies:
-      '@prisma/debug': 5.10.0-dev.67
+      '@prisma/debug': 5.10.0-dev.95
 
   /@rollup/pluginutils@4.2.1:
     resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
@@ -1135,8 +1131,8 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: true
 
-  /@vercel/build-utils@7.3.0:
-    resolution: {integrity: sha512-RJwqrGYSk75auHZqWmlSL+a5JsWv+4SF1AxNQJ+KpF3XWZ/8yThkN/jHBfNxMmW6VvNczSVtMaXI0/2Sess6Eg==}
+  /@vercel/build-utils@7.6.0:
+    resolution: {integrity: sha512-NHTakIX/OMl/VY+uKVZA8teNAekkkldUlYuoAxUGfVuxnRDoUGSouE6LJR3Cwi0NJXte20Y+z1n5h+fhLdqcrA==}
     dev: true
 
   /@vercel/error-utils@2.0.2:
@@ -1178,45 +1174,46 @@ packages:
       web-vitals: 0.2.4
     dev: true
 
-  /@vercel/gatsby-plugin-vercel-builder@2.0.12:
-    resolution: {integrity: sha512-S1RkywrUItewqg06T3L4cgYfiwi2BFngHIIerhOYhVuD9A+yfMgxnH5dkbu6nujmV1SEws+Q92wSiPfLPmO0eA==}
+  /@vercel/gatsby-plugin-vercel-builder@2.0.17:
+    resolution: {integrity: sha512-HeN9lW5CPvMSGoMwD+OHOJROSZn7IAVDrN4qytE/XWAGihaKWjvcjnUycOygtrFP25wq4pOis5N9+6gMBcu/jQ==}
     dependencies:
       '@sinclair/typebox': 0.25.24
-      '@vercel/build-utils': 7.3.0
+      '@vercel/build-utils': 7.6.0
       '@vercel/routing-utils': 3.1.0
       esbuild: 0.14.47
       etag: 1.8.1
       fs-extra: 11.1.0
     dev: true
 
-  /@vercel/go@3.0.4:
-    resolution: {integrity: sha512-hMIJm2xwU1HT56YRNF8HNOnIFNH7WnGl1l2D6lc6UJk7XdCCh1Dm0nsqLqki2SprTUh3I+53pTQaqgRsFGf06A==}
+  /@vercel/go@3.0.5:
+    resolution: {integrity: sha512-+kEDI+hop3e8BuKisaEozxfzT6GBbp0OMBcgi0tlD5ZTmhGmpwi3vgK5mBQlB+RBXj7qlqDLW/uV2F1Y03FLcQ==}
     dev: true
 
-  /@vercel/hydrogen@1.0.1:
-    resolution: {integrity: sha512-4PYk4LeIWPTjGtgnxvB0Hdw7aqCau843/96K2xX3z9pa0Hn//pUnZBMz2jrs5MRseCm1Li1LdQAK3u8/vaUnVQ==}
+  /@vercel/hydrogen@1.0.2:
+    resolution: {integrity: sha512-/Q2MKk1GfOuZAnkE9jQexjtUQqanbY65R+xtJWd9yKIgwcfRI1hxiNH3uXyVM5AvLoY+fxxULkSuxDtUKpkJpQ==}
     dependencies:
       '@vercel/static-config': 3.0.0
       ts-morph: 12.0.0
     dev: true
 
-  /@vercel/next@4.0.15:
-    resolution: {integrity: sha512-BxMxIJrya7MS6IWrQIaQaYHPmq7WoZFLX909RBpNoAG5wgzrTrW756d2EsibBwGo7sQYBv2atyI5GqBIHzYbWg==}
+  /@vercel/next@4.1.1:
+    resolution: {integrity: sha512-bc+UimeP+Swwye10LNcB93uaGq2lMuPUhB3den0GBJ+x/aSFmSwVziohF+p1n4ozFGEUx6Qx/CyZcfopuO5jZA==}
     dependencies:
-      '@vercel/nft': 0.24.2
+      '@vercel/nft': 0.26.3
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: true
 
-  /@vercel/nft@0.24.2:
-    resolution: {integrity: sha512-KhY3Ky/lCqE+fHpOXiKOLnXYJ49PZh1dyDSfVtZhmYtmica0NQgyO6kPOAGDNWqD9IOBx8hb65upxxjfnfa1JA==}
+  /@vercel/nft@0.26.3:
+    resolution: {integrity: sha512-h1z/NN9ppS4YOKwSgBoopJlhm7tS2Qb/9Ld1HXjDpvvTE7mY0xVD8nllXs+RihD9uTGJISOIMzp18Eg0EApaMA==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.10
       '@rollup/pluginutils': 4.2.1
       acorn: 8.10.0
+      acorn-import-attributes: 1.9.2(acorn@8.10.0)
       async-sema: 3.1.1
       bindings: 1.5.0
       estree-walker: 2.0.2
@@ -1230,22 +1227,21 @@ packages:
       - supports-color
     dev: true
 
-  /@vercel/node@3.0.12:
-    resolution: {integrity: sha512-OiNHiUe1LX/CfDrQ07ntPsoYhJiC38mEeErYeqA6YNVAz3QGdX3pthiaIig2KPqeeYkEx5bSkVIqQtQOTJBuLQ==}
+  /@vercel/node@3.0.18:
+    resolution: {integrity: sha512-EOwOQB80B/+JyXkjNDZs0N9z8P+5QyzGU3RrnpqqfcFkh518yiP5TQedS0NUBeITqKc04az5BTGIEr5uhyRngA==}
     dependencies:
       '@edge-runtime/node-utils': 2.2.1
       '@edge-runtime/primitives': 4.0.5
       '@edge-runtime/vm': 3.1.7
       '@types/node': 14.18.33
-      '@vercel/build-utils': 7.3.0
+      '@vercel/build-utils': 7.6.0
       '@vercel/error-utils': 2.0.2
-      '@vercel/nft': 0.24.2
+      '@vercel/nft': 0.26.3
       '@vercel/static-config': 3.0.0
       async-listen: 3.0.0
       edge-runtime: 2.5.7
       esbuild: 0.14.47
       etag: 1.8.1
-      exit-hook: 2.2.1
       node-fetch: 2.6.9
       path-to-regexp: 6.2.1
       ts-morph: 12.0.0
@@ -1259,14 +1255,14 @@ packages:
       - supports-color
     dev: true
 
-  /@vercel/python@4.1.0:
-    resolution: {integrity: sha512-EIQXK5zL6fce0Barh74gc7xyLtRyvgmLZDIVQ8yJLtFxPlPCRY3GXkdJ7Jdcw8Pd0uuVF0vIHatv18xSLbcwtg==}
+  /@vercel/python@4.1.1:
+    resolution: {integrity: sha512-EbAdKOZ0hPd5b59tLt7R3RQK1azNvuZTrCFRAVHNjqcIHNCmrSvjag5zBGn7Memkk8qWb3+CgBw9K/3LJKei0w==}
     dev: true
 
-  /@vercel/redwood@2.0.5:
-    resolution: {integrity: sha512-9iWTxfMkC7yNnwN2xxOdptiIDAgXe1V1fh3aw92MWt5PBRcFY9RqgIPF7Q3Qa7yzQFgpbHwCnSTqWO+HCEuFtw==}
+  /@vercel/redwood@2.0.7:
+    resolution: {integrity: sha512-5BqSq9QP4kC3h9YmXJbuUM79EMErs2qs8MMBlw7r2zTLc2rqlUR6suzshn5Ei/Beqoj2pm7d+qrludEBVDBxkw==}
     dependencies:
-      '@vercel/nft': 0.24.2
+      '@vercel/nft': 0.26.3
       '@vercel/routing-utils': 3.1.0
       semver: 6.3.1
     transitivePeerDependencies:
@@ -1274,10 +1270,10 @@ packages:
       - supports-color
     dev: true
 
-  /@vercel/remix-builder@2.0.14:
-    resolution: {integrity: sha512-c+ILERSRq404sf6kt0qWhYhuxWkkoTEm2FdLoUnVs21K6kzGtJMJbUExEHoPZvN9a0tq86ZU86jVvRZV6WL0cQ==}
+  /@vercel/remix-builder@2.0.19:
+    resolution: {integrity: sha512-mODNijOpRGKtW09ksg01ju6tOt+C/fba71l1rrHi8I/ejPxpXHnfArNyO5SPRldyq5eHrhBMeePStQLVKNetug==}
     dependencies:
-      '@vercel/nft': 0.24.2
+      '@vercel/nft': 0.26.3
       '@vercel/static-config': 3.0.0
       ts-morph: 12.0.0
     transitivePeerDependencies:
@@ -1293,15 +1289,15 @@ packages:
       ajv: 6.12.6
     dev: true
 
-  /@vercel/ruby@2.0.4:
-    resolution: {integrity: sha512-EpZyfF6wFGzFDmubFIh/EZtYpKindmXx/69xSfKEBTVU0afgljyOOICbyZePe5tvigfOEBLSLgrt/2nN+MlLtA==}
+  /@vercel/ruby@2.0.5:
+    resolution: {integrity: sha512-Gfm8HDech41vf+EPleRzgoJUnDTJerKgckMm4KX0JT860gV9XBMSOWYH7eMWHmMza104+HRCWL7wT6OlpftF2Q==}
     dev: true
 
-  /@vercel/static-build@2.0.14:
-    resolution: {integrity: sha512-l5eQtJbk5Pc+P8XARDnpcbX4LnK3bGy7uf6S1aFOD4h6F8iBdg0agWTufZnq5BI91pcPVICPazM5BYhigIEznQ==}
+  /@vercel/static-build@2.3.0:
+    resolution: {integrity: sha512-rtUvz9p3Opud2yj5ZrkbN6j2Xq79tDX8sWasmikpGvPbvgPVwzXcL8QhjGIJ6CLuwg2A9+2rBkyRBJKKfmsE8g==}
     dependencies:
       '@vercel/gatsby-plugin-vercel-analytics': 1.0.11
-      '@vercel/gatsby-plugin-vercel-builder': 2.0.12
+      '@vercel/gatsby-plugin-vercel-builder': 2.0.17
       '@vercel/static-config': 3.0.0
       ts-morph: 12.0.0
     dev: true
@@ -1316,6 +1312,14 @@ packages:
 
   /abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
+    dev: true
+
+  /acorn-import-attributes@1.9.2(acorn@8.10.0):
+    resolution: {integrity: sha512-O+nfJwNolEA771IYJaiLWK1UAwjNsQmZbTRqqwBYxCgVQTmpFEMvBw6LOIQV0Me339L5UMVYFyRohGnGlQDdIQ==}
+    peerDependencies:
+      acorn: ^8
+    dependencies:
+      acorn: 8.10.0
     dev: true
 
   /acorn-walk@8.2.0:
@@ -2126,11 +2130,6 @@ packages:
       onetime: 5.1.2
       signal-exit: 3.0.7
       strip-final-newline: 2.0.0
-    dev: true
-
-  /exit-hook@2.2.1:
-    resolution: {integrity: sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==}
-    engines: {node: '>=6'}
     dev: true
 
   /exit@0.1.2:
@@ -3676,13 +3675,13 @@ packages:
       parse-ms: 2.1.0
     dev: true
 
-  /prisma@5.10.0-dev.67:
-    resolution: {integrity: sha512-vaChQrcVYDHt3hU52+e/i/ciZeNCsfp/Ku0XII4kYxSIO9C1fDepLtpVBX2+NuZ8lboH9YN61PHVVbDr+oB+SA==}
+  /prisma@5.10.0-dev.95:
+    resolution: {integrity: sha512-oBHVOVTU4t8T8Db2hZiAyndQZM8qG8f6Q3X5vkYVthcK23+6H/ha/eZZPDORqJ5gU0B2efQ6tzmFn4aARid6DA==}
     engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 5.10.0-dev.67
+      '@prisma/engines': 5.10.0-dev.95
 
   /promisepipe@3.0.0:
     resolution: {integrity: sha512-V6TbZDJ/ZswevgkDNpGt/YqNCiZP9ASfgU+p83uJE6NrGtvSGoOcHLiDCqkMs2+yg7F5qHdLV8d0aS8O26G/KA==}
@@ -4250,22 +4249,22 @@ packages:
       convert-source-map: 1.9.0
     dev: true
 
-  /vercel@32.7.2:
-    resolution: {integrity: sha512-esyeo67OZ/f7usKFCrx6NSjsvpo/BP/C8Mfron2uiCb4vXVcjkwOM7TwliHx6b0DbXjpzomdGVUHKRs34VNn2Q==}
+  /vercel@33.5.0:
+    resolution: {integrity: sha512-NRv9JbozIqzBbhsrZFCfSvvCGO6HMGR7IqoPkNUGoj5wmdLqu01gYB77byTBs3GOtWgP8TgqkStaKGGF5VmVlQ==}
     engines: {node: '>= 16'}
     hasBin: true
     dependencies:
-      '@vercel/build-utils': 7.3.0
+      '@vercel/build-utils': 7.6.0
       '@vercel/fun': 1.1.0
-      '@vercel/go': 3.0.4
-      '@vercel/hydrogen': 1.0.1
-      '@vercel/next': 4.0.15
-      '@vercel/node': 3.0.12
-      '@vercel/python': 4.1.0
-      '@vercel/redwood': 2.0.5
-      '@vercel/remix-builder': 2.0.14
-      '@vercel/ruby': 2.0.4
-      '@vercel/static-build': 2.0.14
+      '@vercel/go': 3.0.5
+      '@vercel/hydrogen': 1.0.2
+      '@vercel/next': 4.1.1
+      '@vercel/node': 3.0.18
+      '@vercel/python': 4.1.1
+      '@vercel/redwood': 2.0.7
+      '@vercel/remix-builder': 2.0.19
+      '@vercel/ruby': 2.0.5
+      '@vercel/static-build': 2.3.0
       chokidar: 3.3.1
     transitivePeerDependencies:
       - '@swc/core'

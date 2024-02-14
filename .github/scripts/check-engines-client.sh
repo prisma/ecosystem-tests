@@ -125,13 +125,13 @@ elif [ $CLIENT_ENGINE_TYPE == "wasm" ]; then
   echo "WasmEngine: Enabled"
   case $os_name in
     linux)
-      qe_location="$GENERATED_CLIENT/query-engine.wasm"
+      qe_location="$GENERATED_CLIENT/query_engine_bg.wasm"
       ;;
     osx)
-      qe_location="$GENERATED_CLIENT/query-engine.wasm"
+      qe_location="$GENERATED_CLIENT/query_engine_bg.wasm"
       ;;
     windows*)
-      qe_location="$GENERATED_CLIENT\query-engine.wasm"
+      qe_location="$GENERATED_CLIENT\query_engine_bg.wasm"
       ;;
     *)
       os_name=notset
@@ -151,8 +151,7 @@ elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists at ${qe_location}"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
+  echo "$ ls $GENERATED_CLIENT"
+  ls $GENERATED_CLIENT
   exit 1
 fi
-
-echo "$ ls $GENERATED_CLIENT"
-ls $GENERATED_CLIENT

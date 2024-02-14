@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@prisma/adapter-pg':
-    specifier: 5.10.0-dev.2
-    version: 5.10.0-dev.2(pg@8.11.3)
+    specifier: 5.10.0-dev.95
+    version: 5.10.0-dev.95(pg@8.11.3)
   '@prisma/client':
-    specifier: 5.10.0-dev.2
-    version: 5.10.0-dev.2(prisma@5.10.0-dev.2)
+    specifier: 5.10.0-dev.95
+    version: 5.10.0-dev.95(prisma@5.10.0-dev.95)
   pg:
     specifier: 8.11.3
     version: 8.11.3
@@ -26,11 +26,11 @@ devDependencies:
     specifier: 2.7.0
     version: 2.7.0
   prisma:
-    specifier: 5.10.0-dev.2
-    version: 5.10.0-dev.2
+    specifier: 5.10.0-dev.95
+    version: 5.10.0-dev.95
   wrangler:
-    specifier: https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/runs/6711485115/npm-package-wrangler-2541
-    version: '@prerelease-registry.devprod.cloudflare.dev/workers-sdk/runs/6711485115/npm-package-wrangler-2541'
+    specifier: 3.28.2
+    version: 3.28.2
 
 packages:
 
@@ -371,14 +371,14 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@cloudflare/kv-asset-handler@0.2.0:
-    resolution: {integrity: sha512-MVbXLbTcAotOPUj0pAMhVtJ+3/kFkwJqc5qNOleOZTv6QkZZABDMS21dSrSlVswEHwrpWC03e4fWytjqKvuE2A==}
+  /@cloudflare/kv-asset-handler@0.3.1:
+    resolution: {integrity: sha512-lKN2XCfKCmpKb86a1tl4GIwsJYDy9TGuwjhDELLmpKygQhw8X2xR4dusgpC5Tg7q1pB96Eb0rBo81kxSILQMwA==}
     dependencies:
       mime: 3.0.0
     dev: true
 
-  /@cloudflare/workerd-darwin-64@1.20231025.0:
-    resolution: {integrity: sha512-MYRYTbSl+tjGg6su7savlLIb8cOcKJfdGpA+WdtgqT2OF7O+89Lag0l1SA/iyVlUkT31Jc6OLHqvzsXgmg+niQ==}
+  /@cloudflare/workerd-darwin-64@1.20240129.0:
+    resolution: {integrity: sha512-DfVVB5IsQLVcWPJwV019vY3nEtU88c2Qu2ST5SQxqcGivZ52imagLRK0RHCIP8PK4piSiq90qUC6ybppUsw8eg==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [darwin]
@@ -386,8 +386,8 @@ packages:
     dev: true
     optional: true
 
-  /@cloudflare/workerd-darwin-arm64@1.20231025.0:
-    resolution: {integrity: sha512-BszjtBDR84TVa6oWe74dePJSAukWlTmLw9zR4KeWuwZLJGV7RMm6AmwGStetjnwZrecZaaOFELfBCAHtsebV0Q==}
+  /@cloudflare/workerd-darwin-arm64@1.20240129.0:
+    resolution: {integrity: sha512-t0q8ABkmumG1zRM/MZ/vIv/Ysx0vTAXnQAPy/JW5aeQi/tqrypXkO9/NhPc0jbF/g/hIPrWEqpDgEp3CB7Da7Q==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [darwin]
@@ -395,8 +395,8 @@ packages:
     dev: true
     optional: true
 
-  /@cloudflare/workerd-linux-64@1.20231025.0:
-    resolution: {integrity: sha512-AT9dxgKXOa9xZxZ3k2a432axPJJ58KpoNWnPiPYGpuAuLoWnfcYwwh6mr9sZVcTdAdTAK9Xu9c81tp0YABanUw==}
+  /@cloudflare/workerd-linux-64@1.20240129.0:
+    resolution: {integrity: sha512-sFV1uobHgDI+6CKBS/ZshQvOvajgwl6BtiYaH4PSFSpvXTmRx+A9bcug+6BnD+V4WgwxTiEO2iR97E1XuwDAVw==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [linux]
@@ -404,8 +404,8 @@ packages:
     dev: true
     optional: true
 
-  /@cloudflare/workerd-linux-arm64@1.20231025.0:
-    resolution: {integrity: sha512-EIjex5o2k80YZWPix1btGybL/vNZ3o6vqKX9ptS0JcFkHV5aFX5/kcMwSBRjiIC+w04zVjmGQx3N1Vh3njuncg==}
+  /@cloudflare/workerd-linux-arm64@1.20240129.0:
+    resolution: {integrity: sha512-O7q7htHaFRp8PgTqNJx1/fYc3+LnvAo6kWWB9a14C5OWak6AAZk42PNpKPx+DXTmGvI+8S1+futBGUeJ8NPDXg==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [linux]
@@ -413,14 +413,21 @@ packages:
     dev: true
     optional: true
 
-  /@cloudflare/workerd-windows-64@1.20231025.0:
-    resolution: {integrity: sha512-7vtq0mO22A2v0OOsKXa760r9a84Gg8CK0gDu5uNWlj6hojmt011iz7jJt76I7oo/XrVwVlVfu69GnA3ljx6U8w==}
+  /@cloudflare/workerd-windows-64@1.20240129.0:
+    resolution: {integrity: sha512-YqGno0XSqqqkDmNoGEX6M8kJlI2lEfWntbTPVtHaZlaXVR9sWfoD7TEno0NKC95cXFz+ioyFLbgbOdnfWwmVAA==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
+
+  /@cspotcode/source-map-support@0.8.1:
+    resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.9
+    dev: true
 
   /@esbuild-plugins/node-globals-polyfill@0.2.3(esbuild@0.17.19):
     resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
@@ -996,20 +1003,25 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@prisma/adapter-pg@5.10.0-dev.2(pg@8.11.3):
-    resolution: {integrity: sha512-fiqyNYkX7N/8cwGbtC7L1XLejHY5roMsmtTKcQ8v+TpYyBMNh3WQC+DwdN1c+c78oXVJAnGJ2bOEUzqhvoj3+w==}
+  /@jridgewell/trace-mapping@0.3.9:
+    resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
+    dependencies:
+      '@jridgewell/resolve-uri': 3.1.1
+      '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /@prisma/adapter-pg@5.10.0-dev.95(pg@8.11.3):
+    resolution: {integrity: sha512-JPr0hFOA9qX8l4MMaU3K+jEHdNdnd1kXetiByKY2FzvAflpgNcKk5pyLozuNXrFk7ZBRho1KrbgtGZa0YmK+iw==}
     peerDependencies:
       pg: ^8.11.3
     dependencies:
-      '@prisma/driver-adapter-utils': 5.10.0-dev.2
+      '@prisma/driver-adapter-utils': 5.10.0-dev.95
       pg: 8.11.3
       postgres-array: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
-  /@prisma/client@5.10.0-dev.2(prisma@5.10.0-dev.2):
-    resolution: {integrity: sha512-fuRIBnShC+EBTpfk9D899ArtQCgbF7Yce69l5CGJ9zDg3alxwTDBFO2wRwJdFFiAV2lUVIsonFkASauLAXBl9w==}
+  /@prisma/client@5.10.0-dev.95(prisma@5.10.0-dev.95):
+    resolution: {integrity: sha512-H1zrMSj4ThrSbx1nZlhhgDZXLgMLj3gc3fJ1P1C70vXmDYwHcYncOuOtkOE1scxWQC/PnfNcE1ZTwPOZ6FWskA==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -1018,43 +1030,41 @@ packages:
       prisma:
         optional: true
     dependencies:
-      prisma: 5.10.0-dev.2
+      prisma: 5.10.0-dev.95
     dev: false
 
-  /@prisma/debug@5.10.0-dev.2:
-    resolution: {integrity: sha512-od3su6P3KhzsVfrcdGAJPGc0uHviWmP9FaZvCrn0tgZNTHCDdz9/bNVJNVgS4GaHLRIRUf6lhKOuP4zEOBkt6A==}
+  /@prisma/debug@5.10.0-dev.95:
+    resolution: {integrity: sha512-eXU4f5EAVazAUjWfP3sPCBaFps0ftTLccyNfQ1ifyOzivCA+/3kDrjnJjlB1V4wCOJ/b21d98NTnKIeTIXIIwg==}
 
-  /@prisma/driver-adapter-utils@5.10.0-dev.2:
-    resolution: {integrity: sha512-Hhwc1GKhFSCv71Ms4oGecxUEPabaOhhzkehu2Wm27+Xp/1dMYCSCfKXaC0RvB/sBCaDrdOtgv9pUMLdE4DbCJg==}
+  /@prisma/driver-adapter-utils@5.10.0-dev.95:
+    resolution: {integrity: sha512-88IYGFkctrFHiHhB4i3qOuVgxbOU6XjYOBJL6csEXn3T8SRATTF4d9yaFxAC+UH7Pgn3kHx8gJJnsnOXaf0L1g==}
     dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
+      '@prisma/debug': 5.10.0-dev.95
     dev: false
 
-  /@prisma/engines-version@5.9.0-32.23fdc5965b1e05fc54e5f26ed3de66776b93de64:
-    resolution: {integrity: sha512-HFl7275yF0FWbdcNvcSRbbu9JCBSLMcurYwvWc8WGDnpu7APxQo2ONtZrUggU3WxLxUJ2uBX+0GOFIcJeVeOOQ==}
+  /@prisma/engines-version@5.10.0-27.ced8cab49ce5e2ce1c7376d852b5cf8c5846bc9f:
+    resolution: {integrity: sha512-lE7dxcibDHzS6kEPkcvMOVUIypZ1dYTfr3AXN6gJT1O1W61AYSYG509SqjwbHAjm65fVYyXul7rgiT6XrKWHpw==}
 
-  /@prisma/engines@5.10.0-dev.2:
-    resolution: {integrity: sha512-lVdStyWSYfV0kFkyVllwk2nNxiUsL/otgc6GMKgwjyFnrydGSTVRJVB231FQmLPbly0Z1SjE+Bb/hUUpwIy93Q==}
+  /@prisma/engines@5.10.0-dev.95:
+    resolution: {integrity: sha512-rpYn5D6ZFwM0YpMcAOGJxqJ8ONOlK9TUk7osPSFEym5i59VBq9hKGe9O1HodN8848IPMp2k9hKOQBMV+VPMObg==}
     requiresBuild: true
     dependencies:
-      '@prisma/debug': 5.10.0-dev.2
-      '@prisma/engines-version': 5.9.0-32.23fdc5965b1e05fc54e5f26ed3de66776b93de64
-      '@prisma/fetch-engine': 5.10.0-dev.2
-      '@prisma/get-platform': 5.10.0-dev.2
+      '@prisma/debug': 5.10.0-dev.95
+      '@prisma/engines-version': 5.10.0-27.ced8cab49ce5e2ce1c7376d852b5cf8c5846bc9f
+      '@prisma/fetch-engine': 5.10.0-dev.95
+      '@prisma/get-platform': 5.10.0-dev.95
 
-  /@prisma/fetch-engine@5.10.0-dev.2:
-    resolution: {integrity: sha512-9lvXMUfraY3VJ8kB9H91zTuDaH/kMu1OouSsifVK9CBNLFdeYkYbtNCkExIYW0XeGSHOA5Vqh5mqfV/dFkB9+A==}
+  /@prisma/fetch-engine@5.10.0-dev.95:
+    resolution: {integrity: sha512-bPFX1YkSWUmnMFW6Tpiss7Nke94HnN4UCQOM+dJSxhl2uKVArY964hN6y6HejlalcGF909w4N31gBnc+8CoTCw==}
     dependencies:
-      '@prisma/debug': 5.10.0-dev.2
-      '@prisma/engines-version': 5.9.0-32.23fdc5965b1e05fc54e5f26ed3de66776b93de64
-      '@prisma/get-platform': 5.10.0-dev.2
+      '@prisma/debug': 5.10.0-dev.95
+      '@prisma/engines-version': 5.10.0-27.ced8cab49ce5e2ce1c7376d852b5cf8c5846bc9f
+      '@prisma/get-platform': 5.10.0-dev.95
 
-  /@prisma/get-platform@5.10.0-dev.2:
-    resolution: {integrity: sha512-psAWM67ZTVb8TSJByCGS/cbsiJTB/+wUdfExWEBf3v+/RbkKbFlmgV84XZL8UXFYom7xslORbZeUbZPVgwAYsg==}
+  /@prisma/get-platform@5.10.0-dev.95:
+    resolution: {integrity: sha512-SnhpmqZviHZIjPbXwI4aDdZoW5BHpztXUriKZWiKRrJ+7PsKtHm/kfWcuK6dUvl/UDAu8x663hjeDL3fdVByIw==}
     dependencies:
-      '@prisma/debug': 5.10.0-dev.2
+      '@prisma/debug': 5.10.0-dev.95
 
   /@sinclair/typebox@0.24.51:
     resolution: {integrity: sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==}
@@ -1139,10 +1149,16 @@ packages:
       '@types/istanbul-lib-report': 3.0.3
     dev: true
 
-  /@types/node-forge@1.3.9:
-    resolution: {integrity: sha512-meK88cx/sTalPSLSoCzkiUB4VPIFHmxtXm5FaaqRDqBX2i/Sy8bJ4odsan0b20RBjPh06dAQ+OTTdnyQyhJZyQ==}
+  /@types/node-forge@1.3.11:
+    resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
     dependencies:
-      '@types/node': 20.9.0
+      '@types/node': 20.11.17
+    dev: true
+
+  /@types/node@20.11.17:
+    resolution: {integrity: sha512-QmgQZGWu1Yw9TDyAP9ZzpFJKynYNeOvwMJmaxABfieQoVoiVOS6MN1WSpqpRcbeA5+RW82kraAVxCCJg+780Qw==}
+    dependencies:
+      undici-types: 5.26.5
     dev: true
 
   /@types/node@20.9.0:
@@ -1169,13 +1185,13 @@ packages:
       '@types/yargs-parser': 21.0.3
     dev: true
 
-  /acorn-walk@8.3.0:
-    resolution: {integrity: sha512-FS7hV565M5l1R08MXqo8odwMTB02C2UqzB17RVgu9EyuYFBqJZ3/ZY97sQD5FewVu1UyDFc1yztUDrAwT0EypA==}
+  /acorn-walk@8.3.2:
+    resolution: {integrity: sha512-cjkyv4OtNCIeqhHrfS81QWXoCBPExR/J62oyEqepVw8WaQeSqpW2uhuLPh1m9eWhDuOo/jUXVTlifvesOWp/4A==}
     engines: {node: '>=0.4.0'}
     dev: true
 
-  /acorn@8.11.2:
-    resolution: {integrity: sha512-nc0Axzp/0FILLEVsm4fNwLCwMttvhEI263QtVPQcbpfZZ3ts0hLsZGOpE6czNlid7CJ9MlyH8reXkpsf3YUY4w==}
+  /acorn@8.11.3:
+    resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
@@ -1406,8 +1422,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /chokidar@3.5.3:
-    resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
+  /chokidar@3.6.0:
+    resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.3
@@ -1509,6 +1525,7 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+    dev: true
 
   /dedent@0.7.0:
     resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}
@@ -2542,20 +2559,21 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /miniflare@3.20231025.0:
-    resolution: {integrity: sha512-pFcr2BRaGIQ26UfdDo8BMJ6kkd/Jo/FkQ/4K7UG/eORlDepsLrR/sTJddcSSIGl07MA+MGjhzopFTPpFskkS+g==}
+  /miniflare@3.20240129.2:
+    resolution: {integrity: sha512-BPUg8HsPmWQlRFUeiQk274i8M9L0gOvzbkjryuTvCX+M53EwBpP0gM2wyrRr/HokQoJcxWGh3InBu6L8+0bbPw==}
     engines: {node: '>=16.13'}
+    hasBin: true
     dependencies:
-      acorn: 8.11.2
-      acorn-walk: 8.3.0
+      '@cspotcode/source-map-support': 0.8.1
+      acorn: 8.11.3
+      acorn-walk: 8.3.2
       capnp-ts: 0.7.0
       exit-hook: 2.2.1
       glob-to-regexp: 0.4.1
-      source-map-support: 0.5.21
       stoppable: 1.1.0
-      undici: 5.27.2
-      workerd: 1.20231025.0
-      ws: 8.14.2
+      undici: 5.28.3
+      workerd: 1.20240129.0
+      ws: 8.16.0
       youch: 3.3.3
       zod: 3.22.4
     transitivePeerDependencies:
@@ -2572,6 +2590,7 @@ packages:
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: true
 
   /mustache@4.2.0:
     resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
@@ -2836,13 +2855,13 @@ packages:
     resolution: {integrity: sha512-dKp+C4iXWK4vVYZmYSd0KBH5F/h1HoZRsbJ82AVKRO3PEo8L4lBS/vLwhVtpwwuYcoIsVY+1JYKR268yn480uQ==}
     dev: true
 
-  /prisma@5.10.0-dev.2:
-    resolution: {integrity: sha512-QzGEpEHFpwWYyt1TAQz5h1GkfLb1hZEV8WKuOl98m98KrxLBVFRGnxtegU0x7L/igk8Urc50je+f5MwfC2udFQ==}
+  /prisma@5.10.0-dev.95:
+    resolution: {integrity: sha512-oBHVOVTU4t8T8Db2hZiAyndQZM8qG8f6Q3X5vkYVthcK23+6H/ha/eZZPDORqJ5gU0B2efQ6tzmFn4aARid6DA==}
     engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 5.10.0-dev.2
+      '@prisma/engines': 5.10.0-dev.95
 
   /prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
@@ -2931,7 +2950,7 @@ packages:
     resolution: {integrity: sha512-th5B4L2U+eGLq1TVh7zNRGBapioSORUeymIydxgFpwww9d2qyKvtuPU2jJuHvYAwwqi2Y596QBL3eEqcPEYL8Q==}
     engines: {node: '>=10'}
     dependencies:
-      '@types/node-forge': 1.3.9
+      '@types/node-forge': 1.3.11
       node-forge: 1.3.1
     dev: true
 
@@ -2975,13 +2994,6 @@ packages:
 
   /source-map-support@0.5.13:
     resolution: {integrity: sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==}
-    dependencies:
-      buffer-from: 1.1.2
-      source-map: 0.6.1
-    dev: true
-
-  /source-map-support@0.5.21:
-    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
@@ -3153,8 +3165,8 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
-  /undici@5.27.2:
-    resolution: {integrity: sha512-iS857PdOEy/y3wlM3yRp+6SNQQ6xU0mmZcwRSriqk+et/cwWAtwmIGf6WkoDN2EK/AMdCO/dfXzIwi+rFMrjjQ==}
+  /undici@5.28.3:
+    resolution: {integrity: sha512-3ItfzbrhDlINjaP0duwnNsKpDQk3acHI3gVJ1z4fmwMK31k5G9OVIAMLSIaP6w4FaGkaAkN6zaQO9LUvZ1t7VA==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.1.0
@@ -3205,17 +3217,49 @@ packages:
       isexe: 2.0.0
     dev: true
 
-  /workerd@1.20231025.0:
-    resolution: {integrity: sha512-W1PFtpMFfvmm+ozBf+u70TE3Pviv7WA4qzDeejHDC4z+PFDq4+3KJCkgffaGBO86h+akWO0hSsc0uXL2zAqofQ==}
+  /workerd@1.20240129.0:
+    resolution: {integrity: sha512-t4pnsmjjk/u+GdVDgH2M1AFmJaBUABshYK/vT/HNrAXsHSwN6VR8Yqw0JQ845OokO34VLkuUtYQYyxHHKpdtsw==}
     engines: {node: '>=16'}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      '@cloudflare/workerd-darwin-64': 1.20231025.0
-      '@cloudflare/workerd-darwin-arm64': 1.20231025.0
-      '@cloudflare/workerd-linux-64': 1.20231025.0
-      '@cloudflare/workerd-linux-arm64': 1.20231025.0
-      '@cloudflare/workerd-windows-64': 1.20231025.0
+      '@cloudflare/workerd-darwin-64': 1.20240129.0
+      '@cloudflare/workerd-darwin-arm64': 1.20240129.0
+      '@cloudflare/workerd-linux-64': 1.20240129.0
+      '@cloudflare/workerd-linux-arm64': 1.20240129.0
+      '@cloudflare/workerd-windows-64': 1.20240129.0
+    dev: true
+
+  /wrangler@3.28.2:
+    resolution: {integrity: sha512-hlD4f2avBZuR1+qo9Um6D1prdWrSRtGTo9h6o/AKce+bHQEJWoJgJKHeLmrpZlLtHg/gGR1Xa1xzrexhuIzeJw==}
+    engines: {node: '>=16.17.0'}
+    hasBin: true
+    peerDependencies:
+      '@cloudflare/workers-types': ^4.20230914.0
+    peerDependenciesMeta:
+      '@cloudflare/workers-types':
+        optional: true
+    dependencies:
+      '@cloudflare/kv-asset-handler': 0.3.1
+      '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
+      '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
+      blake3-wasm: 2.1.5
+      chokidar: 3.6.0
+      esbuild: 0.17.19
+      miniflare: 3.20240129.2
+      nanoid: 3.3.7
+      path-to-regexp: 6.2.1
+      resolve: 1.22.8
+      resolve.exports: 2.0.2
+      selfsigned: 2.4.1
+      source-map: 0.6.1
+      xxhash-wasm: 1.0.2
+    optionalDependencies:
+      fsevents: 2.3.3
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: true
 
   /wrap-ansi@7.0.0:
@@ -3239,8 +3283,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws@8.14.2:
-    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
+  /ws@8.16.0:
+    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3307,33 +3351,4 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-    dev: true
-
-  '@prerelease-registry.devprod.cloudflare.dev/workers-sdk/runs/6711485115/npm-package-wrangler-2541':
-    resolution: {tarball: https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/runs/6711485115/npm-package-wrangler-2541}
-    name: wrangler
-    version: 0.0.0-c998b6ee
-    engines: {node: '>=16.17.0'}
-    hasBin: true
-    dependencies:
-      '@cloudflare/kv-asset-handler': 0.2.0
-      '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
-      '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
-      blake3-wasm: 2.1.5
-      chokidar: 3.5.3
-      esbuild: 0.17.19
-      miniflare: 3.20231025.0
-      nanoid: 3.3.7
-      path-to-regexp: 6.2.1
-      resolve.exports: 2.0.2
-      selfsigned: 2.4.1
-      source-map: 0.6.1
-      source-map-support: 0.5.21
-      xxhash-wasm: 1.0.2
-    optionalDependencies:
-      fsevents: 2.3.3
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
     dev: true
