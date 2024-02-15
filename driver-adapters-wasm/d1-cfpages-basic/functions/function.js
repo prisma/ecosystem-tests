@@ -1,13 +1,9 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { DATABASE_URL } from './dbUrl.js'
+import { PrismaD1 } from '@prisma/adapter-d1'
 
 export async function onRequest(context) {
-  // `DATABASE_URL` comes from `dbUrl.js` and its value is set by `prepare.sh`
-  const client = new Pool({ connectionString: DATABASE_URL })
-  const adapter = new PrismaPg(client)
+  const adapter = new PrismaD1(context.env.MY_DATABASE)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {
@@ -26,19 +22,44 @@ export async function onRequest(context) {
           name: true,
         },
       }),
-      createMany: await prisma.user.createMany({
-        data: [
-          {
-            email: `test-2@prisma.io`,
-            age: 29,
-            name: 'Test 2',
-          },
-          {
-            email: `test-3@prisma.io`,
-            age: 29,
-            name: 'Test 3',
-          },
-        ],
+      // Not available for SQLite
+      // createMany: await prisma.user.createMany({
+      //   data: [
+      //     {
+      //       email: `test-2@prisma.io`,
+      //       age: 29,
+      //       name: 'Test 2',
+      //     },
+      //     {
+      //       email: `test-3@prisma.io`,
+      //       age: 29,
+      //       name: 'Test 3',
+      //     },
+      //   ],
+      // }),
+      create2: await prisma.user.create({
+        data: {
+          email: `test-2@prisma.io`,
+          age: 29,
+          name: 'Test 2',
+        },
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        },
+      }),
+      create3: await prisma.user.create({
+        data: {
+          email: `test-3@prisma.io`,
+          age: 29,
+          name: 'Test 3',
+        },
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        },
       }),
       findMany: await prisma.user.findMany({
         select: {

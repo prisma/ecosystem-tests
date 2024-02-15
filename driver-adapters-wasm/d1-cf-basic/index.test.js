@@ -6,13 +6,10 @@ const fetch = require('node-fetch').default
 jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
-  const response = await fetch(process.env.DEPLOYMENT_URL + '/function')
-  const {
-    regResult,
-    // itxResult
-  } = await response.json()
+  const response = await fetch(process.env.DEPLOYMENT_URL + '/')
+  const { regResult, itxResult } = await response.json()
 
-  // expect(regResult).toEqual(itxResult)
+  expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
   expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
@@ -22,7 +19,8 @@ Object {
   "name": "Test 1",
 }
 `)
-  expect(regResult.createMany.count).toBe(2)
+  // Not available for SQLite
+  // expect(regResult.createMany.count).toBe(2)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 Array [
   Object {
