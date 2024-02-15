@@ -178,8 +178,13 @@ export async function onRequest(context) {
   }
 
   const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
-  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
-  const result = JSON.stringify({ itxResult, regResult })
+  // Transactions are not supported by D1 (only batch)
+  // The result will not be guaranteed to be atomic
+  // const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
+  const result = JSON.stringify({
+    // itxResult,
+    regResult,
+  })
 
   return new Response(result)
 }
