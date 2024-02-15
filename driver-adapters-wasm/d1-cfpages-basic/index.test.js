@@ -19,7 +19,7 @@ Object {
   "name": "Test 1",
 }
 `)
-  // expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createMany.count).toBe(2)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 Array [
   Object {
@@ -84,30 +84,25 @@ Array [
   },
 ]
 `)
-// TODO skipped because of bug: "User Not Found"
-
-//   expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
-// Object {
-//   "age": 29,
-//   "email": "test-2@prisma.io",
-//   "name": "Test 2",
-// }
-// `)
-//   expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
-// Object {
-//   "age": 29,
-//   "email": "test-2@prisma.io",
-//   "name": "Test 2",
-// }
-// `)
-
-// Skipping this because of too many sub-requests (limit is 50 per fetch call)
-
-//   expect(regResult.upsert).toMatchInlineSnapshot(`
-// Object {
-//   "age": 30,
-//   "email": "test-4@prisma.io",
-//   "name": "Test 4",
-// }
-// `)
+  expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
+Object {
+  "age": 29,
+  "email": "test-2@prisma.io",
+  "name": "Test 2",
+}
+`)
+  expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
+Object {
+  "age": 29,
+  "email": "test-2@prisma.io",
+  "name": "Test 2",
+}
+`)
+  expect(regResult.upsert).toMatchInlineSnapshot(`
+Object {
+  "age": 30,
+  "email": "test-4@prisma.io",
+  "name": "Test 4",
+}
+`)
 })
