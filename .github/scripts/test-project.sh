@@ -23,8 +23,8 @@ matrix=$3
 set -u
 
 # In platforms/firebase-functions, the file exists in /functions sub-directory, so we can't hardcode the package.json path
-pjson_path=$(find $dir/$project -name "package.json" ! -path "*/node_modules/*" | head -n 1)
-bash .github/scripts/print-version.sh $pjson_path
+pjson_path=$(find "$dir"/"$project" -name "package.json" ! -path "*/node_modules/*" | head -n 1)
+bash .github/scripts/print-version.sh "$pjson_path"
 
 # Install deps for Slack scripts
 echo "cd .github/slack/"
@@ -54,12 +54,12 @@ else
   cli_version_dep="$(node -e "console.log(require('./$dir/$project/package.json')?.dependencies?.prisma ?? '')")"
   version="$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")"
 
-  schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
+  schema_path=$(find "$dir"/"$project" -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "url[[:space:]]*= env(\"DATABASE_URL\")" "$schema_path"; then
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
     echo "$ pnpm dlx prisma@$version db push --accept-data-loss --skip-generate --schema=$schema_path"
-    pnpm dlx prisma@$version db push --accept-data-loss --skip-generate --schema=$schema_path
+    pnpm dlx prisma@"$version" db push --accept-data-loss --skip-generate --schema="$schema_path"
     echo ""
   fi
 fi
@@ -73,10 +73,10 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   echo ""
   echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
   echo ""
-  find . -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
-  find . -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
-  find . -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
-  find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 -r sed -i 's/"dependencies": {/&\n"db": "link:.\/prisma\/client",/g'
+  find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
+  find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
+  find . -type f -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
+  find . -type f -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 -r sed -i 's/"dependencies": {/&\n"db": "link:.\/prisma\/client",/g'
   bash ../../scripts/update-locks.sh
 
   # this adds some level of safety to ensure that js files were at least modified as one would expect
@@ -166,8 +166,8 @@ elif [ $code -eq 0 ]; then
   # confirm existence of correct engine
   echo "-------------- Checking Engines -------------------------------"
   if [ -z "${SKIP_ENGINE_CHECK+x}" ]; then
-    bash ../../.github/scripts/check-engines-client.sh $dir $project
-    bash ../../.github/scripts/check-engines-cli.sh $dir $project
+    bash ../../.github/scripts/check-engines-client.sh "$dir" "$project"
+    bash ../../.github/scripts/check-engines-cli.sh "$dir" "$project"
   else
     echo "SKIP_ENGINE_CHECK=$SKIP_ENGINE_CHECK, skipping"
   fi
