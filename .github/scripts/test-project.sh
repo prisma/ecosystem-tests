@@ -73,10 +73,10 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   echo ""
   echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
   echo ""
-  find . -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
-  find . -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
-  find . -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
-  find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 -r sed -i 's/"dependencies": {/&\n"db": "link:.\/prisma\/client",/g'
+  find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
+  find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/db/g"
+  find . -type f -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
+  find . -type f -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 -r sed -i 's/"dependencies": {/&\n"db": "link:.\/prisma\/client",/g'
   bash ../../scripts/update-locks.sh
 
   # this adds some level of safety to ensure that js files were at least modified as one would expect
