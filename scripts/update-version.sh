@@ -9,6 +9,7 @@ ADAPTER_PLANETSCALE_VERSION=$(node -e "const pkg = require('./package.json'); co
 ADAPTER_PG_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/adapter-pg'] || pkg?.dependencies?.['@prisma/adapter-pg'] || pkg?.resolutions?.['@prisma/adapter-pg'] || '')")
 ADAPTER_NEON_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/adapter-neon'] || pkg?.dependencies?.['@prisma/adapter-neon'] || pkg?.resolutions?.['@prisma/adapter-neon'] || '')")
 ADAPTER_LIBSQL_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/adapter-libsql'] || pkg?.dependencies?.['@prisma/adapter-libsql'] || pkg?.resolutions?.['@prisma/adapter-libsql'] || '')")
+ADAPTER_D1_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/adapter-d1'] || pkg?.dependencies?.['@prisma/adapter-d1'] || pkg?.resolutions?.['@prisma/adapter-d1'] || '')")
 
 CURRENT_DIR=$(pwd)
 
@@ -21,4 +22,4 @@ if [ -n "$ADAPTER_PLANETSCALE_VERSION" ]; then sed -i "s/$ADAPTER_PLANETSCALE_VE
 if [ -n "$ADAPTER_PG_VERSION" ]; then sed -i "s/$ADAPTER_PG_VERSION/$1/g" package.json; fi
 if [ -n "$ADAPTER_NEON_VERSION" ]; then sed -i "s/$ADAPTER_NEON_VERSION/$1/g" package.json; fi
 if [ -n "$ADAPTER_LIBSQL_VERSION" ]; then sed -i "s/$ADAPTER_LIBSQL_VERSION/$1/g" package.json; fi
-
+if [ -n "$ADAPTER_D1_VERSION" ]; then sed -i "s/$ADAPTER_D1_VERSION/$1/g" package.json; fi
