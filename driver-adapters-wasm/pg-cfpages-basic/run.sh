@@ -9,7 +9,12 @@ pnpm prisma generate
 
 # First build the functions using the `--node-compat` flag into the `_worker.js` directory
 # (Note that the functions are in the non-standard `fns` directory so that they are not confused with the output `_worker.js` directory.)
-pnpm wrangler pages functions build fns --node-compat --outdir _worker.js
+# Make sure build folder does not exist
+rm -rf build
+# Build pages function to build/_worker.js
+pnpm wrangler pages functions build fns --node-compat --outdir build/_worker.js
+# Copy index.html to build folder
+cp index.html build/index.html
 # Now deploy the _worker.js alongside the index.html asset to Pages
-pnpm wrangler pages deploy . --project-name pg-cfpages-basic -- | tee deployment-logs.txt
+pnpm wrangler pages deploy ./build --project-name pg-cfpages-basic -- | tee deployment-logs.txt
 sleep 15
