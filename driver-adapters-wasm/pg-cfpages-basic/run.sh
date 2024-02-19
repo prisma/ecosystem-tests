@@ -7,6 +7,6 @@ pnpm install
 pnpm prisma generate
 
 pnpm wrangler pages functions build --node-compat --outdir build/
-pnpm wrangler publish build/index.js --name pg-cfpages-basic
+pnpm wrangler publish build/index.js --name pg-cfpages-basic --compatibility-date 2024-02-01
 
 sleep 15
