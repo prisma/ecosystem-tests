@@ -9,9 +9,9 @@ dir=$1
 
 # These are in optional-test.yaml, under the `platforms` directory
 # But the names don't match the directory name
-# Example `platforms-m1-office` is in `platforms` directory
+# Example `platforms-codesandbox` is in `platforms` directory
 # So this renames the key so it's correctly processed
-if [[ "$dir" = "platforms-codesandbox" || "$dir" = "platforms-m1-office" ]]
+if [[ "$dir" = "platforms-codesandbox" ]]
 then
   dir="platforms"
 fi
@@ -78,7 +78,7 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   find . -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
   find . -name "package.json" ! -path "*/node_modules/*" -print0 | xargs -0 -r sed -i 's/"dependencies": {/&\n"db": "link:.\/prisma\/client",/g'
   bash ../../scripts/update-locks.sh
-  
+
   # this adds some level of safety to ensure that js files were at least modified as one would expect
   if [[ $(git status --porcelain | grep "$dir/$project" | grep -Ec ".m?js$") -gt 0 ]];
   then

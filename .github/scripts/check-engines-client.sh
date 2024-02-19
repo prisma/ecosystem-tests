@@ -19,8 +19,6 @@ skipped_projects=(
   pkg                                         # No generated Client, so only Client stub with no engine included
   # no local project
   aws-graviton                                # No local project at all (everything happens on server), so no `prisma` or `node_modules`
-  m1-macstadium                               # No local project at all (everything happens on server), so no `prisma` or `node_modules`
-  m1-office                                   # No local project at all (everything happens on server), so no `prisma` or `node_modules`
   # subfolder
   generate-client-install-on-sub-project-npm  # Client is generated into a subfolder
   generate-client-install-on-sub-project-pnpm # Client is generated into a subfolder
@@ -70,7 +68,10 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
     ;;
 esac
 
+os_architecture=$(uname -m)
+
 echo "Assumed OS: $os_name"
+echo "Architecture: $os_architecture"
 echo "CLIENT_ENGINE_TYPE == $CLIENT_ENGINE_TYPE"
 
 GENERATED_CLIENT=$(node -e "
@@ -88,7 +89,12 @@ if [ $CLIENT_ENGINE_TYPE == "binary" ]; then
       qe_location="$GENERATED_CLIENT/query-engine-debian-openssl-1.1.x"
       ;;
     osx)
-      qe_location="$GENERATED_CLIENT/query-engine-darwin"
+      if [ "$os_architecture" = "arm64" ]
+      then
+        qe_location="$GENERATED_CLIENT/query-engine-darwin-arm64"
+      else
+        qe_location="$GENERATED_CLIENT/query-engine-darwin"
+      fi
       ;;
     windows)
       qe_location="$GENERATED_CLIENT\query-engine-windows.exe"
@@ -101,7 +107,12 @@ elif [ $CLIENT_ENGINE_TYPE == "library" ]; then
       qe_location="$GENERATED_CLIENT/libquery_engine-debian-openssl-1.1.x.so.node"
       ;;
     osx)
-      qe_location="$GENERATED_CLIENT/libquery_engine-darwin.dylib.node"
+      if [ "$os_architecture" = "arm64" ]
+      then
+        qe_location="$GENERATED_CLIENT/libquery_engine-darwin-arm64.dylib.node"
+      else
+        qe_location="$GENERATED_CLIENT/libquery_engine-darwin.dylib.node"
+      fi
       ;;
     windows*)
       qe_location="$GENERATED_CLIENT\query_engine-windows.dll.node"
@@ -114,13 +125,13 @@ elif [ $CLIENT_ENGINE_TYPE == "wasm" ]; then
   echo "WasmEngine: Enabled"
   case $os_name in
     linux)
-      qe_location="$GENERATED_CLIENT/query-engine.wasm"
+      qe_location="$GENERATED_CLIENT/query_engine_bg.wasm"
       ;;
     osx)
-      qe_location="$GENERATED_CLIENT/query-engine.wasm"
+      qe_location="$GENERATED_CLIENT/query_engine_bg.wasm"
       ;;
     windows*)
-      qe_location="$GENERATED_CLIENT\query-engine.wasm"
+      qe_location="$GENERATED_CLIENT\query_engine_bg.wasm"
       ;;
     *)
       os_name=notset
@@ -140,8 +151,7 @@ elif [ -f "$qe_location" ]; then
   echo "✔ Correct Query Engine exists at ${qe_location}"
 else
   echo "❌ Could not find Query Engine in ${qe_location} when using ${os_name}"
+  echo "$ ls $GENERATED_CLIENT"
+  ls $GENERATED_CLIENT
   exit 1
 fi
-
-echo "$ ls $GENERATED_CLIENT"
-ls $GENERATED_CLIENT

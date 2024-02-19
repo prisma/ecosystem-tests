@@ -13,6 +13,7 @@ async function main() {
   const ignoreFiles = [
     'package.json', // package.json at root
     'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
+    'generic/basic-m1', // generic/basic-m1 doesn't use Github action matrix feature which we parse to find out the differences
     'platforms-serverless-vercel/vercel-with-redwood/api', // Redwood uses workspaces but is included
     'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
@@ -20,8 +21,6 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
-    'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
-    'platforms/m1-office/code', // m1-office doesn't have package.json at root but is included
     'databases/mongodb-azure-cosmosdb', // expected to fail, so moved to failing-weekly.yaml
   ]
 
@@ -39,6 +38,7 @@ async function main() {
   const keysToIgnore = [
     'os', // We want to count folders vs references in the yaml file not when something is run across different OSes
     'node', // We want to count folders vs references in the yaml file not when something is run across different node versions
+    'm1', // it's almost a copy of `os` but running on M1
   ]
 
   // Get all relevant folders that _should_ appear in workflows
@@ -96,9 +96,9 @@ async function main() {
 
       // These are in optional-test.yaml, under the `platforms` directory
       // But the names don't match the directory name
-      // Example `platforms-m1-office` is in `platforms` directory
+      // Example `platforms-codesandbox` is in `platforms` directory
       // So this renames the key so it's correctly processed
-      if (key === 'platforms-m1-office' || key === 'platforms-codesandbox') {
+      if (key === 'platforms-codesandbox') {
         key = 'platforms'
       }
 

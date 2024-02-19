@@ -5,7 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg'
 import { DATABASE_URL } from './dbUrl.js'
 
 export async function onRequest(context) {
-	// `DATABASE_URL` comes from `dbUrl.js` and its value is set by `prepare.sh`
+  // `DATABASE_URL` comes from `dbUrl.js` and its value is set by `prepare.sh`
   const client = new Pool({ connectionString: DATABASE_URL })
   const adapter = new PrismaPg(client)
   const prisma = new PrismaClient({ adapter })
@@ -157,9 +157,13 @@ export async function onRequest(context) {
   }
 
   const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
-  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
-  const result = JSON.stringify({ itxResult, regResult })
+  // Transactions are not supported by D1 (only batch)
+  // The result will not be guaranteed to be atomic
+  // const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
+  const result = JSON.stringify({
+    // itxResult,
+    regResult,
+  })
 
-  return new Response(result);
+  return new Response(result)
 }
-
