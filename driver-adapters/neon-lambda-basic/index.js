@@ -4,7 +4,7 @@ const { WebSocket } = require('undici')
 const { createPool } = require('@vercel/postgres')
 const { PrismaNeon } = require('@prisma/adapter-neon')
 
-const connectionString = process.env.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL
+const connectionString = process.env.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL?.replace('.us-east-2', '-pooler.us-east-2')
 
 const pool = createPool({ connectionString })
 const adapter = new PrismaNeon(pool)
