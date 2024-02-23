@@ -1,11 +1,12 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
 import { Pool } from '@neondatabase/serverless'
+import { createPool } from '@vercel/postgres'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Pool({ connectionString: env.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL })
+    const client = createPool({ connectionString: env.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL })
     const adapter = new PrismaNeon(client)
     const prisma = new PrismaClient({ adapter })
 
