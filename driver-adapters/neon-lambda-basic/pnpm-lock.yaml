@@ -5,15 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@neondatabase/serverless':
+    specifier: npm:@vercel/postgres@^0.7.2
+    version: /@vercel/postgres@0.7.2
   '@prisma/adapter-neon':
     specifier: 5.11.0-dev.6
-    version: 5.11.0-dev.6(@neondatabase/serverless@0.8.1)
+    version: 5.11.0-dev.6(@vercel/postgres@0.7.2)
   '@prisma/client':
     specifier: 5.11.0-dev.6
     version: 5.11.0-dev.6(prisma@5.11.0-dev.6)
-  '@vercel/postgres':
-    specifier: ^0.7.2
-    version: 0.7.2
   undici:
     specifier: 6.6.2
     version: 6.6.2
@@ -1433,18 +1433,12 @@ packages:
       '@types/pg': 8.6.6
     dev: false
 
-  /@neondatabase/serverless@0.8.1:
-    resolution: {integrity: sha512-nxZfTLbGqvDrw0W9WnQxzoPn4KC6SLjkvK4grdf6eWVMQSc24X+8udz9inZWOGu8f0O3wJAq586fCZ32r22lwg==}
-    dependencies:
-      '@types/pg': 8.6.6
-    dev: false
-
-  /@prisma/adapter-neon@5.11.0-dev.6(@neondatabase/serverless@0.8.1):
+  /@prisma/adapter-neon@5.11.0-dev.6(@vercel/postgres@0.7.2):
     resolution: {integrity: sha512-toRoyCRZApuEKItd9l35D5dG9fu8CbkzVsytHcEscCK5m5LDZvUI0VREX1VLIjUGsAIdP/ngWb1YionCm91qsw==}
     peerDependencies:
       '@neondatabase/serverless': ^0.6.0 || ^0.7.0 || ^0.8.0
     dependencies:
-      '@neondatabase/serverless': 0.8.1
+      '@neondatabase/serverless': /@vercel/postgres@0.7.2
       '@prisma/driver-adapter-utils': 5.11.0-dev.6
       postgres-array: 3.0.2
     dev: false
