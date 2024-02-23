@@ -1,14 +1,12 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
 const { WebSocket } = require('undici')
-const { Pool, neonConfig } = require('@neondatabase/serverless')
+const { createPool } = require('@vercel/postgres')
 const { PrismaNeon } = require('@prisma/adapter-neon')
 
-neonConfig.webSocketConstructor = WebSocket
+const connectionString = process.env.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL?.replace('.us-east-2', '-pooler.us-east-2')
 
-const connectionString = process.env.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL
-
-const pool = new Pool({ connectionString })
+const pool = createPool({ connectionString })
 const adapter = new PrismaNeon(pool)
 const prisma = new PrismaClient({ adapter })
 
