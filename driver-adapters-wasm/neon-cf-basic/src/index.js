@@ -1,6 +1,6 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { createPool } from '@vercel/postgres'
+import { createPool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 export default {
