@@ -59,7 +59,7 @@ else
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
     echo "$ pnpm dlx prisma@$version db push --accept-data-loss --skip-generate --schema=$schema_path"
-    pnpm dlx prisma@"$version" db push --accept-data-loss --skip-generate --schema="$schema_path"
+    INVALID_ENV_VAR=$DATABASE_URL pnpm dlx prisma@"$version" db push --accept-data-loss --skip-generate --schema="$schema_path"
     echo ""
   fi
 fi
