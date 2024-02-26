@@ -54,6 +54,7 @@ else
   cli_version_dep="$(node -e "console.log(require('./$dir/$project/package.json')?.dependencies?.prisma ?? '')")"
   version="$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")"
 
+  export INVALID_ENV_VAR=''
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
   if grep -q "= env(\"DATABASE_URL\")$" "$schema_path"; then
     echo ""
