@@ -9,10 +9,10 @@ test('prisma version and output', async () => {
   const response = await fetch(process.env.DEPLOYMENT_URL + '/function')
   const {
     regResult,
-    // itxResult
+    itxResult
   } = await response.json()
 
-  // expect(regResult).toEqual(itxResult)
+  expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
   expect(regResult.deleteMany.count).toBe(0)
   expect(regResult.create).toMatchInlineSnapshot(`
