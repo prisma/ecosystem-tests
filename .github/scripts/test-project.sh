@@ -55,7 +55,7 @@ else
   version="$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")"
 
   schema_path=$(find $dir/$project -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)
-  if grep -q "url[[:space:]]*= env(\"DATABASE_URL\")" "$schema_path"; then
+  if grep -q "= env(\"DATABASE_URL\")$" "$schema_path"; then
     echo ""
     echo "found 'schema.prisma' with 'env(\"DATABASE_URL\")': $schema_path"
     echo "$ pnpm dlx prisma@$version db push --accept-data-loss --skip-generate --schema=$schema_path"
