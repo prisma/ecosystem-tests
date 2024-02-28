@@ -1,0 +1,19 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // not used by the client, just to setup the db
+  directUrl = env("DATABASE_URL")
+  // fake url to ensure the driver adapter is used
+  url      = env("INVALID_ENV_VAR")
+}
+
+model User {
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
+}
