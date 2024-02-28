@@ -5,7 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Pool({ connectionString: ctx.HYPERDRIVE.connectionString })
+    const client = new Pool({ connectionString: env.HYPERDRIVE.connectionString })
     const adapter = new PrismaPg(client)
     const prisma = new PrismaClient({ adapter })
 
