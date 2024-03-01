@@ -73,9 +73,18 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   echo "-----------------------------"
   echo ""
   echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
-  echo ""
-  find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\.\/prisma\/client/g"
-  find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\.\/prisma\/client/g"
+
+  # whether the project has a src folder or not, we need to modify the path to the prisma client
+  if [ -d "src" ]; then
+    echo "project has a src folder, modifying path to prisma client"
+    find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\.\/prisma\/client/g"
+    find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\.\/prisma\/client/g"
+  else
+    echo "project does not have a src folder, modifying path to prisma client"
+    find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\./prisma\/client/g"
+    find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\./prisma\/client/g"
+  fi
+
   find . -type f -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
 
   # this adds some level of safety to ensure that js files were at least modified as one would expect
