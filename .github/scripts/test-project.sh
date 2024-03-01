@@ -81,8 +81,8 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
     find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\.\/prisma\/client/g"
   else
     echo "project does not have a src folder, modifying path to prisma client"
-    find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\./prisma\/client/g"
-    find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\./prisma\/client/g"
+    find . -type f -name "*.js" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\/prisma\/client/g"
+    find . -type f -name "*.mjs" ! -path "*/node_modules/*" ! -name "*test*" -print0 | xargs -0 -r sed -i "s/@prisma\/client/\.\/prisma\/client/g"
   fi
 
   find . -type f -name '*.prisma' ! -path '*/node_modules/*' -print0 | xargs -0 -r sed -i 's/provider\s*=\s*"prisma-client-js"/&\noutput = "client"/g'
