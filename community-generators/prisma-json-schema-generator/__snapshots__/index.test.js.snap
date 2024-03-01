@@ -2,30 +2,30 @@
 
 exports[`test dbml generator should produce same json schema for same Prisma schema 1`] = `
 "{
-  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
-  \\"definitions\\": {
-    \\"User\\": {
-      \\"type\\": \\"object\\",
-      \\"properties\\": {
-        \\"id\\": {
-          \\"type\\": \\"string\\"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         },
-        \\"email\\": {
-          \\"type\\": \\"string\\"
+        "email": {
+          "type": "string"
         },
-        \\"name\\": {
-          \\"type\\": [
-            \\"string\\",
-            \\"null\\"
+        "name": {
+          "type": [
+            "string",
+            "null"
           ]
         }
       }
     }
   },
-  \\"type\\": \\"object\\",
-  \\"properties\\": {
-    \\"user\\": {
-      \\"$ref\\": \\"#/definitions/User\\"
+  "type": "object",
+  "properties": {
+    "user": {
+      "$ref": "#/definitions/User"
     }
   }
 }"
