@@ -198,7 +198,7 @@ jobs:
 
   process-managers:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'process-managers')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'process-managers')
 
     strategy:
       fail-fast: false
@@ -248,7 +248,7 @@ jobs:
 
   docker:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker')
 
     strategy:
       fail-fast: false
@@ -344,7 +344,7 @@ jobs:
   # Meaning a successfull run actually shows a non zero exit code in the logs
   docker-unsupported:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker-unsupported')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker-unsupported')
 
     strategy:
       fail-fast: false
@@ -398,7 +398,7 @@ jobs:
 
   core-features:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'core-features')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'core-features')
 
     strategy:
       fail-fast: false
@@ -478,7 +478,7 @@ jobs:
 
   migrate:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'migrate')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'migrate')
 
     strategy:
       fail-fast: false
@@ -528,7 +528,7 @@ jobs:
 
   engines:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'engines')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'engines')
 
     strategy:
       fail-fast: false
@@ -575,7 +575,7 @@ jobs:
 
   os:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'os')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'os')
 
     strategy:
       fail-fast: false
@@ -624,7 +624,7 @@ jobs:
 
   m1:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'm1')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'm1')
 
     strategy:
       fail-fast: false
@@ -674,7 +674,7 @@ jobs:
   # so as a workaround we test this version with npm
   node16dot13:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'node16dot13')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'node16dot13')
 
     strategy:
       fail-fast: false
@@ -725,7 +725,7 @@ jobs:
 
   node:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'node')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'node')
 
     strategy:
       fail-fast: false
@@ -784,7 +784,7 @@ jobs:
 
   binaries:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'binaries')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'binaries')
 
     strategy:
       fail-fast: false
@@ -837,7 +837,7 @@ jobs:
 
   packagers:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'packagers')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'packagers')
 
     strategy:
       fail-fast: false
@@ -913,7 +913,7 @@ jobs:
 
   frameworks:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'frameworks')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'frameworks')
 
     strategy:
       fail-fast: false
@@ -966,7 +966,7 @@ jobs:
 
   platforms:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms')
 
     timeout-minutes: 60
     strategy:
@@ -1025,7 +1025,7 @@ jobs:
 
   platforms-serverless:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless')
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -1122,7 +1122,7 @@ jobs:
 
   platforms-serverless-vercel:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless-vercel')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless-vercel')
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -1455,7 +1455,7 @@ jobs:
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
   accelerate:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'accelerate')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'accelerate')
 
     timeout-minutes: 60 # can take longer if platforms are down, so better protect
     strategy:
@@ -1563,7 +1563,7 @@ jobs:
 
   bundlers:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'bundlers')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'bundlers')
 
     strategy:
       fail-fast: false
@@ -1617,7 +1617,7 @@ jobs:
 
   libraries:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'libraries')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'libraries')
 
     strategy:
       fail-fast: false
@@ -1670,7 +1670,7 @@ jobs:
 
   databases:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'databases')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'databases')
 
     strategy:
       fail-fast: false
@@ -1757,7 +1757,7 @@ jobs:
 
   databases-macos:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'databases-macos')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'databases-macos')
 
     strategy:
       fail-fast: false
@@ -1803,7 +1803,7 @@ jobs:
 
   test-runners:
     needs: [detect_jobs_to_run]
-    if: false && contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'test-runners')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'test-runners')
 
     strategy:
       fail-fast: false
