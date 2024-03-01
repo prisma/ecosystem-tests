@@ -28,7 +28,7 @@ describe('Prisma', () => {
     const files = fs.readdirSync(generatedClientDir)
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
       expect(files).toMatchInlineSnapshot(`
-Array [
+[
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -45,7 +45,7 @@ Array [
 `)
     } else {
       expect(files).toMatchInlineSnapshot(`
-Array [
+[
   "default.d.ts",
   "default.js",
   "edge.d.ts",

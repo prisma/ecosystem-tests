@@ -34,7 +34,7 @@ describe('Prisma in jest with multiple generators', () => {
     const filesB = fs.readdirSync(path.dirname(require.resolve('../../generated/database/client2')))
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
       expect(filesA).toMatchInlineSnapshot(`
-Array [
+[
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -51,7 +51,7 @@ Array [
 ]
 `)
       expect(filesB).toMatchInlineSnapshot(`
-Array [
+[
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -69,7 +69,7 @@ Array [
 `)
     } else {
       expect(filesA).toMatchInlineSnapshot(`
-Array [
+[
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -86,7 +86,7 @@ Array [
 ]
 `)
       expect(filesB).toMatchInlineSnapshot(`
-Array [
+[
   "default.d.ts",
   "default.js",
   "edge.d.ts",

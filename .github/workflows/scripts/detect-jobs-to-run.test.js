@@ -15,7 +15,7 @@ describe('detect-jobs-to-run', () => {
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "process-managers",
   "docker",
   "docker-unsupported",
@@ -50,7 +50,7 @@ Array [
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "platforms",
 ]
 `)
@@ -63,7 +63,7 @@ Array [
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "platforms",
   "databases",
 ]
@@ -83,7 +83,7 @@ Array [
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "community-generators",
 ]
 `)
@@ -96,7 +96,7 @@ Array [
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "process-managers",
   "docker",
   "docker-unsupported",
@@ -133,7 +133,7 @@ Array [
     const jobsToRun = await detectJobsTorun({ filesChanged })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "process-managers",
   "docker",
   "docker-unsupported",
@@ -170,7 +170,7 @@ Array [
     const jobsToRun = await detectJobsTorun({ filesChanged, GITHUB_REF: 'refs/heads/dev' })
 
     expect(jobsToRun).toMatchInlineSnapshot(`
-Array [
+[
   "process-managers",
   "docker",
   "docker-unsupported",

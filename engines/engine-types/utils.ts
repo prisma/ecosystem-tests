@@ -147,34 +147,34 @@ async function testGeneratedClient(
   const data = fs.readJsonSync(path.join(projectDir, './data.json'))
   // using inline snapshot here as this is identical for all tests run here
   expect(data).toMatchInlineSnapshot(`
-    Object {
+    {
       "clientEngine": "${expected?.clientEngineType}",
-      "delete": Object {
-        "posts": Object {
+      "delete": {
+        "posts": {
           "count": 1,
         },
-        "users": Object {
+        "users": {
           "count": 1,
         },
       },
-      "post.findUnique": Object {
+      "post.findUnique": {
         "id": 1,
         "title": "Test",
         "userId": 1,
       },
-      "user.create": Object {
+      "user.create": {
         "email": "test@example.com",
         "id": 1,
         "name": "Test",
-        "posts": Array [
-          Object {
+        "posts": [
+          {
             "id": 1,
             "title": "Test",
             "userId": 1,
           },
         ],
       },
-      "users.findMany": Array [],
+      "users.findMany": [],
     }
   `)
 }
