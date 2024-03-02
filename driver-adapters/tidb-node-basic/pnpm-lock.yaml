@@ -9,8 +9,8 @@ dependencies:
     specifier: 5.11.0-dev.20
     version: 5.11.0-dev.20(prisma@5.11.0-dev.20)
   '@tidbcloud/prisma-adapter':
-    specifier: 5.9.1
-    version: 5.9.1(@tidbcloud/serverless@0.1.0)
+    specifier: 5.10.2
+    version: 5.10.2(@tidbcloud/serverless@0.1.0)
   '@tidbcloud/serverless':
     specifier: 0.1.0
     version: 0.1.0
@@ -783,15 +783,17 @@ packages:
       prisma: 5.11.0-dev.20
     dev: false
 
+  /@prisma/debug@5.10.2:
+    resolution: {integrity: sha512-bkBOmH9dpEBbMKFJj8V+Zp8IZHIBjy3fSyhLhxj4FmKGb/UBSt9doyfA6k1UeUREsMJft7xgPYBbHSOYBr8XCA==}
+    dev: false
+
   /@prisma/debug@5.11.0-dev.20:
     resolution: {integrity: sha512-ICkOKd1okmf+EB9DA/MyOpcIcWqcD/1sZl19nH3kKGOtjX2RB8Oe6O6z/EO3Kw9yjHEEIIuyJ/A2oRli1XZj2g==}
 
-  /@prisma/driver-adapter-utils@5.9.1:
-    resolution: {integrity: sha512-1h1+6kU3PfsE2CvQoU49Jt7yrXybU0C/H/+W8Bh0pJefMAbTY8KoWssYXgwQp1PUKBtdh1GDQsMf9ojFeQ0RWg==}
+  /@prisma/driver-adapter-utils@5.10.2:
+    resolution: {integrity: sha512-Qou/js8VJSmaWiGX5EVXGF83fMZltFnuzkKFOocpDvcI3f5G9WTPf61TKflzs3ZOYe1weRgM9hUk9UR7lgGEwg==}
     dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
+      '@prisma/debug': 5.10.2
     dev: false
 
   /@prisma/engines-version@5.11.0-4.09cb2c4b7f5ee2525bb7512bf48fc31167eebdf4:
@@ -834,15 +836,13 @@ packages:
       '@sinonjs/commons': 3.0.0
     dev: true
 
-  /@tidbcloud/prisma-adapter@5.9.1(@tidbcloud/serverless@0.1.0):
-    resolution: {integrity: sha512-eb3XupkoF/nSUWP3/We+DjqpyxP7kBmp148sd+rFOllq8c1L4q7ZiLKMTQGoODeZ97dhgRvlSK0496gqHordsg==}
+  /@tidbcloud/prisma-adapter@5.10.2(@tidbcloud/serverless@0.1.0):
+    resolution: {integrity: sha512-hPpZRMy66k3TlIP2ggUq3faPTA5VVY4HgdQY7BTgx9Rya9NvvG1kF4nCAHLqGgWIVyqV+QuEmWEl34JaKkpflQ==}
     peerDependencies:
-      '@tidbcloud/serverless': '>= 0.0.10'
+      '@tidbcloud/serverless': '>= 0.1.0'
     dependencies:
-      '@prisma/driver-adapter-utils': 5.9.1
+      '@prisma/driver-adapter-utils': 5.10.2
       '@tidbcloud/serverless': 0.1.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@tidbcloud/serverless@0.1.0:
@@ -1229,6 +1229,7 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+    dev: true
 
   /dedent@1.5.1:
     resolution: {integrity: sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==}
@@ -2064,6 +2065,7 @@ packages:
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: true
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
