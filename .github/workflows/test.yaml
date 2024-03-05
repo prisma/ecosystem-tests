@@ -100,6 +100,7 @@ jobs:
       - driver-adapters
       - driver-adapters-wasm
       - accelerate
+      - pulse
       - bundlers
       - libraries
       - databases
@@ -132,6 +133,7 @@ jobs:
       - driver-adapters
       - driver-adapters-wasm
       - accelerate
+      - pulse
       - bundlers
       - libraries
       - databases
@@ -174,6 +176,7 @@ jobs:
       - driver-adapters
       - driver-adapters-wasm
       - accelerate
+      - pulse
       - bundlers
       - libraries
       - databases
@@ -1556,6 +1559,82 @@ jobs:
           ITX_PDP_POSTGRESQL: ${{ secrets.DP2_ITX_PDP_POSTGRESQL }}
           ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  pulse:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'pulse')
+
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - nodejs
+          # - deno
+          # - cloudflare-workers-service
+          # - cloudflare-workers-module
+          # - vercel-edge-functions
+          # - vercel-cli-serverless-functions
+          # - nodejs-postgresql-itx
+          # - nodejs-mysql-itx
+          # - nodejs-mongodb-itx
+          # - nodejs-cockroachdb-itx
+          # - nodejs-postgresql-logs
+          # - nodejs-mongodb-logs
+          # - nodejs-tracing
+        clientEngine: [library]
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    env:
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      # VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      # VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      # TODO change to vars below
+      # CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      # CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      # DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID: ${{ vars.DATAPROXY_VERCEL_EDGE_FUNCTIONS_PROJECT_ID  }}
+      # DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID: ${{ vars.DATAPROXY_VERCEL_CLI_SERVERLESS_FUNCTIONS_PROJECT_ID  }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
+
+      # - name: use deno v1.x
+      #   uses: denoland/setup-deno@v1
+      #   with:
+      #     deno-version: v1.x
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test Pulse with extension ${{ matrix.platform }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+        env:
+          MY_POSTGRES_DB_URL: ${{ secrets.MY_POSTGRES_DB_URL }}
 
       - name: notify-slack
         if: failure()
