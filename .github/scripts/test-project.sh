@@ -74,7 +74,6 @@ if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
   echo ""
   echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
 
-  # whether the project has a src folder or not, we need to modify the path to the prisma client and how deep the path is
   node "$root/.github/scripts/convert-to-custom-output.mjs" .
 fi
 
