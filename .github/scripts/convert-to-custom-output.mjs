@@ -10,6 +10,7 @@ await replaceInFile(schemaFile, /provider\s*=\s*"prisma-client-js"/, '$&\noutput
 const sourceFiles = glob.stream('**/*.{js,mjs,ts,mts}', {
   cwd: projectPath,
   absolute: true,
+  nodir: true,
   ignore: ['node_modules/**', '*test*'],
 })
 
