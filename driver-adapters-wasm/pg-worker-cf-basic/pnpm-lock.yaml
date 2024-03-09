@@ -7,13 +7,13 @@ settings:
 dependencies:
   '@prisma/adapter-pg-worker':
     specifier: 5.11.0-integration-feat-prisma-pg-worker.11
-    version: 5.11.0-integration-feat-prisma-pg-worker.11(@prisma/pg-worker@5.11.0-integration-fix-debug-reexport.1)
+    version: 5.11.0-integration-feat-prisma-pg-worker.11(@prisma/pg-worker@5.11.0-integration-fix-pipeline.8)
   '@prisma/client':
     specifier: 5.11.0-dev.52
     version: 5.11.0-dev.52(prisma@5.11.0-dev.52)
   '@prisma/pg-worker':
-    specifier: 5.11.0-integration-fix-debug-reexport.1
-    version: 5.11.0-integration-fix-debug-reexport.1
+    specifier: 5.11.0-integration-fix-pipeline.8
+    version: 5.11.0-integration-fix-pipeline.8
   add:
     specifier: ^2.0.6
     version: 2.0.6
@@ -1065,13 +1065,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@prisma/adapter-pg-worker@5.11.0-integration-feat-prisma-pg-worker.11(@prisma/pg-worker@5.11.0-integration-fix-debug-reexport.1):
+  /@prisma/adapter-pg-worker@5.11.0-integration-feat-prisma-pg-worker.11(@prisma/pg-worker@5.11.0-integration-fix-pipeline.8):
     resolution: {integrity: sha512-brYmRqXEu4+WipMcl2Prp0wBho3xX6qIYYKY7WbQAMHvxy6RZJYk5xjW4qEKmC7B7zF1Z/6YG8uchEaphCvuEw==}
     peerDependencies:
       '@prisma/pg-worker': ^5.11.0
     dependencies:
       '@prisma/driver-adapter-utils': 5.11.0-integration-feat-prisma-pg-worker.11
-      '@prisma/pg-worker': 5.11.0-integration-fix-debug-reexport.1
+      '@prisma/pg-worker': 5.11.0-integration-fix-pipeline.8
       postgres-array: 3.0.2
     dev: false
 
@@ -1125,10 +1125,10 @@ packages:
     dependencies:
       '@prisma/debug': 5.11.0-dev.52
 
-  /@prisma/pg-worker@5.11.0-integration-fix-debug-reexport.1:
-    resolution: {integrity: sha512-KdN71vL0tdsM3hILiE5EbkB/QazbqgQAT82gE6MfqMICnutpHXRxgi6GTNa0T9QXlHt/LcxTrICDqHvy2i0UeQ==}
+  /@prisma/pg-worker@5.11.0-integration-fix-pipeline.8:
+    resolution: {integrity: sha512-u2DISZoiEzTzNSZq9S+5MquMkBcJ0NQAB/wHqKAVHaWi0p9G+lo9/I39aaO6tveQ0sWLveSr+2tiz613YfAcsQ==}
     dependencies:
-      '@types/pg': 8.10.9
+      '@types/pg': 8.11.2
     dev: false
 
   /@sinclair/typebox@0.27.8:
@@ -1209,8 +1209,8 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/pg@8.10.9:
-    resolution: {integrity: sha512-UksbANNE/f8w0wOMxVKKIrLCbEMV+oM1uKejmwXr39olg4xqcfBDbXxObJAt6XxHbDa4XTKOlUEcEltXDX+XLQ==}
+  /@types/pg@8.11.2:
+    resolution: {integrity: sha512-G2Mjygf2jFMU/9hCaTYxJrwdObdcnuQde1gndooZSOHsNSaCehAuwc7EIuSA34Do8Jx2yZ19KtvW8P0j4EuUXw==}
     dependencies:
       '@types/node': 20.9.0
       pg-protocol: 1.6.0
