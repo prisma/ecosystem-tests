@@ -70,8 +70,8 @@ cd "$dir/$project"
 
 # if FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT is set, we execute commands that will turn the project into a custom output project
 if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
-  if [ -f "./.ignore-custom-output"]; then
-    echo "Ignoring custom output test: Reason: $(cat "./ignore-custom-output")"
+  if [ -f "./.ignore-custom-output" ]; then
+    echo "Ignoring custom output test: Reason: $(cat "./.ignore-custom-output")"
     exit 0
   fi
   echo "-----------------------------"
