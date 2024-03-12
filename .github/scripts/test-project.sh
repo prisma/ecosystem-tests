@@ -70,11 +70,14 @@ cd "$dir/$project"
 
 # if FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT is set, we execute commands that will turn the project into a custom output project
 if [ -n "${FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT+x}" ]; then
+  if [ -f "./.ignore-custom-output" ]; then
+    echo "Ignoring custom output test: Reason: $(cat "./.ignore-custom-output")"
+    exit 0
+  fi
   echo "-----------------------------"
   echo ""
   echo "FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=$FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT, executing commands to turn the project into a custom output project"
 
-  # whether the project has a src folder or not, we need to modify the path to the prisma client and how deep the path is
   node "$root/.github/scripts/convert-to-custom-output.mjs" .
 fi
 

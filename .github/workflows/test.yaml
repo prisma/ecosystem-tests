@@ -1346,7 +1346,9 @@ jobs:
           - neon-http-cf-basic
           - neon-http-vercel-nextjs-edgemw
           - neon-cf-basic
+          - neon-cf-remix
           - neon-cfpages-basic
+          - neon-cfpages-remix
           - neon-node-nextjs-edgemw
           - neon-vercel-nextjs-edgemw
           - neon-vercel-nextjs-pages-edgefn
@@ -1377,6 +1379,7 @@ jobs:
       DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
       # neon
       DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_CF_REMIX_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_REMIX_DATABASE_URL }}
       # DRIVER_ADAPTERS_NEON_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
