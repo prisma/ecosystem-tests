@@ -2,14 +2,6 @@ import { LoaderFunctionArgs, json } from '@remix-run/cloudflare'
 import { getDb } from '~/db.server'
 import { Prisma, type PrismaClient } from '@prisma/client'
 
-// declare module '@remix-run/cloudflare' {
-//   interface AppLoadContext {
-//     env: {
-//       DRIVER_ADAPTERS_NEON_CFPAGES_REMIX_DATABASE_URL: string
-//     }
-//   }
-// }
-
 async function getResult(prisma: PrismaClient | Prisma.TransactionClient) {
   return {
     prismaVersion: Prisma.prismaVersion.client,
