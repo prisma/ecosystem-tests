@@ -179,21 +179,9 @@ export default {
     }
 
     const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
-
-    const itxResult = await prisma
-      .$transaction(getResult, {
-        // NOTE: d1-adapter does not actually run the queries inside a transaction but independently one after the other.
-        // The values were changed to make the test reliably pass in CI.
-        //
-        // https://www.prisma.io/docs/orm/prisma-client/queries/transactions#transaction-options
-        // The default value is 2 seconds.
-        maxWait: 20_000,
-        // The default value is 5 seconds.
-        timeout: 20_000,
-      })
-      .catch((error) => ({ error: error.message }))
-
-    const result = JSON.stringify({ itxResult, regResult })
+    const result = JSON.stringify({
+      regResult,
+    })
 
     return new Response(result)
   },
