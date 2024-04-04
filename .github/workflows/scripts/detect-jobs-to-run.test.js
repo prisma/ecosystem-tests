@@ -40,7 +40,6 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "community-generators",
-  "platforms-codesandbox",
 ]
 `)
   })
@@ -121,7 +120,6 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "community-generators",
-  "platforms-codesandbox",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
@@ -158,7 +156,6 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "community-generators",
-  "platforms-codesandbox",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
@@ -195,7 +192,6 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "community-generators",
-  "platforms-codesandbox",
 ]
 `)
     expect(jobsToRun.includes('platforms')).toBe(true)
