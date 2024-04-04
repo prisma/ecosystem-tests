@@ -1,5 +1,9 @@
 #! /bin/sh
 
+#
+# Note: any changes below should be reflected to `ignoreDeps` in `renovate.json`
+#
+
 CLI_PKG_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['prisma'] || pkg?.dependencies?.['prisma'] || pkg?.resolutions?.['prisma'] || '')")
 CLIENT_PKG_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg?.devDependencies?.['@prisma/client'] || pkg?.dependencies?.['@prisma/client'] || pkg?.resolutions?.['@prisma/client'] || '')")
 
