@@ -14,6 +14,9 @@ async function main() {
     'package.json', // package.json at root
     'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
     'generic/basic-m1', // generic/basic-m1 doesn't use Github action matrix feature which we parse to find out the differences
+    // Disabled for now, as it's failing with
+    // Our Container Sandbox (SSE) experience has been replaced with Devboxes (https://codesandbox.io/docs/learn/devboxes/overview)
+    'platforms/codesandbox',
     'platforms-serverless-vercel/vercel-with-redwood/api', // Redwood uses workspaces but is included
     'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
