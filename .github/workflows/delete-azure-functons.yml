@@ -82,7 +82,6 @@ jobs:
 
             function deleteAZResources {
               echo "Fetching Azure functions matching the group and search..."
-              return 1
 
               # List functions to be deleted
               FIDS=$(az functionapp list --resource-group $AZ_DELETE_GROUP --output tsv --query "[?contains(@.name, '$AZ_DELETE_SEARCH')==\`true\`].id")
