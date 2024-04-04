@@ -1,0 +1,32 @@
+name: Delete old Azure Functions
+
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        description: 'Which "Group"?'
+        type: 'choice'
+        options:
+          - 'prisma-e2e-linux'
+          - 'prisma-e2e-windows'
+
+jobs:
+  cleanup:
+    runs-on: 'ubuntu-latest'
+    env:
+      AZURE_SP_TENANT: ${{ vars.AZURE_SP_TENANT }}
+      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+      AZURE_SP_NAME: ${{ vars.AZURE_SP_NAME }}
+
+    steps:
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            which az
+            az --version
+
+            az login --service-principal -u "$AZURE_SP_NAME" -p "$AZURE_SP_PASSWORD" --tenant "$AZURE_SP_TENANT"
+
+            az account show
