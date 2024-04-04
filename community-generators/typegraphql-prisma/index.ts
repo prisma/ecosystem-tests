@@ -3,12 +3,10 @@ import { resolvers } from './generated/typegraphql-prisma'
 import { buildSchema, Field, ObjectType, Query, Resolver } from 'type-graphql'
 
 import { PrismaClient, Prisma } from '@prisma/client'
+import { Context, context } from './context'
 
-import { ApolloServer } from 'apollo-server'
-
-interface Context {
-  prisma: PrismaClient
-}
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
 
 @ObjectType()
 class VersionObject {
@@ -30,14 +28,9 @@ async function main() {
     validate: false,
   })
 
-  const prisma = new PrismaClient()
-
-  const server = new ApolloServer({
-    schema,
-    context: (): Context => ({ prisma }),
-  })
-  const { port } = await server.listen(4000)
-  console.log(`GraphQL is listening on ${port}!`)
+  const server = new ApolloServer<Context>({ schema })
+  const { url } = await startStandaloneServer(server, { context: async () => context })
+  console.log(`Server is running at ${url}`)
 }
 
 main()
