@@ -6,16 +6,6 @@ shopt -s inherit_errexit || true
 export CI=true
 
 dir=$1
-
-# These are in optional-test.yaml, under the `platforms` directory
-# But the names don't match the directory name
-# Example `platforms-codesandbox` is in `platforms` directory
-# So this renames the key so it's correctly processed
-if [[ "$dir" = "platforms-codesandbox" ]]
-then
-  dir="platforms"
-fi
-
 project=$2
 # allow matrix being undefined
 set +u

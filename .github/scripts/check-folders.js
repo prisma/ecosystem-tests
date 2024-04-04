@@ -14,9 +14,6 @@ async function main() {
     'package.json', // package.json at root
     'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
     'generic/basic-m1', // generic/basic-m1 doesn't use Github action matrix feature which we parse to find out the differences
-    // Disabled for now, as it's failing with
-    // Our Container Sandbox (SSE) experience has been replaced with Devboxes (https://codesandbox.io/docs/learn/devboxes/overview)
-    'platforms/codesandbox',
     'platforms-serverless-vercel/vercel-with-redwood/api', // Redwood uses workspaces but is included
     'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
@@ -96,14 +93,6 @@ async function main() {
         .reduce((acc, key) => {
           return acc.concat(...matrix_optional[key])
         }, [])
-
-      // These are in optional-test.yaml, under the `platforms` directory
-      // But the names don't match the directory name
-      // Example `platforms-codesandbox` is in `platforms` directory
-      // So this renames the key so it's correctly processed
-      if (key === 'platforms-codesandbox') {
-        key = 'platforms'
-      }
 
       return folders.concat(folders_optional).map((folder) => `${key}/${folder}`)
     })
