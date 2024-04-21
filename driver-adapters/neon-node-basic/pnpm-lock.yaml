@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@neondatabase/serverless':
-    specifier: 0.9.0
-    version: 0.9.0
+    specifier: 0.9.1
+    version: 0.9.1
   '@prisma/adapter-neon':
     specifier: 5.13.0-dev.33
-    version: 5.13.0-dev.33(@neondatabase/serverless@0.9.0)
+    version: 5.13.0-dev.33(@neondatabase/serverless@0.9.1)
   '@prisma/client':
     specifier: 5.13.0-dev.33
     version: 5.13.0-dev.33(prisma@5.13.0-dev.33)
@@ -773,18 +773,18 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@neondatabase/serverless@0.9.0:
-    resolution: {integrity: sha512-mmJnUAzlzvxNSZuuhI6kgJjH+JgFdBMYUWxihtq/nj0Tjt+Y5UU3W+SvRFoucnd5NObYkuLYQzk+zV5DGFKGJg==}
+  /@neondatabase/serverless@0.9.1:
+    resolution: {integrity: sha512-Xi+tVIXuaeB24BHzhr0W/4vcbb9WwIaB6yK0RsMIteLtzNB86+am6EDFovd3rYCYM1ea7rWcwte2dLOrzW7eqA==}
     dependencies:
       '@types/pg': 8.6.6
     dev: false
 
-  /@prisma/adapter-neon@5.13.0-dev.33(@neondatabase/serverless@0.9.0):
+  /@prisma/adapter-neon@5.13.0-dev.33(@neondatabase/serverless@0.9.1):
     resolution: {integrity: sha512-RYrc+poTu8E3oFeUjYbQp535pS1WTR8klQZ/Ye9ZL37zxtQdTZHMM7vbzm3ZFaiNVMg7qApqLQEi0Bbih5U5eA==}
     peerDependencies:
       '@neondatabase/serverless': ^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0
     dependencies:
-      '@neondatabase/serverless': 0.9.0
+      '@neondatabase/serverless': 0.9.1
       '@prisma/driver-adapter-utils': 5.13.0-dev.33
       postgres-array: 3.0.2
     dev: false
@@ -902,14 +902,21 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
+  /@types/node@20.12.7:
+    resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: false
+
   /@types/node@20.7.0:
     resolution: {integrity: sha512-zI22/pJW2wUZOVyguFaUL1HABdmSVxpXrzIqkjsHmyUjNhPoWM1CKfvVuXfetHhIok4RY573cqS0mZ1SJEnoTg==}
+    dev: true
 
   /@types/pg@8.6.6:
     resolution: {integrity: sha512-O2xNmXebtwVekJDD+02udOncjVcMZQuTEQEMpKJ0ZRf5E7/9JJX3izhKUcUifBkyKpljyUM6BTgy2trmviKlpw==}
     dependencies:
-      '@types/node': 20.7.0
-      pg-protocol: 1.6.0
+      '@types/node': 20.12.7
+      pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
 
@@ -2176,8 +2183,8 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
-  /pg-protocol@1.6.0:
-    resolution: {integrity: sha512-M+PDm637OY5WM307051+bsDia5Xej6d9IR4GwJse1qA1DIhiKlksvrneZOYQq42OM+spubpcNYEo2FcKQrDk+Q==}
+  /pg-protocol@1.6.1:
+    resolution: {integrity: sha512-jPIlvgoD63hrEuihvIg+tJhoGjUsLPn6poJY9N5CnlPd91c2T18T/9zBtLxZSb1EhYxBRoZJtzScCaWlYLtktg==}
     dev: false
 
   /pg-types@2.2.0:
@@ -2463,6 +2470,10 @@ packages:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
     dev: true
+
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+    dev: false
 
   /undici@6.13.0:
     resolution: {integrity: sha512-Q2rtqmZWrbP8nePMq7mOJIN98M0fYvSgV89vwl/BQRT4mDOeY2GXZngfGpcBBhtky3woM7G24wZV3Q304Bv6cw==}
