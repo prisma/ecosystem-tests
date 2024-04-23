@@ -1,6 +1,9 @@
 #! /bin/sh
 
 corepack enable
+# Pin to v8 as latest (v9) needs Node.js v18.12 minimum
+# see https://r.pnpm.io/comp
+corepack install --global pnpm@8
 
 # Setting NODE_OPTIONS="" disables yarn-injected shenanigans so we can use package from the root
 PROJECT_PACKAGE_MANAGER=$(NODE_OPTIONS="" node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
