@@ -534,7 +534,10 @@ jobs:
       fail-fast: false
       matrix:
         feature: [engine-types, engine-native-deps]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        # macos-13 is pinned because engine-types test
+        # need to be updated before running on macos-14 because the engines
+        # names are different because it's arm64 / m1
+        os: [ubuntu-20.04, windows-latest, macos-13]
         exclude:
           - feature: engine-native-deps
             os: windows-latest
