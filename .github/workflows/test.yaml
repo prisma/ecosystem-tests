@@ -542,7 +542,8 @@ jobs:
           - feature: engine-native-deps
             os: windows-latest
           - feature: engine-native-deps
-            os: macos-latest
+            # Note that this must match the value in "os" above
+            os: macos-13
     runs-on: ${{ matrix.os }}
 
     steps:
