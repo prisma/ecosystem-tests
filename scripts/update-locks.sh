@@ -7,7 +7,7 @@
 corepack prepare pnpm@8.15.7 --activate
 corepack enable
 
-pnpm -v
+# pnpm -v
 
 # Setting NODE_OPTIONS="" disables yarn-injected shenanigans so we can use package from the root
 PROJECT_PACKAGE_MANAGER=$(NODE_OPTIONS="" node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")

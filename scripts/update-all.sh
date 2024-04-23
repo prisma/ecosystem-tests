@@ -13,7 +13,7 @@ echo "$NEW_VERSION" > .github/prisma-version.txt
 corepack prepare pnpm@8.15.7 --activate
 corepack enable # auto install correct yarn versions automatically
 
-pnpm -v
+# pnpm -v
 
 # first update all the versions in all the projects for perf gains
 pnpm -rc --parallel exec "$(pwd)/scripts/update-version.sh $NEW_VERSION"
