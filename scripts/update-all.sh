@@ -6,7 +6,14 @@ set -eux
 NEW_VERSION=$(npm show prisma@$1 version)
 echo "$NEW_VERSION" > .github/prisma-version.txt
 
+# Pin to v8 as latest (v9) needs Node.js v18.12 minimum
+# see https://r.pnpm.io/comp
+# corepack install --global pnpm@8
+# Legacy command
+corepack prepare pnpm@8.15.7 --activate
 corepack enable # auto install correct yarn versions automatically
+
+pnpm -v
 
 # first update all the versions in all the projects for perf gains
 pnpm -rc --parallel exec "$(pwd)/scripts/update-version.sh $NEW_VERSION"
