@@ -14,8 +14,8 @@ dependencies:
 
 devDependencies:
   heroku:
-    specifier: 8.11.4
-    version: 8.11.4(@oclif/config@1.18.17)(@types/node@20.12.7)(typescript@5.4.5)
+    specifier: 8.11.5
+    version: 8.11.5(@oclif/config@1.18.17)(@types/node@20.12.7)(typescript@5.4.5)
   prisma:
     specifier: 5.14.0-dev.35
     version: 5.14.0-dev.35
@@ -196,12 +196,12 @@ packages:
       psl: 1.9.0
     dev: true
 
-  /@heroku-cli/plugin-ci-v5@8.11.3(@types/node@20.12.7)(typescript@5.4.5):
-    resolution: {integrity: sha512-ah78X0qu/54z3yKf0DWVUPnb5PNeMpGnJCSGXAEjoiHmcP9EUZWJx4LBJDSCQfYpELHxsAvXrKchjB2YAxdY7A==}
+  /@heroku-cli/plugin-ci-v5@8.11.5(@types/node@20.12.7)(typescript@5.4.5):
+    resolution: {integrity: sha512-QI2wG9JAqjgAAtMAMMXEFzJen9sZsFMpBMV8x73NVmYcCFZFiYLkJl57ob2+CU4q26LYK60ik0AH8VKxmajp6w==}
     engines: {node: '>=14'}
     dependencies:
       '@heroku-cli/command': 9.0.2
-      '@heroku-cli/plugin-run-v5': 8.11.3(@types/node@20.12.7)(typescript@5.4.5)
+      '@heroku-cli/plugin-run-v5': 8.11.5(@types/node@20.12.7)(typescript@5.4.5)
       ansi-escapes: 3.2.0
       bluebird: 3.7.2
       github-url-to-object: 4.0.6
@@ -294,8 +294,8 @@ packages:
       ssh2: 1.15.0
     dev: true
 
-  /@heroku-cli/plugin-run-v5@8.11.3(@types/node@20.12.7)(typescript@5.4.5):
-    resolution: {integrity: sha512-vWFSebBEQzxGCSctODFjmMpXbRXdpdMheGaeaGo3593JBPV+1xUwGFgCYrDwwuMbRGvphXQd0hovpH/1RT3bPQ==}
+  /@heroku-cli/plugin-run-v5@8.11.5(@types/node@20.12.7)(typescript@5.4.5):
+    resolution: {integrity: sha512-a4WdBmgBYKkAC0tMS/dHUwAmIhZGtcFBPMP6C1APxKYiHPGySCxVzDJkTZSymCh4QyHDAj0pacjpLlrEvhKNMA==}
     dependencies:
       '@heroku-cli/color': 2.0.1
       '@heroku-cli/command': 9.0.2
@@ -748,6 +748,13 @@ packages:
       '@opentelemetry/api': 1.8.0
     dev: true
 
+  /@opentelemetry/api-logs@0.50.0:
+    resolution: {integrity: sha512-JdZuKrhOYggqOpUljAq4WWNi5nB10PmgoF0y2CvedLGXd0kSawb/UBnWT8gg1ND3bHCNHStAIVT0ELlxJJRqrA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@opentelemetry/api': 1.8.0
+    dev: true
+
   /@opentelemetry/api@1.8.0:
     resolution: {integrity: sha512-I/s6F7yKUDdtMsoBWXJe8Qz40Tui5vsuKCWJEWVL+5q9sSWRzzx6v2KeNsOBEwd94j0eWkpWCH4yB6rZg9Mf0w==}
     engines: {node: '>=8.0.0'}
@@ -796,15 +803,16 @@ packages:
       '@opentelemetry/sdk-trace-base': 1.15.2(@opentelemetry/api@1.8.0)
     dev: true
 
-  /@opentelemetry/instrumentation@0.41.2(@opentelemetry/api@1.8.0):
-    resolution: {integrity: sha512-rxU72E0pKNH6ae2w5+xgVYZLzc5mlxAbGzF4shxMVK8YC2QQsfN38B2GPbj0jvrKWWNUElfclQ+YTykkNg/grw==}
+  /@opentelemetry/instrumentation@0.50.0(@opentelemetry/api@1.8.0):
+    resolution: {integrity: sha512-bhGhbJiZKpuu7wTaSak4hyZcFPlnDeuSF/2vglze8B4w2LubcSbbOnkVTzTs5SXtzh4Xz8eRjaNnAm+u2GYufQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
     dependencies:
       '@opentelemetry/api': 1.8.0
+      '@opentelemetry/api-logs': 0.50.0
       '@types/shimmer': 1.0.5
-      import-in-the-middle: 1.4.2
+      import-in-the-middle: 1.7.1
       require-in-the-middle: 7.3.0
       semver: 7.6.0
       shimmer: 1.2.1
@@ -2305,8 +2313,8 @@ packages:
     resolution: {integrity: sha512-bfnA2ZfydOonhdJDdk4AyH90+ln/O2gva+t2tx7YIM7tny6ExPwEyfqPeklwVM6zTraimSGNQfyE2DNRpLa/KA==}
     dev: true
 
-  /heroku@8.11.4(@oclif/config@1.18.17)(@types/node@20.12.7)(typescript@5.4.5):
-    resolution: {integrity: sha512-UL1hi1wiP/U0PquCakD/Eo8TCqdklHO3HpGyu0eWee77WrBGm3YtLxp3MvX+xPW+G61bqt1oEPVm8fg6YberlQ==}
+  /heroku@8.11.5(@oclif/config@1.18.17)(@types/node@20.12.7)(typescript@5.4.5):
+    resolution: {integrity: sha512-Or3J5qW9fyO+A/w0G4pybjfvd+5AVK8l1fJn7Y+XGKUfAOhZf1Hb5+4Ev6udv2Jxzk1KLHUWEo5dqTAtWv9W+A==}
     engines: {node: ~16.20.0}
     hasBin: true
     dependencies:
@@ -2317,7 +2325,7 @@ packages:
       '@heroku-cli/plugin-addons-v5': 8.11.2
       '@heroku-cli/plugin-apps-v5': 8.11.2(@types/node@20.12.7)(typescript@5.4.5)
       '@heroku-cli/plugin-certs-v5': 8.11.3
-      '@heroku-cli/plugin-ci-v5': 8.11.3(@types/node@20.12.7)(typescript@5.4.5)
+      '@heroku-cli/plugin-ci-v5': 8.11.5(@types/node@20.12.7)(typescript@5.4.5)
       '@heroku-cli/plugin-container-registry-v5': 8.11.2
       '@heroku-cli/plugin-orgs-v5': 8.11.2
       '@heroku-cli/plugin-pg-v5': 8.11.2
@@ -2342,7 +2350,7 @@ packages:
       '@oclif/plugin-which': 2.2.8
       '@opentelemetry/api': 1.8.0
       '@opentelemetry/exporter-trace-otlp-http': 0.41.2(@opentelemetry/api@1.8.0)
-      '@opentelemetry/instrumentation': 0.41.2(@opentelemetry/api@1.8.0)
+      '@opentelemetry/instrumentation': 0.50.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/resources': 1.23.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/sdk-trace-base': 1.23.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/sdk-trace-node': 1.23.0(@opentelemetry/api@1.8.0)
@@ -2459,8 +2467,8 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /import-in-the-middle@1.4.2:
-    resolution: {integrity: sha512-9WOz1Yh/cvO/p69sxRmhyQwrIGGSp7EIdcb+fFNVi7CzQGQB8U1/1XrKVSbEd/GNOAeM0peJtmi7+qphe7NvAw==}
+  /import-in-the-middle@1.7.1:
+    resolution: {integrity: sha512-1LrZPDtW+atAxH42S6288qyDFNQ2YCty+2mxEPRtfazH6Z5QwkaBSTS2ods7hnVJioF6rkRfNoA6A/MstpFXLg==}
     dependencies:
       acorn: 8.11.3
       acorn-import-assertions: 1.9.0(acorn@8.11.3)
