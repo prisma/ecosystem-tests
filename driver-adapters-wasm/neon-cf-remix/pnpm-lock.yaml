@@ -45,7 +45,7 @@ devDependencies:
     version: 29.7.0
   '@remix-run/dev':
     specifier: ^2.8.0
-    version: 2.9.1(@remix-run/react@2.9.1)(typescript@5.3.3)(wrangler@3.52.0)
+    version: 2.9.1(@remix-run/react@2.9.1)(typescript@5.3.3)(wrangler@3.53.1)
   '@types/react':
     specifier: ^18.2.20
     version: 18.3.1
@@ -90,7 +90,7 @@ devDependencies:
     version: 5.3.3
   wrangler:
     specifier: ^3.24.0
-    version: 3.52.0(@cloudflare/workers-types@4.20240502.0)
+    version: 3.53.1(@cloudflare/workers-types@4.20240502.0)
 
 packages:
 
@@ -1896,7 +1896,7 @@ packages:
     engines: {node: '>=18.0.0'}
     dev: false
 
-  /@remix-run/dev@2.9.1(@remix-run/react@2.9.1)(typescript@5.3.3)(wrangler@3.52.0):
+  /@remix-run/dev@2.9.1(@remix-run/react@2.9.1)(typescript@5.3.3)(wrangler@3.53.1):
     resolution: {integrity: sha512-/YhegnnRrarsqU+11+HdGwjcIT1KgkS9L7kWCM0+ivDvyiBYAuI6xbPG/q/FY6LqLAPYeOxsJmUNl+aj+yMltA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
@@ -1970,7 +1970,7 @@ packages:
       tar-fs: 2.1.1
       tsconfig-paths: 4.2.0
       typescript: 5.3.3
-      wrangler: 3.52.0(@cloudflare/workers-types@4.20240502.0)
+      wrangler: 3.53.1(@cloudflare/workers-types@4.20240502.0)
       ws: 7.5.9
     transitivePeerDependencies:
       - '@types/node'
@@ -2338,7 +2338,7 @@ packages:
   /@types/node-forge@1.3.11:
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.8
     dev: true
 
   /@types/node@20.11.24:
@@ -2351,6 +2351,13 @@ packages:
     resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
     dependencies:
       undici-types: 5.26.5
+    dev: false
+
+  /@types/node@20.12.8:
+    resolution: {integrity: sha512-NU0rJLJnshZWdE/097cdCBbyW1h4hEg0xpovcoAQYHl8dnEyp/NAOiE45pvc+Bd1Dt+2r94v2eGFpQJ4R7g+2w==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: true
 
   /@types/pg@8.6.6:
     resolution: {integrity: sha512-O2xNmXebtwVekJDD+02udOncjVcMZQuTEQEMpKJ0ZRf5E7/9JJX3izhKUcUifBkyKpljyUM6BTgy2trmviKlpw==}
@@ -4215,7 +4222,7 @@ packages:
     resolution: {integrity: sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==}
     engines: {node: '>= 0.8'}
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.8
       require-like: 0.1.2
     dev: true
 
@@ -6324,9 +6331,9 @@ packages:
       stoppable: 1.1.0
       undici: 5.28.4
       workerd: 1.20240419.0
-      ws: 8.16.0
+      ws: 8.17.0
       youch: 3.3.3
-      zod: 3.23.4
+      zod: 3.23.6
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -8423,8 +8430,8 @@ packages:
       '@cloudflare/workerd-windows-64': 1.20240419.0
     dev: true
 
-  /wrangler@3.52.0(@cloudflare/workers-types@4.20240502.0):
-    resolution: {integrity: sha512-HR06jTym+yr7+CI3Ggld3nfp1OM9vSC7h4B8vwWHwhi5K0sYg8p44rxV514Gmsv9dkFHegkRP70SM3sjuuxxpQ==}
+  /wrangler@3.53.1(@cloudflare/workers-types@4.20240502.0):
+    resolution: {integrity: sha512-bdMRQdHYdvowIwOhEMFkARIZUh56aDw7HLUZ/2JreBjj760osXE4Fc4L1TCkfRRBWgB6/LKF5LA4OcvORMYmHg==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -8499,8 +8506,8 @@ packages:
         optional: true
     dev: true
 
-  /ws@8.16.0:
-    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
+  /ws@8.17.0:
+    resolution: {integrity: sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -8570,8 +8577,8 @@ packages:
       stacktracey: 2.1.8
     dev: true
 
-  /zod@3.23.4:
-    resolution: {integrity: sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==}
+  /zod@3.23.6:
+    resolution: {integrity: sha512-RTHJlZhsRbuA8Hmp/iNL7jnfc4nZishjsanDAfEY1QpDQZCahUp3xDzl+zfweE9BklxMUcgBgS1b7Lvie/ZVwA==}
     dev: true
 
   /zwitch@2.0.4:
