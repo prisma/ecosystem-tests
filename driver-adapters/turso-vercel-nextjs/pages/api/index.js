@@ -46,6 +46,7 @@ export default async (req, res) => {
       }),
       createManyAndReturn: await prisma.user.createManyAndReturn({
         select: {
+          age: true,
           email: true,
           name: true,
         },

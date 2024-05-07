@@ -46,6 +46,7 @@ export async function onRequest(context) {
       }),
       createManyAndReturn: await prisma.user.createManyAndReturn({
         select: {
+          age: true,
           email: true,
           name: true,
         },
