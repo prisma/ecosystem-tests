@@ -29,7 +29,7 @@ npx wrangler hyperdrive list | tee $TMP_FILE
 # Only try to delete if the hyperdrive exists
 EXISTING_HYPERDRIVE=$(cat $TMP_FILE | grep $HYPERDRIVE_NAME)
 if [ -z "$EXISTING_HYPERDRIVE" ]; then
-  cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
+  $EXISTING_HYPERDRIVE | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
 fi
 
 # Create the hyperdrive to connecto the Database. Unfortunately wrangler output mixes JSON and text, so we need to filter out
