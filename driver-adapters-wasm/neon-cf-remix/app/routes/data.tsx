@@ -42,6 +42,7 @@ async function getResult(prisma: PrismaClient | Prisma.TransactionClient) {
     }),
     createManyAndReturn: await prisma.user.createManyAndReturn({
       select: {
+        age: true,
         email: true,
         name: true,
       },
