@@ -125,6 +125,11 @@ async function getResult(prisma: PrismaClient | Prisma.TransactionClient) {
       _count: {
         age: true,
       },
+      orderBy: {
+        _count: {
+          age: 'desc',
+        },
+      },
     }),
     findFirstOrThrow: await prisma.user.findFirstOrThrow({
       select: {

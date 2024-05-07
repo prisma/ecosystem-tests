@@ -135,6 +135,11 @@ async function getResponse() {
         _count: {
           age: true,
         },
+        orderBy: {
+          _count: {
+            age: 'desc',
+          },
+        },
       }),
       // TODO skipped because of bug: "User Not Found"
 

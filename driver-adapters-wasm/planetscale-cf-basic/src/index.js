@@ -138,6 +138,11 @@ export default {
           _count: {
             age: true,
           },
+          orderBy: {
+            _count: {
+              age: 'desc',
+            },
+          },
         }),
         findFirstOrThrow: await prisma.user.findFirstOrThrow({
           select: {
