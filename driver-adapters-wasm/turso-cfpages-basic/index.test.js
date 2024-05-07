@@ -92,7 +92,7 @@ test('prisma version and output', async () => {
   "name": "Test 1",
 }
 `)
-  expect(regResult.count).toBe(2)
+  expect(regResult.count).toBe(4)
   expect(regResult.aggregate).toMatchInlineSnapshot(`
 {
   "age": 29,
