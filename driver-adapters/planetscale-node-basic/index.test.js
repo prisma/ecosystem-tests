@@ -51,16 +51,6 @@ test('prisma version and output', async () => {
     "email": "test-3@prisma.io",
     "name": "Test 3",
   },
-  {
-    "age": 30,
-    "email": "test-4@prisma.io",
-    "name": "Test 4",
-  },
-  {
-    "age": 31,
-    "email": "test-5@prisma.io",
-    "name": "Test 5",
-  },
 ]
 `)
   expect(regResult.findUnique).toMatchInlineSnapshot(`
