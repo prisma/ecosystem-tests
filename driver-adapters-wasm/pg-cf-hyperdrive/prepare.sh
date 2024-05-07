@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+set -eux
+
 export TMP_FILE=hyperdrive.tmp
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters-wasm pg-cf-hyperdrive build'
 export PRISMA_CLIENT_ENGINE_TYPE='wasm' # because setup otherwise makes it library/binary
 export HYPERDRIVE_NAME='hyperdrive-pg-cf-hyperdrive'
 
 # Delete a previous hyperdrive with the same name if exists, unfortunately wrangler output cannot
-# be parsed as JSON, so we need to filter out the id from the output table. We do it in two steps 
-# to count with debugging output 
+# be parsed as JSON, so we need to filter out the id from the output table. We do it in two steps
+# to count with debugging output
 #
 # Example output of `wrangler hyperdrive list`:
 #
@@ -24,9 +26,9 @@ export HYPERDRIVE_NAME='hyperdrive-pg-cf-hyperdrive'
 # └──────────────────────────────────┴─────────────────────────────┴──────────────────────┴───────────────────────────────────────────────────────────────────────┴──────┴────────────────┴────────────────────┘
 # ```
 npx wrangler hyperdrive list | tee $TMP_FILE
-cat $TMP_FILE | grep $HYPERDRIVE_NAME |cut -f2 -d' ' |xargs npx wrangler hyperdrive delete
+cat $TMP_FILE | grep $HYPERDRIVE_NAME | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
 
-# Create the hyperdrive to connecto the Database. Unfortunately wrangler output mixes JSON and text, so we need to filter out 
+# Create the hyperdrive to connecto the Database. Unfortunately wrangler output mixes JSON and text, so we need to filter out
 # the first two lines to parse the JSON.
 #
 # Example output of `wrangler hyperdrive create hyperdrive-orm-tests-foo --connection-string=$DATABASE_URL`:
