@@ -7,7 +7,7 @@ export default {
   async fetch(request, env, ctx) {
     const client = createClient({
       url: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL,
-      authToken: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN
+      authToken: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN,
     })
     const adapter = new PrismaLibSQL(client)
     const prisma = new PrismaClient({ adapter })
@@ -28,43 +28,19 @@ export default {
             name: true,
           },
         }),
-        // createMany: await prisma.user.createMany({
-        //   data: [
-        //     {
-        //       email: `test-2@prisma.io`,
-        //       age: 29,
-        //       name: 'Test 2',
-        //     },
-        //     {
-        //       email: `test-3@prisma.io`,
-        //       age: 29,
-        //       name: 'Test 3',
-        //     },
-        //   ],
-        // }),
-        create2: await prisma.user.create({
-          data: {
-            email: `test-2@prisma.io`,
-            age: 29,
-            name: 'Test 2',
-          },
-          select: {
-            email: true,
-            age: true,
-            name: true,
-          },
-        }),
-        create3: await prisma.user.create({
-          data: {
-            email: `test-3@prisma.io`,
-            age: 29,
-            name: 'Test 3',
-          },
-          select: {
-            email: true,
-            age: true,
-            name: true,
-          },
+        createMany: await prisma.user.createMany({
+          data: [
+            {
+              email: `test-2@prisma.io`,
+              age: 29,
+              name: 'Test 2',
+            },
+            {
+              email: `test-3@prisma.io`,
+              age: 29,
+              name: 'Test 3',
+            },
+          ],
         }),
         findMany: await prisma.user.findMany({
           select: {
@@ -179,17 +155,17 @@ export default {
         //   },
         // }),
       }
-  
+
       // sort results by email to make the order deterministic
       result.findMany = result.findMany.sort((a, b) => (a.email > b.email ? 1 : -1))
-  
+
       return result
     }
-  
+
     const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
     const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
     const result = JSON.stringify({ itxResult, regResult })
 
-    return new Response(result);
-  }
+    return new Response(result)
+  },
 }

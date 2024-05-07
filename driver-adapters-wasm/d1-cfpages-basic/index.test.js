@@ -18,8 +18,7 @@ test('prisma version and output', async () => {
   "name": "Test 1",
 }
 `)
-  // Not available for SQLite
-  // expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createMany.count).toBe(2)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
