@@ -138,6 +138,11 @@ async function getResponse() {
         _count: {
           age: true,
         },
+        orderBy: {
+          _count: {
+            age: 'asc',
+          },
+        },
       }),
       findFirstOrThrow: await prisma.user.findFirstOrThrow({
         select: {

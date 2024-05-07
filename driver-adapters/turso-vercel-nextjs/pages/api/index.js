@@ -142,6 +142,11 @@ export default async (req, res) => {
         _count: {
           age: true,
         },
+        orderBy: {
+          _count: {
+            age: 'asc',
+          },
+        },
       }),
       findFirstOrThrow: await prisma.user.findFirstOrThrow({
         select: {
