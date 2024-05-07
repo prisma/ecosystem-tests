@@ -27,7 +27,7 @@ export HYPERDRIVE_NAME='hyperdrive-pg-cf-hyperdrive'
 # ```
 npx wrangler hyperdrive list | tee $TMP_FILE
 # Only try to delete if the hyperdrive exists
-export EXISTING_HYPERDRIVE_OUTPUT=$(cat $TMP_FILE | grep -q $HYPERDRIVE_NAME)
+EXISTING_HYPERDRIVE_OUTPUT=$(grep $HYPERDRIVE_NAME $TMP_FILE)
 if [ -n "$EXISTING_HYPERDRIVE_OUTPUT" ]; then
   echo "Existing hyperdrive with name $HYPERDRIVE_NAME - We will delete it..."
   echo "$EXISTING_HYPERDRIVE_OUTPUT" | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
