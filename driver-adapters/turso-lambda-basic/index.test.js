@@ -50,11 +50,13 @@ test('prisma version and output', async () => {
     {
       "age": 30,
       "email": "test-4@prisma.io",
+      "id": "replaced-in-test",
       "name": "Test 4",
     },
     {
       "age": 31,
       "email": "test-5@prisma.io",
+      "id": "replaced-in-test",
       "name": "Test 5",
     },
   ]
