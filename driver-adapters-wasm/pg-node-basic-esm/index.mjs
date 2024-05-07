@@ -132,7 +132,7 @@ export async function handler() {
       },
       orderBy: {
         _count: {
-          age: 'desc',
+          age: 'asc',
         },
       },
     }),

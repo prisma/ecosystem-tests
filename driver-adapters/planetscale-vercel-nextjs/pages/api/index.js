@@ -138,7 +138,7 @@ export default async (req, res) => {
         },
         orderBy: {
           _count: {
-            age: 'desc',
+            age: 'asc',
           },
         },
       }),

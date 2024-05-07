@@ -137,7 +137,7 @@ async function getResponse() {
         },
         orderBy: {
           _count: {
-            age: 'desc',
+            age: 'asc',
           },
         },
       }),

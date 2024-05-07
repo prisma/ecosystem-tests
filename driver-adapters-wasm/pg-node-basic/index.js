@@ -132,7 +132,7 @@ exports.handler = async () => {
       },
       orderBy: {
         _count: {
-          age: 'desc',
+          age: 'asc',
         },
       },
     }),

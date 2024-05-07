@@ -136,7 +136,7 @@ export async function onRequest(context) {
         },
         orderBy: {
           _count: {
-            age: 'desc',
+            age: 'asc',
           },
         },
       }),

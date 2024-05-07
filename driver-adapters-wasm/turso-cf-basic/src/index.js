@@ -137,7 +137,7 @@ export default {
           },
           orderBy: {
             _count: {
-              age: 'desc',
+              age: 'asc',
             },
           },
         }),

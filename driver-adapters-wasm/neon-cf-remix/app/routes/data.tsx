@@ -135,7 +135,7 @@ async function getResult(prisma: PrismaClient | Prisma.TransactionClient) {
       },
       orderBy: {
         _count: {
-          age: 'desc',
+          age: 'asc',
         },
       },
     }),
