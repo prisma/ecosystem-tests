@@ -19,6 +19,20 @@ test('prisma version and output', async () => {
 }
 `)
   expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createManyAndReturn).toMatchInlineSnapshot(`
+  [
+    {
+      "age": 30,
+      "email": "test-4@prisma.io",
+      "name": "Test 4",
+    },
+    {
+      "age": 31,
+      "email": "test-5@prisma.io",
+      "name": "Test 5",
+    },
+  ]
+  `)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
@@ -35,6 +49,16 @@ test('prisma version and output', async () => {
     "age": 29,
     "email": "test-3@prisma.io",
     "name": "Test 3",
+  },
+  {
+    "age": 30,
+    "email": "test-4@prisma.io",
+    "name": "Test 4",
+  },
+  {
+    "age": 31,
+    "email": "test-5@prisma.io",
+    "name": "Test 5",
   },
 ]
 `)
