@@ -44,25 +44,25 @@ export async function onRequest(context) {
           },
         ],
       }),
-      createManyAndReturn: await prisma.user.createManyAndReturn({
-        select: {
-          age: true,
-          email: true,
-          name: true,
-        },
-        data: [
-          {
-            email: `test-4@prisma.io`,
-            age: 30,
-            name: 'Test 4',
-          },
-          {
-            email: `test-5@prisma.io`,
-            age: 31,
-            name: 'Test 5',
-          },
-        ],
-      }),
+      // Not implemented for MySQL
+      // createManyAndReturn: await prisma.user.createManyAndReturn({
+      //   select: {
+      //     email: true,
+      //     name: true,
+      //   },
+      //   data: [
+      //     {
+      //       email: `test-4@prisma.io`,
+      //       age: 30,
+      //       name: 'Test 4',
+      //     },
+      //     {
+      //       email: `test-5@prisma.io`,
+      //       age: 31,
+      //       name: 'Test 5',
+      //     },
+      //   ],
+      // }),
       findMany: await prisma.user.findMany({
         select: {
           email: true,
