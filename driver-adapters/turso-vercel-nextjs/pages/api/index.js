@@ -58,8 +58,13 @@ export default async (req, res) => {
           },
           {
             email: `test-5@prisma.io`,
-            age: 31,
+            age: 30,
             name: 'Test 5',
+          },
+          {
+            email: `test-6@prisma.io`,
+            age: 30,
+            name: 'Test 6',
           },
         ],
       }),
