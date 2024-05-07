@@ -53,7 +53,7 @@ async function getResponse() {
           },
           {
             email: `test-5@prisma.io`,
-            age: 31,
+            age: 30,
             name: 'Test 5',
           },
         ],
@@ -131,6 +131,11 @@ async function getResponse() {
         by: ['age'],
         _count: {
           age: true,
+        },
+        orderBy: {
+          _count: {
+            age: 'asc',
+          },
         },
       }),
       findFirstOrThrow: await prisma.user.findFirstOrThrow({
