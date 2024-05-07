@@ -133,12 +133,12 @@ async function getResponse() {
       }),
       upsert: await prisma.user.upsert({
         where: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
         },
         create: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
           age: 30,
-          name: 'Test 4',
+          name: 'Test upsert',
         },
         update: {},
         select: {
@@ -157,7 +157,7 @@ async function getResponse() {
 
   const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
   const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
-  
+
   return { itxResult, regResult }
 }
 

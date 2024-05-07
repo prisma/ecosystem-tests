@@ -98,13 +98,13 @@ test('prisma version and output', async () => {
   "name": "Test 2",
 }
 `)
-// Skipping this because of too many sub-requests (limit is 50 per fetch call)
+  // Skipping this because of too many sub-requests (limit is 50 per fetch call)
 
-//   expect(regResult.upsert).toMatchInlineSnapshot(`
-// {
-//   "age": 30,
-//   "email": "test-4@prisma.io",
-//   "name": "Test 4",
-// }
-// `)
+  //   expect(regResult.upsert).toMatchInlineSnapshot(`
+  // {
+  //   "age": 30,
+  //   "email": "test-upsert@prisma.io",
+  //   "name": "Test upsert",
+  // }
+  // `)
 })

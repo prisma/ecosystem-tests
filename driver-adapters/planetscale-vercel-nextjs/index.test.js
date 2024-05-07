@@ -113,8 +113,8 @@ test('prisma version and output', async () => {
   expect(regResult.upsert).toMatchInlineSnapshot(`
 {
   "age": 30,
-  "email": "test-4@prisma.io",
-  "name": "Test 4",
+  "email": "test-upsert@prisma.io",
+  "name": "Test upsert",
 }
 `)
 })

@@ -133,12 +133,12 @@ async function getResponse() {
     }),
     // upsert: await prisma.user.upsert({
     //   where: {
-    //     email: 'test-4@prisma.io',
+    //     email: 'test-upsert@prisma.io',
     //   },
     //   create: {
-    //     email: 'test-4@prisma.io',
+    //     email: 'test-upsert@prisma.io',
     //     age: 30,
-    //     name: 'Test 4',
+    //     name: 'Test upsert',
     //   },
     //   update: {},
     //   select: {
@@ -149,15 +149,17 @@ async function getResponse() {
     // }),
   })
 
-  const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))  // TODO undo catch when queries work
+  const regResult = await getResult(prisma).catch((error) => ({ error: error.message })) // TODO undo catch when queries work
 
   // test the error message when the transaction fails
   try {
-    await prisma.user.delete({
-      where: {
-        email: 'test-1@prisma.io',
-      },
-    }).catch((error) => ({ error: error.message })) // TODO undo catch when queries work
+    await prisma.user
+      .delete({
+        where: {
+          email: 'test-1@prisma.io',
+        },
+      })
+      .catch((error) => ({ error: error.message })) // TODO undo catch when queries work
   } catch (e) {
     if (e.code !== undefined && e.message !== 'Error: Transactions are not supported in HTTP mode') {
       console.error('The expectation changed and needs to be updated in the test, see new error below:')

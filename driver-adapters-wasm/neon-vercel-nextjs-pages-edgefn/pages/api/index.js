@@ -8,7 +8,9 @@ export const config = {
 }
 
 async function getResponse() {
-  const client = new Pool({ connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL })
+  const client = new Pool({
+    connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL,
+  })
   const adapter = new PrismaNeon(client)
   const prisma = new PrismaClient({ adapter })
 
@@ -136,12 +138,12 @@ async function getResponse() {
       }),
       upsert: await prisma.user.upsert({
         where: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
         },
         create: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
           age: 30,
-          name: 'Test 4',
+          name: 'Test upsert',
         },
         update: {},
         select: {
@@ -160,13 +162,13 @@ async function getResponse() {
 
   const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
   const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
-  
+
   return { itxResult, regResult }
 }
 
 export default async function handler() {
-  return new Response(
-    JSON.stringify(await getResponse()),
-    { status: 200, headers: { 'content-type': 'application/json' } },
-  )
+  return new Response(JSON.stringify(await getResponse()), {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+  })
 }

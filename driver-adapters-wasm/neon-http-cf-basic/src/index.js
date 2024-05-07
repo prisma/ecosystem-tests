@@ -133,12 +133,12 @@ export default {
       }),
       // upsert: await prisma.user.upsert({
       //   where: {
-      //     email: 'test-4@prisma.io',
+      //     email: 'test-upsert@prisma.io',
       //   },
       //   create: {
-      //     email: 'test-4@prisma.io',
+      //     email: 'test-upsert@prisma.io',
       //     age: 30,
-      //     name: 'Test 4',
+      //     name: 'Test upsert',
       //   },
       //   update: {},
       //   select: {
@@ -148,9 +148,9 @@ export default {
       //   },
       // }),
     })
-  
+
     const regResult = await getResult(prisma)
-  
+
     // test the error message when the transaction fails
     try {
       await prisma.user.delete({
@@ -164,7 +164,7 @@ export default {
         throw e
       }
     }
-  
+
     // Transactions are expected to fail in HTTP mode
     try {
       const itxResult = await prisma.$transaction(getResult)
@@ -174,9 +174,9 @@ export default {
         throw e
       }
     }
-  
+
     const result = JSON.stringify({ regResult })
 
-    return new Response(result);
-  }
+    return new Response(result)
+  },
 }

@@ -7,9 +7,9 @@ export async function onRequest(context) {
     url: context.env.DRIVER_ADAPTERS_PLANETSCALE_CFPAGES_BASIC_DATABASE_URL,
     // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
     fetch(url, init) {
-      delete init["cache"];
-      return fetch(url, init);
-    }
+      delete init['cache']
+      return fetch(url, init)
+    },
   })
   const adapter = new PrismaPlanetScale(client)
   const prisma = new PrismaClient({ adapter })
@@ -140,12 +140,12 @@ export async function onRequest(context) {
 
       // upsert: await prisma.user.upsert({
       //   where: {
-      //     email: 'test-4@prisma.io',
+      //     email: 'test-upsert@prisma.io',
       //   },
       //   create: {
-      //     email: 'test-4@prisma.io',
+      //     email: 'test-upsert@prisma.io',
       //     age: 30,
-      //     name: 'Test 4',
+      //     name: 'Test upsert',
       //   },
       //   update: {},
       //   select: {
@@ -166,5 +166,5 @@ export async function onRequest(context) {
   const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
   const result = JSON.stringify({ itxResult, regResult })
 
-  return new Response(result);
+  return new Response(result)
 }

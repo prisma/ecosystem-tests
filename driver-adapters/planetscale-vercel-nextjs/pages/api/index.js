@@ -137,12 +137,12 @@ export default async (req, res) => {
       }),
       upsert: await prisma.user.upsert({
         where: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
         },
         create: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
           age: 30,
-          name: 'Test 4',
+          name: 'Test upsert',
         },
         update: {},
         select: {
