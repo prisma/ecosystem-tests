@@ -26,7 +26,10 @@ export HYPERDRIVE_NAME='hyperdrive-pg-cf-hyperdrive'
 # └──────────────────────────────────┴─────────────────────────────┴──────────────────────┴───────────────────────────────────────────────────────────────────────┴──────┴────────────────┴────────────────────┘
 # ```
 npx wrangler hyperdrive list | tee $TMP_FILE
-cat $TMP_FILE | grep $HYPERDRIVE_NAME | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
+# Only try to delete if the hyperdrive exists
+if cat $TMP_FILE | grep $HYPERDRIVE_NAME; then
+    cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
+fi
 
 # Create the hyperdrive to connecto the Database. Unfortunately wrangler output mixes JSON and text, so we need to filter out
 # the first two lines to parse the JSON.
@@ -50,8 +53,16 @@ cat $TMP_FILE | grep $HYPERDRIVE_NAME | cut -f2 -d' ' | xargs npx wrangler hyper
 #   }
 # }
 # ```
+
+# if DATABASE_URL is not set, exit
+if [ -z "$DATABASE_URL" ]; then
+    echo "DATABASE_URL is not set"
+    exit 1
+fi
+
 npx wrangler hyperdrive create $HYPERDRIVE_NAME --connection-string=\"$DATABASE_URL\" | tee $TMP_FILE
-export HYPERDRIVE_ID=$(cat $TMP_FILE |sed 1,2d | jq .id)
+cat $TMP_FILE
+export HYPERDRIVE_ID=$(cat $TMP_FILE | sed 1,2d | jq .id)
 
 cat <<EOF > wrangler.toml
 name = "pg-cf-hyperdrive"
