@@ -25,6 +25,7 @@ export default {
           name: true,
         },
       }),
+      // Expected to fail in HTTP mode
       // createMany: await prisma.user.createMany({
       //   data: [
       //     {
@@ -36,6 +37,24 @@ export default {
       //       email: `test-3@prisma.io`,
       //       age: 29,
       //       name: 'Test 3',
+      //     },
+      //   ],
+      // }),
+      // createManyAndReturn: await prisma.user.createManyAndReturn({
+      //   select: {
+      //     email: true,
+      //     name: true,
+      //   },
+      //   data: [
+      //     {
+      //       email: `test-4@prisma.io`,
+      //       age: 30,
+      //       name: 'Test 4',
+      //     },
+      //     {
+      //       email: `test-5@prisma.io`,
+      //       age: 31,
+      //       name: 'Test 5',
       //     },
       //   ],
       // }),

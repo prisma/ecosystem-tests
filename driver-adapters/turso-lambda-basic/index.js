@@ -41,6 +41,10 @@ exports.handler = async () => {
       ],
     }),
     createManyAndReturn: await prisma.user.createManyAndReturn({
+      select: {
+        email: true,
+        name: true,
+      },
       data: [
         {
           email: `test-4@prisma.io`,

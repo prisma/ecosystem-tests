@@ -26,13 +26,6 @@ test('prisma version and output', async () => {
     throw e
   }
 
-  // Since `.createManyAndReturn()` returns the id, we need to replace it before checking the equality
-  regResult.createManyAndReturn.forEach((it) => {
-    it.id = 'replaced-in-test'
-  })
-  itxResult.createManyAndReturn.forEach((it) => {
-    it.id = 'replaced-in-test'
-  })
   expect(regResult).toEqual(itxResult)
 
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
@@ -50,13 +43,11 @@ test('prisma version and output', async () => {
     {
       "age": 30,
       "email": "test-4@prisma.io",
-      "id": "replaced-in-test",
       "name": "Test 4",
     },
     {
       "age": 31,
       "email": "test-5@prisma.io",
-      "id": "replaced-in-test",
       "name": "Test 5",
     },
   ]

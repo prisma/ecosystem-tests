@@ -7,10 +7,7 @@ jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
   const response = await fetch(process.env.DEPLOYMENT_URL + '/function')
-  const {
-    regResult,
-    itxResult
-  } = await response.json()
+  const { regResult, itxResult } = await response.json()
 
   expect(regResult).toEqual(itxResult)
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
@@ -23,6 +20,20 @@ test('prisma version and output', async () => {
 }
 `)
   expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createManyAndReturn).toMatchInlineSnapshot(`
+  [
+    {
+      "age": 30,
+      "email": "test-4@prisma.io",
+      "name": "Test 4",
+    },
+    {
+      "age": 31,
+      "email": "test-5@prisma.io",
+      "name": "Test 5",
+    },
+  ]
+  `)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
