@@ -27,9 +27,12 @@ export HYPERDRIVE_NAME='hyperdrive-pg-cf-hyperdrive'
 # ```
 npx wrangler hyperdrive list | tee $TMP_FILE
 # Only try to delete if the hyperdrive exists
-EXISTING_HYPERDRIVE=$(cat $TMP_FILE | grep $HYPERDRIVE_NAME)
-if [ -z "$EXISTING_HYPERDRIVE" ]; then
-  $EXISTING_HYPERDRIVE | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
+EXISTING_HYPERDRIVE_OUTPUT=$(cat $TMP_FILE | grep -q $HYPERDRIVE_NAME)
+if [ -n "$EXISTING_HYPERDRIVE_OUTPUT" ]; then
+  echo "Existing hyperdrive with name $HYPERDRIVE_NAME - We will delete it..."
+  $EXISTING_HYPERDRIVE_OUTPUT | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
+else
+  echo "✅ No existing hyperdrive with name $HYPERDRIVE_NAME - We can continue..."
 fi
 
 # Create the hyperdrive to connecto the Database. Unfortunately wrangler output mixes JSON and text, so we need to filter out
@@ -62,7 +65,6 @@ if [ -z "$DATABASE_URL" ]; then
 fi
 
 npx wrangler hyperdrive create $HYPERDRIVE_NAME --connection-string=\"$DATABASE_URL\" | tee $TMP_FILE
-cat $TMP_FILE
 export HYPERDRIVE_ID=$(cat $TMP_FILE | sed 1,2d | jq .id)
 
 cat <<EOF > wrangler.toml
