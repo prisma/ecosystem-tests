@@ -101,6 +101,18 @@ test('prisma version and output', async () => {
 [
   {
     "_count": {
+      "age": 1,
+    },
+    "age": 30,
+  },
+  {
+    "_count": {
+      "age": 2,
+    },
+    "age": 31,
+  },
+  {
+    "_count": {
       "age": 2,
     },
     "age": 29,
