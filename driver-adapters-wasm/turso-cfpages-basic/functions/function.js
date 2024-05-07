@@ -140,25 +140,24 @@ export async function onRequest(context) {
           age: true,
         },
       }),
-      // TODO skipped because of bug: "User Not Found"
-
-      // findFirstOrThrow: await prisma.user.findFirstOrThrow({
-      //   select: {
-      //     age: true,
-      //     email: true,
-      //     name: true,
-      //   },
-      // }),
-      // findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
-      //   where: {
-      //     email: 'test-2@prisma.io',
-      //   },
-      //   select: {
-      //     age: true,
-      //     email: true,
-      //     name: true,
-      //   },
-      // }),
+      findFirstOrThrow: await prisma.user.findFirstOrThrow({
+        select: {
+          age: true,
+          email: true,
+          name: true,
+        },
+      }),
+      findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
+        where: {
+          email: 'test-2@prisma.io',
+        },
+        select: {
+          age: true,
+          email: true,
+          name: true,
+        },
+      }),
+      
       // Skipping this because of too many sub-requests (limit is 50 per fetch call)
 
       // upsert: await prisma.user.upsert({

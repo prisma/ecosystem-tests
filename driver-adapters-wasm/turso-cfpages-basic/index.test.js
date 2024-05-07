@@ -84,22 +84,20 @@ test('prisma version and output', async () => {
   },
 ]
 `)
-// TODO skipped because of bug: "User Not Found"
-
-//   expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
-// {
-//   "age": 29,
-//   "email": "test-2@prisma.io",
-//   "name": "Test 2",
-// }
-// `)
-//   expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
-// {
-//   "age": 29,
-//   "email": "test-2@prisma.io",
-//   "name": "Test 2",
-// }
-// `)
+  expect(regResult.findFirstOrThrow).toMatchInlineSnapshot(`
+{
+  "age": 29,
+  "email": "test-2@prisma.io",
+  "name": "Test 2",
+}
+`)
+  expect(regResult.findUniqueOrThrow).toMatchInlineSnapshot(`
+{
+  "age": 29,
+  "email": "test-2@prisma.io",
+  "name": "Test 2",
+}
+`)
 
 // Skipping this because of too many sub-requests (limit is 50 per fetch call)
 
