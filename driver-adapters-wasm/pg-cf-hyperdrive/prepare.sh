@@ -30,7 +30,7 @@ npx wrangler hyperdrive list | tee $TMP_FILE
 EXISTING_HYPERDRIVE_OUTPUT=$(cat $TMP_FILE | grep -q $HYPERDRIVE_NAME)
 if [ -n "$EXISTING_HYPERDRIVE_OUTPUT" ]; then
   echo "Existing hyperdrive with name $HYPERDRIVE_NAME - We will delete it..."
-  $EXISTING_HYPERDRIVE_OUTPUT | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
+  echo "$EXISTING_HYPERDRIVE_OUTPUT" | cut -f2 -d' ' | xargs npx wrangler hyperdrive delete
 else
   echo "✅ No existing hyperdrive with name $HYPERDRIVE_NAME - We can continue..."
 fi
