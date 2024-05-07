@@ -39,7 +39,7 @@ exports.handler = async () => {
         },
       ],
     }),
-    // Not supported by MySQL
+    // Not implemented for MySQL
     // createManyAndReturn: await prisma.user.createManyAndReturn({
     //   select: {
     //     email: true,
