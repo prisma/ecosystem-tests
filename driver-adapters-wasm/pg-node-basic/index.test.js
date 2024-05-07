@@ -60,6 +60,11 @@ test('prisma version and output', async () => {
     "email": "test-5@prisma.io",
     "name": "Test 5",
   },
+  {
+    "age": 30,
+    "email": "test-6@prisma.io",
+    "name": "Test 6",
+  },
 ]
 `)
   expect(regResult.findUnique).toMatchInlineSnapshot(`
@@ -91,7 +96,7 @@ test('prisma version and output', async () => {
   "name": "Test 1",
 }
 `)
-  expect(regResult.count).toBe(4)
+  expect(regResult.count).toBe(5)
   expect(regResult.aggregate).toMatchInlineSnapshot(`
 {
   "age": 29,
@@ -103,13 +108,13 @@ test('prisma version and output', async () => {
     "_count": {
       "age": 2,
     },
-    "age": 30,
+    "age": 29,
   },
   {
     "_count": {
-      "age": 2,
+      "age": 3,
     },
-    "age": 29,
+    "age": 30,
   },
 ]
 `)

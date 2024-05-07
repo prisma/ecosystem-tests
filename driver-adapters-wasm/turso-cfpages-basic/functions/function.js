@@ -58,6 +58,11 @@ export async function onRequest(context) {
             age: 30,
             name: 'Test 5',
           },
+          {
+            email: `test-6@prisma.io`,
+            age: 30,
+            name: 'Test 6',
+          },
         ],
       }),
       findMany: await prisma.user.findMany({
@@ -157,7 +162,7 @@ export async function onRequest(context) {
           name: true,
         },
       }),
-      
+
       // Skipping this because of too many sub-requests (limit is 50 per fetch call)
 
       // upsert: await prisma.user.upsert({

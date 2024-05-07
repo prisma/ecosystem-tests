@@ -63,6 +63,11 @@ async function getResponse() {
       //       age: 30,
       //       name: 'Test 5',
       //     },
+      //     {
+      //       email: `test-6@prisma.io`,
+      //       age: 30,
+      //       name: 'Test 6',
+      //     },
       //   ],
       // }),
       findMany: await prisma.user.findMany({
