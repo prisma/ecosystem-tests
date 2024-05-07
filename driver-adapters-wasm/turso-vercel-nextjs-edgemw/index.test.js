@@ -16,7 +16,7 @@ function getDeploymentURL() {
 jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
-  const response = await fetch(await getDeploymentURL() + '/')
+  const response = await fetch((await getDeploymentURL()) + '/')
   const { regResult, itxResult } = await response.json()
 
   expect(regResult).toEqual(itxResult)
@@ -29,7 +29,7 @@ test('prisma version and output', async () => {
   "name": "Test 1",
 }
 `)
-  // expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createMany.count).toBe(2)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
