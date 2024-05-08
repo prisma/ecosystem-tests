@@ -43,6 +43,11 @@ test('prisma version and output', async () => {
   //     "email": "test-5@prisma.io",
   //     "name": "Test 5",
   //   },
+  //   {
+  //     "age": 30,
+  //     "email": "test-6@prisma.io",
+  //     "name": "Test 6",
+  //   },
   // ]
   // `)
   expect(regResult.findMany).toMatchInlineSnapshot(`
