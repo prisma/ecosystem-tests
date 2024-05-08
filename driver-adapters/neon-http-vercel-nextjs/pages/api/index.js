@@ -152,6 +152,9 @@ export default async (req, res) => {
         email: true,
         name: true,
       },
+      orderBy: {
+        name: 'asc',
+      },
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
       where: {

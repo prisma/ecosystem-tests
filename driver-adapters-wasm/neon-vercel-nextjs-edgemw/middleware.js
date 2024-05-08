@@ -149,6 +149,9 @@ async function getResponse() {
           email: true,
           name: true,
         },
+        orderBy: {
+          name: 'asc',
+        },
       }),
       findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
         where: {
