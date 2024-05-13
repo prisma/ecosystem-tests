@@ -1,15 +1,27 @@
 const express = require('express')
+const fs = require('fs')
+const path = require('path')
 
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./prisma/generated/client')
 const client = new PrismaClient()
 
 const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', async (req, res) => {
-  const fs = require('fs')
-  const path = require('path')
-  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+  // const prismaDirPathToFind = '.prisma/client'
+  const prismaDirPathToFind = './prisma/generated/client'
+  let actualPrismaDirPath = ''
+  let files = []
+  try {
+    actualPrismaDirPath = path.dirname(require.resolve(prismaDirPathToFind))
+    files = fs.readdirSync(actualPrismaDirPath)
+  } catch (e) {
+    console.error('require.resolve() or readdirSync() failed', e)
+  } finally {
+    console.debug({ actualPrismaDirPath })
+    console.debug({ files })
+  }
 
   await client.user.deleteMany({})
 
