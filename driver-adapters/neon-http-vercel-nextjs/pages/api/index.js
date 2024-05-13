@@ -29,6 +29,7 @@ export default async (req, res) => {
         name: true,
       },
     }),
+    // Expected to fail in HTTP mode
     // createMany: await prisma.user.createMany({
     //   data: [
     //     {

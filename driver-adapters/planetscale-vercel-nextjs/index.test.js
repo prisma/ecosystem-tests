@@ -32,26 +32,6 @@ test('prisma version and output', async () => {
 }
 `)
   expect(regResult.createMany.count).toBe(2)
-  // Not implemented for MySQL
-  // expect(regResult.createManyAndReturn).toMatchInlineSnapshot(`
-  // [
-  //   {
-  //     "age": 30,
-  //     "email": "test-4@prisma.io",
-  //     "name": "Test 4",
-  //   },
-  //   {
-  //     "age": 30,
-  //     "email": "test-5@prisma.io",
-  //     "name": "Test 5",
-  //   },
-  //   {
-  //     "age": 30,
-  //     "email": "test-6@prisma.io",
-  //     "name": "Test 6",
-  //   },
-  // ]
-  // `)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
