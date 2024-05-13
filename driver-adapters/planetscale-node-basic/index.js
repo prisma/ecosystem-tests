@@ -113,12 +113,20 @@ exports.handler = async () => {
       _count: {
         age: true,
       },
+      orderBy: {
+        _count: {
+          age: 'asc',
+        },
+      },
     }),
     findFirstOrThrow: await prisma.user.findFirstOrThrow({
       select: {
         age: true,
         email: true,
         name: true,
+      },
+      orderBy: {
+        name: 'asc',
       },
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
@@ -133,12 +141,12 @@ exports.handler = async () => {
     }),
     upsert: await prisma.user.upsert({
       where: {
-        email: 'test-4@prisma.io',
+        email: 'test-upsert@prisma.io',
       },
       create: {
-        email: 'test-4@prisma.io',
+        email: 'test-upsert@prisma.io',
         age: 30,
-        name: 'Test 4',
+        name: 'Test upsert',
       },
       update: {},
       select: {

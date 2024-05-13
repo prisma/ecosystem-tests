@@ -41,6 +41,30 @@ export async function onRequest(context) {
           },
         ],
       }),
+      createManyAndReturn: await prisma.user.createManyAndReturn({
+        select: {
+          age: true,
+          email: true,
+          name: true,
+        },
+        data: [
+          {
+            email: `test-4@prisma.io`,
+            age: 30,
+            name: 'Test 4',
+          },
+          {
+            email: `test-5@prisma.io`,
+            age: 30,
+            name: 'Test 5',
+          },
+          {
+            email: `test-6@prisma.io`,
+            age: 30,
+            name: 'Test 6',
+          },
+        ],
+      }),
       findMany: await prisma.user.findMany({
         select: {
           email: true,
@@ -115,12 +139,20 @@ export async function onRequest(context) {
         _count: {
           age: true,
         },
+        orderBy: {
+          _count: {
+            age: 'asc',
+          },
+        },
       }),
       findFirstOrThrow: await prisma.user.findFirstOrThrow({
         select: {
           age: true,
           email: true,
           name: true,
+        },
+        orderBy: {
+          name: 'asc',
         },
       }),
       findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
@@ -133,17 +165,17 @@ export async function onRequest(context) {
           name: true,
         },
       }),
-      
+
       // Skipping this because of too many sub-requests (limit is 50 per fetch call)
 
       // upsert: await prisma.user.upsert({
       //   where: {
-      //     email: 'test-4@prisma.io',
+      //     email: 'test-upsert@prisma.io',
       //   },
       //   create: {
-      //     email: 'test-4@prisma.io',
+      //     email: 'test-upsert@prisma.io',
       //     age: 30,
-      //     name: 'Test 4',
+      //     name: 'Test upsert',
       //   },
       //   update: {},
       //   select: {

@@ -23,7 +23,27 @@ test('prisma version and output', async () => {
   "name": "Test 1",
 }
 `)
+  // This is expected to fail in http mode
   // expect(regResult.createMany.count).toBe(2)
+  // expect(regResult.createManyAndReturn).toMatchInlineSnapshot(`
+  // [
+  //   {
+  //     "age": 30,
+  //     "email": "test-4@prisma.io",
+  //     "name": "Test 4",
+  //   },
+  //   {
+  //     "age": 30,
+  //     "email": "test-5@prisma.io",
+  //     "name": "Test 5",
+  //   },
+  //   {
+  //     "age": 30,
+  //     "email": "test-6@prisma.io",
+  //     "name": "Test 6",
+  //   },
+  // ]
+  // `)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
@@ -89,8 +109,8 @@ test('prisma version and output', async () => {
   //   expect(regResult.upsert).toMatchInlineSnapshot(`
   // {
   //   "age": 30,
-  //   "email": "test-4@prisma.io",
-  //   "name": "Test 4",
+  //   "email": "test-upsert@prisma.io",
+  //   "name": "Test upsert",
   // }
   // `)
 })

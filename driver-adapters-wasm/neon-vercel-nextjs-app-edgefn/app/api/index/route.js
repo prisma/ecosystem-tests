@@ -3,7 +3,7 @@ import { Prisma, PrismaClient } from '@prisma/client'
 import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
-export const runtime = 'edge';
+export const runtime = 'edge'
 
 async function getResponse() {
   const client = new Pool({ connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL })
@@ -37,6 +37,30 @@ async function getResponse() {
             email: `test-3@prisma.io`,
             age: 29,
             name: 'Test 3',
+          },
+        ],
+      }),
+      createManyAndReturn: await prisma.user.createManyAndReturn({
+        select: {
+          age: true,
+          email: true,
+          name: true,
+        },
+        data: [
+          {
+            email: `test-4@prisma.io`,
+            age: 30,
+            name: 'Test 4',
+          },
+          {
+            email: `test-5@prisma.io`,
+            age: 30,
+            name: 'Test 5',
+          },
+          {
+            email: `test-6@prisma.io`,
+            age: 30,
+            name: 'Test 6',
           },
         ],
       }),
@@ -114,12 +138,20 @@ async function getResponse() {
         _count: {
           age: true,
         },
+        orderBy: {
+          _count: {
+            age: 'asc',
+          },
+        },
       }),
       findFirstOrThrow: await prisma.user.findFirstOrThrow({
         select: {
           age: true,
           email: true,
           name: true,
+        },
+        orderBy: {
+          name: 'asc',
         },
       }),
       findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
@@ -134,12 +166,12 @@ async function getResponse() {
       }),
       upsert: await prisma.user.upsert({
         where: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
         },
         create: {
-          email: 'test-4@prisma.io',
+          email: 'test-upsert@prisma.io',
           age: 30,
-          name: 'Test 4',
+          name: 'Test upsert',
         },
         update: {},
         select: {
@@ -158,13 +190,13 @@ async function getResponse() {
 
   const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
   const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
-  
+
   return { itxResult, regResult }
 }
 
 export async function GET() {
-  return new Response(
-    JSON.stringify(await getResponse()),
-    { status: 200, headers: { 'content-type': 'application/json' } },
-  )
+  return new Response(JSON.stringify(await getResponse()), {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+  })
 }

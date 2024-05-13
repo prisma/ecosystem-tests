@@ -5,7 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg-worker'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Pool({ connectionString: env.DATABASE_URL})
+    const client = new Pool({ connectionString: env.DATABASE_URL })
     const adapter = new PrismaPg(client)
     const prisma = new PrismaClient({ adapter })
 
@@ -36,6 +36,30 @@ export default {
               email: `test-3@prisma.io`,
               age: 29,
               name: 'Test 3',
+            },
+          ],
+        }),
+        createManyAndReturn: await prisma.user.createManyAndReturn({
+          select: {
+            age: true,
+            email: true,
+            name: true,
+          },
+          data: [
+            {
+              email: `test-4@prisma.io`,
+              age: 30,
+              name: 'Test 4',
+            },
+            {
+              email: `test-5@prisma.io`,
+              age: 30,
+              name: 'Test 5',
+            },
+            {
+              email: `test-6@prisma.io`,
+              age: 30,
+              name: 'Test 6',
             },
           ],
         }),
@@ -113,12 +137,20 @@ export default {
           _count: {
             age: true,
           },
+          orderBy: {
+            _count: {
+              age: 'asc',
+            },
+          },
         }),
         findFirstOrThrow: await prisma.user.findFirstOrThrow({
           select: {
             age: true,
             email: true,
             name: true,
+          },
+          orderBy: {
+            name: 'asc',
           },
         }),
         findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
@@ -133,12 +165,12 @@ export default {
         }),
         upsert: await prisma.user.upsert({
           where: {
-            email: 'test-4@prisma.io',
+            email: 'test-upsert@prisma.io',
           },
           create: {
-            email: 'test-4@prisma.io',
+            email: 'test-upsert@prisma.io',
             age: 30,
-            name: 'Test 4',
+            name: 'Test upsert',
           },
           update: {},
           select: {
@@ -148,17 +180,17 @@ export default {
           },
         }),
       }
-  
+
       // sort results by email to make the order deterministic
       result.findMany = result.findMany.sort((a, b) => (a.email > b.email ? 1 : -1))
-  
+
       return result
     }
-  
+
     const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
     const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
     const result = JSON.stringify({ itxResult, regResult })
 
-    return new Response(result);
-  }
+    return new Response(result)
+  },
 }

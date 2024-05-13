@@ -20,6 +20,25 @@ test('prisma version and output', async () => {
 }
 `)
   expect(regResult.createMany.count).toBe(2)
+  expect(regResult.createManyAndReturn).toMatchInlineSnapshot(`
+  [
+    {
+      "age": 30,
+      "email": "test-4@prisma.io",
+      "name": "Test 4",
+    },
+    {
+      "age": 30,
+      "email": "test-5@prisma.io",
+      "name": "Test 5",
+    },
+    {
+      "age": 30,
+      "email": "test-6@prisma.io",
+      "name": "Test 6",
+    },
+  ]
+  `)
   expect(regResult.findMany).toMatchInlineSnapshot(`
 [
   {
@@ -36,6 +55,21 @@ test('prisma version and output', async () => {
     "age": 29,
     "email": "test-3@prisma.io",
     "name": "Test 3",
+  },
+  {
+    "age": 30,
+    "email": "test-4@prisma.io",
+    "name": "Test 4",
+  },
+  {
+    "age": 30,
+    "email": "test-5@prisma.io",
+    "name": "Test 5",
+  },
+  {
+    "age": 30,
+    "email": "test-6@prisma.io",
+    "name": "Test 6",
   },
 ]
 `)
@@ -68,7 +102,7 @@ test('prisma version and output', async () => {
   "name": "Test 1",
 }
 `)
-  expect(regResult.count).toBe(2)
+  expect(regResult.count).toBe(5)
   expect(regResult.aggregate).toMatchInlineSnapshot(`
 {
   "age": 29,
@@ -81,6 +115,12 @@ test('prisma version and output', async () => {
       "age": 2,
     },
     "age": 29,
+  },
+  {
+    "_count": {
+      "age": 3,
+    },
+    "age": 30,
   },
 ]
 `)
@@ -99,13 +139,13 @@ test('prisma version and output', async () => {
 }
 `)
 
-// Skipping this because of too many sub-requests (limit is 50 per fetch call)
+  // Skipping this because of too many sub-requests (limit is 50 per fetch call)
 
-//   expect(regResult.upsert).toMatchInlineSnapshot(`
-// {
-//   "age": 30,
-//   "email": "test-4@prisma.io",
-//   "name": "Test 4",
-// }
-// `)
+  //   expect(regResult.upsert).toMatchInlineSnapshot(`
+  // {
+  //   "age": 30,
+  //   "email": "test-upsert@prisma.io",
+  //   "name": "Test upsert",
+  // }
+  // `)
 })
