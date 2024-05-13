@@ -114,16 +114,16 @@ export default {
           name: true,
         },
       }),
-      // delete: await prisma.user.delete({
-      //   where: {
-      //     email: 'test-1@prisma.io',
-      //   },
-      //   select: {
-      //     email: true,
-      //     age: true,
-      //     name: true,
-      //   },
-      // }),
+      delete: await prisma.user.delete({
+        where: {
+          email: 'test-1@prisma.io',
+        },
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        },
+      }),
       count: await prisma.user.count(),
       aggregate: await prisma.user
         .aggregate({
