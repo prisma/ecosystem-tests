@@ -6,14 +6,15 @@
   "devDependencies": {
     "@types/node": "16.18.97",
     "heroku": "8.11.5",
+    "prisma": "5.14.0-dev.74",
     "ts-node": "10.9.2"
   },
   "scripts": {
-    "start": "pnpm prisma generate && node index.js"
+    "start": "node index.js",
+    "build": "pnpm prisma generate"
   },
   "dependencies": {
     "@prisma/client": "5.14.0-dev.74",
-    "prisma": "5.14.0-dev.72",
     "express": "^4.17.1"
   },
   "packageManager": "pnpm@8.15.5"
