@@ -3,5 +3,5 @@
 set -eu
 
 pnpm install
-pnpm tsc
 pnpm prisma generate
+pnpm tsc

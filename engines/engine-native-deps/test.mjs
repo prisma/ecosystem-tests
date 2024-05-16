@@ -3,10 +3,9 @@ import * as fs from 'node:fs/promises'
 
 import 'zx/globals'
 
-const clientPath = await import.meta.resolve('@prisma/client')
-const versionPath = await import.meta.resolve('@prisma/engines-version', clientPath)
-const { enginesVersion } = await import(versionPath)
+import { Prisma } from '@prisma/client'
 
+const enginesVersion = Prisma.prismaVersion.engine
 const update = process.argv.includes('--update')
 
 const allEngines = ['query-engine', 'schema-engine', 'libquery_engine.so.node']

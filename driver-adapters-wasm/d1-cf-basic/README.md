@@ -1,0 +1,23 @@
+# Cloudflare Workers - Service Worker syntax
+
+Deploys a Prisma Client using D1 Driver Adapter on Cloudflare Workers.
+
+## How to run this
+
+```sh
+source ./prepare.sh && ./run.sh && ./test.sh && ./finally.sh
+```
+
+### To create the database schema
+
+```sh
+npx prisma migrate diff --from-empty --to-schema-datamodel ./prisma/schema.prisma --script > schema.sql
+
+# For the remote database
+wrangler d1 execute d1-cf-basic --file=schema.sql
+
+# For the local database
+wrangler d1 execute d1-cf-basic --file=schema.sql --local
+```
+
+Note: if the remote database needs to be created, use `wrangler d1 create d1-cf-basic` first and update the TOML.

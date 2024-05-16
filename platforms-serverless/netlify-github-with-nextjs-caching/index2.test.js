@@ -8,11 +8,11 @@ function getDeploymentURL() {
 
 const endpoint = getDeploymentURL()
 
-const DELAY = 5000
+const DELAY = 5_000
 let backOff = -DELAY
 
 test('simple query', async () => {
-  await new Promise((r) => setTimeout(r, backOff += DELAY))
+  await new Promise((r) => setTimeout(r, (backOff += DELAY)))
 
   const r = await fetch(endpoint + '/api')
   const data = await r.json()

@@ -3,5 +3,5 @@
 set -eux
 
 pnpm install
-rm -r ./prisma-nestjs-graphql
+rm -fr ./prisma-nestjs-graphql
 pnpm prisma generate
