@@ -9,3 +9,4 @@ cp ../package.json sub-project-2
 
 pnpm install
 pnpm -r run generate
+pnpm -r run v

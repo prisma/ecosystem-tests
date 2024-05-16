@@ -41,7 +41,7 @@ async function main() {
     posts: postsDeleted,
   }
   // @ts-ignore
-  data['clientEngine'] = prisma._clientEngineType
+  data['clientEngine'] = prisma._engineConfig.generator?.config?.engineType
   await prisma.$disconnect()
   fs.writeFileSync(
     path.join(__dirname, './data.json'),

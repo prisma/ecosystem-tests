@@ -2,12 +2,9 @@
 
 set -eu
 
-# TODO Why do we do this?
-cp ./code/package.json ./package.json
-
 echo "Disabling StrictHostKeyChecking"
 mkdir -p ~/.ssh
-ssh-keyscan 54.72.209.131 >> ~/.ssh/known_hosts
+ssh-keyscan ec2-54-209-135-27.compute-1.amazonaws.com >> ~/.ssh/known_hosts
 echo "$SSH_KEY_GRAVITON" > ./server-key.pem
 
 if test -f "./server-key.pem"; then

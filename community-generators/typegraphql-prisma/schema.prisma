@@ -10,6 +10,7 @@ generator typegraphql {
 datasource postgresql {
     provider = "postgresql"
     url      = env("DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA")
+    // TODO Use DATABASE_URL and auto generated URL as test.yml projects do
 }
 
 model User {

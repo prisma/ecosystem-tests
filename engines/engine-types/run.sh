@@ -1,6 +1,5 @@
-
-#!/bin/sh
+#! /bin/sh
 
 set -eux
 
-yarn install
+pnpm install

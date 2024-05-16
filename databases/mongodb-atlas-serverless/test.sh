@@ -2,4 +2,4 @@
 
 set -eu
 
-yarn cmd
+pnpm cmd

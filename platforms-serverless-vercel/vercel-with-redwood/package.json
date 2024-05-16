@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "api",
+      "web"
+    ]
+  },
+  "devDependencies": {
+    "@redwoodjs/core": "6.6.4",
+    "graphql-request": "6.1.0",
+    "jest": "29.7.0",
+    "vercel": "34.1.14"
+  },
+  "resolutions": {
+    "prisma": "5.15.0-dev.12",
+    "@prisma/client": "5.15.0-dev.12"
+  },
+  "eslintConfig": {
+    "extends": "@redwoodjs/eslint-config",
+    "root": true
+  },
+  "engines": {
+    "node": ">=16.x",
+    "yarn": ">=1.15"
+  },
+  "prisma": {
+    "seed": "yarn rw exec seed"
+  },
+  "scripts": {
+    "test": "yarn jest ./index.test.js"
+  },
+  "dependencies": {
+    "@prisma/client": "5.15.0-dev.12",
+    "prisma": "5.15.0-dev.12"
+  },
+  "packageManager": "yarn@3.8.2"
+}

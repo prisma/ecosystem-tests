@@ -2,8 +2,8 @@
 
 set -eux
 
-yarn prisma db pull --print
+pnpm prisma db pull --print
 
-yarn prisma db seed
+pnpm prisma db seed
 
-yarn test
+pnpm test

@@ -4,12 +4,12 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
   engineType = "library"
 }
 
 model User {
-  id    String  @default(cuid()) @id
+  id    String  @id @default(cuid())
   email String  @unique
   name  String?
 }

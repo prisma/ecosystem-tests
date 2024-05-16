@@ -15,5 +15,5 @@ fi
 
 openssl pkcs12 -export -out client-identity.p12 -inkey client-key.pem -in client-cert.pem -password pass:prisma
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate

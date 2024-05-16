@@ -1,16 +1,15 @@
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL_DB_MONGODB_DIGITALOCEAN")
+  provider = "mongodb"
+  url      = env("DATABASE_URL_DB_MONGODB_DIGITALOCEAN")
 }
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["mongodb"]
+  provider = "prisma-client-js"
 }
 
 model User {
-  id    String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  email String @unique
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  email String  @unique
   name  String?
 }
 

@@ -9,7 +9,7 @@ filename="./prisma"
 filename2="./amsirp"
 
 case $OS in
-"ubuntu-latest")
+"ubuntu-20.04")
   os="linux"
   ;;
 "macos-latest")
@@ -26,7 +26,7 @@ case $OS in
   ;;
 esac
 
-yarn pkg node_modules/prisma -t node12-$os
+pnpm exec pkg node_modules/prisma -t node16-$os
 
 # workaround for issue documented in https://github.com/prisma/prisma/pull/10568
 mv $filename $filename2

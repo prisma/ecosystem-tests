@@ -2,8 +2,8 @@
 
 set -eux
 
-yarn install
+pnpm install
 
 # generate not needed, it will be done by db push
-# yarn prisma generate
-yarn prisma db push --force-reset
+# pnpm prisma generate
+pnpm prisma db push --force-reset
