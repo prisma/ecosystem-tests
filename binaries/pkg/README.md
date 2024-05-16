@@ -6,11 +6,4 @@ This test tests bundling Prisma CLI code with [`pkg`](https://github.com/vercel/
 
 ### Environment variables
 
-Set the env var `OS` to `ubuntu-latest`, `macos-latest`, `windows-latest` to instruct `pkg` to generate a binary for a specific OS. Note that `test.sh` then should be run on the target OS to test the binary correctly.
-
-### Run tests
-
-```shell script
-sh run.sh
-sh test.sh
-```
+Set the env var `OS` to `ubuntu-20.04`, `macos-latest`, `windows-latest` to instruct `pkg` to generate a binary for a specific OS. Note that `test.sh` then should be run on the target OS to test the binary correctly.

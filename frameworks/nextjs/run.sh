@@ -2,7 +2,7 @@
 
 set -eux
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 
-yarn build
+pnpm build

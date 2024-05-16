@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "mysql"
+  // fake url to ensure the driver adapter is used
+  url      = env("INVALID_ENV_VAR")
+  // not used by the client, just to setup the db
+  directUrl = env("DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL")
+}
+
+model User {
+  id    String  @default(cuid()) @id
+  email String  @unique
+  name  String?
+  age   Int?
+}

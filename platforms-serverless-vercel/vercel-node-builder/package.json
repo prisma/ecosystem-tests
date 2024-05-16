@@ -1,0 +1,21 @@
+{
+  "name": "vercel-node-builder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "prisma": "5.15.0-dev.12",
+    "ts-node": "10.9.2",
+    "vercel": "34.1.14"
+  },
+  "dependencies": {
+    "@prisma/client": "5.15.0-dev.12",
+    "express": "4.19.2",
+    "fetch-retry": "6.0.0",
+    "node-fetch": "2.7.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "postinstall": "pnpm prisma generate"
+  }
+}

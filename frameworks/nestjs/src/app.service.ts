@@ -7,6 +7,8 @@ export class AppService {
   constructor(private prisma: PrismaService) {}
 
   async getHello(): Promise<string> {
+    await this.prisma.user.deleteMany();
+
     const createUser = await this.prisma.user.create({
       data: {
         email: 'alice@prisma.io',
@@ -40,6 +42,9 @@ export class AppService {
       },
     });
 
+    // TODO
+    const files = 'TODO';
+
     return JSON.stringify({
       prismaVersion: Prisma.prismaVersion.client,
       createUser: {
@@ -47,6 +52,7 @@ export class AppService {
       },
       updateUser,
       deleteUser,
+      files,
     });
   }
 }

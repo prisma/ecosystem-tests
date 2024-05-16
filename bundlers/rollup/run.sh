@@ -2,7 +2,7 @@
 
 set -eu
 
-yarn install
-yarn prisma generate
+pnpm install
+pnpm prisma generate
 rm -rf dist/
-yarn rollup src/index.js --file dist/index.js --format cjs
+pnpm rollup src/index.js --file dist/index.js --format cjs

@@ -1,0 +1,15 @@
+name: Cancel Workflows
+on:
+  workflow_dispatch:
+
+jobs:
+  cancel:
+    name: 'Cancel Previous Workflow Runs'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 3
+    steps:
+      # https://github.com/marketplace/actions/cancel-workflow-action
+      - uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          workflow_id: 21938,4122015,3478880 # test.yml, lint.yaml, optional-test.yaml
+          access_token: ${{ github.token }}

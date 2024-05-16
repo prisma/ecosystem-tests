@@ -2,11 +2,12 @@
 
 set -eux
 
-yarn start &
+pnpm start &
 pid=$!
 
 sleep 5
 
+# TODO Test actual returned data
 curl localhost:3000
 
 kill $pid
