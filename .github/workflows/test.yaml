@@ -1498,7 +1498,7 @@ jobs:
 
       # see above why this is not a matrix for each DP variant
       - name: test Accelerate (DP2) with extension ${{ matrix.platform }}
-        timeout_minutes: 15
+        timeout-minutes: 15
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2+Extension'
@@ -1515,7 +1515,7 @@ jobs:
 
       # see above why this is not a matrix for each DP variant
       - name: test Accelerate (DP2) without extension ${{ matrix.platform }}
-        timeout_minutes: 15
+        timeout-minutes: 15
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2'
