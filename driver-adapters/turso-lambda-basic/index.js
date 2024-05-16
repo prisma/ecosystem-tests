@@ -26,43 +26,43 @@ exports.handler = async () => {
         name: true,
       },
     }),
-    // createMany: await prisma.user.createMany({
-    //   data: [
-    //     {
-    //       email: `test-2@prisma.io`,
-    //       age: 29,
-    //       name: 'Test 2',
-    //     },
-    //     {
-    //       email: `test-3@prisma.io`,
-    //       age: 29,
-    //       name: 'Test 3',
-    //     },
-    //   ],
-    // }),
-    create2: await prisma.user.create({
-      data: {
-        email: `test-2@prisma.io`,
-        age: 29,
-        name: 'Test 2',
-      },
-      select: {
-        email: true,
-        age: true,
-        name: true,
-      },
+    createMany: await prisma.user.createMany({
+      data: [
+        {
+          email: `test-2@prisma.io`,
+          age: 29,
+          name: 'Test 2',
+        },
+        {
+          email: `test-3@prisma.io`,
+          age: 29,
+          name: 'Test 3',
+        },
+      ],
     }),
-    create3: await prisma.user.create({
-      data: {
-        email: `test-3@prisma.io`,
-        age: 29,
-        name: 'Test 3',
-      },
+    createManyAndReturn: await prisma.user.createManyAndReturn({
       select: {
-        email: true,
         age: true,
+        email: true,
         name: true,
       },
+      data: [
+        {
+          email: `test-4@prisma.io`,
+          age: 30,
+          name: 'Test 4',
+        },
+        {
+          email: `test-5@prisma.io`,
+          age: 30,
+          name: 'Test 5',
+        },
+        {
+          email: `test-6@prisma.io`,
+          age: 30,
+          name: 'Test 6',
+        },
+      ],
     }),
     findMany: await prisma.user.findMany({
       select: {
@@ -138,12 +138,20 @@ exports.handler = async () => {
       _count: {
         age: true,
       },
+      orderBy: {
+        _count: {
+          age: 'asc',
+        },
+      },
     }),
     findFirstOrThrow: await prisma.user.findFirstOrThrow({
       select: {
         age: true,
         email: true,
         name: true,
+      },
+      orderBy: {
+        name: 'asc',
       },
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
@@ -158,12 +166,12 @@ exports.handler = async () => {
     }),
     upsert: await prisma.user.upsert({
       where: {
-        email: 'test-4@prisma.io',
+        email: 'test-upsert@prisma.io',
       },
       create: {
-        email: 'test-4@prisma.io',
+        email: 'test-upsert@prisma.io',
         age: 30,
-        name: 'Test 4',
+        name: 'Test upsert',
       },
       update: {},
       select: {

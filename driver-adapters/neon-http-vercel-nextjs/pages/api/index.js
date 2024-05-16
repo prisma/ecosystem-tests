@@ -29,6 +29,7 @@ export default async (req, res) => {
         name: true,
       },
     }),
+    // Expected to fail in HTTP mode
     // createMany: await prisma.user.createMany({
     //   data: [
     //     {
@@ -40,6 +41,29 @@ export default async (req, res) => {
     //       email: `test-3@prisma.io`,
     //       age: 29,
     //       name: 'Test 3',
+    //     },
+    //   ],
+    // }),
+    // createManyAndReturn: await prisma.user.createManyAndReturn({
+    //   select: {
+    //     email: true,
+    //     name: true,
+    //   },
+    //   data: [
+    //     {
+    //       email: `test-4@prisma.io`,
+    //       age: 30,
+    //       name: 'Test 4',
+    //     },
+    //     {
+    //       email: `test-5@prisma.io`,
+    //       age: 30,
+    //       name: 'Test 5',
+    //     },
+    //     {
+    //       email: `test-6@prisma.io`,
+    //       age: 30,
+    //       name: 'Test 6',
     //     },
     //   ],
     // }),
@@ -117,12 +141,20 @@ export default async (req, res) => {
       _count: {
         age: true,
       },
+      orderBy: {
+        _count: {
+          age: 'asc',
+        },
+      },
     }),
     findFirstOrThrow: await prisma.user.findFirstOrThrow({
       select: {
         age: true,
         email: true,
         name: true,
+      },
+      orderBy: {
+        name: 'asc',
       },
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
@@ -137,12 +169,12 @@ export default async (req, res) => {
     }),
     // upsert: await prisma.user.upsert({
     //   where: {
-    //     email: 'test-4@prisma.io',
+    //     email: 'test-upsert@prisma.io',
     //   },
     //   create: {
-    //     email: 'test-4@prisma.io',
+    //     email: 'test-upsert@prisma.io',
     //     age: 30,
-    //     name: 'Test 4',
+    //     name: 'Test upsert',
     //   },
     //   update: {},
     //   select: {

@@ -34,7 +34,9 @@ describe('Prisma in jest with multiple generators', () => {
     const filesB = fs.readdirSync(path.dirname(require.resolve('../../generated/database/client2')))
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
       expect(filesA).toMatchInlineSnapshot(`
-Array [
+[
+  "default.d.ts",
+  "default.js",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -44,10 +46,14 @@ Array [
   "query-engine-debian-openssl-1.1.x",
   "runtime",
   "schema.prisma",
+  "wasm.d.ts",
+  "wasm.js",
 ]
 `)
       expect(filesB).toMatchInlineSnapshot(`
-Array [
+[
+  "default.d.ts",
+  "default.js",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -57,11 +63,15 @@ Array [
   "query-engine-debian-openssl-1.1.x",
   "runtime",
   "schema.prisma",
+  "wasm.d.ts",
+  "wasm.js",
 ]
 `)
     } else {
       expect(filesA).toMatchInlineSnapshot(`
-Array [
+[
+  "default.d.ts",
+  "default.js",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -71,10 +81,14 @@ Array [
   "package.json",
   "runtime",
   "schema.prisma",
+  "wasm.d.ts",
+  "wasm.js",
 ]
 `)
       expect(filesB).toMatchInlineSnapshot(`
-Array [
+[
+  "default.d.ts",
+  "default.js",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -84,6 +98,8 @@ Array [
   "package.json",
   "runtime",
   "schema.prisma",
+  "wasm.d.ts",
+  "wasm.js",
 ]
 `)
     }

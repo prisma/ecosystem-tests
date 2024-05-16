@@ -47,6 +47,8 @@ test('should test .prisma/client files', async () => {
   const files =
     process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
       ? [
+          'default.d.ts',
+          'default.js',
           'deno',
           'edge.d.ts',
           'edge.js',
@@ -54,19 +56,25 @@ test('should test .prisma/client files', async () => {
           'index.d.ts',
           'index.js',
           'package.json',
-          'query-engine-rhel-openssl-1.0.x',
+          'query-engine-rhel-openssl-3.0.x',
           'schema.prisma',
+          'wasm.d.ts',
+          'wasm.js',
         ]
       : [
+          'default.d.ts',
+          'default.js',
           'deno',
           'edge.d.ts',
           'edge.js',
           'index-browser.js',
           'index.d.ts',
           'index.js',
-          'libquery_engine-rhel-openssl-1.0.x.so.node',
+          'libquery_engine-rhel-openssl-3.0.x.so.node',
           'package.json',
           'schema.prisma',
+          'wasm.d.ts',
+          'wasm.js',
         ]
   expect(data.files).toMatchObject(files)
   console.log(data.files)

@@ -4,7 +4,7 @@ const client = new PrismaClient({
   errorFormat: 'colorless',
   datasources: {
     db: {
-      url: process.env.DATABASE_URL_SUPAPABASE_CONNECTION_POOL,
+      url: process.env.DATABASE_URL_SUPABASE_CONNECTION_POOL,
     },
   },
 })
@@ -13,7 +13,7 @@ const clientWithQueryStringParam = new PrismaClient({
   errorFormat: 'colorless',
   datasources: {
     db: {
-      url: process.env.DATABASE_URL_SUPAPABASE_CONNECTION_POOL + '?pgbouncer=true',
+      url: process.env.DATABASE_URL_SUPABASE_CONNECTION_POOL + '?pgbouncer=true',
     },
   },
 })

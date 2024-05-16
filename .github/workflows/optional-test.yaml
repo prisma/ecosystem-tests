@@ -22,6 +22,8 @@ on:
 
 env:
   PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
+  # To hide "Update available x.y.z -> x.y.z"
+  PRISMA_HIDE_UPDATE_MESSAGE: true
   SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
   CI: 1
   # TODO: Consolidate these env vars. They shouldn't be required for slack notification
@@ -41,17 +43,17 @@ jobs:
   # Depending on the output we will run some or all tests as fallback
   detect_jobs_to_run:
     name: Detect jobs to run
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       jobs: ${{ steps.detect.outputs.jobs }}
     steps:
       - id: checkout
         uses: actions/checkout@v4
       - id: files
-        uses: Ana06/get-changed-files@v2.2.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
+        uses: Ana06/get-changed-files@v2.3.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8
       - uses: actions/setup-node@v4
@@ -61,17 +63,17 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - id: detect
-        run: ./.github/workflows/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
+        run: ./.github/workflows/scripts/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
 
   report-to-slack-success:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - community-generators
 
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8
       - uses: actions/setup-node@v4
@@ -83,14 +85,14 @@ jobs:
         run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
 
   report-to-slack-failure:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - community-generators
 
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8
       - uses: actions/setup-node@v4
@@ -103,14 +105,14 @@ jobs:
 
   community-generators:
     needs: [detect_jobs_to_run]
-    if: ${{ fromJson(needs.detect_jobs_to_run.outputs.jobs)['community-generators'] == true }}
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'community-generators')
 
     strategy:
       fail-fast: false
       matrix:
         generator: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator, prisma-nestjs-graphql]
         clientEngine: ['library', 'binary']
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     env:
       DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA: ${{ secrets.DB_URL_COMMUNITY_GENERATOR_TYPEGRAPHQL_PRISMA }}
@@ -121,7 +123,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8
 
@@ -136,7 +138,7 @@ jobs:
 
       - name: test ${{ matrix.generator }} - ${{matrix.clientEngine}}
         id: run-test
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3

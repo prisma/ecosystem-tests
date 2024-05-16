@@ -1,8 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", ":noUnscheduledUpdates"],
+  "extends": ["config:recommended", ":noUnscheduledUpdates"],
   "reviewers": ["@Jolg42", "@millsp", "@aqrln", "@SevInf", "@jkomyno"],
-  "schedule": ["before 7am every weekday", "every weekend"],
+  "schedule": ["after 5:00am every weekday, before 7:00am every weekday", "every weekend"],
   "automergeSchedule": ["before 7am every weekday"],
   "automerge": true,
   "major": {
@@ -11,34 +11,40 @@
   "dependencyDashboard": true,
   "prConcurrentLimit": 17,
   "rebaseWhen": "auto",
-  "ignoreDeps": ["prisma", "@prisma/client", "@prisma/instrumentation"],
+  "configMigration": true,
+  "ignoreDeps": [
+    "prisma",
+    "@prisma/client",
+    "@prisma/instrumentation",
+    "@prisma/adapter-planetscale",
+    "@prisma/adapter-pg",
+    "@prisma/adapter-pg-worker",
+    "@prisma/pg-worker",
+    "@prisma/adapter-neon",
+    "@prisma/adapter-libsql",
+    "@prisma/adapter-d1"
+  ],
   "packageRules": [
     {
-      "groupName": ["Prisma Driver Adapters"],
-      "matchPackageNames": ["@prisma/driver-adapter-utils"],
-      "matchPackagePatterns": ["@prisma/adapter*"],
-      "schedule": ["at any time"]
-    },
-    {
-      "groupName": ["svelte packages"],
+      "groupName": "svelte packages",
       "matchPackagePatterns": ["svelte"]
     },
     {
-      "groupName": ["sveltekit directory"],
-      "matchPaths": ["frameworks/sveltekit/**"]
+      "groupName": "sveltekit directory",
+      "matchFileNames": ["frameworks/sveltekit/**"]
     },
     {
-      "groupName": ["@redwoodjs packages"],
+      "groupName": "@redwoodjs packages",
       "matchPackagePatterns": ["^@redwoodjs"]
     },
     {
       "groupName": "aws-sdk",
-      "packageNames": ["aws-sdk"],
+      "matchPackageNames": ["aws-sdk"],
       "schedule": ["before 3am on Monday"]
     },
     {
       "groupName": "jest",
-      "packageNames": ["jest", "@types/jest", "ts-jest"]
+      "matchPackageNames": ["jest", "@types/jest", "ts-jest"]
     },
     {
       "groupName": "Firebase",
@@ -46,12 +52,12 @@
     },
     {
       "groupName": "TypeScript < 4.9.5 - typegraphql-prisma & firebase",
-      "matchPaths": ["community-generators/typegraphql-prisma/**", "platforms-serverless/firebase-functions/**"],
+      "matchFileNames": ["community-generators/typegraphql-prisma/**", "platforms-serverless/firebase-functions/**"],
       "matchPackageNames": ["typescript"]
     },
     {
       "groupName": "GraphQL 15 - TypeGraphQL",
-      "matchPaths": ["libraries/type-graphql/**", "community-generators/typegraphql-prisma/**"],
+      "matchFileNames": ["libraries/type-graphql/**", "community-generators/typegraphql-prisma/**"],
       "matchPackageNames": ["graphql"],
       "allowedVersions": "<16"
     }

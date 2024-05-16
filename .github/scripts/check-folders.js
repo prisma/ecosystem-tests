@@ -13,6 +13,7 @@ async function main() {
   const ignoreFiles = [
     'package.json', // package.json at root
     'generic/basic', // generic/basic doesn't use Github action matrix feature which we parse to find out the differences
+    'generic/basic-m1', // generic/basic-m1 doesn't use Github action matrix feature which we parse to find out the differences
     'platforms-serverless-vercel/vercel-with-redwood/api', // Redwood uses workspaces but is included
     'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
@@ -20,7 +21,6 @@ async function main() {
     'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
     'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
-    'platforms/m1-macstadium/code', // m1-macstadium doesn't have package.json at root but is included
     'databases/mongodb-azure-cosmosdb', // expected to fail, so moved to failing-weekly.yaml
   ]
 
@@ -38,6 +38,7 @@ async function main() {
   const keysToIgnore = [
     'os', // We want to count folders vs references in the yaml file not when something is run across different OSes
     'node', // We want to count folders vs references in the yaml file not when something is run across different node versions
+    'm1', // it's almost a copy of `os` but running on M1
   ]
 
   // Get all relevant folders that _should_ appear in workflows
@@ -83,17 +84,19 @@ async function main() {
       const job_optional = optionalTestYaml['jobs'][key]
       const matrix_optional =
         Boolean(job_optional) && Boolean(job_optional.strategy) ? job_optional.strategy.matrix : {}
+
       const folders_optional = Object.keys(matrix_optional)
         .filter((key) => {
+          // These are in optional-test.yaml, under the `platforms` directory
           return !keysToIgnore.includes(key)
         })
-        .reduce((acc, key) => acc.concat(...matrix_optional[key]), [])
+        .reduce((acc, key) => {
+          return acc.concat(...matrix_optional[key])
+        }, [])
 
       return folders.concat(folders_optional).map((folder) => `${key}/${folder}`)
     })
-    .reduce((acc, folders) => {
-      return acc.concat([...folders])
-    }, [])
+    .reduce((acc, folders) => acc.concat([...folders]), [])
 
   // Transform the shape to return something that can be easy to use from GitHub Actions if conditionals
   const foldersObj = folders.reduce((acc, folder) => {
