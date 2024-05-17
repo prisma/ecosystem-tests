@@ -4,4 +4,4 @@ set -eu
 
 version=$( jq -r  '.devDependencies.prisma' package.json ) 
 
-deno run -A --unstable npm:prisma@$version generate
+deno run -A npm:prisma@$version generate
