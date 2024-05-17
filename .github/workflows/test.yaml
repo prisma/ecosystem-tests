@@ -1891,8 +1891,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.runtime }}/pnpm-lock.yaml
+          # cache: 'pnpm'
+          # cache-dependency-path: ${{ github.job }}/${{ matrix.runtime }}/pnpm-lock.yaml
 
       - name: use deno v1.x
         uses: denoland/setup-deno@v1
@@ -1902,8 +1902,8 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: pnpm install
+      # - name: Install Dependencies
+      #   run: pnpm install
 
       - name: test ${{ matrix.runtime }}
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
