@@ -7,3 +7,5 @@ export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests runtimes deno build'
 # alias deno='/home/gitpod/.deno/bin/deno'
 
 deno --version
+
+rm package.json
