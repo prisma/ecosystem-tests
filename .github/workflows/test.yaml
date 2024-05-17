@@ -1880,6 +1880,7 @@ jobs:
     # concurrency: ${{ github.job }}-${{ matrix.runtime }}-${{ matrix.clientEngine }}
     env:
       RUNTIMES_DENO_DATABASE_URL: ${{ secrets.DATAPROXY_COMMON_URL_SOURCE }}
+      DEBUG: *
 
     steps:
       - uses: actions/checkout@v4
