@@ -19,7 +19,7 @@ bash .github/scripts/print-version.sh "$pjson_path"
 # Install deps for Slack scripts
 echo "cd .github/slack/"
 cd .github/slack/
-pnpm install
+#pnpm install
 echo "cd ../.."
 cd ../..
 
