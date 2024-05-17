@@ -6,8 +6,5 @@
   },
   "devDependencies": {
     "prisma": "5.15.0-dev.16"
-  },
-  "scripts": {
-    "patch-for-deno": "sed -i -e 's/.js\\/runtime\\/library/.\\/runtime\\/library.d.ts/g' generated/client/index.d.ts & sed -i -e 's/.\\/index/.\\/index.d.ts/g' generated/client/edge.d.ts"
   }
 }
