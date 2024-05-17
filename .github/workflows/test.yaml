@@ -1912,8 +1912,6 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
-          env:
-            TODO: "todo"
 
       - name: notify-slack
         if: failure()
