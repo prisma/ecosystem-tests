@@ -1906,12 +1906,7 @@ jobs:
         run: pnpm install
 
       - name: test ${{ matrix.runtime }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
 
       - name: notify-slack
         if: failure()
