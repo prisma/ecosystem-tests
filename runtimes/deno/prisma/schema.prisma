@@ -1,13 +1,13 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../generated/client"
+  provider   = "prisma-client-js"
+  output     = "../generated/client"
   engineType = "binary"
   // previewFeatures = ["deno"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("TODO")
+  url      = env("RUNTIMES_DENO_DATABASE_URL")
 }
 
 model Post {

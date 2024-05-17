@@ -18,7 +18,3 @@ export async function getUsers() {
     prisma.user.findMany(),
   ]);
 }
-
-console.log("foo")
-const users = await prisma.user.findFirst();
-console.log(users)
