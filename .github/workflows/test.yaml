@@ -1907,7 +1907,8 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - name: Install Dependencies
+      - name: Install Dependencies via bun
+        working-directory: ${{ github.job }}/${{ matrix.runtime }}
         run: bun install
 
       - name: test ${{ matrix.runtime }}
