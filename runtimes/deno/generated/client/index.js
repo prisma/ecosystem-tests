@@ -22,7 +22,7 @@ const {
   defineDmmfProperty,
   Public,
   getRuntime
-} = require('./runtime/library.js')
+} = require('./runtime/binary.js')
 
 
 const Prisma = {}
@@ -143,7 +143,7 @@ const config = {
       "fromEnvVar": null
     },
     "config": {
-      "engineType": "library"
+      "engineType": "binary"
     },
     "binaryTargets": [
       {
@@ -174,8 +174,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"TODO\")\n}\n\nmodel Post {\n  post_id   Int     @id @default(autoincrement())\n  content   String?\n  title     String\n  author_id Int?\n  author    User?   @relation(fields: [author_id], references: [user_id])\n}\n\nmodel Profile {\n  bio        String?\n  profile_id Int     @id @default(autoincrement())\n  user_id    Int\n  user       User    @relation(fields: [user_id], references: [user_id])\n}\n\nmodel User {\n  email    String    @unique\n  name     String?\n  user_id  Int       @id @default(autoincrement())\n  posts    Post[]\n  profiles Profile[]\n}\n",
-  "inlineSchemaHash": "b23bf30d9e3e94c817a9add89dcc5f7b7f36cd5721f3344a1811dcb76d1a0d26",
+  "inlineSchema": "generator client {\n  provider   = \"prisma-client-js\"\n  output     = \"../generated/client\"\n  engineType = \"binary\"\n  // previewFeatures = [\"deno\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"TODO\")\n}\n\nmodel Post {\n  post_id   Int     @id @default(autoincrement())\n  content   String?\n  title     String\n  author_id Int?\n  author    User?   @relation(fields: [author_id], references: [user_id])\n}\n\nmodel Profile {\n  bio        String?\n  profile_id Int     @id @default(autoincrement())\n  user_id    Int\n  user       User    @relation(fields: [user_id], references: [user_id])\n}\n\nmodel User {\n  email    String    @unique\n  name     String?\n  user_id  Int       @id @default(autoincrement())\n  posts    Post[]\n  profiles Profile[]\n}\n",
+  "inlineSchemaHash": "64dc007919e4007ffd8a4a2b59c318b97a3f10b438aedea3ef35f518099e8c18",
   "copyEngine": true
 }
 
@@ -201,7 +201,7 @@ defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = undefined
 
 
-const { warnEnvConflicts } = require('./runtime/library.js')
+const { warnEnvConflicts } = require('./runtime/binary.js')
 
 warnEnvConflicts({
     rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(config.dirname, config.relativeEnvPaths.rootEnvPath),
@@ -213,8 +213,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
-path.join(process.cwd(), "generated/client/libquery_engine-debian-openssl-3.0.x.so.node")
+path.join(__dirname, "query-engine-debian-openssl-3.0.x");
+path.join(process.cwd(), "generated/client/query-engine-debian-openssl-3.0.x")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/client/schema.prisma")

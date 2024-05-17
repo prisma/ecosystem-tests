@@ -4,7 +4,7 @@ const require = createRequire(import.meta.url)
 const Prisma = require('../generated/client/index.js')
 
 // const prisma = new PrismaClient();
-export const prisma: PrismaClient = new Prisma.PrismaClient()
+export const prisma: PrismaClient = new Prisma.PrismaClient({ log: ['query', 'info', 'warn', 'error'] })
 
 export async function getUsers() {
   // Do a query and disconnect
@@ -19,5 +19,6 @@ export async function getUsers() {
   ]);
 }
 
+console.log("foo")
 const users = await prisma.user.findFirst();
 console.log(users)
