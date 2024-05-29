@@ -1240,7 +1240,11 @@ jobs:
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.job }}-${{ matrix.combo }}-${{ matrix.clientEngine }}
+    # To avoid race conditions when running tests, we need to avoid concurrency
+    # The tests should not be run concurrently for a given "combo"
+    # Example: 2 concurrent runs of "turso-node-basic" will share the same database,
+    # which causes failures in the test expectation
+    concurrency: ${{ matrix.combo }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -1369,7 +1373,11 @@ jobs:
         clientEngine: ['wasm']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.job }}-${{ matrix.combo }}-${{ matrix.clientEngine }}
+    # To avoid race conditions when running tests, we need to avoid concurrency
+    # The tests should not be run concurrently for a given "combo"
+    # Example: 2 concurrent runs of "turso-vercel-nextjs-edgemw" will share the same database,
+    # which causes failures in the test expectation
+    concurrency: ${{ matrix.combo }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
