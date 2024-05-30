@@ -306,16 +306,16 @@ jobs:
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
         uses: nick-invision/retry@v3
         with:
-          timeout_minutes: 60
-          max_attempts: 1
+          timeout_minutes: 10
+          max_attempts: 3
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
         uses: nick-invision/retry@v3
         with:
-          timeout_minutes: 60
-          max_attempts: 1
+          timeout_minutes: 10
+          max_attempts: 3
           retry_wait_seconds: 30
           command: |
             export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
@@ -437,16 +437,16 @@ jobs:
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
         uses: nick-invision/retry@v3
         with:
-          timeout_minutes: 60
-          max_attempts: 1
+          timeout_minutes: 10
+          max_attempts: 3
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
         uses: nick-invision/retry@v3
         with:
-          timeout_minutes: 60
-          max_attempts: 1
+          timeout_minutes: 10
+          max_attempts: 3
           retry_wait_seconds: 30
           command: |
             export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
