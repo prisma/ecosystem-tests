@@ -7,13 +7,17 @@ describe('use data proxy', () => {
     const cloudflareWorkersDeploymentUrl = process.env.DEPLOYMENT_URL!
     console.debug(cloudflareWorkersDeploymentUrl)
 
-    console.debug(new Date(), "Start await fetch(cloudflareWorkersDeploymentUrl)")
-    console.time('fetchTook');
+    console.debug(new Date(), 'Start await fetch(cloudflareWorkersDeploymentUrl)')
+    console.time('fetchTook')
 
-    const response = await fetch(cloudflareWorkersDeploymentUrl)
+    const response = await fetch(cloudflareWorkersDeploymentUrl, {
+      headers: {
+        'user-agent': 'ecosystem-tests',
+      },
+    })
 
-    console.timeEnd('fetchTook');
-    console.debug(new Date(), "End await fetch(cloudflareWorkersDeploymentUrl)")
+    console.timeEnd('fetchTook')
+    console.debug(new Date(), 'End await fetch(cloudflareWorkersDeploymentUrl)')
 
     const bodyAsText = await response.text()
     console.debug(bodyAsText)

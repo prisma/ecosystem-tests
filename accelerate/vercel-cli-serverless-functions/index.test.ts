@@ -7,13 +7,17 @@ test('querying works', async () => {
   const url = process.env.DEPLOYMENT_URL! + '/api/query'
   console.debug(url)
 
-  console.debug(new Date(), "Start await fetch(url)")
-  console.time('fetchTook');
+  console.debug(new Date(), 'Start await fetch(url)')
+  console.time('fetchTook')
 
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
 
-  console.timeEnd('fetchTook');
-  console.debug(new Date(), "End await fetch(url)")
+  console.timeEnd('fetchTook')
+  console.debug(new Date(), 'End await fetch(url)')
 
   const bodyAsText = await response.text()
   console.debug(bodyAsText)
@@ -89,7 +93,11 @@ test.skip('expected files', async () => {
   const url = process.env.DEPLOYMENT_URL! + '/api/files'
   console.debug(url)
 
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
   const bodyAsText = await response.text()
   console.debug(bodyAsText)
 
