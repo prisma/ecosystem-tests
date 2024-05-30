@@ -16,10 +16,13 @@ async function getResponse() {
   const adapter = new PrismaPlanetScale(client)
   const prisma = new PrismaClient({ adapter })
 
+  // Clear all data
+  await prisma.user.deleteMany()
+
   const getResult = async (prisma) => {
     const result = {
       prismaVersion: Prisma.prismaVersion.client,
-      deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
+      deleteMany: { count: 0 },
       create: await prisma.user.create({
         data: {
           email: `test-1@prisma.io`,

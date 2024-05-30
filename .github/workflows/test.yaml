@@ -233,7 +233,13 @@ jobs:
     # The tests should not be run concurrently for a given "combo"
     # Example: 2 concurrent runs of "turso-node-basic" will share the same database,
     # which causes failures in the test expectation
-    concurrency: ${{ matrix.combo }}
+    #
+    # We cannot be too restricive though because if so,
+    # we get "Canceling since a higher priority waiting request for '<test>' exists"
+    #
+    # We restrict to the branch/combo here
+    # and below we also have a retry mechanism
+    concurrency: ${{ github.base_ref }}-${{ matrix.combo }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
@@ -366,7 +372,13 @@ jobs:
     # The tests should not be run concurrently for a given "combo"
     # Example: 2 concurrent runs of "turso-vercel-nextjs-edgemw" will share the same database,
     # which causes failures in the test expectation
-    concurrency: ${{ matrix.combo }}
+    #
+    # We cannot be too restricive though because if so,
+    # we get "Canceling since a higher priority waiting request for '<test>' exists"
+    #
+    # We restrict to the branch/combo here
+    # and below we also have a retry mechanism
+    concurrency: ${{ github.base_ref }}-${{ matrix.combo }}
     env:
       NODE_ENV: development
       NODE_MODULES_CACHE: false
