@@ -22,7 +22,7 @@ async function getResponse() {
   const getResult = async (prisma) => {
     const result = {
       prismaVersion: Prisma.prismaVersion.client,
-      deleteMany: { count: 0 },
+      deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
       create: await prisma.user.create({
         data: {
           email: `test-1@prisma.io`,
