@@ -6,7 +6,11 @@ const fetch = require('node-fetch').default
 jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
-  const response = await fetch(process.env.DEPLOYMENT_URL + '/function')
+  const response = await fetch(process.env.DEPLOYMENT_URL + '/function', {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
   const { regResult, itxResult } = await response.json()
 
   expect(regResult).toEqual(itxResult)

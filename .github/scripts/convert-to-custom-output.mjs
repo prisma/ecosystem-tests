@@ -33,5 +33,9 @@ if (numFiles > 0) {
 
 async function replaceInFile(absolutePath, pattern, replacement) {
   const contents = await fs.readFile(absolutePath, 'utf8')
+  if (/output="client"/.test(contents)) {
+    console.log(`output="client" already present in ${absolutePath} -> we can skip.`)
+    return
+  }
   await fs.writeFile(absolutePath, contents.replace(pattern, replacement))
 }

@@ -195,24 +195,95 @@ jobs:
 
   ####################################################
   ### real jobs after this
+  ### note that the order is somehow important because they are ordered by priority to start
 
-  process-managers:
+  driver-adapters:
     needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'process-managers')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters')
 
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        feature: [pm2]
-        clientEngine: [library]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        combo:
+          - neon-http-lambda-basic
+          - neon-http-node-basic
+          - neon-http-vercel-nextjs
+          - neon-lambda-basic
+          - neon-node-basic
+          - neon-node-basic-esm
+          - neon-vercel-nextjs
+          - planetscale-lambda-basic
+          - planetscale-node-basic
+          - planetscale-node-basic-esm
+          - planetscale-vercel-nextjs
+          - pg-lambda-basic
+          - pg-node-basic
+          - pg-node-basic-esm
+          - pg-vercel-nextjs
+          - turso-lambda-basic
+          - turso-node-basic
+          - turso-node-basic-esm
+          - turso-vercel-nextjs
+          - tidb-node-basic
+        clientEngine: ['library']
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
+    # To avoid race conditions when running tests, we need to avoid concurrency
+    # The tests should not be run concurrently for a given "combo"
+    # Example: 2 concurrent runs of "turso-node-basic" will share the same database,
+    # which causes failures in the test expectation
+    #
+    # We cannot be too restricive though because if so,
+    # we get "Canceling since a higher priority waiting request for '<test>' exists"
+    #
+    # We restrict to the branch/combo here
+    # and below we also have a retry mechanism
+    concurrency: ${{ github.base_ref }}-${{ matrix.combo }}
+    env:
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ vars.AWS_ROLE }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      DEBUG: 'prisma:driver-adapter*'
+      PRISMA_DISABLE_QUAINT_EXECUTORS: true
+      # neon http
+      DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID }}
+      # neon
+      DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID }}
+      # planetscale
+      DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL }}
+      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID }}
+      # libsql (Turso)
+      DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN }}
+      DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID }}
+      # TiDB Cloud
+      DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL }}
+      # pg
+      DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - uses: pnpm/action-setup@v3.0.0
         with:
@@ -220,9 +291,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+          cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: pnpm install
@@ -231,79 +305,199 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
         uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
+
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: |
+            export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
+            bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
 
-  docker:
+  driver-adapters-wasm:
     needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters-wasm')
+
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        combo:
+          - pg-node-basic
+          - pg-node-basic-esm
+          - pg-cf-basic
+          - pg-cf-hyperdrive
+          - pg-worker-cf-basic
+          - pg-cfpages-basic
+          - pg-worker-cfpages-basic
+          - neon-http-cf-basic
+          - neon-http-vercel-nextjs-edgemw
+          - neon-cf-basic
+          - neon-cf-remix
+          - neon-cfpages-basic
+          - neon-cfpages-remix
+          - neon-node-nextjs-edgemw
+          - neon-vercel-nextjs-edgemw
+          - neon-vercel-nextjs-pages-edgefn
+          - neon-vercel-nextjs-app-edgefn
+          - planetscale-cf-basic
+          - planetscale-cfpages-basic
+          - planetscale-vercel-nextjs-edgemw
+          - turso-cf-basic
+          - turso-cfpages-basic
+          - turso-vercel-nextjs-edgemw
+          - d1-cf-basic
+          - d1-cfpages-basic
+        clientEngine: ['wasm']
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    # To avoid race conditions when running tests, we need to avoid concurrency
+    # The tests should not be run concurrently for a given "combo"
+    # Example: 2 concurrent runs of "turso-vercel-nextjs-edgemw" will share the same database,
+    # which causes failures in the test expectation
+    #
+    # We cannot be too restricive though because if so,
+    # we get "Canceling since a higher priority waiting request for '<test>' exists"
+    #
+    # We restrict to the branch/combo here
+    # and below we also have a retry mechanism
+    concurrency: ${{ github.base_ref }}-${{ matrix.combo }}
+    env:
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      # neon http
+      DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
+      # neon
+      DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_CF_REMIX_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_REMIX_DATABASE_URL }}
+      # DRIVER_ADAPTERS_NEON_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_PROJECT_ID }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL }}
+      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_PROJECT_ID }}
+      DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL }}
+      # planetscale
+      DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL }}
+      # DRIVER_ADAPTERS_PLANETSCALE_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
+      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
+      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
+      # Turso
+      DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN }}
+      # DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
+      # DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_TOKEN: only configured via UI, as cloudflare pages can not upload env var values per deployment
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN }}
+      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
+      # settings
+      DEBUG: 'prisma:driver-adapter*'
+      PRISMA_DISABLE_QUAINT_EXECUTORS: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
+
+      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: |
+            export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
+            bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
+
+  packagers:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'packagers')
 
     strategy:
       fail-fast: false
       matrix:
-        feature:
-          - almalinux-8-amd64-openssl-1.1.x
-          - almalinux-8-arm64-openssl-1.1.x
-          - almalinux-latest-amd64-openssl-3.0.x
-          - almalinux-latest-arm64-openssl-3.0.x
-          - alpine-3.16-amd64-openssl-1.1.x
-          - alpine-3.16-arm64-openssl-1.1.x
-          - alpine-3.16-arm64-openssl-1.1.x-with-libc
-          - alpine-3.17-amd64-openssl-1.1.x
-          - alpine-3.17-amd64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x-with-libc
-          - alpine-latest-amd64-openssl-3.0.x
-          - amazonlinux-2-amd64-openssl-1.0.x
-          - amazonlinux-2-arm64-openssl-1.0.x
-          - amazonlinux-2022-amd64-openssl-3.0.x
-          - amazonlinux-2022-arm64-openssl-3.0.x
-          - archlinux-latest-amd64-openssl-3.0.x
-          - debian-bullseye-amd64-openssl-1.1.x
-          - debian-bullseye-amd64-openssl-1.1.x-tls
-          - debian-buster-amd64-openssl-1.1.x
-          - debian-latest-amd64-openssl-3.0.x
-          - debian-latest-arm64-openssl-3.0.x
-          - debian-stretch-amd64-openssl-1.1.x
-          - opensuse-tumbleweed-amd64-openssl-3.0.x
-          - redhat-ubi9-amd64-openssl-3.0.x
-          - ubuntu-20.04-amd64-openssl-1.1.x
-          - ubuntu-22.04-amd64-openssl-3.0.x
-          - ubuntu-latest-amd64-openssl-3.0.x
-          - ubuntu-latest-arm64-openssl-3.0.x
-        clientEngine: [library, binary]
+        packager:
+          - npm
+          - npm-global
+          - pnpm
+          - pnpm-workspaces-custom-output
+          - pnpm-workspaces-default-output
+          - yarn
+          - yarn-workspaces
+          - yarn3-without-pnp
+          - yarn3-workspaces-pnp
+        clientEngine: [library] #['library', 'binary']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     env:
-      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
-      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
-      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
-      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
+      # We set this env var to avoid the following error in `actions/setup-node`
+      # error This project's package.json defines "packageManager": "yarn@3.7.0". However the current global version of Yarn is 1.22.21.
+      # it was added in https://github.com/yarnpkg/yarn/releases/tag/v1.22.20
+      # and the env var is available since https://github.com/yarnpkg/yarn/releases/tag/v1.22.21
+      SKIP_YARN_COREPACK_CHECK: 1
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: 'arm64'
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
@@ -315,50 +509,118 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+          cache: |
+            ${{
+              contains(matrix.packager, 'yarn') && 'yarn' ||
+              contains(matrix.packager, 'pnpm') && 'pnpm' ||
+              'npm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.packager }}/${{
+              contains(matrix.packager, 'yarn') && 'yarn.lock' ||
+              contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
+              'package-lock.json'
+            }}
 
       - name: Install Dependencies
-        run: pnpm install
+        run: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm install' || 'pnpm install' }}
 
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+      - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
         uses: nick-invision/retry@v3
         with:
-          timeout_minutes: 20
+          timeout_minutes: 10
           max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
 
       - name: notify-slack
         if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
 
-  # These tests are expected to fail
-  # Meaning a successfull run actually shows a non zero exit code in the logs
-  docker-unsupported:
+  frameworks:
     needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker-unsupported')
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'frameworks')
 
     strategy:
       fail-fast: false
       matrix:
-        feature:
-          - debian-buster-amd64-openssl-1.1.x
-          - debian-latest-arm-openssl-1.1.x
-        clientEngine: [library, binary]
+        framework:
+          - nestjs
+          - nextjs
+          - sveltekit
+        clientEngine: [library] #['library', 'binary']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
+
+  platforms:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms')
+
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - heroku
+          - aws-graviton
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    # concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    concurrency: ${{ matrix.platform }}
+
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
+
+    steps:
+      - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8
@@ -367,34 +629,212 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: 'arm64,arm'
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
+          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
-      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  platforms-serverless:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless')
+
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - lambda-node-16
+          - lambda-node-20
+          - netlify-cli
+          - netlify-github
+          - netlify-github-with-nextjs-caching
+          - gcp-functions
+          - firebase-functions
+          - azure-functions-linux
+          - azure-functions-windows
+          - serverless-framework-lambda
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04]
+        exclude:
+          # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
+          - clientEngine: library
+            platform: azure-functions-windows
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    env:
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
+      SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
+      GCP_FUNCTIONS_PROJECT: ${{ vars.GCP_FUNCTIONS_PROJECT }}
+      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
+      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ vars.NETLIFY_SITE_ID }}
+      AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE: ${{ vars.AWS_ROLE }}
+      AZURE_SP_TENANT: ${{ vars.AZURE_SP_TENANT }}
+      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+      AZURE_SP_NAME: ${{ vars.AZURE_SP_NAME }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: |
+            ${{
+              contains(matrix.platform, 'azure') && 'npm' ||
+              contains(matrix.platform, 'serverless-framework') && 'npm' ||
+              contains(matrix.platform, 'gcp-functions') && 'npm' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              contains(matrix.platform, 'azure') && 'package-lock.json' ||
+              contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
+              contains(matrix.platform, 'gcp-functions') && 'package-lock.json' ||
+              'pnpm-lock.yaml'
+            }}
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
         run: |
-          bash .github/scripts/test-project.sh docker-unsupported ${{ matrix.feature }}
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 60
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
+
+  platforms-serverless-vercel:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless-vercel')
+
+    timeout-minutes: 60 # can take longer if platforms are down, so better protect
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - vercel-node-builder
+          - vercel-cli
+          - vercel-with-redwood
+          - vercel-with-nextjs
+          - vercel-with-nextjs-caching
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
+    env:
+      NODE_ENV: development
+      NODE_MODULES_CACHE: false
+      NODE_VERBOSE: true
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_API_PROJECT_ID: ${{ vars.VERCEL_API_PROJECT_ID }}
+      VERCEL_API_BINARY_PROJECT_ID: ${{ vars.VERCEL_API_BINARY_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ vars.VERCEL_NODE_BUILDER_PROJECT_ID }}
+      VERCEL_NODE_BUILDER_BINARY_PROJECT_ID: ${{ vars.VERCEL_NODE_BUILDER_BINARY_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ vars.VERCEL_WITH_REDWOOD_PROJECT_ID }}
+      VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
+      VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: |
+            ${{
+              contains(matrix.platform, 'redwood') && 'yarn' ||
+              'pnpm'
+            }}
+          cache-dependency-path: |
+            ${{ github.job }}/${{ matrix.platform }}/${{
+              contains(matrix.platform, 'redwood') && 'yarn.lock' ||
+              'pnpm-lock.yaml'
+            }}
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm install' }}
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 60
+          max_attempts: 1
+          # default is 10s
+          retry_wait_seconds: 30
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   core-features:
     needs: [detect_jobs_to_run]
@@ -840,633 +1280,6 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
 
-  packagers:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'packagers')
-
-    strategy:
-      fail-fast: false
-      matrix:
-        packager:
-          - npm
-          - npm-global
-          - pnpm
-          - pnpm-workspaces-custom-output
-          - pnpm-workspaces-default-output
-          - yarn
-          - yarn-workspaces
-          - yarn3-without-pnp
-          - yarn3-workspaces-pnp
-        clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-
-    env:
-      # We set this env var to avoid the following error in `actions/setup-node`
-      # error This project's package.json defines "packageManager": "yarn@3.7.0". However the current global version of Yarn is 1.22.21.
-      # it was added in https://github.com/yarnpkg/yarn/releases/tag/v1.22.20
-      # and the env var is available since https://github.com/yarnpkg/yarn/releases/tag/v1.22.21
-      SKIP_YARN_COREPACK_CHECK: 1
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.packager, 'yarn') && 'yarn' ||
-              contains(matrix.packager, 'pnpm') && 'pnpm' ||
-              'npm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.packager }}/${{
-              contains(matrix.packager, 'yarn') && 'yarn.lock' ||
-              contains(matrix.packager, 'pnpm') && 'pnpm-lock.yaml' ||
-              'package-lock.json'
-            }}
-
-      - name: Install Dependencies
-        run: ${{ contains(matrix.packager, 'yarn') && 'yarn' || contains(matrix.packager, 'npm') && 'npm install' || 'pnpm install' }}
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.packager }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: packager ${{ matrix.packager }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
-
-  frameworks:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'frameworks')
-
-    strategy:
-      fail-fast: false
-      matrix:
-        framework:
-          - nestjs
-          - nextjs
-          - sveltekit
-        clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.framework }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: framework ${{ matrix.framework }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
-
-  platforms:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms')
-
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - heroku
-          - aws-graviton
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-    # concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    concurrency: ${{ matrix.platform }}
-
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
-  platforms-serverless:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless')
-
-    timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - lambda-node-16
-          - lambda-node-20
-          - netlify-cli
-          - netlify-github
-          - netlify-github-with-nextjs-caching
-          - gcp-functions
-          - firebase-functions
-          - azure-functions-linux
-          - azure-functions-windows
-          - serverless-framework-lambda
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
-        exclude:
-          # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
-          - clientEngine: library
-            platform: azure-functions-windows
-    runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    env:
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      SSH_KEY_NETLIFY: ${{ secrets.SSH_KEY_NETLIFY }}
-      SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING: ${{ secrets.SSH_KEY_NETLIFY_GITHUB_NETXJS_CACHING }}
-      GCP_FUNCTIONS_PROJECT: ${{ vars.GCP_FUNCTIONS_PROJECT }}
-      GCP_FUNCTIONS_ACCOUNT: ${{ secrets.GCP_FUNCTIONS_ACCOUNT }}
-      GCP_FUNCTIONS_SECRET: ${{ secrets.GCP_FUNCTIONS_SECRET }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ vars.NETLIFY_SITE_ID }}
-      AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ROLE: ${{ vars.AWS_ROLE }}
-      AZURE_SP_TENANT: ${{ vars.AZURE_SP_TENANT }}
-      AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
-      AZURE_SP_NAME: ${{ vars.AZURE_SP_NAME }}
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.platform, 'azure') && 'npm' ||
-              contains(matrix.platform, 'serverless-framework') && 'npm' ||
-              contains(matrix.platform, 'gcp-functions') && 'npm' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'azure') && 'package-lock.json' ||
-              contains(matrix.platform, 'serverless-framework') && 'package-lock.json' ||
-              contains(matrix.platform, 'gcp-functions') && 'package-lock.json' ||
-              'pnpm-lock.yaml'
-            }}
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
-  platforms-serverless-vercel:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless-vercel')
-
-    timeout-minutes: 60 # can take longer if platforms are down, so better protect
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - vercel-node-builder
-          - vercel-cli
-          - vercel-with-redwood
-          - vercel-with-nextjs
-          - vercel-with-nextjs-caching
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-    concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    env:
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-      VERCEL_API_PROJECT_ID: ${{ vars.VERCEL_API_PROJECT_ID }}
-      VERCEL_API_BINARY_PROJECT_ID: ${{ vars.VERCEL_API_BINARY_PROJECT_ID }}
-      VERCEL_NODE_BUILDER_PROJECT_ID: ${{ vars.VERCEL_NODE_BUILDER_PROJECT_ID }}
-      VERCEL_NODE_BUILDER_BINARY_PROJECT_ID: ${{ vars.VERCEL_NODE_BUILDER_BINARY_PROJECT_ID }}
-      VERCEL_WITH_REDWOOD_PROJECT_ID: ${{ vars.VERCEL_WITH_REDWOOD_PROJECT_ID }}
-      VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
-      VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          cache: |
-            ${{
-              contains(matrix.platform, 'redwood') && 'yarn' ||
-              'pnpm'
-            }}
-          cache-dependency-path: |
-            ${{ github.job }}/${{ matrix.platform }}/${{
-              contains(matrix.platform, 'redwood') && 'yarn.lock' ||
-              'pnpm-lock.yaml'
-            }}
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: ${{ contains(matrix.platform, 'redwood') && 'yarn' || 'pnpm install' }}
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.platform }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.platform }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          # default is 10s
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
-  driver-adapters:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters')
-
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        combo:
-          - neon-http-lambda-basic
-          - neon-http-node-basic
-          - neon-http-vercel-nextjs
-          - neon-lambda-basic
-          - neon-node-basic
-          - neon-node-basic-esm
-          - neon-vercel-nextjs
-          - planetscale-lambda-basic
-          - planetscale-node-basic
-          - planetscale-node-basic-esm
-          - planetscale-vercel-nextjs
-          - pg-lambda-basic
-          - pg-node-basic
-          - pg-node-basic-esm
-          - pg-vercel-nextjs
-          - turso-lambda-basic
-          - turso-node-basic
-          - turso-node-basic-esm
-          - turso-vercel-nextjs
-          - tidb-node-basic
-        clientEngine: ['library']
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-    # To avoid race conditions when running tests, we need to avoid concurrency
-    # The tests should not be run concurrently for a given "combo"
-    # Example: 2 concurrent runs of "turso-node-basic" will share the same database,
-    # which causes failures in the test expectation
-    concurrency: ${{ matrix.combo }}
-    env:
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-      AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ROLE: ${{ vars.AWS_ROLE }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      DEBUG: 'prisma:js-connector*'
-      PRISMA_DISABLE_QUAINT_EXECUTORS: true
-      # neon http
-      DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_PROJECT_ID }}
-      # neon
-      DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_LAMBDA_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID }}
-      # planetscale
-      DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL }}
-      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID }}
-      # libsql (Turso)
-      DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN }}
-      DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN }}
-      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL }}
-      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN }}
-      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_PROJECT_ID }}
-      # TiDB Cloud
-      DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL }}
-      # pg
-      DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_POSTGRESQL_VERCEL_NEXTJS_PROJECT_ID }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
-
-      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          retry_wait_seconds: 30
-          command: |
-            export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
-            bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
-
-  driver-adapters-wasm:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters-wasm')
-
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        combo:
-          - pg-node-basic
-          - pg-node-basic-esm
-          - pg-cf-basic
-          - pg-cf-hyperdrive
-          - pg-worker-cf-basic
-          - pg-cfpages-basic
-          - pg-worker-cfpages-basic
-          - neon-http-cf-basic
-          - neon-http-vercel-nextjs-edgemw
-          - neon-cf-basic
-          - neon-cf-remix
-          - neon-cfpages-basic
-          - neon-cfpages-remix
-          - neon-node-nextjs-edgemw
-          - neon-vercel-nextjs-edgemw
-          - neon-vercel-nextjs-pages-edgefn
-          - neon-vercel-nextjs-app-edgefn
-          - planetscale-cf-basic
-          - planetscale-cfpages-basic
-          - planetscale-vercel-nextjs-edgemw
-          - turso-cf-basic
-          - turso-cfpages-basic
-          - turso-vercel-nextjs-edgemw
-          - d1-cf-basic
-          - d1-cfpages-basic
-        clientEngine: ['wasm']
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-    # To avoid race conditions when running tests, we need to avoid concurrency
-    # The tests should not be run concurrently for a given "combo"
-    # Example: 2 concurrent runs of "turso-vercel-nextjs-edgemw" will share the same database,
-    # which causes failures in the test expectation
-    concurrency: ${{ matrix.combo }}
-    env:
-      NODE_ENV: development
-      NODE_MODULES_CACHE: false
-      NODE_VERBOSE: true
-      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-      # neon http
-      DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
-      # neon
-      DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_CF_REMIX_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_CF_REMIX_DATABASE_URL }}
-      # DRIVER_ADAPTERS_NEON_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_PROJECT_ID }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL }}
-      DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_PROJECT_ID }}
-      DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL }}
-      # planetscale
-      DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL }}
-      # DRIVER_ADAPTERS_PLANETSCALE_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
-      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
-      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
-      # Turso
-      DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN }}
-      # DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
-      # DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_TOKEN: only configured via UI, as cloudflare pages can not upload env var values per deployment
-      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
-      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN: ${{ secrets.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN }}
-      DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
-      # settings
-      DEBUG: 'prisma:js-connector*'
-      PRISMA_DISABLE_QUAINT_EXECUTORS: true
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.combo }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (default output)
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          retry_wait_seconds: 30
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
-
-      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 60
-          max_attempts: 1
-          retry_wait_seconds: 30
-          command: |
-            export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
-            bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
-
   # TODO databases are shared between the steps (DP2, DP2+Accelerate), so we run them in sequence
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
   accelerate:
@@ -1867,3 +1680,203 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
+
+  process-managers:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'process-managers')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: [pm2]
+        clientEngine: [library]
+        os: [ubuntu-20.04, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  docker:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature:
+          - almalinux-8-amd64-openssl-1.1.x
+          - almalinux-8-arm64-openssl-1.1.x
+          - almalinux-latest-amd64-openssl-3.0.x
+          - almalinux-latest-arm64-openssl-3.0.x
+          - alpine-3.16-amd64-openssl-1.1.x
+          - alpine-3.16-arm64-openssl-1.1.x
+          - alpine-3.16-arm64-openssl-1.1.x-with-libc
+          - alpine-3.17-amd64-openssl-1.1.x
+          - alpine-3.17-amd64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
+          - alpine-latest-amd64-openssl-3.0.x
+          - amazonlinux-2-amd64-openssl-1.0.x
+          - amazonlinux-2-arm64-openssl-1.0.x
+          - amazonlinux-2022-amd64-openssl-3.0.x
+          - amazonlinux-2022-arm64-openssl-3.0.x
+          - archlinux-latest-amd64-openssl-3.0.x
+          - debian-bullseye-amd64-openssl-1.1.x
+          - debian-bullseye-amd64-openssl-1.1.x-tls
+          - debian-buster-amd64-openssl-1.1.x
+          - debian-latest-amd64-openssl-3.0.x
+          - debian-latest-arm64-openssl-3.0.x
+          - debian-stretch-amd64-openssl-1.1.x
+          - opensuse-tumbleweed-amd64-openssl-3.0.x
+          - redhat-ubi9-amd64-openssl-3.0.x
+          - ubuntu-20.04-amd64-openssl-1.1.x
+          - ubuntu-22.04-amd64-openssl-3.0.x
+          - ubuntu-latest-amd64-openssl-3.0.x
+          - ubuntu-latest-arm64-openssl-3.0.x
+        clientEngine: [library, binary]
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
+      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
+      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
+      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: 'arm64'
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 20
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  # These tests are expected to fail
+  # Meaning a successfull run actually shows a non zero exit code in the logs
+  docker-unsupported:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker-unsupported')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature:
+          - debian-buster-amd64-openssl-1.1.x
+          - debian-latest-arm-openssl-1.1.x
+        clientEngine: [library, binary]
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: 'arm64,arm'
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+        run: |
+          bash .github/scripts/test-project.sh docker-unsupported ${{ matrix.feature }}
