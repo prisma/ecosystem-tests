@@ -39,6 +39,7 @@ describe('detect-jobs-to-run', () => {
   "databases",
   "databases-macos",
   "test-runners",
+  "runtimes",
   "community-generators",
 ]
 `)
@@ -119,6 +120,7 @@ describe('detect-jobs-to-run', () => {
   "databases",
   "databases-macos",
   "test-runners",
+  "runtimes",
   "community-generators",
 ]
 `)
@@ -155,6 +157,7 @@ describe('detect-jobs-to-run', () => {
   "databases",
   "databases-macos",
   "test-runners",
+  "runtimes",
   "community-generators",
 ]
 `)
@@ -191,6 +194,7 @@ describe('detect-jobs-to-run', () => {
   "databases",
   "databases-macos",
   "test-runners",
+  "runtimes",
   "community-generators",
 ]
 `)

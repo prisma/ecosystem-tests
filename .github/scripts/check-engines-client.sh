@@ -28,6 +28,7 @@ skipped_projects=(
   webpack-browser-custom-output               # Client is generated into a subfolder
   yarn3-workspaces-pnp                        # Client is generated into a subfolder
   serverless-framework-lambda-pnpm            # Client is generated into a subfolder
+  deno                                        # Client is generated into a subfolder
   # custom output
   jest-with-multiple-generators               # No generated Client locally in default path, both Clients have custom `output`
   netlify-cli                                 # Client is generated into `../functions/generated/client` via use of `output`

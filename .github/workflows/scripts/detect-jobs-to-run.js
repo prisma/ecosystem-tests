@@ -102,7 +102,8 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
   if (totalNumberOfFilesChangedInsideDirectories != filesChanged.length) {
     console.debug('totalNumberOfFilesChangedInsideDirectories != filesChanged.length')
     console.debug('Fallback to run all tests.')
-    return fallbackRunAllJobs
+    return ['runtimes']
+    //return fallbackRunAllJobs
   } else {
     console.log('Only the following directory/ies will be tested:')
     console.log(jobsToRun)
