@@ -301,6 +301,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Install traceroute
+        run: sudo apt install -y traceroute
+
       - name: Set test specific DATABASE_URL
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
