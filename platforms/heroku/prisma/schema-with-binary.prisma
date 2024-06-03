@@ -1,6 +1,10 @@
 generator client {
   provider   = "prisma-client-js"
   engineType = "binary"
+  // There is a known issue when using `pnpm` and deploying to Heroku
+  // where the current workaround it to use a custom `output` directory for the Prisma Client.
+  // See https://github.com/prisma/prisma/issues/24199
+  output     = "./generated/client"
 }
 
 datasource db {
