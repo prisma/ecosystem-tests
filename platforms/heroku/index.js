@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000
 app.get('/', async (req, res) => {
   const fs = require('fs')
   const path = require('path')
-  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+  const files = fs.readdirSync(path.dirname(require.resolve('./prisma/generated/client')))
 
   await client.user.deleteMany({})
 
