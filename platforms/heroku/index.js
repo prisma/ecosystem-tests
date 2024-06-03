@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { PrismaClient, Prisma } = require('./generated/client/index.js')
+const { PrismaClient, Prisma } = require('./prisma/generated/client')
 const client = new PrismaClient()
 
 const app = express()
