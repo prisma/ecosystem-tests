@@ -17,8 +17,8 @@ export default defineEventHandler(async (event) => {
    * Query the database
    */
 
-  const result = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
-  return result
+  const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
+  return { regResult }
 })
 
 async function getResult(prisma: PrismaClient) {
