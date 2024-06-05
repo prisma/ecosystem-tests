@@ -165,7 +165,7 @@ export async function handler() {
     }),
   })
 
-  await applyMigrations(client);
+  await applyMigrations(client)
 
   const regResult = await getResult(prisma)
   const itxResult = await prisma.$transaction(getResult)
