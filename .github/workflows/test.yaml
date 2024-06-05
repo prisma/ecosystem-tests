@@ -226,6 +226,7 @@ jobs:
           - turso-node-basic-esm
           - turso-vercel-nextjs
           - tidb-node-basic
+          - pglite-node-basic
         clientEngine: ['library']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -612,8 +613,7 @@ jobs:
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-    # concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
-    concurrency: ${{ matrix.platform }}
+    concurrency: ${{ matrix.platform }}-${{ matrix.clientEngine }}
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
