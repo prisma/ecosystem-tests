@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'node:fs/promises'
 import { glob } from 'glob'
 
-const projectPath = '/Users/j42/Dev/ecosystem-tests/driver-adapters-wasm/d1-cfpages-nuxt'
+const projectPath = process.argv[2]
 
 // See https://github.com/prisma/ecosystem-tests/pull/5040#issuecomment-2152970656
 const isD1CfPagesNuxt = projectPath.includes('d1-cfpages-nuxt')
