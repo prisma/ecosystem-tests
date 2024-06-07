@@ -13,7 +13,7 @@ console.log({ isD1CfPagesNuxt })
 // Add the db link to the package.json
 if (isD1CfPagesNuxt) {
   const packageJson = JSON.parse(await fs.readFile(path.join(projectPath, 'package.json'), 'utf8'))
-  packageJson.dependencies['db'] = 'link:prisma/client'
+  packageJson.dependencies['db'] = 'link:client'
   fs.writeFile(path.join(projectPath, 'package.json'), JSON.stringify(packageJson, null, 2), 'utf8')
 }
 
