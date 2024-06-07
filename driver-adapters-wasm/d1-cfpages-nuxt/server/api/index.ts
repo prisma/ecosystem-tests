@@ -13,8 +13,6 @@ export default defineEventHandler(async (event) => {
    */
 
   const d1 = cloudflare.env.D1_DATABASE
-  console.log({ cloudflareEnv: cloudflare.env })
-  console.log({ d1 })
 
   const adapter = new PrismaD1(d1)
   const prisma = new PrismaClient({ adapter })
