@@ -3,17 +3,13 @@ import fs from 'node:fs/promises'
 import { glob } from 'glob'
 
 const projectPath = process.argv[2]
+const isD1CfPagesNuxt = process.cwd().includes('d1-cfpages-nuxt')
 
 // See https://github.com/prisma/ecosystem-tests/pull/5040#issuecomment-2152970656
-const isD1CfPagesNuxt = projectPath.includes('d1-cfpages-nuxt')
-
-console.log({ projectPath })
-console.log({ isD1CfPagesNuxt })
-
 // Add the db link to the package.json
 if (isD1CfPagesNuxt) {
   const packageJson = JSON.parse(await fs.readFile(path.join(projectPath, 'package.json'), 'utf8'))
-  packageJson.dependencies['db'] = 'link:client'
+  packageJson.dependencies['db'] = 'link:prisma/client'
   fs.writeFile(path.join(projectPath, 'package.json'), JSON.stringify(packageJson, null, 2), 'utf8')
 }
 
@@ -33,7 +29,7 @@ for await (const file of sourceFiles) {
   if (!relImport.startsWith('.')) {
     relImport = `./${relImport}`
   }
-  if (file.includes('d1-cfpages-nuxt')) {
+  if (isD1CfPagesNuxt) {
     // Replace '@prisma/client' with 'db'
     await replaceInFile(file, /@prisma\/client/g, 'db')
   } else {
