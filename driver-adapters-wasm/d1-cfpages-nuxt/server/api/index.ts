@@ -2,7 +2,7 @@
 // globalThis.DEBUG = '*'
 
 import { PrismaD1 } from '@prisma/adapter-d1'
-import { Prisma, PrismaClient } from '../../prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
   // access Cloudflare's bindings
