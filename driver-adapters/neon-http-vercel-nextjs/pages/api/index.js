@@ -173,7 +173,7 @@ export default async (req, res) => {
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
       where: {
-        email: 'test-1@prisma.io',
+        email: 'test-2@prisma.io',
       },
       select: {
         age: true,
