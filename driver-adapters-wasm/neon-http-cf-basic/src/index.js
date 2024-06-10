@@ -32,12 +32,7 @@ export default {
           email: `test-2@prisma.io`,
           age: 29,
           name: 'Test 2',
-        },
-        select: {
-          email: true,
-          age: true,
-          name: true,
-        },
+        }
       }),
       // Expected to fail in HTTP mode
       // createMany: await prisma.user.createMany({
