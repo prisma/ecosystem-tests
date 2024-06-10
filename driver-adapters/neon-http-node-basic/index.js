@@ -117,7 +117,7 @@ exports.handler = async () => {
     }),
     delete: await prisma.user.delete({
       where: {
-        email: 'test-1@prisma.io',
+        email: 'test-2@prisma.io',
       },
       select: {
         email: true,
