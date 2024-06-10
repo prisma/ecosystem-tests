@@ -88,9 +88,9 @@ test('prisma version and output', async () => {
   expect(regResult.findFirst).toMatchInlineSnapshot(`null`)
   expect(regResult.delete).toMatchInlineSnapshot(`
   {
-    "age": 29,
-    "email": "test-2@prisma.io",
-    "name": "Test 2",
+    "age": 27,
+    "email": "test-1@prisma.io",
+    "name": "Test 1",
   }
   `)
   expect(regResult.count).toBe(1)

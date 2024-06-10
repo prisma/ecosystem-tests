@@ -26,7 +26,7 @@ export default {
         },
       }),
       // Since `createMany` does not work we add a second create 
-      // the redcord is used for `delete(...)` below
+      // the record is used for `findUniqueOrThrow(...)` below
       create2: await prisma.user.create({
         data: {
           email: `test-2@prisma.io`,
