@@ -3,7 +3,6 @@
 set -eu
 
 pnpm install
-pnpm prisma generate
 
 # This means that we resolve the location of the @prisma/engines package starting to the location of the prisma package
 ENGINES_PACKAGE=$(node -e "console.log(path.dirname(require.resolve('@prisma/engines/package.json', {paths: [path.dirname(require.resolve('prisma/package.json'))]})))")
