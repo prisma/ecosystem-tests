@@ -25,6 +25,8 @@ async function getResponse() {
         name: true,
       },
     }),
+    // Since `createMany` does not work we add a second create 
+    // the record is used for `findUniqueOrThrow(...)` below
     create2: await prisma.user.create({
       data: {
         email: `test-2@prisma.io`,
