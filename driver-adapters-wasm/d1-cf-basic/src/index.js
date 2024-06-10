@@ -185,7 +185,7 @@ export default {
       return result
     }
 
-    const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
+    const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
     const result = JSON.stringify({
       regResult,
     })

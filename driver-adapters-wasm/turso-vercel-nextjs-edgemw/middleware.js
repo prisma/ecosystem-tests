@@ -190,8 +190,12 @@ async function getResponse() {
     return result
   }
 
-  const regResult = await getResult(prisma).catch((error) => ({ error: error.message }))
-  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message }))
+  const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
+
+  // Wait a bit
+  await new Promise((resolve) => setTimeout(resolve, 1_000))
+
+  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error_in_itxResult: error.message }))
 
   return { itxResult, regResult }
 }

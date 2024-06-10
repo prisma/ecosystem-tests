@@ -16,7 +16,12 @@ const endpoint = getDeploymentURL()
 const pjson = require('./package.json')
 
 test('prisma version and output', async () => {
-  const r = await fetch(endpoint + '/api')
+  const r = await fetch(endpoint + '/api', {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
+
   const data = await r.json()
   expect(data).toMatchObject({
     prismaVersion: pjson.dependencies['@prisma/client'],

@@ -181,7 +181,7 @@ async function getResponse() {
     // }),
   })
 
-  const regResult = await getResult(prisma).catch((error) => ({ error: error.message })) // TODO undo catch when queries work
+  const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message })) // TODO undo catch when queries work
 
   // test the error message when the transaction fails
   try {
@@ -201,7 +201,7 @@ async function getResponse() {
 
   // Transactions are expected to fail in HTTP mode
   try {
-    const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error: error.message })) // TODO undo catch when queries work
+    const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error_in_itxResult: error.message })) // TODO undo catch when queries work
   } catch (e) {
     if (e.code !== 'P2036' && e.message !== 'Transactions are not supported in HTTP mode') {
       console.error('The expectation changed and needs to be updated in the test, see new error below:')
