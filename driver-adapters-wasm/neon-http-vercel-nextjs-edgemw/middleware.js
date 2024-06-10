@@ -25,6 +25,13 @@ async function getResponse() {
         name: true,
       },
     }),
+    create2: await prisma.user.create({
+      data: {
+        email: `test-2@prisma.io`,
+        age: 29,
+        name: 'Test 2',
+      }
+    }),
     // Expected to fail in HTTP mode
     // createMany: await prisma.user.createMany({
     //   data: [
@@ -155,7 +162,7 @@ async function getResponse() {
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
       where: {
-        email: 'test-1@prisma.io',
+        email: 'test-2@prisma.io',
       },
       select: {
         age: true,
