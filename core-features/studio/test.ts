@@ -3,9 +3,7 @@ import { createHash } from 'crypto'
 import fetch from 'node-fetch'
 
 const STUDIO_PORT = 5555
-const SCHEMA_HASH = createHash('md5')
-  .update(fs.readFileSync('./prisma/schema.prisma'))
-  .digest('hex')
+let schemaHash: string
 
 async function sendRequest(
   modelName: string,
@@ -23,7 +21,7 @@ async function sendRequest(
       action: 'clientRequest',
       payload: {
         data: {
-          schemaHash: SCHEMA_HASH,
+          schemaHash,
           modelName,
           operation,
           args,
@@ -34,6 +32,26 @@ async function sendRequest(
 
   return response.json()
 }
+
+beforeAll(async () => {
+  const response = await fetch(`http://localhost:${STUDIO_PORT}/api`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+    body: JSON.stringify({
+      requestId: 1,
+      channel: 'prisma',
+      action: 'getDMMF',
+      payload: {}
+    }),
+  })
+
+  const data = await response.json()
+  schemaHash = data?.payload?.data.schemaHash
+  expect(schemaHash).toBeDefined()
+})
+
 
 describe('Studio', () => {
   test('can load up the frontend correctly', async () => {

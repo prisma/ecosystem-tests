@@ -183,6 +183,10 @@ exports.handler = async () => {
   })
 
   const regResult = await getResult(prisma)
+
+  // Wait a bit
+  await new Promise((resolve) => setTimeout(resolve, 1_000))
+
   const itxResult = await prisma.$transaction(getResult)
   const result = { itxResult, regResult }
 

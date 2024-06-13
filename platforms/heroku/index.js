@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./prisma/generated/client')
 const client = new PrismaClient()
 
 const app = express()
@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000
 app.get('/', async (req, res) => {
   const fs = require('fs')
   const path = require('path')
-  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+  const files = fs.readdirSync(path.dirname(require.resolve('./prisma/generated/client')))
 
   await client.user.deleteMany({})
 

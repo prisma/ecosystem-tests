@@ -16,9 +16,13 @@ describe('detect-jobs-to-run', () => {
 
     expect(jobsToRun).toMatchInlineSnapshot(`
 [
-  "process-managers",
-  "docker",
-  "docker-unsupported",
+  "driver-adapters",
+  "driver-adapters-wasm",
+  "packagers",
+  "frameworks",
+  "platforms",
+  "platforms-serverless",
+  "platforms-serverless-vercel",
   "core-features",
   "migrate",
   "engines",
@@ -26,13 +30,6 @@ describe('detect-jobs-to-run', () => {
   "m1",
   "node",
   "binaries",
-  "packagers",
-  "frameworks",
-  "platforms",
-  "platforms-serverless",
-  "platforms-serverless-vercel",
-  "driver-adapters",
-  "driver-adapters-wasm",
   "accelerate",
   "bundlers",
   "libraries",
@@ -40,6 +37,9 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "runtimes",
+  "process-managers",
+  "docker",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -97,9 +97,13 @@ describe('detect-jobs-to-run', () => {
 
     expect(jobsToRun).toMatchInlineSnapshot(`
 [
-  "process-managers",
-  "docker",
-  "docker-unsupported",
+  "driver-adapters",
+  "driver-adapters-wasm",
+  "packagers",
+  "frameworks",
+  "platforms",
+  "platforms-serverless",
+  "platforms-serverless-vercel",
   "core-features",
   "migrate",
   "engines",
@@ -107,13 +111,6 @@ describe('detect-jobs-to-run', () => {
   "m1",
   "node",
   "binaries",
-  "packagers",
-  "frameworks",
-  "platforms",
-  "platforms-serverless",
-  "platforms-serverless-vercel",
-  "driver-adapters",
-  "driver-adapters-wasm",
   "accelerate",
   "bundlers",
   "libraries",
@@ -121,6 +118,9 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "runtimes",
+  "process-managers",
+  "docker",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -134,9 +134,13 @@ describe('detect-jobs-to-run', () => {
 
     expect(jobsToRun).toMatchInlineSnapshot(`
 [
-  "process-managers",
-  "docker",
-  "docker-unsupported",
+  "driver-adapters",
+  "driver-adapters-wasm",
+  "packagers",
+  "frameworks",
+  "platforms",
+  "platforms-serverless",
+  "platforms-serverless-vercel",
   "core-features",
   "migrate",
   "engines",
@@ -144,13 +148,6 @@ describe('detect-jobs-to-run', () => {
   "m1",
   "node",
   "binaries",
-  "packagers",
-  "frameworks",
-  "platforms",
-  "platforms-serverless",
-  "platforms-serverless-vercel",
-  "driver-adapters",
-  "driver-adapters-wasm",
   "accelerate",
   "bundlers",
   "libraries",
@@ -158,6 +155,9 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "runtimes",
+  "process-managers",
+  "docker",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -171,9 +171,13 @@ describe('detect-jobs-to-run', () => {
 
     expect(jobsToRun).toMatchInlineSnapshot(`
 [
-  "process-managers",
-  "docker",
-  "docker-unsupported",
+  "driver-adapters",
+  "driver-adapters-wasm",
+  "packagers",
+  "frameworks",
+  "platforms",
+  "platforms-serverless",
+  "platforms-serverless-vercel",
   "core-features",
   "migrate",
   "engines",
@@ -181,13 +185,6 @@ describe('detect-jobs-to-run', () => {
   "m1",
   "node",
   "binaries",
-  "packagers",
-  "frameworks",
-  "platforms",
-  "platforms-serverless",
-  "platforms-serverless-vercel",
-  "driver-adapters",
-  "driver-adapters-wasm",
   "accelerate",
   "bundlers",
   "libraries",
@@ -195,6 +192,9 @@ describe('detect-jobs-to-run', () => {
   "databases-macos",
   "test-runners",
   "runtimes",
+  "process-managers",
+  "docker",
+  "docker-unsupported",
   "community-generators",
 ]
 `)

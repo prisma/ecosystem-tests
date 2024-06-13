@@ -16,6 +16,7 @@ pnpm vercel deploy \
 --prod --yes --force \
 --token=$VERCEL_TOKEN \
 --build-env DEBUG="prisma:*" \
+--env DEBUG="prisma:*" \
 --env DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL=$DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL \
 --scope=$VERCEL_ORG_ID 1> deployment-url.txt
 

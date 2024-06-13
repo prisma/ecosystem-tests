@@ -14,7 +14,12 @@ let backOff = -DELAY
 test('simple query', async () => {
   await new Promise((r) => setTimeout(r, (backOff += DELAY)))
 
-  const r = await fetch(endpoint + '/api')
+  const r = await fetch(endpoint + '/api', {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
+
   const data = await r.json().catch((e) => e)
 
   expect(data).toMatchObject({

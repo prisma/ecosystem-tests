@@ -6,7 +6,11 @@ const fetch = require('node-fetch').default
 jest.setTimeout(30_000)
 
 test('prisma version and output', async () => {
-  const response = await fetch(process.env.DEPLOYMENT_URL + '/')
+  const response = await fetch(process.env.DEPLOYMENT_URL + '/', {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
   const { regResult } = await response.json()
 
   expect(regResult.prismaVersion).toMatch(dependencies['@prisma/client'])
