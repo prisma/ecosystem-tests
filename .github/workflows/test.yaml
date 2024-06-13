@@ -105,6 +105,7 @@ jobs:
       - databases
       - databases-macos
       - test-runners
+      - runtimes
     if: always()
     steps:
       - run: echo "Ok"
@@ -137,6 +138,7 @@ jobs:
       - databases
       - databases-macos
       - test-runners
+      - runtimes
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -179,6 +181,7 @@ jobs:
       - databases
       - databases-macos
       - test-runners
+      - runtimes
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
@@ -1682,6 +1685,57 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
 
+
+  runtimes:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'runtimes')
+
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime:
+          - deno
+          #- bun
+        clientEngine: ['library', 'binary']
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    concurrency: ${{ github.job }}-${{ matrix.runtime }}-${{ matrix.clientEngine }}
+    env:
+      RUNTIMES_DENO_DATABASE_URL: ${{ secrets.DATAPROXY_COMMON_URL_SOURCE }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.runtime }}/pnpm-lock.yaml
+
+      - name: use deno v1.x
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.44.2
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.runtime }}
+        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.runtime }}
+      
+      
   process-managers:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'process-managers')
@@ -1696,7 +1750,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
