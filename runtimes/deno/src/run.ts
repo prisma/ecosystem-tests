@@ -6,6 +6,5 @@ const Prisma = require('../generated/client/index.js')
 // const prisma = new PrismaClient();
 const prisma: PrismaClient = new Prisma.PrismaClient({ log: ['query', 'info', 'warn', 'error'] })
 
-console.log("foo")
 const users = await prisma.user.findFirst();
 console.log(users)
