@@ -12,6 +12,7 @@ docker buildx build --load \
   --build-context utils=../../docker/_utils \
   --build-arg DEBUG=${DEBUG} \
   --build-arg PRISMA_TELEMETRY_INFORMATION="${PRISMA_TELEMETRY_INFORMATION}" \
+  --build-arg PRISMA_ENGINES_MIRROR=${PRISMA_ENGINES_MIRROR} \
   --build-arg PRISMA_CLIENT_ENGINE_TYPE=${PRISMA_CLIENT_ENGINE_TYPE} \
   --build-arg PRISMA_CLI_QUERY_ENGINE_TYPE=${PRISMA_CLIENT_ENGINE_TYPE} \
   --build-arg CI=${CI} \
