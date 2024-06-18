@@ -32,9 +32,10 @@ env:
   SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
   DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
   NEXT_TELEMETRY_DISABLED: 1
-  # Temporary override for the mirror used by the engines
-  PRISMA_ENGINES_MIRROR: 'https://pub-4c8d0335265c4484a8734643b596ecb2.r2.dev'
-  DEBUG: 'prisma:fetch-engine*'
+  # To override the endpoint used by fetch-engine to download engines artifacts:
+  # PRISMA_ENGINES_MIRROR: 'https://pub-4c8d0335265c4484a8734643b596ecb2.r2.dev/'
+  # These logs will make it easy to verify that `PRISMA_ENGINES_MIRROR` is used
+  # DEBUG: 'prisma:fetch-engine*'
 
 defaults:
   run:
