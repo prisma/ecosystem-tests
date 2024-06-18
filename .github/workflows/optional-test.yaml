@@ -33,7 +33,11 @@ env:
   ##
   SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
   SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
-
+  # To override the endpoint used by fetch-engine to download engines artifacts:
+  # PRISMA_ENGINES_MIRROR: 'https://pub-4c8d0335265c4484a8734643b596ecb2.r2.dev'
+  # These logs will make it easy to verify that `PRISMA_ENGINES_MIRROR` is used
+  # DEBUG: 'prisma:fetch-engine*'
+  
 defaults:
   run:
     # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
