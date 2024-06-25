@@ -2,8 +2,8 @@ import path from 'node:path'
 import { defineWorkersConfig, readD1Migrations } from '@cloudflare/vitest-pool-workers/config'
 
 // Read all migrations in the `migrations` directory
-const migrationsPath = path.join(__dirname, "migrations");
-const migrations = await readD1Migrations(migrationsPath);
+const migrationsPath = path.join(__dirname, 'migrations')
+const migrations = await readD1Migrations(migrationsPath)
 
 export default defineWorkersConfig({
   test: {
