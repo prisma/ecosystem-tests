@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@libsql/client':
-    specifier: ^0.6.0
-    version: 0.6.2
+    specifier: ^0.7.0
+    version: 0.7.0
   '@prisma/adapter-libsql':
     specifier: 5.17.0-dev.10
-    version: 5.17.0-dev.10(@libsql/client@0.6.2)
+    version: 5.17.0-dev.10(@libsql/client@0.7.0)
   '@prisma/client':
     specifier: 5.17.0-dev.10
     version: 5.17.0-dev.10(prisma@5.17.0-dev.10)
@@ -1463,20 +1463,21 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@libsql/client@0.6.2:
-    resolution: {integrity: sha512-xRNfRLv/dOCbV4qd+M0baQwGmvuZpMd2wG2UAPs8XmcdaPvu5ErkcaeITkxlm3hDEJVabQM1cFhMBxsugWW9fQ==}
+  /@libsql/client@0.7.0:
+    resolution: {integrity: sha512-1aLDtWzsErr68GZ640TVyOLkL/+lB2YK8cYvJIfiI7Mt+DEPB22Jkoz2QfBDg5PVGX/efeRHog2j/oVbUhxO8Q==}
     dependencies:
-      '@libsql/core': 0.6.2
+      '@libsql/core': 0.7.0
       '@libsql/hrana-client': 0.6.0
       js-base64: 3.7.7
       libsql: 0.3.18
+      promise-limit: 2.7.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
     dev: false
 
-  /@libsql/core@0.6.2:
-    resolution: {integrity: sha512-c2P4M+4u/4b2L02A0KjggO3UW51rGkhxr/7fzJO0fEAqsqrWGxuNj2YtRkina/oxfYvAof6xjp8RucNoIV/Odw==}
+  /@libsql/core@0.7.0:
+    resolution: {integrity: sha512-hCYfXa0S4t9CJtxZIWacboylrcx94ZQO0dEngH4f0f/LHg6ymHSZiubbojAwD7tNy94ahICoGPjEi6aEIyhlcQ==}
     dependencies:
       js-base64: 3.7.7
     dev: false
@@ -1567,12 +1568,12 @@ packages:
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
     dev: false
 
-  /@prisma/adapter-libsql@5.17.0-dev.10(@libsql/client@0.6.2):
+  /@prisma/adapter-libsql@5.17.0-dev.10(@libsql/client@0.7.0):
     resolution: {integrity: sha512-2S79qmtUObptw5P9VLFwbTcS3Pb1wtE42Jf8kqaOd9U4+Mi14qJZDyZxLuc+ckU69hYDA09t9ItQJ4unE/5z7g==}
     peerDependencies:
       '@libsql/client': ^0.3.5 || ^0.4.0 || ^0.5.0 || ^0.6.0
     dependencies:
-      '@libsql/client': 0.6.2
+      '@libsql/client': 0.7.0
       '@prisma/driver-adapter-utils': 5.17.0-dev.10
       async-mutex: 0.5.0
     dev: false
@@ -3543,6 +3544,10 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 5.17.0-dev.10
+
+  /promise-limit@2.7.0:
+    resolution: {integrity: sha512-7nJ6v5lnJsXwGprnGXga4wx6d1POjvi5Qmf1ivTRxTjH4Z/9Czja/UCMLVmB9N93GeWOU93XaFaEt6jbuoagNw==}
+    dev: false
 
   /prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
