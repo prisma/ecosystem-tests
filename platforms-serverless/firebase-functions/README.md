@@ -20,6 +20,6 @@ For more install methods, follow the [official install docs](https://firebase.go
 
 ### Firebase authentication
 
-A [firebase token](https://firebase.google.com/docs/cli#cli-ci-systems) needs to be set with the environment variable `FIREBASE_TOKEN`.
+A [firebase private key](https://firebase.google.com/docs/cloud-messaging/auth-server#provide-credentials-manually) needs to be set with the environment variable `FIREBASE_PRIVATE_KEY`.
 
-If you use an interactive login using `firebase login`, you need to temporarily edit `run.sh` and remove the `--token` parameter so the firebase will use your credentials saved by `firebase login`.
+If you use an interactive login using `firebase login`, you need to temporarily edit `run.sh` and remove the `GOOGLE_APPLICATION_CREDENTIALS` parameter so the firebase will use your credentials saved by `firebase login`.
