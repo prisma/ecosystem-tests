@@ -776,14 +776,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        node: [16]
         platform:
           - vercel-node-builder
           - vercel-cli
-          - vercel-with-redwood
           - vercel-with-nextjs
           - vercel-with-nextjs-caching
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04]
+        include:
+          - platform: vercel-with-redwood
+            node: 18
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -812,7 +815,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: |
             ${{
               contains(matrix.platform, 'redwood') && 'yarn' ||
