@@ -33,14 +33,6 @@ async function main() {
     'cleanup-runs', // Not a test but a job that cancels previous runs
   ]
 
-  // Keys to ignore
-  // TODO better description what this actually means
-  const keysToIgnore = [
-    'os', // We want to count folders vs references in the yaml file not when something is run across different OSes
-    'node', // We want to count folders vs references in the yaml file not when something is run across different node versions
-    'm1', // it's almost a copy of `os` but running on M1
-  ]
-
   // Get all relevant folders that _should_ appear in workflows
   const folders = glob
     .sync('**/package.json', {
@@ -74,25 +66,14 @@ async function main() {
       // jobs
       const job = testYaml['jobs'][key]
       const matrix = Boolean(job) && Boolean(job.strategy) ? job.strategy.matrix : {}
-      const folders = Object.keys(matrix)
-        .filter((key) => {
-          return !keysToIgnore.includes(key)
-        })
-        .reduce((acc, key) => acc.concat(...matrix[key]), [])
+      const folders = foldersFromMatrix(matrix)
 
       // optional jobs
       const job_optional = optionalTestYaml['jobs'][key]
       const matrix_optional =
         Boolean(job_optional) && Boolean(job_optional.strategy) ? job_optional.strategy.matrix : {}
 
-      const folders_optional = Object.keys(matrix_optional)
-        .filter((key) => {
-          // These are in optional-test.yaml, under the `platforms` directory
-          return !keysToIgnore.includes(key)
-        })
-        .reduce((acc, key) => {
-          return acc.concat(...matrix_optional[key])
-        }, [])
+      const folders_optional = foldersFromMatrix(matrix_optional)
 
       return folders.concat(folders_optional).map((folder) => `${key}/${folder}`)
     })
@@ -122,6 +103,26 @@ async function main() {
     console.log(remainingFolders)
     process.exit(1)
   }
+}
+
+// Keys to ignore
+const keysToIgnore = [
+  'os', // We want to count folders vs references in the yaml file not when something is run across different OSes
+  'node', // We want to count folders vs references in the yaml file not when something is run across different node versions
+  'm1', // it's almost a copy of `os` but running on M1
+]
+
+function foldersFromMatrix(matrix) {
+  return Object.keys(matrix)
+    .filter((key) => {
+      return !keysToIgnore.includes(key)
+    })
+    .flatMap(key => {
+      if (key == 'include' && Array.isArray(matrix[key])) {
+        return matrix[key].flatMap(foldersFromMatrix)
+      }
+      return matrix[key]
+    })
 }
 
 main()
