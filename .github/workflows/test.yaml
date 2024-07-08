@@ -485,7 +485,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        nodeVersion: [16]
+        node: [16]
         packager:
           - npm
           - npm-global
@@ -494,13 +494,13 @@ jobs:
           - pnpm-workspaces-default-output
         include:
           - packager: yarn
-            nodeVersion: 18
+            node: 18
           - packager: yarn-workspaces
-            nodeVersion: 18
+            node: 18
           - packager: yarn3-without-pnp
-            nodeVersion: 18
+            node: 18
           - packager: yarn3-workspaces-pnp
-            nodeVersion: 18 
+            node: 18 
         clientEngine: [library] #['library', 'binary']
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -524,7 +524,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.nodeVersion }}
+          node-version: ${{ matrix.node }}
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
