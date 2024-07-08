@@ -15,9 +15,6 @@ fi
 expected='{"version":"'$prisma_version'","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}'${files}'}'
 actual=$(curl "$url")
 
-# TODO Why is this here?
-GOOGLE_APPLICATION_CREDENTIALS="./privateKey.json" pnpm firebase functions:log --only "$func"
-
 if [ "$expected" != "$actual" ]; then
   echo "expected '$expected'"
   echo " but got '$actual'"
