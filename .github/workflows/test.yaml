@@ -492,6 +492,10 @@ jobs:
           - pnpm
           - pnpm-workspaces-custom-output
           - pnpm-workspaces-default-output
+          - yarn
+          - yarn-workspaces
+          - yarn3-without-pnp
+          - yarn3-workspaces-pnp
         include:
           - packager: yarn
             node: 18
@@ -779,6 +783,7 @@ jobs:
           - vercel-cli
           - vercel-with-nextjs
           - vercel-with-nextjs-caching
+          - vercel-with-redwood
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04]
         include:
