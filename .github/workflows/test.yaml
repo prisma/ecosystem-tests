@@ -485,7 +485,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [16]
+        os: [ubuntu-20.04]
         packager:
           - npm
           - npm-global
@@ -502,9 +502,7 @@ jobs:
           - packager: yarn3-workspaces-pnp
             node: 18 
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-
     env:
       # We set this env var to avoid the following error in `actions/setup-node`
       # error This project's package.json defines "packageManager": "yarn@3.7.0". However the current global version of Yarn is 1.22.21.
@@ -524,7 +522,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node || 16 }}
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
@@ -776,7 +774,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [16]
         platform:
           - vercel-node-builder
           - vercel-cli
@@ -815,7 +812,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node || 16 }}
           cache: |
             ${{
               contains(matrix.platform, 'redwood') && 'yarn' ||
