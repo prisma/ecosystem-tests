@@ -6,11 +6,11 @@ export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests driver-adapters-wasm turso-
 
 pnpm install
 
-# export VERCEL_ORG_ID=$VERCEL_ORG_ID
-# export VERCEL_PROJECT_ID=$DRIVER_ADAPTERS_TURSO_VERCEL_QWIK_EDGEMW_PROJECT_ID
+export VERCEL_ORG_ID=$VERCEL_ORG_ID
+export VERCEL_PROJECT_ID=$DRIVER_ADAPTERS_TURSO_VERCEL_QWIK_EDGEMW_PROJECT_ID
 
-# echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
-# echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
+echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
+echo "VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID"
 
 pnpm vercel deploy \
 --prod --yes --force \
@@ -18,8 +18,7 @@ pnpm vercel deploy \
 --build-env DEBUG="prisma:*" \
 --env DRIVER_ADAPTERS_TURSO_VERCEL_QWIK_EDGEMW_DATABASE_URL=$DRIVER_ADAPTERS_TURSO_VERCEL_QWIK_EDGEMW_DATABASE_URL \
 --env DRIVER_ADAPTERS_TURSO_VERCEL_QWIK_EDGEMW_TOKEN=$DRIVER_ADAPTERS_TURSO_VERCEL_QWIK_EDGEMW_TOKEN \
-1> deployment-url.txt
-# --scope=$VERCEL_ORG_ID 1> deployment-url.txt
+--scope=$VERCEL_ORG_ID 1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
