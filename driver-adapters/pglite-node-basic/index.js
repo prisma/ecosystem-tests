@@ -1,14 +1,18 @@
+// @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
 import { PGlite } from '@electric-sql/pglite'
-import { readFile } from 'fs/promises'
 import { PrismaPGlite } from 'pglite-prisma-adapter'
+import { readFile } from 'fs/promises'
 
 const client = new PGlite() // in memory
 //const client = new PGlite("foo.database") // persist to disk
 const adapter = new PrismaPGlite(client)
 const prisma = new PrismaClient({ adapter })
 
-async function applyMigrations(client: any) {
+/**
+ * @param {PGlite} client
+ */
+async function applyMigrations(client) {
   // read prisma/migration.sql file and apply it
   console.log('Applying migrations...')
   const migration = await readFile('./prisma/migration.sql', 'utf8')
@@ -17,7 +21,10 @@ async function applyMigrations(client: any) {
 }
 
 export async function handler() {
-  const getResult = async (prisma: any) => ({
+  /**
+   * @param {PrismaClient | Prisma.TransactionClient} prisma 
+  */
+  const getResult = async (prisma) => ({
     prismaVersion: Prisma.prismaVersion.client,
     deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
     create: await prisma.user.create({
@@ -114,7 +121,6 @@ export async function handler() {
           age: true,
         },
       })
-      // @ts-expect-error
       .then(({ _avg }) => ({ age: Math.trunc(_avg?.age ?? 0) })),
     groupBy: await prisma.user.groupBy({
       by: ['age'],
