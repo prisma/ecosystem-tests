@@ -12,7 +12,7 @@ set +u
 matrix=$3
 set -u
 
-test_workflow_link=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs" | jq -rj ".jobs[] | select(.name==\"$GITHUB_JOB\") | .html_url")
+test_workflow_link=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs" --jq  ".jobs[] | select(.name==\"$GITHUB_JOB\") | .html_url")
 echo "!!!!!! $GITHUB_REPOSITORY $GITHUB_RUN_ID $test_workflow_link !!!!!"
 
 # In platforms/firebase-functions, the file exists in /functions sub-directory, so we can't hardcode the package.json path
