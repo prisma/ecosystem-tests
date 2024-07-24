@@ -2,7 +2,7 @@
 
 set -eux
 
-ssh -tt -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com "ls -a1 /home/ec2-user | xargs du -sh"
+ssh -tt -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com "ls -la"
 sh sync-to-remote.sh
 
 echo "PRISMA_CLIENT_ENGINE_TYPE = $PRISMA_CLIENT_ENGINE_TYPE"
