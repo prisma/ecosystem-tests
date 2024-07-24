@@ -2,8 +2,7 @@
 
 set -eux
 
-echo "IN RUN: /home/ec2-user/aws-graviton/$GITHUB_JOB/$GITHUB_RUN_ID/$PRISMA_CLIENT_ENGINE_TYPE"
-ssh -tt -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com "ls -la /home/ec2-user/aws-graviton/platforms"
+ssh -tt -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com "find /home/ec2-user/aws-graviton/$GITHUB_JOB -mtime +0 -exec rm -rf {}\;"
 sh sync-to-remote.sh
 
 echo "PRISMA_CLIENT_ENGINE_TYPE = $PRISMA_CLIENT_ENGINE_TYPE"
