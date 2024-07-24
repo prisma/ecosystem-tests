@@ -2,7 +2,6 @@
 
 set -eux
 
-ssh -tt -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com "du -sh .local/share/*"
 sh sync-to-remote.sh
 
 echo "PRISMA_CLIENT_ENGINE_TYPE = $PRISMA_CLIENT_ENGINE_TYPE"
@@ -17,6 +16,7 @@ ssh -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com -tt "
 
     npm i -g pnpm@8;
     pnpm -v;
+    pnpm store prune
 
     pnpm install;
     pnpm prisma generate;
