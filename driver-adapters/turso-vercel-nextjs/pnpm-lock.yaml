@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@libsql/client':
-    specifier: ^0.7.0
-    version: 0.7.0
+    specifier: ^0.8.0
+    version: 0.8.1
   '@prisma/adapter-libsql':
     specifier: 5.18.0-dev.11
-    version: 5.18.0-dev.11(@libsql/client@0.7.0)
+    version: 5.18.0-dev.11(@libsql/client@0.8.1)
   '@prisma/client':
     specifier: 5.18.0-dev.11
     version: 5.18.0-dev.11(prisma@5.18.0-dev.11)
@@ -804,11 +804,11 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@libsql/client@0.7.0:
-    resolution: {integrity: sha512-1aLDtWzsErr68GZ640TVyOLkL/+lB2YK8cYvJIfiI7Mt+DEPB22Jkoz2QfBDg5PVGX/efeRHog2j/oVbUhxO8Q==}
+  /@libsql/client@0.8.1:
+    resolution: {integrity: sha512-xGg0F4iTDFpeBZ0r4pA6icGsYa5rG6RAG+i/iLDnpCAnSuTqEWMDdPlVseiq4Z/91lWI9jvvKKiKpovqJ1kZWA==}
     dependencies:
-      '@libsql/core': 0.7.0
-      '@libsql/hrana-client': 0.6.0
+      '@libsql/core': 0.8.1
+      '@libsql/hrana-client': 0.6.2
       js-base64: 3.7.7
       libsql: 0.3.18
       promise-limit: 2.7.0
@@ -817,8 +817,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@libsql/core@0.7.0:
-    resolution: {integrity: sha512-hCYfXa0S4t9CJtxZIWacboylrcx94ZQO0dEngH4f0f/LHg6ymHSZiubbojAwD7tNy94ahICoGPjEi6aEIyhlcQ==}
+  /@libsql/core@0.8.1:
+    resolution: {integrity: sha512-u6nrj6HZMTPsgJ9EBhLzO2uhqhlHQJQmVHV+0yFLvfGf3oSP8w7TjZCNUgu1G8jHISx6KFi7bmcrdXW9lRt++A==}
     dependencies:
       js-base64: 3.7.7
     dev: false
@@ -839,8 +839,8 @@ packages:
     dev: false
     optional: true
 
-  /@libsql/hrana-client@0.6.0:
-    resolution: {integrity: sha512-k+fqzdjqg3IvWfKmVJK5StsbjeTcyNAXFelUbXbGNz3yH1gEVT9mZ6kmhsIXP30ZSyVV0AE1Gi25p82mxC9hwg==}
+  /@libsql/hrana-client@0.6.2:
+    resolution: {integrity: sha512-MWxgD7mXLNf9FXXiM0bc90wCjZSpErWKr5mGza7ERy2FJNNMXd7JIOv+DepBA1FQTIfI8TFO4/QDYgaQC0goNw==}
     dependencies:
       '@libsql/isomorphic-fetch': 0.2.1
       '@libsql/isomorphic-ws': 0.1.5
@@ -1033,12 +1033,12 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@prisma/adapter-libsql@5.18.0-dev.11(@libsql/client@0.7.0):
+  /@prisma/adapter-libsql@5.18.0-dev.11(@libsql/client@0.8.1):
     resolution: {integrity: sha512-vZerpFv7GD+66NkcUDlDnO38VJzgfY1CRXVBhWvs1Zo1Z63SyXFCCmqgy6KxkN/yGwnZ9KMy9iFkZgjV+Kkm1A==}
     peerDependencies:
       '@libsql/client': ^0.3.5 || ^0.4.0 || ^0.5.0 || ^0.6.0
     dependencies:
-      '@libsql/client': 0.7.0
+      '@libsql/client': 0.8.1
       '@prisma/driver-adapter-utils': 5.18.0-dev.11
       async-mutex: 0.5.0
     dev: false
