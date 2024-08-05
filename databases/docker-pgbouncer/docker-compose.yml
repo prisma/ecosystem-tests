@@ -1,6 +1,38 @@
-version: "3.1"
-
 services:
+  # Postgres database.
+  postgres:
+    image: postgres:9.6.24
+    environment:
+      POSTGRES_USER: postgres # define credentials
+      POSTGRES_PASSWORD: postgres # define credentials
+      POSTGRES_DB: postgres # define database
+    ports:
+      - 5433:5432 # Postgres port
+    healthcheck:
+      # specifying user and database is needed to avoid `FATAL:  role "root" does not exist`
+      # spam in the logs
+      test: ['CMD', 'pg_isready', '-U', 'postgres', '-d', 'postgres']
+      interval: 5s
+      timeout: 2s
+      retries: 20
+
+  # Connection pooler for the Postgres database.
+  pgbouncer:
+    image: brainsam/pgbouncer:1.12.0
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres # define credentials
+      DB_PASSWORD: postgres # define credentials
+      DB_port: 5433 # define database
+      POOL_MODE: "transaction"
+      MAX_CLIENT_CONN: "1000"
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
+    ports:
+      - 6433:6432 # PgBouncer port
+
   # pgadmin4 for pgbouncer.
   pgadmin4-master:
     image: fenglc/pgadmin4
@@ -11,26 +43,5 @@ services:
     environment:
       DEFAULT_USER: pgbouncer_database
       DEFAULT_PASSWORD: 12345678
-  # Postgres database.
-  postgres:
-    image: postgres:9.6.24
-    environment:
-      POSTGRES_USER: postgres # define credentials
-      POSTGRES_PASSWORD: postgres # define credentials
-      POSTGRES_DB: postgres # define database
-    ports:
-      - 5433:5432 # Postgres port
-  # Postgres database.
-  pgbouncer:
-    image: brainsam/pgbouncer:1.12.0
-    environment:
-      DB_HOST: postgres
-      DB_USER: postgres # define credentials
-      DB_PASSWORD: postgres # define credentials
-      DB_port: 5433 # define database
-      POOL_MODE: "transaction"
-      MAX_CLIENT_CONN: "1000"
-    links:
-      - postgres:postgres
-    ports:
-      - 6433:6432 # PgBouncer port
+    depends_on:
+      - pgbouncer
