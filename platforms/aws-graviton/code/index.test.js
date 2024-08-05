@@ -31,6 +31,7 @@ describe('Prisma', () => {
 [
   "default.d.ts",
   "default.js",
+  "deno",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
@@ -48,6 +49,7 @@ describe('Prisma', () => {
 [
   "default.d.ts",
   "default.js",
+  "deno",
   "edge.d.ts",
   "edge.js",
   "index-browser.js",
