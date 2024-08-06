@@ -12,13 +12,13 @@ async function getResponse() {
   const adapter = new PrismaLibSQL(client)
   const prisma = new PrismaClient({ adapter })
 
-  const getResult = async (prisma) => {
+  const getResult = async (prisma, suffix) => {
     const result = {
       prismaVersion: Prisma.prismaVersion.client,
       deleteMany: await prisma.user.deleteMany().then(() => ({ count: 0 })),
       create: await prisma.user.create({
         data: {
-          email: `test-1@prisma.io`,
+          email: `test-1-${suffix}@prisma.io`,
           age: 27,
           name: 'Test 1',
         },
@@ -31,12 +31,12 @@ async function getResponse() {
       createMany: await prisma.user.createMany({
         data: [
           {
-            email: `test-2@prisma.io`,
+            email: `test-2-${suffix}@prisma.io`,
             age: 29,
             name: 'Test 2',
           },
           {
-            email: `test-3@prisma.io`,
+            email: `test-3-${suffix}@prisma.io`,
             age: 29,
             name: 'Test 3',
           },
@@ -50,17 +50,17 @@ async function getResponse() {
         },
         data: [
           {
-            email: `test-4@prisma.io`,
+            email: `test-4-${suffix}@prisma.io`,
             age: 30,
             name: 'Test 4',
           },
           {
-            email: `test-5@prisma.io`,
+            email: `test-5-${suffix}@prisma.io`,
             age: 30,
             name: 'Test 5',
           },
           {
-            email: `test-6@prisma.io`,
+            email: `test-6-${suffix}@prisma.io`,
             age: 30,
             name: 'Test 6',
           },
@@ -78,7 +78,7 @@ async function getResponse() {
       }),
       findUnique: await prisma.user.findUnique({
         where: {
-          email: 'test-1@prisma.io',
+          email: `test-1-${suffix}@prisma.io`,
         },
         select: {
           email: true,
@@ -88,7 +88,7 @@ async function getResponse() {
       }),
       update: await prisma.user.update({
         where: {
-          email: 'test-1@prisma.io',
+          email: `test-1-${suffix}@prisma.io`,
         },
         data: {
           age: 26,
@@ -119,7 +119,7 @@ async function getResponse() {
       }),
       delete: await prisma.user.delete({
         where: {
-          email: 'test-1@prisma.io',
+          email: `test-1-${suffix}@prisma.io`,
         },
         select: {
           email: true,
@@ -158,7 +158,7 @@ async function getResponse() {
       }),
       findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
         where: {
-          email: 'test-2@prisma.io',
+          email: `test-2-${suffix}@prisma.io`,
         },
         select: {
           age: true,
@@ -168,10 +168,10 @@ async function getResponse() {
       }),
       upsert: await prisma.user.upsert({
         where: {
-          email: 'test-upsert@prisma.io',
+          email: `test-upsert-${suffix}@prisma.io`,
         },
         create: {
-          email: 'test-upsert@prisma.io',
+          email: `test-upsert-${suffix}@prisma.io`,
           age: 30,
           name: 'Test upsert',
         },
@@ -190,12 +190,12 @@ async function getResponse() {
     return result
   }
 
-  const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
+  const regResult = await getResult(prisma, 'normal').catch((error) => ({ error_in_regResult: error.message }))
 
   // Wait a bit
   await new Promise((resolve) => setTimeout(resolve, 1_000))
 
-  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error_in_itxResult: error.message }))
+  const itxResult = await prisma.$transaction(tx => getResult(tx, 'tx')).catch((error) => ({ error_in_itxResult: error.message }))
 
   return { itxResult, regResult }
 }
