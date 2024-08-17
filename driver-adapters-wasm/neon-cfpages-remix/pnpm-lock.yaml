@@ -45,7 +45,7 @@ devDependencies:
     version: 29.7.0
   '@remix-run/dev':
     specifier: 2.11.2
-    version: 2.11.2(@remix-run/react@2.11.2)(typescript@5.5.4)(vite@5.4.1)(wrangler@3.71.0)
+    version: 2.11.2(@remix-run/react@2.11.2)(typescript@5.5.4)(vite@5.4.1)(wrangler@3.72.0)
   '@types/react':
     specifier: 18.3.3
     version: 18.3.3
@@ -77,8 +77,8 @@ devDependencies:
     specifier: 4.3.2
     version: 4.3.2(typescript@5.5.4)(vite@5.4.1)
   wrangler:
-    specifier: 3.71.0
-    version: 3.71.0(@cloudflare/workers-types@4.20240815.0)
+    specifier: 3.72.0
+    version: 3.72.0(@cloudflare/workers-types@4.20240815.0)
 
 packages:
 
@@ -576,8 +576,9 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@cloudflare/workers-shared@0.1.0:
-    resolution: {integrity: sha512-SyD4iw6jM4anZaG+ujgVETV4fulF2KHBOW31eavbVN7TNpk2l4aJgwY1YSPK00IKSWsoQuH2TigR446KuT5lqQ==}
+  /@cloudflare/workers-shared@0.2.0:
+    resolution: {integrity: sha512-tIWLooWkBMuoKRk72lr6YrEtVlVdUTtAGVmPOnUroMrnri/9YLx+mVawL0/egDgSGmPbmvkdBFsUGRuI+aZmxg==}
+    engines: {node: '>=16.7.0'}
     dev: true
 
   /@cloudflare/workers-types@4.20240815.0:
@@ -1747,7 +1748,7 @@ packages:
       typescript: 5.5.4
     dev: false
 
-  /@remix-run/dev@2.11.2(@remix-run/react@2.11.2)(typescript@5.5.4)(vite@5.4.1)(wrangler@3.71.0):
+  /@remix-run/dev@2.11.2(@remix-run/react@2.11.2)(typescript@5.5.4)(vite@5.4.1)(wrangler@3.72.0):
     resolution: {integrity: sha512-9DGb2UOIO4jOdws04Z+KmCeEBqbP36XvJZdcd4w16wDGI0I1ZY1c5ro58tB/7zPwN40s9MD9UzCYm6P+EkdeAg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
@@ -1822,7 +1823,7 @@ packages:
       tsconfig-paths: 4.2.0
       typescript: 5.5.4
       vite: 5.4.1
-      wrangler: 3.71.0(@cloudflare/workers-types@4.20240815.0)
+      wrangler: 3.72.0(@cloudflare/workers-types@4.20240815.0)
       ws: 7.5.10
     transitivePeerDependencies:
       - '@types/node'
@@ -5448,29 +5449,6 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /miniflare@3.20240806.0:
-    resolution: {integrity: sha512-jDsXBJOLUVpIQXHsluX3xV0piDxXolTCsxdje2Ex2LTC9PsSoBIkMwvCmnCxe9wpJJCq8rb0UMyeEn3KOF3LOw==}
-    engines: {node: '>=16.13'}
-    hasBin: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      acorn: 8.12.1
-      acorn-walk: 8.3.2
-      capnp-ts: 0.7.0
-      exit-hook: 2.2.1
-      glob-to-regexp: 0.4.1
-      stoppable: 1.1.0
-      undici: 5.28.4
-      workerd: 1.20240806.0
-      ws: 8.18.0
-      youch: 3.3.3
-      zod: 3.22.5
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: true
-
   /miniflare@3.20240806.1:
     resolution: {integrity: sha512-wJq3YQYx9k83L2CNYtxvwWvXSi+uHrC6aFoXYSbzhxIDlUWvMEqippj+3HeKLgsggC31nHJab3b1Pifg9IxIFQ==}
     engines: {node: '>=16.13'}
@@ -5492,7 +5470,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
 
   /minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -7369,8 +7346,8 @@ packages:
       '@cloudflare/workerd-linux-arm64': 1.20240806.0
       '@cloudflare/workerd-windows-64': 1.20240806.0
 
-  /wrangler@3.71.0(@cloudflare/workers-types@4.20240815.0):
-    resolution: {integrity: sha512-WHWBmU2z0p1hRtSIIP5HEeoR+6aNpuZR82HMXAwpfeiyijjfkMyt/TUs8gvIOKC3x3+ETQQIdVeX2al5KtrIxQ==}
+  /wrangler@3.72.0(@cloudflare/workers-types@4.20240815.0):
+    resolution: {integrity: sha512-9sryHTCtCj48vUC5y/M3Dsx02U1bT6mK9E41TXBCpSJgWh8UvWG/xgmu2dY93Mqj9aJIvK/kwwIBRlNFRwF7Hw==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -7380,7 +7357,7 @@ packages:
         optional: true
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
-      '@cloudflare/workers-shared': 0.1.0
+      '@cloudflare/workers-shared': 0.2.0
       '@cloudflare/workers-types': 4.20240815.0
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
       '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
@@ -7388,7 +7365,7 @@ packages:
       chokidar: 3.6.0
       date-fns: 3.6.0
       esbuild: 0.17.19
-      miniflare: 3.20240806.0
+      miniflare: 3.20240806.1
       nanoid: 3.3.7
       path-to-regexp: 6.2.2
       resolve: 1.22.8
