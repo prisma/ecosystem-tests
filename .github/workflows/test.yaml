@@ -731,7 +731,7 @@ jobs:
         with:
           # The `firebase-tools` version used in `firebase-functions` requires Node.js 18,
           # but Prisma still supports Node.js 16.
-          node-version: ${{ if(contains(matrix.platform, 'firebase-functions')) }} 18 {{ else }} 16 {{ endif }}
+          node-version: ${{ contains(matrix.platform, 'firebase-functions') && '18' || '16' }}
           cache: |
             ${{
               contains(matrix.platform, 'azure') && 'npm' ||
