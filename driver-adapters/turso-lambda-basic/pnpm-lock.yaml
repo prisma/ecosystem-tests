@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@libsql/client':
-    specifier: ^0.9.0
-    version: 0.9.0
+    specifier: ^0.10.0
+    version: 0.10.0
   '@prisma/adapter-libsql':
     specifier: 5.20.0-dev.2
-    version: 5.20.0-dev.2(@libsql/client@0.9.0)
+    version: 5.20.0-dev.2(@libsql/client@0.10.0)
   '@prisma/client':
     specifier: 5.20.0-dev.2
     version: 5.20.0-dev.2(prisma@5.20.0-dev.2)
@@ -1475,10 +1475,10 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@libsql/client@0.9.0:
-    resolution: {integrity: sha512-mT+91wtb8pxK9SWd566D5W2VUCemksUMqICRBtf0WXiS7XzNcQhWyrwYOnVrVmTSze/SCCsNNEKIkCRwk/pr2Q==}
+  /@libsql/client@0.10.0:
+    resolution: {integrity: sha512-2ERn08T4XOVx34yBtUPq0RDjAdd9TJ5qNH/izugr208ml2F94mk92qC64kXyDVQINodWJvp3kAdq6P4zTtCZ7g==}
     dependencies:
-      '@libsql/core': 0.9.0
+      '@libsql/core': 0.10.0
       '@libsql/hrana-client': 0.6.2
       js-base64: 3.7.7
       libsql: 0.4.1
@@ -1488,8 +1488,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@libsql/core@0.9.0:
-    resolution: {integrity: sha512-rCsS/EC32K8ARjDQJGqauGZmkR6orOOY4I7898PyQ/mmltAkMwRgz5kjEmYRZ42o7mP0ayJfbw28qgv7SRFEgg==}
+  /@libsql/core@0.10.0:
+    resolution: {integrity: sha512-rqynAXGaiSpTsykOZdBtI1N4z4O+KZ6mt33K/aHeXAY0gSIfK/ctxuWa0Y1Bjo4FMz1idBTCXz4Ps5kITOvZZw==}
     dependencies:
       js-base64: 3.7.7
     dev: false
@@ -1636,12 +1636,12 @@ packages:
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
     dev: false
 
-  /@prisma/adapter-libsql@5.20.0-dev.2(@libsql/client@0.9.0):
+  /@prisma/adapter-libsql@5.20.0-dev.2(@libsql/client@0.10.0):
     resolution: {integrity: sha512-tkQl+2K85gW4GkFmtR4vSz8YND4ub4zv/KGgq3LgTXC0SJP9zrssbky79sqLVEJBItFn/HdSVudveF9Tram6Eg==}
     peerDependencies:
       '@libsql/client': ^0.3.5 || ^0.4.0 || ^0.5.0 || ^0.6.0 || ^0.7.0 || ^0.8.0
     dependencies:
-      '@libsql/client': 0.9.0
+      '@libsql/client': 0.10.0
       '@prisma/driver-adapter-utils': 5.20.0-dev.2
       async-mutex: 0.5.0
     dev: false
