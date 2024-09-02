@@ -1,4 +1,5 @@
 #! /bin/sh
+set -eux
 
 # Pin to v8 as latest (v9) needs Node.js v18.12 minimum
 # see https://r.pnpm.io/comp
