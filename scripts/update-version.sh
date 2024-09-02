@@ -1,4 +1,5 @@
 #! /bin/sh
+set -eux
 
 #
 # Note: any changes below should be reflected to `ignoreDeps` in `renovate.json`
