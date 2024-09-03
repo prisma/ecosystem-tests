@@ -3,14 +3,6 @@
 set -eux
 export DEBUG="*"
 
-PRISMA_TELEMETRY_INFORMATION=""
-CI="false"
-PRISMA_CLIENT_ENGINE_TYPE="library"
-PRISMA_ENGINES_MIRROR="https://binaries.prisma.sh"
-
-DOCKER_PLATFORM_ARCH="linux/amd64"
-PRISMA_DOCKER_IMAGE_NAME="prisma-ubuntu-22.04-amd64-openssl-1.1.x"
-
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \
   --build-context app=. \
