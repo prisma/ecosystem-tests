@@ -694,6 +694,9 @@ jobs:
           - serverless-framework-lambda
         clientEngine: ['library', 'binary']
         os: [ubuntu-20.04]
+        include:
+          - platform: firebase-functions
+            node: '18'
         exclude:
           # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
           - clientEngine: library
@@ -731,7 +734,7 @@ jobs:
         with:
           # The `firebase-tools` version used in `firebase-functions` requires Node.js 18,
           # but Prisma still supports Node.js 16.
-          node-version: ${{ contains(matrix.platform, 'firebase-functions') && '18' || '16' }}
+          node-version: ${{ matrix.node || '16' }}
           cache: |
             ${{
               contains(matrix.platform, 'azure') && 'npm' ||
