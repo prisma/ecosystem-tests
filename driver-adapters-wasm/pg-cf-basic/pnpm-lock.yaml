@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@prisma/adapter-pg':
     specifier: 5.20.0-dev.15
-    version: 5.20.0-dev.15(pg@8.12.0)
+    version: 5.20.0-dev.15(pg@8.13.0)
   '@prisma/client':
     specifier: 5.20.0-dev.15
     version: 5.20.0-dev.15(prisma@5.20.0-dev.15)
@@ -15,8 +15,8 @@ dependencies:
     specifier: ^2.0.6
     version: 2.0.6
   pg:
-    specifier: 8.12.0
-    version: 8.12.0
+    specifier: 8.13.0
+    version: 8.13.0
 
 devDependencies:
   '@jest/globals':
@@ -1074,13 +1074,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@prisma/adapter-pg@5.20.0-dev.15(pg@8.12.0):
+  /@prisma/adapter-pg@5.20.0-dev.15(pg@8.13.0):
     resolution: {integrity: sha512-W9JA5bRJ2mIyFmtmh9A1krjfjMoU/6utMLzoMvLwgfUACErg8THC2HQrA8sJh2f9GufAeNeBON/l0M0lmq6bJg==}
     peerDependencies:
       pg: ^8.11.3
     dependencies:
       '@prisma/driver-adapter-utils': 5.20.0-dev.15
-      pg: 8.12.0
+      pg: 8.13.0
       postgres-array: 3.0.2
     dev: false
 
@@ -2695,8 +2695,8 @@ packages:
     dev: false
     optional: true
 
-  /pg-connection-string@2.6.4:
-    resolution: {integrity: sha512-v+Z7W/0EO707aNMaAEfiGnGL9sxxumwLl2fJvCQtMn9Fxsg+lPpPkdcyBSv/KFgpGdYkMfn+EI1Or2EHjpgLCA==}
+  /pg-connection-string@2.7.0:
+    resolution: {integrity: sha512-PI2W9mv53rXJQEOb8xNR8lH7Hr+EKa6oJa38zsK0S/ky2er16ios1wLKhZyxzD7jUReiWokc9WK5nxSnC7W1TA==}
     dev: false
 
   /pg-int8@1.0.1:
@@ -2704,16 +2704,16 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
-  /pg-pool@3.6.2(pg@8.12.0):
-    resolution: {integrity: sha512-Htjbg8BlwXqSBQ9V8Vjtc+vzf/6fVUuak/3/XXKA9oxZprwW3IMDQTGHP+KDmVL7rtd+R1QjbnCFPuTHm3G4hg==}
+  /pg-pool@3.7.0(pg@8.13.0):
+    resolution: {integrity: sha512-ZOBQForurqh4zZWjrgSwwAtzJ7QiRX0ovFkZr2klsen3Nm0aoh33Ls0fzfv3imeH/nw/O27cjdz5kzYJfeGp/g==}
     peerDependencies:
       pg: '>=8.0'
     dependencies:
-      pg: 8.12.0
+      pg: 8.13.0
     dev: false
 
-  /pg-protocol@1.6.1:
-    resolution: {integrity: sha512-jPIlvgoD63hrEuihvIg+tJhoGjUsLPn6poJY9N5CnlPd91c2T18T/9zBtLxZSb1EhYxBRoZJtzScCaWlYLtktg==}
+  /pg-protocol@1.7.0:
+    resolution: {integrity: sha512-hTK/mE36i8fDDhgDFjy6xNOG+LCorxLG3WO17tku+ij6sVHXh1jQUJ8hYAnRhNla4QVD2H8er/FOjc/+EgC6yQ==}
     dev: false
 
   /pg-types@2.2.0:
@@ -2727,8 +2727,8 @@ packages:
       postgres-interval: 1.2.0
     dev: false
 
-  /pg@8.12.0:
-    resolution: {integrity: sha512-A+LHUSnwnxrnL/tZ+OLfqR1SxLN3c/pgDztZ47Rpbsd4jUytsTtwQo/TLPRzPJMp/1pbhYVhH9cuSZLAajNfjQ==}
+  /pg@8.13.0:
+    resolution: {integrity: sha512-34wkUTh3SxTClfoHB3pQ7bIMvw9dpFU1audQQeZG837fmHfHpr14n/AELVDoOYVDW2h5RDWU78tFjkD+erSBsw==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       pg-native: '>=3.0.1'
@@ -2736,9 +2736,9 @@ packages:
       pg-native:
         optional: true
     dependencies:
-      pg-connection-string: 2.6.4
-      pg-pool: 3.6.2(pg@8.12.0)
-      pg-protocol: 1.6.1
+      pg-connection-string: 2.7.0
+      pg-pool: 3.7.0(pg@8.13.0)
+      pg-protocol: 1.7.0
       pg-types: 2.2.0
       pgpass: 1.0.5
     optionalDependencies:
