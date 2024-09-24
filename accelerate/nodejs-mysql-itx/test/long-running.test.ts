@@ -56,7 +56,7 @@ describe('long-running', () => {
         await result
       } catch (error) {
         console.log(error)
-        console.log(error.message)
+        console.log((error as any).message)
       }
 
       // Example error:
