@@ -52,18 +52,11 @@ describe('long-running', () => {
         },
       )
 
-      try {
-        await result
-      } catch (error) {
-        console.log(error)
-        console.log((error as any).message)
-      }
-
       // Example error:
       // [BadRequestError: This request could not be understood by the server: {"type":"UnknownJsonError","body":{"code":"P6005","message":"An invalid parameter was provided. Interactive transactions running through Accelerate are limited to a max timeout of 15000ms"}} (The request id was: 8057295d4d232681)]`)
       await expect(result).rejects.toMatchObject({
         message: expect.stringContaining(
-          'This request could not be understood by the server: {"type":"UnknownJsonError","body":{"code":"P6005","message":"An invalid parameter was provided. Interactive transactions running through Accelerate are limited to a max timeout of 15000ms"}} (The request id was:',
+          'This request could not be understood by the server: {"type":"UnknownJsonError","body":{"code":"P6005","message":"An invalid parameter was provided. Interactive transactions running through Accelerate are limited to a max timeout of 15000ms"}}',
         ),
         code: 'P5000',
         clientVersion: prismaClientVersion,
