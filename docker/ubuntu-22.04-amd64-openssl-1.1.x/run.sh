@@ -3,6 +3,9 @@
 set -eux
 export DEBUG="*"
 
+DOCKER_PLATFORM_ARCH="linux/amd64"
+PRISMA_DOCKER_IMAGE_NAME="prisma-ubuntu-22.04-amd64-openssl-1.1.x"
+
 docker buildx build --load \
   --platform="${DOCKER_PLATFORM_ARCH}" \
   --build-context app=. \
