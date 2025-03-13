@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Exit on error
-set -e
+set -euo pipefail
 
 # Take argument from command line
 FN_RESOURCE_GROUP=$1 # prisma-e2e-windows or prisma-e2e-linux
@@ -14,7 +14,7 @@ if [ -z "$FN_RESOURCE_GROUP" ]; then
 fi
 
 # Ensure the user is logged in
-if ! az account show > /dev/null 2>&1; then
+if ! az account show &> /dev/null then
     echo "You are not logged into Azure. Please run 'az login' first."
     exit 1
 fi
@@ -25,7 +25,7 @@ echo "Using subscription: $SUBSCRIPTION_ID"
 
 # Get all Function Apps in the current subscription
 echo "Fetching all Function Apps in resource group $FN_RESOURCE_GROUP..."
-FUNCTION_APPS=$(az functionapp list --resource-group $FN_RESOURCE_GROUP --query "[].{name:name, resourceGroup:resourceGroup, appInsights:appInsights}" -o json)
+FUNCTION_APPS=$(az functionapp list --resource-group "$FN_RESOURCE_GROUP" --query "[].{name:name, resourceGroup:resourceGroup, appInsights:appInsights}" -o json)
 
 # Check if there are any function apps
 if [ "$FUNCTION_APPS" == "[]" ]; then
