@@ -1,11 +1,11 @@
 #! /bin/sh
 set -eux
 
-# Pin to v8 as latest (v9) needs Node.js v18.12 minimum
+# Pin to v9.
 # see https://r.pnpm.io/comp
-# corepack install --global pnpm@8
+# corepack install --global pnpm@9
 # Legacy command
-corepack prepare pnpm@8.15.7 --activate
+corepack prepare pnpm@9.15.8 --activate
 corepack enable
 
 # pnpm -v
