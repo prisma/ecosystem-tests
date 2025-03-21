@@ -12,7 +12,7 @@ pnpm prisma generate
 # Make sure build folder does not exist
 rm -rf build
 # Build pages function to build/_worker.js
-pnpm wrangler pages functions build fns --compatibility-flags "nodejs_compat" --outdir build/_worker.js
+pnpm wrangler pages functions build fns --compatibility-flags "nodejs_compat" --compatibility_date "2024-09-23" --outdir build/_worker.js
 # Copy index.html to build folder
 cp index.html build/index.html
 # Now deploy the _worker.js alongside the index.html asset to Pages
