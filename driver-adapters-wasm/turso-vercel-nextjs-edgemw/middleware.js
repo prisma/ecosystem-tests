@@ -5,11 +5,10 @@ import { createClient } from '@libsql/client/web'
 import { PrismaLibSQL } from '@prisma/adapter-libsql'
 
 async function getResponse() {
-  const client = createClient({
+  const adapter = new PrismaLibSQL({
     url: process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL,
     authToken: process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN,
   })
-  const adapter = new PrismaLibSQL(client)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {

@@ -12,8 +12,8 @@ importers:
         specifier: 6.6.0-dev.55
         version: 6.6.0-dev.55(prisma@6.6.0-dev.55)
       '@tidbcloud/prisma-adapter':
-        specifier: git://github.com/jacek-prisma/tidbcloud-prisma-adapter#44fbdd6
-        version: https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/44fbdd6(@tidbcloud/serverless@0.2.0)
+        specifier: git://github.com/jacek-prisma/tidbcloud-prisma-adapter#8559ec7
+        version: https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/8559ec7
       '@tidbcloud/serverless':
         specifier: 0.2.0
         version: 0.2.0
@@ -517,14 +517,14 @@ packages:
   '@prisma/config@6.6.0-dev.55':
     resolution: {integrity: sha512-thRVVLV+JEo1GInl2kpG3ZdDHEbHfFIVQv6SN0t8eY6FSR4H5uLxpsASqz2GVd2GRtrac96lL9AeY74KROQ2/w==}
 
-  '@prisma/debug@6.5.0-dev.50':
-    resolution: {integrity: sha512-HrbgVpkBth4fStTd6VmIe7d9GcuDHBzHLfoVTSQ867KkFpSSM0ZhPD1Gw8QhpXoB9/Y4wH0mn+LB+EA+6q+nxQ==}
+  '@prisma/debug@6.6.0-dev.54':
+    resolution: {integrity: sha512-RpikqPUEyENSd1/yfjZOlyxZwOp/+69ZmSuPMP/en3WUQJihHsM86/oI+1mmQqZBuFUCLFsN5LH+nTSgu3WNXA==}
 
   '@prisma/debug@6.6.0-dev.55':
     resolution: {integrity: sha512-rmylymk4nODmY3WboEjGWCKTcOa5d7kuM2+L06Ow1Gg9S7h7GKCQP88oWnMibE7ypMkTJmUHMKYX8YGOSeRvig==}
 
-  '@prisma/driver-adapter-utils@6.5.0-dev.50':
-    resolution: {integrity: sha512-1RSCj2gJam5sSFv4h+IegzCkckWFL9tuaZQ3lV7cf+VDyLkhPgHKVA+EK4w4CyjZUkS+Kt7FhW0vL2lAU6hICQ==}
+  '@prisma/driver-adapter-utils@6.6.0-dev.54':
+    resolution: {integrity: sha512-djtU9JFnSk2FvIKf5n4kqeR/JuiQKt8xEiFPCHD5Bk+AHgkEJtpv59V1PT1JU60JJzGqmQhG33eme6SGiimvRQ==}
 
   '@prisma/engines-version@6.6.0-26.47cb872770bc2c9ff45909bd09f7326df36d9130':
     resolution: {integrity: sha512-0mMF91hKQpDdlMvtqEL1DHuem9XHZ2+bYXP4TYo1Y7cns05U/sG2Ze4xzFxyGfrycMJq/9CrfTKim1cdh82YKw==}
@@ -547,11 +547,13 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@tidbcloud/prisma-adapter@https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/44fbdd6':
-    resolution: {tarball: https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/44fbdd6}
+  '@tidbcloud/prisma-adapter@https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/8559ec7':
+    resolution: {tarball: https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/8559ec7}
     version: 5.20.0
-    peerDependencies:
-      '@tidbcloud/serverless': '>= 0.1.0'
+
+  '@tidbcloud/serverless@0.1.1':
+    resolution: {integrity: sha512-km2P5Mgr9nqVah5p5aMYbO3dBqecSwZ0AU7+BhJH+03L2eJO6qCATcBR8UHPuVLhA7GCt3CambKvVYK79pVQ2g==}
+    engines: {node: '>=16'}
 
   '@tidbcloud/serverless@0.2.0':
     resolution: {integrity: sha512-UGmMa9hYeRVcmDjsUE/vNYbsiS4PGHU2M9Y+DFyMUu6gRMxXOfda6rTTnuHQ5OzUsbk6AfV4gtJoEUWvmpBpJw==}
@@ -2022,13 +2024,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@prisma/debug@6.5.0-dev.50': {}
+  '@prisma/debug@6.6.0-dev.54': {}
 
   '@prisma/debug@6.6.0-dev.55': {}
 
-  '@prisma/driver-adapter-utils@6.5.0-dev.50':
+  '@prisma/driver-adapter-utils@6.6.0-dev.54':
     dependencies:
-      '@prisma/debug': 6.5.0-dev.50
+      '@prisma/debug': 6.6.0-dev.54
 
   '@prisma/engines-version@6.6.0-26.47cb872770bc2c9ff45909bd09f7326df36d9130': {}
 
@@ -2059,10 +2061,12 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.0
 
-  '@tidbcloud/prisma-adapter@https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/44fbdd6(@tidbcloud/serverless@0.2.0)':
+  '@tidbcloud/prisma-adapter@https://codeload.github.com/jacek-prisma/tidbcloud-prisma-adapter/tar.gz/8559ec7':
     dependencies:
-      '@prisma/driver-adapter-utils': 6.5.0-dev.50
-      '@tidbcloud/serverless': 0.2.0
+      '@prisma/driver-adapter-utils': 6.6.0-dev.54
+      '@tidbcloud/serverless': 0.1.1
+
+  '@tidbcloud/serverless@0.1.1': {}
 
   '@tidbcloud/serverless@0.2.0': {}
 

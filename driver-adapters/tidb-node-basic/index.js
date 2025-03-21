@@ -1,12 +1,10 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { connect } = require('@tidbcloud/serverless')
 const { PrismaTiDBCloud } = require('@tidbcloud/prisma-adapter')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL
 
-const connection = connect({ url: connectionString })
-const adapter = new PrismaTiDBCloud(connection)
+const adapter = new PrismaTiDBCloud({ url: connectionString })
 const prisma = new PrismaClient({ adapter })
 
 exports.handler = async () => {

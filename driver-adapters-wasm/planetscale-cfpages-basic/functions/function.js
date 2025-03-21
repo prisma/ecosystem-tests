@@ -1,9 +1,8 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { Client } from '@planetscale/database'
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 export async function onRequest(context) {
-  const client = new Client({
+  const adapter = new PrismaPlanetScale({
     url: context.env.DATABASE_URL_PLANETSCALE,
     // taken from cloudflare's docs https://developers.cloudflare.com/workers/databases/native-integrations/planetscale/#:~:text=fetch%3A%20(,init)%3B
     fetch(url, init) {
@@ -11,7 +10,6 @@ export async function onRequest(context) {
       return fetch(url, init)
     },
   })
-  const adapter = new PrismaPlanetScale(client)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {
