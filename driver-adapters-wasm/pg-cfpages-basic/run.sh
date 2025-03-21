@@ -16,5 +16,5 @@ pnpm wrangler pages functions build fns --compatibility-flags "nodejs_compat" --
 # Copy index.html to build folder
 cp index.html build/index.html
 # Now deploy the _worker.js alongside the index.html asset to Pages
-pnpm wrangler pages deploy ./build --compatibility-flags "nodejs_compat" --compatibility-date "2024-09-23" --project-name pg-cfpages-basic -- | tee deployment-logs.txt
+pnpm wrangler pages deploy ./build --project-name pg-cfpages-basic -- | tee deployment-logs.txt
 sleep 15
