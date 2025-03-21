@@ -9,5 +9,5 @@ pnpm install --no-frozen-lockfile
 pnpm prisma generate
 pnpm build
 
-pnpm wrangler pages deploy dist --project-name d1-cfpages-nuxt | tee deployment-logs.txt
+pnpm wrangler pages deploy dist --compatibility-flags "nodejs_compat" --compatibility-date "2024-09-23" --project-name d1-cfpages-nuxt | tee deployment-logs.txt
 sleep 15
