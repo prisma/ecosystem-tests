@@ -44,7 +44,7 @@ fi
 # ✅ Created new Hyperdrive config: 9b94003290f9432c9c59681505b62395
 # 📋 To start using your config from a Worker, add the following binding configuration to your Wrangler configuration file:
 # ```
-# WARN: The ouput seems pretty inconistent. Sometimes you get soem JSON afterwards, soemtimes some YAML. Safest seem to be to grep for the id.
+# WARN: The ouput seems pretty inconistent. Sometimes you get some JSON afterwards, soemtimes some YAML. Safest seem to be to grep for the id.
 
 # if DATABASE_URL is not set, exit
 if [ -z "$DATABASE_URL" ]; then
@@ -53,7 +53,7 @@ if [ -z "$DATABASE_URL" ]; then
 fi
 
 npx wrangler hyperdrive create $HYPERDRIVE_NAME --connection-string=\"$DATABASE_URL\" | tee $TMP_FILE
-export HYPERDRIVE_ID=$(cat $TMP_FILE | grep -oE 'Hyperdrive config: [a-zA-Z0-9]+' | awk '{print $3}')
+export HYPERDRIVE_ID=$(cat $TMP_FILE | grep -oE 'Hyperdrive PostgreSQL config: [a-zA-Z0-9]+' | awk '{print $4}')
 
 cat <<EOF > wrangler.toml
 name = "pg-cf-hyperdrive"
