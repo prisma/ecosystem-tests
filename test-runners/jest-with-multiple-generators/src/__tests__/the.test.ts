@@ -35,6 +35,8 @@ describe('Prisma in jest with multiple generators', () => {
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
       expect(filesA).toMatchInlineSnapshot(`
 [
+  "client.d.ts",
+  "client.js",
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -52,6 +54,8 @@ describe('Prisma in jest with multiple generators', () => {
 `)
       expect(filesB).toMatchInlineSnapshot(`
 [
+  "client.d.ts",
+  "client.js",
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -70,6 +74,8 @@ describe('Prisma in jest with multiple generators', () => {
     } else {
       expect(filesA).toMatchInlineSnapshot(`
 [
+  "client.d.ts",
+  "client.js",
   "default.d.ts",
   "default.js",
   "edge.d.ts",
@@ -87,6 +93,8 @@ describe('Prisma in jest with multiple generators', () => {
 `)
       expect(filesB).toMatchInlineSnapshot(`
 [
+  "client.d.ts",
+  "client.js",
   "default.d.ts",
   "default.js",
   "edge.d.ts",
