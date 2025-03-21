@@ -53,7 +53,7 @@ if [ -z "$DATABASE_URL" ]; then
 fi
 
 npx wrangler hyperdrive create $HYPERDRIVE_NAME --connection-string=\"$DATABASE_URL\" | tee $TMP_FILE
-export HYPERDRIVE_ID=$(cat $TMP_FILE | grep -oE 'Hyperdrive PostgreSQL config: [a-zA-Z0-9]+' | awk '{print $3}')
+export HYPERDRIVE_ID=$(cat $TMP_FILE | grep -oE 'Hyperdrive PostgreSQL config: [a-zA-Z0-9]+' | awk '{print $4}')
 
 cat <<EOF > wrangler.toml
 name = "pg-cf-hyperdrive"
