@@ -4,8 +4,7 @@ import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 export async function onRequest(context) {
-  const client = new Pool({ connectionString: context.env.DRIVER_ADAPTERS_NEON_CFPAGES_BASIC_DATABASE_URL })
-  const adapter = new PrismaNeon(client)
+  const adapter = new PrismaNeon({ connectionString: context.env.DRIVER_ADAPTERS_NEON_CFPAGES_BASIC_DATABASE_URL })
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {

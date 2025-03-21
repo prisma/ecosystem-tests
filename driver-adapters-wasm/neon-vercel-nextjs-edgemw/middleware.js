@@ -5,8 +5,9 @@ import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 async function getResponse() {
-  const client = new Pool({ connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL })
-  const adapter = new PrismaNeon(client)
+  const adapter = new PrismaNeon({
+    connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_EDGEMW_DATABASE_URL,
+  })
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {

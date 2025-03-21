@@ -8,10 +8,9 @@ export const config = {
 }
 
 async function getResponse() {
-  const client = new Pool({
+  const adapter = new PrismaNeon({
     connectionString: process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PAGES_EDGEFN_DATABASE_URL,
   })
-  const adapter = new PrismaNeon(client)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {

@@ -6,8 +6,7 @@ import { DATABASE_URL } from './dbUrl.js'
 
 export async function onRequest(context) {
   // `DATABASE_URL` comes from `dbUrl.js` and its value is set by `prepare.sh`
-  const client = new Pool({ connectionString: DATABASE_URL })
-  const adapter = new PrismaPg(client)
+  const adapter = new PrismaPg({ connectionString: DATABASE_URL })
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {
