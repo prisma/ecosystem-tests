@@ -29,6 +29,8 @@ describe('Prisma', () => {
     if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
       expect(files).toMatchInlineSnapshot(`
 [
+  "client.d.ts",
+  "client.js",
   "default.d.ts",
   "default.js",
   "deno",
@@ -47,6 +49,8 @@ describe('Prisma', () => {
     } else {
       expect(files).toMatchInlineSnapshot(`
 [
+  "client.d.ts",
+  "client.js",
   "default.d.ts",
   "default.js",
   "deno",
