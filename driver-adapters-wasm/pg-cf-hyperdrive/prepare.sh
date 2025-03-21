@@ -58,8 +58,8 @@ export HYPERDRIVE_ID=$(cat $TMP_FILE | grep -oE 'Hyperdrive config: [a-zA-Z0-9]+
 cat <<EOF > wrangler.toml
 name = "pg-cf-hyperdrive"
 main = "src/index.js"
-compatibility_date = "2023-10-30"
-node_compat = true
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-23"
 
 [[hyperdrive]]
 binding = "HYPERDRIVE"
