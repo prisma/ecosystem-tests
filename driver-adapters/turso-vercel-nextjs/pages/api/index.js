@@ -1,6 +1,5 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createClient } = require('@libsql/client')
 const { PrismaLibSQL } = require('@prisma/adapter-libsql')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL
