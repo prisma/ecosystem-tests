@@ -1,11 +1,12 @@
 // @ts-check
+import { NextResponse } from 'next/server'
 import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { PrismaLibSQL } from '@prisma/adapter-libsql/web'
 
-export async function onRequest(context) {
+async function getResponse() {
   const adapter = new PrismaLibSQL({
-    url: context.env.DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_DATABASE_URL,
-    authToken: context.env.DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_TOKEN,
+    url: process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL,
+    authToken: process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN,
   })
   const prisma = new PrismaClient({ adapter })
 
@@ -163,25 +164,22 @@ export async function onRequest(context) {
           name: true,
         },
       }),
-
-      // Skipping this because of too many sub-requests (limit is 50 per fetch call)
-
-      // upsert: await prisma.user.upsert({
-      //   where: {
-      //     email: 'test-upsert@prisma.io',
-      //   },
-      //   create: {
-      //     email: 'test-upsert@prisma.io',
-      //     age: 30,
-      //     name: 'Test upsert',
-      //   },
-      //   update: {},
-      //   select: {
-      //     email: true,
-      //     age: true,
-      //     name: true,
-      //   },
-      // }),
+      upsert: await prisma.user.upsert({
+        where: {
+          email: 'test-upsert@prisma.io',
+        },
+        create: {
+          email: 'test-upsert@prisma.io',
+          age: 30,
+          name: 'Test upsert',
+        },
+        update: {},
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        },
+      }),
     }
 
     // sort results by email to make the order deterministic
@@ -191,8 +189,15 @@ export async function onRequest(context) {
   }
 
   const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
-  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error_in_itxResult: error.message }))
-  const result = JSON.stringify({ itxResult, regResult })
 
-  return new Response(result)
+  // Wait a bit
+  await new Promise((resolve) => setTimeout(resolve, 1_000))
+
+  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error_in_itxResult: error.message }))
+
+  return { itxResult, regResult }
+}
+
+export async function middleware() {
+  return NextResponse.json(await getResponse())
 }

@@ -1,6 +1,6 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { PrismaLibSQL } from '@prisma/adapter-libsql/web'
 
 export async function onRequest(context) {
   const adapter = new PrismaLibSQL({

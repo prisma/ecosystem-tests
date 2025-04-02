@@ -1,13 +1,16 @@
 // @ts-check
-import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+const { Prisma, PrismaClient } = require('@prisma/client')
+const { PrismaLibSQL } = require('@prisma/adapter-libsql/web')
 
-export async function onRequest(context) {
-  const adapter = new PrismaLibSQL({
-    url: context.env.DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_DATABASE_URL,
-    authToken: context.env.DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_TOKEN,
-  })
-  const prisma = new PrismaClient({ adapter })
+const connectionString = process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_DATABASE_URL
+const authToken = process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_TOKEN
+
+const adapter = new PrismaLibSQL({ url: connectionString, authToken })
+const prisma = new PrismaClient({ adapter })
+
+export default async (req, res) => {
+  res.statusCode = 200
+  res.setHeader('Content-Type', 'application/json')
 
   const getResult = async (prisma) => {
     const result = {
@@ -163,25 +166,22 @@ export async function onRequest(context) {
           name: true,
         },
       }),
-
-      // Skipping this because of too many sub-requests (limit is 50 per fetch call)
-
-      // upsert: await prisma.user.upsert({
-      //   where: {
-      //     email: 'test-upsert@prisma.io',
-      //   },
-      //   create: {
-      //     email: 'test-upsert@prisma.io',
-      //     age: 30,
-      //     name: 'Test upsert',
-      //   },
-      //   update: {},
-      //   select: {
-      //     email: true,
-      //     age: true,
-      //     name: true,
-      //   },
-      // }),
+      upsert: await prisma.user.upsert({
+        where: {
+          email: 'test-upsert@prisma.io',
+        },
+        create: {
+          email: 'test-upsert@prisma.io',
+          age: 30,
+          name: 'Test upsert',
+        },
+        update: {},
+        select: {
+          email: true,
+          age: true,
+          name: true,
+        },
+      }),
     }
 
     // sort results by email to make the order deterministic
@@ -190,9 +190,9 @@ export async function onRequest(context) {
     return result
   }
 
-  const regResult = await getResult(prisma).catch((error) => ({ error_in_regResult: error.message }))
-  const itxResult = await prisma.$transaction(getResult).catch((error) => ({ error_in_itxResult: error.message }))
-  const result = JSON.stringify({ itxResult, regResult })
+  const regResult = await getResult(prisma)
+  const itxResult = await prisma.$transaction(getResult)
+  const result = { itxResult, regResult }
 
-  return new Response(result)
+  res.status(200).json(result)
 }
