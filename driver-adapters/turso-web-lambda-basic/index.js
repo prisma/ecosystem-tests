@@ -1,6 +1,6 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { PrismaLibSQL } = require('@prisma/adapter-libsql')
+const { PrismaLibSQL } = require('@prisma/adapter-libsql/web')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL
 const authToken = process.env.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_TOKEN
