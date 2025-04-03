@@ -36,6 +36,10 @@ if [ "$PROJECT_PACKAGE_MANAGER" = "pnpm" ]; then
     exit 0
 fi
 
+if [ "$PROJECT_PACKAGE_MANAGER" = "deno" ]; then
+    deno install
+    exit 0
+fi
 
 
 echo "Could not determine package manager at $(pwd)"

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/client/deno/edge.ts'
+import { PrismaClient } from "../generated/client.ts";
 
 const prisma = new PrismaClient({});
 
