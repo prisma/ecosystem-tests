@@ -12,7 +12,15 @@ corepack enable
 
 # Setting NODE_OPTIONS="" disables yarn-injected shenanigans so we can use package from the root
 PROJECT_PACKAGE_MANAGER=$(NODE_OPTIONS="" node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
-IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === 'prisma-client')")
+
+IS_GENERATED_CLIENT=$(node -e "
+  try {
+    const pkg = require('./package.json')
+    console.log(pkg.name === 'prisma-client')
+  } catch {
+    console.log(false)
+  }
+")
 
 if [ "$IS_GENERATED_CLIENT" = "true" ]; then
     exit 0
