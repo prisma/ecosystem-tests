@@ -1202,20 +1202,21 @@ jobs:
       - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
+        if: ${{ matrix.platform != 'deno' }}
         with:
           node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
-      - name: use deno v1.x
-        uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
+        if: ${{ matrix.platform != 'deno' }}
         run: pnpm install
 
       # see above why this is not a matrix for each DP variant
@@ -1602,7 +1603,7 @@ jobs:
         runtime:
           - deno
           #- bun
-        clientEngine: ['library', 'binary']
+        clientEngine: ['library']
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.runtime }}-${{ matrix.clientEngine }}
@@ -1617,19 +1618,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.runtime }}/pnpm-lock.yaml
 
-      - name: use deno v1.x
-        uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.44.2
+          deno-version: v2.x
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
 
       - name: test ${{ matrix.runtime }}
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}

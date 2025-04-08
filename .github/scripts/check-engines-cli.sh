@@ -20,6 +20,7 @@ fi
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
   aws-graviton                    # No local project at all (everything happens on server), so no `prisma` or `node_modules`
+  deno                            # A different binary target (OpenSSL 3.x) is used with Deno
   firebase-functions              # No local project at expected location (but in `functions` subfolder)
   pnpm                            # Current logic does not work with pnpm hoisitng
   pnpm-workspaces-custom-output   # Current logic does not work with pnpm hoisitng

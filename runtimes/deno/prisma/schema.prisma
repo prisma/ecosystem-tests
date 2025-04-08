@@ -1,7 +1,7 @@
 generator client {
-  provider   = "prisma-client-js"
-  output     = "../generated/client"
-  engineType = "binary" // overwritten when run in CI via env var
+  provider = "prisma-client-ts"
+  output   = "../generated"
+  runtime  = "deno"
 }
 
 datasource db {

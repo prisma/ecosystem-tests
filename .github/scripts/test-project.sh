@@ -14,7 +14,14 @@ set -u
 
 # In platforms/firebase-functions, the file exists in /functions sub-directory, so we can't hardcode the package.json path
 pjson_path=$(find "$dir"/"$project" -name "package.json" ! -path "*/node_modules/*" | head -n 1)
-bash .github/scripts/print-version.sh "$pjson_path"
+if [ -n "$pjson_path" ]; then
+  bash .github/scripts/print-version.sh "$pjson_path"
+fi
+
+deno_json_path="$dir/$project/deno.json"
+if [ -f "$deno_json_path" ]; then
+  bash .github/scripts/print-version-deno.sh "$deno_json_path"
+fi
 
 # Install deps for Slack scripts
 echo "cd .github/slack/"
@@ -40,8 +47,18 @@ then
 else
   # Find version of Prisma this project uses (so we can call the CLI explicitly)
   default_version="$(cat .github/prisma-version.txt)"
-  cli_version_dev="$(node -e "console.log(require('./$dir/$project/package.json')?.devDependencies?.prisma ?? '')")"
-  cli_version_dep="$(node -e "console.log(require('./$dir/$project/package.json')?.dependencies?.prisma ?? '')")"
+
+  if [ -n "$pjson_path" ]; then
+    cli_version_dev="$(node -e "console.log(require('./$pjson_path')?.devDependencies?.prisma ?? '')")"
+    cli_version_dep="$(node -e "console.log(require('./$pjson_path')?.dependencies?.prisma ?? '')")"
+  elif [ -f "$deno_json_path" ]; then
+    cli_version_dev=""
+    cli_version_dep="$(node -e "console.log(require('./$deno_json_path')?.imports?.prisma?.replace(/^npm:prisma@/, '') ?? '')")"
+  else
+    cli_version_dev=""
+    cli_version_dep=""
+  fi
+
   version="$(node -e "console.log('$cli_version_dev' || '$cli_version_dep' || '$default_version')")"
 
   schema_path=$(find "$dir"/"$project" -name "schema.prisma" ! -path "*/node_modules/*" | head -n 1)

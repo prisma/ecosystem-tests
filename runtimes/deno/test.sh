@@ -2,4 +2,4 @@
 
 set -eu
 
-deno test -A --no-check
+deno test -A
