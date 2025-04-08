@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   modules: [nitroCloudflareBindings],
   nitro: {
     preset: 'cloudflare-pages',
+    cloudflare: {
+      nodeCompat: true,
+    },
     experimental: {
       wasm: true,
     },
@@ -12,6 +15,11 @@ export default defineNuxtConfig({
       options: {
         target: 'esnext',
       },
+    },
+    noExternals: false,
+    externals: {
+      // Need to be inlined explicitly because of `noExternals: false`
+      inline: ['vue-bundle-renderer', 'unhead'],
     },
   },
   devtools: { enabled: true },
