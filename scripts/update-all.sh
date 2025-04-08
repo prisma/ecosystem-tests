@@ -21,3 +21,14 @@ pnpm -rc --parallel exec "$(pwd)/scripts/update-version.sh $NEW_VERSION"
 pnpm -rc exec "$(pwd)/scripts/update-locks.sh $NEW_VERSION"
 # doing the two separately is important as it also allows us to update the
 # lockfiles in parallel, while also handling monorepo/workspaces correctly
+
+# Update all deno.json and deno.lock files
+find . -name "deno.json" -type f | while read -r deno_json; do
+  deno_dir=$(dirname "$deno_json")
+  repo_root=$(pwd)
+  (
+    cd "$deno_dir" || exit
+    "$repo_root/scripts/update-version.sh" "$NEW_VERSION"
+    "$repo_root/scripts/update-locks.sh" "$NEW_VERSION"
+  )
+done
