@@ -1,7 +1,6 @@
 // @ts-check
 const { test, expect } = require('@jest/globals')
 const { dependencies } = require('./package.json')
-const fetch = require('node-fetch').default
 
 jest.setTimeout(30_000)
 
