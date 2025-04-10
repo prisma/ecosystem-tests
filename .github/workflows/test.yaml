@@ -49,7 +49,7 @@ jobs:
   # # which is a common feature in most CI systems but currently not possible with GitHub actions.
   # cleanup-runs:
   #   continue-on-error: true
-  #   runs-on: ubuntu-20.04
+  #   runs-on: ubuntu-22.04
   # contains(github.actor, 'renovate')
   #   if: (!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/integration' && github.ref != 'refs/heads/patch-dev' && github.ref != 'refs/heads/latest')
   #   steps:
@@ -69,9 +69,7 @@ jobs:
         uses: Ana06/get-changed-files@v2.3.0 # it's a fork of jitterbit/get-changed-files@v1 which works better with pull requests
         with:
           format: 'json'
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
       - uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
@@ -88,13 +86,13 @@ jobs:
     needs:
       - process-managers
       - docker
+      - docker-arm64
       - docker-unsupported
       - core-features
       - migrate
       - engines
       - os
       - node
-      - binaries
       - packagers
       - frameworks
       - platforms
@@ -120,13 +118,13 @@ jobs:
     needs:
       - process-managers
       - docker
+      - docker-arm64
       - docker-unsupported
       - core-features
       - migrate
       - engines
       - os
       - node
-      - binaries
       - packagers
       - frameworks
       - platforms
@@ -144,9 +142,7 @@ jobs:
     if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
       - uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
@@ -162,13 +158,13 @@ jobs:
     needs:
       - process-managers
       - docker
+      - docker-arm64
       - docker-unsupported
       - core-features
       - migrate
       - engines
       - os
       - node
-      - binaries
       - packagers
       - frameworks
       - platforms
@@ -186,9 +182,7 @@ jobs:
     if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
       - uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
@@ -225,14 +219,16 @@ jobs:
           - pg-node-basic
           - pg-node-basic-esm
           - pg-vercel-nextjs
-          - turso-lambda-basic
+          - turso-web-lambda-basic
           - turso-node-basic
           - turso-node-basic-esm
           - turso-vercel-nextjs
+          - turso-web-node-basic
+          - turso-web-node-basic-esm
+          - turso-web-vercel-nextjs
           - tidb-node-basic
-          - pglite-node-basic
         clientEngine: ['library']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     # To avoid race conditions when running tests, we need to avoid concurrency
     # The tests should not be run concurrently for a given "combo"
@@ -270,9 +266,7 @@ jobs:
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_PROJECT_ID }}
       # planetscale
-      DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_LAMBDA_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_NODE_BASIC_DATABASE_URL }}
-      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_DATABASE_URL }}
+      DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_PROJECT_ID }}
       # libsql (Turso)
       DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_LAMBDA_BASIC_DATABASE_URL }}
@@ -290,9 +284,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -368,12 +360,14 @@ jobs:
           - turso-cf-basic
           - turso-cfpages-basic
           - turso-vercel-nextjs-edgemw
+          - turso-web-cf-basic
+          - turso-web-cfpages-basic
+          - turso-web-vercel-nextjs-edgemw
           - d1-cf-basic
           - d1-cfpages-basic
-          - d1-cfpages-nuxt
           - d1-vitest
         clientEngine: ['wasm']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     # To avoid race conditions when running tests, we need to avoid concurrency
     # The tests should not be run concurrently for a given "combo"
@@ -410,9 +404,8 @@ jobs:
       DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_PROJECT_ID }}
       DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_NODE_NEXTJS_EDGEMW_DATABASE_URL }}
       # planetscale
-      DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_CF_BASIC_DATABASE_URL }}
-      # DRIVER_ADAPTERS_PLANETSCALE_CFPAGES_BASIC_DATABASE_URL: only configured via UI, as cloudflare pages can not upload env var values per deployment
-      DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_DATABASE_URL }}
+      DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}
+      # For cloudflare pages only configured via UI, as cloudflare pages can not upload env var values per deployment
       DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID: ${{ vars.DRIVER_ADAPTERS_PLANETSCALE_VERCEL_NEXTJS_EDGEMW_PROJECT_ID }}
       # Turso
       DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL: ${{ vars.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL }}
@@ -429,9 +422,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -482,7 +473,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         packager:
           - npm
           - npm-global
@@ -501,7 +492,7 @@ jobs:
           - packager: yarn3-without-pnp
             node: 18
           - packager: yarn3-workspaces-pnp
-            node: 18 
+            node: 18
         clientEngine: [library] #['library', 'binary']
     runs-on: ${{ matrix.os }}
     env:
@@ -517,9 +508,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -571,7 +560,7 @@ jobs:
           - nextjs
           - sveltekit
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -580,9 +569,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -624,7 +611,7 @@ jobs:
           - heroku
           - aws-graviton
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ matrix.platform }}-${{ matrix.clientEngine }}
 
@@ -635,9 +622,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -682,14 +667,13 @@ jobs:
           - lambda-node-20
           - netlify-cli
           - netlify-github
-          - netlify-github-with-nextjs-caching
           - gcp-functions
           - firebase-functions
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         include:
           - platform: firebase-functions
             node: '18'
@@ -722,9 +706,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -784,7 +766,7 @@ jobs:
           - vercel-with-nextjs-caching
           - vercel-with-redwood
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         include:
           - platform: vercel-with-redwood
             node: 18
@@ -806,13 +788,12 @@ jobs:
       VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_CACHING_PROJECT_ID }}
       VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID: ${{ vars.VERCEL_WITH_NEXTJS_CACHING_BINARY_PROJECT_ID }}
+      SKIP_YARN_COREPACK_CHECK: 1
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -879,8 +860,10 @@ jobs:
             generate-client-install-on-sub-project-yarn,
           ]
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
+    env:
+      SKIP_YARN_COREPACK_CHECK: 1
 
     steps:
       - uses: actions/checkout@v4
@@ -888,9 +871,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -939,7 +920,7 @@ jobs:
       matrix:
         feature: [db-seed-commonjs-pkg, db-seed-esm-pkg]
         clientEngine: ['library']
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-22.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -948,9 +929,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -991,7 +970,7 @@ jobs:
         # macos-13 is pinned because engine-types test
         # need to be updated before running on macos-14 because the engines
         # names are different because macos-latest is now arm64 / M1 CPU
-        os: [ubuntu-20.04, windows-latest, macos-13]
+        os: [ubuntu-22.04, windows-latest, macos-13]
         exclude:
           - feature: engine-native-deps
             os: windows-latest
@@ -1003,9 +982,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1038,7 +1015,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macos-latest, windows-latest]
+        os: [ubuntu-22.04, macos-latest, windows-latest]
         clientEngine: ['library', 'binary']
     runs-on: ${{ matrix.os }}
 
@@ -1048,9 +1025,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1096,9 +1071,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1142,7 +1115,7 @@ jobs:
           - 22
           - 23 # we expect this to fail
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1151,9 +1124,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - name: use node ${{ matrix.node }}
         uses: actions/setup-node@v4
@@ -1184,59 +1155,6 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
-  binaries:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'binaries')
-
-    strategy:
-      fail-fast: false
-      matrix:
-        binary: [pkg]
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-
-    env:
-      OS: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.binary }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      # no database used in existing binaries tests
-      # - name: Set test specific DATABASE_URL
-      #   run: |
-      #     string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-      #     search=database
-      #     replace=${{ github.job }}_${{ matrix.binary }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-      #     replaced=${string/$search/$replace}
-      #     echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test ${{ matrix.binary }} binary on ${{ matrix.os }} using ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.binary }} ${{ matrix.os }}
-
   # TODO databases are shared between the steps (DP2, DP2+Accelerate), so we run them in sequence
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
   accelerate:
@@ -1262,7 +1180,7 @@ jobs:
           - nodejs-mongodb-logs
           - nodejs-tracing
         clientEngine: [<accelerate>] # value for script logic
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -1280,25 +1198,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
+        if: ${{ matrix.platform != 'deno' }}
         with:
           node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
-      - name: use deno v1.x
-        uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
+        if: ${{ matrix.platform != 'deno' }}
         run: pnpm install
 
       # see above why this is not a matrix for each DP variant
@@ -1360,7 +1277,7 @@ jobs:
           - parcel
           - rollup
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1369,9 +1286,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1413,7 +1328,7 @@ jobs:
           - apollo-server
           - type-graphql
         clientEngine: [library] #['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1422,9 +1337,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1454,6 +1367,52 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
 
+  prisma-postgres:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'prisma-postgres')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tests:
+          - migrate
+        clientEngine: ['<accelerate>']
+        os: [ubuntu-22.04]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      DATABASE_URL_PRISMA_POSTGRES: ${{ secrets.DATABASE_URL_PRISMA_POSTGRES }}
+      PRISMA_CLIENT_ENGINE_TYPE: '<accelerate>' # no engine checks needed for PPg
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v4.0.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.tests }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: test ${{ matrix.tests }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.tests }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.tests }}
+
   databases:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'databases')
@@ -1482,7 +1441,7 @@ jobs:
           - planetscale
           - cockroach-cloud
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
 
     runs-on: ${{ matrix.os }}
 
@@ -1517,9 +1476,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1563,9 +1520,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1597,7 +1552,7 @@ jobs:
         test-runner:
           - jest-with-multiple-generators
         clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1606,9 +1561,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1638,7 +1591,6 @@ jobs:
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
 
-
   runtimes:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'runtimes')
@@ -1650,8 +1602,8 @@ jobs:
         runtime:
           - deno
           #- bun
-        clientEngine: ['library', 'binary']
-        os: [ubuntu-20.04]
+        clientEngine: ['library']
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.runtime }}-${{ matrix.clientEngine }}
     env:
@@ -1660,26 +1612,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.runtime }}/pnpm-lock.yaml
 
-      - name: use deno v1.x
-        uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.44.2
+          deno-version: v2.x
 
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: pnpm install
 
       - name: test ${{ matrix.runtime }}
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
@@ -1687,8 +1631,7 @@ jobs:
       - name: notify-slack
         if: failure()
         run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.runtime }}
-      
-      
+
   process-managers:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'process-managers')
@@ -1698,7 +1641,7 @@ jobs:
       matrix:
         feature: [pm2]
         clientEngine: [library]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-22.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -1706,9 +1649,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1747,38 +1688,29 @@ jobs:
       matrix:
         feature:
           - almalinux-8-amd64-openssl-1.1.x
-          - almalinux-8-arm64-openssl-1.1.x
           - almalinux-latest-amd64-openssl-3.0.x
-          - almalinux-latest-arm64-openssl-3.0.x
           - alpine-3.17-amd64-openssl-1.1.x
           - alpine-3.17-amd64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - alpine-3.17-amd64-openssl-3.0.x
-          - alpine-3.21-arm64-openssl-3.0.x
           - alpine-3.21-amd64-openssl-3.0.x
           - alpine-3.21-node-20-arm64-openssl-3.0.x
           - alpine-3.21-node-20-amd64-openssl-3.0.x
           - alpine-latest-amd64-openssl-3.0.x
-          - alpine-latest-arm64-openssl-3.0.x
           - amazonlinux-2022-amd64-openssl-3.0.x
-          - amazonlinux-2022-arm64-openssl-3.0.x
           - archlinux-latest-amd64-openssl-3.0.x
           - debian-bullseye-amd64-openssl-1.1.x
           - debian-bullseye-amd64-openssl-1.1.x-tls
+          - debian-buster-amd64-no-openssl
           - debian-buster-amd64-openssl-1.1.x
           - debian-latest-amd64-openssl-3.0.x
-          - debian-latest-arm64-openssl-3.0.x
           - opensuse-tumbleweed-amd64-openssl-3.0.x
           - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
           - ubuntu-22.04-amd64-openssl-3.0.x
           - ubuntu-22.04-amd64-openssl-1.1.x
           - ubuntu-latest-amd64-openssl-3.0.x
-          - ubuntu-latest-arm64-openssl-3.0.x
         clientEngine: [library, binary]
-        os: [ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
 
     env:
       GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
@@ -1789,10 +1721,71 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Define Client Engine Type to test
+        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
+
+      - uses: pnpm/action-setup@v4.1.0
+
+      - uses: actions/setup-node@v4
         with:
-          platforms: 'arm64'
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Set test specific DATABASE_URL
+        run: |
+          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
+          search=database
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replaced=${string/$search/$replace}
+          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
+
+      - name: test feature - ${{ matrix.feature }} - ${{ matrix.clientEngine }}
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 20
+          max_attempts: 3
+          command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
+
+      - name: notify-slack
+        if: failure()
+        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
+
+  docker-arm64:
+    needs: [detect_jobs_to_run]
+    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker-arm64')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        feature:
+          - almalinux-8-arm64-openssl-1.1.x
+          - almalinux-latest-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
+          - alpine-3.21-arm64-openssl-3.0.x
+          - alpine-latest-arm64-openssl-3.0.x
+          - amazonlinux-2022-arm64-openssl-3.0.x
+          - debian-latest-arm64-openssl-3.0.x
+          - ubuntu-latest-arm64-openssl-3.0.x
+        clientEngine: [library, binary]
+    runs-on: ubuntu-24.04-arm
+
+    env:
+      GCP_POSTGRESQL_SSL_DB_URL: ${{ secrets.GCP_POSTGRESQL_SSL_DB_URL }}
+      GCP_POSTGRESQL_SSL_CLIENT_CERT: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_CERT }}
+      GCP_POSTGRESQL_SSL_CLIENT_KEY: ${{ secrets.GCP_POSTGRESQL_SSL_CLIENT_KEY }}
+      GCP_POSTGRESQL_SSL_SERVER_CA: ${{ secrets.GCP_POSTGRESQL_SSL_SERVER_CA }}
+
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         id: buildx
@@ -1801,9 +1794,7 @@ jobs:
       - name: Define Client Engine Type to test
         run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:
@@ -1846,20 +1837,17 @@ jobs:
           - alpine-3.16-amd64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x-with-libc
-          - debian-buster-amd64-openssl-1.1.x
           - debian-latest-arm-openssl-1.1.x
           - amazonlinux-2-amd64-openssl-1.0.x
           - amazonlinux-2-arm64-openssl-1.0.x
         clientEngine: [library, binary]
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4.0.0
 
       - uses: actions/setup-node@v4
         with:

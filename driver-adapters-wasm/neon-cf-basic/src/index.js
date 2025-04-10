@@ -1,12 +1,10 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Pool({ connectionString: env.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL })
-    const adapter = new PrismaNeon(client)
+    const adapter = new PrismaNeon({ connectionString: env.DRIVER_ADAPTERS_NEON_CF_BASIC_DATABASE_URL })
     const prisma = new PrismaClient({ adapter })
 
     const getResult = async (prisma) => {

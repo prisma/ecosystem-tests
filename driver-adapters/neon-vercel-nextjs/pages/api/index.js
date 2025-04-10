@@ -1,15 +1,14 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
 const { WebSocket } = require('undici')
-const { Pool, neonConfig } = require('@neondatabase/serverless')
+const { neonConfig } = require('@neondatabase/serverless')
 const { PrismaNeon } = require('@prisma/adapter-neon')
 
 neonConfig.webSocketConstructor = WebSocket
 
 const connectionString = process.env.DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_DATABASE_URL
 
-const pool = new Pool({ connectionString })
-const adapter = new PrismaNeon(pool)
+const adapter = new PrismaNeon({ connectionString })
 const prisma = new PrismaClient({ adapter })
 
 export default async (req, res) => {

@@ -1,13 +1,11 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { createClient } = require('@libsql/client')
 const { PrismaLibSQL } = require('@prisma/adapter-libsql')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL
 const authToken = process.env.DRIVER_ADAPTERS_TURSO_NODE_BASIC_TOKEN
 
-const client = createClient({ url: connectionString, authToken })
-const adapter = new PrismaLibSQL(client)
+const adapter = new PrismaLibSQL({ url: connectionString, authToken })
 const prisma = new PrismaClient({ adapter })
 
 exports.handler = async () => {

@@ -1,18 +1,26 @@
 #! /bin/sh
 set -eux
 
-# Pin to v8 as latest (v9) needs Node.js v18.12 minimum
+# Pin to v9.
 # see https://r.pnpm.io/comp
-# corepack install --global pnpm@8
+# corepack install --global pnpm@9
 # Legacy command
-corepack prepare pnpm@8.15.7 --activate
+corepack prepare pnpm@9.15.8 --activate
 corepack enable
 
 # pnpm -v
 
 # Setting NODE_OPTIONS="" disables yarn-injected shenanigans so we can use package from the root
 PROJECT_PACKAGE_MANAGER=$(NODE_OPTIONS="" node -e "require('@antfu/ni').detect({ autoinstall: false }).then(console.log)")
-IS_GENERATED_CLIENT=$(node -e "const pkg = require('./package.json'); console.log(pkg.name === 'prisma-client')")
+
+IS_GENERATED_CLIENT=$(node -e "
+  try {
+    const pkg = require('./package.json')
+    console.log(pkg.name === 'prisma-client')
+  } catch {
+    console.log(false)
+  }
+")
 
 if [ "$IS_GENERATED_CLIENT" = "true" ]; then
     exit 0
@@ -36,6 +44,10 @@ if [ "$PROJECT_PACKAGE_MANAGER" = "pnpm" ]; then
     exit 0
 fi
 
+if [ "$PROJECT_PACKAGE_MANAGER" = "deno" ]; then
+    deno install
+    exit 0
+fi
 
 
 echo "Could not determine package manager at $(pwd)"

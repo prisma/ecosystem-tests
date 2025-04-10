@@ -20,6 +20,7 @@ fi
 # TODO Adapt tests so they also work here, or adapt project to fit into the mold
 skipped_projects=(
   aws-graviton                    # No local project at all (everything happens on server), so no `prisma` or `node_modules`
+  deno                            # A different binary target (OpenSSL 3.x) is used with Deno
   firebase-functions              # No local project at expected location (but in `functions` subfolder)
   pnpm                            # Current logic does not work with pnpm hoisitng
   pnpm-workspaces-custom-output   # Current logic does not work with pnpm hoisitng
@@ -60,11 +61,14 @@ if [ $CLI_QUERY_ENGINE_TYPE == "binary" ]; then
   echo "Binary: Enabled"
   case $os_name in
     linux)
-      qe_location="$ENGINES_PACKAGE/query-engine-debian-openssl-1.1.x"
+      if [ "$os_architecture" = "aarch64" ]; then
+        qe_location="$ENGINES_PACKAGE/query-engine-linux-arm64-openssl-3.0.x"
+      else
+        qe_location="$ENGINES_PACKAGE/query-engine-debian-openssl-1.1.x"
+      fi
       ;;
     osx)
-      if [ "$os_architecture" = "arm64" ]
-      then
+      if [ "$os_architecture" = "arm64" ]; then
         qe_location="$ENGINES_PACKAGE/query-engine-darwin-arm64"
       else
         qe_location="$ENGINES_PACKAGE/query-engine-darwin"
@@ -78,7 +82,11 @@ elif [ $CLI_QUERY_ENGINE_TYPE == "library" ]; then
   echo "Library: Enabled"
   case $os_name in
     linux)
-      qe_location="$ENGINES_PACKAGE/libquery_engine-debian-openssl-1.1.x.so.node"
+      if [ "$os_architecture" = "aarch64" ]; then
+        qe_location="$ENGINES_PACKAGE/libquery_engine-linux-arm64-openssl-3.0.x.so.node"
+      else
+        qe_location="$ENGINES_PACKAGE/libquery_engine-debian-openssl-1.1.x.so.node"
+      fi
       ;;
     osx)
       if [ "$os_architecture" = "arm64" ]

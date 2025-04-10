@@ -1,12 +1,10 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Pool({ connectionString: env.HYPERDRIVE.connectionString })
-    const adapter = new PrismaPg(client)
+    const adapter = new PrismaPg({ connectionString: env.HYPERDRIVE.connectionString })
     const prisma = new PrismaClient({ adapter })
 
     const getResult = async (prisma) => {

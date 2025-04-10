@@ -1,14 +1,12 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { createClient } from '@libsql/client/web'
 import { PrismaLibSQL } from '@prisma/adapter-libsql'
 
 export async function onRequest(context) {
-  const client = createClient({
+  const adapter = new PrismaLibSQL({
     url: context.env.DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_DATABASE_URL,
     authToken: context.env.DRIVER_ADAPTERS_TURSO_CFPAGES_BASIC_TOKEN,
   })
-  const adapter = new PrismaLibSQL(client)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => {

@@ -1,66 +1,75 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@prisma/client':
-    specifier: 6.1.0-dev.34
-    version: 6.1.0-dev.34
-  zx:
-    specifier: 8.2.4
-    version: 8.2.4
+importers:
+
+  .:
+    dependencies:
+      '@prisma/client':
+        specifier: 6.7.0-dev.7
+        version: 6.7.0-dev.7
+      zx:
+        specifier: 8.3.2
+        version: 8.3.2
 
 packages:
 
-  /@prisma/client@6.1.0-dev.34:
-    resolution: {integrity: sha512-rt76VGaJlhJAwWcG4AnOpH1k9yiNcOW+ZPhyxsExwPIdFzfhOSSUMfK86w29ZkjlxyueC9WFNyMhZx9sji0t1A==}
+  '@prisma/client@6.7.0-dev.7':
+    resolution: {integrity: sha512-JJBcctNlpWnyerKG1ld1AvltJMoTj72FZ8wSVlx8q2O+hG2juZ52CfS5Di0mgizAmMLsqA7rGVq7URXn06VmWw==}
     engines: {node: '>=18.18'}
-    requiresBuild: true
     peerDependencies:
       prisma: '*'
+      typescript: '>=5.1.0'
     peerDependenciesMeta:
       prisma:
         optional: true
-    dev: false
+      typescript:
+        optional: true
 
-  /@types/fs-extra@11.0.4:
+  '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-    requiresBuild: true
+
+  '@types/jsonfile@6.1.1':
+    resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
+
+  '@types/node@20.12.12':
+    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
+
+  undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+
+  zx@8.3.2:
+    resolution: {integrity: sha512-qjTunv1NClO05jDaUjrNZfpqC9yvNCchge/bzOcQevsh1aM5qE3TG6MY24kuQKlOWx+7vNuhqO2wa9nQCIGvZA==}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
+
+snapshots:
+
+  '@prisma/client@6.7.0-dev.7': {}
+
+  '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.1
       '@types/node': 20.12.12
-    dev: false
     optional: true
 
-  /@types/jsonfile@6.1.1:
-    resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
-    requiresBuild: true
+  '@types/jsonfile@6.1.1':
     dependencies:
       '@types/node': 20.12.12
-    dev: false
     optional: true
 
-  /@types/node@20.12.12:
-    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
-    requiresBuild: true
+  '@types/node@20.12.12':
     dependencies:
       undici-types: 5.26.5
-    dev: false
     optional: true
 
-  /undici-types@5.26.5:
-    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-    requiresBuild: true
-    dev: false
+  undici-types@5.26.5:
     optional: true
 
-  /zx@8.2.4:
-    resolution: {integrity: sha512-g9wVU+5+M+zVen/3IyAZfsZFmeqb6vDfjqFggakviz5uLK7OAejOirX+jeTOkyvAh/OYRlCgw+SdqzN7F61QVQ==}
-    engines: {node: '>= 12.17.0'}
-    hasBin: true
+  zx@8.3.2:
     optionalDependencies:
       '@types/fs-extra': 11.0.4
       '@types/node': 20.12.12
-    dev: false

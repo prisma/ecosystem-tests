@@ -2,6 +2,4 @@
 
 set -eu
 
-version=$( jq -r  '.devDependencies.prisma' package.json ) 
-
-deno run -A --unstable npm:prisma@$version generate $PRISMA_GENERATE_FLAG
+deno task generate $PRISMA_GENERATE_FLAG

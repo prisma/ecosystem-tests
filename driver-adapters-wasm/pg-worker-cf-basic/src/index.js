@@ -1,12 +1,10 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { Pool } from '@prisma/pg-worker'
 import { PrismaPg } from '@prisma/adapter-pg-worker'
 
 export default {
   async fetch(request, env, ctx) {
-    const client = new Pool({ connectionString: env.DATABASE_URL })
-    const adapter = new PrismaPg(client)
+    const adapter = new PrismaPg({ connectionString: env.DATABASE_URL })
     const prisma = new PrismaClient({ adapter })
 
     const getResult = async (prisma) => {

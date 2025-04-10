@@ -6,11 +6,11 @@ set -eux
 NEW_VERSION=$(npm show prisma@$1 version)
 echo "$NEW_VERSION" > .github/prisma-version.txt
 
-# Pin to v8 as latest (v9) needs Node.js v18.12 minimum
+# Pin to v9.
 # see https://r.pnpm.io/comp
-# corepack install --global pnpm@8
+# corepack install --global pnpm@9
 # Legacy command
-corepack prepare pnpm@8.15.7 --activate
+corepack prepare pnpm@9.15.8 --activate
 corepack enable # auto install correct yarn versions automatically
 
 # pnpm -v
@@ -21,3 +21,14 @@ pnpm -rc --parallel exec "$(pwd)/scripts/update-version.sh $NEW_VERSION"
 pnpm -rc exec "$(pwd)/scripts/update-locks.sh $NEW_VERSION"
 # doing the two separately is important as it also allows us to update the
 # lockfiles in parallel, while also handling monorepo/workspaces correctly
+
+# Update all deno.json and deno.lock files
+find . -name "deno.json" -type f | while read -r deno_json; do
+  deno_dir=$(dirname "$deno_json")
+  repo_root=$(pwd)
+  (
+    cd "$deno_dir" || exit
+    "$repo_root/scripts/update-version.sh" "$NEW_VERSION"
+    "$repo_root/scripts/update-locks.sh" "$NEW_VERSION"
+  )
+done

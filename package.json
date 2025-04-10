@@ -6,17 +6,18 @@
     "jest": "29.7.0",
     "jest-diff": "29.7.0",
     "node-fetch": "2.7.0",
-    "yaml": "2.6.1"
+    "yaml": "2.7.0"
   },
   "devDependencies": {
-    "@antfu/ni": "0.23.1",
+    "@antfu/ni": "0.23.2",
     "@slack/webhook": "6.1.0",
-    "@types/node": "18.19.68",
+    "@types/node": "18.19.79",
     "ts-node": "10.9.2",
-    "typescript": "5.7.2"
+    "typescript": "5.8.2"
   },
   "engines": {
-    "pnpm": "8"
+    "node": ">=18.18",
+    "pnpm": ">=9.15.8 <10"
   },
   "scripts": {
     "fetch-retry": "pnpm exec ts-node utils/fetch-retry-and-confirm-version.ts",
@@ -27,5 +28,5 @@
     "reset-json-and-lockfiles": "pnpm reset-lockfiles; git restore --source=origin/dev '*.json'",
     "test:detect-jobs-to-run": "pnpm exec jest detect-jobs-to-run"
   },
-  "packageManager": "pnpm@8.15.7+sha512.c85cd21b6da10332156b1ca2aa79c0a61ee7ad2eb0453b88ab299289e9e8ca93e6091232b25c07cbf61f6df77128d9c849e5c9ac6e44854dbd211c49f3a67adc"
+  "packageManager": "pnpm@9.15.8+sha512.4a64c3cd524cb562bfdad4572820776816e6f98afadbf2283a860f8497d9767f68419918e099791be8c116a1fa218f1379250d97bb706831227859b7d598122c"
 }
