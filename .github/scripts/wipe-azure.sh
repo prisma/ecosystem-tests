@@ -14,7 +14,7 @@ if [ -z "$FN_RESOURCE_GROUP" ]; then
 fi
 
 # Ensure the user is logged in
-if ! az account show &> /dev/null then
+if ! az account show &> /dev/null; then
     echo "You are not logged into Azure. Please run 'az login' first."
     exit 1
 fi
