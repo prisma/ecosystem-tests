@@ -374,7 +374,7 @@ export function getOSBinaryName() {
     ? 'query-engine-windows.exe'
     : os.type() == 'Darwin'
     ? 'query-engine-darwin'
-    : 'query-engine-debian-openssl-1.1.x'
+    : 'query-engine-debian-openssl-3.0.x'
 }
 
 export function getOSLibraryName() {
@@ -382,7 +382,7 @@ export function getOSLibraryName() {
     ? 'query_engine-windows.dll.node'
     : os.type() == 'Darwin'
     ? 'libquery_engine-darwin.dylib.node'
-    : 'libquery_engine-debian-openssl-1.1.x.so.node'
+    : 'libquery_engine-debian-openssl-3.0.x.so.node'
 }
 export function getCustomBinaryPath() {
   // Using absolute path because of https://github.com/prisma/prisma/issues/7779
