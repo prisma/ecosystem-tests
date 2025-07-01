@@ -24,20 +24,12 @@ env:
   PRISMA_TELEMETRY_INFORMATION: 'ecosystem-tests optional-test.yaml'
   # To hide "Update available x.y.z -> x.y.z"
   PRISMA_HIDE_UPDATE_MESSAGE: true
-  SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_WORKFLOWS }}
   CI: 1
-  # TODO: Consolidate these env vars. They shouldn't be required for slack notification
-  # They are only required because `test-project.sh` hardcodes the names
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
-  SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
-  ##
-  SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_SUCCESS }}
-  SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_OPTIONAL_TESTS_FAILING }}
   # To override the endpoint used by fetch-engine to download engines artifacts:
   PRISMA_ENGINES_MIRROR: '' # 'https://pub-4c8d0335265c4484a8734643b596ecb2.r2.dev'
   # These logs will make it easy to verify that `PRISMA_ENGINES_MIRROR` is used
   # DEBUG: 'prisma:fetch-engine*'
-  
+
 defaults:
   run:
     # this makes windows use bash as well, which makes `...  >> $GITHUB_ENV` work there
@@ -66,40 +58,6 @@ jobs:
         run: pnpm install
       - id: detect
         run: ./.github/workflows/scripts/detect-jobs-to-run.js <<<'${{ steps.files.outputs.all }}'
-
-  report-to-slack-success:
-    runs-on: ubuntu-22.04
-    needs:
-      - community-generators
-
-    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-      - name: Install Dependencies
-        run: pnpm install
-      - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :white_check_mark:"
-
-  report-to-slack-failure:
-    runs-on: ubuntu-22.04
-    needs:
-      - community-generators
-
-    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-      - name: Install Dependencies
-        run: pnpm install
-      - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh "(Optional tests) :x:"
 
   community-generators:
     needs: [detect_jobs_to_run]
@@ -139,7 +97,3 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.generator }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.generator }}

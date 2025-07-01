@@ -38,8 +38,6 @@ jobs:
         run: pnpm run update-ci latest
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   check-for-dev-update:
     runs-on: ubuntu-22.04
@@ -65,8 +63,6 @@ jobs:
         run: pnpm run update-ci dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   check-for-patch-dev-update:
     runs-on: ubuntu-22.04
@@ -92,8 +88,6 @@ jobs:
         run: pnpm run update-ci patch-dev
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
 
   check-for-integration-update:
     runs-on: ubuntu-22.04
@@ -119,31 +113,3 @@ jobs:
         run: pnpm run update-ci integration
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
-
-  report-to-slack-failure:
-    runs-on: ubuntu-22.04
-    needs:
-      - check-for-latest-update
-      - check-for-dev-update
-      - check-for-patch-dev-update
-      - check-for-integration-update
-    if: failure()
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4.0.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh "check-for-update :x:"
-        env:
-          SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}

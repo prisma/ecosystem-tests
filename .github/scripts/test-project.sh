@@ -23,13 +23,6 @@ if [ -f "$deno_json_path" ]; then
   bash .github/scripts/print-version-deno.sh "$deno_json_path"
 fi
 
-# Install deps for Slack scripts
-echo "cd .github/slack/"
-cd .github/slack/
-pnpm install
-echo "cd ../.."
-cd ../..
-
 # Store root so we can go back to it later
 root=$(pwd)
 
@@ -193,18 +186,6 @@ echo "$dir/$project done"
 
 # back to store root, no matter what scripts did
 cd "$root"
-
-if [ "$GITHUB_REF" = "refs/heads/dev" ] || [ "$GITHUB_REF" = "refs/heads/integration" ] || [ "$GITHUB_REF" = "refs/heads/patch-dev" ] || [ "$GITHUB_REF" = "refs/heads/latest" ]; then
-  branch="${GITHUB_REF##*/}"
-  sha="$(git rev-parse HEAD | cut -c -7)"
-  short_sha="$(echo "$sha" | cut -c -7)"
-  commit_link="\`<https://github.com/prisma/ecosystem-tests/commit/$sha|$branch@$short_sha>\`"
-  workflow_link="<https://github.com/prisma/ecosystem-tests/actions/runs/$GITHUB_RUN_ID|$project $matrix>"
-
-  export webhook="$SLACK_WEBHOOK_URL"
-  version="$(cat .github/prisma-version.txt)"
-  sha="$(git rev-parse HEAD | cut -c -7)"
-fi
 
 echo "exitting with code $code"
 exit $code
