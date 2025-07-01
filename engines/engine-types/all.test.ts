@@ -1,27 +1,13 @@
-import {
-  DEFAULT_CLIENT_ENGINE_TYPE,
-  DEFAULT_CLI_QUERY_ENGINE_TYPE,
-  EngineType,
-} from './constants'
+import { DEFAULT_CLIENT_ENGINE_TYPE, EngineType } from './constants'
 import { getCustomBinaryPath, getCustomLibraryPath, runTest } from './utils'
 
-describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${DEFAULT_CLIENT_ENGINE_TYPE})`, () => {
+describe(`Engine Types - default(Client=${DEFAULT_CLIENT_ENGINE_TYPE})`, () => {
   // Test Default
   runTest({})
 
   // ENV Overrides
   runTest({
     env: {
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Binary,
-    },
-  })
-  runTest({
-    env: {
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Library,
-    },
-  })
-  runTest({
-    env: {
       PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),
     },
   })
@@ -32,7 +18,6 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
   })
   runTest({
     env: {
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Binary,
       PRISMA_QUERY_ENGINE_LIBRARY: getCustomLibraryPath(),
       PRISMA_QUERY_ENGINE_BINARY: getCustomBinaryPath(),
     },
@@ -45,18 +30,6 @@ describe(`Engine Types - default(CLI=${DEFAULT_CLI_QUERY_ENGINE_TYPE} Client=${D
   runTest({
     env: {
       PRISMA_CLIENT_ENGINE_TYPE: EngineType.Library,
-    },
-  })
-  runTest({
-    env: {
-      PRISMA_CLIENT_ENGINE_TYPE: EngineType.Binary,
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Binary,
-    },
-  })
-  runTest({
-    env: {
-      PRISMA_CLIENT_ENGINE_TYPE: EngineType.Library,
-      PRISMA_CLI_QUERY_ENGINE_TYPE: EngineType.Library,
     },
   })
   // Schema
