@@ -27,8 +27,6 @@ async function main() {
   // Jobs in the workflow files that are not relevant and can be skipped
   const jobsToIgnore = [
     'start-time', // Not a test but a job that fills an env var with the job start time
-    'report-to-slack-success', // Not a test but a job that posts to slack
-    'report-to-slack-failure', // Not a test but a job that posts to slack
     'detect_jobs_to_run', // Not a test but a job that decides which tests should run
     'cleanup-runs', // Not a test but a job that cancels previous runs
   ]
@@ -117,7 +115,7 @@ function foldersFromMatrix(matrix) {
     .filter((key) => {
       return !keysToIgnore.includes(key)
     })
-    .flatMap(key => {
+    .flatMap((key) => {
       if (key == 'include' && Array.isArray(matrix[key])) {
         return matrix[key].flatMap(foldersFromMatrix)
       }

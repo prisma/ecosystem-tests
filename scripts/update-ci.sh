@@ -47,8 +47,6 @@ if [ "$1" = "dev" ]; then # check merge conflicts
 fi
 
 if [ $code -ne 0 ]; then
-  export webhook="$SLACK_WEBHOOK_URL_FAILING"
-  node .github/slack/notify.js ":warning: Merge conflict for upgrading to $NEW_VERSION (via $1)"
   exit 0
 fi
 
@@ -60,7 +58,5 @@ if [ "$1" = "dev" ]
 fi
 
 if [ $code -eq 0 ]; then
-  export webhook="$SLACK_WEBHOOK_URL"
-  node .github/slack/notify.js "Prisma version $NEW_VERSION sucessfully upgraded (via $1)"
   exit 0
 fi

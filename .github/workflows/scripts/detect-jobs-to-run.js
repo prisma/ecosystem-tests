@@ -27,7 +27,7 @@ async function getStdin() {
 }
 
 async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
-  console.debug("filesChanged", filesChanged)
+  console.debug('filesChanged', filesChanged)
   const testYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/test.yaml'), { encoding: 'utf8' })
   const testYaml = yaml.parse(testYamlString)
   const optionalTestYamlString = fs.readFileSync(path.join(process.cwd(), '.github/workflows/optional-test.yaml'), {
@@ -39,15 +39,13 @@ async function detectJobsTorun({ filesChanged, GITHUB_REF }) {
   // ['process-managers', 'docker', 'core-features', ...]
   const testDirectories = Object.keys(allJobs).filter((key) => {
     const jobsToIgnore = [
-      'detect_jobs_to_run',         // Not a test but a job that decides which tests should run
-      'report-to-slack-success',    // Not a test but a job that posts to slack
-      'report-to-slack-failure',    // Not a test but a job that posts to slack
-      'cleanup-runs',               // Not a test but a job that cancels previous runs
-      'confirm_all_jobs_have_run',  // Not a test but a job that confirms all tests have run (for Renovate)
+      'detect_jobs_to_run', // Not a test but a job that decides which tests should run
+      'cleanup-runs', // Not a test but a job that cancels previous runs
+      'confirm_all_jobs_have_run', // Not a test but a job that confirms all tests have run (for Renovate)
     ]
     return !jobsToIgnore.includes(key)
   })
-  console.debug("testDirectories", testDirectories)
+  console.debug('testDirectories', testDirectories)
 
   // Array used as output
   const jobsToRun = []
@@ -135,7 +133,7 @@ async function main() {
   })
 
   console.debug({ jobsToRun })
-  
+
   if (typeof process.env.GITHUB_OUTPUT == 'string' && process.env.GITHUB_OUTPUT.length > 0) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `jobs=${JSON.stringify(jobsToRun)}\n`)
     console.debug('jobsToRun added to GITHUB_OUTPUT')

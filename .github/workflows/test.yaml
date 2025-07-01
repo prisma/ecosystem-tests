@@ -27,9 +27,6 @@ env:
   # To hide "Update available x.y.z -> x.y.z"
   PRISMA_HIDE_UPDATE_MESSAGE: true
   CI: 1
-  SLACK_WEBHOOK_URL_WORKFLOWS: ${{ secrets.SLACK_WEBHOOK_URL_WORKFLOWS }}
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  SLACK_WEBHOOK_URL_FAILING: ${{ secrets.SLACK_WEBHOOK_URL_FAILING }}
   DATABASE_URL_POSTGRES_TEMPLATE: ${{ secrets.DATABASE_URL_POSTGRES_TEMPLATE }}
   NEXT_TELEMETRY_DISABLED: 1
   # To override the endpoint used by fetch-engine to download engines artifacts:
@@ -110,86 +107,6 @@ jobs:
     if: always()
     steps:
       - run: echo "Ok"
-
-  report-to-slack-success:
-    runs-on: ubuntu-22.04
-    # One-liner to extract updated list to update this:
-    # python -c "import yaml; print('\n'.join(['      - ' + job for job in yaml.safe_load(open('test.yaml'))['jobs'] if job not in ['confirm_all_jobs_have_run', 'report-to-slack-success', 'report-to-slack-failure', 'detect_jobs_to_run']]))"
-    needs:
-      - process-managers
-      - docker
-      - docker-arm64
-      - docker-unsupported
-      - core-features
-      - migrate
-      - engines
-      - os
-      - node
-      - packagers
-      - frameworks
-      - platforms
-      - platforms-serverless
-      - platforms-serverless-vercel
-      - driver-adapters
-      - driver-adapters-wasm
-      - accelerate
-      - bundlers
-      - libraries
-      - databases
-      - databases-macos
-      - test-runners
-      - runtimes
-    if: success() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-      - name: Install Dependencies
-        run: pnpm install
-      - name: report success to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":white_check_mark:"
-
-  report-to-slack-failure:
-    runs-on: ubuntu-22.04
-    # One-liner to extract updated list to update this:
-    # python -c "import yaml; print('\n'.join(['      - ' + job for job in yaml.safe_load(open('test.yaml'))['jobs'] if job not in ['confirm_all_jobs_have_run', 'report-to-slack-success', 'report-to-slack-failure', 'detect_jobs_to_run']]))"
-    needs:
-      - process-managers
-      - docker
-      - docker-arm64
-      - docker-unsupported
-      - core-features
-      - migrate
-      - engines
-      - os
-      - node
-      - packagers
-      - frameworks
-      - platforms
-      - platforms-serverless
-      - platforms-serverless-vercel
-      - driver-adapters
-      - driver-adapters-wasm
-      - accelerate
-      - bundlers
-      - libraries
-      - databases
-      - databases-macos
-      - test-runners
-      - runtimes
-    if: failure() && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/integration' || github.ref == 'refs/heads/patch-dev' || github.ref == 'refs/heads/latest')
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-      - name: Install Dependencies
-        run: pnpm install
-      - name: report failure to slack
-        run: bash .github/scripts/slack-workflow-status.sh ":x:"
 
   ####################################################
   ### real jobs after this
@@ -324,10 +241,6 @@ jobs:
             export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
             bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
-
   driver-adapters-wasm:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'driver-adapters-wasm')
@@ -460,10 +373,6 @@ jobs:
             export FORCE_PRISMA_CLIENT_CUSTOM_OUTPUT=1
             bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.combo }}
-
   packagers:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'packagers')
@@ -542,10 +451,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.packager }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.packager }}
-
   frameworks:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'frameworks')
@@ -592,10 +497,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.framework }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.framework }}
 
   platforms:
     needs: [detect_jobs_to_run]
@@ -648,10 +549,6 @@ jobs:
           timeout_minutes: 60
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
 
   platforms-serverless:
     needs: [detect_jobs_to_run]
@@ -745,10 +642,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
   platforms-serverless-vercel:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'platforms-serverless-vercel')
@@ -830,10 +723,6 @@ jobs:
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
   core-features:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'core-features')
@@ -905,10 +794,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
   migrate:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'migrate')
@@ -952,10 +837,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   engines:
     needs: [detect_jobs_to_run]
@@ -1002,10 +883,6 @@ jobs:
       - name: test engines - ${{ matrix.feature }}
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
   os:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'os')
@@ -1049,10 +926,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic ${{ matrix.os }}
-
   m1:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'm1')
@@ -1094,10 +967,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic-m1
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic-m1
 
   node:
     needs: [detect_jobs_to_run]
@@ -1148,10 +1017,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh generic basic "node ${{ matrix.node }}"
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh generic basic "node ${{ matrix.node }}"
 
   # TODO databases are shared between the steps (DP2, DP2+Accelerate), so we run them in sequence
   # it would be great if we could run them in parallel by letting them use the db provided by E2E
@@ -1258,10 +1123,6 @@ jobs:
           ITX_PDP_COCKROACHDB_DATABASE_URL: ${{ secrets.ITX_PDP_COCKROACHDB_DATABASE_URL }}
           ITX_PDP_COCKROACHDB: ${{ secrets.DP2_ITX_PDP_COCKROACHDB }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.platform }}
-
   bundlers:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'bundlers')
@@ -1310,10 +1171,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.bundler }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.bundler }}
-
   libraries:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'libraries')
@@ -1361,10 +1218,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.library }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.library }}
-
   prisma-postgres:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'prisma-postgres')
@@ -1406,10 +1259,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.tests }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.tests }}
 
   databases:
     needs: [detect_jobs_to_run]
@@ -1492,10 +1341,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
-
   databases-macos:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'databases-macos')
@@ -1535,10 +1380,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.database }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.database }}
 
   test-runners:
     needs: [detect_jobs_to_run]
@@ -1585,10 +1426,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.test-runner }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.test-runner }}
-
   runtimes:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'runtimes')
@@ -1625,10 +1462,6 @@ jobs:
 
       - name: test ${{ matrix.runtime }}
         run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.runtime }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.runtime }}
 
   process-managers:
     needs: [detect_jobs_to_run]
@@ -1672,10 +1505,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   docker:
     needs: [detect_jobs_to_run]
@@ -1750,10 +1579,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
-
   docker-arm64:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'docker-arm64')
@@ -1815,10 +1640,6 @@ jobs:
           timeout_minutes: 20
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-      - name: notify-slack
-        if: failure()
-        run: bash .github/slack/notify-failure.sh ${{ github.job }} ${{ matrix.feature }}
 
   # These tests are expected to fail
   # Meaning a successfull run actually shows a non zero exit code in the logs
