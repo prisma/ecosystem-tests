@@ -5,8 +5,8 @@ import { PrismaLibSQL } from '@prisma/adapter-libsql/web'
 export default {
   async fetch(request, env, ctx) {
     const adapter = new PrismaLibSQL({
-      url: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL,
-      authToken: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN,
+      url: env.DRIVER_ADAPTERS_TURSO_WEB_CF_BASIC_DATABASE_URL,
+      authToken: env.DRIVER_ADAPTERS_TURSO_WEB_CF_BASIC_TOKEN,
     })
     const prisma = new PrismaClient({ adapter })
 
