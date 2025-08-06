@@ -1,5 +1,8 @@
 service: platforms-serverless-slsf-${env:PRISMA_CLIENT_ENGINE_TYPE}
 
+plugins:
+  - serverless-esbuild
+
 provider:
   name: aws
   runtime: nodejs20.x
@@ -11,7 +14,7 @@ provider:
 
 functions:
   hello:
-    handler: index.handler
+    handler: src/index.handler
     name: platforms-serverless-slsf-${env:PRISMA_CLIENT_ENGINE_TYPE}
     environment:
       DATABASE_URL: ${env:DATABASE_URL}
@@ -23,4 +26,3 @@ package:
   - '!node_modules/.prisma/client/libquery_engine-*'
   - 'node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node'
   - 'node_modules/.prisma/client/query-engine-rhel-openssl-3.0.x'
-  - '!node_modules/prisma/**'
