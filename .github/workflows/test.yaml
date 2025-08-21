@@ -210,7 +210,7 @@ jobs:
         run: |
           find . -name schema.prisma -exec sed -i \
             -e 's/previewFeatures = \["driverAdapters"\]/previewFeatures = ["driverAdapters", "queryCompiler"]/' \
-            -e 's/provider = "prisma-client-js"/provider = "prisma-client"\n  output = "..\/node_modules\/.prisma\/client"/' \
+            -e 's/provider[[:space:]]*= "prisma-client-js"/provider = "prisma-client"\n  output = "..\/node_modules\/.prisma\/client"/' \
             {} +
 
       - uses: actions/setup-node@v4
