@@ -144,7 +144,7 @@ jobs:
           - turso-web-node-basic-esm
           - turso-web-vercel-nextjs
           - tidb-node-basic
-        clientEngine: ['library']
+        clientEngine: ['library', 'client']
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     # To avoid race conditions when running tests, we need to avoid concurrency
@@ -172,6 +172,8 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       DEBUG: 'prisma:driver-adapter*'
       PRISMA_DISABLE_QUAINT_EXECUTORS: true
+      PRISMA_CLIENT_ENGINE_TYPE: ${{ matrix.clientEngine }}
+
       # neon http
       DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL }}
@@ -203,14 +205,19 @@ jobs:
 
       - uses: pnpm/action-setup@v4.0.0
 
+      - name: Add queryCompiler preview feature and prisma-client provider when using client engine
+        if: ${{ matrix.clientEngine == 'client' }}
+        run: |
+          find . -name schema.prisma -exec sed -i \
+            -e 's/previewFeatures = \["driverAdapters"\]/previewFeatures = ["driverAdapters", "queryCompiler"]/' \
+            -e 's/provider = "prisma-client-js"/provider = "prisma-client"\n  output = "..\/node_modules\/.prisma\/client"/' \
+            {} +
+
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: pnpm install
@@ -231,7 +238,9 @@ jobs:
           retry_wait_seconds: 30
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.combo }}
 
-      - name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
+      # Client engine runs with custom output anyway.
+      - if: ${{ matrix.clientEngine != 'client' }}
+        name: test ${{ matrix.combo }} - ${{ matrix.clientEngine }} (custom output)
         uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
