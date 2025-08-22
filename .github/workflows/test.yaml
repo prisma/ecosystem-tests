@@ -231,7 +231,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4.0.0
 
-      - name: Add queryCompiler preview feature and prisma-client provider when using client engine
+      - name: Add queryCompiler preview feature when using client engine
         if: ${{ matrix.clientEngine == 'client' }}
         run: |
           find . -name schema.prisma -exec sed -i \
