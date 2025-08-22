@@ -144,6 +144,9 @@ elif [ $CLIENT_ENGINE_TYPE == "wasm" ]; then
       os_name=notset
       ;;
   esac
+elif [ $CLIENT_ENGINE_TYPE == "client" ]; then
+  echo "Client engine detected, skipping QE check"
+  exit 0
 elif [ $CLIENT_ENGINE_TYPE == "<accelerate>" ]; then
   echo "Accelerate: Enabled"
 else

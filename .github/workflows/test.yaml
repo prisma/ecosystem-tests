@@ -144,8 +144,34 @@ jobs:
           - turso-web-node-basic-esm
           - turso-web-vercel-nextjs
           - tidb-node-basic
-        clientEngine: ['library']
+        clientEngine: [library, client]
         os: [ubuntu-22.04]
+        exclude:
+          - combo: neon-http-lambda-basic
+            clientEngine: client
+          - combo: neon-lambda-basic
+            clientEngine: client
+          - combo: planetscale-lambda-basic
+            clientEngine: client
+          - combo: pg-lambda-basic
+            clientEngine: client
+          - combo: turso-web-lambda-basic
+            clientEngine: client
+          - combo: turso-web-lambda-basic
+            clientEngine: client
+          - combo: neon-http-vercel-nextjs
+            clientEngine: client
+          - combo: neon-vercel-nextjs
+            clientEngine: client
+          - combo: planetscale-vercel-nextjs
+            clientEngine: client
+          - combo: pg-vercel-nextjs
+            clientEngine: client
+          - combo: turso-vercel-nextjs
+            clientEngine: client
+          - combo: turso-web-vercel-nextjs
+            clientEngine: client
+
     runs-on: ${{ matrix.os }}
     # To avoid race conditions when running tests, we need to avoid concurrency
     # The tests should not be run concurrently for a given "combo"
@@ -172,6 +198,8 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       DEBUG: 'prisma:driver-adapter*'
       PRISMA_DISABLE_QUAINT_EXECUTORS: true
+      PRISMA_CLIENT_ENGINE_TYPE: ${{ matrix.clientEngine }}
+
       # neon http
       DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL }}
       DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL: ${{ secrets.DRIVER_ADAPTERS_NEON_HTTP_NODE_BASIC_DATABASE_URL }}
@@ -203,14 +231,18 @@ jobs:
 
       - uses: pnpm/action-setup@v4.0.0
 
+      - name: Add queryCompiler preview feature when using client engine
+        if: ${{ matrix.clientEngine == 'client' }}
+        run: |
+          find . -name schema.prisma -exec sed -i \
+            -e 's/previewFeatures = \["driverAdapters"\]/previewFeatures = ["driverAdapters", "queryCompiler"]/' \
+            {} +
+
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: pnpm install
