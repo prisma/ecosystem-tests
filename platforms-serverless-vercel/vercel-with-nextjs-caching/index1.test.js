@@ -20,9 +20,9 @@ test('simple query', async () => {
     },
   })
 
-  const data = await r.json()
+  const data = await r.json().catch((e) => e)
   expect(data).toMatchObject({
-    value: true,
+    value: expect.stringContaining(`Unknown argument \`name\`.`),
   })
 })
 

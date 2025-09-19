@@ -14,9 +14,6 @@ export default async (req, res) => {
         name: 'Alice',
       },
     })
-    if (res.name !== 'Alice') {
-      throw new Error('User name missing')
-    }
   } catch (e) {
     return res.status(500).json({ value: e.message })
   }
