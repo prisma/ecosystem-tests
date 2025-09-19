@@ -23,9 +23,7 @@ test('simple query', async () => {
   const data = await r.json().catch((e) => e)
 
   expect(data).toMatchObject({
-    value: expect.stringContaining(
-      `Prisma has detected that this project was built on Vercel, which caches dependencies.`,
-    ),
+    value: expect.stringContaining(`Unknown argument \`name\`.`),
   })
 })
 

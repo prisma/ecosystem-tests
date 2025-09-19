@@ -11,9 +11,9 @@ export default async (req, res) => {
         id: '1234567890',
         email: 'alice@prisma.io',
         nick: 'al',
-        // name: 'Alice',
+        name: 'Alice',
       },
-    })  
+    })
   } catch (e) {
     return res.status(500).json({ value: e.message })
   }
