@@ -14,6 +14,8 @@ pnpm vercel deploy \
 --env DATAPROXY_COMMON_URL="$DATAPROXY_COMMON_URL" \
 --build-env DATAPROXY_FLAVOR="$DATAPROXY_FLAVOR" \
 --env DATAPROXY_FLAVOR="$DATAPROXY_FLAVOR" \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
 1> deployment-url.txt
 
 echo ''

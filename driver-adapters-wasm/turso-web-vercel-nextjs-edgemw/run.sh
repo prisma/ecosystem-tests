@@ -18,7 +18,10 @@ pnpm vercel deploy \
 --build-env DEBUG="prisma:*" \
 --env DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL=$DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL \
 --env DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN=$DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN \
---scope=$VERCEL_ORG_ID 1> deployment-url.txt
+--scope=$VERCEL_ORG_ID \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
+1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt

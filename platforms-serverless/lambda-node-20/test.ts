@@ -19,9 +19,9 @@ async function main() {
   const actual = JSON.stringify(original)
   console.log('actual', actual)
   // TODO Update to only expect on engine file after zip script was updated
-  let files = `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-debian-openssl-1.1.x.so.node","libquery_engine-rhel-openssl-3.0.x.so.node","package.json","schema.prisma","wasm.d.ts","wasm.js"]`
+  let files = `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-debian-openssl-1.1.x.so.node","libquery_engine-rhel-openssl-3.0.x.so.node","package.json","query_engine_bg.js","query_engine_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]`
   if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
-    files = `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-debian-openssl-1.1.x","query-engine-rhel-openssl-3.0.x","schema.prisma","wasm.d.ts","wasm.js"]`
+    files = `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-debian-openssl-1.1.x","query-engine-rhel-openssl-3.0.x","query_engine_bg.js","query_engine_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]`
   }
 
   const expect =

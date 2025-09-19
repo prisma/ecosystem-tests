@@ -19,7 +19,10 @@ pnpm vercel deploy \
 --build-env DEBUG="prisma:*" \
 --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" \
 --env DATABASE_URL_PLANETSCALE=$DATABASE_URL_PLANETSCALE \
---scope=$VERCEL_ORG_ID 1> deployment-url.txt
+--scope=$VERCEL_ORG_ID \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
+1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
