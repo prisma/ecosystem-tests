@@ -40,7 +40,11 @@ describe('Prisma', () => {
   "index.js",
   "libquery_engine-linux-arm64-openssl-3.0.x.so.node",
   "package.json",
+  "query_engine_bg.js",
+  "query_engine_bg.wasm",
   "schema.prisma",
+  "wasm-edge-light-loader.mjs",
+  "wasm-worker-loader.mjs",
   "wasm.d.ts",
   "wasm.js",
 ]
@@ -59,7 +63,11 @@ describe('Prisma', () => {
   "index.js",
   "package.json",
   "query-engine-linux-arm64-openssl-3.0.x",
+  "query_engine_bg.js",
+  "query_engine_bg.wasm",
   "schema.prisma",
+  "wasm-edge-light-loader.mjs",
+  "wasm-worker-loader.mjs",
   "wasm.d.ts",
   "wasm.js",
 ]

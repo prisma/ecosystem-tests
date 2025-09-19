@@ -58,7 +58,11 @@ test('should test .prisma/client files', async () => {
           'index.js',
           'package.json',
           'query-engine-rhel-openssl-3.0.x',
+          'query_engine_bg.js',
+          'query_engine_bg.wasm',
           'schema.prisma',
+          'wasm-edge-light-loader.mjs',
+          'wasm-worker-loader.mjs',
           'wasm.d.ts',
           'wasm.js',
         ]
@@ -74,7 +78,11 @@ test('should test .prisma/client files', async () => {
           'index.js',
           'libquery_engine-rhel-openssl-3.0.x.so.node',
           'package.json',
+          'query_engine_bg.js',
+          'query_engine_bg.wasm',
           'schema.prisma',
+          'wasm-edge-light-loader.mjs',
+          'wasm-worker-loader.mjs',
           'wasm.d.ts',
           'wasm.js',
         ]
