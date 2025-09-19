@@ -6,14 +6,17 @@ export default async (req, res) => {
 
     await client.user.deleteMany({})
 
-    await client.user.create({
+    const res = await client.user.create({
       data: {
         id: '1234567890',
         email: 'alice@prisma.io',
         nick: 'al',
         name: 'Alice',
       },
-    })  
+    })
+    if (res.name !== 'Alice') {
+      throw new Error('User name missing')
+    }
   } catch (e) {
     return res.status(500).json({ value: e.message })
   }
