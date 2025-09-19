@@ -17,7 +17,10 @@ pnpm vercel deploy \
 --token=$VERCEL_TOKEN \
 --build-env DEBUG="prisma:*" \
 --env DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL=$DRIVER_ADAPTERS_NEON_VERCEL_NEXTJS_APP_EDGEFN_DATABASE_URL \
---scope=$VERCEL_ORG_ID 1> deployment-url.txt
+--scope=$VERCEL_ORG_ID \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
+1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt

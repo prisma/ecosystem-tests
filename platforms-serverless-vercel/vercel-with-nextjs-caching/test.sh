@@ -19,7 +19,9 @@ pnpm vercel deploy \
 --build-env DEBUG="prisma:*" \
 --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" \
 --scope="$VERCEL_ORG_ID" \
-1> deployment-url.txt \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
+1> deployment-url.txt
 
 cat deployment-url.txt
 DEPLOYED_URL=$(tail -n 1 deployment-url.txt)
@@ -48,7 +50,9 @@ pnpm vercel deploy \
 --build-env DEBUG="prisma:*" \
 --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" \
 --scope=$VERCEL_ORG_ID \
-1> deployment-url.txt \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
+1> deployment-url.txt
 
 cat deployment-url.txt
 DEPLOYED_URL=$(tail -n 1 deployment-url.txt)

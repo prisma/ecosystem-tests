@@ -19,7 +19,10 @@ pnpm vercel deploy \
 --build-env DEBUG="prisma:*" \
 --build-env PRISMA_CLIENT_ENGINE_TYPE="$PRISMA_CLIENT_ENGINE_TYPE" \
 --env DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL=$DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_DATABASE_URL \
---scope=$VERCEL_ORG_ID 1> deployment-url.txt
+--scope=$VERCEL_ORG_ID \
+| grep -oE 'https?://[^ ]+' \
+| tail -n 1 \
+1> deployment-url.txt
 
 echo ''
 cat deployment-url.txt
