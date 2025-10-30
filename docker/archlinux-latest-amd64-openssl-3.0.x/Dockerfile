@@ -3,7 +3,7 @@
 # substitute for centos
 FROM archlinux:latest
 
-ARG NODE_VERSION="18.18.0"
+ARG NODE_VERSION="20.19.0"
 ARG ARCH="x64"
 
 WORKDIR /usr/src/app
