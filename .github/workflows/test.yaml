@@ -240,7 +240,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
 
@@ -427,13 +427,13 @@ jobs:
           - yarn3-workspaces-pnp
         include:
           - packager: yarn
-            node: 18
+            node: 20
           - packager: yarn-workspaces
-            node: 18
+            node: 20
           - packager: yarn3-without-pnp
-            node: 18
+            node: 20
           - packager: yarn3-workspaces-pnp
-            node: 18
+            node: 20
         clientEngine: [library] #['library', 'binary']
     runs-on: ${{ matrix.os }}
     env:
@@ -453,7 +453,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node || 18 }}
+          node-version: ${{ matrix.node || 20 }}
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
@@ -510,7 +510,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
 
@@ -559,7 +559,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
@@ -605,7 +605,7 @@ jobs:
         os: [ubuntu-22.04]
         include:
           - platform: firebase-functions
-            node: '18'
+            node: '20'
         exclude:
           # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
           - clientEngine: library
@@ -639,7 +639,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node || '18' }}
+          node-version: ${{ matrix.node || '20' }}
           cache: |
             ${{
               contains(matrix.platform, 'azure') && 'npm' ||
@@ -694,7 +694,7 @@ jobs:
         os: [ubuntu-22.04]
         include:
           - platform: vercel-with-redwood
-            node: 18
+            node: 20
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -722,7 +722,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node || 18 }}
+          node-version: ${{ matrix.node || 20 }}
           cache: |
             ${{
               contains(matrix.platform, 'redwood') && 'yarn' ||
@@ -796,7 +796,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: |
             ${{
               contains(matrix.feature, '-yarn') && 'yarn' ||
@@ -850,7 +850,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -899,7 +899,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -938,7 +938,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: generic/basic/pnpm-lock.yaml
 
@@ -980,7 +980,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: generic/basic-m1/pnpm-lock.yaml
 
@@ -1010,11 +1010,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 18.18 # Prisma's minimum version, see: https://www.prisma.io/docs/reference/system-requirements
-          - 18
-          - 20
-          - 22
-          - 23 # we expect this to fail
+          - 20.19
+          - 22.12
+          - 24
         clientEngine: ['library', 'binary']
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
@@ -1100,7 +1098,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: ${{ matrix.platform != 'deno' }}
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
@@ -1183,7 +1181,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
 
@@ -1230,7 +1228,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
 
@@ -1280,7 +1278,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.tests }}/pnpm-lock.yaml
 
@@ -1361,7 +1359,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
@@ -1401,7 +1399,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
@@ -1438,7 +1436,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
 
@@ -1485,7 +1483,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - uses: denoland/setup-deno@v2
         with:
@@ -1518,7 +1516,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1590,7 +1588,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1652,7 +1650,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1701,7 +1699,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 

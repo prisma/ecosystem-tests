@@ -11,8 +11,8 @@ This is the last Alpine version to have OpenSSL 1.1, as Alpine 3.17+ upgraded to
 Running `prisma` -v will fail with:
 
 ```sh
-┌──────────────────────────────────────────────┐
-│    Prisma only supports Node.js >= 18.18.    │
-│    Please upgrade your Node.js version.      │
-└──────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│    Prisma only supports Node.js versions 20.19, 22.12, 24.0.    │
+│    Please upgrade your Node.js version.                         │
+└─────────────────────────────────────────────────────────────────┘
 ```
