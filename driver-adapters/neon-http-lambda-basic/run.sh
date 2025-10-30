@@ -16,7 +16,7 @@ GENERATED_CLIENT=$(node -e "
 ")
 
 pnpm esbuild index.js --bundle --platform=node --target=node20 --outfile=dist/index.js --format=cjs
-QUERY_ENGINE_LIB="$GENERATED_CLIENT/libquery_engine-rhel-openssl-1.0.x.so.node"
+QUERY_ENGINE_LIB="$GENERATED_CLIENT/libquery_engine-rhel-openssl-3.0.x.so.node"
 if [ -f "$QUERY_ENGINE_LIB" ]; then
   cp "$QUERY_ENGINE_LIB" dist
 fi
