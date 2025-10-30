@@ -33,8 +33,10 @@ done
 
 echo "New version $NEW_VERSION was found and will be used for the update."
 
-git fetch github "dev"
-git reset --hard "github/dev"
+if [ "$1" != "next" ]; then
+  git fetch github "dev"
+  git reset --hard "github/dev"
+fi
 
 pnpm run update-all "$NEW_VERSION"
 
