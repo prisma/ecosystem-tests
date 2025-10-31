@@ -28,7 +28,14 @@ do
     exit 0
   fi
 
-  NEW_VERSION=$(npm show prisma@$1 version)
+  if [ "$1" = "next" ]; then
+    INTEGRATION_VERSION=$(npm show prisma@integration version)
+    if echo "$INTEGRATION_VERSION" | grep -q "integration-next"; then
+      NEW_VERSION=$INTEGRATION_VERSION
+    fi
+  else
+    NEW_VERSION=$(npm show prisma@$1 version)
+  fi
 done
 
 echo "New version $NEW_VERSION was found and will be used for the update."
