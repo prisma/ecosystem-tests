@@ -1,8 +1,13 @@
 import { Prisma as PA, PrismaClient as PCA } from '../../generated/database/client'
 import { Prisma as PB, PrismaClient as PCB } from '../../generated/database/client2'
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
 
-const prismaA = new PCA()
-const prismaB = new PCB()
+const adapter = new PrismaBetterSqlite3({
+  url: 'file:./prisma/keep.db',
+})
+
+const prismaA = new PCA({ adapter })
+const prismaB = new PCB({ adapter })
 
 afterAll(async () => {
   await prismaA.$disconnect()

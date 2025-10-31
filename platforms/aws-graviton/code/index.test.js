@@ -1,8 +1,8 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
-const { PrismaPg } = require('@prisma/adapter-pg')
+const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3')
 
 const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+  adapter: new PrismaBetterSqlite3({ url: './keep.db' }),
 })
 
 describe('Prisma', () => {
