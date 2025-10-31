@@ -83,13 +83,8 @@ jobs:
     # python -c "import yaml; print('\n'.join(['      - ' + job for job in yaml.safe_load(open('test.yaml'))['jobs'] if job not in ['confirm_all_jobs_have_run', 'report-to-slack-success', 'report-to-slack-failure', 'detect_jobs_to_run']]))"
     needs:
       - process-managers
-      - docker
-      - docker-arm64
-      - docker-unsupported
       - core-features
       - migrate
-      - engines
-      - os
       - node
       - packagers
       - frameworks
