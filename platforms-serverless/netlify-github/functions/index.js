@@ -2,7 +2,7 @@ const { PrismaClient, Prisma } = require('@prisma/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const client = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+  adapter: new PrismaPg({ connectionString: process.env.NETLIFY_BETA_PG_URL }),
 })
 
 exports.handler = async function (event, context, callback) {
