@@ -1,7 +1,11 @@
 const express = require('express')
 
 const { PrismaClient, Prisma } = require('./prisma/generated/client')
-const client = new PrismaClient()
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 const app = express()
 const port = process.env.PORT || 3000

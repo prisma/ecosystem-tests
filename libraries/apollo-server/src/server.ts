@@ -1,10 +1,13 @@
 import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 import { ApolloServer } from '@apollo/server'
-import { startStandaloneServer } from '@apollo/server/standalone';
+import { startStandaloneServer } from '@apollo/server/standalone'
 import { gql } from '@apollo/client/core'
 import { createContext } from './context'
 
-const client = new PrismaClient();
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 const schema = gql`
   type Test {
@@ -14,7 +17,7 @@ const schema = gql`
   type Query {
     test: Test
   }
-`;
+`
 
 const resolvers = {
   Query: {
@@ -26,7 +29,7 @@ const resolvers = {
             name: 'John Doe',
           },
         })
-      } catch (err) { }
+      } catch (err) {}
 
       const result = await client.user.findMany({
         where: {
@@ -39,15 +42,15 @@ const resolvers = {
       }
     },
   },
-};
+}
 
 async function startServer() {
-  const server = new ApolloServer({ typeDefs: schema, resolvers });
+  const server = new ApolloServer({ typeDefs: schema, resolvers })
 
   const { url } = await startStandaloneServer(server, {
     context: async ({ req }) => createContext,
     listen: { port: 4000 },
-  });
+  })
 
   console.log(
     `🚀 Server ready at: ${url}\n⭐️ See sample queries: http://pris.ly/e/ts/graphql-apollo-server#3-using-the-graphql-api`,

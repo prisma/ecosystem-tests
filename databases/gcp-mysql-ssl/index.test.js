@@ -1,6 +1,11 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
-const fs = require('fs')
-const prisma = new PrismaClient()
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({
+    connectionString: process.env.GCP_POSTGRESQL_SSL_DB_URL,
+  }),
+})
 
 const pjson = require('./package.json')
 
@@ -10,9 +15,7 @@ describe('tests for GCP MySQL SSL database', () => {
   })
 
   it('should test the Prisma version', async () => {
-    expect(Prisma.prismaVersion.client).toEqual(
-      pjson['dependencies']['@prisma/client'],
-    )
+    expect(Prisma.prismaVersion.client).toEqual(pjson['dependencies']['@prisma/client'])
   })
 
   it('should query the database', async () => {
