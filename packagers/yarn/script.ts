@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 async function main() {
   await client.user.deleteMany({})
@@ -19,7 +22,7 @@ async function main() {
 }
 
 main()
-  .catch(async e => {
+  .catch(async (e) => {
     console.error(e)
     process.exit(1)
   })

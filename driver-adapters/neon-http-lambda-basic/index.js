@@ -1,10 +1,10 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { PrismaNeonHTTP } = require('@prisma/adapter-neon')
+const { PrismaNeonHttp } = require('@prisma/adapter-neon')
 
 const connectionString = process.env.DRIVER_ADAPTERS_NEON_HTTP_LAMBDA_BASIC_DATABASE_URL
 
-const adapter = new PrismaNeonHTTP(connectionString)
+const adapter = new PrismaNeonHttp(connectionString)
 const prisma = new PrismaClient({ adapter })
 
 exports.handler = async () => {

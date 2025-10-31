@@ -1,10 +1,10 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { PrismaLibSql } from '@prisma/adapter-libsql'
 
 export default {
   async fetch(request, env, ctx) {
-    const adapter = new PrismaLibSQL({
+    const adapter = new PrismaLibSql({
       url: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_DATABASE_URL,
       authToken: env.DRIVER_ADAPTERS_TURSO_CF_BASIC_TOKEN,
     })

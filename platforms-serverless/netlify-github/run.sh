@@ -5,17 +5,6 @@ set -eu
 ID=$(date +%s%N)
 echo $ID > id.txt
 
-# When PRISMA_CLIENT_ENGINE_TYPE is set to `binary`, overwrite existing schema file with one that sets the engineType to 'binary'
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "Using Binary enabled schema"
-  cp ./prisma/schema-with-binary.prisma ./prisma/schema.prisma
-else
-  # use the default schema at prisma/schema.prisma file
-  echo "Using Node-API enabled schema"
-  cp ./prisma/schema-with-node-api.prisma ./prisma/schema.prisma
-fi
-
-
 # Modify package.json to bust cache
 # TODO Is this still needed?
 sed -i "s/netlify-github-to-be-replaced-on-build/$(date +%s%N)/" package.json

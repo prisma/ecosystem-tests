@@ -1,5 +1,11 @@
 const { PrismaClient } = require('./dist/prismaTest')
-const prisma = new PrismaClient()
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+  }),
+})
 
 describe('Using browser custom output', () => {
   test('prisma.user.findFirst() should fail', async () => {

@@ -1,10 +1,8 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
-const { PrismaPg } = require('@prisma/adapter-pg')
+const { PrismaMariaDb } = require('@prisma/adapter-mariadb')
 
 const prisma = new PrismaClient({
-  adapter: new PrismaPg({
-    connectionString: process.env.GCP_POSTGRESQL_SSL_DB_URL,
-  }),
+  adapter: new PrismaMariaDb(process.env.GCP_MYSQL_SSL_DB_URL),
 })
 
 const pjson = require('./package.json')
