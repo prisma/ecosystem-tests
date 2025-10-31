@@ -1,6 +1,9 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 describe('Prisma', () => {
   afterAll(() => {

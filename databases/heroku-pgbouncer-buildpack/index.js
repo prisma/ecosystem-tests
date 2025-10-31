@@ -1,13 +1,12 @@
 const express = require('express')
 
 const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
 const clientWithQueryStringParam = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL_PGBOUNCER + '?pgbouncer=true',
-    },
-  },
+  adapter: new PrismaPg({
+    connectionString: process.env.DATABASE_URL_PGBOUNCER + '?pgbouncer=true',
+  }),
 })
 
 const app = express()

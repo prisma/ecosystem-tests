@@ -1,6 +1,9 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 exports.handler = async function (event, context, callback) {
   await client.user.deleteMany({})

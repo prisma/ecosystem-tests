@@ -1,8 +1,11 @@
 const { PrismaClient } = require('@prisma/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
 export default async (req, res) => {
   try {
-    const client = new PrismaClient()
+    const client = new PrismaClient({
+      adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+    })
 
     await client.user.deleteMany({})
 
@@ -13,7 +16,7 @@ export default async (req, res) => {
         nick: 'al',
         name: 'Alice',
       },
-    })  
+    })
   } catch (e) {
     return res.status(500).json({ value: e.message })
   }

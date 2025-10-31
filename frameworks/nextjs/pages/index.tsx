@@ -3,9 +3,12 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/nav'
 import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
 export async function getStaticProps() {
-  const client = new PrismaClient()
+  const client = new PrismaClient({
+    adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+  })
 
   await client.user.deleteMany({})
 
@@ -23,13 +26,13 @@ export async function getStaticProps() {
   return {
     props: {
       users: users,
-      files: files
+      files: files,
     },
     revalidate: 5,
   }
 }
 
-const Home: NextPage<GetProps<typeof getStaticProps>> = props => (
+const Home: NextPage<GetProps<typeof getStaticProps>> = (props) => (
   <div>
     <Head>
       <title>Home</title>
@@ -41,7 +44,7 @@ const Home: NextPage<GetProps<typeof getStaticProps>> = props => (
     <div className="hero">
       <h1 className="title">Welcome to Next.js!</h1>
       <div className="description">
-        {props.users.map(u => (
+        {props.users.map((u) => (
           <div key={u.id}>
             Name: {u.name}
             Age: {u.age}
@@ -59,10 +62,7 @@ const Home: NextPage<GetProps<typeof getStaticProps>> = props => (
           <h3>Next.js Learn &rarr;</h3>
           <p>Learn about Next.js by following an interactive tutorial!</p>
         </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
+        <a href="https://github.com/zeit/next.js/tree/master/examples" className="card">
           <h3>Examples &rarr;</h3>
           <p>Find other example boilerplates on the Next.js GitHub.</p>
         </a>
@@ -121,8 +121,4 @@ const Home: NextPage<GetProps<typeof getStaticProps>> = props => (
 export default Home
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
-type GetProps<T extends (...args: any) => any> = ThenArg<
-  ReturnType<T>
-> extends { props: infer U }
-  ? U
-  : never
+type GetProps<T extends (...args: any) => any> = ThenArg<ReturnType<T>> extends { props: infer U } ? U : never

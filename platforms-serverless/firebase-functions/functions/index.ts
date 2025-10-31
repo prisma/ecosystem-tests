@@ -1,4 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+
 import * as functions from 'firebase-functions'
 import { defineSecret } from 'firebase-functions/params'
 
@@ -10,6 +12,7 @@ const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest({ secrets: [prismaD
 
   const client = new PrismaClient({
     log: ['info', 'query', 'warn'],
+    adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
   })
 
   const fs = require('fs')

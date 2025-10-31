@@ -1,12 +1,12 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 import { Context, HttpRequest } from '@azure/functions'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
-export default async function (
-  context: Context,
-  req: HttpRequest,
-): Promise<void> {
+export default async function (context: Context, req: HttpRequest): Promise<void> {
   await client.user.deleteMany({})
 
   const id = '12345'

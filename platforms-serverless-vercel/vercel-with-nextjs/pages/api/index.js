@@ -1,6 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 export default async (req, res) => {
   res.statusCode = 200
@@ -9,6 +12,6 @@ export default async (req, res) => {
 
   res.status(200).json({
     prismaVersion: Prisma.prismaVersion.client,
-    users
+    users,
   })
 }

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@prisma/adapter-planetscale':
+        specifier: 6.19.0-dev.8
+        version: 6.19.0-dev.8
       '@prisma/client':
         specifier: 6.19.0-dev.8
         version: 6.19.0-dev.8(prisma@6.19.0-dev.8)
@@ -382,6 +385,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.23':
     resolution: {integrity: sha512-9/4foRoUKp8s96tSkh8DlAAc5A0Ty8vLXld+l9gjKKY6ckwI8G15f0hskGmuLZu78ZlGa1vtsfOa+lnB4vG6Jg==}
 
+  '@planetscale/database@1.19.0':
+    resolution: {integrity: sha512-Tv4jcFUFAFjOWrGSio49H6R2ijALv0ZzVBfJKIdm+kl9X046Fh4LLawrF9OMsglVbK6ukqMJsUCeucGAFTBcMA==}
+    engines: {node: '>=16'}
+
+  '@prisma/adapter-planetscale@6.19.0-dev.8':
+    resolution: {integrity: sha512-rrfymivdIm+OOjyXpaImXncJwrr13QqkyUp+U7rcSpZdiD7chYJZsaU7zzggcuu+EqA3jLIhy8oMGGxJgnME7Q==}
+
   '@prisma/client@6.19.0-dev.8':
     resolution: {integrity: sha512-elo7Ip5FiGl8wkG6obMMydjjQ0m3X0r2p0Bhg4gh9PJpEFH9pogF/0/iG9XPJF0WVsx+yt0C5QvRSoCeR4xBVw==}
     engines: {node: '>=18.18'}
@@ -399,6 +409,9 @@ packages:
 
   '@prisma/debug@6.19.0-dev.8':
     resolution: {integrity: sha512-SnqsvyvXt7jf96Ojh2wOQMo1e0IcI/5/l69rQ6fUfcy6ipwHoBBdXhWfCSPMBNEIebhq4X57y4Peb3j+Vk92lA==}
+
+  '@prisma/driver-adapter-utils@6.19.0-dev.8':
+    resolution: {integrity: sha512-zKXPED2Yxy+F6SlLfZ7R/nYcWANlbSFHb+xYFjtAl4ahMVwi8mCcigHE1hVK5xFDYKJ91YAagp2J6OdPEiQUng==}
 
   '@prisma/engines-version@6.19.0-24.a2b481b117452ee9da10d6bf285cde25c0d6b676':
     resolution: {integrity: sha512-XiUxXQmUQbSLkUWbg1sNuxS44FoR6dmz1Nh+aPo01bF6FckeG0jOUiNWhp39jL+OEUYHkSmW7HMaS4FyGC1neQ==}
@@ -486,6 +499,9 @@ packages:
 
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
+
+  async-mutex@0.5.0:
+    resolution: {integrity: sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==}
 
   babel-jest@29.7.0:
     resolution: {integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==}
@@ -1334,6 +1350,9 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
   type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
     engines: {node: '>=4'}
@@ -1935,6 +1954,14 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
 
+  '@planetscale/database@1.19.0': {}
+
+  '@prisma/adapter-planetscale@6.19.0-dev.8':
+    dependencies:
+      '@planetscale/database': 1.19.0
+      '@prisma/driver-adapter-utils': 6.19.0-dev.8
+      async-mutex: 0.5.0
+
   '@prisma/client@6.19.0-dev.8(prisma@6.19.0-dev.8)':
     optionalDependencies:
       prisma: 6.19.0-dev.8
@@ -1949,6 +1976,10 @@ snapshots:
       - magicast
 
   '@prisma/debug@6.19.0-dev.8': {}
+
+  '@prisma/driver-adapter-utils@6.19.0-dev.8':
+    dependencies:
+      '@prisma/debug': 6.19.0-dev.8
 
   '@prisma/engines-version@6.19.0-24.a2b481b117452ee9da10d6bf285cde25c0d6b676': {}
 
@@ -2050,6 +2081,10 @@ snapshots:
   argparse@1.0.10:
     dependencies:
       sprintf-js: 1.0.3
+
+  async-mutex@0.5.0:
+    dependencies:
+      tslib: 2.8.1
 
   babel-jest@29.7.0(@babel/core@7.21.3):
     dependencies:
@@ -3024,6 +3059,8 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  tslib@2.8.1: {}
 
   type-detect@4.0.8: {}
 

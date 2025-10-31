@@ -1,6 +1,9 @@
 import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 export async function handler(req: any, res: any) {
   const fs = require('fs')
@@ -44,6 +47,6 @@ export async function handler(req: any, res: any) {
     updateUser,
     users,
     deleteManyUsers,
-    files
+    files,
   })
 }
