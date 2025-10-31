@@ -1,9 +1,12 @@
-import type { Prisma } from "@prisma/client";
-import PrismaClientPkg from "@prisma/client";
+import type { Prisma } from '@prisma/client'
+import PrismaClientPkg from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const PrismaClient = PrismaClientPkg.PrismaClient;
+const PrismaClient = PrismaClientPkg.PrismaClient
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 const userData: Prisma.UserCreateInput[] = [
   {

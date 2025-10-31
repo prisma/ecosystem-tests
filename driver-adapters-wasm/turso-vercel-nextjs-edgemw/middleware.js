@@ -1,10 +1,10 @@
 // @ts-check
 import { NextResponse } from 'next/server'
 import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { PrismaLibSql } from '@prisma/adapter-libsql'
 
 async function getResponse() {
-  const adapter = new PrismaLibSQL({
+  const adapter = new PrismaLibSql({
     url: process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_DATABASE_URL,
     authToken: process.env.DRIVER_ADAPTERS_TURSO_VERCEL_NEXTJS_EDGEMW_TOKEN,
   })

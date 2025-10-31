@@ -3,9 +3,9 @@
 set -eux
 
 if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  BINARY_STRING=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-3.0.x","query_engine_bg.js","query_engine_bg.wasm","runtime","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]'
+  BINARY_STRING=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-3.0.x","query_compiler_bg.wasm","query_compiler_bg.wasm","runtime","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]'
 else
-  BINARY_STRING=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-rhel-openssl-3.0.x.so.node","package.json","query_engine_bg.js","query_engine_bg.wasm","runtime","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]'
+  BINARY_STRING=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-rhel-openssl-3.0.x.so.node","package.json","query_compiler_bg.wasm","query_compiler_bg.wasm","runtime","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]'
 fi
 
 # TODO Use individual deployment URL

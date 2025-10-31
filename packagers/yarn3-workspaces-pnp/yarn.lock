@@ -88,6 +88,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/adapter-pg@npm:6.19.0-integration-next.13":
+  version: 6.19.0-integration-next.13
+  resolution: "@prisma/adapter-pg@npm:6.19.0-integration-next.13"
+  dependencies:
+    "@prisma/driver-adapter-utils": 6.19.0-integration-next.13
+    pg: ^8.11.3
+    postgres-array: 3.0.4
+  checksum: 68a5fc0c56688eece4662386162d2fe679f4f4ca78de02f7b4a7cc7b5e94c5e05f25f63ef647c2443ee40de74ee23108aa423aa375e2d1a0bfda5a624f78edbc
+  languageName: node
+  linkType: hard
+
 "@prisma/client-runtime-utils@npm:6.19.0-integration-next.13":
   version: 6.19.0-integration-next.13
   resolution: "@prisma/client-runtime-utils@npm:6.19.0-integration-next.13"
@@ -128,6 +139,15 @@ __metadata:
   version: 6.19.0-integration-next.13
   resolution: "@prisma/debug@npm:6.19.0-integration-next.13"
   checksum: cecdecf22d5d8e8f928bdac88288f801d3f6af731123f2f0d9a487ff85ec6c1165679848c9c6aa2dfdf0cf87c97e076ce4b27752b99b70ef1f21426376fb11c9
+  languageName: node
+  linkType: hard
+
+"@prisma/driver-adapter-utils@npm:6.19.0-integration-next.13":
+  version: 6.19.0-integration-next.13
+  resolution: "@prisma/driver-adapter-utils@npm:6.19.0-integration-next.13"
+  dependencies:
+    "@prisma/debug": 6.19.0-integration-next.13
+  checksum: cb088fad0eb83df1666105b1f5fde20b7ee029b2da972c5a5c8ea4785859747efaa7c9917a55e114e07c925e8cc2cb25e1203bade65d35131d6551c8cfa32c2f
   languageName: node
   linkType: hard
 
@@ -1226,6 +1246,87 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pg-cloudflare@npm:^1.2.7":
+  version: 1.2.7
+  resolution: "pg-cloudflare@npm:1.2.7"
+  checksum: 8e66fa9aaf3be9da7570d294c6170ead48ae9187e670dcc4219eb381fb598a12823d90c20f301d76d70e49840dbec8c7eb5aa2af0d2698c0325b634c86bbcd18
+  languageName: node
+  linkType: hard
+
+"pg-connection-string@npm:^2.9.1":
+  version: 2.9.1
+  resolution: "pg-connection-string@npm:2.9.1"
+  checksum: 23e63951f866ea400b227976be596963c5e68b84dc161df0aa3e36fe2dc281f405e5121d71ba9d2f27973e25a46dbb219056fd91080505bcadc9ae98c9663cf3
+  languageName: node
+  linkType: hard
+
+"pg-int8@npm:1.0.1":
+  version: 1.0.1
+  resolution: "pg-int8@npm:1.0.1"
+  checksum: a1e3a05a69005ddb73e5f324b6b4e689868a447c5fa280b44cd4d04e6916a344ac289e0b8d2695d66e8e89a7fba023affb9e0e94778770ada5df43f003d664c9
+  languageName: node
+  linkType: hard
+
+"pg-pool@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "pg-pool@npm:3.10.1"
+  peerDependencies:
+    pg: ">=8.0"
+  checksum: 98135a7384be40886bba7100b9ce1a74671ff3877390f68e6db6d50ea56a7f524f7e44e01c02d61efeda97d9dc22d6115d0c66aa7f3cf5b8e892424862d0111a
+  languageName: node
+  linkType: hard
+
+"pg-protocol@npm:^1.10.3":
+  version: 1.10.3
+  resolution: "pg-protocol@npm:1.10.3"
+  checksum: 2d8c3b2747526706d37fdf35fc6e87c4a170cf8deb89fac65c562df26b4e0f42b76d62c6d1dbd096725e9a081a8725796f27af874c9e72753499c794472faad7
+  languageName: node
+  linkType: hard
+
+"pg-types@npm:2.2.0":
+  version: 2.2.0
+  resolution: "pg-types@npm:2.2.0"
+  dependencies:
+    pg-int8: 1.0.1
+    postgres-array: ~2.0.0
+    postgres-bytea: ~1.0.0
+    postgres-date: ~1.0.4
+    postgres-interval: ^1.1.0
+  checksum: bf4ec3f594743442857fb3a8dfe5d2478a04c98f96a0a47365014557cbc0b4b0cee01462c79adca863b93befbf88f876299b75b72c665b5fb84a2c94fbd10316
+  languageName: node
+  linkType: hard
+
+"pg@npm:^8.11.3":
+  version: 8.16.3
+  resolution: "pg@npm:8.16.3"
+  dependencies:
+    pg-cloudflare: ^1.2.7
+    pg-connection-string: ^2.9.1
+    pg-pool: ^3.10.1
+    pg-protocol: ^1.10.3
+    pg-types: 2.2.0
+    pgpass: 1.0.5
+  peerDependencies:
+    pg-native: ">=3.0.1"
+  dependenciesMeta:
+    pg-cloudflare:
+      optional: true
+  peerDependenciesMeta:
+    pg-native:
+      optional: true
+  checksum: ebc98c9480a11f8de74fffd205c2c161f14fc7cd8e19b152b38c7464d7202f59ad52fb1facb3a25319c343118c2fff44f7f46302415e730485878ceccf24241a
+  languageName: node
+  linkType: hard
+
+"pgpass@npm:1.0.5":
+  version: 1.0.5
+  resolution: "pgpass@npm:1.0.5"
+  dependencies:
+    split2: ^4.1.0
+  checksum: 947ac096c031eebdf08d989de2e9f6f156b8133d6858c7c2c06c041e1e71dda6f5f3bad3c0ec1e96a09497bbc6ef89e762eefe703b5ef9cb2804392ec52ec400
+  languageName: node
+  linkType: hard
+
 "picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
@@ -1241,6 +1342,43 @@ __metadata:
     exsolve: ^1.0.7
     pathe: ^2.0.3
   checksum: cdb3a4c88c93232bbad2e41cd7ca0f9e2e22acc4f16ad5a313736aacccb68ee157a0c1af81c2d7269744e716b9f6b01b3ad7b8abf0eb8b3e12c1f7d2c47c7597
+  languageName: node
+  linkType: hard
+
+"postgres-array@npm:3.0.4":
+  version: 3.0.4
+  resolution: "postgres-array@npm:3.0.4"
+  checksum: 9d0fed9f8a4674cbc31a4e568dc5d068f6e32b4b5c62deae2c4908c75303be0c5aef023fc04dfb8feaf6d63af1a17257e528ef606e8128bffe1f9d6844ad8ffa
+  languageName: node
+  linkType: hard
+
+"postgres-array@npm:~2.0.0":
+  version: 2.0.0
+  resolution: "postgres-array@npm:2.0.0"
+  checksum: 0e1e659888147c5de579d229a2d95c0d83ebdbffc2b9396d890a123557708c3b758a0a97ed305ce7f58edfa961fa9f0bbcd1ea9f08b6e5df73322e683883c464
+  languageName: node
+  linkType: hard
+
+"postgres-bytea@npm:~1.0.0":
+  version: 1.0.0
+  resolution: "postgres-bytea@npm:1.0.0"
+  checksum: d844ae4ca7a941b70e45cac1261a73ee8ed39d72d3d74ab1d645248185a1b7f0ac91a3c63d6159441020f4e1f7fe64689ac56536a307b31cef361e5187335090
+  languageName: node
+  linkType: hard
+
+"postgres-date@npm:~1.0.4":
+  version: 1.0.7
+  resolution: "postgres-date@npm:1.0.7"
+  checksum: 5745001d47e51cd767e46bcb1710649cd705d91a24d42fa661c454b6dcbb7353c066a5047983c90a626cd3bbfea9e626cc6fa84a35ec57e5bbb28b49f78e13ed
+  languageName: node
+  linkType: hard
+
+"postgres-interval@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "postgres-interval@npm:1.2.0"
+  dependencies:
+    xtend: ^4.0.0
+  checksum: 746b71f93805ae33b03528e429dc624706d1f9b20ee81bf743263efb6a0cd79ae02a642a8a480dbc0f09547b4315ab7df6ce5ec0be77ed700bac42730f5c76b2
   languageName: node
   linkType: hard
 
@@ -1343,6 +1481,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@prisma/adapter-pg": 6.19.0-integration-next.13
     "@prisma/client": 6.19.0-integration-next.13
     prisma: 6.19.0-integration-next.13
   languageName: unknown
@@ -1391,6 +1530,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"split2@npm:^4.1.0":
+  version: 4.2.0
+  resolution: "split2@npm:4.2.0"
+  checksum: 05d54102546549fe4d2455900699056580cca006c0275c334611420f854da30ac999230857a85fdd9914dc2109ae50f80fda43d2a445f2aa86eccdc1dfce779d
+  languageName: node
+  linkType: hard
+
 "sprintf-js@npm:~1.0.2":
   version: 1.0.3
   resolution: "sprintf-js@npm:1.0.3"
@@ -1411,6 +1557,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sub-project-1@workspace:packages/sub-project-1"
   dependencies:
+    "@prisma/adapter-pg": 6.19.0-integration-next.13
     "@prisma/client": 6.19.0-integration-next.13
     "@types/node": 20.19.0
     "@yarnpkg/pnpify": 3.1.8
@@ -1601,6 +1748,13 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 159da4805f7e84a3d003d8841557196034155008f817172d4e986bd591f74aa82aa7db55929a54222309e01079a65a92a9e6414da5a6aa4b01ee44a511ac3ee5
+  languageName: node
+  linkType: hard
+
+"xtend@npm:^4.0.0":
+  version: 4.0.2
+  resolution: "xtend@npm:4.0.2"
+  checksum: ac5dfa738b21f6e7f0dd6e65e1b3155036d68104e67e5d5d1bde74892e327d7e5636a076f625599dc394330a731861e87343ff184b0047fef1360a7ec0a5a36a
   languageName: node
   linkType: hard
 

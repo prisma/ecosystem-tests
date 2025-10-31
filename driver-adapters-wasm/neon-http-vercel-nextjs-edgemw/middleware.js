@@ -1,10 +1,10 @@
 // @ts-check
 import { NextResponse } from 'next/server'
 import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaNeonHTTP } from '@prisma/adapter-neon'
+import { PrismaNeonHttp } from '@prisma/adapter-neon'
 
 async function getResponse() {
-  const adapter = new PrismaNeonHTTP(process.env.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_DATABASE_URL)
+  const adapter = new PrismaNeonHttp(process.env.DRIVER_ADAPTERS_NEON_HTTP_VERCEL_NEXTJS_EDGEMW_DATABASE_URL)
   const prisma = new PrismaClient({ adapter })
 
   const getResult = async (prisma) => ({

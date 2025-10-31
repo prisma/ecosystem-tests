@@ -25,8 +25,6 @@ describe('detect-jobs-to-run', () => {
   "platforms-serverless-vercel",
   "core-features",
   "migrate",
-  "engines",
-  "os",
   "m1",
   "node",
   "accelerate",
@@ -38,9 +36,6 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
-  "docker",
-  "docker-arm64",
-  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -107,8 +102,6 @@ describe('detect-jobs-to-run', () => {
   "platforms-serverless-vercel",
   "core-features",
   "migrate",
-  "engines",
-  "os",
   "m1",
   "node",
   "accelerate",
@@ -120,9 +113,6 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
-  "docker",
-  "docker-arm64",
-  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -145,8 +135,6 @@ describe('detect-jobs-to-run', () => {
   "platforms-serverless-vercel",
   "core-features",
   "migrate",
-  "engines",
-  "os",
   "m1",
   "node",
   "accelerate",
@@ -158,9 +146,6 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
-  "docker",
-  "docker-arm64",
-  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -183,8 +168,6 @@ describe('detect-jobs-to-run', () => {
   "platforms-serverless-vercel",
   "core-features",
   "migrate",
-  "engines",
-  "os",
   "m1",
   "node",
   "accelerate",
@@ -196,9 +179,6 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
-  "docker",
-  "docker-arm64",
-  "docker-unsupported",
   "community-generators",
 ]
 `)

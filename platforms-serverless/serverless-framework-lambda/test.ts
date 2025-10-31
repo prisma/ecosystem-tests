@@ -12,8 +12,8 @@ async function main() {
   const actual = (data.$response.data as any).Payload
   const binaryString =
     process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
-      ? `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-3.0.x","query_engine_bg.js","query_engine_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]`
-      : `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-rhel-openssl-3.0.x.so.node","package.json","query_engine_bg.js","query_engine_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]`
+      ? `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-rhel-openssl-3.0.x","query_compiler_bg.wasm","query_compiler_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]`
+      : `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-rhel-openssl-3.0.x.so.node","package.json","query_compiler_bg.wasm","query_compiler_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]`
   const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`
 
   if (actual !== expect) {

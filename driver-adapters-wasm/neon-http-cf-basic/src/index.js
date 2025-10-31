@@ -1,10 +1,10 @@
 // @ts-check
 import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaNeonHTTP } from '@prisma/adapter-neon'
+import { PrismaNeonHttp } from '@prisma/adapter-neon'
 
 export default {
   async fetch(request, env, ctx) {
-    const adapter = new PrismaNeonHTTP(env.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL)
+    const adapter = new PrismaNeonHttp(env.DRIVER_ADAPTERS_NEON_HTTP_CF_BASIC_DATABASE_URL)
     const prisma = new PrismaClient({ adapter })
 
     const getResult = async (prisma) => ({

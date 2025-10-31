@@ -1,5 +1,4 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
-const fs = require('fs')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const prisma = new PrismaClient({
