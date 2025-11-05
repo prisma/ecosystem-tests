@@ -1027,7 +1027,6 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2+Extension'
-          PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.DP2_ITX_PDP_MONGODB_DATABASE_URL }}
           ITX_PDP_MONGODB: ${{ secrets.DP2_ITX_PDP_MONGODB }}
@@ -1048,7 +1047,6 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2'
-          PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.DP2_ITX_PDP_MONGODB_DATABASE_URL }}
           ITX_PDP_MONGODB: ${{ secrets.DP2_ITX_PDP_MONGODB }}
