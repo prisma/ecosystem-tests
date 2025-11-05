@@ -115,6 +115,9 @@ pnpm exec prisma -v
 # Example: `community-generators (napi, prisma-dbml-generator)` has correct node_modules/prisma/libquery_engine-debian-openssl-1.1.x.so.node, but wrong node_modules/@prisma/engines/query-engine-debian-openssl-1.1.x (also `community-generators (napi, prisma-json-schema-generator)`)
 if [ "$CLI_QUERY_ENGINE_TYPE" == "<accelerate>" ]; then
   echo "✔ Accelerate has no Query Engine" # TODO: actually check that there isn't one
+elif [ $CLIENT_ENGINE_TYPE == "client" ]; then
+  echo "Client engine detected, skipping QE check"
+  exit 0
 elif [ -f "$qe_location" ] || [ -f "$qe_location2" ]; then
   echo "✔ Correct Query Engine exists"
 else

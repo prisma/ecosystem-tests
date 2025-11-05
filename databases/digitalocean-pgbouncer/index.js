@@ -4,14 +4,14 @@ const { PrismaPg } = require('@prisma/adapter-pg')
 const client = new PrismaClient({
   errorFormat: 'colorless',
   adapter: new PrismaPg({
-    connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL,
+    connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL + '?sslmode=require',
   }),
 })
 
 const clientWithQueryStringParam = new PrismaClient({
   errorFormat: 'colorless',
   adapter: new PrismaPg({
-    connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL + '?pgbouncer=true',
+    connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL + '?sslmode=require&pgbouncer=true',
   }),
 })
 
