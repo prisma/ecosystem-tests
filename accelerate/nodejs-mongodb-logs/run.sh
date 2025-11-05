@@ -4,4 +4,4 @@ set -eu
 
 pnpm install
 
-pnpm prisma generate $PRISMA_GENERATE_FLAG
+pnpm prisma generate

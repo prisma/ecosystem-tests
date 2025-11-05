@@ -2,4 +2,4 @@
 
 set -eu
 
-deno task generate $PRISMA_GENERATE_FLAG
+deno task generate

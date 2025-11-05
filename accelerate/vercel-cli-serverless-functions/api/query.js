@@ -1,7 +1,9 @@
 const { PrismaClient } = require('@prisma/client')
 const { withAccelerate } = require('@prisma/extension-accelerate')
 
-let prisma = new PrismaClient()
+let prisma = new PrismaClient({
+  accelerateUrl: process.env.DATAPROXY_COMMON_URL,
+})
 
 if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
   prisma = prisma.$extends(withAccelerate())
