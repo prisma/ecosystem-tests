@@ -9,20 +9,23 @@ importers:
   .:
     dependencies:
       '@prisma/client':
-        specifier: 6.20.0-dev.8
-        version: 6.20.0-dev.8
+        specifier: 6.20.0-dev.9
+        version: 6.20.0-dev.9
       zx:
         specifier: 8.3.2
         version: 8.3.2
 
 packages:
 
-  '@prisma/client@6.20.0-dev.8':
-    resolution: {integrity: sha512-FUsN33zJPejEx0Ib5qNZaQUzYzMknBlcql1+UkDlDRGtVh4bAPvpsFUEIFFOm+dLXA6CBdQH+AHkT6hx41t+xw==}
-    engines: {node: '>=18.18'}
+  '@prisma/client-runtime-utils@6.20.0-dev.9':
+    resolution: {integrity: sha512-LgVOO9+WqMSO87Wdi5ScdezLZZBitRPukrTO7xPRYeVO8eNKQhzqjWz6JUy5ojeYizAQ58L2gjnFOFO/8b0/ig==}
+
+  '@prisma/client@6.20.0-dev.9':
+    resolution: {integrity: sha512-vuIK6ng5n5xSvG9Tr37qjippTq1XT45oeyUjiZR0Vgs2fIn06mq/YnXJXkHYwt1sWYcaoJt11zJ24aCpccP/0w==}
+    engines: {node: ^20.19 || ^22.12 || ^24.0}
     peerDependencies:
       prisma: '*'
-      typescript: '>=5.1.0'
+      typescript: '>=5.4.0'
     peerDependenciesMeta:
       prisma:
         optional: true
@@ -48,7 +51,11 @@ packages:
 
 snapshots:
 
-  '@prisma/client@6.20.0-dev.8': {}
+  '@prisma/client-runtime-utils@6.20.0-dev.9': {}
+
+  '@prisma/client@6.20.0-dev.9':
+    dependencies:
+      '@prisma/client-runtime-utils': 6.20.0-dev.9
 
   '@types/fs-extra@11.0.4':
     dependencies:
