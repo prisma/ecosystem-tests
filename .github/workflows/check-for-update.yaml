@@ -113,28 +113,3 @@ jobs:
         run: pnpm run update-ci integration
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
-
-  check-for-next-update:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4.0.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-          cache-dependency-path: '**/pnpm-lock.yaml'
-
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: check integration update
-        run: pnpm run update-ci next
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
