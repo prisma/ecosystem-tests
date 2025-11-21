@@ -34,6 +34,7 @@ update() {
 
 update "prisma"
 update "@prisma/client"
+update "@prisma/client-runtime-utils"
 update "@prisma/instrumentation"
 update "@prisma/adapter-better-sqlite3"
 update "@prisma/adapter-d1"
