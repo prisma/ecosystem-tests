@@ -29,31 +29,8 @@ describe('Prisma', () => {
       }),
     )
     const files = fs.readdirSync(generatedClientDir)
-    if (process.env.PRISMA_CLIENT_ENGINE_TYPE !== 'binary') {
-      expect(files).toMatchInlineSnapshot(`
-[
-  "client.d.ts",
-  "client.js",
-  "default.d.ts",
-  "default.js",
-  "edge.d.ts",
-  "edge.js",
-  "index-browser.js",
-  "index.d.ts",
-  "index.js",
-  "libquery_engine-linux-arm64-openssl-3.0.x.so.node",
-  "package.json",
-  "query_compiler_bg.wasm",
-  "query_compiler_bg.wasm",
-  "schema.prisma",
-  "wasm-edge-light-loader.mjs",
-  "wasm-worker-loader.mjs",
-  "wasm.d.ts",
-  "wasm.js",
-]
-`)
-    } else {
-      expect(files).toMatchInlineSnapshot(`
+
+    expect(files).toMatchInlineSnapshot(`
 [
   "client.d.ts",
   "client.js",
@@ -65,16 +42,13 @@ describe('Prisma', () => {
   "index.d.ts",
   "index.js",
   "package.json",
-  "query-engine-linux-arm64-openssl-3.0.x",
+  "query_compiler_bg.js",
   "query_compiler_bg.wasm",
-  "query_compiler_bg.wasm",
+  "query_compiler_bg.wasm-base64.js",
   "schema.prisma",
   "wasm-edge-light-loader.mjs",
-  "wasm-worker-loader.mjs",
-  "wasm.d.ts",
-  "wasm.js",
+  "wasm-worker-loader.mjs"
 ]
 `)
-    }
   })
 })

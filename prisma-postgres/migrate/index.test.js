@@ -1,6 +1,10 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
-const fs = require('fs')
-const prisma = new PrismaClient()
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const connectionString = process.env.DATABASE_URL_PRISMA_POSTGRES
+
+const adapter = new PrismaPg({ connectionString })
+const prisma = new PrismaClient({ adapter })
 
 const pjson = require('./package.json')
 

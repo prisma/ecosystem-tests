@@ -1,4 +1,4 @@
-service: platforms-serverless-slsf-${env:PRISMA_CLIENT_ENGINE_TYPE}
+service: platforms-serverless-slsf-library
 
 provider:
   name: aws
@@ -12,7 +12,7 @@ provider:
 functions:
   hello:
     handler: index.handler
-    name: platforms-serverless-slsf-${env:PRISMA_CLIENT_ENGINE_TYPE}
+    name: platforms-serverless-slsf-library
     environment:
       DATABASE_URL: ${env:DATABASE_URL}
 

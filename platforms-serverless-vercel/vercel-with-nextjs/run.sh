@@ -4,15 +4,7 @@ set -eu
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-nextjs build'
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "Binary"
-  export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_BINARY_PROJECT_ID
-else
-  echo "Library (Default)"
-  export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
-  # Set local var to `library` for the `vercel deploy` command below
-  PRISMA_CLIENT_ENGINE_TYPE=library
-fi
+export VERCEL_PROJECT_ID=$VERCEL_WITH_NEXTJS_PROJECT_ID
 
 pnpm install
 

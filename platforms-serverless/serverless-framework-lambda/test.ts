@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import { invokeLambdaSync } from './utils'
 
 // name cannot be too long, otherwise it will fail
-const name = `platforms-serverless-slsf-${process.env.PRISMA_CLIENT_ENGINE_TYPE}`
+const name = `platforms-serverless-slsf-library`
 
 async function main() {
   console.log('testing function', name)

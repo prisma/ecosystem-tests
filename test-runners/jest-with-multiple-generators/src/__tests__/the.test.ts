@@ -37,8 +37,8 @@ describe('Prisma in jest with multiple generators', () => {
     const path = require('path')
     const filesA = fs.readdirSync(path.dirname(require.resolve('../../generated/database/client')))
     const filesB = fs.readdirSync(path.dirname(require.resolve('../../generated/database/client2')))
-    if (process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary') {
-      expect(filesA).toMatchInlineSnapshot(`
+
+    expect(filesA).toMatchInlineSnapshot(`
 [
   "client.d.ts",
   "client.js",
@@ -50,18 +50,16 @@ describe('Prisma in jest with multiple generators', () => {
   "index.d.ts",
   "index.js",
   "package.json",
-  "query-engine-debian-openssl-1.1.x",
+  "query_compiler_bg.js",
   "query_compiler_bg.wasm",
-  "query_compiler_bg.wasm",
+  "query_compiler_bg.wasm-base64.js",
   "runtime",
   "schema.prisma",
   "wasm-edge-light-loader.mjs",
   "wasm-worker-loader.mjs",
-  "wasm.d.ts",
-  "wasm.js",
 ]
 `)
-      expect(filesB).toMatchInlineSnapshot(`
+    expect(filesB).toMatchInlineSnapshot(`
 [
   "client.d.ts",
   "client.js",
@@ -73,64 +71,14 @@ describe('Prisma in jest with multiple generators', () => {
   "index.d.ts",
   "index.js",
   "package.json",
-  "query-engine-debian-openssl-1.1.x",
+  "query_compiler_bg.js",
   "query_compiler_bg.wasm",
-  "query_compiler_bg.wasm",
+  "query_compiler_bg.wasm-base64.js",
   "runtime",
   "schema.prisma",
   "wasm-edge-light-loader.mjs",
   "wasm-worker-loader.mjs",
-  "wasm.d.ts",
-  "wasm.js",
 ]
 `)
-    } else {
-      expect(filesA).toMatchInlineSnapshot(`
-[
-  "client.d.ts",
-  "client.js",
-  "default.d.ts",
-  "default.js",
-  "edge.d.ts",
-  "edge.js",
-  "index-browser.js",
-  "index.d.ts",
-  "index.js",
-  "libquery_engine-debian-openssl-1.1.x.so.node",
-  "package.json",
-  "query_compiler_bg.wasm",
-  "query_compiler_bg.wasm",
-  "runtime",
-  "schema.prisma",
-  "wasm-edge-light-loader.mjs",
-  "wasm-worker-loader.mjs",
-  "wasm.d.ts",
-  "wasm.js",
-]
-`)
-      expect(filesB).toMatchInlineSnapshot(`
-[
-  "client.d.ts",
-  "client.js",
-  "default.d.ts",
-  "default.js",
-  "edge.d.ts",
-  "edge.js",
-  "index-browser.js",
-  "index.d.ts",
-  "index.js",
-  "libquery_engine-debian-openssl-1.1.x.so.node",
-  "package.json",
-  "query_compiler_bg.wasm",
-  "query_compiler_bg.wasm",
-  "runtime",
-  "schema.prisma",
-  "wasm-edge-light-loader.mjs",
-  "wasm-worker-loader.mjs",
-  "wasm.d.ts",
-  "wasm.js",
-]
-`)
-    }
   })
 })

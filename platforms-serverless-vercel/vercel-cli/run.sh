@@ -11,15 +11,7 @@ pnpm install
 # Note: be aware that Vercel truncates logs, so if you add something like `--build-env DEBUG="prisma:*"` plenty of logs will be missing.
 # That will likely influence the "Postinstall hook" check below, which will result in the CI failing with error code `1`.
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "Binary"
-  export VERCEL_PROJECT_ID=$VERCEL_API_BINARY_PROJECT_ID
-else
- echo "Library (Default)"
-  export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
-  # Set local var to `library` for the `vercel deploy` command below
-  PRISMA_CLIENT_ENGINE_TYPE=library
-fi
+export VERCEL_PROJECT_ID=$VERCEL_API_PROJECT_ID
 
 export VERCEL_ORG_ID=$VERCEL_ORG_ID
 echo "VERCEL_ORG_ID: $VERCEL_ORG_ID"
