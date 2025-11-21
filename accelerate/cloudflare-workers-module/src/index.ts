@@ -13,7 +13,7 @@ let prisma: PrismaClient
 export default {
   fetch(request: Request, env: Env) {
     prisma = new PrismaClient({
-      accelerateUrl: env.DATAPROXY_COMMON_URL,
+      accelerateUrl: env.DATAPROXY_COMMON_URL!,
     })
 
     if (env.DATAPROXY_FLAVOR === 'DP2+Extension') {

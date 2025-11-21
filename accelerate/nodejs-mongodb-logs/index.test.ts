@@ -5,7 +5,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 test('accelerate logs with mongodb', async () => {
   const prisma = new PrismaClient({
     log: [{ emit: 'event', level: 'query' }],
-    accelerateUrl: process.env.ITX_PDP_MONGODB,
+    accelerateUrl: process.env.ITX_PDP_MONGODB!,
   })
 
   let xprisma = prisma

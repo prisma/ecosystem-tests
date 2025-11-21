@@ -3,7 +3,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import util from 'util'
 
 let prisma = new PrismaClient({
-  accelerateUrl: process.env.ITX_PDP_COCKROACHDB,
+  accelerateUrl: process.env.ITX_PDP_COCKROACHDB!,
 })
 let timeouts = { maxWait: 2_000, timeout: 5_000 }
 const accelerateItxMax = 15_000

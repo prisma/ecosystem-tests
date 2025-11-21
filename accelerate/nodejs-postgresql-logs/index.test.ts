@@ -5,7 +5,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 test('accelerate logs with postgres', async () => {
   const prisma = new PrismaClient({
     log: [{ emit: 'event', level: 'query' }],
-    accelerateUrl: process.env.DATAPROXY_COMMON_URL,
+    accelerateUrl: process.env.DATAPROXY_COMMON_URL!,
   })
 
   let xprisma = prisma

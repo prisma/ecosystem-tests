@@ -14,7 +14,7 @@ describe('batch-itx', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient({
-      accelerateUrl: process.env.ITX_PDP_MONGODB,
+      accelerateUrl: process.env.ITX_PDP_MONGODB!,
     })
 
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {

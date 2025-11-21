@@ -1,7 +1,7 @@
 import { PrismaClient } from '../generated/client.ts'
 
 const prisma = new PrismaClient({
-  accelerateUrl: process.env.DATAPROXY_COMMON_URL,
+  accelerateUrl: process.env.DATAPROXY_COMMON_URL!,
 })
 
 export async function getUsers() {

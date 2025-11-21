@@ -79,7 +79,7 @@ function cleanSpansForSnapshot(spans: ReadableSpan[]) {
 
 test('accelerate tracing with postgres', async () => {
   let prisma = new PrismaClient({
-    accelerateUrl: process.env.DATAPROXY_COMMON_URL,
+    accelerateUrl: process.env.DATAPROXY_COMMON_URL!,
   })
 
   if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
