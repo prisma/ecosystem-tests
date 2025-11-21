@@ -28,22 +28,13 @@ do
     exit 0
   fi
 
-  if [ "$1" = "next" ]; then
-    INTEGRATION_VERSION=$(npm show prisma@integration version)
-    if echo "$INTEGRATION_VERSION" | grep -q "integration-next"; then
-      NEW_VERSION=$INTEGRATION_VERSION
-    fi
-  else
-    NEW_VERSION=$(npm show prisma@$1 version)
-  fi
+  NEW_VERSION=$(npm show prisma@$1 version)
 done
 
 echo "New version $NEW_VERSION was found and will be used for the update."
 
-if [ "$1" != "next" ]; then
-  git fetch github "dev"
-  git reset --hard "github/dev"
-fi
+git fetch github "dev"
+git reset --hard "github/dev"
 
 pnpm run update-all "$NEW_VERSION"
 
