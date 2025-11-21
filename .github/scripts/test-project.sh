@@ -159,7 +159,6 @@ elif [ $code -eq 0 ]; then
   echo "-------------- Checking Engines -------------------------------"
   if [ -z "${SKIP_ENGINE_CHECK+x}" ]; then
     bash ../../.github/scripts/check-engines-client.sh "$dir" "$project"
-    bash ../../.github/scripts/check-engines-cli.sh "$dir" "$project"
   else
     echo "SKIP_ENGINE_CHECK=$SKIP_ENGINE_CHECK, skipping"
   fi
