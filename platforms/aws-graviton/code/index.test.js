@@ -47,7 +47,7 @@ describe('Prisma', () => {
   "query_compiler_bg.wasm-base64.js",
   "schema.prisma",
   "wasm-edge-light-loader.mjs",
-  "wasm-worker-loader.mjs"
+  "wasm-worker-loader.mjs",
 ]
 `)
   })
