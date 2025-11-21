@@ -1,6 +1,5 @@
 // @ts-check
 const { Prisma, PrismaClient } = require('@prisma/client')
-const { Pool } = require('pg')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const connectionString = process.env.DATABASE_URL

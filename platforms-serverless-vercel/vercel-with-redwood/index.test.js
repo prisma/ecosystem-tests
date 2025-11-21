@@ -44,48 +44,24 @@ test('should test .prisma/client files', async () => {
     }
   `
   const data = await request(endpoint, query)
-  const files =
-    process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
-      ? [
-          'client.d.ts',
-          'client.js',
-          'default.d.ts',
-          'default.js',
-          'edge.d.ts',
-          'edge.js',
-          'index-browser.js',
-          'index.d.ts',
-          'index.js',
-          'package.json',
-          'query-engine-rhel-openssl-3.0.x',
-          'query_compiler_bg.js',
-          'query_compiler_bg.wasm',
-          'schema.prisma',
-          'wasm-edge-light-loader.mjs',
-          'wasm-worker-loader.mjs',
-          'wasm.d.ts',
-          'wasm.js',
-        ]
-      : [
-          'client.d.ts',
-          'client.js',
-          'default.d.ts',
-          'default.js',
-          'edge.d.ts',
-          'edge.js',
-          'index-browser.js',
-          'index.d.ts',
-          'index.js',
-          'libquery_engine-rhel-openssl-3.0.x.so.node',
-          'package.json',
-          'query_compiler_bg.js',
-          'query_compiler_bg.wasm',
-          'schema.prisma',
-          'wasm-edge-light-loader.mjs',
-          'wasm-worker-loader.mjs',
-          'wasm.d.ts',
-          'wasm.js',
-        ]
+  const files = [
+    'client.d.ts',
+    'client.js',
+    'default.d.ts',
+    'default.js',
+    'edge.d.ts',
+    'edge.js',
+    'index-browser.js',
+    'index.d.ts',
+    'index.js',
+    'package.json',
+    'query_compiler_bg.js',
+    'query_compiler_bg.wasm',
+    'query_compiler_bg.wasm-base64.js',
+    'schema.prisma',
+    'wasm-edge-light-loader.mjs',
+    'wasm-worker-loader.mjs',
+  ]
   expect(data.files).toMatchObject(files)
   console.log(data.files)
 })
