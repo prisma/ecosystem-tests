@@ -132,13 +132,13 @@ elif [ $CLIENT_ENGINE_TYPE == "wasm" ]; then
   echo "WasmEngine: Enabled"
   case $os_name in
     linux)
-      qe_location="$GENERATED_CLIENT/query_engine_bg.wasm"
+      qe_location="$GENERATED_CLIENT/query_compiler_bg.wasm"
       ;;
     osx)
-      qe_location="$GENERATED_CLIENT/query_engine_bg.wasm"
+      qe_location="$GENERATED_CLIENT/query_compiler_bg.wasm"
       ;;
     windows*)
-      qe_location="$GENERATED_CLIENT\query_engine_bg.wasm"
+      qe_location="$GENERATED_CLIENT\query_compiler_bg.wasm"
       ;;
     *)
       os_name=notset
