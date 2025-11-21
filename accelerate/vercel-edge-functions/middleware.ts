@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
 let prisma = new PrismaClient({
-  accelerateUrl: process.env.DATAPROXY_COMMON_URL,
+  accelerateUrl: process.env.DATAPROXY_COMMON_URL!,
 })
 
 if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {

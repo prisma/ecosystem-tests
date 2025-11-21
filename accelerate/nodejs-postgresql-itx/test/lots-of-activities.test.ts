@@ -17,7 +17,7 @@ describe('lots-of-activities', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient({
-      accelerateUrl: process.env.ITX_PDP_POSTGRESQL,
+      accelerateUrl: process.env.ITX_PDP_POSTGRESQL!,
     })
 
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {

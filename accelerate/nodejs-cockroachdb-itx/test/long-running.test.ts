@@ -13,7 +13,7 @@ describe('long-running', () => {
 
   beforeAll(() => {
     prisma = new PrismaClient({
-      accelerateUrl: process.env.ITX_PDP_COCKROACHDB,
+      accelerateUrl: process.env.ITX_PDP_COCKROACHDB!,
     })
 
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
