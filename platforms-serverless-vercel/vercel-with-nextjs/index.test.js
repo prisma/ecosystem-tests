@@ -31,14 +31,7 @@ test('prisma version and output', async () => {
 test('generated client files', async () => {
   const r = await fetch(endpoint + '/api/files')
   const data = await r.json()
-  const files = [
-    'default.js',
-    'index.js',
-    'package.json',
-    'schema.prisma',
-    'query_compiler_bg.js',
-    'query_compiler_bg.wasm-base64.js',
-  ]
+  const files = ['default.js', 'index.js', 'package.json', 'query_compiler_bg.js', 'query_compiler_bg.wasm-base64.js']
   expect(data).toMatchObject({
     files: files,
   })
