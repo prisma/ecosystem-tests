@@ -1446,9 +1446,6 @@ jobs:
         feature:
           - almalinux-8-amd64-openssl-1.1.x
           - almalinux-latest-amd64-openssl-3.0.x
-          - alpine-3.17-amd64-openssl-1.1.x
-          - alpine-3.17-amd64-openssl-3.0.x
-          - alpine-3.17-amd64-openssl-3.0.x
           - alpine-3.21-amd64-openssl-3.0.x
           - alpine-latest-amd64-openssl-3.0.x
           - amazonlinux-2022-amd64-openssl-3.0.x
@@ -1458,7 +1455,6 @@ jobs:
           - debian-bookworm-amd64-openssl-3.0.x
           - debian-latest-amd64-openssl-3.0.x
           - opensuse-tumbleweed-amd64-openssl-3.0.x
-          - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
           - ubuntu-22.04-amd64-openssl-3.0.x
           - ubuntu-22.04-amd64-openssl-1.1.x
@@ -1518,8 +1514,6 @@ jobs:
         feature:
           - almalinux-8-arm64-openssl-1.1.x
           - almalinux-latest-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - alpine-3.21-arm64-openssl-3.0.x
           - alpine-latest-arm64-openssl-3.0.x
           - amazonlinux-2022-arm64-openssl-3.0.x
@@ -1583,9 +1577,14 @@ jobs:
           - alpine-3.16-amd64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x-with-libc
+          - alpine-3.17-amd64-openssl-1.1.x
+          - alpine-3.17-amd64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - debian-latest-arm-openssl-1.1.x
           - amazonlinux-2-amd64-openssl-1.0.x
           - amazonlinux-2-arm64-openssl-1.0.x
+          - redhat-ubi9-amd64-openssl-3.0.x
         clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
