@@ -13,7 +13,7 @@ pnpm prisma generate
 pnpm tsc
 
 rm -rf lambda.zip
-zip --symlinks -r lambda.zip index.js prisma/schema.prisma node_modules/@prisma/* node_modules/.pnpm/@prisma* node_modules/.pnpm/pg*
+zip --symlinks -r lambda.zip index.js prisma/schema.prisma node_modules/@prisma/* node_modules/.pnpm/@prisma* node_modules/.pnpm/pg* node_modules/.pnpm/postgres*
 du -b ./lambda.zip
 
 AWS_RUNTIME=nodejs20.x
