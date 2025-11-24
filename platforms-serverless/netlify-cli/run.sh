@@ -15,7 +15,10 @@ mkdir -p functions-build
 # copy `prisma` folder to existing `functions` folder
 cp -R ./prisma ./functions/prisma
 
-cp -R ./node_modules ./functions/node_modules
+# copy necessary `node_modules` to `functions/node_modules`
+mkdir -p ./functions/node_modules/.pnpm
+cp -R ./node_modules/@prisma ./functions/node_modules/
+cp -R ./node_modules/.pnpm/{@prisma,pg,postgres,xtend,split2}* ./functions/node_modules/.pnpm/
 
 # zip up everything in `functions` and copy to `functions-build`
 cd functions/
