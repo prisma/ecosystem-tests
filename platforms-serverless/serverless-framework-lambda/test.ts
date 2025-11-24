@@ -10,7 +10,7 @@ async function main() {
   console.log({ data: data.$response.data })
 
   const actual = (data.$response.data as any).Payload
-  const binaryString = `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query_compiler_bg.js","query_compiler_bg.wasm","query_compiler_bg.wasm-base64.js","wasm-worker-loader.mjs"]`
+  const binaryString = `,"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query_compiler_bg.js","query_compiler_bg.wasm","query_compiler_bg.wasm-base64.js","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs""query_compiler_bg.js","query_compiler_bg.wasm","query_compiler_bg.wasm-base64.js","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs"]`
   const expect = `{"version":"${Prisma.prismaVersion.client}","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}${binaryString}}`
 
   if (actual !== expect) {
