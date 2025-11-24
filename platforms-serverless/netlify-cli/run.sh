@@ -15,6 +15,8 @@ mkdir -p functions-build
 # copy `prisma` folder to existing `functions` folder
 cp -R ./prisma ./functions/prisma
 
+cp -R ./node_modules ./functions/node_modules
+
 # zip up everything in `functions` and copy to `functions-build`
 cd functions/
 zip -r index.zip *
