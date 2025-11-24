@@ -8,6 +8,8 @@ git init
 git config --global user.email "prismabots@gmail.com"
 git config --global user.name "Prismo"
 
+pnpm heroku git:remote -a e2e-platforms-heroku
+
 pnpm install
 pnpm prisma generate
 

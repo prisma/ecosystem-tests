@@ -3,7 +3,10 @@ const { PrismaPg } = require('@prisma/adapter-pg')
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({
-    connectionString: process.env.GCP_POSTGRESQL_SSL_DB_URL,
+    connectionString: process.env.GCP_POSTGRESQL_SSL_DB_URL
+      // the secret has extra ../ because Prisma 6 needed them due to how it resolved paths
+      .replace('../server-ca.pem', 'server-ca.pem')
+      .replace('../client-identity.p12', 'client-identity.p12'),
   }),
 })
 
