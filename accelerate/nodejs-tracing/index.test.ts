@@ -93,6 +93,27 @@ test('accelerate tracing with postgres', async () => {
 [
   {
     "attributes": {
+      "actions": [
+        "findMany",
+      ],
+      "models": [
+        "User",
+      ],
+    },
+    "kind": 0,
+    "links": [],
+    "name": "prisma:client:compile",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {},
+    "kind": 0,
+    "links": [],
+    "name": "prisma:client:connect",
+    "parentSpanId": "<parentSpanId>",
+  },
+  {
+    "attributes": {
       "method": "findMany",
       "model": "User",
       "name": "User.findMany",
@@ -107,39 +128,6 @@ test('accelerate tracing with postgres', async () => {
     "kind": 0,
     "links": [],
     "name": "prisma:client:serialize",
-    "parentSpanId": "<parentSpanId>",
-  },
-  {
-    "attributes": {
-      "db.system": "postgresql",
-    },
-    "kind": 0,
-    "links": [],
-    "name": "prisma:engine:connection",
-    "parentSpanId": "<parentSpanId>",
-  },
-  {
-    "attributes": {
-      "db.query.text": "<dbQuery>",
-      "db.system": "postgresql",
-    },
-    "kind": 2,
-    "links": [],
-    "name": "prisma:engine:db_query",
-    "parentSpanId": "<parentSpanId>",
-  },
-  {
-    "attributes": {},
-    "kind": 0,
-    "links": [],
-    "name": "prisma:engine:query",
-    "parentSpanId": "<parentSpanId>",
-  },
-  {
-    "attributes": {},
-    "kind": 0,
-    "links": [],
-    "name": "prisma:engine:serialize",
     "parentSpanId": "<parentSpanId>",
   },
 ]
