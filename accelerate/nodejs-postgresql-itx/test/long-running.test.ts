@@ -29,7 +29,7 @@ describe('long-running', () => {
     })
 
     await expect(result).rejects.toMatchObject({
-      message: expect.stringContaining('Transaction already closed'),
+      message: expect.stringContaining('Transaction API error'),
       code: 'P2028',
       clientVersion: prismaClientVersion,
     })
