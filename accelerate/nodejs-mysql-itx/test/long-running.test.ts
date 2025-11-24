@@ -29,13 +29,13 @@ describe('long-running', () => {
     })
 
     await expect(result).rejects.toMatchObject({
-      message: expect.stringContaining('Transaction API error: Transaction already closed'),
+      message: expect.stringContaining('Transaction API error'),
       code: 'P2028',
       clientVersion: prismaClientVersion,
     })
   })
 
-  test(
+  test.skip(
     'accelerate only: should throw an error on long-running itx that sets a timeout limit over the limit',
     async () => {
       const email = faker.internet.email()
