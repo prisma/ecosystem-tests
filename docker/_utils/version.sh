@@ -11,7 +11,7 @@ PRISMA_VERSION=$(pnpm prisma -v)
 echo "pnpm prisma -v\n${PRISMA_VERSION}\n"
 
 # extract the binaryTarget from the version command output, e.g., "debian-openssl-1.1.x"
-PRISMA_TARGET_PLATFORM=$(echo "${PRISMA_VERSION}" | sed --quiet '/Computed binaryTarget/p' | sed "s/.*:\s*//")
+PRISMA_TARGET_PLATFORM=$(echo "${PRISMA_VERSION}" | awk -F'engines/schema-engine-' '{split($2, a, ")"); print a[1]}' | tr -d ' \t\n')
 
 if [ $PRISMA_TARGET_PLATFORM = $EXPECTED_PRISMA_TARGET_PLATFORM ]; then
   echo "Current binaryTarget matches expected binaryTarget \"${PRISMA_TARGET_PLATFORM}\""

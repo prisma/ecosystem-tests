@@ -36,6 +36,9 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
+  "docker",
+  "docker-arm64",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -113,6 +116,9 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
+  "docker",
+  "docker-arm64",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -146,6 +152,9 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
+  "docker",
+  "docker-arm64",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
@@ -179,6 +188,9 @@ describe('detect-jobs-to-run', () => {
   "test-runners",
   "runtimes",
   "process-managers",
+  "docker",
+  "docker-arm64",
+  "docker-unsupported",
   "community-generators",
 ]
 `)
