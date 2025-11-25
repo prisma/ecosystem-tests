@@ -4,6 +4,7 @@ set -eu
 
 pnpm install
 
+# --build-env DATAPROXY_COMMON_URL is only needed because of generate during build
 pnpm vercel deploy \
 --prod \
 --yes \
@@ -11,6 +12,7 @@ pnpm vercel deploy \
 --token=$VERCEL_TOKEN \
 --scope=$VERCEL_ORG_ID \
 --build-env PRISMA_GENERATE_DATAPROXY="true" \
+--build-env DATAPROXY_COMMON_URL=postgres://dummy \
 --env DATAPROXY_COMMON_URL="$DATAPROXY_COMMON_URL" \
 --build-env DATAPROXY_FLAVOR="$DATAPROXY_FLAVOR" \
 --env DATAPROXY_FLAVOR="$DATAPROXY_FLAVOR" \
@@ -34,13 +36,5 @@ if echo "${OUTPUT}" | grep -q 'Generated Prisma Client'; then
   echo 'Prisma Client was successfully generated'
 else
   echo "Prisma Client was NOT GENERATED"
-  exit 1
-fi
-
-# Check the Vercel Build Logs for "engine=none" in generate
-if echo "${OUTPUT}" | grep -q 'engine=none'; then
-  echo 'Data Proxy was successfully enabled'
-else
-  echo "Data Proxy was NOT ENABLED"
   exit 1
 fi

@@ -2,6 +2,7 @@
 // for options.
 
 import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
 import { emitLogLevels, handlePrismaLogging } from '@redwoodjs/api/logger'
 
@@ -12,6 +13,7 @@ import { logger } from './logger'
  */
 export const db = new PrismaClient({
   log: emitLogLevels(['info', 'warn', 'error']),
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
 })
 
 handlePrismaLogging({

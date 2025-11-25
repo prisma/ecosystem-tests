@@ -1,7 +1,10 @@
 import { Context, HttpRequest } from '@azure/functions'
 import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 export = async function (context: Context, req: HttpRequest): Promise<void> {
   const fs = require('fs')
@@ -46,7 +49,7 @@ export = async function (context: Context, req: HttpRequest): Promise<void> {
       updateUser,
       users,
       deleteManyUsers,
-      files
+      files,
     }),
   }
 

@@ -31,10 +31,7 @@ test('prisma version and output', async () => {
 test('generated client files', async () => {
   const r = await fetch(endpoint + '/api/files')
   const data = await r.json()
-  const files =
-    process.env.PRISMA_CLIENT_ENGINE_TYPE === 'binary'
-      ? ['default.js', 'index.js', 'package.json', 'query-engine-rhel-openssl-3.0.x', 'schema.prisma']
-      : ['default.js', 'index.js', 'libquery_engine-rhel-openssl-3.0.x.so.node', 'package.json', 'schema.prisma']
+  const files = ['default.js', 'index.js', 'package.json', 'query_compiler_bg.js', 'query_compiler_bg.wasm-base64.js']
   expect(data).toMatchObject({
     files: files,
   })

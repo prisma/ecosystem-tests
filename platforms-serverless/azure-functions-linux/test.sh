@@ -5,11 +5,7 @@ set -eux
 app="$(cat func-tmp.txt)"
 url="https://$app.azurewebsites.net/api/$app"
 prisma_version="$(cat ../../.github/prisma-version.txt)"
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  files=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query-engine-debian-openssl-1.1.x","query-engine-debian-openssl-3.0.x","query_engine_bg.js","query_engine_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]'
-else
-  files=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","libquery_engine-debian-openssl-1.1.x.so.node","libquery_engine-debian-openssl-3.0.x.so.node","package.json","query_engine_bg.js","query_engine_bg.wasm","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs","wasm.d.ts","wasm.js"]'
-fi
+files=',"files":["client.d.ts","client.js","default.d.ts","default.js","edge.d.ts","edge.js","index-browser.js","index.d.ts","index.js","package.json","query_compiler_bg.js","query_compiler_bg.wasm","query_compiler_bg.wasm-base64.js","schema.prisma","wasm-edge-light-loader.mjs","wasm-worker-loader.mjs"]'
 expected='{"version":"'$prisma_version'","createUser":{"id":"12345","email":"alice@prisma.io","name":"Alice"},"updateUser":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"users":{"id":"12345","email":"bob@prisma.io","name":"Bob"},"deleteManyUsers":{"count":1}'${files}'}'
 actual=$(curl "$url")
 

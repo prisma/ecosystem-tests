@@ -1,21 +1,18 @@
 const { PrismaClient } = require('@prisma/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
 const client = new PrismaClient({
   errorFormat: 'colorless',
-  datasources: {
-    db: {
-      url: process.env.DATABASE_DO_PG_BOUNCER_URL,
-    },
-  },
+  adapter: new PrismaPg({
+    connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL,
+  }),
 })
 
 const clientWithQueryStringParam = new PrismaClient({
   errorFormat: 'colorless',
-  datasources: {
-    db: {
-      url: process.env.DATABASE_DO_PG_BOUNCER_URL + '?pgbouncer=true',
-    },
-  },
+  adapter: new PrismaPg({
+    connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL + '?pgbouncer=true',
+  }),
 })
 
 async function clientWithoutQueryStringParamCall() {

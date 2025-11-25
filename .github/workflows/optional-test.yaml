@@ -15,6 +15,7 @@ on:
       - patch-dev
       - latest
       - integration
+      - next
   pull_request:
     paths-ignore:
       - '*.md'
@@ -52,7 +53,7 @@ jobs:
       - uses: pnpm/action-setup@v4.0.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
       - name: Install Dependencies
         run: pnpm install
@@ -67,7 +68,7 @@ jobs:
       fail-fast: false
       matrix:
         generator: [prisma-dbml-generator, typegraphql-prisma, prisma-json-schema-generator, prisma-nestjs-graphql]
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
     runs-on: ubuntu-22.04
 
     env:
@@ -83,7 +84,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.generator }}/pnpm-lock.yaml
 

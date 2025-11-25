@@ -4,9 +4,10 @@
     "jsr:@std/assert@*": "1.0.12",
     "jsr:@std/assert@^1.0.12": "1.0.12",
     "jsr:@std/internal@^1.0.6": "1.0.6",
-    "npm:@prisma/client@7.1.0-dev.16": "7.1.0-dev.16_prisma@7.1.0-dev.16",
+    "npm:@prisma/adapter-pg@6.19.0-integration-next.21": "6.19.0-integration-next.21",
+    "npm:@prisma/client@6.19.0-integration-next.21": "6.19.0-integration-next.21_prisma@6.19.0-integration-next.21",
     "npm:@types/node@*": "22.12.0",
-    "npm:prisma@7.1.0-dev.16": "7.1.0-dev.16"
+    "npm:prisma@6.19.0-integration-next.21": "6.19.0-integration-next.21"
   },
   "jsr": {
     "@std/assert@1.0.12": {
@@ -20,61 +21,19 @@
     }
   },
   "npm": {
-    "@chevrotain/cst-dts-gen@10.5.0": {
-      "integrity": "sha512-lhmC/FyqQ2o7pGK4Om+hzuDrm9rhFYIJ/AXoQBeongmn870Xeb0L6oGEiuR8nohFNL5sMaQEJWCxr1oIVIVXrw==",
+    "@prisma/adapter-pg@6.19.0-integration-next.21": {
+      "integrity": "sha512-Sx0xNAsCC7prd09/VbqQnEsNfbRmM6jOtTZY0G6zg9qwKhIDNxfSZHdRR5PFnRPeLkZTp/tEbHWZTAK9mhjAtg==",
       "dependencies": [
-        "@chevrotain/gast",
-        "@chevrotain/types",
-        "lodash"
+        "@prisma/driver-adapter-utils",
+        "pg",
+        "postgres-array@3.0.4"
       ]
     },
-    "@chevrotain/gast@10.5.0": {
-      "integrity": "sha512-pXdMJ9XeDAbgOWKuD1Fldz4ieCs6+nLNmyVhe2gZVqoO7v8HXuHYs5OV2EzUtbuai37TlOAQHrTDvxMnvMJz3A==",
-      "dependencies": [
-        "@chevrotain/types",
-        "lodash"
-      ]
+    "@prisma/client-runtime-utils@6.19.0-integration-next.21": {
+      "integrity": "sha512-/GuOho+spq6AR7Sin5hi9wMlqqDGkxQGhlv6CTq/8eNnsX2DGCCawar167o2FtvMfJxwf+MeWD0dvp/wiS5f7w=="
     },
-    "@chevrotain/types@10.5.0": {
-      "integrity": "sha512-f1MAia0x/pAVPWH/T73BJVyO2XU5tI4/iE7cnxb7tqdNTNhQI3Uq3XkqcoteTmD4t1aM0LbHCJOhgIDn07kl2A=="
-    },
-    "@chevrotain/utils@10.5.0": {
-      "integrity": "sha512-hBzuU5+JjB2cqNZyszkDHZgOSrUUT8V3dhgRl8Q9Gp6dAj/H5+KILGjbhDpc3Iy9qmqlm/akuOI2ut9VUtzJxQ=="
-    },
-    "@electric-sql/pglite-socket@0.0.6_@electric-sql+pglite@0.3.2": {
-      "integrity": "sha512-6RjmgzphIHIBA4NrMGJsjNWK4pu+bCWJlEWlwcxFTVY3WT86dFpKwbZaGWZV6C5Rd7sCk1Z0CI76QEfukLAUXw==",
-      "dependencies": [
-        "@electric-sql/pglite"
-      ],
-      "bin": true
-    },
-    "@electric-sql/pglite-tools@0.2.7_@electric-sql+pglite@0.3.2": {
-      "integrity": "sha512-9dAccClqxx4cZB+Ar9B+FZ5WgxDc/Xvl9DPrTWv+dYTf0YNubLzi4wHHRGRGhrJv15XwnyKcGOZAP1VXSneSUg==",
-      "dependencies": [
-        "@electric-sql/pglite"
-      ]
-    },
-    "@electric-sql/pglite@0.3.2": {
-      "integrity": "sha512-zfWWa+V2ViDCY/cmUfRqeWY1yLto+EpxjXnZzenB1TyxsTiXaTWeZFIZw6mac52BsuQm0RjCnisjBtdBaXOI6w=="
-    },
-    "@hono/node-server@1.14.2_hono@4.7.10": {
-      "integrity": "sha512-GHjpOeHYbr9d1vkID2sNUYkl5IxumyhDrUJB7wBp7jvqYwPFt+oNKsAPBRcdSbV7kIrXhouLE199ks1QcK4r7A==",
-      "dependencies": [
-        "hono"
-      ]
-    },
-    "@mrleebo/prisma-ast@0.12.1": {
-      "integrity": "sha512-JwqeCQ1U3fvccttHZq7Tk0m/TMC6WcFAQZdukypW3AzlJYKYTGNVd1ANU2GuhKnv4UQuOFj3oAl0LLG/gxFN1w==",
-      "dependencies": [
-        "chevrotain",
-        "lilconfig"
-      ]
-    },
-    "@prisma/client-runtime-utils@7.1.0-dev.16": {
-      "integrity": "sha512-GUPM9vlp9J4qx/qNY/0IrSKIqNU0sgpjX7f+BhGkQj2Q9gVuC1Wnux9AB0ek2vmB3FPKorte/DCAE47qEiM3gQ=="
-    },
-    "@prisma/client@7.1.0-dev.16_prisma@7.1.0-dev.16": {
-      "integrity": "sha512-ESByvTu2lwuN+yTc51RvrfGsbEVOXqAdgTO9F/+Wd9uaoHN+CofCbPprV+9qEdtgrUCZc1bZjifiwcTSl0MJCg==",
+    "@prisma/client@6.19.0-integration-next.21_prisma@6.19.0-integration-next.21": {
+      "integrity": "sha512-sqe0jTUFWAnfx1mA42FmLU6LP3lRxo5ABvDSlyqMiXxnYZtpQ0H8AA7KYAo5rkyFP5wSepZUtxptqL4T32mHdA==",
       "dependencies": [
         "@prisma/client-runtime-utils",
         "prisma"
@@ -83,8 +42,8 @@
         "prisma"
       ]
     },
-    "@prisma/config@7.1.0-dev.16": {
-      "integrity": "sha512-3BIYAMfsBFNC1MXPZi21nAERws0YZYMF6U9N/5guU6p5wXp0XcPaMCaJdhti0OGEh6TyQ5aFNA1z3lLWcUnY4w==",
+    "@prisma/config@6.19.0-integration-next.21": {
+      "integrity": "sha512-sO0wAIseGl/rPedIfughTHJOmoTs3/9zO2Ngn3CvTjgZzz4xRL0uW+RYgBFGVDFYvyRM3GTor3JKTufo94TGlQ==",
       "dependencies": [
         "c12",
         "deepmerge-ts",
@@ -92,14 +51,20 @@
         "empathic"
       ]
     },
-    "@prisma/debug@6.8.2": {
-      "integrity": "sha512-4muBSSUwJJ9BYth5N8tqts8JtiLT8QI/RSAzEogwEfpbYGFo9mYsInsVo8dqXdPO2+Rm5OG5q0qWDDE3nyUbVg=="
+    "@prisma/debug@6.19.0-integration-next.21": {
+      "integrity": "sha512-4CIzPeADZ2R2WFu2RZH6dzEpEehSbjXJYWYKm5NUkEugGWodrwwy2D7P0gH926pY7ExaN2h35Pfd9D5wV3hU/g=="
     },
-    "@prisma/debug@7.1.0-dev.16": {
-      "integrity": "sha512-D6LwWETGBFyzmcuTyZQXw3fZmGVxk3W5dZ3CPTl9KP1CdQyNllR2yYyt5FXOaOTPI8+HDc1cnDO4D/Pqq0j0fw=="
+    "@prisma/driver-adapter-utils@6.19.0-integration-next.21": {
+      "integrity": "sha512-tas14qPXiqHlY3JTaUQVf3axphBgyJas+3EuvapqnsU70Hjp33xpG/ZxBiD7+c0i/QokoIDW/Jvi9toj7Zf1zQ==",
+      "dependencies": [
+        "@prisma/debug"
+      ]
     },
-    "@prisma/dev@0.13.0_@electric-sql+pglite@0.3.2_hono@4.7.10": {
-      "integrity": "sha512-QMmF6zFeUF78yv1HYbHvod83AQnl7u6NtKyDhTRZOJup3h1icWs8R7RUVxBJZvM2tBXNAMpLQYYM/8kPlOPegA==",
+    "@prisma/engines-version@6.19.0-31.next-6f525e2b254a97a9c547ae5f2b29c54a171f6b23": {
+      "integrity": "sha512-WVSCTe947lyxnIh+IaE0CRgZvCalcNP+JmG25980ApCu9VWKp+InXZ35pyR6mbyK4vEWA5jPjyhaIepGn5V2Vw=="
+    },
+    "@prisma/engines@6.19.0-integration-next.21": {
+      "integrity": "sha512-s/fJuzT04iayvjJ7jb/1tOAsSdFgeacnd/SY9RAwAWBX8qKZ72zwEwXxYc5jnXVrHbSMa4dG3cWi/AOsGhpcRQ==",
       "dependencies": [
         "@electric-sql/pglite",
         "@electric-sql/pglite-socket",
@@ -133,16 +98,16 @@
       ],
       "scripts": true
     },
-    "@prisma/fetch-engine@7.1.0-dev.16": {
-      "integrity": "sha512-JF6AvGqaWfe05GDemtk/LpHmol8mqh46/pv4p1XfN4DTJefjbS/fRdyFS5nZUMsf1rkliFzd3ZkvA0lxG7rGlA==",
+    "@prisma/fetch-engine@6.19.0-integration-next.21": {
+      "integrity": "sha512-QWHT0R6DrYEWUWC8iTMIEkVKEGq8g3BkGTc1nBnuGU0hHqNrga917G2TE0IR/ZRC2GSSbS2onUxTO+wydiiVxQ==",
       "dependencies": [
         "@prisma/debug@7.1.0-dev.16",
         "@prisma/engines-version",
         "@prisma/get-platform@7.1.0-dev.16"
       ]
     },
-    "@prisma/get-platform@6.8.2": {
-      "integrity": "sha512-vXSxyUgX3vm1Q70QwzwkjeYfRryIvKno1SXbIqwSptKwqKzskINnDUcx85oX+ys6ooN2ATGSD0xN2UTfg6Zcow==",
+    "@prisma/get-platform@6.19.0-integration-next.21": {
+      "integrity": "sha512-vg4otESoPhkbJNJuPthPQ475zaW5An4iSsOgt0kw+CDI3DsAuGArAN+V2apcvkIRg/ujpGDdXARMRJqrduiqyw==",
       "dependencies": [
         "@prisma/debug@6.8.2"
       ]
@@ -273,22 +238,6 @@
         "pure-rand"
       ]
     },
-    "foreground-child@3.3.1": {
-      "integrity": "sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==",
-      "dependencies": [
-        "cross-spawn",
-        "signal-exit@4.1.0"
-      ]
-    },
-    "generate-function@2.3.1": {
-      "integrity": "sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==",
-      "dependencies": [
-        "is-property"
-      ]
-    },
-    "get-port-please@3.1.2": {
-      "integrity": "sha512-Gxc29eLs1fbn6LQ4jSU4vXjlwyZhF5HsGuMAa7gqBP4Rw4yxxltyDUuF5MBclFzDTXO+ACchGQoeela4DSfzdQ=="
-    },
     "giget@2.0.0": {
       "integrity": "sha512-L5bGsVkxJbJgdnwyuheIunkGatUF/zssUoxxjACCseZYAVbaqdh9Tsmmlkl8vYan09H7sbvKt4pS8GqKLBrEzA==",
       "dependencies": [
@@ -390,6 +339,53 @@
     "perfect-debounce@1.0.0": {
       "integrity": "sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA=="
     },
+    "pg-cloudflare@1.2.7": {
+      "integrity": "sha512-YgCtzMH0ptvZJslLM1ffsY4EuGaU0cx4XSdXLRFae8bPP4dS5xL1tNB3k2o/N64cHJpwU7dxKli/nZ2lUa5fLg=="
+    },
+    "pg-connection-string@2.9.1": {
+      "integrity": "sha512-nkc6NpDcvPVpZXxrreI/FOtX3XemeLl8E0qFr6F2Lrm/I8WOnaWNhIPK2Z7OHpw7gh5XJThi6j6ppgNoaT1w4w=="
+    },
+    "pg-int8@1.0.1": {
+      "integrity": "sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw=="
+    },
+    "pg-pool@3.10.1_pg@8.16.3": {
+      "integrity": "sha512-Tu8jMlcX+9d8+QVzKIvM/uJtp07PKr82IUOYEphaWcoBhIYkoHpLXN3qO59nAI11ripznDsEzEv8nUxBVWajGg==",
+      "dependencies": [
+        "pg"
+      ]
+    },
+    "pg-protocol@1.10.3": {
+      "integrity": "sha512-6DIBgBQaTKDJyxnXaLiLR8wBpQQcGWuAESkRBX/t6OwA8YsqP+iVSiond2EDy6Y/dsGk8rh/jtax3js5NeV7JQ=="
+    },
+    "pg-types@2.2.0": {
+      "integrity": "sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==",
+      "dependencies": [
+        "pg-int8",
+        "postgres-array@2.0.0",
+        "postgres-bytea",
+        "postgres-date",
+        "postgres-interval"
+      ]
+    },
+    "pg@8.16.3": {
+      "integrity": "sha512-enxc1h0jA/aq5oSDMvqyW3q89ra6XIIDZgCX9vkMrnz5DFTw/Ny3Li2lFQ+pt3L6MCgm/5o2o8HW9hiJji+xvw==",
+      "dependencies": [
+        "pg-connection-string",
+        "pg-pool",
+        "pg-protocol",
+        "pg-types",
+        "pgpass"
+      ],
+      "optionalDependencies": [
+        "pg-cloudflare"
+      ]
+    },
+    "pgpass@1.0.5": {
+      "integrity": "sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==",
+      "dependencies": [
+        "split2"
+      ]
+    },
     "pkg-types@2.3.0": {
       "integrity": "sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig==",
       "dependencies": [
@@ -398,11 +394,26 @@
         "pathe"
       ]
     },
-    "postgres@3.4.7": {
-      "integrity": "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="
+    "postgres-array@2.0.0": {
+      "integrity": "sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA=="
     },
-    "prisma@7.1.0-dev.16": {
-      "integrity": "sha512-RGSvKjWiCI0lZK8ZiQ51uoW+aR7WvidU33v6jxt4Yp0fRUtYbPDD+/0T6SIKMiRaHHzmxORx71DDsaZTOn3FgQ==",
+    "postgres-array@3.0.4": {
+      "integrity": "sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ=="
+    },
+    "postgres-bytea@1.0.0": {
+      "integrity": "sha512-xy3pmLuQqRBZBXDULy7KbaitYqLcmxigw14Q5sj8QBVLqEwXfeybIKVWiqAXTlcvdvb0+xkOtDbfQMOf4lST1w=="
+    },
+    "postgres-date@1.0.7": {
+      "integrity": "sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q=="
+    },
+    "postgres-interval@1.2.0": {
+      "integrity": "sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==",
+      "dependencies": [
+        "xtend"
+      ]
+    },
+    "prisma@6.19.0-integration-next.21": {
+      "integrity": "sha512-zXYuEK52uNWjzfYNrMxTH8tNNdo6gezOwPWe/+cu6sCKlpKjim+A6kYcs8PBdvMtNAA3CPbBNVzqOznKCfIeew==",
       "dependencies": [
         "@prisma/config",
         "@prisma/dev",
@@ -445,79 +456,25 @@
     "readdirp@4.1.2": {
       "integrity": "sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg=="
     },
-    "regexp-to-ast@0.5.0": {
-      "integrity": "sha512-tlbJqcMHnPKI9zSrystikWKwHkBqu2a/Sgw01h3zFjvYrMxEDYHzzoMZnUrbIfpTFEsoRnnviOXNCzFiSc54Qw=="
-    },
-    "remeda@2.21.3": {
-      "integrity": "sha512-XXrZdLA10oEOQhLLzEJEiFFSKi21REGAkHdImIb4rt/XXy8ORGXh5HCcpUOsElfPNDb+X6TA/+wkh+p2KffYmg==",
-      "dependencies": [
-        "type-fest"
-      ]
-    },
-    "retry@0.12.0": {
-      "integrity": "sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow=="
-    },
-    "safer-buffer@2.1.2": {
-      "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="
-    },
-    "scheduler@0.27.0": {
-      "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="
-    },
-    "seq-queue@0.0.5": {
-      "integrity": "sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q=="
-    },
-    "shebang-command@2.0.0": {
-      "integrity": "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==",
-      "dependencies": [
-        "shebang-regex"
-      ]
-    },
-    "shebang-regex@3.0.0": {
-      "integrity": "sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A=="
-    },
-    "signal-exit@3.0.7": {
-      "integrity": "sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ=="
-    },
-    "signal-exit@4.1.0": {
-      "integrity": "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="
-    },
-    "sqlstring@2.3.3": {
-      "integrity": "sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg=="
-    },
-    "std-env@3.9.0": {
-      "integrity": "sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw=="
+    "split2@4.2.0": {
+      "integrity": "sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg=="
     },
     "tinyexec@1.0.2": {
       "integrity": "sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg=="
     },
-    "type-fest@4.41.0": {
-      "integrity": "sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA=="
-    },
     "undici-types@6.20.0": {
       "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
     },
-    "valibot@1.1.0": {
-      "integrity": "sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw=="
-    },
-    "which@2.0.2": {
-      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
-      "dependencies": [
-        "isexe"
-      ],
-      "bin": true
-    },
-    "zeptomatch@2.0.2": {
-      "integrity": "sha512-H33jtSKf8Ijtb5BW6wua3G5DhnFjbFML36eFu+VdOoVY4HD9e7ggjqdM6639B+L87rjnR6Y+XeRzBXZdy52B/g==",
-      "dependencies": [
-        "grammex"
-      ]
+    "xtend@4.0.2": {
+      "integrity": "sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ=="
     }
   },
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@^1.0.12",
-      "npm:@prisma/client@7.1.0-dev.16",
-      "npm:prisma@7.1.0-dev.16"
+      "npm:@prisma/adapter-pg@6.19.0-integration-next.21",
+      "npm:@prisma/client@6.19.0-integration-next.21",
+      "npm:prisma@6.19.0-integration-next.21"
     ]
   }
 }

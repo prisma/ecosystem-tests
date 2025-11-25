@@ -1,6 +1,9 @@
 const { PrismaClient, Prisma } = require('./generated/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.NETLIFY_PG_URL }),
+})
 
 exports.handler = async function (event, context, callback) {
   await client.user.deleteMany({})
@@ -35,8 +38,8 @@ exports.handler = async function (event, context, callback) {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + "/generated/client")
-  
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + '/generated/client')
+
   return {
     statusCode: 200,
     body: JSON.stringify({

@@ -6,7 +6,9 @@ const util = require('util')
 const sleep = util.promisify(setTimeout)
 const accelerateItxMax = 15_000
 
-let prisma = new PrismaClient()
+let prisma = new PrismaClient({
+  accelerateUrl: process.env.ITX_PDP_COCKROACHDB,
+})
 
 if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
   prisma = prisma.$extends(withAccelerate())

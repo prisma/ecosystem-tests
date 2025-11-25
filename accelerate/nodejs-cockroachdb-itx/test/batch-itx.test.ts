@@ -13,7 +13,9 @@ describe('batch-itx', () => {
   let prisma: PrismaClient
 
   beforeAll(() => {
-    prisma = new PrismaClient()
+    prisma = new PrismaClient({
+      accelerateUrl: process.env.ITX_PDP_COCKROACHDB!,
+    })
 
     if (process.env.DATAPROXY_FLAVOR === 'DP2+Extension') {
       prisma = prisma.$extends(withAccelerate()) as any

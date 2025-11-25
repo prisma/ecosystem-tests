@@ -2,7 +2,11 @@ const express = require('express')
 const path = require('path')
 
 const { PrismaClient, Prisma } = require('@prisma/client')
-const client = new PrismaClient()
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -40,9 +44,11 @@ app.get('/', async (req, res) => {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
-    paths: [path.dirname(require.resolve('@prisma/client'))]
-  }))
+  const generatedClientDir = path.dirname(
+    require.resolve('.prisma/client', {
+      paths: [path.dirname(require.resolve('@prisma/client'))],
+    }),
+  )
   const files = fs.readdirSync(generatedClientDir)
 
   /*
@@ -63,9 +69,7 @@ app.get('/', async (req, res) => {
   }
   console.log({ payload })
 
-  return res.send(
-    JSON.stringify(payload),
-  )
+  return res.send(JSON.stringify(payload))
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

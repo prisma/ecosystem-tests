@@ -4,15 +4,7 @@ set -eux
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms vercel-with-redwood build'
 
-if [ "$PRISMA_CLIENT_ENGINE_TYPE" == "binary" ]; then
-  echo "Binary"
-  export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_BINARY_PROJECT_ID
-else
-  echo "Library (Default)"
-  export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_PROJECT_ID
-  # Set local var to `library` for the `vercel deploy` command below
-  PRISMA_CLIENT_ENGINE_TYPE=library
-fi
+export VERCEL_PROJECT_ID=$VERCEL_WITH_REDWOOD_PROJECT_ID
 
 yarn
 

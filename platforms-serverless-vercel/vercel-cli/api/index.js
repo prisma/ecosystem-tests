@@ -1,6 +1,11 @@
 // @ts-check
 const { PrismaClient, Prisma } = require('@prisma/client')
-const client = new PrismaClient()
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
+
 const path = require('path')
 
 const include = eval('require')
@@ -45,9 +50,11 @@ export default async (req, res) => {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const generatedClientDir = path.dirname(include.resolve('.prisma/client', {
-    paths: [path.dirname(include.resolve('@prisma/client'))]
-  }))
+  const generatedClientDir = path.dirname(
+    include.resolve('.prisma/client', {
+      paths: [path.dirname(include.resolve('@prisma/client'))],
+    }),
+  )
   const files = fs.readdirSync(generatedClientDir)
 
   const payload = {

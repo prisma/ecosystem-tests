@@ -1,6 +1,9 @@
 const { PrismaClient } = require('@prisma/client')
+const { PrismaMssql } = require('@prisma/adapter-mssql')
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  adapter: new PrismaMssql(process.env.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL),
+})
 
 describe('tests for mssql database', () => {
   afterAll(() => {

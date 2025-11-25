@@ -17,6 +17,7 @@ on:
       - patch-dev
       - latest
       - integration
+      - next
   pull_request:
     paths-ignore:
       - '*.md'
@@ -87,8 +88,6 @@ jobs:
       - docker-unsupported
       - core-features
       - migrate
-      - engines
-      - os
       - node
       - packagers
       - frameworks
@@ -144,7 +143,7 @@ jobs:
           - turso-web-node-basic-esm
           - turso-web-vercel-nextjs
           - tidb-node-basic
-        clientEngine: [library, client]
+        clientEngine: [client]
         os: [ubuntu-22.04]
         exclude:
           - combo: neon-http-lambda-basic
@@ -240,7 +239,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.combo }}/pnpm-lock.yaml
 
@@ -309,7 +308,7 @@ jobs:
           - d1-cf-basic
           - d1-cfpages-basic
           - d1-vitest
-        clientEngine: ['wasm']
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     # To avoid race conditions when running tests, we need to avoid concurrency
@@ -427,14 +426,14 @@ jobs:
           - yarn3-workspaces-pnp
         include:
           - packager: yarn
-            node: 18
+            node: 20
           - packager: yarn-workspaces
-            node: 18
+            node: 20
           - packager: yarn3-without-pnp
-            node: 18
+            node: 20
           - packager: yarn3-workspaces-pnp
-            node: 18
-        clientEngine: [library] #['library', 'binary']
+            node: 20
+        clientEngine: [client] #['library', 'binary']
     runs-on: ${{ matrix.os }}
     env:
       # We set this env var to avoid the following error in `actions/setup-node`
@@ -453,7 +452,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node || 18 }}
+          node-version: ${{ matrix.node || 20 }}
           cache: |
             ${{
               contains(matrix.packager, 'yarn') && 'yarn' ||
@@ -496,7 +495,7 @@ jobs:
           - nestjs
           - nextjs
           - sveltekit
-        clientEngine: [library] #['library', 'binary']
+        clientEngine: [client] #['library', 'binary']
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
@@ -510,7 +509,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.framework }}/pnpm-lock.yaml
 
@@ -543,7 +542,7 @@ jobs:
         platform:
           - heroku
           - aws-graviton
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ matrix.platform }}-${{ matrix.clientEngine }}
@@ -559,7 +558,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
@@ -601,15 +600,11 @@ jobs:
           - azure-functions-linux
           - azure-functions-windows
           - serverless-framework-lambda
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
         os: [ubuntu-22.04]
         include:
           - platform: firebase-functions
-            node: '18'
-        exclude:
-          # Node-API w/ 32 bit Node by default, see https://github.com/prisma/prisma/issues/6905
-          - clientEngine: library
-            platform: azure-functions-windows
+            node: '20'
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -639,7 +634,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node || '18' }}
+          node-version: ${{ matrix.node || '20' }}
           cache: |
             ${{
               contains(matrix.platform, 'azure') && 'npm' ||
@@ -690,11 +685,11 @@ jobs:
           - vercel-with-nextjs
           - vercel-with-nextjs-caching
           - vercel-with-redwood
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
         os: [ubuntu-22.04]
         include:
           - platform: vercel-with-redwood
-            node: 18
+            node: 20
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.platform }}-${{ matrix.clientEngine }}
     env:
@@ -722,7 +717,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node || 18 }}
+          node-version: ${{ matrix.node || 20 }}
           cache: |
             ${{
               contains(matrix.platform, 'redwood') && 'yarn' ||
@@ -780,7 +775,7 @@ jobs:
             generate-client-install-on-sub-project-pnpm,
             generate-client-install-on-sub-project-yarn,
           ]
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     env:
@@ -796,7 +791,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: |
             ${{
               contains(matrix.feature, '-yarn') && 'yarn' ||
@@ -836,7 +831,7 @@ jobs:
       fail-fast: false
       matrix:
         feature: [db-seed-commonjs-pkg, db-seed-esm-pkg]
-        clientEngine: ['library']
+        clientEngine: [client]
         os: [ubuntu-22.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -850,7 +845,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -872,94 +867,6 @@ jobs:
           max_attempts: 3
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
 
-  engines:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'engines')
-
-    strategy:
-      fail-fast: false
-      matrix:
-        feature: [engine-types, engine-native-deps]
-        # macos-13 is pinned because engine-types test
-        # need to be updated before running on macos-14 because the engines
-        # names are different because macos-latest is now arm64 / M1 CPU
-        os: [ubuntu-22.04, windows-latest, macos-13]
-        exclude:
-          - feature: engine-native-deps
-            os: windows-latest
-          - feature: engine-native-deps
-            # Note that this must match the value in "os" above
-            os: macos-13
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4.0.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test engines - ${{ matrix.feature }}
-        run: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.feature }}
-
-  os:
-    needs: [detect_jobs_to_run]
-    if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'os')
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-22.04, macos-latest, windows-latest]
-        clientEngine: ['library', 'binary']
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Define Client Engine Type to test
-        run: echo "PRISMA_CLIENT_ENGINE_TYPE=${{ matrix.clientEngine }}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@v4.0.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: generic/basic/pnpm-lock.yaml
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Set test specific DATABASE_URL
-        run: |
-          string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
-          search=database
-          replace=${{ github.job }}_${{ matrix.os }}_${{ matrix.clientEngine }}
-          replaced=${string/$search/$replace}
-          echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
-
-      - name: test on ${{ matrix.os }} - ${{ matrix.clientEngine }}
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: bash .github/scripts/test-project.sh generic basic ${{ matrix.os }}
-
   m1:
     needs: [detect_jobs_to_run]
     if: contains(fromJSON(needs.detect_jobs_to_run.outputs.jobs), 'm1')
@@ -967,7 +874,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
     runs-on: [macos-14]
 
     steps:
@@ -980,7 +887,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: generic/basic-m1/pnpm-lock.yaml
 
@@ -1010,12 +917,10 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 18.18 # Prisma's minimum version, see: https://www.prisma.io/docs/reference/system-requirements
-          - 18
-          - 20
-          - 22
-          - 23 # we expect this to fail
-        clientEngine: ['library', 'binary']
+          - 20.19
+          - 22.12
+          - 24
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
@@ -1065,16 +970,13 @@ jobs:
         platform:
           - nodejs
           - deno
-          - cloudflare-workers-service
           - cloudflare-workers-module
           - vercel-edge-functions
           - vercel-cli-serverless-functions
           - nodejs-postgresql-itx
           - nodejs-mysql-itx
-          - nodejs-mongodb-itx
           - nodejs-cockroachdb-itx
           - nodejs-postgresql-logs
-          - nodejs-mongodb-logs
           - nodejs-tracing
         clientEngine: [<accelerate>] # value for script logic
         os: [ubuntu-22.04]
@@ -1100,7 +1002,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: ${{ matrix.platform != 'deno' }}
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.platform }}/pnpm-lock.yaml
 
@@ -1125,7 +1027,6 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2+Extension'
-          PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.DP2_ITX_PDP_MONGODB_DATABASE_URL }}
           ITX_PDP_MONGODB: ${{ secrets.DP2_ITX_PDP_MONGODB }}
@@ -1146,7 +1047,6 @@ jobs:
           command: bash .github/scripts/test-project.sh ${{ github.job }} ${{ matrix.platform }}
         env:
           DATAPROXY_FLAVOR: 'DP2'
-          PRISMA_GENERATE_FLAG: '--accelerate'
           DATAPROXY_COMMON_URL: ${{ secrets.DP2_DATAPROXY_COMMON_URL }}
           ITX_PDP_MONGODB_DATABASE_URL: ${{ secrets.DP2_ITX_PDP_MONGODB_DATABASE_URL }}
           ITX_PDP_MONGODB: ${{ secrets.DP2_ITX_PDP_MONGODB }}
@@ -1169,7 +1069,7 @@ jobs:
           - webpack-browser-custom-output
           - parcel
           - rollup
-        clientEngine: [library] #['library', 'binary']
+        clientEngine: [client] #['library', 'binary']
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
@@ -1183,7 +1083,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.bundler }}/pnpm-lock.yaml
 
@@ -1216,7 +1116,7 @@ jobs:
           - express
           - apollo-server
           - type-graphql
-        clientEngine: [library] #['library', 'binary']
+        clientEngine: [client] #['library', 'binary']
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
@@ -1230,7 +1130,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.library }}/pnpm-lock.yaml
 
@@ -1280,7 +1180,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.tests }}/pnpm-lock.yaml
 
@@ -1310,10 +1210,6 @@ jobs:
           - sqlserver-azure-sql
           - gcp-postgresql-ssl
           - gcp-mysql-ssl
-          - mongodb-atlas
-          - mongodb-atlas-sharded
-          - mongodb-atlas-serverless
-          - mongodb-digitalocean
           # It fails, see https://github.com/prisma/prisma/issues/15083
           # It's tested in failing-weekly.yaml
           #- mongodb-azure-cosmosdb
@@ -1321,7 +1217,7 @@ jobs:
           - supabase-pool
           - planetscale
           - cockroach-cloud
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
         os: [ubuntu-22.04]
 
     runs-on: ${{ matrix.os }}
@@ -1361,7 +1257,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
@@ -1382,7 +1278,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        clientEngine: [library]
+        clientEngine: [client]
         database:
           - sqlserver-azure-sql
         os: [macos-latest]
@@ -1401,7 +1297,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.database }}/pnpm-lock.yaml
 
@@ -1424,7 +1320,7 @@ jobs:
       matrix:
         test-runner:
           - jest-with-multiple-generators
-        clientEngine: ['library', 'binary']
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
@@ -1438,7 +1334,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.test-runner }}/pnpm-lock.yaml
 
@@ -1471,7 +1367,7 @@ jobs:
         runtime:
           - deno
           #- bun
-        clientEngine: ['library']
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     concurrency: ${{ github.job }}-${{ matrix.runtime }}-${{ matrix.clientEngine }}
@@ -1485,7 +1381,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - uses: denoland/setup-deno@v2
         with:
@@ -1505,7 +1401,7 @@ jobs:
       fail-fast: false
       matrix:
         feature: [pm2]
-        clientEngine: [library]
+        clientEngine: [client]
         os: [ubuntu-22.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
@@ -1518,7 +1414,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1550,9 +1446,6 @@ jobs:
         feature:
           - almalinux-8-amd64-openssl-1.1.x
           - almalinux-latest-amd64-openssl-3.0.x
-          - alpine-3.17-amd64-openssl-1.1.x
-          - alpine-3.17-amd64-openssl-3.0.x
-          - alpine-3.17-amd64-openssl-3.0.x
           - alpine-3.21-amd64-openssl-3.0.x
           - alpine-latest-amd64-openssl-3.0.x
           - amazonlinux-2022-amd64-openssl-3.0.x
@@ -1562,12 +1455,11 @@ jobs:
           - debian-bookworm-amd64-openssl-3.0.x
           - debian-latest-amd64-openssl-3.0.x
           - opensuse-tumbleweed-amd64-openssl-3.0.x
-          - redhat-ubi9-amd64-openssl-3.0.x
           - ubuntu-20.04-amd64-openssl-1.1.x
           - ubuntu-22.04-amd64-openssl-3.0.x
           - ubuntu-22.04-amd64-openssl-1.1.x
           - ubuntu-latest-amd64-openssl-3.0.x
-        clientEngine: [library, binary]
+        clientEngine: [client]
     runs-on: ubuntu-22.04
 
     env:
@@ -1590,7 +1482,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1601,7 +1493,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_library
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
@@ -1622,14 +1514,12 @@ jobs:
         feature:
           - almalinux-8-arm64-openssl-1.1.x
           - almalinux-latest-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x
-          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - alpine-3.21-arm64-openssl-3.0.x
           - alpine-latest-arm64-openssl-3.0.x
           - amazonlinux-2022-arm64-openssl-3.0.x
           - debian-latest-arm64-openssl-3.0.x
           - ubuntu-latest-arm64-openssl-3.0.x
-        clientEngine: [library, binary]
+        clientEngine: [client]
     runs-on: ubuntu-24.04-arm
 
     env:
@@ -1652,7 +1542,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1663,7 +1553,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_${{ matrix.feature }}_${{ matrix.os }}_library
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 
@@ -1687,10 +1577,15 @@ jobs:
           - alpine-3.16-amd64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x
           - alpine-3.16-arm64-openssl-1.1.x-with-libc
+          - alpine-3.17-amd64-openssl-1.1.x
+          - alpine-3.17-amd64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x
+          - alpine-3.17-arm64-openssl-3.0.x-with-libc
           - debian-latest-arm-openssl-1.1.x
           - amazonlinux-2-amd64-openssl-1.0.x
           - amazonlinux-2-arm64-openssl-1.0.x
-        clientEngine: [library, binary]
+          - redhat-ubi9-amd64-openssl-3.0.x
+        clientEngine: [client]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
@@ -1701,7 +1596,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           cache-dependency-path: ${{ github.job }}/${{ matrix.feature }}/pnpm-lock.yaml
 
@@ -1724,7 +1619,7 @@ jobs:
         run: |
           string=${{ env.DATABASE_URL_POSTGRES_TEMPLATE }}
           search=database
-          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_${{ matrix.clientEngine }}
+          replace=${{ github.job }}_fail_${{ matrix.feature }}_${{ matrix.os }}_library
           replaced=${string/$search/$replace}
           echo "DATABASE_URL=$replaced" >> $GITHUB_ENV
 

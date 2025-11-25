@@ -1,6 +1,9 @@
 import { PrismaClient } from "sub-project-1";
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 async function main() {
   await client.user.deleteMany({})

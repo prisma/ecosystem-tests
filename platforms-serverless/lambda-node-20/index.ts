@@ -1,19 +1,24 @@
-const process = require('process');
+const process = require('process')
 
 const measure_start = process.hrtime.bigint()
 
 import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const client = new PrismaClient()
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
 
 const measure_client = process.hrtime.bigint()
 
 export async function handler() {
   const fs = require('fs')
   const path = require('path')
-  const generatedClientDir = path.dirname(require.resolve('.prisma/client', {
-    paths: [require.resolve('@prisma/client')]
-  }))
+  const generatedClientDir = path.dirname(
+    require.resolve('.prisma/client', {
+      paths: [require.resolve('@prisma/client')],
+    }),
+  )
   const files = fs.readdirSync(generatedClientDir)
 
   const measure_handler = process.hrtime.bigint()
@@ -62,11 +67,11 @@ export async function handler() {
     deleteManyUsers,
     files,
     measurements: {
-      outside_handler: Number(measure_client-measure_start) / 1000000000,
-      inside_handler: Number(measure_end-measure_handler) / 1000000000,
-      inside_handler_connect: Number(measure_connect-measure_handler) / 1000000000,
-      inside_handler_queries: Number(measure_end-measure_connect) / 1000000000,
-      since_environment_start: Number(measure_end-measure_start) / 1000000000,
-    }
+      outside_handler: Number(measure_client - measure_start) / 1000000000,
+      inside_handler: Number(measure_end - measure_handler) / 1000000000,
+      inside_handler_connect: Number(measure_connect - measure_handler) / 1000000000,
+      inside_handler_queries: Number(measure_end - measure_connect) / 1000000000,
+      since_environment_start: Number(measure_end - measure_start) / 1000000000,
+    },
   }
 }

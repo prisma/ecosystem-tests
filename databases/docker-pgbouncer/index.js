@@ -1,22 +1,18 @@
 const { PrismaClient } = require('@prisma/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
 
 const client = new PrismaClient({
   errorFormat: 'colorless',
-  datasources: {
-    db: {
-      url: 'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public',
-    },
-  },
+  adapter: new PrismaPg({
+    connectionString: 'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public',
+  }),
 })
 
 const clientWithQueryStringParam = new PrismaClient({
   errorFormat: 'colorless',
-  datasources: {
-    db: {
-      url:
-        'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true',
-    },
-  },
+  adapter: new PrismaPg({
+    connectionString: 'postgresql://postgres:postgres@127.0.0.1:6433/blog?schema=public&pgbouncer=true',
+  }),
 })
 
 async function clientWithoutQueryStringParamCall() {
