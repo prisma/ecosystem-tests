@@ -2,8 +2,8 @@
 
 set -eux
 
-pnpm install
-pnpm prisma generate
+npm install
+npx prisma generate
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms netlify-cli build'
 
@@ -16,9 +16,8 @@ mkdir -p functions-build
 cp -R ./prisma ./functions/prisma
 
 # copy necessary `node_modules` to `functions/node_modules`
-mkdir -p ./functions/node_modules/.pnpm
-cp -Ra ./node_modules/@prisma ./functions/node_modules/
-cp -Ra ./node_modules/.pnpm/{@prisma,pg,postgres,xtend,split2}* ./functions/node_modules/.pnpm/
+mkdir -p ./functions/node_modules
+cp -Ra ./node_modules/{@prisma,pg,postgres,xtend,split2}* ./functions/node_modules/
 
 # zip up everything in `functions` and copy to `functions-build`
 cd functions/
@@ -27,7 +26,7 @@ mv index.zip ../functions-build/index.zip
 cd ..
 
 # deploy content of `functions-build` to Netlify
-pnpm netlify deploy --dir=. --prod --functions=functions-build
+npx netlify deploy --dir=. --prod --functions=functions-build
 # TODO Use individual deployment URL and store
 
 # TODO Why is this done?
