@@ -540,7 +540,6 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - heroku
           - aws-graviton
         clientEngine: [client]
         os: [ubuntu-22.04]
@@ -548,7 +547,6 @@ jobs:
     concurrency: ${{ matrix.platform }}-${{ matrix.clientEngine }}
 
     env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       SSH_KEY_GRAVITON: ${{ secrets.SSH_KEY_GRAVITON }}
 
     steps:
@@ -763,17 +761,6 @@ jobs:
           [
             auto-reconnect,
             browser-build,
-            studio,
-            generate-client-and-cli-install-via-global-cli-no-lockfile-npm,
-            generate-client-and-cli-install-via-global-cli-npm-lockfile,
-            generate-client-and-cli-install-via-global-cli-yarn-lockfile,
-            generate-client-and-cli-install-via-global-cli-pnpm-lockfile,
-            generate-client-install-npm,
-            generate-client-install-yarn,
-            generate-client-install-pnpm,
-            generate-client-install-on-sub-project-npm,
-            generate-client-install-on-sub-project-pnpm,
-            generate-client-install-on-sub-project-yarn,
           ]
         clientEngine: [client]
         os: [ubuntu-22.04]
@@ -1204,8 +1191,6 @@ jobs:
         database:
           - digitalocean-pgbouncer
           - docker-pgbouncer
-          - heroku-pgbouncer
-          - heroku-pgbouncer-buildpack
           - sqlserver-aws-rds
           - sqlserver-azure-sql
           - gcp-postgresql-ssl
@@ -1223,9 +1208,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       DATABASE_DO_PG_BOUNCER_URL: ${{ secrets.DATABASE_DO_PG_BOUNCER_URL }}
-      DATABASE_HEROKU_PGBOUNCER_URL: ${{ secrets.DATABASE_HEROKU_PGBOUNCER_URL }}
       DATABASE_URL_DB_SQL_SERVER_AWS_RDS: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AWS_RDS }}
       DATABASE_URL_DB_SQL_SERVER_AZURE_SQL: ${{ secrets.DATABASE_URL_DB_SQL_SERVER_AZURE_SQL }}
       DATABASE_URL_PLANETSCALE: ${{ secrets.DATABASE_URL_PLANETSCALE }}

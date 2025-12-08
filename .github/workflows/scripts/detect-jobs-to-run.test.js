@@ -76,8 +76,8 @@ describe('detect-jobs-to-run', () => {
 
   it('files changed inside community-generators directory only', async () => {
     const filesChanged = [
-      'community-generators/typegraphql-prisma/package.json',
-      'community-generators/typegraphql-prisma/something.js',
+      'community-generators/prisma-nestjs-graphql/package.json',
+      'community-generators/prisma-nestjs-graphql/something.js',
     ]
     const jobsToRun = await detectJobsTorun({ filesChanged })
 

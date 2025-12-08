@@ -20,9 +20,6 @@ skipped_projects=(
   # no local project
   aws-graviton                                # No local project at all (everything happens on server), so no `prisma` or `node_modules`
   # subfolder
-  generate-client-install-on-sub-project-npm  # Client is generated into a subfolder
-  generate-client-install-on-sub-project-pnpm # Client is generated into a subfolder
-  generate-client-install-on-sub-project-yarn # Client is generated into a subfolder
   pnpm-workspaces-custom-output               # Client is generated into a subfolder
   pnpm-workspaces-default-output              # Client is generated into a subfolder
   webpack-browser-custom-output               # Client is generated into a subfolder
