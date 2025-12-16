@@ -6,9 +6,22 @@ const port = 3000
 
 const { PrismaClient } = require('@prisma/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
+const fs = require('fs')
 
-const connectionString = process.env.DATABASE_URL
-const adapter = new PrismaPg({ connectionString })
+const url = new URL(process.env.DATABASE_URL)
+for (const key of ['sslmode', 'sslcert', 'sslidentity', 'sslpassword', 'sslaccept']) {
+  url.searchParams.delete(key)
+}
+
+const adapter = new PrismaPg({
+  connectionString: url.toString(),
+  ssl: {
+    rejectUnauthorized: false,
+    ca: fs.readFileSync('./server-ca.pem').toString(),
+    key: fs.readFileSync('./client-key.pem').toString(),
+    cert: fs.readFileSync('./client-cert.pem').toString(),
+  },
+})
 const client = new PrismaClient({ adapter })
 
 app.get('/', async (req, res) => {

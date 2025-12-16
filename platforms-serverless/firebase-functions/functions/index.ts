@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from './generated/client/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 import * as functions from 'firebase-functions'

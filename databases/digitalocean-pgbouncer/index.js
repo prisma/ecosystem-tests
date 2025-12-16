@@ -5,6 +5,7 @@ const client = new PrismaClient({
   errorFormat: 'colorless',
   adapter: new PrismaPg({
     connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL,
+    ssl: { rejectUnauthorized: false },
   }),
 })
 
@@ -12,6 +13,7 @@ const clientWithQueryStringParam = new PrismaClient({
   errorFormat: 'colorless',
   adapter: new PrismaPg({
     connectionString: process.env.DATABASE_DO_PG_BOUNCER_URL + '?pgbouncer=true',
+    ssl: { rejectUnauthorized: false },
   }),
 })
 

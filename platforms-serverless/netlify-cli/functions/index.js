@@ -2,7 +2,10 @@ const { PrismaClient, Prisma } = require('./generated/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const client = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.NETLIFY_PG_URL }),
+  adapter: new PrismaPg({
+    connectionString: process.env.NETLIFY_PG_URL,
+    ssl: { rejectUnauthorized: false },
+  }),
 })
 
 exports.handler = async function (event, context, callback) {
