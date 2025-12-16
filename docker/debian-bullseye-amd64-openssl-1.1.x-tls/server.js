@@ -16,7 +16,6 @@ for (const key of ['sslmode', 'sslcert', 'sslidentity', 'sslpassword', 'sslaccep
 const adapter = new PrismaPg({
   connectionString: url.toString(),
   ssl: {
-    rejectUnauthorized: false,
     ca: fs.readFileSync('./server-ca.pem').toString(),
     key: fs.readFileSync('./client-key.pem').toString(),
     cert: fs.readFileSync('./client-cert.pem').toString(),

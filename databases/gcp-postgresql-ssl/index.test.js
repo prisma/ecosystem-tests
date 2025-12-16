@@ -11,7 +11,6 @@ const prisma = new PrismaClient({
   adapter: new PrismaPg({
     connectionString: url.toString(),
     ssl: {
-      rejectUnauthorized: false,
       ca: fs.readFileSync('./server-ca.pem').toString(),
       key: fs.readFileSync('./client-key.pem').toString(),
       cert: fs.readFileSync('./client-cert.pem').toString(),
