@@ -23,7 +23,6 @@ skipped_projects=(
   pnpm-workspaces-custom-output               # Client is generated into a subfolder
   pnpm-workspaces-default-output              # Client is generated into a subfolder
   webpack-browser-custom-output               # Client is generated into a subfolder
-  yarn3-workspaces-pnp                        # Client is generated into a subfolder
   serverless-framework-lambda-pnpm            # Client is generated into a subfolder
   deno                                        # Client is generated into a subfolder
   # custom output
