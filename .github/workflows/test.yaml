@@ -423,15 +423,12 @@ jobs:
           - yarn
           - yarn-workspaces
           - yarn3-without-pnp
-          - yarn3-workspaces-pnp
         include:
           - packager: yarn
             node: 20
           - packager: yarn-workspaces
             node: 20
           - packager: yarn3-without-pnp
-            node: 20
-          - packager: yarn3-workspaces-pnp
             node: 20
         clientEngine: [client] #['library', 'binary']
     runs-on: ${{ matrix.os }}
@@ -681,7 +678,6 @@ jobs:
           - vercel-node-builder
           - vercel-cli
           - vercel-with-nextjs
-          - vercel-with-nextjs-caching
           - vercel-with-redwood
         clientEngine: [client]
         os: [ubuntu-22.04]

@@ -18,8 +18,6 @@ async function main() {
     'platforms-serverless-vercel/vercel-with-redwood/web', // Redwood uses workspaces but is included
     'platforms-serverless/firebase-functions/functions', // Firebase root doesn't have package.json but is included
     'packagers/yarn-workspaces/prisma-project', // Yarn workspaces root doesn't have package.json but is included
-    'packagers/yarn3-workspaces-pnp/packages/sub-project-1', // We don't want to include the workspace folders in the matrix
-    'packagers/yarn3-workspaces-pnp/packages/sub-project-2', // We don't want to include the workspace folders in the matrix
     'platforms/aws-graviton/code', // aws-graviton doesn't have package.json at root but is included
     'databases/mongodb-azure-cosmosdb', // expected to fail, so moved to failing-weekly.yaml
   ]

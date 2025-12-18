@@ -3,7 +3,10 @@ import { PrismaPg } from '@prisma/adapter-pg'
 
 export const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
-  adapter: new PrismaPg({ connectionString: process.env.RUNTIMES_DENO_DATABASE_URL }),
+  adapter: new PrismaPg({
+    connectionString: process.env.RUNTIMES_DENO_DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  }),
 })
 
 export async function getUsers() {

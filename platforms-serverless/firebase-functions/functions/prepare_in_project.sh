@@ -5,8 +5,8 @@ set -eux
 func="$1"
 
 npm install
-npx prisma generate
 npx tsc
+npx prisma generate
 
 # use a new function name in index.js since Google reads function names from js files
 # however, we need to use different functions for each deploy to prevent clashes

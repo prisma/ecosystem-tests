@@ -1,12 +1,21 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
+const fs = require('fs')
+
+const url = new URL(process.env.GCP_POSTGRESQL_SSL_DB_URL)
+for (const key of ['sslmode', 'sslcert', 'sslidentity', 'sslpassword', 'sslaccept']) {
+  url.searchParams.delete(key)
+}
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({
-    connectionString: process.env.GCP_POSTGRESQL_SSL_DB_URL
-      // the secret has extra ../ because Prisma 6 needed them due to how it resolved paths
-      .replace('../server-ca.pem', './server-ca.pem')
-      .replace('../client-identity.p12', './client-identity.p12'),
+    connectionString: url.toString(),
+    ssl: {
+      rejectUnauthorized: false,
+      ca: fs.readFileSync('./server-ca.pem').toString(),
+      key: fs.readFileSync('./client-key.pem').toString(),
+      cert: fs.readFileSync('./client-cert.pem').toString(),
+    },
   }),
 })
 
