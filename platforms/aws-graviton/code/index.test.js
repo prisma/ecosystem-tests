@@ -23,11 +23,7 @@ describe('Prisma', () => {
   it('should use the correct engine files', async () => {
     const fs = require('fs')
     const path = require('path')
-    const generatedClientDir = path.dirname(
-      require.resolve('.prisma/client', {
-        paths: [path.dirname(require.resolve('@prisma/client'))],
-      }),
-    )
+    const generatedClientDir = path.dirname(require.resolve('./generated/client'))
     const files = fs.readdirSync(generatedClientDir)
 
     expect(files).toMatchInlineSnapshot(`

@@ -3,11 +3,7 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = async (req, res) => {
-  const dir = path.dirname(
-    require.resolve('.prisma/client/package.json', {
-      paths: [path.dirname(require.resolve('@prisma/client/package.json'))],
-    }),
-  )
+  const dir = path.dirname(require.resolve('./generated/client'))
   const files = fs.readdirSync(dir)
 
   const data = {

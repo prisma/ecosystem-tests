@@ -9,7 +9,7 @@ export const files = () => {
   const path = require('path')
   let files
   try {
-    files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+    files = fs.readdirSync(path.dirname(require.resolve('./generated/client')))
   } catch (e) {
     files = [e.message]
   }
