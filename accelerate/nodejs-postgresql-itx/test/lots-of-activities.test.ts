@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, test } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from './generated/client'
 import { withAccelerate } from '@prisma/extension-accelerate'

@@ -10,3 +10,4 @@ node m1.js
 
 pnpm install
 pnpm prisma generate
+pnpm tsc

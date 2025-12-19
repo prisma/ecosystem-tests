@@ -5,6 +5,7 @@ set -eu
 pnpm install
 
 pnpm prisma generate
+pnpm tsc
 
 # First build the functions using the `nodejs_compat` flag into the `_worker.js` directory.
 # (See https://github.com/cloudflare/workers-sdk/pull/2541)

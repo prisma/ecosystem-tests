@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { test, expect, jest } from '@jest/globals'
 import { PrismaClient, Prisma } from './generated/client'
 import { withAccelerate } from '@prisma/extension-accelerate'

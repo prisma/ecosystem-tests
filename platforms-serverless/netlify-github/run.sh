@@ -13,6 +13,7 @@ sed -i "s/netlify-github-to-be-replaced-on-build/$(date +%s%N)/" package.json
 rm -rf node_modules/
 pnpm install
 pnpm prisma generate
+pnpm tsc
 
 # create ssh key
 mkdir -p ~/.ssh

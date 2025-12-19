@@ -32,3 +32,4 @@ sleep 15
 
 pnpm install
 pnpm prisma generate
+pnpm tsc

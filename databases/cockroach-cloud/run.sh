@@ -2,3 +2,4 @@
 
 pnpm install
 pnpm prisma generate
+pnpm tsc

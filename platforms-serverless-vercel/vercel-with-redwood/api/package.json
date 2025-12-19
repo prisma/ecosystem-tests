@@ -7,10 +7,15 @@
     "@redwoodjs/graphql-server": "7.7.4"
   },
   "scripts": {
-    "build": "npx prisma generate --schema=./db/schema.prisma"
+    "build": "npx prisma generate && tsc --schema=./db/schema.prisma"
   },
   "resolutions": {
     "prisma": "7.3.0-dev.1",
     "@prisma/client": "7.3.0-dev.1"
+  },
+  "devDependencies": {
+    "tsx": "4.12.0",
+    "typescript": "5.8.2",
+    "vitest": "4.0.16"
   }
 }

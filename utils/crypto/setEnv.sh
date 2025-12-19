@@ -10,8 +10,8 @@ fi
 # equivalent of a __dirname in node.js
 DIR=$(dirname "${BASH_SOURCE[0]}")
 
-# execute what ts-node has printed out
-eval $(pnpm ts-node $DIR/setEnv.ts "$@")
+# execute what tsx has printed out
+eval $(pnpm tsx $DIR/setEnv.ts "$@")
 
 # reactivate -x flag for cmd printing
 if [[ "${HAS_X_FLAG-}" == true ]]; then

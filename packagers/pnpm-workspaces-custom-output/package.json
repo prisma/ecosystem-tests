@@ -4,12 +4,13 @@
   "devDependencies": {
     "@types/node": "20.19.0",
     "prisma": "7.3.0-dev.1",
-    "ts-node": "10.9.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vitest": "4.0.16",
+    "tsx": "4.12.0"
   },
   "scripts": {
-    "cmd": "ts-node ./script.ts",
-    "generate": "prisma generate",
+    "cmd": "tsx ./script.ts",
+    "generate": "prisma generate && tsc",
     "v": "prisma -v"
   },
   "dependencies": {

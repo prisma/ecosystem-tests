@@ -2,4 +2,4 @@
 
 set -eux
 
-pnpm ts-node test.ts
+pnpm tsx test.ts

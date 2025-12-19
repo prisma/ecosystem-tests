@@ -1,3 +1,4 @@
+import { describe, test } from 'vitest'
 import * as child_process from 'child_process'
 import { config } from '../../config'
 

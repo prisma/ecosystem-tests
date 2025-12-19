@@ -1,0 +1,32 @@
+import { describe, expect, it } from 'vitest'
+const { PrismaClient } = require('./generated/client')
+const { PrismaPg } = require('@prisma/adapter-pg')
+
+const client = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+})
+
+describe('prisma db seed', () => {
+  it('successfully seeds the database', async () => {
+    const users = await client.user.findMany()
+    expect(users).toMatchInlineSnapshot(`
+      [
+        {
+          "email": "alice@prisma.io",
+          "id": 1,
+          "name": "Alice",
+        },
+        {
+          "email": "nilu@prisma.io",
+          "id": 2,
+          "name": "Nilu",
+        },
+        {
+          "email": "mahmoud@prisma.io",
+          "id": 3,
+          "name": "Mahmoud",
+        },
+      ]
+    `)
+  })
+})

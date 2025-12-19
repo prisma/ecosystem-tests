@@ -16,3 +16,4 @@ openssl pkcs12 -export -out client-identity.p12 -inkey client-key.pem -in client
 
 pnpm install
 pnpm prisma generate
+pnpm tsc

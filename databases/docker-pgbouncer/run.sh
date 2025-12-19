@@ -4,6 +4,7 @@ set -eu
 
 pnpm install
 pnpm prisma generate
+pnpm tsc
 
 # Start database and import data
 docker compose up -d

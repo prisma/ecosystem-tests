@@ -2,4 +2,4 @@
 
 set -eux
 
-npx ts-node test.ts
+npx tsx test.ts

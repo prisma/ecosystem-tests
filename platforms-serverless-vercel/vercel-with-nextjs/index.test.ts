@@ -1,0 +1,41 @@
+import { expect, test } from 'vitest'
+const fetch = require('node-fetch')
+const fs = require('fs')
+
+function getDeploymentURL() {
+  const data = fs.readFileSync('./deployment-url.txt', { encoding: 'utf8' })
+  return data.trim()
+}
+// Library
+// const endpoint = 'https://e2e-vercel-with-nextjs.vercel.app/api'
+// Binary
+// const endpoint = 'https://e2e-vercel-with-nextjs-binary.vercel.app/api'
+
+// const endpoint = 'http://localhost:3001/api'
+const endpoint = getDeploymentURL()
+
+const pjson = require('./package.json')
+
+test('prisma version and output', async () => {
+  const r = await fetch(endpoint + '/api', {
+    headers: {
+      'user-agent': 'ecosystem-tests',
+    },
+  })
+
+  const data = await r.json()
+  expect(data).toMatchObject({
+    prismaVersion: pjson.dependencies['@prisma/client'],
+    users: [],
+  })
+})
+test('generated client files', async () => {
+  const r = await fetch(endpoint + '/api/files')
+  const data = await r.json()
+  const files = ['default.js', 'index.js', 'package.json', 'query_compiler_bg.js', 'query_compiler_bg.wasm-base64.js']
+  expect(data).toMatchObject({
+    files: files,
+  })
+})
+
+// TODO More testing here that the script actually works (see all the other tests)

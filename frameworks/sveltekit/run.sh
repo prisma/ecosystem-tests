@@ -4,5 +4,6 @@ set -eux
 
 pnpm install
 pnpm prisma generate
+pnpm tsc
 
 pnpm build

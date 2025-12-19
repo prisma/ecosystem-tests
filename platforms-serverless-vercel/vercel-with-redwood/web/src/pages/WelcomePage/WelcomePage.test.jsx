@@ -1,3 +1,4 @@
+import { describe, expect, it, test } from 'vitest'
 import { render } from '@redwoodjs/testing/web'
 
 import WelcomePage from './WelcomePage'
