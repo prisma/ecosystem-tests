@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('./generated/client')
 const { PrismaMssql } = require('@prisma/adapter-mssql')
 
 const prisma = new PrismaClient({

@@ -1,4 +1,4 @@
-import { Prisma as PrismaNamespace } from '@prisma/client'
+import { Prisma as PrismaNamespace } from '../../generated/client'
 
 export const prismaVersion = () => {
   return PrismaNamespace.prismaVersion.client

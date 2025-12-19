@@ -1,4 +1,4 @@
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./generated/client')
 const { PrismaMariaDb } = require('@prisma/adapter-mariadb')
 
 const prisma = new PrismaClient({

@@ -1,5 +1,5 @@
 import { test, expect, jest } from '@jest/globals'
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from './generated/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
 test('accelerate logs with postgres', async () => {

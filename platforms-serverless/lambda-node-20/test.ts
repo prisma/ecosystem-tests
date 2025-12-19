@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma } from './generated/client'
 import { invokeLambdaSync } from './utils'
 const process = require('process')
 

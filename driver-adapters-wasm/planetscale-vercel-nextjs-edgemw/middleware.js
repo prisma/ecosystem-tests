@@ -1,6 +1,6 @@
 // @ts-check
 import { NextResponse } from 'next/server'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 async function getResponse() {

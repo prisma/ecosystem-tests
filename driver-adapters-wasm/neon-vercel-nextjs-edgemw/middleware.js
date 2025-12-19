@@ -1,6 +1,6 @@
 // @ts-check
 import { NextResponse } from 'next/server'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 async function getResponse() {

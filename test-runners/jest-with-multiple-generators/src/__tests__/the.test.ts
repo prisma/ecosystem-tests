@@ -1,5 +1,5 @@
-import { Prisma as PA, PrismaClient as PCA } from '../../generated/database/client'
-import { Prisma as PB, PrismaClient as PCB } from '../../generated/database/client2'
+import { Prisma as PA, PrismaClient as PCA } from '../../generated1/client'
+import { Prisma as PB, PrismaClient as PCB } from '../../generated2/client'
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
 
 const adapter = new PrismaBetterSqlite3({

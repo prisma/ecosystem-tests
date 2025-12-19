@@ -1,4 +1,4 @@
-const { Prisma } = require('@prisma/client')
+const { Prisma } = require('./generated/client')
 const fs = require('fs')
 const path = require('path')
 

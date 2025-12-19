@@ -11,7 +11,7 @@ import {
 } from '@opentelemetry/sdk-trace-base'
 import { SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } from '@opentelemetry/semantic-conventions'
 import { PrismaInstrumentation } from '@prisma/instrumentation'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from './generated/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
 let inMemorySpanExporter: InMemorySpanExporter

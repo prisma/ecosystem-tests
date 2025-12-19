@@ -1,5 +1,5 @@
 // @ts-check
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 export default {

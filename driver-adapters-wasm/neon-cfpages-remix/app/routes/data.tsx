@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, json } from '@remix-run/cloudflare'
 import { getDb } from '~/db.server'
-import { Prisma, type PrismaClient } from '@prisma/client'
+import { Prisma, type PrismaClient } from '../generated/client'
 
 async function getResult(prisma: PrismaClient | Prisma.TransactionClient) {
   return {

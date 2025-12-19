@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./generated/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const client = new PrismaClient({

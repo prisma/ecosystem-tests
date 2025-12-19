@@ -1,5 +1,5 @@
 // @ts-check
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaD1 } from '@prisma/adapter-d1'
 
 export async function onRequest(context) {

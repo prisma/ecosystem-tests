@@ -1,6 +1,6 @@
 // @ts-check
 import { NextResponse } from 'next/server'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
 
 async function getResponse() {

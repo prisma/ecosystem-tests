@@ -1,9 +1,9 @@
-import { Role } from '@prisma/client'
-import { prisma } from "../../prisma";
+import { Role } from '../../generated/client'
+import { prisma } from '../../prisma'
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ }) {
-  const enumValue = Role.ADMIN;
+export async function GET({}) {
+  const enumValue = Role.ADMIN
 
   const createUser = await prisma.user.create({
     data: {
@@ -13,7 +13,7 @@ export async function GET({ }) {
       id: true,
       name: true,
     },
-  });
+  })
 
   const updateUser = await prisma.user.update({
     where: {
@@ -25,7 +25,7 @@ export async function GET({ }) {
     select: {
       name: true,
     },
-  });
+  })
 
   const deleteUser = await prisma.user.delete({
     where: {
@@ -34,7 +34,7 @@ export async function GET({ }) {
     select: {
       name: true,
     },
-  });
+  })
 
   const result = {
     createUser: {
@@ -42,8 +42,8 @@ export async function GET({ }) {
     },
     updateUser,
     deleteUser,
-    enumValue
-  };
+    enumValue,
+  }
 
   return new Response(JSON.stringify(result))
 }

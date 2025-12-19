@@ -1,5 +1,5 @@
 const { faker } = require('@faker-js/faker')
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('../generated/client')
 const { withAccelerate } = require('@prisma/extension-accelerate')
 const { equal } = require('node:assert')
 const util = require('util')

@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('./generated/client')
 const { withAccelerate } = require('@prisma/extension-accelerate')
 
 let prisma = new PrismaClient({

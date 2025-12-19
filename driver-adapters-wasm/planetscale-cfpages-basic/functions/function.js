@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 export async function onRequest(context) {

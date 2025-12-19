@@ -2,7 +2,7 @@ const process = require('process')
 
 const measure_start = process.hrtime.bigint()
 
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const client = new PrismaClient({

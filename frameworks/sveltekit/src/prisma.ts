@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 export let prisma: PrismaClient

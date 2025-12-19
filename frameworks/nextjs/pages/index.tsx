@@ -2,7 +2,7 @@ import React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 export async function getStaticProps() {

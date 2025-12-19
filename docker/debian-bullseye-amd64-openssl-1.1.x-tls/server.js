@@ -4,7 +4,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('./generated/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
 const fs = require('fs')
 

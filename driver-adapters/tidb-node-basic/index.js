@@ -1,5 +1,5 @@
 // @ts-check
-const { Prisma, PrismaClient } = require('@prisma/client')
+const { Prisma, PrismaClient } = require('./generated/client')
 const { PrismaTiDBCloud } = require('@tidbcloud/prisma-adapter')
 
 const connectionString = process.env.DRIVER_ADAPTERS_TIDB_NODE_BASIC_DATABASE_URL

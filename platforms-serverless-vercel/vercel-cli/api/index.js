@@ -1,5 +1,5 @@
 // @ts-check
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./generated/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const client = new PrismaClient({

@@ -1,5 +1,5 @@
 // @ts-check
-const { Prisma, PrismaClient } = require('@prisma/client')
+const { Prisma, PrismaClient } = require('./generated/client')
 const { WebSocket } = require('undici')
 const { neonConfig } = require('@neondatabase/serverless')
 const { PrismaNeon } = require('@prisma/adapter-neon')

@@ -1,4 +1,4 @@
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./generated/client')
 const { PrismaPg } = require('@prisma/adapter-pg')
 
 const connectionString = process.env.DATABASE_URL_PRISMA_POSTGRES

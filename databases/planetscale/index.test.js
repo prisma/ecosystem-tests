@@ -1,4 +1,4 @@
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('./generated/client')
 const { PrismaPlanetScale } = require('@prisma/adapter-planetscale')
 
 const prisma = new PrismaClient({

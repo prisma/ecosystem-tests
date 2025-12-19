@@ -1,5 +1,5 @@
 // @ts-check
-const { Prisma, PrismaClient } = require('@prisma/client')
+const { Prisma, PrismaClient } = require('./generated/client')
 const { PrismaPlanetScale } = require('@prisma/adapter-planetscale')
 
 const connectionString = process.env.DATABASE_URL_PLANETSCALE
