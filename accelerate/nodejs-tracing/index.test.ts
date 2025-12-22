@@ -1,5 +1,4 @@
 import { afterAll, beforeAll, beforeEach, expect, test } from 'vitest'
-import { test, expect, beforeAll, afterAll, beforeEach } from '@jest/globals'
 import { context } from '@opentelemetry/api'
 import { AsyncHooksContextManager } from '@opentelemetry/context-async-hooks'
 import { registerInstrumentations } from '@opentelemetry/instrumentation'

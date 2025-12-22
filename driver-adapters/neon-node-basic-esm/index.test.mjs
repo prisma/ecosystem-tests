@@ -1,8 +1,8 @@
 // @ts-check
-import { test, expect, jest } from '@jest/globals'
+import { test, expect, vi } from 'vitest'
 import { handler } from './index.mjs'
 
-jest.setTimeout(15_000)
+vi.setConfig({ testTimeout: 15_000 })
 
 test('prisma client functions normally', async () => {
   await expect(handler()).resolves.not.toThrow()

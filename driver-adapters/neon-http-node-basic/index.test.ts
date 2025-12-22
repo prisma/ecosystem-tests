@@ -1,9 +1,10 @@
 // @ts-check
-import { test, expect } from 'vitest'
+import { test, expect, vi } from 'vitest'
+
 const { handler } = require('./index')
 const { dependencies } = require('./package.json')
 
-test.timeout(10_000)
+vi.setConfig({ testTimeout: 10_000 })
 
 test('prisma version and output', async () => {
   const {

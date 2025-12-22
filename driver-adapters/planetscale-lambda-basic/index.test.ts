@@ -1,5 +1,6 @@
 // @ts-check
-import { test, expect } from 'vitest'
+import { test, expect, vi } from 'vitest'
+
 const { Lambda } = require('@aws-sdk/client-lambda')
 const { dependencies } = require('./package.json')
 
@@ -7,7 +8,7 @@ const lambda = new Lambda({
   region: process.env.AWS_DEFAULT_REGION,
 })
 
-test.timeout(30_000)
+vi.setConfig({ testTimeout: 30_000 })
 
 test('prisma version and output', async () => {
   const response = await lambda.invoke({

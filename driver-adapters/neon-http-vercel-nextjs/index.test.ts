@@ -1,7 +1,8 @@
 // @ts-check
-import { test, expect } from 'vitest'
+import { test, expect, vi } from 'vitest'
 const fetch = require('node-fetch')
 const fs = require('fs')
+
 const { dependencies } = require('./package.json')
 
 let endpoint
@@ -16,7 +17,7 @@ function getDeploymentURL() {
 
 const pjson = require('./package.json')
 
-test.timeout(30_000)
+vi.setConfig({ testTimeout: 30_000 })
 
 test('prisma version and output', async () => {
   const response = await fetch(getDeploymentURL() + '/api', {
