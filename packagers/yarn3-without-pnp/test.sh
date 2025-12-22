@@ -2,4 +2,4 @@
 
 set -eux
 
-yarn ts-node ./script.ts
+yarn tsx ./script.ts

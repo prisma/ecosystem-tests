@@ -1,3 +1,4 @@
+import { describe, expect, it, test } from 'vitest'
 const { detectJobsTorun } = require('./detect-jobs-to-run')
 // @ts-check
 

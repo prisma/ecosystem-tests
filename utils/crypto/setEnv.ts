@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env tsx
 
 import { decrypt } from './decrypt';
 import { envVars } from './envVars'

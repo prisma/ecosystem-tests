@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client/edge'
+import { PrismaClient } from './generated/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
 let prisma = new PrismaClient({

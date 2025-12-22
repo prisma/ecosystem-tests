@@ -7,3 +7,4 @@ export RUST_BACKTRACE=full
 
 pnpm install
 pnpm prisma generate
+pnpm tsc

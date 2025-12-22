@@ -1,5 +1,5 @@
-import type { Prisma } from '@prisma/client'
-import PrismaClientPkg from '@prisma/client'
+import type { Prisma } from '../generated/client'
+import PrismaClientPkg from '../generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const PrismaClient = PrismaClientPkg.PrismaClient

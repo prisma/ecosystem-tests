@@ -1,5 +1,5 @@
 // @ts-check
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from './generated/client'
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
 
 const connectionString = process.env.DATABASE_URL_PLANETSCALE

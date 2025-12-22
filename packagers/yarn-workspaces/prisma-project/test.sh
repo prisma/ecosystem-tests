@@ -3,5 +3,6 @@
 set -eux
 
 yarn prisma generate
-yarn ts-node ./script.ts
+yarn tsc
+yarn tsx ./script.ts
 yarn prisma -v

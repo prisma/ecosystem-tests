@@ -1,9 +1,9 @@
 // @ts-check
-import { test, expect, jest } from '@jest/globals'
+import { test, expect, vi } from 'vitest'
 import { handler } from './index.mjs'
 import packageJson from './package.json'
 
-jest.setTimeout(10_000)
+vi.setConfig({ testTimeout: 10_000 })
 
 test('prisma version and output', async () => {
   const { dependencies } = packageJson

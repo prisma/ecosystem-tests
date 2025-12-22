@@ -3,7 +3,14 @@
     "sourceMap": true,
     "outDir": "dist",
     "strict": true,
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "esModuleInterop": true
-  }
+  },
+  "extends": "../../../tsconfig.permissive.json",
+  "include": [
+    "**/*"
+  ]
 }

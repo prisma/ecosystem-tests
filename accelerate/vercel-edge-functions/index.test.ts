@@ -1,5 +1,4 @@
-/// <reference types="@types/jest" />
-
+import { describe, expect, test } from 'vitest'
 import fetch from 'node-fetch'
 
 describe('use data proxy', () => {

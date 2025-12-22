@@ -1,5 +1,5 @@
 // @ts-check
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })

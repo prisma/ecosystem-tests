@@ -1,4 +1,5 @@
-describe('prisma generate', () => {
+import { describe, expect, it } from 'vitest'
+describe('prisma generate && tsc', () => {
 
   it('creates a package.json', async () => {
     const pkgjson = require('./package.json')

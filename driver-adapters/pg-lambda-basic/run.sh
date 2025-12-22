@@ -4,14 +4,13 @@ set -eu
 
 pnpm install
 pnpm prisma generate
+pnpm tsc
 
 rm -rf lambda.zip
 
 GENERATED_CLIENT=$(node -e "
   console.log(
-    path.dirname(require.resolve('.prisma/client/package.json', {
-      paths: [path.dirname(require.resolve('@prisma/client/package.json'))]
-    }))
+    path.dirname(require.resolve('./generated/client'))
   )
 ")
 

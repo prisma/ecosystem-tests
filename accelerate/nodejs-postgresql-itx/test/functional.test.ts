@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import { beforeEach, describe, expect, test } from 'vitest'
+import { PrismaClient } from './generated/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import util from 'util'
 

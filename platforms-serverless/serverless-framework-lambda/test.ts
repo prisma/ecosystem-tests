@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma } from './generated/client'
 import { invokeLambdaSync } from './utils'
 
 // name cannot be too long, otherwise it will fail

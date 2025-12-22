@@ -1,5 +1,5 @@
 // @ts-check
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from './generated/client'
 import { PrismaLibSql } from '@prisma/adapter-libsql/web'
 
 const connectionString = process.env.DRIVER_ADAPTERS_TURSO_NODE_BASIC_DATABASE_URL

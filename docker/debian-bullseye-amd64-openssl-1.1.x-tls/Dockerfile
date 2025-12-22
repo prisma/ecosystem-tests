@@ -26,9 +26,9 @@ RUN if [ -e /usr/lib/${EXPECTED_UNAME_ARCH}-linux-gnu/libssl.so.3* ]; then echo 
 
 # We are testing the case where OpenSSL versions mismatch
 RUN if ! node -e 'if (process.versions.openssl.split(".")[0] < 3) process.exit(1)'; then \
-      echo "Node.js must be compiled with OpenSSL 3.0 or newer for this test"; \
-      exit 1; \
-    fi
+  echo "Node.js must be compiled with OpenSSL 3.0 or newer for this test"; \
+  exit 1; \
+  fi
 
 # expected target platform for Prisma, retrieved by `prisma -v`
 ARG EXPECTED_PRISMA_TARGET_PLATFORM="debian-openssl-1.1.x"

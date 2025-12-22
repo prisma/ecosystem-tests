@@ -2,19 +2,21 @@
   "name": "db-seed-commonjs-pkg",
   "devDependencies": {
     "@types/node": "20.19.0",
-    "jest": "29.7.0",
     "prettier": "3.5.3",
     "prisma": "7.3.0-dev.1",
-    "tsx": "4.20.6"
+    "tsx": "4.12.0",
+    "vitest": "4.0.16",
+    "typescript": "5.8.2",
+    "@types/pg": "^8.10.2"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.3.0-dev.1",
     "@prisma/client": "7.3.0-dev.1"
   },
   "scripts": {
-    "test": "jest"
+    "test": "vitest"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   }
 }

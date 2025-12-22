@@ -4,6 +4,7 @@ set -eux
 
 npm install
 npx prisma generate
+npx tsc
 
 export PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platforms netlify-cli build'
 

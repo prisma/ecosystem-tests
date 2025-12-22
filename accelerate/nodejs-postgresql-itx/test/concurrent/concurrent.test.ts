@@ -1,10 +1,11 @@
+import { describe, test, vi } from 'vitest'
 import * as child_process from 'child_process'
 import { config } from '../../config'
 
 const amount = config.concurrent.amount
 
 describe('concurrent', () => {
-  jest.setTimeout(900_000)
+  vi.setConfig({ testTimeout: 900_000 })
 
   test(
     `should not fail when running ${amount} concurrent itx`,

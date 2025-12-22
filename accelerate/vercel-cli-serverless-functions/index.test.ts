@@ -1,5 +1,4 @@
-/// <reference types="@types/jest" />
-
+import { expect, test } from 'vitest'
 import fetch from 'node-fetch'
 const pkgJson = require('./package.json')
 

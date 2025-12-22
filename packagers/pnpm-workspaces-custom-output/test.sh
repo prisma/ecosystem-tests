@@ -1,7 +1,7 @@
 #!/bin/sh
 
-FILE1=sub-project-1/node_modules/.prisma/client/index.js
-FILE2=sub-project-2/node_modules/.prisma/client/index.js
+FILE1=sub-project-1/generated/client.ts
+FILE2=sub-project-2/generated/client.ts
 
 set -eux
 

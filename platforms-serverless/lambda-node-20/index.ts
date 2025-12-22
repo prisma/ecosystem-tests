@@ -2,7 +2,7 @@ const process = require('process')
 
 const measure_start = process.hrtime.bigint()
 
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const client = new PrismaClient({
@@ -14,11 +14,7 @@ const measure_client = process.hrtime.bigint()
 export async function handler() {
   const fs = require('fs')
   const path = require('path')
-  const generatedClientDir = path.dirname(
-    require.resolve('.prisma/client', {
-      paths: [require.resolve('@prisma/client')],
-    }),
-  )
+  const generatedClientDir = path.dirname(require.resolve('./generated/client'))
   const files = fs.readdirSync(generatedClientDir)
 
   const measure_handler = process.hrtime.bigint()

@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 import * as functions from 'firebase-functions'
@@ -17,7 +17,7 @@ const __FIREBASE_FUNCTION_NAME__ = functions.https.onRequest({ secrets: [prismaD
 
   const fs = require('fs')
   const path = require('path')
-  const files = fs.readdirSync(path.dirname(require.resolve('.prisma/client')))
+  const files = fs.readdirSync(path.dirname(require.resolve('./generated/client')))
 
   await client.user.deleteMany({})
   const id = '12345'

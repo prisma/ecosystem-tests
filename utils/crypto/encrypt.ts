@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env tsx
 
 import * as childProcess from 'child_process'
 import util from 'util'

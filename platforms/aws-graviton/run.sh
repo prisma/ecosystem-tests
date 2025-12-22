@@ -17,5 +17,6 @@ ssh -i ./server-key.pem ec2-user@ec2-54-209-135-27.compute-1.amazonaws.com -tt "
 
     pnpm install;
     pnpm prisma generate;
+pnpm tsc
     pnpm prisma -v;
 "

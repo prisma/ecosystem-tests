@@ -1,6 +1,5 @@
+import { describe, expect, test } from 'vitest'
 import { getUsers } from './src/index'
-
-/// <reference types="@types/jest" />
 
 describe('use data proxy', () => {
   test('fetch response', async () => {

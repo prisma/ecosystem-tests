@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from './generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const client = new PrismaClient({
@@ -45,7 +45,7 @@ export async function handler() {
 
   // list all files in node_modules/.prisma/client
   const fs = require('fs')
-  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + '/node_modules/.prisma/client')
+  const files = fs.readdirSync(process.env.LAMBDA_TASK_ROOT + '/generated')
 
   return {
     version: Prisma.prismaVersion.client,

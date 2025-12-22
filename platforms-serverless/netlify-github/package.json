@@ -7,11 +7,14 @@
   "devDependencies": {
     "@types/node": "20.19.0",
     "prisma": "7.3.0-dev.1",
-    "ts-node": "10.9.2"
+    "vitest": "4.0.16",
+    "tsx": "4.12.0",
+    "typescript": "5.8.2",
+    "@types/pg": "^8.10.2"
   },
   "scripts": {
     "dev": "pnpm netlify dev",
-    "build": "PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platform netlify-github build' && pnpm prisma generate"
+    "build": "PRISMA_TELEMETRY_INFORMATION='ecosystem-tests platform netlify-github build' && pnpm prisma generate && tsc"
   },
   "dependencies": {
     "@prisma/client": "7.3.0-dev.1",

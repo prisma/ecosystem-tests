@@ -5,9 +5,16 @@
     "sourceMap": true,
     "outDir": ".",
     "strict": true,
-    "lib": ["ES2022", "DOM"],
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "module": "NodeNext",
     "esModuleInterop": true,
     "skipLibCheck": true
-  }
+  },
+  "extends": "../../tsconfig.permissive.json",
+  "include": [
+    "**/*"
+  ]
 }

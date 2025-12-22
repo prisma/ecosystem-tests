@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "prisma": "prisma",
-    "test": "jest --runInBand",
-    "generate-client": "prisma generate",
+    "test": "vitest",
+    "generate-client": "prisma generate && tsc",
     "migrate-deploy": "prisma db push"
   },
   "dependencies": {
@@ -14,12 +14,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.0",
-    "@types/jest": "29.5.14",
     "@types/node": "20.19.0",
-    "jest": "29.7.0",
     "prisma": "7.3.0-dev.1",
-    "ts-jest": "29.2.6",
-    "ts-node": "10.9.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vitest": "4.0.16",
+    "tsx": "4.12.0"
   }
 }
