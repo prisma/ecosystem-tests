@@ -1,4 +1,4 @@
-import { describe, test } from 'vitest'
+import { describe, test, vi } from 'vitest'
 import * as child_process from 'child_process'
 import util from 'util'
 import { config } from '../../config'
@@ -7,7 +7,7 @@ const sleep = util.promisify(setTimeout)
 const { bursts, children, backoff } = config['burst-load']
 
 describe('burst-load', () => {
-  jest.setTimeout(900_000_000)
+  vi.setConfig({ testTimeout: 900_000_000 })
 
   test(
     `should not fail when burst loading ${children} itx, ${bursts} times, with ${backoff} ms backoff`,

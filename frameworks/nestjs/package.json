@@ -15,10 +15,9 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "vitest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r tsx/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:watch": "vitest --watch",
+    "test:cov": "vitest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r tsx/register node_modules/.bin/vitest"
   },
   "dependencies": {
     "@nestjs/common": "10.4.15",
@@ -44,20 +43,7 @@
     "tsconfig-paths": "4.2.0",
     "typescript": "5.8.2",
     "vitest": "4.0.16",
-    "tsx": "4.12.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "tsx": "4.12.0",
+    "@types/pg": "^8.10.2"
   }
 }
