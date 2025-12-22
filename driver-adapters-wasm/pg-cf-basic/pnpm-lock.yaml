@@ -24,6 +24,9 @@ importers:
         specifier: 8.13.3
         version: 8.13.3
     devDependencies:
+      '@types/pg':
+        specifier: ^8.10.2
+        version: 8.16.0
       node-fetch:
         specifier: 2.7.0
         version: 2.7.0
@@ -38,7 +41,7 @@ importers:
         version: 5.8.2
       vitest:
         specifier: 4.0.16
-        version: 4.0.16(jiti@2.4.2)(tsx@4.12.0)
+        version: 4.0.16(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0)
       wrangler:
         specifier: 4.3.0
         version: 4.3.0
@@ -877,6 +880,12 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
+  '@types/node@25.0.3':
+    resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
+
+  '@types/pg@8.16.0':
+    resolution: {integrity: sha512-RmhMd/wD+CF8Dfo+cVIy3RR5cl8CyfXQ0tGgW6XBL8L4LM/UTEbNXYRbLwU6w+CgrKBNbrQWt4FUtTfaU5jSYQ==}
+
   '@types/react@19.2.6':
     resolution: {integrity: sha512-p/jUvulfgU7oKtj6Xpk8cA2Y1xKTtICGpJYeJXz2YVO2UcvjQgeRMLDGfDeqeRW2Ta+0QNFwcc8X3GH8SxZz6w==}
 
@@ -1473,6 +1482,9 @@ packages:
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
+
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
   undici@5.28.5:
     resolution: {integrity: sha512-zICwjrDrcrUE0pyyJc1I2QzBkLM8FINsgOrt6WjA+BgajVq9Nxu2PbFFXUrAggLfDXlZGZBVZYw7WNV5KiBiBA==}
@@ -2163,6 +2175,16 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
+  '@types/node@25.0.3':
+    dependencies:
+      undici-types: 7.16.0
+
+  '@types/pg@8.16.0':
+    dependencies:
+      '@types/node': 25.0.3
+      pg-protocol: 1.10.3
+      pg-types: 2.2.0
+
   '@types/react@19.2.6':
     dependencies:
       csstype: 3.2.3
@@ -2176,13 +2198,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.16(vite@7.3.0(jiti@2.4.2)(tsx@4.12.0))':
+  '@vitest/mocker@4.0.16(vite@7.3.0(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0))':
     dependencies:
       '@vitest/spy': 4.0.16
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.3.0(jiti@2.4.2)(tsx@4.12.0)
+      vite: 7.3.0(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0)
 
   '@vitest/pretty-format@4.0.16':
     dependencies:
@@ -2820,6 +2842,8 @@ snapshots:
 
   ufo@1.5.4: {}
 
+  undici-types@7.16.0: {}
+
   undici@5.28.5:
     dependencies:
       '@fastify/busboy': 2.1.0
@@ -2836,7 +2860,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
-  vite@7.3.0(jiti@2.4.2)(tsx@4.12.0):
+  vite@7.3.0(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0):
     dependencies:
       esbuild: 0.27.2
       fdir: 6.5.0(picomatch@4.0.3)
@@ -2845,14 +2869,15 @@ snapshots:
       rollup: 4.53.5
       tinyglobby: 0.2.15
     optionalDependencies:
+      '@types/node': 25.0.3
       fsevents: 2.3.3
       jiti: 2.4.2
       tsx: 4.12.0
 
-  vitest@4.0.16(jiti@2.4.2)(tsx@4.12.0):
+  vitest@4.0.16(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0):
     dependencies:
       '@vitest/expect': 4.0.16
-      '@vitest/mocker': 4.0.16(vite@7.3.0(jiti@2.4.2)(tsx@4.12.0))
+      '@vitest/mocker': 4.0.16(vite@7.3.0(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0))
       '@vitest/pretty-format': 4.0.16
       '@vitest/runner': 4.0.16
       '@vitest/snapshot': 4.0.16
@@ -2869,8 +2894,10 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.3.0(jiti@2.4.2)(tsx@4.12.0)
+      vite: 7.3.0(@types/node@25.0.3)(jiti@2.4.2)(tsx@4.12.0)
       why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 25.0.3
     transitivePeerDependencies:
       - jiti
       - less

@@ -18,6 +18,9 @@ importers:
         specifier: 7.3.0-dev.1
         version: 7.3.0-dev.1
     devDependencies:
+      '@types/pg':
+        specifier: ^8.10.2
+        version: 8.16.0
       prisma:
         specifier: 7.3.0-dev.1
         version: 7.3.0-dev.1(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.8.2)
@@ -597,6 +600,9 @@ packages:
 
   '@types/node@20.4.1':
     resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
+
+  '@types/pg@8.16.0':
+    resolution: {integrity: sha512-RmhMd/wD+CF8Dfo+cVIy3RR5cl8CyfXQ0tGgW6XBL8L4LM/UTEbNXYRbLwU6w+CgrKBNbrQWt4FUtTfaU5jSYQ==}
 
   '@types/react@19.2.6':
     resolution: {integrity: sha512-p/jUvulfgU7oKtj6Xpk8cA2Y1xKTtICGpJYeJXz2YVO2UcvjQgeRMLDGfDeqeRW2Ta+0QNFwcc8X3GH8SxZz6w==}
@@ -1945,6 +1951,12 @@ snapshots:
   '@types/json-schema@7.0.12': {}
 
   '@types/node@20.4.1': {}
+
+  '@types/pg@8.16.0':
+    dependencies:
+      '@types/node': 20.4.1
+      pg-protocol: 1.10.3
+      pg-types: 2.2.0
 
   '@types/react@19.2.6':
     dependencies:
