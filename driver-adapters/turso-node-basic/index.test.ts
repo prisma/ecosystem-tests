@@ -1,7 +1,7 @@
 // @ts-check
 import { test, expect, vi } from 'vitest'
 
-const { handler } = require('./index')
+const { handler } = require('./index.ts')
 const { dependencies } = require('./package.json')
 
 vi.setConfig({ testTimeout: 15_000 })
