@@ -2,16 +2,7 @@
 
 This repository continuously tests Prisma Client on and with various operating systems, databases, frameworks, platforms and other setups.
 
-| CI Status                                                                                                                                                                                      | Branch        |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| [![test dev](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=dev)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Adev) | `dev` |
-| [![test latest](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=latest)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Alatest)                | `latest`      |
-| [![test patch-dev](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=patch-dev)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Apatch-dev)       | `patch-dev`   |
-| [![test integration](https://github.com/prisma/ecosystem-tests/workflows/test/badge.svg?branch=integration)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest+branch%3Aintegration) | `integration` |
-| [![check-for-update](https://github.com/prisma/ecosystem-tests/workflows/check-for-update/badge.svg)](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Acheck-for-update)                 | -             |
-
-
-You can check out the latest test runs by checking the ["test" workflow results](https://github.com/prisma/ecosystem-tests/actions?query=workflow%3Atest).
+CI is run on demand. See the [Actions tab](https://github.com/prisma/ecosystem-tests/actions) for the latest manual runs; workflows can be triggered from there or via `gh workflow run`.
 
 ## How it works
 

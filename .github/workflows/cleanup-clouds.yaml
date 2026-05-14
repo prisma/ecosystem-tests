@@ -6,8 +6,10 @@ description: |
   We keep failed resources alive for up to 7 days to allow investigation of the failure.
 
 on:
-  schedule:
-    - cron: '0 4 * * 1' # Run at 04:00 UTC every Monday
+  # Scheduled trigger disabled: ORM iteration is paused; cleanup is run on
+  # demand. Restore the `schedule:` block below to re-enable the weekly run.
+  # schedule:
+  #   - cron: '0 4 * * 1' # Run at 04:00 UTC every Monday
   workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
