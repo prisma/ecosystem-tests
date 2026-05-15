@@ -2,9 +2,10 @@ name: check-for-update
 on:
   # Manual UI in GitHub https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
   workflow_dispatch:
-  schedule:
-    # Run every five minutes
-    - cron: '*/5 * * * *'
+  # Scheduled trigger disabled: ORM iteration is paused; CI is run on
+  # demand. Restore the `schedule:` block below to re-enable the poller.
+  # schedule:
+  #   - cron: '*/5 * * * *'
 
 concurrency: check-for-update
 
