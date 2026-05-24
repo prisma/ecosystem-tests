@@ -28,6 +28,15 @@ export default async (req, res) => {
         name: true,
       },
     }),
+    // Since `createMany` does not work we add a second create 
+    // the record is used for `findUniqueOrThrow(...)` below
+    create2: await prisma.user.create({
+      data: {
+        email: `test-2@prisma.io`,
+        age: 29,
+        name: 'Test 2',
+      }
+    }),
     // Expected to fail in HTTP mode
     // createMany: await prisma.user.createMany({
     //   data: [
@@ -117,16 +126,16 @@ export default async (req, res) => {
         name: true,
       },
     }),
-    // delete: await prisma.user.delete({
-    //   where: {
-    //     email: 'test-1@prisma.io',
-    //   },
-    //   select: {
-    //     email: true,
-    //     age: true,
-    //     name: true,
-    //   },
-    // }),
+    delete: await prisma.user.delete({
+      where: {
+        email: 'test-1@prisma.io',
+      },
+      select: {
+        email: true,
+        age: true,
+        name: true,
+      },
+    }),
     count: await prisma.user.count(),
     aggregate: await prisma.user
       .aggregate({
@@ -158,7 +167,7 @@ export default async (req, res) => {
     }),
     findUniqueOrThrow: await prisma.user.findUniqueOrThrow({
       where: {
-        email: 'test-1@prisma.io',
+        email: 'test-2@prisma.io',
       },
       select: {
         age: true,
